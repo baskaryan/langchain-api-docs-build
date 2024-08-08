@@ -74,8 +74,7 @@ jobs:
             langchain/libs/partners/upstage \
             langchain/libs/standard-tests \
             langchain/libs/community \
-            langchain/libs/experimental \ 
-            langchain-api-docs-build/api_reference_build/html 
+            langchain/libs/experimental
           mv langchain-google/libs/genai langchain/libs/partners/google-genai
           mv langchain-google/libs/vertexai langchain/libs/partners/google-vertexai
           mv langchain-google/libs/community langchain/libs/partners/google-community
@@ -87,6 +86,9 @@ jobs:
           mv langchain-aws/libs/aws langchain/libs/partners/aws
           mv langchain-weaviate/libs/weaviate langchain/libs/partners/weaviate
 
+      - name: Rm old html
+        run:
+          rm -rf langchain-api-docs-build/api_reference_build/html
 
       - name: Set up Python ${{ env.PYTHON_VERSION }} + Poetry ${{ env.POETRY_VERSION }}
         uses: "./langchain/.github/actions/poetry_setup"
@@ -111,7 +113,7 @@ jobs:
         run: |
           python docs/api_reference/create_api_rst.py
           python -m sphinx -T -E -b html -d ../langchain-api-docs-build/_build/doctrees -c docs/api_reference docs/api_reference ../langchain-api-docs-build/api_reference_build/html -j auto
-          rm -rf _build/
+          rm -rf ../langchain-api-docs-build/_build/
 
       # https://github.com/marketplace/actions/add-commit
       - uses: EndBug/add-and-commit@v9
