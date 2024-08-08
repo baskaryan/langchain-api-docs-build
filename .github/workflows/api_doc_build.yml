@@ -20,7 +20,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           repository: langchain-ai/langchain
-          ref: ${{ github.ref_name }}
+          ref: bagatur/api_styling
           path: langchain
       - uses: actions/checkout@v4
         with:
@@ -72,7 +72,9 @@ jobs:
             langchain/libs/partners/cohere \
             langchain/libs/partners/elasticsearch \
             langchain/libs/partners/upstage \
-            langchain/libs/standard-tests
+            langchain/libs/standard-tests \
+            langchain/libs/community \
+            langchain/libs/experimental
           mv langchain-google/libs/genai langchain/libs/partners/google-genai
           mv langchain-google/libs/vertexai langchain/libs/partners/google-vertexai
           mv langchain-google/libs/community langchain/libs/partners/google-community
@@ -100,7 +102,8 @@ jobs:
           poetry run python -m pip install --upgrade --no-cache-dir sphinx readthedocs-sphinx-ext
           # skip airbyte and ibm due to pandas dependency issue
           poetry run python -m pip install $(ls ./libs/partners | grep -vE "airbyte|ibm" | xargs -I {} echo "./libs/partners/{}")
-          poetry run python -m pip install --exists-action=w --no-cache-dir -r docs/api_reference/requirements.txt
+          poetry run python -m pip install libs/core libs/langchain libs/text-splitters
+          poetry install --with docs
 
       - name: Build docs
         working-directory: langchain
