@@ -626,7 +626,37 @@ document.write(`
 <dt class="sig sig-object py" id="langchain_community.tools.riza.command.ExecPython">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">langchain_community.tools.riza.command.</span></span><span class="sig-name descname"><span class="pre">ExecPython</span></span><a class="reference internal" href="../../_modules/langchain_community/tools/riza/command.html#ExecPython"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#langchain_community.tools.riza.command.ExecPython" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference internal" href="../../core/tools/langchain_core.tools.base.BaseTool.html#langchain_core.tools.base.BaseTool" title="langchain_core.tools.base.BaseTool"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseTool</span></code></a></p>
-<p>A tool implementation to execute Python via Riza’s Code Interpreter API.</p>
+<p>Riza Code tool.</p>
+<dl>
+<dt>Setup:</dt><dd><p>Install <code class="docutils literal notranslate"><span class="pre">langchain-community</span></code> and <code class="docutils literal notranslate"><span class="pre">rizaio</span></code> and set environment variable <code class="docutils literal notranslate"><span class="pre">RIZA_API_KEY</span></code>.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>-U<span class="w"> </span>langchain-community<span class="w"> </span>rizaio
+<span class="nb">export</span><span class="w"> </span><span class="nv">RIZA_API_KEY</span><span class="o">=</span><span class="s2">"your-api-key"</span>
+</pre></div>
+</div>
+</dd>
+<dt>Instantiation:</dt><dd><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">langchain_community.tools.riza.command</span> <span class="kn">import</span> <span class="n">ExecPython</span>
+
+<span class="n">tool</span> <span class="o">=</span> <span class="n">ExecPython</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd>
+<dt>Invocation with args:</dt><dd><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">tool</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="s2">"x = 5; print(x)"</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="s1">'5</span><span class="se">\n</span><span class="s1">'</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<p>Invocation with ToolCall:</p>
+<blockquote>
+<div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">tool</span><span class="o">.</span><span class="n">invoke</span><span class="p">({</span><span class="s2">"args"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"code"</span><span class="p">:</span><span class="s2">"x = 5; print(x)"</span><span class="p">},</span> <span class="s2">"id"</span><span class="p">:</span> <span class="s2">"1"</span><span class="p">,</span> <span class="s2">"name"</span><span class="p">:</span> <span class="n">tool</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"tool_call"</span><span class="p">})</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">tool</span><span class="o">.</span><span class="n">invoke</span><span class="p">({</span><span class="s2">"args"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"code"</span><span class="p">:</span><span class="s2">"x = 5; print(x)"</span><span class="p">},</span> <span class="s2">"id"</span><span class="p">:</span> <span class="s2">"1"</span><span class="p">,</span> <span class="s2">"name"</span><span class="p">:</span> <span class="n">tool</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"tool_call"</span><span class="p">})</span>
+</pre></div>
+</div>
+</div></blockquote>
 <p>Initialize the tool.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>

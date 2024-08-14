@@ -258,7 +258,45 @@ document.write(`
 
 
 <div class="viewcode-block" id="BingSearchResults"><a class="viewcode-back" href="../../../../community/tools/langchain_community.tools.bing_search.tool.BingSearchResults.html#langchain_community.tools.bing_search.tool.BingSearchResults">[docs]</a><span class="k">class</span> <span class="nc">BingSearchResults</span><span class="p">(</span><span class="n">BaseTool</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">"""Tool that queries the Bing Search API and gets back json."""</span>
+<span class="w">    </span><span class="sd">"""Bing Search tool.</span>
+
+<span class="sd">    Setup:</span>
+<span class="sd">        Install ``langchain-community`` and set environment variable ``BING_SUBSCRIPTION_KEY``.</span>
+
+<span class="sd">        .. code-block:: bash</span>
+
+<span class="sd">            pip install -U langchain-community</span>
+<span class="sd">            export BING_SUBSCRIPTION_KEY="your-api-key"</span>
+
+<span class="sd">    Instantiation:</span>
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            from langchain_community.tools.bing_search import BingSearchResults</span>
+<span class="sd">            from langchain_community.utilities import BingSearchAPIWrapper</span>
+
+<span class="sd">            api_wrapper = BingSearchAPIWrapper()</span>
+<span class="sd">            tool = BingSearchResults(api_wrapper=api_wrapper)</span>
+
+<span class="sd">    Invocation with args:</span>
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            tool.invoke("what is the weather in SF?")</span>
+
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            "[{'snippet': '&lt;b&gt;San Francisco, CA&lt;/b&gt; &lt;b&gt;Weather&lt;/b&gt; Forecast, with current conditions, wind, air quality, and what to expect for the next 3 days.', 'title': 'San Francisco, CA Weather Forecast | AccuWeather', 'link': 'https://www.accuweather.com/en/us/san-francisco/94103/weather-forecast/347629'}, {'snippet': 'Tropical Storm Ernesto Forms; Fire &lt;b&gt;Weather&lt;/b&gt; Concerns in the Great Basin: Hot Temperatures Return to the South-Central U.S. ... &lt;b&gt;San Francisco CA&lt;/b&gt; 37.77°N 122.41°W (Elev. 131 ft) Last Update: 2:21 pm PDT Aug 12, 2024. Forecast Valid: 6pm PDT Aug 12, 2024-6pm PDT Aug 19, 2024 .', 'title': 'National Weather Service', 'link': 'https://forecast.weather.gov/zipcity.php?inputstring=San+Francisco,CA'}, {'snippet': 'Current &lt;b&gt;weather&lt;/b&gt; &lt;b&gt;in San Francisco, CA&lt;/b&gt;. Check current conditions &lt;b&gt;in San Francisco, CA&lt;/b&gt; with radar, hourly, and more.', 'title': 'San Francisco, CA Current Weather | AccuWeather', 'link': 'https://www.accuweather.com/en/us/san-francisco/94103/current-weather/347629'}, {'snippet': 'Everything you need to know about today&amp;#39;s &lt;b&gt;weather&lt;/b&gt; &lt;b&gt;in San Francisco, CA&lt;/b&gt;. High/Low, Precipitation Chances, Sunrise/Sunset, and today&amp;#39;s Temperature History.', 'title': 'Weather Today for San Francisco, CA | AccuWeather', 'link': 'https://www.accuweather.com/en/us/san-francisco/94103/weather-today/347629'}]"</span>
+
+<span class="sd">    Invocation with ToolCall:</span>
+
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            tool.invoke({"args": {"query":"what is the weather in SF?"}, "id": "1", "name": tool.name, "type": "tool_call"})</span>
+
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            ToolMessage(content="[{'snippet': 'Get the latest &lt;b&gt;weather&lt;/b&gt; forecast for &lt;b&gt;San Francisco, CA&lt;/b&gt;, including temperature, RealFeel, and chance of precipitation. Find out how the &lt;b&gt;weather&lt;/b&gt; will affect your plans and activities in the city of ...', 'title': 'San Francisco, CA Weather Forecast | AccuWeather', 'link': 'https://www.accuweather.com/en/us/san-francisco/94103/weather-forecast/347629'}, {'snippet': 'Radar. Be prepared with the most accurate 10-day forecast for &lt;b&gt;San Francisco, CA&lt;/b&gt; with highs, lows, chance of precipitation from The &lt;b&gt;Weather&lt;/b&gt; Channel and &lt;b&gt;Weather&lt;/b&gt;.com.', 'title': '10-Day Weather Forecast for San Francisco, CA - The Weather Channel', 'link': 'https://weather.com/weather/tenday/l/San+Francisco+CA+USCA0987:1:US'}, {'snippet': 'Tropical Storm Ernesto Forms; Fire &lt;b&gt;Weather&lt;/b&gt; Concerns in the Great Basin: Hot Temperatures Return to the South-Central U.S. ... &lt;b&gt;San Francisco CA&lt;/b&gt; 37.77°N 122.41°W (Elev. 131 ft) Last Update: 2:21 pm PDT Aug 12, 2024. Forecast Valid: 6pm PDT Aug 12, 2024-6pm PDT Aug 19, 2024 .', 'title': 'National Weather Service', 'link': 'https://forecast.weather.gov/zipcity.php?inputstring=San+Francisco,CA'}, {'snippet': 'Current &lt;b&gt;weather&lt;/b&gt; &lt;b&gt;in San Francisco, CA&lt;/b&gt;. Check current conditions &lt;b&gt;in San Francisco, CA&lt;/b&gt; with radar, hourly, and more.', 'title': 'San Francisco, CA Current Weather | AccuWeather', 'link': 'https://www.accuweather.com/en/us/san-francisco/94103/current-weather/347629'}]", name='bing_search_results_json', tool_call_id='1')</span>
+
+<span class="sd">    """</span>  <span class="c1"># noqa: E501</span>
 
     <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"bing_search_results_json"</span>
     <span class="n">description</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="p">(</span>

@@ -1149,6 +1149,49 @@ or <code class="docutils literal notranslate"><span class="pre">{"type:</span> <
 </pre></div>
 </div>
 </dd>
+<dt>Example — cache specific tools:</dt><dd><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">langchain_anthropic</span> <span class="kn">import</span> <span class="n">ChatAnthropic</span><span class="p">,</span> <span class="n">convert_to_anthropic_tool</span>
+<span class="kn">from</span> <span class="nn">langchain_core.pydantic_v1</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span>
+
+<span class="k">class</span> <span class="nc">GetWeather</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">'''Get the current weather in a given location'''</span>
+
+    <span class="n">location</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"The city and state, e.g. San Francisco, CA"</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">GetPrice</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">'''Get the price of a specific product.'''</span>
+
+    <span class="n">product</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"The product to look up."</span><span class="p">)</span>
+
+<span class="c1"># We'll convert our pydantic class to the anthropic tool format</span>
+<span class="c1"># before passing to bind_tools so that we can set the 'cache_control'</span>
+<span class="c1"># field on our tool.</span>
+<span class="n">cached_price_tool</span> <span class="o">=</span> <span class="n">convert_to_anthropic_tool</span><span class="p">(</span><span class="n">GetPrice</span><span class="p">)</span>
+<span class="c1"># Currently the only supported "cache_control" value is</span>
+<span class="c1"># {"type": "ephemeral"}.</span>
+<span class="n">cached_price_tool</span><span class="p">[</span><span class="s2">"cache_control"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"type"</span><span class="p">:</span> <span class="s2">"ephemeral"</span><span class="p">}</span>
+
+<span class="c1"># We need to pass in extra headers to enable use of the beta cache</span>
+<span class="c1"># control API.</span>
+<span class="n">llm</span> <span class="o">=</span> <span class="n">ChatAnthropic</span><span class="p">(</span>
+    <span class="n">model</span><span class="o">=</span><span class="s2">"claude-3-opus-20240229"</span><span class="p">,</span>
+    <span class="n">temperature</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+    <span class="n">extra_headers</span><span class="o">=</span><span class="p">{</span><span class="s2">"anthropic-beta"</span><span class="p">:</span> <span class="s2">"prompt-caching-2024-07-31"</span><span class="p">}</span>
+<span class="p">)</span>
+<span class="n">llm_with_tools</span> <span class="o">=</span> <span class="n">llm</span><span class="o">.</span><span class="n">bind_tools</span><span class="p">([</span><span class="n">GetWeather</span><span class="p">,</span> <span class="n">cached_price_tool</span><span class="p">])</span>
+<span class="n">llm_with_tools</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="s2">"what is the weather like in San Francisco"</span><span class="p">,)</span>
+</pre></div>
+</div>
+<p>This outputs:
+.. code-block:: pycon</p>
+<blockquote>
+<div><p>AIMessage(content=[{‘text’: “Certainly! I can help you find out the current weather in San Francisco. To get this information, I’ll use the GetWeather function. Let me fetch that data for you right away.”, ‘type’: ‘text’}, {‘id’: ‘toolu_01TS5h8LNo7p5imcG7yRiaUM’, ‘input’: {‘location’: ‘San Francisco, CA’}, ‘name’: ‘GetWeather’, ‘type’: ‘tool_use’}], response_metadata={‘id’: ‘msg_01Xg7Wr5inFWgBxE5jH9rpRo’, ‘model’: ‘claude-3-5-sonnet-20240620’, ‘stop_reason’: ‘tool_use’, ‘stop_sequence’: None, ‘usage’: {‘input_tokens’: 171, ‘output_tokens’: 96, ‘cache_creation_input_tokens’: 1470, ‘cache_read_input_tokens’: 0}}, id=’run-b36a5b54-5d69-470e-a1b0-b932d00b089e-0’, tool_calls=[{‘name’: ‘GetWeather’, ‘args’: {‘location’: ‘San Francisco, CA’}, ‘id’: ‘toolu_01TS5h8LNo7p5imcG7yRiaUM’, ‘type’: ‘tool_call’}], usage_metadata={‘input_tokens’: 171, ‘output_tokens’: 96, ‘total_tokens’: 267})</p>
+</div></blockquote>
+<p>If we invoke the tool again, we can see that the “usage” information in the AIMessage.response_metadata shows that we had a cache hit:
+.. code-block:: pycon</p>
+<blockquote>
+<div><p>AIMessage(content=[{‘text’: ‘To get the current weather in San Francisco, I can use the GetWeather function. Let me check that for you.’, ‘type’: ‘text’}, {‘id’: ‘toolu_01HtVtY1qhMFdPprx42qU2eA’, ‘input’: {‘location’: ‘San Francisco, CA’}, ‘name’: ‘GetWeather’, ‘type’: ‘tool_use’}], response_metadata={‘id’: ‘msg_016RfWHrRvW6DAGCdwB6Ac64’, ‘model’: ‘claude-3-5-sonnet-20240620’, ‘stop_reason’: ‘tool_use’, ‘stop_sequence’: None, ‘usage’: {‘input_tokens’: 171, ‘output_tokens’: 82, ‘cache_creation_input_tokens’: 0, ‘cache_read_input_tokens’: 1470}}, id=’run-88b1f825-dcb7-4277-ac27-53df55d22001-0’, tool_calls=[{‘name’: ‘GetWeather’, ‘args’: {‘location’: ‘San Francisco, CA’}, ‘id’: ‘toolu_01HtVtY1qhMFdPprx42qU2eA’, ‘type’: ‘tool_call’}], usage_metadata={‘input_tokens’: 171, ‘output_tokens’: 82, ‘total_tokens’: 253})</p>
+</div></blockquote>
+</dd>
 </dl>
 </div></blockquote>
 <dl class="field-list simple">

@@ -321,18 +321,50 @@ document.write(`
 
 
 <div class="viewcode-block" id="SessionsPythonREPLTool"><a class="viewcode-back" href="../../../azure_dynamic_sessions/tools/langchain_azure_dynamic_sessions.tools.sessions.SessionsPythonREPLTool.html#langchain_azure_dynamic_sessions.tools.sessions.SessionsPythonREPLTool">[docs]</a><span class="k">class</span> <span class="nc">SessionsPythonREPLTool</span><span class="p">(</span><span class="n">BaseTool</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">"""A tool for running Python code.</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">"""Azure Dynamic Sessions tool.</span>
 
-<span class="sd">     Run python code in an Azure Container Apps dynamic sessions code interpreter.</span>
+<span class="sd">    Setup:</span>
+<span class="sd">        Install ``langchain-azure-dynamic-sessions`` and create a session pool, which you can do by following the instructions [here](https://learn.microsoft.com/en-us/azure/container-apps/sessions-code-interpreter?tabs=azure-cli#create-a-session-pool-with-azure-cli).</span>
 
-<span class="sd">    Example:</span>
+<span class="sd">        .. code-block:: bash</span>
+
+<span class="sd">            pip install -U langchain-azure-dynamic-sessions</span>
+
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            import getpass</span>
+
+<span class="sd">            POOL_MANAGEMENT_ENDPOINT = getpass.getpass("Enter the management endpoint of the session pool: ")</span>
+
+<span class="sd">    Instantiation:</span>
 <span class="sd">        .. code-block:: python</span>
 
 <span class="sd">            from langchain_azure_dynamic_sessions import SessionsPythonREPLTool</span>
 
-<span class="sd">            tool = SessionsPythonREPLTool(pool_management_endpoint="...")</span>
-<span class="sd">            result = tool.invoke("6 * 7")</span>
-<span class="sd">    """</span>
+<span class="sd">            tool = SessionsPythonREPLTool(</span>
+<span class="sd">                pool_management_endpoint=POOL_MANAGEMENT_ENDPOINT</span>
+<span class="sd">            )</span>
+
+
+<span class="sd">    Invocation with args:</span>
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            tool.invoke("6 * 7")</span>
+
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            '{\\n  "result": 42,\\n  "stdout": "",\\n  "stderr": ""\\n}'</span>
+
+<span class="sd">    Invocation with ToolCall:</span>
+
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            tool.invoke({"args": {"input":"6 * 7"}, "id": "1", "name": tool.name, "type": "tool_call"})</span>
+
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            '{\\n  "result": 42,\\n  "stdout": "",\\n  "stderr": ""\\n}'</span>
+<span class="sd">    """</span>  <span class="c1"># noqa: E501</span>
 
     <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"Python_REPL"</span>
     <span class="n">description</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="p">(</span>

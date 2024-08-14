@@ -298,6 +298,7 @@ document.write(`
 <span class="p">)</span>
 <span class="kn">from</span> <span class="nn">langchain_core.utils.function_calling</span> <span class="kn">import</span> <span class="n">convert_to_openai_tool</span>
 <span class="kn">from</span> <span class="nn">langchain_core.utils.pydantic</span> <span class="kn">import</span> <span class="n">is_basemodel_subclass</span>
+<span class="kn">from</span> <span class="nn">typing_extensions</span> <span class="kn">import</span> <span class="n">NotRequired</span>
 
 <span class="kn">from</span> <span class="nn">langchain_anthropic.output_parsers</span> <span class="kn">import</span> <span class="n">extract_tool_calls</span>
 
@@ -376,7 +377,9 @@ document.write(`
     <span class="k">return</span> <span class="n">merged</span>
 
 
-<span class="k">def</span> <span class="nf">_format_messages</span><span class="p">(</span><span class="n">messages</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">BaseMessage</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">]]:</span>
+<span class="k">def</span> <span class="nf">_format_messages</span><span class="p">(</span>
+    <span class="n">messages</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">BaseMessage</span><span class="p">],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">],</span> <span class="kc">None</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">]]:</span>
 <span class="w">    </span><span class="sd">"""Format messages for anthropic."""</span>
 
 <span class="w">    </span><span class="sd">"""</span>
@@ -388,7 +391,7 @@ document.write(`
 <span class="sd">                for m in messages</span>
 <span class="sd">            ]</span>
 <span class="sd">    """</span>
-    <span class="n">system</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">system</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">],</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">formatted_messages</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
 
     <span class="n">merged_messages</span> <span class="o">=</span> <span class="n">_merge_messages</span><span class="p">(</span><span class="n">messages</span><span class="p">)</span>
@@ -396,12 +399,15 @@ document.write(`
         <span class="k">if</span> <span class="n">message</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">"system"</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">i</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"System message must be at beginning of message list."</span><span class="p">)</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">message</span><span class="o">.</span><span class="n">content</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                    <span class="s2">"System message must be a string, "</span>
-                    <span class="sa">f</span><span class="s2">"instead was: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">message</span><span class="o">.</span><span class="n">content</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span>
-                <span class="p">)</span>
-            <span class="n">system</span> <span class="o">=</span> <span class="n">message</span><span class="o">.</span><span class="n">content</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">message</span><span class="o">.</span><span class="n">content</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                <span class="n">system</span> <span class="o">=</span> <span class="p">[</span>
+                    <span class="n">block</span>
+                    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">block</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span>
+                    <span class="k">else</span> <span class="p">{</span><span class="s2">"type"</span><span class="p">:</span> <span class="s2">"text"</span><span class="p">,</span> <span class="s2">"text"</span><span class="p">:</span> <span class="s2">"block"</span><span class="p">}</span>
+                    <span class="k">for</span> <span class="n">block</span> <span class="ow">in</span> <span class="n">message</span><span class="o">.</span><span class="n">content</span>
+                <span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">system</span> <span class="o">=</span> <span class="n">message</span><span class="o">.</span><span class="n">content</span>
             <span class="k">continue</span>
 
         <span class="n">role</span> <span class="o">=</span> <span class="n">_message_type_lookups</span><span class="p">[</span><span class="n">message</span><span class="o">.</span><span class="n">type</span><span class="p">]</span>
@@ -448,7 +454,13 @@ document.write(`
                         <span class="c1"># accepted.</span>
                         <span class="c1"># https://github.com/anthropics/anthropic-sdk-python/issues/461</span>
                         <span class="k">if</span> <span class="n">text</span><span class="o">.</span><span class="n">strip</span><span class="p">():</span>
-                            <span class="n">content</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">"type"</span><span class="p">:</span> <span class="s2">"text"</span><span class="p">,</span> <span class="s2">"text"</span><span class="p">:</span> <span class="n">text</span><span class="p">})</span>
+                            <span class="n">content</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                                <span class="p">{</span>
+                                    <span class="n">k</span><span class="p">:</span> <span class="n">v</span>
+                                    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">item</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+                                    <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"type"</span><span class="p">,</span> <span class="s2">"text"</span><span class="p">,</span> <span class="s2">"cache_control"</span><span class="p">)</span>
+                                <span class="p">}</span>
+                            <span class="p">)</span>
                     <span class="k">else</span><span class="p">:</span>
                         <span class="n">content</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
@@ -1107,6 +1119,51 @@ document.write(`
 <span class="sd">                llm = ChatAnthropic(model="claude-3-opus-20240229", temperature=0)</span>
 <span class="sd">                llm_with_tools = llm.bind_tools([GetWeather, GetPrice], tool_choice="GetWeather")</span>
 <span class="sd">                llm_with_tools.invoke("what is the weather like in San Francisco",)</span>
+
+<span class="sd">        Example — cache specific tools:</span>
+<span class="sd">            .. code-block:: python</span>
+
+<span class="sd">                from langchain_anthropic import ChatAnthropic, convert_to_anthropic_tool</span>
+<span class="sd">                from langchain_core.pydantic_v1 import BaseModel, Field</span>
+
+<span class="sd">                class GetWeather(BaseModel):</span>
+<span class="sd">                    '''Get the current weather in a given location'''</span>
+
+<span class="sd">                    location: str = Field(..., description="The city and state, e.g. San Francisco, CA")</span>
+
+<span class="sd">                class GetPrice(BaseModel):</span>
+<span class="sd">                    '''Get the price of a specific product.'''</span>
+
+<span class="sd">                    product: str = Field(..., description="The product to look up.")</span>
+
+<span class="sd">                # We'll convert our pydantic class to the anthropic tool format</span>
+<span class="sd">                # before passing to bind_tools so that we can set the 'cache_control'</span>
+<span class="sd">                # field on our tool.</span>
+<span class="sd">                cached_price_tool = convert_to_anthropic_tool(GetPrice)</span>
+<span class="sd">                # Currently the only supported "cache_control" value is</span>
+<span class="sd">                # {"type": "ephemeral"}.</span>
+<span class="sd">                cached_price_tool["cache_control"] = {"type": "ephemeral"}</span>
+
+<span class="sd">                # We need to pass in extra headers to enable use of the beta cache</span>
+<span class="sd">                # control API.</span>
+<span class="sd">                llm = ChatAnthropic(</span>
+<span class="sd">                    model="claude-3-opus-20240229",</span>
+<span class="sd">                    temperature=0,</span>
+<span class="sd">                    extra_headers={"anthropic-beta": "prompt-caching-2024-07-31"}</span>
+<span class="sd">                )</span>
+<span class="sd">                llm_with_tools = llm.bind_tools([GetWeather, cached_price_tool])</span>
+<span class="sd">                llm_with_tools.invoke("what is the weather like in San Francisco",)</span>
+
+<span class="sd">            This outputs:</span>
+<span class="sd">            .. code-block:: pycon</span>
+
+<span class="sd">                AIMessage(content=[{'text': "Certainly! I can help you find out the current weather in San Francisco. To get this information, I'll use the GetWeather function. Let me fetch that data for you right away.", 'type': 'text'}, {'id': 'toolu_01TS5h8LNo7p5imcG7yRiaUM', 'input': {'location': 'San Francisco, CA'}, 'name': 'GetWeather', 'type': 'tool_use'}], response_metadata={'id': 'msg_01Xg7Wr5inFWgBxE5jH9rpRo', 'model': 'claude-3-5-sonnet-20240620', 'stop_reason': 'tool_use', 'stop_sequence': None, 'usage': {'input_tokens': 171, 'output_tokens': 96, 'cache_creation_input_tokens': 1470, 'cache_read_input_tokens': 0}}, id='run-b36a5b54-5d69-470e-a1b0-b932d00b089e-0', tool_calls=[{'name': 'GetWeather', 'args': {'location': 'San Francisco, CA'}, 'id': 'toolu_01TS5h8LNo7p5imcG7yRiaUM', 'type': 'tool_call'}], usage_metadata={'input_tokens': 171, 'output_tokens': 96, 'total_tokens': 267})</span>
+
+<span class="sd">            If we invoke the tool again, we can see that the "usage" information in the AIMessage.response_metadata shows that we had a cache hit:</span>
+<span class="sd">            .. code-block:: pycon</span>
+
+<span class="sd">                AIMessage(content=[{'text': 'To get the current weather in San Francisco, I can use the GetWeather function. Let me check that for you.', 'type': 'text'}, {'id': 'toolu_01HtVtY1qhMFdPprx42qU2eA', 'input': {'location': 'San Francisco, CA'}, 'name': 'GetWeather', 'type': 'tool_use'}], response_metadata={'id': 'msg_016RfWHrRvW6DAGCdwB6Ac64', 'model': 'claude-3-5-sonnet-20240620', 'stop_reason': 'tool_use', 'stop_sequence': None, 'usage': {'input_tokens': 171, 'output_tokens': 82, 'cache_creation_input_tokens': 0, 'cache_read_input_tokens': 1470}}, id='run-88b1f825-dcb7-4277-ac27-53df55d22001-0', tool_calls=[{'name': 'GetWeather', 'args': {'location': 'San Francisco, CA'}, 'id': 'toolu_01HtVtY1qhMFdPprx42qU2eA', 'type': 'tool_call'}], usage_metadata={'input_tokens': 171, 'output_tokens': 82, 'total_tokens': 253})</span>
+
 <span class="sd">        """</span>  <span class="c1"># noqa: E501</span>
         <span class="n">formatted_tools</span> <span class="o">=</span> <span class="p">[</span><span class="n">convert_to_anthropic_tool</span><span class="p">(</span><span class="n">tool</span><span class="p">)</span> <span class="k">for</span> <span class="n">tool</span> <span class="ow">in</span> <span class="n">tools</span><span class="p">]</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">tool_choice</span><span class="p">:</span>
@@ -1272,7 +1329,8 @@ document.write(`
 
     <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">description</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">input_schema</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span></div>
+    <span class="n">input_schema</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span>
+    <span class="n">cache_control</span><span class="p">:</span> <span class="n">NotRequired</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span></div>
 
 
 <div class="viewcode-block" id="convert_to_anthropic_tool"><a class="viewcode-back" href="../../anthropic/chat_models/langchain_anthropic.chat_models.convert_to_anthropic_tool.html#langchain_anthropic.chat_models.convert_to_anthropic_tool">[docs]</a><span class="k">def</span> <span class="nf">convert_to_anthropic_tool</span><span class="p">(</span>
@@ -1283,14 +1341,15 @@ document.write(`
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tool</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">all</span><span class="p">(</span>
         <span class="n">k</span> <span class="ow">in</span> <span class="n">tool</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"name"</span><span class="p">,</span> <span class="s2">"description"</span><span class="p">,</span> <span class="s2">"input_schema"</span><span class="p">)</span>
     <span class="p">):</span>
-        <span class="k">return</span> <span class="n">AnthropicTool</span><span class="p">(</span><span class="n">tool</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
+        <span class="n">anthropic_formatted</span> <span class="o">=</span> <span class="n">AnthropicTool</span><span class="p">(</span><span class="n">tool</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">formatted</span> <span class="o">=</span> <span class="n">convert_to_openai_tool</span><span class="p">(</span><span class="n">tool</span><span class="p">)[</span><span class="s2">"function"</span><span class="p">]</span>
-        <span class="k">return</span> <span class="n">AnthropicTool</span><span class="p">(</span>
-            <span class="n">name</span><span class="o">=</span><span class="n">formatted</span><span class="p">[</span><span class="s2">"name"</span><span class="p">],</span>
-            <span class="n">description</span><span class="o">=</span><span class="n">formatted</span><span class="p">[</span><span class="s2">"description"</span><span class="p">],</span>
-            <span class="n">input_schema</span><span class="o">=</span><span class="n">formatted</span><span class="p">[</span><span class="s2">"parameters"</span><span class="p">],</span>
-        <span class="p">)</span></div>
+        <span class="n">oai_formatted</span> <span class="o">=</span> <span class="n">convert_to_openai_tool</span><span class="p">(</span><span class="n">tool</span><span class="p">)[</span><span class="s2">"function"</span><span class="p">]</span>
+        <span class="n">anthropic_formatted</span> <span class="o">=</span> <span class="n">AnthropicTool</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="n">oai_formatted</span><span class="p">[</span><span class="s2">"name"</span><span class="p">],</span>
+            <span class="n">description</span><span class="o">=</span><span class="n">oai_formatted</span><span class="p">[</span><span class="s2">"description"</span><span class="p">],</span>
+            <span class="n">input_schema</span><span class="o">=</span><span class="n">oai_formatted</span><span class="p">[</span><span class="s2">"parameters"</span><span class="p">],</span>
+        <span class="p">)</span>
+    <span class="k">return</span> <span class="n">anthropic_formatted</span></div>
 
 
 <span class="k">def</span> <span class="nf">_tools_in_params</span><span class="p">(</span><span class="n">params</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>

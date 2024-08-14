@@ -256,6 +256,7 @@ document.write(`
 <span class="p">)</span>
 
 <span class="kn">from</span> <span class="nn">langchain_experimental.pydantic_v1</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">root_validator</span>
+<span class="kn">from</span> <span class="nn">langchain_experimental.rl_chain.helpers</span> <span class="kn">import</span> <span class="n">_Embed</span>
 <span class="kn">from</span> <span class="nn">langchain_experimental.rl_chain.metrics</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">MetricsTrackerAverage</span><span class="p">,</span>
     <span class="n">MetricsTrackerRollingWindow</span><span class="p">,</span>
@@ -303,17 +304,6 @@ document.write(`
     <span class="k">return</span> <span class="n">_ToSelectFrom</span><span class="p">(</span><span class="n">anything</span><span class="p">)</span></div>
 
 
-<span class="k">class</span> <span class="nc">_Embed</span><span class="p">:</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">keep</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">value</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">keep</span> <span class="o">=</span> <span class="n">keep</span>
-
-    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
-
-    <span class="fm">__repr__</span> <span class="o">=</span> <span class="fm">__str__</span>
-
-
 <div class="viewcode-block" id="Embed"><a class="viewcode-back" href="../../../experimental/rl_chain/langchain_experimental.rl_chain.base.Embed.html#langchain_experimental.rl_chain.base.Embed">[docs]</a><span class="k">def</span> <span class="nf">Embed</span><span class="p">(</span><span class="n">anything</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">keep</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Wrap a value to indicate that it should be embedded."""</span>
 
@@ -337,12 +327,6 @@ document.write(`
 
 
 <span class="c1"># helper functions</span>
-
-
-<div class="viewcode-block" id="stringify_embedding"><a class="viewcode-back" href="../../../experimental/rl_chain/langchain_experimental.rl_chain.base.stringify_embedding.html#langchain_experimental.rl_chain.base.stringify_embedding">[docs]</a><span class="k">def</span> <span class="nf">stringify_embedding</span><span class="p">(</span><span class="n">embedding</span><span class="p">:</span> <span class="n">List</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""Convert an embedding to a string."""</span>
-
-    <span class="k">return</span> <span class="s2">" "</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">e</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">embedding</span><span class="p">)])</span></div>
 
 
 <div class="viewcode-block" id="parse_lines"><a class="viewcode-back" href="../../../experimental/rl_chain/langchain_experimental.rl_chain.base.parse_lines.html#langchain_experimental.rl_chain.base.parse_lines">[docs]</a><span class="k">def</span> <span class="nf">parse_lines</span><span class="p">(</span><span class="n">parser</span><span class="p">:</span> <span class="s2">"vw.TextFormatParser"</span><span class="p">,</span> <span class="n">input_str</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="s2">"vw.Example"</span><span class="p">]:</span>
@@ -788,100 +772,6 @@ document.write(`
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">_chain_type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="s2">"llm_personalizer_chain"</span></div>
-
-
-<div class="viewcode-block" id="is_stringtype_instance"><a class="viewcode-back" href="../../../experimental/rl_chain/langchain_experimental.rl_chain.base.is_stringtype_instance.html#langchain_experimental.rl_chain.base.is_stringtype_instance">[docs]</a><span class="k">def</span> <span class="nf">is_stringtype_instance</span><span class="p">(</span><span class="n">item</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""Check if an item is a string."""</span>
-
-    <span class="k">return</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span>
-        <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">_Embed</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
-    <span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="embed_string_type"><a class="viewcode-back" href="../../../experimental/rl_chain/langchain_experimental.rl_chain.base.embed_string_type.html#langchain_experimental.rl_chain.base.embed_string_type">[docs]</a><span class="k">def</span> <span class="nf">embed_string_type</span><span class="p">(</span>
-    <span class="n">item</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">_Embed</span><span class="p">],</span> <span class="n">model</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">namespace</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]]:</span>
-<span class="w">    </span><span class="sd">"""Embed a string or an _Embed object."""</span>
-
-    <span class="n">keep_str</span> <span class="o">=</span> <span class="s2">""</span>
-    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">_Embed</span><span class="p">):</span>
-        <span class="n">encoded</span> <span class="o">=</span> <span class="n">stringify_embedding</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
-        <span class="k">if</span> <span class="n">item</span><span class="o">.</span><span class="n">keep</span><span class="p">:</span>
-            <span class="n">keep_str</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">" "</span><span class="p">,</span> <span class="s2">"_"</span><span class="p">)</span> <span class="o">+</span> <span class="s2">" "</span>
-    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-        <span class="n">encoded</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">" "</span><span class="p">,</span> <span class="s2">"_"</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Unsupported type </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">item</span><span class="p">)</span><span class="si">}</span><span class="s2"> for embedding"</span><span class="p">)</span>
-
-    <span class="k">if</span> <span class="n">namespace</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="s2">"The default namespace must be provided when embedding a string or _Embed object."</span>  <span class="c1"># noqa: E501</span>
-        <span class="p">)</span>
-
-    <span class="k">return</span> <span class="p">{</span><span class="n">namespace</span><span class="p">:</span> <span class="n">keep_str</span> <span class="o">+</span> <span class="n">encoded</span><span class="p">}</span></div>
-
-
-<div class="viewcode-block" id="embed_dict_type"><a class="viewcode-back" href="../../../experimental/rl_chain/langchain_experimental.rl_chain.base.embed_dict_type.html#langchain_experimental.rl_chain.base.embed_dict_type">[docs]</a><span class="k">def</span> <span class="nf">embed_dict_type</span><span class="p">(</span><span class="n">item</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">"""Embed a dictionary item."""</span>
-    <span class="n">inner_dict</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="k">for</span> <span class="n">ns</span><span class="p">,</span> <span class="n">embed_item</span> <span class="ow">in</span> <span class="n">item</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">embed_item</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
-            <span class="n">inner_dict</span><span class="p">[</span><span class="n">ns</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
-            <span class="k">for</span> <span class="n">embed_list_item</span> <span class="ow">in</span> <span class="n">embed_item</span><span class="p">:</span>
-                <span class="n">embedded</span> <span class="o">=</span> <span class="n">embed_string_type</span><span class="p">(</span><span class="n">embed_list_item</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">ns</span><span class="p">)</span>
-                <span class="n">inner_dict</span><span class="p">[</span><span class="n">ns</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">embedded</span><span class="p">[</span><span class="n">ns</span><span class="p">])</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">inner_dict</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">embed_string_type</span><span class="p">(</span><span class="n">embed_item</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">ns</span><span class="p">))</span>
-    <span class="k">return</span> <span class="n">inner_dict</span></div>
-
-
-<div class="viewcode-block" id="embed_list_type"><a class="viewcode-back" href="../../../experimental/rl_chain/langchain_experimental.rl_chain.base.embed_list_type.html#langchain_experimental.rl_chain.base.embed_list_type">[docs]</a><span class="k">def</span> <span class="nf">embed_list_type</span><span class="p">(</span>
-    <span class="n">item</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">namespace</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]]]:</span>
-<span class="w">    </span><span class="sd">"""Embed a list item."""</span>
-
-    <span class="n">ret_list</span><span class="p">:</span> <span class="n">List</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">embed_item</span> <span class="ow">in</span> <span class="n">item</span><span class="p">:</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">embed_item</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
-            <span class="n">ret_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">embed_dict_type</span><span class="p">(</span><span class="n">embed_item</span><span class="p">,</span> <span class="n">model</span><span class="p">))</span>
-        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">embed_item</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
-            <span class="n">item_embedding</span> <span class="o">=</span> <span class="n">embed_list_type</span><span class="p">(</span><span class="n">embed_item</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">namespace</span><span class="p">)</span>
-            <span class="c1"># Get the first key from the first dictionary</span>
-            <span class="n">first_key</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">item_embedding</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
-            <span class="c1"># Group the values under that key</span>
-            <span class="n">grouping</span> <span class="o">=</span> <span class="p">{</span><span class="n">first_key</span><span class="p">:</span> <span class="p">[</span><span class="n">item</span><span class="p">[</span><span class="n">first_key</span><span class="p">]</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">item_embedding</span><span class="p">]}</span>
-            <span class="n">ret_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">grouping</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">ret_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">embed_string_type</span><span class="p">(</span><span class="n">embed_item</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">namespace</span><span class="p">))</span>
-    <span class="k">return</span> <span class="n">ret_list</span></div>
-
-
-<div class="viewcode-block" id="embed"><a class="viewcode-back" href="../../../experimental/rl_chain/langchain_experimental.rl_chain.base.embed.html#langchain_experimental.rl_chain.base.embed">[docs]</a><span class="k">def</span> <span class="nf">embed</span><span class="p">(</span>
-    <span class="n">to_embed</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">_Embed</span><span class="p">],</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">_Embed</span><span class="p">]],</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">]],</span>
-    <span class="n">model</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
-    <span class="n">namespace</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]]]:</span>
-<span class="w">    </span><span class="sd">"""</span>
-<span class="sd">    Embed the actions or context using the SentenceTransformer model</span>
-<span class="sd">    (or a model that has an `encode` function).</span>
-
-<span class="sd">    Attributes:</span>
-<span class="sd">        to_embed: (Union[Union(str, _Embed(str)), Dict, List[Union(str, _Embed(str))], List[Dict]], required) The text to be embedded, either a string, a list of strings or a dictionary or a list of dictionaries.</span>
-<span class="sd">        namespace: (str, optional) The default namespace to use when dictionary or list of dictionaries not provided.</span>
-<span class="sd">        model: (Any, required) The model to use for embedding</span>
-<span class="sd">    Returns:</span>
-<span class="sd">        List[Dict[str, str]]: A list of dictionaries where each dictionary has the namespace as the key and the embedded string as the value</span>
-<span class="sd">    """</span>  <span class="c1"># noqa: E501</span>
-    <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">to_embed</span><span class="p">,</span> <span class="n">_Embed</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">to_embed</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="nb">str</span><span class="p">))</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span>
-        <span class="n">to_embed</span><span class="p">,</span> <span class="nb">str</span>
-    <span class="p">):</span>
-        <span class="k">return</span> <span class="p">[</span><span class="n">embed_string_type</span><span class="p">(</span><span class="n">to_embed</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">namespace</span><span class="p">)]</span>
-    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">to_embed</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
-        <span class="k">return</span> <span class="p">[</span><span class="n">embed_dict_type</span><span class="p">(</span><span class="n">to_embed</span><span class="p">,</span> <span class="n">model</span><span class="p">)]</span>
-    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">to_embed</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">embed_list_type</span><span class="p">(</span><span class="n">to_embed</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">namespace</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Invalid input format for embedding"</span><span class="p">)</span></div>
 </pre></div>
 </article>
 </div>
