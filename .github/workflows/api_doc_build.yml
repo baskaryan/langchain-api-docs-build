@@ -72,9 +72,7 @@ jobs:
             langchain/libs/partners/cohere \
             langchain/libs/partners/elasticsearch \
             langchain/libs/partners/upstage \
-            langchain/libs/standard-tests \
-            langchain/libs/community \
-            langchain/libs/experimental
+            langchain/libs/standard-tests
           mv langchain-google/libs/genai langchain/libs/partners/google-genai
           mv langchain-google/libs/vertexai langchain/libs/partners/google-vertexai
           mv langchain-google/libs/community langchain/libs/partners/google-community
@@ -105,7 +103,7 @@ jobs:
           python -m uv pip install --upgrade --no-cache-dir pip setuptools
           # skip airbyte and ibm due to pandas dependency issue
           python -m uv pip install $(ls ./libs/partners | grep -vE "airbyte|ibm" | xargs -I {} echo "./libs/partners/{}")
-          python -m uv pip install libs/core libs/langchain libs/text-splitters
+          python -m uv pip install libs/core libs/langchain libs/text-splitters libs/community libs/experimental
           python -m uv pip install -r docs/api_reference/requirements.txt
 
       - name: Build docs
