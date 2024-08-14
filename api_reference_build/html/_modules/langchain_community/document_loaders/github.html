@@ -1,0 +1,489 @@
+
+<!DOCTYPE html>
+
+<html data-content_root="" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>langchain_community.document_loaders.github — 🦜🔗 LangChain  documentation</title>
+<script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+<!-- Loaded before other Sphinx assets -->
+<link href="../../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet"/>
+<link href="../../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet"/>
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet"/>
+<link href="../../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet"/>
+<link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" rel="preload" type="font/woff2"/>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/autodoc_pydantic.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/sphinx-design.4cbf315f70debaebd550c87a6162cf0f.min.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/css/custom.css" rel="stylesheet" type="text/css"/>
+<!-- Pre-loaded scripts that we'll load fully later -->
+<link as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
+<link as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
+<script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/sphinx_highlight.js"></script>
+<script src="../../../_static/clipboard.min.js"></script>
+<script src="../../../_static/copybutton.js"></script>
+<script src="../../../_static/design-tabs.js"></script>
+<script>DOCUMENTATION_OPTIONS.pagename = '_modules/langchain_community/document_loaders/github';</script>
+<link href="../../../_static/favicon.png" rel="icon"/>
+<link href="../../../search.html" rel="search" title="Search"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="en" name="docsearch:language"/>
+<meta content="Aug 14, 2024" name="docbuild:last-update"/>
+</head>
+<body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
+<div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
+<div id="pst-scroll-pixel-helper"></div>
+<button class="btn rounded-pill" id="pst-back-to-top" type="button">
+<i class="fa-solid fa-arrow-up"></i>Back to top</button>
+<input class="sidebar-toggle" id="pst-primary-sidebar-checkbox" type="checkbox"/>
+<label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+<input class="sidebar-toggle" id="pst-secondary-sidebar-checkbox" type="checkbox"/>
+<label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+<div class="search-button__wrapper">
+<div class="search-button__overlay"></div>
+<div class="search-button__search-container">
+<form action="../../../search.html" class="bd-search d-flex align-items-center" method="get">
+<i class="fa-solid fa-magnifying-glass"></i>
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="form-control" id="search-input" name="q" placeholder="Search" spellcheck="false" type="search"/>
+<span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+</div>
+<div class="pst-async-banner-revealer d-none">
+<aside aria-label="Version warning" class="d-none d-print-none" id="bd-header-version-warning"></aside>
+</div>
+<header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+<button aria-label="Site navigation" class="pst-navbar-icon sidebar-toggle primary-toggle">
+<span class="fa-solid fa-bars"></span>
+</button>
+<div class="navbar-header-items__start">
+<div class="navbar-item">
+<a class="navbar-brand logo" href="../../../index.html">
+<img alt="🦜🔗 LangChain  documentation - Home" class="logo__image only-light" src="../../../_static/wordmark-api.svg"/>
+<script>document.write(`<img src="../../../_static/wordmark-api-dark.svg" class="logo__image only-dark" alt="🦜🔗 LangChain  documentation - Home"/>`);</script>
+</a></div>
+</div>
+<div class="navbar-header-items">
+<div class="me-auto navbar-header-items__center">
+<div class="navbar-item">
+<nav>
+<ul class="bd-navbar-elements navbar-nav">
+<li class="nav-item">
+<a class="nav-link nav-internal" href="../../../reference.html">
+    Reference
+  </a>
+</li>
+<li class="nav-item">
+<a class="nav-link nav-external" href="https://api.python.langchain.com/">
+    Legacy reference
+  </a>
+</li>
+</ul>
+</nav></div>
+</div>
+<div class="navbar-header-items__end">
+<div class="navbar-item navbar-persistent--container">
+<form action="../../../search.html" class="bd-search d-flex align-items-center" method="get">
+<i class="fa-solid fa-magnifying-glass"></i>
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="form-control" id="search-input" name="q" placeholder="Search" spellcheck="false" type="search"/>
+<span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+</div>
+<div class="navbar-item"><!-- This will display a link to LangChain docs -->
+<head>
+<style>
+        .text-link {
+            text-decoration: none; /* Remove underline */
+            color: inherit;        /* Inherit color from parent element */
+        }
+    </style>
+</head>
+<body>
+<a class="text-link" href="https://python.langchain.com/">Docs</a>
+</body></div>
+<div class="navbar-item">
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+<div class="navbar-item"><ul aria-label="Quick Links" class="navbar-icon-links">
+<li class="nav-item">
+<a class="nav-link pst-navbar-icon" data-bs-placement="bottom" data-bs-toggle="tooltip" href="https://github.com/langchain-ai/langchain" rel="noopener" target="_blank" title="GitHub"><i aria-hidden="true" class="fa-brands fa-square-github fa-lg"></i>
+<span class="sr-only">GitHub</span></a>
+</li>
+<li class="nav-item">
+<a class="nav-link pst-navbar-icon" data-bs-placement="bottom" data-bs-toggle="tooltip" href="https://twitter.com/langchainai" rel="noopener" target="_blank" title="X / Twitter"><i aria-hidden="true" class="fab fa-twitter-square fa-lg"></i>
+<span class="sr-only">X / Twitter</span></a>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="navbar-persistent--mobile">
+<form action="../../../search.html" class="bd-search d-flex align-items-center" method="get">
+<i class="fa-solid fa-magnifying-glass"></i>
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="form-control" id="search-input" name="q" placeholder="Search" spellcheck="false" type="search"/>
+<span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+</div>
+</div>
+</header>
+<div class="bd-container">
+<div class="bd-container__inner bd-page-width">
+<div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+<div class="sidebar-header-items sidebar-primary__section">
+<div class="sidebar-header-items__center">
+<div class="navbar-item">
+<nav>
+<ul class="bd-navbar-elements navbar-nav">
+<li class="nav-item">
+<a class="nav-link nav-internal" href="../../../reference.html">
+    Reference
+  </a>
+</li>
+<li class="nav-item">
+<a class="nav-link nav-external" href="https://api.python.langchain.com/">
+    Legacy reference
+  </a>
+</li>
+</ul>
+</nav></div>
+</div>
+<div class="sidebar-header-items__end">
+<div class="navbar-item"><!-- This will display a link to LangChain docs -->
+<head>
+<style>
+        .text-link {
+            text-decoration: none; /* Remove underline */
+            color: inherit;        /* Inherit color from parent element */
+        }
+    </style>
+</head>
+<body>
+<a class="text-link" href="https://python.langchain.com/">Docs</a>
+</body></div>
+<div class="navbar-item">
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+<div class="navbar-item"><ul aria-label="Quick Links" class="navbar-icon-links">
+<li class="nav-item">
+<a class="nav-link pst-navbar-icon" data-bs-placement="bottom" data-bs-toggle="tooltip" href="https://github.com/langchain-ai/langchain" rel="noopener" target="_blank" title="GitHub"><i aria-hidden="true" class="fa-brands fa-square-github fa-lg"></i>
+<span class="sr-only">GitHub</span></a>
+</li>
+<li class="nav-item">
+<a class="nav-link pst-navbar-icon" data-bs-placement="bottom" data-bs-toggle="tooltip" href="https://twitter.com/langchainai" rel="noopener" target="_blank" title="X / Twitter"><i aria-hidden="true" class="fab fa-twitter-square fa-lg"></i>
+<span class="sr-only">X / Twitter</span></a>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sidebar-primary-items__end sidebar-primary__section">
+</div>
+<div id="rtd-footer-container"></div>
+</div>
+<main class="bd-main" id="main-content" role="main">
+<div class="bd-content">
+<div class="bd-article-container">
+<div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+<div class="header-article-items__start">
+<div class="header-article-item">
+<nav aria-label="Breadcrumb" class="d-print-none">
+<ul class="bd-breadcrumbs">
+<li class="breadcrumb-item breadcrumb-home">
+<a aria-label="Home" class="nav-link" href="../../../index.html">
+<i class="fa-solid fa-home"></i>
+</a>
+</li>
+<li class="breadcrumb-item"><a class="nav-link" href="../../index.html">Module code</a></li>
+<li aria-current="page" class="breadcrumb-item active">langchain_co...</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+</div>
+<div id="searchbox"></div>
+<article class="bd-article">
+<h1>Source code for langchain_community.document_loaders.github</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">base64</span>
+<span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">from</span> <span class="nn">langchain_core.documents</span> <span class="kn">import</span> <span class="n">Document</span>
+<span class="kn">from</span> <span class="nn">langchain_core.pydantic_v1</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">root_validator</span><span class="p">,</span> <span class="n">validator</span>
+<span class="kn">from</span> <span class="nn">langchain_core.utils</span> <span class="kn">import</span> <span class="n">get_from_dict_or_env</span>
+
+<span class="kn">from</span> <span class="nn">langchain_community.document_loaders.base</span> <span class="kn">import</span> <span class="n">BaseLoader</span>
+
+
+<div class="viewcode-block" id="BaseGitHubLoader"><a class="viewcode-back" href="../../../community/document_loaders/langchain_community.document_loaders.github.BaseGitHubLoader.html#langchain_community.document_loaders.github.BaseGitHubLoader">[docs]</a><span class="k">class</span> <span class="nc">BaseGitHubLoader</span><span class="p">(</span><span class="n">BaseLoader</span><span class="p">,</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Load `GitHub` repository Issues."""</span>
+
+    <span class="n">repo</span><span class="p">:</span> <span class="nb">str</span>
+<span class="w">    </span><span class="sd">"""Name of repository"""</span>
+    <span class="n">access_token</span><span class="p">:</span> <span class="nb">str</span>
+<span class="w">    </span><span class="sd">"""Personal access token - see https://github.com/settings/tokens?type=beta"""</span>
+    <span class="n">github_api_url</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"https://api.github.com"</span>
+<span class="w">    </span><span class="sd">"""URL of GitHub API"""</span>
+
+    <span class="nd">@root_validator</span><span class="p">(</span><span class="n">pre</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">validate_environment</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Validate that access token exists in environment."""</span>
+        <span class="n">values</span><span class="p">[</span><span class="s2">"access_token"</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_from_dict_or_env</span><span class="p">(</span>
+            <span class="n">values</span><span class="p">,</span> <span class="s2">"access_token"</span><span class="p">,</span> <span class="s2">"GITHUB_PERSONAL_ACCESS_TOKEN"</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">values</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">headers</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">"Accept"</span><span class="p">:</span> <span class="s2">"application/vnd.github+json"</span><span class="p">,</span>
+            <span class="s2">"Authorization"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"Bearer </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">access_token</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+        <span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="GitHubIssuesLoader"><a class="viewcode-back" href="../../../community/document_loaders/langchain_community.document_loaders.github.GitHubIssuesLoader.html#langchain_community.document_loaders.github.GitHubIssuesLoader">[docs]</a><span class="k">class</span> <span class="nc">GitHubIssuesLoader</span><span class="p">(</span><span class="n">BaseGitHubLoader</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Load issues of a GitHub repository."""</span>
+
+    <span class="n">include_prs</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="w">    </span><span class="sd">"""If True include Pull Requests in results, otherwise ignore them."""</span>
+    <span class="n">milestone</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">"*"</span><span class="p">,</span> <span class="s2">"none"</span><span class="p">],</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""If integer is passed, it should be a milestone's number field.</span>
+<span class="sd">        If the string '*' is passed, issues with any milestone are accepted.</span>
+<span class="sd">        If the string 'none' is passed, issues without milestones are returned.</span>
+<span class="sd">    """</span>
+    <span class="n">state</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Literal</span><span class="p">[</span><span class="s2">"open"</span><span class="p">,</span> <span class="s2">"closed"</span><span class="p">,</span> <span class="s2">"all"</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""Filter on issue state. Can be one of: 'open', 'closed', 'all'."""</span>
+    <span class="n">assignee</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""Filter on assigned user. Pass 'none' for no user and '*' for any user."""</span>
+    <span class="n">creator</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""Filter on the user that created the issue."""</span>
+    <span class="n">mentioned</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""Filter on a user that's mentioned in the issue."""</span>
+    <span class="n">labels</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""Label names to filter one. Example: bug,ui,@high."""</span>
+    <span class="n">sort</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Literal</span><span class="p">[</span><span class="s2">"created"</span><span class="p">,</span> <span class="s2">"updated"</span><span class="p">,</span> <span class="s2">"comments"</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""What to sort results by. Can be one of: 'created', 'updated', 'comments'.</span>
+<span class="sd">        Default is 'created'."""</span>
+    <span class="n">direction</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Literal</span><span class="p">[</span><span class="s2">"asc"</span><span class="p">,</span> <span class="s2">"desc"</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""The direction to sort the results by. Can be one of: 'asc', 'desc'."""</span>
+    <span class="n">since</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""Only show notifications updated after the given time.</span>
+<span class="sd">        This is a timestamp in ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ."""</span>
+    <span class="n">page</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""The page number for paginated results. </span>
+<span class="sd">        Defaults to 1 in the GitHub API."""</span>
+    <span class="n">per_page</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""Number of items per page. </span>
+<span class="sd">        Defaults to 30 in the GitHub API."""</span>
+
+    <span class="nd">@validator</span><span class="p">(</span><span class="s2">"since"</span><span class="p">,</span> <span class="n">allow_reuse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">validate_since</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">v</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="s2">"%Y-%m-</span><span class="si">%d</span><span class="s2">T%H:%M:%SZ"</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">"Invalid value for 'since'. Expected a date string in "</span>
+                    <span class="sa">f</span><span class="s2">"YYYY-MM-DDTHH:MM:SSZ format. Received: </span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2">"</span>
+                <span class="p">)</span>
+        <span class="k">return</span> <span class="n">v</span>
+
+<div class="viewcode-block" id="GitHubIssuesLoader.lazy_load"><a class="viewcode-back" href="../../../community/document_loaders/langchain_community.document_loaders.github.GitHubIssuesLoader.html#langchain_community.document_loaders.github.GitHubIssuesLoader.lazy_load">[docs]</a>    <span class="k">def</span> <span class="nf">lazy_load</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Document</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Get issues of a GitHub repository.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A list of Documents with attributes:</span>
+<span class="sd">                - page_content</span>
+<span class="sd">                - metadata</span>
+<span class="sd">                    - url</span>
+<span class="sd">                    - title</span>
+<span class="sd">                    - creator</span>
+<span class="sd">                    - created_at</span>
+<span class="sd">                    - last_update_time</span>
+<span class="sd">                    - closed_time</span>
+<span class="sd">                    - number of comments</span>
+<span class="sd">                    - state</span>
+<span class="sd">                    - labels</span>
+<span class="sd">                    - assignee</span>
+<span class="sd">                    - assignees</span>
+<span class="sd">                    - milestone</span>
+<span class="sd">                    - locked</span>
+<span class="sd">                    - number</span>
+<span class="sd">                    - is_pull_request</span>
+<span class="sd">        """</span>
+        <span class="n">url</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">url</span>
+        <span class="k">while</span> <span class="n">url</span><span class="p">:</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">)</span>
+            <span class="n">response</span><span class="o">.</span><span class="n">raise_for_status</span><span class="p">()</span>
+            <span class="n">issues</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">issue</span> <span class="ow">in</span> <span class="n">issues</span><span class="p">:</span>
+                <span class="n">doc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parse_issue</span><span class="p">(</span><span class="n">issue</span><span class="p">)</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">include_prs</span> <span class="ow">and</span> <span class="n">doc</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s2">"is_pull_request"</span><span class="p">]:</span>
+                    <span class="k">continue</span>
+                <span class="k">yield</span> <span class="n">doc</span>
+            <span class="k">if</span> <span class="p">(</span>
+                <span class="n">response</span><span class="o">.</span><span class="n">links</span>
+                <span class="ow">and</span> <span class="n">response</span><span class="o">.</span><span class="n">links</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"next"</span><span class="p">)</span>
+                <span class="ow">and</span> <span class="p">(</span><span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">page</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">per_page</span><span class="p">)</span>
+            <span class="p">):</span>
+                <span class="n">url</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">links</span><span class="p">[</span><span class="s2">"next"</span><span class="p">][</span><span class="s2">"url"</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">url</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="GitHubIssuesLoader.parse_issue"><a class="viewcode-back" href="../../../community/document_loaders/langchain_community.document_loaders.github.GitHubIssuesLoader.html#langchain_community.document_loaders.github.GitHubIssuesLoader.parse_issue">[docs]</a>    <span class="k">def</span> <span class="nf">parse_issue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">issue</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Document</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Create Document objects from a list of GitHub issues."""</span>
+        <span class="n">metadata</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">"url"</span><span class="p">:</span> <span class="n">issue</span><span class="p">[</span><span class="s2">"html_url"</span><span class="p">],</span>
+            <span class="s2">"title"</span><span class="p">:</span> <span class="n">issue</span><span class="p">[</span><span class="s2">"title"</span><span class="p">],</span>
+            <span class="s2">"creator"</span><span class="p">:</span> <span class="n">issue</span><span class="p">[</span><span class="s2">"user"</span><span class="p">][</span><span class="s2">"login"</span><span class="p">],</span>
+            <span class="s2">"created_at"</span><span class="p">:</span> <span class="n">issue</span><span class="p">[</span><span class="s2">"created_at"</span><span class="p">],</span>
+            <span class="s2">"comments"</span><span class="p">:</span> <span class="n">issue</span><span class="p">[</span><span class="s2">"comments"</span><span class="p">],</span>
+            <span class="s2">"state"</span><span class="p">:</span> <span class="n">issue</span><span class="p">[</span><span class="s2">"state"</span><span class="p">],</span>
+            <span class="s2">"labels"</span><span class="p">:</span> <span class="p">[</span><span class="n">label</span><span class="p">[</span><span class="s2">"name"</span><span class="p">]</span> <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">issue</span><span class="p">[</span><span class="s2">"labels"</span><span class="p">]],</span>
+            <span class="s2">"assignee"</span><span class="p">:</span> <span class="n">issue</span><span class="p">[</span><span class="s2">"assignee"</span><span class="p">][</span><span class="s2">"login"</span><span class="p">]</span> <span class="k">if</span> <span class="n">issue</span><span class="p">[</span><span class="s2">"assignee"</span><span class="p">]</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="s2">"milestone"</span><span class="p">:</span> <span class="n">issue</span><span class="p">[</span><span class="s2">"milestone"</span><span class="p">][</span><span class="s2">"title"</span><span class="p">]</span> <span class="k">if</span> <span class="n">issue</span><span class="p">[</span><span class="s2">"milestone"</span><span class="p">]</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="s2">"locked"</span><span class="p">:</span> <span class="n">issue</span><span class="p">[</span><span class="s2">"locked"</span><span class="p">],</span>
+            <span class="s2">"number"</span><span class="p">:</span> <span class="n">issue</span><span class="p">[</span><span class="s2">"number"</span><span class="p">],</span>
+            <span class="s2">"is_pull_request"</span><span class="p">:</span> <span class="s2">"pull_request"</span> <span class="ow">in</span> <span class="n">issue</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="n">content</span> <span class="o">=</span> <span class="n">issue</span><span class="p">[</span><span class="s2">"body"</span><span class="p">]</span> <span class="k">if</span> <span class="n">issue</span><span class="p">[</span><span class="s2">"body"</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="s2">""</span>
+        <span class="k">return</span> <span class="n">Document</span><span class="p">(</span><span class="n">page_content</span><span class="o">=</span><span class="n">content</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="n">metadata</span><span class="p">)</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">query_params</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Create query parameters for GitHub API."""</span>
+        <span class="n">labels</span> <span class="o">=</span> <span class="s2">","</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">labels</span><span class="p">)</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">labels</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">labels</span>
+        <span class="n">query_params_dict</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">"milestone"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">milestone</span><span class="p">,</span>
+            <span class="s2">"state"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">,</span>
+            <span class="s2">"assignee"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">assignee</span><span class="p">,</span>
+            <span class="s2">"creator"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">creator</span><span class="p">,</span>
+            <span class="s2">"mentioned"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">mentioned</span><span class="p">,</span>
+            <span class="s2">"labels"</span><span class="p">:</span> <span class="n">labels</span><span class="p">,</span>
+            <span class="s2">"sort"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">sort</span><span class="p">,</span>
+            <span class="s2">"direction"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">direction</span><span class="p">,</span>
+            <span class="s2">"since"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">since</span><span class="p">,</span>
+            <span class="s2">"page"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">page</span><span class="p">,</span>
+            <span class="s2">"per_page"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">per_page</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="n">query_params_list</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">=</span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2">"</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">query_params_dict</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+        <span class="p">]</span>
+        <span class="n">query_params</span> <span class="o">=</span> <span class="s2">"&amp;"</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">query_params_list</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">query_params</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">url</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Create URL for GitHub API."""</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">github_api_url</span><span class="si">}</span><span class="s2">/repos/</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">repo</span><span class="si">}</span><span class="s2">/issues?</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">query_params</span><span class="si">}</span><span class="s2">"</span></div>
+
+
+<div class="viewcode-block" id="GithubFileLoader"><a class="viewcode-back" href="../../../community/document_loaders/langchain_community.document_loaders.github.GithubFileLoader.html#langchain_community.document_loaders.github.GithubFileLoader">[docs]</a><span class="k">class</span> <span class="nc">GithubFileLoader</span><span class="p">(</span><span class="n">BaseGitHubLoader</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Load GitHub File"""</span>
+
+    <span class="n">file_extension</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">".md"</span>
+    <span class="n">branch</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"main"</span>
+
+    <span class="n">file_filter</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="nb">str</span><span class="p">],</span> <span class="nb">bool</span><span class="p">]]</span>
+
+<div class="viewcode-block" id="GithubFileLoader.get_file_paths"><a class="viewcode-back" href="../../../community/document_loaders/langchain_community.document_loaders.github.GithubFileLoader.html#langchain_community.document_loaders.github.GithubFileLoader.get_file_paths">[docs]</a>    <span class="k">def</span> <span class="nf">get_file_paths</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">]:</span>
+        <span class="n">base_url</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">github_api_url</span><span class="si">}</span><span class="s2">/repos/</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">repo</span><span class="si">}</span><span class="s2">/git/trees/"</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">branch</span><span class="si">}</span><span class="s2">?recursive=1"</span>
+        <span class="p">)</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">base_url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">)</span>
+        <span class="n">response</span><span class="o">.</span><span class="n">raise_for_status</span><span class="p">()</span>
+        <span class="n">all_files</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s2">"tree"</span><span class="p">]</span>
+<span class="w">        </span><span class="sd">""" one element in all_files</span>
+<span class="sd">        {</span>
+<span class="sd">            'path': '.github', </span>
+<span class="sd">            'mode': '040000', </span>
+<span class="sd">            'type': 'tree', </span>
+<span class="sd">            'sha': '5dc46e6b38b22707894ced126270b15e2f22f64e', </span>
+<span class="sd">            'url': 'https://api.github.com/repos/langchain-ai/langchain/git/blobs/5dc46e6b38b22707894ced126270b15e2f22f64e'</span>
+<span class="sd">        }</span>
+<span class="sd">        """</span>
+        <span class="k">return</span> <span class="p">[</span>
+            <span class="n">f</span>
+            <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">all_files</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">file_filter</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">file_filter</span><span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="s2">"path"</span><span class="p">]))</span>
+        <span class="p">]</span></div>
+
+<div class="viewcode-block" id="GithubFileLoader.get_file_content_by_path"><a class="viewcode-back" href="../../../community/document_loaders/langchain_community.document_loaders.github.GithubFileLoader.html#langchain_community.document_loaders.github.GithubFileLoader.get_file_content_by_path">[docs]</a>    <span class="k">def</span> <span class="nf">get_file_content_by_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="n">base_url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">github_api_url</span><span class="si">}</span><span class="s2">/repos/</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">repo</span><span class="si">}</span><span class="s2">/contents/</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">"</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">base_url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">)</span>
+        <span class="n">response</span><span class="o">.</span><span class="n">raise_for_status</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">(),</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="n">content_encoded</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s2">"content"</span><span class="p">]</span>
+            <span class="k">return</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64decode</span><span class="p">(</span><span class="n">content_encoded</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">"utf-8"</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="s2">""</span></div>
+
+<div class="viewcode-block" id="GithubFileLoader.lazy_load"><a class="viewcode-back" href="../../../community/document_loaders/langchain_community.document_loaders.github.GithubFileLoader.html#langchain_community.document_loaders.github.GithubFileLoader.lazy_load">[docs]</a>    <span class="k">def</span> <span class="nf">lazy_load</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Document</span><span class="p">]:</span>
+        <span class="n">files</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_file_paths</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">files</span><span class="p">:</span>
+            <span class="n">content</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_file_content_by_path</span><span class="p">(</span><span class="n">file</span><span class="p">[</span><span class="s2">"path"</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">content</span> <span class="o">==</span> <span class="s2">""</span><span class="p">:</span>
+                <span class="k">continue</span>
+
+            <span class="n">metadata</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">"path"</span><span class="p">:</span> <span class="n">file</span><span class="p">[</span><span class="s2">"path"</span><span class="p">],</span>
+                <span class="s2">"sha"</span><span class="p">:</span> <span class="n">file</span><span class="p">[</span><span class="s2">"sha"</span><span class="p">],</span>
+                <span class="s2">"source"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">github_api_url</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">repo</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">file</span><span class="p">[</span><span class="s1">'type'</span><span class="p">]</span><span class="si">}</span><span class="s2">/"</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">branch</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">file</span><span class="p">[</span><span class="s1">'path'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+            <span class="p">}</span>
+            <span class="k">yield</span> <span class="n">Document</span><span class="p">(</span><span class="n">page_content</span><span class="o">=</span><span class="n">content</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="n">metadata</span><span class="p">)</span></div></div>
+</pre></div>
+</article>
+</div>
+</div>
+<footer class="bd-footer-content">
+</footer>
+</main>
+</div>
+</div>
+<!-- Scripts loaded after <body> so the DOM is not blocked -->
+<script src="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+<footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+<div class="footer-items__start">
+<div class="footer-item">
+<p class="copyright">
+    
+      © Copyright 2023, LangChain Inc.
+      <br/>
+</p>
+</div>
+</div>
+</div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,994 @@
+
+<!DOCTYPE html>
+
+<html data-content_root="" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>langchain_community.vectorstores.hanavector — 🦜🔗 LangChain  documentation</title>
+<script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+<!-- Loaded before other Sphinx assets -->
+<link href="../../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet"/>
+<link href="../../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet"/>
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet"/>
+<link href="../../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet"/>
+<link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" rel="preload" type="font/woff2"/>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/autodoc_pydantic.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/sphinx-design.4cbf315f70debaebd550c87a6162cf0f.min.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/css/custom.css" rel="stylesheet" type="text/css"/>
+<!-- Pre-loaded scripts that we'll load fully later -->
+<link as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
+<link as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
+<script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/sphinx_highlight.js"></script>
+<script src="../../../_static/clipboard.min.js"></script>
+<script src="../../../_static/copybutton.js"></script>
+<script src="../../../_static/design-tabs.js"></script>
+<script>DOCUMENTATION_OPTIONS.pagename = '_modules/langchain_community/vectorstores/hanavector';</script>
+<link href="../../../_static/favicon.png" rel="icon"/>
+<link href="../../../search.html" rel="search" title="Search"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="en" name="docsearch:language"/>
+<meta content="Aug 14, 2024" name="docbuild:last-update"/>
+</head>
+<body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
+<div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
+<div id="pst-scroll-pixel-helper"></div>
+<button class="btn rounded-pill" id="pst-back-to-top" type="button">
+<i class="fa-solid fa-arrow-up"></i>Back to top</button>
+<input class="sidebar-toggle" id="pst-primary-sidebar-checkbox" type="checkbox"/>
+<label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+<input class="sidebar-toggle" id="pst-secondary-sidebar-checkbox" type="checkbox"/>
+<label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+<div class="search-button__wrapper">
+<div class="search-button__overlay"></div>
+<div class="search-button__search-container">
+<form action="../../../search.html" class="bd-search d-flex align-items-center" method="get">
+<i class="fa-solid fa-magnifying-glass"></i>
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="form-control" id="search-input" name="q" placeholder="Search" spellcheck="false" type="search"/>
+<span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+</div>
+<div class="pst-async-banner-revealer d-none">
+<aside aria-label="Version warning" class="d-none d-print-none" id="bd-header-version-warning"></aside>
+</div>
+<header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+<button aria-label="Site navigation" class="pst-navbar-icon sidebar-toggle primary-toggle">
+<span class="fa-solid fa-bars"></span>
+</button>
+<div class="navbar-header-items__start">
+<div class="navbar-item">
+<a class="navbar-brand logo" href="../../../index.html">
+<img alt="🦜🔗 LangChain  documentation - Home" class="logo__image only-light" src="../../../_static/wordmark-api.svg"/>
+<script>document.write(`<img src="../../../_static/wordmark-api-dark.svg" class="logo__image only-dark" alt="🦜🔗 LangChain  documentation - Home"/>`);</script>
+</a></div>
+</div>
+<div class="navbar-header-items">
+<div class="me-auto navbar-header-items__center">
+<div class="navbar-item">
+<nav>
+<ul class="bd-navbar-elements navbar-nav">
+<li class="nav-item">
+<a class="nav-link nav-internal" href="../../../reference.html">
+    Reference
+  </a>
+</li>
+<li class="nav-item">
+<a class="nav-link nav-external" href="https://api.python.langchain.com/">
+    Legacy reference
+  </a>
+</li>
+</ul>
+</nav></div>
+</div>
+<div class="navbar-header-items__end">
+<div class="navbar-item navbar-persistent--container">
+<form action="../../../search.html" class="bd-search d-flex align-items-center" method="get">
+<i class="fa-solid fa-magnifying-glass"></i>
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="form-control" id="search-input" name="q" placeholder="Search" spellcheck="false" type="search"/>
+<span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+</div>
+<div class="navbar-item"><!-- This will display a link to LangChain docs -->
+<head>
+<style>
+        .text-link {
+            text-decoration: none; /* Remove underline */
+            color: inherit;        /* Inherit color from parent element */
+        }
+    </style>
+</head>
+<body>
+<a class="text-link" href="https://python.langchain.com/">Docs</a>
+</body></div>
+<div class="navbar-item">
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+<div class="navbar-item"><ul aria-label="Quick Links" class="navbar-icon-links">
+<li class="nav-item">
+<a class="nav-link pst-navbar-icon" data-bs-placement="bottom" data-bs-toggle="tooltip" href="https://github.com/langchain-ai/langchain" rel="noopener" target="_blank" title="GitHub"><i aria-hidden="true" class="fa-brands fa-square-github fa-lg"></i>
+<span class="sr-only">GitHub</span></a>
+</li>
+<li class="nav-item">
+<a class="nav-link pst-navbar-icon" data-bs-placement="bottom" data-bs-toggle="tooltip" href="https://twitter.com/langchainai" rel="noopener" target="_blank" title="X / Twitter"><i aria-hidden="true" class="fab fa-twitter-square fa-lg"></i>
+<span class="sr-only">X / Twitter</span></a>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="navbar-persistent--mobile">
+<form action="../../../search.html" class="bd-search d-flex align-items-center" method="get">
+<i class="fa-solid fa-magnifying-glass"></i>
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="form-control" id="search-input" name="q" placeholder="Search" spellcheck="false" type="search"/>
+<span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+</div>
+</div>
+</header>
+<div class="bd-container">
+<div class="bd-container__inner bd-page-width">
+<div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+<div class="sidebar-header-items sidebar-primary__section">
+<div class="sidebar-header-items__center">
+<div class="navbar-item">
+<nav>
+<ul class="bd-navbar-elements navbar-nav">
+<li class="nav-item">
+<a class="nav-link nav-internal" href="../../../reference.html">
+    Reference
+  </a>
+</li>
+<li class="nav-item">
+<a class="nav-link nav-external" href="https://api.python.langchain.com/">
+    Legacy reference
+  </a>
+</li>
+</ul>
+</nav></div>
+</div>
+<div class="sidebar-header-items__end">
+<div class="navbar-item"><!-- This will display a link to LangChain docs -->
+<head>
+<style>
+        .text-link {
+            text-decoration: none; /* Remove underline */
+            color: inherit;        /* Inherit color from parent element */
+        }
+    </style>
+</head>
+<body>
+<a class="text-link" href="https://python.langchain.com/">Docs</a>
+</body></div>
+<div class="navbar-item">
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+<div class="navbar-item"><ul aria-label="Quick Links" class="navbar-icon-links">
+<li class="nav-item">
+<a class="nav-link pst-navbar-icon" data-bs-placement="bottom" data-bs-toggle="tooltip" href="https://github.com/langchain-ai/langchain" rel="noopener" target="_blank" title="GitHub"><i aria-hidden="true" class="fa-brands fa-square-github fa-lg"></i>
+<span class="sr-only">GitHub</span></a>
+</li>
+<li class="nav-item">
+<a class="nav-link pst-navbar-icon" data-bs-placement="bottom" data-bs-toggle="tooltip" href="https://twitter.com/langchainai" rel="noopener" target="_blank" title="X / Twitter"><i aria-hidden="true" class="fab fa-twitter-square fa-lg"></i>
+<span class="sr-only">X / Twitter</span></a>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sidebar-primary-items__end sidebar-primary__section">
+</div>
+<div id="rtd-footer-container"></div>
+</div>
+<main class="bd-main" id="main-content" role="main">
+<div class="bd-content">
+<div class="bd-article-container">
+<div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+<div class="header-article-items__start">
+<div class="header-article-item">
+<nav aria-label="Breadcrumb" class="d-print-none">
+<ul class="bd-breadcrumbs">
+<li class="breadcrumb-item breadcrumb-home">
+<a aria-label="Home" class="nav-link" href="../../../index.html">
+<i class="fa-solid fa-home"></i>
+</a>
+</li>
+<li class="breadcrumb-item"><a class="nav-link" href="../../index.html">Module code</a></li>
+<li aria-current="page" class="breadcrumb-item active">langchain_co...</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+</div>
+<div id="searchbox"></div>
+<article class="bd-article">
+<h1>Source code for langchain_community.vectorstores.hanavector</h1><div class="highlight"><pre>
+<span></span><span class="sd">"""SAP HANA Cloud Vector Engine"""</span>
+
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">import</span> <span class="nn">importlib.util</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">TYPE_CHECKING</span><span class="p">,</span>
+    <span class="n">Any</span><span class="p">,</span>
+    <span class="n">Callable</span><span class="p">,</span>
+    <span class="n">Dict</span><span class="p">,</span>
+    <span class="n">Iterable</span><span class="p">,</span>
+    <span class="n">List</span><span class="p">,</span>
+    <span class="n">Optional</span><span class="p">,</span>
+    <span class="n">Pattern</span><span class="p">,</span>
+    <span class="n">Tuple</span><span class="p">,</span>
+    <span class="n">Type</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">langchain_core.documents</span> <span class="kn">import</span> <span class="n">Document</span>
+<span class="kn">from</span> <span class="nn">langchain_core.embeddings</span> <span class="kn">import</span> <span class="n">Embeddings</span>
+<span class="kn">from</span> <span class="nn">langchain_core.runnables.config</span> <span class="kn">import</span> <span class="n">run_in_executor</span>
+<span class="kn">from</span> <span class="nn">langchain_core.vectorstores</span> <span class="kn">import</span> <span class="n">VectorStore</span>
+
+<span class="kn">from</span> <span class="nn">langchain_community.vectorstores.utils</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">DistanceStrategy</span><span class="p">,</span>
+    <span class="n">maximal_marginal_relevance</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">hdbcli</span> <span class="kn">import</span> <span class="n">dbapi</span>
+
+<span class="n">HANA_DISTANCE_FUNCTION</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">DistanceStrategy</span><span class="o">.</span><span class="n">COSINE</span><span class="p">:</span> <span class="p">(</span><span class="s2">"COSINE_SIMILARITY"</span><span class="p">,</span> <span class="s2">"DESC"</span><span class="p">),</span>
+    <span class="n">DistanceStrategy</span><span class="o">.</span><span class="n">EUCLIDEAN_DISTANCE</span><span class="p">:</span> <span class="p">(</span><span class="s2">"L2DISTANCE"</span><span class="p">,</span> <span class="s2">"ASC"</span><span class="p">),</span>
+<span class="p">}</span>
+
+<span class="n">COMPARISONS_TO_SQL</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"$eq"</span><span class="p">:</span> <span class="s2">"="</span><span class="p">,</span>
+    <span class="s2">"$ne"</span><span class="p">:</span> <span class="s2">"&lt;&gt;"</span><span class="p">,</span>
+    <span class="s2">"$lt"</span><span class="p">:</span> <span class="s2">"&lt;"</span><span class="p">,</span>
+    <span class="s2">"$lte"</span><span class="p">:</span> <span class="s2">"&lt;="</span><span class="p">,</span>
+    <span class="s2">"$gt"</span><span class="p">:</span> <span class="s2">"&gt;"</span><span class="p">,</span>
+    <span class="s2">"$gte"</span><span class="p">:</span> <span class="s2">"&gt;="</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="n">IN_OPERATORS_TO_SQL</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"$in"</span><span class="p">:</span> <span class="s2">"IN"</span><span class="p">,</span>
+    <span class="s2">"$nin"</span><span class="p">:</span> <span class="s2">"NOT IN"</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="n">BETWEEN_OPERATOR</span> <span class="o">=</span> <span class="s2">"$between"</span>
+
+<span class="n">LIKE_OPERATOR</span> <span class="o">=</span> <span class="s2">"$like"</span>
+
+<span class="n">LOGICAL_OPERATORS_TO_SQL</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"$and"</span><span class="p">:</span> <span class="s2">"AND"</span><span class="p">,</span> <span class="s2">"$or"</span><span class="p">:</span> <span class="s2">"OR"</span><span class="p">}</span>
+
+
+<span class="n">default_distance_strategy</span> <span class="o">=</span> <span class="n">DistanceStrategy</span><span class="o">.</span><span class="n">COSINE</span>
+<span class="n">default_table_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"EMBEDDINGS"</span>
+<span class="n">default_content_column</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"VEC_TEXT"</span>
+<span class="n">default_metadata_column</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"VEC_META"</span>
+<span class="n">default_vector_column</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"VEC_VECTOR"</span>
+<span class="n">default_vector_column_length</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>  <span class="c1"># -1 means dynamic length</span>
+
+
+<div class="viewcode-block" id="HanaDB"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.hanavector.HanaDB.html#langchain_community.vectorstores.hanavector.HanaDB">[docs]</a><span class="k">class</span> <span class="nc">HanaDB</span><span class="p">(</span><span class="n">VectorStore</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""SAP HANA Cloud Vector Engine</span>
+
+<span class="sd">    The prerequisite for using this class is the installation of the ``hdbcli``</span>
+<span class="sd">    Python package.</span>
+
+<span class="sd">    The HanaDB vectorstore can be created by providing an embedding function and</span>
+<span class="sd">    an existing database connection. Optionally, the names of the table and the</span>
+<span class="sd">    columns to use.</span>
+<span class="sd">    """</span>
+
+<div class="viewcode-block" id="HanaDB.__init__"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.hanavector.HanaDB.html#langchain_community.vectorstores.hanavector.HanaDB.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">connection</span><span class="p">:</span> <span class="n">dbapi</span><span class="o">.</span><span class="n">Connection</span><span class="p">,</span>
+        <span class="n">embedding</span><span class="p">:</span> <span class="n">Embeddings</span><span class="p">,</span>
+        <span class="n">distance_strategy</span><span class="p">:</span> <span class="n">DistanceStrategy</span> <span class="o">=</span> <span class="n">default_distance_strategy</span><span class="p">,</span>
+        <span class="n">table_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">default_table_name</span><span class="p">,</span>
+        <span class="n">content_column</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">default_content_column</span><span class="p">,</span>
+        <span class="n">metadata_column</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">default_metadata_column</span><span class="p">,</span>
+        <span class="n">vector_column</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">default_vector_column</span><span class="p">,</span>
+        <span class="n">vector_column_length</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">default_vector_column_length</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">specific_metadata_columns</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="c1"># Check if the hdbcli package is installed</span>
+        <span class="k">if</span> <span class="n">importlib</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">find_spec</span><span class="p">(</span><span class="s2">"hdbcli"</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
+                <span class="s2">"Could not import hdbcli python package. "</span>
+                <span class="s2">"Please install it with `pip install hdbcli`."</span>
+            <span class="p">)</span>
+
+        <span class="n">valid_distance</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">HANA_DISTANCE_FUNCTION</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="ow">is</span> <span class="n">distance_strategy</span><span class="p">:</span>
+                <span class="n">valid_distance</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">valid_distance</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">"Unsupported distance_strategy: </span><span class="si">{}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">distance_strategy</span><span class="p">)</span>
+            <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">connection</span> <span class="o">=</span> <span class="n">connection</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">embedding</span> <span class="o">=</span> <span class="n">embedding</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">distance_strategy</span> <span class="o">=</span> <span class="n">distance_strategy</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">table_name</span> <span class="o">=</span> <span class="n">HanaDB</span><span class="o">.</span><span class="n">_sanitize_name</span><span class="p">(</span><span class="n">table_name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">content_column</span> <span class="o">=</span> <span class="n">HanaDB</span><span class="o">.</span><span class="n">_sanitize_name</span><span class="p">(</span><span class="n">content_column</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">metadata_column</span> <span class="o">=</span> <span class="n">HanaDB</span><span class="o">.</span><span class="n">_sanitize_name</span><span class="p">(</span><span class="n">metadata_column</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vector_column</span> <span class="o">=</span> <span class="n">HanaDB</span><span class="o">.</span><span class="n">_sanitize_name</span><span class="p">(</span><span class="n">vector_column</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vector_column_length</span> <span class="o">=</span> <span class="n">HanaDB</span><span class="o">.</span><span class="n">_sanitize_int</span><span class="p">(</span><span class="n">vector_column_length</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">specific_metadata_columns</span> <span class="o">=</span> <span class="n">HanaDB</span><span class="o">.</span><span class="n">_sanitize_specific_metadata_columns</span><span class="p">(</span>
+            <span class="n">specific_metadata_columns</span> <span class="ow">or</span> <span class="p">[]</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Check if the table exists, and eventually create it</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_table_exists</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">table_name</span><span class="p">):</span>
+            <span class="n">sql_str</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="sa">f</span><span class="s1">'CREATE TABLE "</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">table_name</span><span class="si">}</span><span class="s1">"('</span>
+                <span class="sa">f</span><span class="s1">'"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">content_column</span><span class="si">}</span><span class="s1">" NCLOB, '</span>
+                <span class="sa">f</span><span class="s1">'"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">metadata_column</span><span class="si">}</span><span class="s1">" NCLOB, '</span>
+                <span class="sa">f</span><span class="s1">'"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">vector_column</span><span class="si">}</span><span class="s1">" REAL_VECTOR '</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">vector_column_length</span> <span class="ow">in</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]:</span>
+                <span class="n">sql_str</span> <span class="o">+=</span> <span class="s2">");"</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">sql_str</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">"(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">vector_column_length</span><span class="si">}</span><span class="s2">));"</span>
+
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">cur</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+                <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql_str</span><span class="p">)</span>
+            <span class="k">finally</span><span class="p">:</span>
+                <span class="n">cur</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+        <span class="c1"># Check if the needed columns exist and have the correct type</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_check_column</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">table_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">content_column</span><span class="p">,</span> <span class="p">[</span><span class="s2">"NCLOB"</span><span class="p">,</span> <span class="s2">"NVARCHAR"</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_check_column</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">table_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">metadata_column</span><span class="p">,</span> <span class="p">[</span><span class="s2">"NCLOB"</span><span class="p">,</span> <span class="s2">"NVARCHAR"</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_check_column</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">table_name</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">vector_column</span><span class="p">,</span>
+            <span class="p">[</span><span class="s2">"REAL_VECTOR"</span><span class="p">],</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">vector_column_length</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">for</span> <span class="n">column_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">specific_metadata_columns</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_check_column</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">table_name</span><span class="p">,</span> <span class="n">column_name</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_table_exists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_name</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>  <span class="c1"># type: ignore[no-untyped-def]</span>
+        <span class="n">sql_str</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="s2">"SELECT COUNT(*) FROM SYS.TABLES WHERE SCHEMA_NAME = CURRENT_SCHEMA"</span>
+            <span class="s2">" AND TABLE_NAME = ?"</span>
+        <span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">cur</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+            <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql_str</span><span class="p">,</span> <span class="p">(</span><span class="n">table_name</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">cur</span><span class="o">.</span><span class="n">has_result_set</span><span class="p">():</span>
+                <span class="n">rows</span> <span class="o">=</span> <span class="n">cur</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+                <span class="k">if</span> <span class="n">rows</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="n">cur</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">def</span> <span class="nf">_check_column</span><span class="p">(</span>  <span class="c1"># type: ignore[no-untyped-def]</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="n">column_name</span><span class="p">,</span> <span class="n">column_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">column_length</span><span class="o">=</span><span class="kc">None</span>
+    <span class="p">):</span>
+        <span class="n">sql_str</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="s2">"SELECT DATA_TYPE_NAME, LENGTH FROM SYS.TABLE_COLUMNS WHERE "</span>
+            <span class="s2">"SCHEMA_NAME = CURRENT_SCHEMA "</span>
+            <span class="s2">"AND TABLE_NAME = ? AND COLUMN_NAME = ?"</span>
+        <span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">cur</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+            <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql_str</span><span class="p">,</span> <span class="p">(</span><span class="n">table_name</span><span class="p">,</span> <span class="n">column_name</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">cur</span><span class="o">.</span><span class="n">has_result_set</span><span class="p">():</span>
+                <span class="n">rows</span> <span class="o">=</span> <span class="n">cur</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Column </span><span class="si">{</span><span class="n">column_name</span><span class="si">}</span><span class="s2"> does not exist"</span><span class="p">)</span>
+                <span class="c1"># Check data type</span>
+                <span class="k">if</span> <span class="n">column_type</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">rows</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">column_type</span><span class="p">:</span>
+                        <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span>
+                            <span class="sa">f</span><span class="s2">"Column </span><span class="si">{</span><span class="n">column_name</span><span class="si">}</span><span class="s2"> has the wrong type: </span><span class="si">{</span><span class="n">rows</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span>
+                        <span class="p">)</span>
+                <span class="c1"># Check length, if parameter was provided</span>
+                <span class="c1"># Length can either be -1 (QRC01+02-24) or 0 (QRC03-24 onwards)</span>
+                <span class="c1"># to indicate no length constraint being present.</span>
+                <span class="k">if</span> <span class="n">column_length</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">column_length</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">rows</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="n">column_length</span><span class="p">:</span>
+                        <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span>
+                            <span class="sa">f</span><span class="s2">"Column </span><span class="si">{</span><span class="n">column_name</span><span class="si">}</span><span class="s2"> has the wrong length: </span><span class="si">{</span><span class="n">rows</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2"> "</span>
+                            <span class="sa">f</span><span class="s2">"expected: </span><span class="si">{</span><span class="n">column_length</span><span class="si">}</span><span class="s2">"</span>
+                        <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Column </span><span class="si">{</span><span class="n">column_name</span><span class="si">}</span><span class="s2"> does not exist"</span><span class="p">)</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="n">cur</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">embeddings</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Embeddings</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">embedding</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_sanitize_name</span><span class="p">(</span><span class="n">input_str</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>  <span class="c1"># type: ignore[misc]</span>
+        <span class="c1"># Remove characters that are not alphanumeric or underscores</span>
+        <span class="k">return</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">"[^a-zA-Z0-9_]"</span><span class="p">,</span> <span class="s2">""</span><span class="p">,</span> <span class="n">input_str</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_sanitize_int</span><span class="p">(</span><span class="n">input_int</span><span class="p">:</span> <span class="nb">any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>  <span class="c1"># type: ignore[valid-type]</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">input_int</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="o">&lt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Value (</span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">) must not be smaller than -1"</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">input_int</span><span class="p">))</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_sanitize_list_float</span><span class="p">(</span><span class="n">embedding</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
+        <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">embedding</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Value (</span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">) does not have type float"</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">embedding</span>
+
+    <span class="c1"># Compile pattern only once, for better performance</span>
+    <span class="n">_compiled_pattern</span><span class="p">:</span> <span class="n">Pattern</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s2">"^[_a-zA-Z][_a-zA-Z0-9]*$"</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_sanitize_metadata_keys</span><span class="p">(</span><span class="n">metadata</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">metadata</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">HanaDB</span><span class="o">.</span><span class="n">_compiled_pattern</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Invalid metadata key </span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">metadata</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_sanitize_specific_metadata_columns</span><span class="p">(</span>
+        <span class="n">specific_metadata_columns</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="n">metadata_columns</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">specific_metadata_columns</span><span class="p">:</span>
+            <span class="n">sanitized_name</span> <span class="o">=</span> <span class="n">HanaDB</span><span class="o">.</span><span class="n">_sanitize_name</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+            <span class="n">metadata_columns</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sanitized_name</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">metadata_columns</span>
+
+    <span class="k">def</span> <span class="nf">_split_off_special_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metadata</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="nb">list</span><span class="p">]:</span>
+        <span class="c1"># Use provided values by default or fallback</span>
+        <span class="n">special_metadata</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">metadata</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{},</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">column_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">specific_metadata_columns</span><span class="p">:</span>
+            <span class="n">special_metadata</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">column_name</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">metadata</span><span class="p">,</span> <span class="n">special_metadata</span>
+
+<div class="viewcode-block" id="HanaDB.add_texts"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.hanavector.HanaDB.html#langchain_community.vectorstores.hanavector.HanaDB.add_texts">[docs]</a>    <span class="k">def</span> <span class="nf">add_texts</span><span class="p">(</span>  <span class="c1"># type: ignore[override]</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">texts</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+        <span class="n">metadatas</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">embeddings</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Add more texts to the vectorstore.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            texts (Iterable[str]): Iterable of strings/text to add to the vectorstore.</span>
+<span class="sd">            metadatas (Optional[List[dict]], optional): Optional list of metadatas.</span>
+<span class="sd">                Defaults to None.</span>
+<span class="sd">            embeddings (Optional[List[List[float]]], optional): Optional pre-generated</span>
+<span class="sd">                embeddings. Defaults to None.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List[str]: empty list</span>
+<span class="sd">        """</span>
+        <span class="c1"># Create all embeddings of the texts beforehand to improve performance</span>
+        <span class="k">if</span> <span class="n">embeddings</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">embeddings</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">embedding</span><span class="o">.</span><span class="n">embed_documents</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">texts</span><span class="p">))</span>
+
+        <span class="c1"># Create sql parameters array</span>
+        <span class="n">sql_params</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">text</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">texts</span><span class="p">):</span>
+            <span class="n">metadata</span> <span class="o">=</span> <span class="n">metadatas</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">if</span> <span class="n">metadatas</span> <span class="k">else</span> <span class="p">{}</span>
+            <span class="n">metadata</span><span class="p">,</span> <span class="n">extracted_special_metadata</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_split_off_special_metadata</span><span class="p">(</span>
+                <span class="n">metadata</span>
+            <span class="p">)</span>
+            <span class="n">embedding</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">embeddings</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">embeddings</span>
+                <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">embedding</span><span class="o">.</span><span class="n">embed_documents</span><span class="p">([</span><span class="n">text</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="p">)</span>
+            <span class="n">sql_params</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="p">(</span>
+                    <span class="n">text</span><span class="p">,</span>
+                    <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">HanaDB</span><span class="o">.</span><span class="n">_sanitize_metadata_keys</span><span class="p">(</span><span class="n">metadata</span><span class="p">)),</span>
+                    <span class="sa">f</span><span class="s2">"[</span><span class="si">{</span><span class="s1">','</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span><span class="w"> </span><span class="n">embedding</span><span class="p">))</span><span class="si">}</span><span class="s2">]"</span><span class="p">,</span>
+                    <span class="o">*</span><span class="n">extracted_special_metadata</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+
+        <span class="c1"># Insert data into the table</span>
+        <span class="n">cur</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">specific_metadata_columns_string</span> <span class="o">=</span> <span class="s1">'", "'</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">specific_metadata_columns</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="n">specific_metadata_columns_string</span><span class="p">:</span>
+                <span class="n">specific_metadata_columns_string</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="s1">', "'</span> <span class="o">+</span> <span class="n">specific_metadata_columns_string</span> <span class="o">+</span> <span class="s1">'"'</span>
+                <span class="p">)</span>
+            <span class="n">sql_str</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="sa">f</span><span class="s1">'INSERT INTO "</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">table_name</span><span class="si">}</span><span class="s1">" ("</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">content_column</span><span class="si">}</span><span class="s1">", '</span>
+                <span class="sa">f</span><span class="s1">'"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">metadata_column</span><span class="si">}</span><span class="s1">", '</span>
+                <span class="sa">f</span><span class="s1">'"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">vector_column</span><span class="si">}</span><span class="s1">"</span><span class="si">{</span><span class="n">specific_metadata_columns_string</span><span class="si">}</span><span class="s1">) '</span>
+                <span class="sa">f</span><span class="s2">"VALUES (?, ?, TO_REAL_VECTOR (?)"</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="s1">', ?'</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">specific_metadata_columns</span><span class="p">)</span><span class="si">}</span><span class="s2">);"</span>
+            <span class="p">)</span>
+            <span class="n">cur</span><span class="o">.</span><span class="n">executemany</span><span class="p">(</span><span class="n">sql_str</span><span class="p">,</span> <span class="n">sql_params</span><span class="p">)</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="n">cur</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="k">return</span> <span class="p">[]</span></div>
+
+<div class="viewcode-block" id="HanaDB.from_texts"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.hanavector.HanaDB.html#langchain_community.vectorstores.hanavector.HanaDB.from_texts">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_texts</span><span class="p">(</span>  <span class="c1"># type: ignore[no-untyped-def, override]</span>
+        <span class="bp">cls</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">HanaDB</span><span class="p">],</span>
+        <span class="n">texts</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+        <span class="n">embedding</span><span class="p">:</span> <span class="n">Embeddings</span><span class="p">,</span>
+        <span class="n">metadatas</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">connection</span><span class="p">:</span> <span class="n">dbapi</span><span class="o">.</span><span class="n">Connection</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">distance_strategy</span><span class="p">:</span> <span class="n">DistanceStrategy</span> <span class="o">=</span> <span class="n">default_distance_strategy</span><span class="p">,</span>
+        <span class="n">table_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">default_table_name</span><span class="p">,</span>
+        <span class="n">content_column</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">default_content_column</span><span class="p">,</span>
+        <span class="n">metadata_column</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">default_metadata_column</span><span class="p">,</span>
+        <span class="n">vector_column</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">default_vector_column</span><span class="p">,</span>
+        <span class="n">vector_column_length</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">default_vector_column_length</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">specific_metadata_columns</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Create a HanaDB instance from raw documents.</span>
+<span class="sd">        This is a user-friendly interface that:</span>
+<span class="sd">            1. Embeds documents.</span>
+<span class="sd">            2. Creates a table if it does not yet exist.</span>
+<span class="sd">            3. Adds the documents to the table.</span>
+<span class="sd">        This is intended to be a quick way to get started.</span>
+<span class="sd">        """</span>
+
+        <span class="n">instance</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span>
+            <span class="n">connection</span><span class="o">=</span><span class="n">connection</span><span class="p">,</span>
+            <span class="n">embedding</span><span class="o">=</span><span class="n">embedding</span><span class="p">,</span>
+            <span class="n">distance_strategy</span><span class="o">=</span><span class="n">distance_strategy</span><span class="p">,</span>
+            <span class="n">table_name</span><span class="o">=</span><span class="n">table_name</span><span class="p">,</span>
+            <span class="n">content_column</span><span class="o">=</span><span class="n">content_column</span><span class="p">,</span>
+            <span class="n">metadata_column</span><span class="o">=</span><span class="n">metadata_column</span><span class="p">,</span>
+            <span class="n">vector_column</span><span class="o">=</span><span class="n">vector_column</span><span class="p">,</span>
+            <span class="n">vector_column_length</span><span class="o">=</span><span class="n">vector_column_length</span><span class="p">,</span>  <span class="c1"># -1 means dynamic length</span>
+            <span class="n">specific_metadata_columns</span><span class="o">=</span><span class="n">specific_metadata_columns</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">instance</span><span class="o">.</span><span class="n">add_texts</span><span class="p">(</span><span class="n">texts</span><span class="p">,</span> <span class="n">metadatas</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">instance</span></div>
+
+<div class="viewcode-block" id="HanaDB.similarity_search"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.hanavector.HanaDB.html#langchain_community.vectorstores.hanavector.HanaDB.similarity_search">[docs]</a>    <span class="k">def</span> <span class="nf">similarity_search</span><span class="p">(</span>  <span class="c1"># type: ignore[override]</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Document</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Return docs most similar to query.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            query: Text to look up documents similar to.</span>
+<span class="sd">            k: Number of Documents to return. Defaults to 4.</span>
+<span class="sd">            filter: A dictionary of metadata fields and values to filter by.</span>
+<span class="sd">                    Defaults to None.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List of Documents most similar to the query</span>
+<span class="sd">        """</span>
+        <span class="n">docs_and_scores</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">similarity_search_with_score</span><span class="p">(</span>
+            <span class="n">query</span><span class="o">=</span><span class="n">query</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="n">k</span><span class="p">,</span> <span class="nb">filter</span><span class="o">=</span><span class="nb">filter</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">doc</span> <span class="k">for</span> <span class="n">doc</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">docs_and_scores</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="HanaDB.similarity_search_with_score"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.hanavector.HanaDB.html#langchain_community.vectorstores.hanavector.HanaDB.similarity_search_with_score">[docs]</a>    <span class="k">def</span> <span class="nf">similarity_search_with_score</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Document</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">"""Return documents and score values most similar to query.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            query: Text to look up documents similar to.</span>
+<span class="sd">            k: Number of Documents to return. Defaults to 4.</span>
+<span class="sd">            filter: A dictionary of metadata fields and values to filter by.</span>
+<span class="sd">                    Defaults to None.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List of tuples (containing a Document and a score) that are</span>
+<span class="sd">            most similar to the query</span>
+<span class="sd">        """</span>
+        <span class="n">embedding</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">embedding</span><span class="o">.</span><span class="n">embed_query</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">similarity_search_with_score_by_vector</span><span class="p">(</span>
+            <span class="n">embedding</span><span class="o">=</span><span class="n">embedding</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="n">k</span><span class="p">,</span> <span class="nb">filter</span><span class="o">=</span><span class="nb">filter</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="HanaDB.similarity_search_with_score_and_vector_by_vector"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.hanavector.HanaDB.html#langchain_community.vectorstores.hanavector.HanaDB.similarity_search_with_score_and_vector_by_vector">[docs]</a>    <span class="k">def</span> <span class="nf">similarity_search_with_score_and_vector_by_vector</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">embedding</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">k</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Document</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]]]:</span>
+<span class="w">        </span><span class="sd">"""Return docs most similar to the given embedding.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            query: Text to look up documents similar to.</span>
+<span class="sd">            k: Number of Documents to return. Defaults to 4.</span>
+<span class="sd">            filter: A dictionary of metadata fields and values to filter by.</span>
+<span class="sd">                    Defaults to None.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List of Documents most similar to the query and</span>
+<span class="sd">            score and the document's embedding vector for each</span>
+<span class="sd">        """</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">k</span> <span class="o">=</span> <span class="n">HanaDB</span><span class="o">.</span><span class="n">_sanitize_int</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+        <span class="n">embedding</span> <span class="o">=</span> <span class="n">HanaDB</span><span class="o">.</span><span class="n">_sanitize_list_float</span><span class="p">(</span><span class="n">embedding</span><span class="p">)</span>
+        <span class="n">distance_func_name</span> <span class="o">=</span> <span class="n">HANA_DISTANCE_FUNCTION</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">distance_strategy</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">embedding_as_str</span> <span class="o">=</span> <span class="s2">","</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">embedding</span><span class="p">))</span>
+        <span class="n">sql_str</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="sa">f</span><span class="s2">"SELECT TOP </span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">"</span>
+            <span class="sa">f</span><span class="s1">'  "</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">content_column</span><span class="si">}</span><span class="s1">", '</span>  <span class="c1"># row[0]</span>
+            <span class="sa">f</span><span class="s1">'  "</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">metadata_column</span><span class="si">}</span><span class="s1">", '</span>  <span class="c1"># row[1]</span>
+            <span class="sa">f</span><span class="s1">'  TO_NVARCHAR("</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">vector_column</span><span class="si">}</span><span class="s1">"), '</span>  <span class="c1"># row[2]</span>
+            <span class="sa">f</span><span class="s1">'  </span><span class="si">{</span><span class="n">distance_func_name</span><span class="si">}</span><span class="s1">("</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">vector_column</span><span class="si">}</span><span class="s1">", TO_REAL_VECTOR '</span>
+            <span class="sa">f</span><span class="s2">"     (ARRAY(</span><span class="si">{</span><span class="n">embedding_as_str</span><span class="si">}</span><span class="s2">))) AS CS "</span>  <span class="c1"># row[3]</span>
+            <span class="sa">f</span><span class="s1">'FROM "</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">table_name</span><span class="si">}</span><span class="s1">"'</span>
+        <span class="p">)</span>
+        <span class="n">order_str</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">" order by CS </span><span class="si">{</span><span class="n">HANA_DISTANCE_FUNCTION</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">distance_strategy</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span>
+        <span class="n">where_str</span><span class="p">,</span> <span class="n">query_tuple</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_where_by_filter</span><span class="p">(</span><span class="nb">filter</span><span class="p">)</span>
+        <span class="n">sql_str</span> <span class="o">=</span> <span class="n">sql_str</span> <span class="o">+</span> <span class="n">where_str</span>
+        <span class="n">sql_str</span> <span class="o">=</span> <span class="n">sql_str</span> <span class="o">+</span> <span class="n">order_str</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">cur</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+            <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql_str</span><span class="p">,</span> <span class="n">query_tuple</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">cur</span><span class="o">.</span><span class="n">has_result_set</span><span class="p">():</span>
+                <span class="n">rows</span> <span class="o">=</span> <span class="n">cur</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+                <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
+                    <span class="n">js</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                    <span class="n">doc</span> <span class="o">=</span> <span class="n">Document</span><span class="p">(</span><span class="n">page_content</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">metadata</span><span class="o">=</span><span class="n">js</span><span class="p">)</span>
+                    <span class="n">result_vector</span> <span class="o">=</span> <span class="n">HanaDB</span><span class="o">.</span><span class="n">_parse_float_array_from_string</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+                    <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">doc</span><span class="p">,</span> <span class="n">row</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">result_vector</span><span class="p">))</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="n">cur</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">result</span></div>
+
+<div class="viewcode-block" id="HanaDB.similarity_search_with_score_by_vector"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.hanavector.HanaDB.html#langchain_community.vectorstores.hanavector.HanaDB.similarity_search_with_score_by_vector">[docs]</a>    <span class="k">def</span> <span class="nf">similarity_search_with_score_by_vector</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">embedding</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">k</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Document</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">"""Return docs most similar to the given embedding.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            query: Text to look up documents similar to.</span>
+<span class="sd">            k: Number of Documents to return. Defaults to 4.</span>
+<span class="sd">            filter: A dictionary of metadata fields and values to filter by.</span>
+<span class="sd">                    Defaults to None.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List of Documents most similar to the query and score for each</span>
+<span class="sd">        """</span>
+        <span class="n">whole_result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">similarity_search_with_score_and_vector_by_vector</span><span class="p">(</span>
+            <span class="n">embedding</span><span class="o">=</span><span class="n">embedding</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="n">k</span><span class="p">,</span> <span class="nb">filter</span><span class="o">=</span><span class="nb">filter</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="p">[(</span><span class="n">result_item</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">result_item</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">result_item</span> <span class="ow">in</span> <span class="n">whole_result</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="HanaDB.similarity_search_by_vector"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.hanavector.HanaDB.html#langchain_community.vectorstores.hanavector.HanaDB.similarity_search_by_vector">[docs]</a>    <span class="k">def</span> <span class="nf">similarity_search_by_vector</span><span class="p">(</span>  <span class="c1"># type: ignore[override]</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">embedding</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">k</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Document</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Return docs most similar to embedding vector.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            embedding: Embedding to look up documents similar to.</span>
+<span class="sd">            k: Number of Documents to return. Defaults to 4.</span>
+<span class="sd">            filter: A dictionary of metadata fields and values to filter by.</span>
+<span class="sd">                    Defaults to None.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List of Documents most similar to the query vector.</span>
+<span class="sd">        """</span>
+        <span class="n">docs_and_scores</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">similarity_search_with_score_by_vector</span><span class="p">(</span>
+            <span class="n">embedding</span><span class="o">=</span><span class="n">embedding</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="n">k</span><span class="p">,</span> <span class="nb">filter</span><span class="o">=</span><span class="nb">filter</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">doc</span> <span class="k">for</span> <span class="n">doc</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">docs_and_scores</span><span class="p">]</span></div>
+
+    <span class="k">def</span> <span class="nf">_create_where_by_filter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">):</span>  <span class="c1"># type: ignore[no-untyped-def]</span>
+        <span class="n">query_tuple</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">where_str</span> <span class="o">=</span> <span class="s2">""</span>
+        <span class="k">if</span> <span class="nb">filter</span><span class="p">:</span>
+            <span class="n">where_str</span><span class="p">,</span> <span class="n">query_tuple</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_process_filter_object</span><span class="p">(</span><span class="nb">filter</span><span class="p">)</span>
+            <span class="n">where_str</span> <span class="o">=</span> <span class="s2">" WHERE "</span> <span class="o">+</span> <span class="n">where_str</span>
+        <span class="k">return</span> <span class="n">where_str</span><span class="p">,</span> <span class="n">query_tuple</span>
+
+    <span class="k">def</span> <span class="nf">_process_filter_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">):</span>  <span class="c1"># type: ignore[no-untyped-def]</span>
+        <span class="n">query_tuple</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">where_str</span> <span class="o">=</span> <span class="s2">""</span>
+        <span class="k">if</span> <span class="nb">filter</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">key</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">filter</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+                <span class="n">filter_value</span> <span class="o">=</span> <span class="nb">filter</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">i</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">where_str</span> <span class="o">+=</span> <span class="s2">" AND "</span>
+
+                <span class="c1"># Handling of 'special' boolean operators "$and", "$or"</span>
+                <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">LOGICAL_OPERATORS_TO_SQL</span><span class="p">:</span>
+                    <span class="n">logical_operator</span> <span class="o">=</span> <span class="n">LOGICAL_OPERATORS_TO_SQL</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+                    <span class="n">logical_operands</span> <span class="o">=</span> <span class="n">filter_value</span>
+                    <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">logical_operand</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">logical_operands</span><span class="p">):</span>
+                        <span class="k">if</span> <span class="n">j</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                            <span class="n">where_str</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">" </span><span class="si">{</span><span class="n">logical_operator</span><span class="si">}</span><span class="s2"> "</span>
+                        <span class="p">(</span>
+                            <span class="n">where_str_logical</span><span class="p">,</span>
+                            <span class="n">query_tuple_logical</span><span class="p">,</span>
+                        <span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_process_filter_object</span><span class="p">(</span><span class="n">logical_operand</span><span class="p">)</span>
+                        <span class="n">where_str</span> <span class="o">+=</span> <span class="n">where_str_logical</span>
+                        <span class="n">query_tuple</span> <span class="o">+=</span> <span class="n">query_tuple_logical</span>
+                    <span class="k">continue</span>
+
+                <span class="n">operator</span> <span class="o">=</span> <span class="s2">"="</span>
+                <span class="n">sql_param</span> <span class="o">=</span> <span class="s2">"?"</span>
+
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">filter_value</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+                    <span class="n">query_tuple</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"true"</span> <span class="k">if</span> <span class="n">filter_value</span> <span class="k">else</span> <span class="s2">"false"</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">filter_value</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">filter_value</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+                    <span class="n">query_tuple</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">filter_value</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">filter_value</span><span class="p">,</span> <span class="n">Dict</span><span class="p">):</span>
+                    <span class="c1"># Handling of 'special' operators starting with "$"</span>
+                    <span class="n">special_op</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">filter_value</span><span class="p">))</span>
+                    <span class="n">special_val</span> <span class="o">=</span> <span class="n">filter_value</span><span class="p">[</span><span class="n">special_op</span><span class="p">]</span>
+                    <span class="c1"># "$eq", "$ne", "$lt", "$lte", "$gt", "$gte"</span>
+                    <span class="k">if</span> <span class="n">special_op</span> <span class="ow">in</span> <span class="n">COMPARISONS_TO_SQL</span><span class="p">:</span>
+                        <span class="n">operator</span> <span class="o">=</span> <span class="n">COMPARISONS_TO_SQL</span><span class="p">[</span><span class="n">special_op</span><span class="p">]</span>
+                        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">special_val</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+                            <span class="n">query_tuple</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"true"</span> <span class="k">if</span> <span class="n">special_val</span> <span class="k">else</span> <span class="s2">"false"</span><span class="p">)</span>
+                        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">special_val</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
+                            <span class="n">sql_param</span> <span class="o">=</span> <span class="s2">"CAST(? as float)"</span>
+                            <span class="n">query_tuple</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">special_val</span><span class="p">)</span>
+                        <span class="k">elif</span> <span class="p">(</span>
+                            <span class="nb">isinstance</span><span class="p">(</span><span class="n">special_val</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span>
+                            <span class="ow">and</span> <span class="s2">"type"</span> <span class="ow">in</span> <span class="n">special_val</span>
+                            <span class="ow">and</span> <span class="n">special_val</span><span class="p">[</span><span class="s2">"type"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"date"</span>
+                        <span class="p">):</span>
+                            <span class="c1"># Date type</span>
+                            <span class="n">sql_param</span> <span class="o">=</span> <span class="s2">"CAST(? as DATE)"</span>
+                            <span class="n">query_tuple</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">special_val</span><span class="p">[</span><span class="s2">"date"</span><span class="p">])</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">query_tuple</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">special_val</span><span class="p">)</span>
+                    <span class="c1"># "$between"</span>
+                    <span class="k">elif</span> <span class="n">special_op</span> <span class="o">==</span> <span class="n">BETWEEN_OPERATOR</span><span class="p">:</span>
+                        <span class="n">between_from</span> <span class="o">=</span> <span class="n">special_val</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                        <span class="n">between_to</span> <span class="o">=</span> <span class="n">special_val</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                        <span class="n">operator</span> <span class="o">=</span> <span class="s2">"BETWEEN"</span>
+                        <span class="n">sql_param</span> <span class="o">=</span> <span class="s2">"? AND ?"</span>
+                        <span class="n">query_tuple</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">between_from</span><span class="p">)</span>
+                        <span class="n">query_tuple</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">between_to</span><span class="p">)</span>
+                    <span class="c1"># "$like"</span>
+                    <span class="k">elif</span> <span class="n">special_op</span> <span class="o">==</span> <span class="n">LIKE_OPERATOR</span><span class="p">:</span>
+                        <span class="n">operator</span> <span class="o">=</span> <span class="s2">"LIKE"</span>
+                        <span class="n">query_tuple</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">special_val</span><span class="p">)</span>
+                    <span class="c1"># "$in", "$nin"</span>
+                    <span class="k">elif</span> <span class="n">special_op</span> <span class="ow">in</span> <span class="n">IN_OPERATORS_TO_SQL</span><span class="p">:</span>
+                        <span class="n">operator</span> <span class="o">=</span> <span class="n">IN_OPERATORS_TO_SQL</span><span class="p">[</span><span class="n">special_op</span><span class="p">]</span>
+                        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">special_val</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">list_entry</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">special_val</span><span class="p">):</span>
+                                <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                                    <span class="n">sql_param</span> <span class="o">=</span> <span class="s2">"("</span>
+                                <span class="n">sql_param</span> <span class="o">=</span> <span class="n">sql_param</span> <span class="o">+</span> <span class="s2">"?"</span>
+                                <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">special_val</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+                                    <span class="n">sql_param</span> <span class="o">=</span> <span class="n">sql_param</span> <span class="o">+</span> <span class="s2">")"</span>
+                                <span class="k">else</span><span class="p">:</span>
+                                    <span class="n">sql_param</span> <span class="o">=</span> <span class="n">sql_param</span> <span class="o">+</span> <span class="s2">","</span>
+                                <span class="n">query_tuple</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">list_entry</span><span class="p">)</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                                <span class="sa">f</span><span class="s2">"Unsupported value for </span><span class="si">{</span><span class="n">operator</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">special_val</span><span class="si">}</span><span class="s2">"</span>
+                            <span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Unsupported operator: </span><span class="si">{</span><span class="n">special_op</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                        <span class="sa">f</span><span class="s2">"Unsupported filter data-type: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">filter_value</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span>
+                    <span class="p">)</span>
+
+                <span class="n">selector</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="sa">f</span><span class="s1">' "</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s1">"'</span>
+                    <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">specific_metadata_columns</span>
+                    <span class="k">else</span> <span class="sa">f</span><span class="s2">"JSON_VALUE(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">metadata_column</span><span class="si">}</span><span class="s2">, '$.</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">')"</span>
+                <span class="p">)</span>
+                <span class="n">where_str</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">selector</span><span class="si">}</span><span class="s2"> "</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">operator</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">sql_param</span><span class="si">}</span><span class="s2">"</span>
+
+        <span class="k">return</span> <span class="n">where_str</span><span class="p">,</span> <span class="n">query_tuple</span>
+
+<div class="viewcode-block" id="HanaDB.delete"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.hanavector.HanaDB.html#langchain_community.vectorstores.hanavector.HanaDB.delete">[docs]</a>    <span class="k">def</span> <span class="nf">delete</span><span class="p">(</span>  <span class="c1"># type: ignore[override]</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">ids</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Delete entries by filter with metadata values</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            ids: Deletion with ids is not supported! A ValueError will be raised.</span>
+<span class="sd">            filter: A dictionary of metadata fields and values to filter by.</span>
+<span class="sd">                    An empty filter ({}) will delete all entries in the table.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Optional[bool]: True, if deletion is technically successful.</span>
+<span class="sd">            Deletion of zero entries, due to non-matching filters is a success.</span>
+<span class="sd">        """</span>
+
+        <span class="k">if</span> <span class="n">ids</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Deletion via ids is not supported"</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">filter</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Parameter 'filter' is required when calling 'delete'"</span><span class="p">)</span>
+
+        <span class="n">where_str</span><span class="p">,</span> <span class="n">query_tuple</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_where_by_filter</span><span class="p">(</span><span class="nb">filter</span><span class="p">)</span>
+        <span class="n">sql_str</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">'DELETE FROM "</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">table_name</span><span class="si">}</span><span class="s1">" </span><span class="si">{</span><span class="n">where_str</span><span class="si">}</span><span class="s1">'</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">cur</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+            <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql_str</span><span class="p">,</span> <span class="n">query_tuple</span><span class="p">)</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="n">cur</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="HanaDB.adelete"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.hanavector.HanaDB.html#langchain_community.vectorstores.hanavector.HanaDB.adelete">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">adelete</span><span class="p">(</span>  <span class="c1"># type: ignore[override]</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">ids</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Delete by vector ID or other criteria.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            ids: List of ids to delete.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Optional[bool]: True if deletion is successful,</span>
+<span class="sd">            False otherwise, None if not implemented.</span>
+<span class="sd">        """</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="n">run_in_executor</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">delete</span><span class="p">,</span> <span class="n">ids</span><span class="o">=</span><span class="n">ids</span><span class="p">,</span> <span class="nb">filter</span><span class="o">=</span><span class="nb">filter</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="HanaDB.max_marginal_relevance_search"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.hanavector.HanaDB.html#langchain_community.vectorstores.hanavector.HanaDB.max_marginal_relevance_search">[docs]</a>    <span class="k">def</span> <span class="nf">max_marginal_relevance_search</span><span class="p">(</span>  <span class="c1"># type: ignore[override]</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">k</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
+        <span class="n">fetch_k</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span>
+        <span class="n">lambda_mult</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span>
+        <span class="nb">filter</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Document</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Return docs selected using the maximal marginal relevance.</span>
+
+<span class="sd">        Maximal marginal relevance optimizes for similarity to query AND diversity</span>
+<span class="sd">        among selected documents.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            query: search query text.</span>
+<span class="sd">            k: Number of Documents to return. Defaults to 4.</span>
+<span class="sd">            fetch_k: Number of Documents to fetch to pass to MMR algorithm.</span>
+<span class="sd">            lambda_mult: Number between 0 and 1 that determines the degree</span>
+<span class="sd">                        of diversity among the results with 0 corresponding</span>
+<span class="sd">                        to maximum diversity and 1 to minimum diversity.</span>
+<span class="sd">                        Defaults to 0.5.</span>
+<span class="sd">            filter: Filter on metadata properties, e.g.</span>
+<span class="sd">                            {</span>
+<span class="sd">                                "str_property": "foo",</span>
+<span class="sd">                                "int_property": 123</span>
+<span class="sd">                            }</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            List of Documents selected by maximal marginal relevance.</span>
+<span class="sd">        """</span>
+        <span class="n">embedding</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">embedding</span><span class="o">.</span><span class="n">embed_query</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_marginal_relevance_search_by_vector</span><span class="p">(</span>
+            <span class="n">embedding</span><span class="o">=</span><span class="n">embedding</span><span class="p">,</span>
+            <span class="n">k</span><span class="o">=</span><span class="n">k</span><span class="p">,</span>
+            <span class="n">fetch_k</span><span class="o">=</span><span class="n">fetch_k</span><span class="p">,</span>
+            <span class="n">lambda_mult</span><span class="o">=</span><span class="n">lambda_mult</span><span class="p">,</span>
+            <span class="nb">filter</span><span class="o">=</span><span class="nb">filter</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_parse_float_array_from_string</span><span class="p">(</span><span class="n">array_as_string</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>  <span class="c1"># type: ignore[misc]</span>
+        <span class="n">array_wo_brackets</span> <span class="o">=</span> <span class="n">array_as_string</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">return</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">array_wo_brackets</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">","</span><span class="p">)]</span>
+
+<div class="viewcode-block" id="HanaDB.max_marginal_relevance_search_by_vector"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.hanavector.HanaDB.html#langchain_community.vectorstores.hanavector.HanaDB.max_marginal_relevance_search_by_vector">[docs]</a>    <span class="k">def</span> <span class="nf">max_marginal_relevance_search_by_vector</span><span class="p">(</span>  <span class="c1"># type: ignore[override]</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">embedding</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
+        <span class="n">k</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
+        <span class="n">fetch_k</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span>
+        <span class="n">lambda_mult</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span>
+        <span class="nb">filter</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Document</span><span class="p">]:</span>
+        <span class="n">whole_result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">similarity_search_with_score_and_vector_by_vector</span><span class="p">(</span>
+            <span class="n">embedding</span><span class="o">=</span><span class="n">embedding</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="n">fetch_k</span><span class="p">,</span> <span class="nb">filter</span><span class="o">=</span><span class="nb">filter</span>
+        <span class="p">)</span>
+        <span class="n">embeddings</span> <span class="o">=</span> <span class="p">[</span><span class="n">result_item</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="k">for</span> <span class="n">result_item</span> <span class="ow">in</span> <span class="n">whole_result</span><span class="p">]</span>
+        <span class="n">mmr_doc_indexes</span> <span class="o">=</span> <span class="n">maximal_marginal_relevance</span><span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">embedding</span><span class="p">),</span> <span class="n">embeddings</span><span class="p">,</span> <span class="n">lambda_mult</span><span class="o">=</span><span class="n">lambda_mult</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="n">k</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="p">[</span><span class="n">whole_result</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">mmr_doc_indexes</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="HanaDB.amax_marginal_relevance_search_by_vector"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.hanavector.HanaDB.html#langchain_community.vectorstores.hanavector.HanaDB.amax_marginal_relevance_search_by_vector">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">amax_marginal_relevance_search_by_vector</span><span class="p">(</span>  <span class="c1"># type: ignore[override]</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">embedding</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
+        <span class="n">k</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
+        <span class="n">fetch_k</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span>
+        <span class="n">lambda_mult</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Document</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Return docs selected using the maximal marginal relevance."""</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="n">run_in_executor</span><span class="p">(</span>
+            <span class="kc">None</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">max_marginal_relevance_search_by_vector</span><span class="p">,</span>
+            <span class="n">embedding</span><span class="o">=</span><span class="n">embedding</span><span class="p">,</span>
+            <span class="n">k</span><span class="o">=</span><span class="n">k</span><span class="p">,</span>
+            <span class="n">fetch_k</span><span class="o">=</span><span class="n">fetch_k</span><span class="p">,</span>
+            <span class="n">lambda_mult</span><span class="o">=</span><span class="n">lambda_mult</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_cosine_relevance_score_fn</span><span class="p">(</span><span class="n">distance</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">distance</span>
+
+    <span class="k">def</span> <span class="nf">_select_relevance_score_fn</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">float</span><span class="p">],</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        The 'correct' relevance function</span>
+<span class="sd">        may differ depending on a few things, including:</span>
+<span class="sd">        - the distance / similarity metric used by the VectorStore</span>
+<span class="sd">        - the scale of your embeddings (OpenAI's are unit normed. Many others are not!)</span>
+<span class="sd">        - embedding dimensionality</span>
+<span class="sd">        - etc.</span>
+
+<span class="sd">        Vectorstores should define their own selection based method of relevance.</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">distance_strategy</span> <span class="o">==</span> <span class="n">DistanceStrategy</span><span class="o">.</span><span class="n">COSINE</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">HanaDB</span><span class="o">.</span><span class="n">_cosine_relevance_score_fn</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">distance_strategy</span> <span class="o">==</span> <span class="n">DistanceStrategy</span><span class="o">.</span><span class="n">EUCLIDEAN_DISTANCE</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">HanaDB</span><span class="o">.</span><span class="n">_euclidean_relevance_score_fn</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">"Unsupported distance_strategy: </span><span class="si">{}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">distance_strategy</span><span class="p">)</span>
+            <span class="p">)</span></div>
+</pre></div>
+</article>
+</div>
+</div>
+<footer class="bd-footer-content">
+</footer>
+</main>
+</div>
+</div>
+<!-- Scripts loaded after <body> so the DOM is not blocked -->
+<script src="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+<footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+<div class="footer-items__start">
+<div class="footer-item">
+<p class="copyright">
+    
+      © Copyright 2023, LangChain Inc.
+      <br/>
+</p>
+</div>
+</div>
+</div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,912 @@
+
+<!DOCTYPE html>
+
+<html data-content_root="" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>langchain_community.utilities.cassandra_database — 🦜🔗 LangChain  documentation</title>
+<script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+<!-- Loaded before other Sphinx assets -->
+<link href="../../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet"/>
+<link href="../../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet"/>
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet"/>
+<link href="../../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet"/>
+<link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" rel="preload" type="font/woff2"/>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/autodoc_pydantic.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/sphinx-design.4cbf315f70debaebd550c87a6162cf0f.min.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/css/custom.css" rel="stylesheet" type="text/css"/>
+<!-- Pre-loaded scripts that we'll load fully later -->
+<link as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
+<link as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
+<script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/sphinx_highlight.js"></script>
+<script src="../../../_static/clipboard.min.js"></script>
+<script src="../../../_static/copybutton.js"></script>
+<script src="../../../_static/design-tabs.js"></script>
+<script>DOCUMENTATION_OPTIONS.pagename = '_modules/langchain_community/utilities/cassandra_database';</script>
+<link href="../../../_static/favicon.png" rel="icon"/>
+<link href="../../../search.html" rel="search" title="Search"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="en" name="docsearch:language"/>
+<meta content="Aug 14, 2024" name="docbuild:last-update"/>
+</head>
+<body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
+<div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
+<div id="pst-scroll-pixel-helper"></div>
+<button class="btn rounded-pill" id="pst-back-to-top" type="button">
+<i class="fa-solid fa-arrow-up"></i>Back to top</button>
+<input class="sidebar-toggle" id="pst-primary-sidebar-checkbox" type="checkbox"/>
+<label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+<input class="sidebar-toggle" id="pst-secondary-sidebar-checkbox" type="checkbox"/>
+<label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+<div class="search-button__wrapper">
+<div class="search-button__overlay"></div>
+<div class="search-button__search-container">
+<form action="../../../search.html" class="bd-search d-flex align-items-center" method="get">
+<i class="fa-solid fa-magnifying-glass"></i>
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="form-control" id="search-input" name="q" placeholder="Search" spellcheck="false" type="search"/>
+<span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+</div>
+<div class="pst-async-banner-revealer d-none">
+<aside aria-label="Version warning" class="d-none d-print-none" id="bd-header-version-warning"></aside>
+</div>
+<header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+<button aria-label="Site navigation" class="pst-navbar-icon sidebar-toggle primary-toggle">
+<span class="fa-solid fa-bars"></span>
+</button>
+<div class="navbar-header-items__start">
+<div class="navbar-item">
+<a class="navbar-brand logo" href="../../../index.html">
+<img alt="🦜🔗 LangChain  documentation - Home" class="logo__image only-light" src="../../../_static/wordmark-api.svg"/>
+<script>document.write(`<img src="../../../_static/wordmark-api-dark.svg" class="logo__image only-dark" alt="🦜🔗 LangChain  documentation - Home"/>`);</script>
+</a></div>
+</div>
+<div class="navbar-header-items">
+<div class="me-auto navbar-header-items__center">
+<div class="navbar-item">
+<nav>
+<ul class="bd-navbar-elements navbar-nav">
+<li class="nav-item">
+<a class="nav-link nav-internal" href="../../../reference.html">
+    Reference
+  </a>
+</li>
+<li class="nav-item">
+<a class="nav-link nav-external" href="https://api.python.langchain.com/">
+    Legacy reference
+  </a>
+</li>
+</ul>
+</nav></div>
+</div>
+<div class="navbar-header-items__end">
+<div class="navbar-item navbar-persistent--container">
+<form action="../../../search.html" class="bd-search d-flex align-items-center" method="get">
+<i class="fa-solid fa-magnifying-glass"></i>
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="form-control" id="search-input" name="q" placeholder="Search" spellcheck="false" type="search"/>
+<span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+</div>
+<div class="navbar-item"><!-- This will display a link to LangChain docs -->
+<head>
+<style>
+        .text-link {
+            text-decoration: none; /* Remove underline */
+            color: inherit;        /* Inherit color from parent element */
+        }
+    </style>
+</head>
+<body>
+<a class="text-link" href="https://python.langchain.com/">Docs</a>
+</body></div>
+<div class="navbar-item">
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+<div class="navbar-item"><ul aria-label="Quick Links" class="navbar-icon-links">
+<li class="nav-item">
+<a class="nav-link pst-navbar-icon" data-bs-placement="bottom" data-bs-toggle="tooltip" href="https://github.com/langchain-ai/langchain" rel="noopener" target="_blank" title="GitHub"><i aria-hidden="true" class="fa-brands fa-square-github fa-lg"></i>
+<span class="sr-only">GitHub</span></a>
+</li>
+<li class="nav-item">
+<a class="nav-link pst-navbar-icon" data-bs-placement="bottom" data-bs-toggle="tooltip" href="https://twitter.com/langchainai" rel="noopener" target="_blank" title="X / Twitter"><i aria-hidden="true" class="fab fa-twitter-square fa-lg"></i>
+<span class="sr-only">X / Twitter</span></a>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="navbar-persistent--mobile">
+<form action="../../../search.html" class="bd-search d-flex align-items-center" method="get">
+<i class="fa-solid fa-magnifying-glass"></i>
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="form-control" id="search-input" name="q" placeholder="Search" spellcheck="false" type="search"/>
+<span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+</div>
+</div>
+</header>
+<div class="bd-container">
+<div class="bd-container__inner bd-page-width">
+<div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+<div class="sidebar-header-items sidebar-primary__section">
+<div class="sidebar-header-items__center">
+<div class="navbar-item">
+<nav>
+<ul class="bd-navbar-elements navbar-nav">
+<li class="nav-item">
+<a class="nav-link nav-internal" href="../../../reference.html">
+    Reference
+  </a>
+</li>
+<li class="nav-item">
+<a class="nav-link nav-external" href="https://api.python.langchain.com/">
+    Legacy reference
+  </a>
+</li>
+</ul>
+</nav></div>
+</div>
+<div class="sidebar-header-items__end">
+<div class="navbar-item"><!-- This will display a link to LangChain docs -->
+<head>
+<style>
+        .text-link {
+            text-decoration: none; /* Remove underline */
+            color: inherit;        /* Inherit color from parent element */
+        }
+    </style>
+</head>
+<body>
+<a class="text-link" href="https://python.langchain.com/">Docs</a>
+</body></div>
+<div class="navbar-item">
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+<div class="navbar-item"><ul aria-label="Quick Links" class="navbar-icon-links">
+<li class="nav-item">
+<a class="nav-link pst-navbar-icon" data-bs-placement="bottom" data-bs-toggle="tooltip" href="https://github.com/langchain-ai/langchain" rel="noopener" target="_blank" title="GitHub"><i aria-hidden="true" class="fa-brands fa-square-github fa-lg"></i>
+<span class="sr-only">GitHub</span></a>
+</li>
+<li class="nav-item">
+<a class="nav-link pst-navbar-icon" data-bs-placement="bottom" data-bs-toggle="tooltip" href="https://twitter.com/langchainai" rel="noopener" target="_blank" title="X / Twitter"><i aria-hidden="true" class="fab fa-twitter-square fa-lg"></i>
+<span class="sr-only">X / Twitter</span></a>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sidebar-primary-items__end sidebar-primary__section">
+</div>
+<div id="rtd-footer-container"></div>
+</div>
+<main class="bd-main" id="main-content" role="main">
+<div class="bd-content">
+<div class="bd-article-container">
+<div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+<div class="header-article-items__start">
+<div class="header-article-item">
+<nav aria-label="Breadcrumb" class="d-print-none">
+<ul class="bd-breadcrumbs">
+<li class="breadcrumb-item breadcrumb-home">
+<a aria-label="Home" class="nav-link" href="../../../index.html">
+<i class="fa-solid fa-home"></i>
+</a>
+</li>
+<li class="breadcrumb-item"><a class="nav-link" href="../../index.html">Module code</a></li>
+<li aria-current="page" class="breadcrumb-item active">langchain_co...</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+</div>
+<div id="searchbox"></div>
+<article class="bd-article">
+<h1>Source code for langchain_community.utilities.cassandra_database</h1><div class="highlight"><pre>
+<span></span><span class="sd">"""Apache Cassandra database wrapper."""</span>
+
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">from</span> <span class="nn">langchain_core.pydantic_v1</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span><span class="p">,</span> <span class="n">root_validator</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">cassandra.cluster</span> <span class="kn">import</span> <span class="n">ResultSet</span><span class="p">,</span> <span class="n">Session</span>
+
+<span class="n">IGNORED_KEYSPACES</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">"system"</span><span class="p">,</span>
+    <span class="s2">"system_auth"</span><span class="p">,</span>
+    <span class="s2">"system_distributed"</span><span class="p">,</span>
+    <span class="s2">"system_schema"</span><span class="p">,</span>
+    <span class="s2">"system_traces"</span><span class="p">,</span>
+    <span class="s2">"system_views"</span><span class="p">,</span>
+    <span class="s2">"datastax_sla"</span><span class="p">,</span>
+    <span class="s2">"data_endpoint_auth"</span><span class="p">,</span>
+<span class="p">]</span>
+
+
+<div class="viewcode-block" id="CassandraDatabase"><a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.cassandra_database.CassandraDatabase.html#langchain_community.utilities.cassandra_database.CassandraDatabase">[docs]</a><span class="k">class</span> <span class="nc">CassandraDatabase</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Apache Cassandra® database wrapper."""</span>
+
+<div class="viewcode-block" id="CassandraDatabase.__init__"><a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.cassandra_database.CassandraDatabase.html#langchain_community.utilities.cassandra_database.CassandraDatabase.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">session</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Session</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">exclude_tables</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">include_tables</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">cassio_init_kwargs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="n">_session</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolve_session</span><span class="p">(</span><span class="n">session</span><span class="p">,</span> <span class="n">cassio_init_kwargs</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">_session</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Session not provided and cannot be resolved"</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_session</span> <span class="o">=</span> <span class="n">_session</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_exclude_keyspaces</span> <span class="o">=</span> <span class="n">IGNORED_KEYSPACES</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_exclude_tables</span> <span class="o">=</span> <span class="n">exclude_tables</span> <span class="ow">or</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_include_tables</span> <span class="o">=</span> <span class="n">include_tables</span> <span class="ow">or</span> <span class="p">[]</span></div>
+
+<div class="viewcode-block" id="CassandraDatabase.run"><a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.cassandra_database.CassandraDatabase.html#langchain_community.utilities.cassandra_database.CassandraDatabase.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">fetch</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"all"</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">list</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">ResultSet</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Execute a CQL query and return the results."""</span>
+        <span class="k">if</span> <span class="n">fetch</span> <span class="o">==</span> <span class="s2">"all"</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">fetch_all</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">fetch</span> <span class="o">==</span> <span class="s2">"one"</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">fetch_one</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">fetch</span> <span class="o">==</span> <span class="s2">"cursor"</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fetch</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Fetch parameter must be either 'one', 'all', or 'cursor'"</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_fetch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ResultSet</span><span class="p">:</span>
+        <span class="n">clean_query</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate_cql</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="s2">"SELECT"</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">clean_query</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<div class="viewcode-block" id="CassandraDatabase.fetch_all"><a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.cassandra_database.CassandraDatabase.html#langchain_community.utilities.cassandra_database.CassandraDatabase.fetch_all">[docs]</a>    <span class="k">def</span> <span class="nf">fetch_all</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_fetch</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="CassandraDatabase.fetch_one"><a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.cassandra_database.CassandraDatabase.html#langchain_community.utilities.cassandra_database.CassandraDatabase.fetch_one">[docs]</a>    <span class="k">def</span> <span class="nf">fetch_one</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fetch</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">result</span><span class="o">.</span><span class="n">one</span><span class="p">()</span><span class="o">.</span><span class="n">_asdict</span><span class="p">()</span> <span class="k">if</span> <span class="n">result</span> <span class="k">else</span> <span class="p">{}</span></div>
+
+<div class="viewcode-block" id="CassandraDatabase.get_keyspace_tables"><a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.cassandra_database.CassandraDatabase.html#langchain_community.utilities.cassandra_database.CassandraDatabase.get_keyspace_tables">[docs]</a>    <span class="k">def</span> <span class="nf">get_keyspace_tables</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">keyspace</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Table</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Get the Table objects for the specified keyspace."""</span>
+        <span class="n">schema</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolve_schema</span><span class="p">([</span><span class="n">keyspace</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">keyspace</span> <span class="ow">in</span> <span class="n">schema</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">schema</span><span class="p">[</span><span class="n">keyspace</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[]</span></div>
+
+    <span class="c1"># This is a more basic string building function that doesn't use a query builder</span>
+    <span class="c1"># or prepared statements</span>
+    <span class="c1"># TODO: Refactor to use prepared statements</span>
+<div class="viewcode-block" id="CassandraDatabase.get_table_data"><a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.cassandra_database.CassandraDatabase.html#langchain_community.utilities.cassandra_database.CassandraDatabase.get_table_data">[docs]</a>    <span class="k">def</span> <span class="nf">get_table_data</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">keyspace</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">table</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">predicate</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">limit</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Get data from the specified table in the specified keyspace."""</span>
+
+        <span class="n">query</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"SELECT * FROM </span><span class="si">{</span><span class="n">keyspace</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">table</span><span class="si">}</span><span class="s2">"</span>
+
+        <span class="k">if</span> <span class="n">predicate</span><span class="p">:</span>
+            <span class="n">query</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">" WHERE </span><span class="si">{</span><span class="n">predicate</span><span class="si">}</span><span class="s2">"</span>
+        <span class="k">if</span> <span class="n">limit</span><span class="p">:</span>
+            <span class="n">query</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">" LIMIT </span><span class="si">{</span><span class="n">limit</span><span class="si">}</span><span class="s2">"</span>
+
+        <span class="n">query</span> <span class="o">+=</span> <span class="s2">";"</span>
+
+        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fetch_all</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">result</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">data</span></div>
+
+<div class="viewcode-block" id="CassandraDatabase.get_context"><a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.cassandra_database.CassandraDatabase.html#langchain_community.utilities.cassandra_database.CassandraDatabase.get_context">[docs]</a>    <span class="k">def</span> <span class="nf">get_context</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Return db context that you may want in agent prompt."""</span>
+        <span class="n">keyspaces</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fetch_keyspaces</span><span class="p">()</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">"keyspaces"</span><span class="p">:</span> <span class="s2">", "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">keyspaces</span><span class="p">)}</span></div>
+
+<div class="viewcode-block" id="CassandraDatabase.format_keyspace_to_markdown"><a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.cassandra_database.CassandraDatabase.html#langchain_community.utilities.cassandra_database.CassandraDatabase.format_keyspace_to_markdown">[docs]</a>    <span class="k">def</span> <span class="nf">format_keyspace_to_markdown</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">keyspace</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">tables</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Table</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Generates a markdown representation of the schema for a specific keyspace</span>
+<span class="sd">        by iterating over all tables within that keyspace and calling their</span>
+<span class="sd">        as_markdown method.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            keyspace: The name of the keyspace to generate markdown documentation for.</span>
+<span class="sd">            tables: list of tables in the keyspace; it will be resolved if not provided.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A string containing the markdown representation of the specified</span>
+<span class="sd">            keyspace schema.</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">tables</span><span class="p">:</span>
+            <span class="n">tables</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_keyspace_tables</span><span class="p">(</span><span class="n">keyspace</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">tables</span><span class="p">:</span>
+            <span class="n">output</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"## Keyspace: </span><span class="si">{</span><span class="n">keyspace</span><span class="si">}</span><span class="se">\n\n</span><span class="s2">"</span>
+            <span class="k">if</span> <span class="n">tables</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">table</span> <span class="ow">in</span> <span class="n">tables</span><span class="p">:</span>
+                    <span class="n">output</span> <span class="o">+=</span> <span class="n">table</span><span class="o">.</span><span class="n">as_markdown</span><span class="p">(</span><span class="n">include_keyspace</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">header_level</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+                    <span class="n">output</span> <span class="o">+=</span> <span class="s2">"</span><span class="se">\n\n</span><span class="s2">"</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">output</span> <span class="o">+=</span> <span class="s2">"No tables present in keyspace</span><span class="se">\n\n</span><span class="s2">"</span>
+
+            <span class="k">return</span> <span class="n">output</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">""</span></div>
+
+<div class="viewcode-block" id="CassandraDatabase.format_schema_to_markdown"><a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.cassandra_database.CassandraDatabase.html#langchain_community.utilities.cassandra_database.CassandraDatabase.format_schema_to_markdown">[docs]</a>    <span class="k">def</span> <span class="nf">format_schema_to_markdown</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Generates a markdown representation of the schema for all keyspaces and tables</span>
+<span class="sd">        within the CassandraDatabase instance. This method utilizes the</span>
+<span class="sd">        format_keyspace_to_markdown method to create markdown sections for each</span>
+<span class="sd">        keyspace, assembling them into a comprehensive schema document.</span>
+
+<span class="sd">        Iterates through each keyspace in the database, utilizing</span>
+<span class="sd">        format_keyspace_to_markdown to generate markdown for each keyspace's schema,</span>
+<span class="sd">        including details of its tables. These sections are concatenated to form a</span>
+<span class="sd">        single markdown document that represents the schema of the entire database or</span>
+<span class="sd">        the subset of keyspaces that have been resolved in this instance.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A markdown string that documents the schema of all resolved keyspaces and</span>
+<span class="sd">            their tables within this CassandraDatabase instance. This includes keyspace</span>
+<span class="sd">            names, table names, comments, columns, partition keys, clustering keys,</span>
+<span class="sd">            and indexes for each table.</span>
+<span class="sd">        """</span>
+        <span class="n">schema</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolve_schema</span><span class="p">()</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="s2">"# Cassandra Database Schema</span><span class="se">\n\n</span><span class="s2">"</span>
+        <span class="k">for</span> <span class="n">keyspace</span><span class="p">,</span> <span class="n">tables</span> <span class="ow">in</span> <span class="n">schema</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">output</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">format_keyspace_to_markdown</span><span class="p">(</span><span class="n">keyspace</span><span class="p">,</span><span class="w"> </span><span class="n">tables</span><span class="p">)</span><span class="si">}</span><span class="se">\n\n</span><span class="s2">"</span>
+        <span class="k">return</span> <span class="n">output</span></div>
+
+    <span class="k">def</span> <span class="nf">_validate_cql</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cql</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"SELECT"</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Validates a CQL query string for basic formatting and safety checks.</span>
+<span class="sd">        Ensures that `cql` starts with the specified type (e.g., SELECT) and does</span>
+<span class="sd">        not contain content that could indicate CQL injection vulnerabilities.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            cql: The CQL query string to be validated.</span>
+<span class="sd">            type: The expected starting keyword of the query, used to verify</span>
+<span class="sd">                that the query begins with the correct operation type</span>
+<span class="sd">                (e.g., "SELECT", "UPDATE"). Defaults to "SELECT".</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            The trimmed and validated CQL query string without a trailing semicolon.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If the value of `type` is not supported</span>
+<span class="sd">            DatabaseError: If `cql` is considered unsafe</span>
+<span class="sd">        """</span>
+        <span class="n">SUPPORTED_TYPES</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"SELECT"</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">type</span> <span class="ow">and</span> <span class="nb">type</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">SUPPORTED_TYPES</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">"""Unsupported CQL type: </span><span class="si">{</span><span class="nb">type</span><span class="si">}</span><span class="s2">. Supported types: </span>
+<span class="s2">                             </span><span class="si">{</span><span class="n">SUPPORTED_TYPES</span><span class="si">}</span><span class="s2">"""</span>
+            <span class="p">)</span>
+
+        <span class="c1"># Basic sanity checks</span>
+        <span class="n">cql_trimmed</span> <span class="o">=</span> <span class="n">cql</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">cql_trimmed</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="nb">type</span><span class="o">.</span><span class="n">upper</span><span class="p">()):</span>
+            <span class="k">raise</span> <span class="n">DatabaseError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"CQL must start with </span><span class="si">{</span><span class="nb">type</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="si">}</span><span class="s2">."</span><span class="p">)</span>
+
+        <span class="c1"># Allow a trailing semicolon, but remove (it is optional with the Python driver)</span>
+        <span class="n">cql_trimmed</span> <span class="o">=</span> <span class="n">cql_trimmed</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s2">";"</span><span class="p">)</span>
+
+        <span class="c1"># Consider content within matching quotes to be "safe"</span>
+        <span class="c1"># Remove single-quoted strings</span>
+        <span class="n">cql_sanitized</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">"'.*?'"</span><span class="p">,</span> <span class="s2">""</span><span class="p">,</span> <span class="n">cql_trimmed</span><span class="p">)</span>
+
+        <span class="c1"># Remove double-quoted strings</span>
+        <span class="n">cql_sanitized</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">'".*?"'</span><span class="p">,</span> <span class="s2">""</span><span class="p">,</span> <span class="n">cql_sanitized</span><span class="p">)</span>
+
+        <span class="c1"># Find unsafe content in the remaining CQL</span>
+        <span class="k">if</span> <span class="s2">";"</span> <span class="ow">in</span> <span class="n">cql_sanitized</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">DatabaseError</span><span class="p">(</span>
+<span class="w">                </span><span class="sd">"""Potentially unsafe CQL, as it contains a ; at a </span>
+<span class="sd">                                place other than the end or within quotation marks."""</span>
+            <span class="p">)</span>
+
+        <span class="c1"># The trimmed query, before modifications</span>
+        <span class="k">return</span> <span class="n">cql_trimmed</span>
+
+    <span class="k">def</span> <span class="nf">_fetch_keyspaces</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">keyspaces</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Fetches a list of keyspace names from the Cassandra database. The list can be</span>
+<span class="sd">        filtered by a provided list of keyspace names or by excluding predefined</span>
+<span class="sd">        keyspaces.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            keyspaces: A list of keyspace names to specifically include.</span>
+<span class="sd">                If provided and not empty, the method returns only the keyspaces</span>
+<span class="sd">                present in this list.</span>
+<span class="sd">                If not provided or empty, the method returns all keyspaces except those</span>
+<span class="sd">                specified in the _exclude_keyspaces attribute.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A list of keyspace names according to the filtering criteria.</span>
+<span class="sd">        """</span>
+        <span class="n">all_keyspaces</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fetch_all</span><span class="p">(</span>
+            <span class="s2">"SELECT keyspace_name FROM system_schema.keyspaces"</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Filtering keyspaces based on 'keyspace_list' and '_exclude_keyspaces'</span>
+        <span class="n">filtered_keyspaces</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">ks</span> <span class="ow">in</span> <span class="n">all_keyspaces</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ks</span><span class="p">,</span> <span class="n">Dict</span><span class="p">):</span>
+                <span class="k">continue</span>  <span class="c1"># Skip if the row is not a dictionary.</span>
+
+            <span class="n">keyspace_name</span> <span class="o">=</span> <span class="n">ks</span><span class="p">[</span><span class="s2">"keyspace_name"</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">keyspaces</span> <span class="ow">and</span> <span class="n">keyspace_name</span> <span class="ow">in</span> <span class="n">keyspaces</span><span class="p">:</span>
+                <span class="n">filtered_keyspaces</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">keyspace_name</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="ow">not</span> <span class="n">keyspaces</span> <span class="ow">and</span> <span class="n">keyspace_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_exclude_keyspaces</span><span class="p">:</span>
+                <span class="n">filtered_keyspaces</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">keyspace_name</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">filtered_keyspaces</span>
+
+    <span class="k">def</span> <span class="nf">_format_keyspace_query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">keyspaces</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="c1"># Construct IN clause for CQL query</span>
+        <span class="n">keyspace_in_clause</span> <span class="o">=</span> <span class="s2">", "</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="sa">f</span><span class="s2">"'</span><span class="si">{</span><span class="n">ks</span><span class="si">}</span><span class="s2">'"</span> <span class="k">for</span> <span class="n">ks</span> <span class="ow">in</span> <span class="n">keyspaces</span><span class="p">])</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">"""</span><span class="si">{</span><span class="n">query</span><span class="si">}</span><span class="s2"> WHERE keyspace_name IN (</span><span class="si">{</span><span class="n">keyspace_in_clause</span><span class="si">}</span><span class="s2">)"""</span>
+
+    <span class="k">def</span> <span class="nf">_fetch_tables_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">keyspaces</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Fetches tables schema data, filtered by a list of keyspaces.</span>
+<span class="sd">        This method allows for efficiently fetching schema information for multiple</span>
+<span class="sd">        keyspaces in a single operation, enabling applications to programmatically</span>
+<span class="sd">        analyze or document the database schema.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            keyspaces: A list of keyspace names from which to fetch tables schema data.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Dictionaries of table details (keyspace name,  table name, and comment).</span>
+<span class="sd">        """</span>
+        <span class="n">tables_query</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format_keyspace_query</span><span class="p">(</span>
+            <span class="s2">"SELECT keyspace_name, table_name, comment  FROM system_schema.tables"</span><span class="p">,</span>
+            <span class="n">keyspaces</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">fetch_all</span><span class="p">(</span><span class="n">tables_query</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_fetch_columns_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">keyspaces</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Fetches columns schema data, filtered by a list of keyspaces.</span>
+<span class="sd">        This method allows for efficiently fetching schema information for multiple</span>
+<span class="sd">        keyspaces in a single operation, enabling applications to programmatically</span>
+<span class="sd">        analyze or document the database schema.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            keyspaces: A list of keyspace names from which to fetch tables schema data.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Dictionaries of column details (keyspace name, table name, column name,</span>
+<span class="sd">            type, kind, and position).</span>
+<span class="sd">        """</span>
+        <span class="n">tables_query</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format_keyspace_query</span><span class="p">(</span>
+<span class="w">            </span><span class="sd">"""</span>
+<span class="sd">                    SELECT keyspace_name, table_name, column_name, type, kind, </span>
+<span class="sd">                        clustering_order, position </span>
+<span class="sd">                    FROM system_schema.columns</span>
+<span class="sd">                    """</span><span class="p">,</span>
+            <span class="n">keyspaces</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">fetch_all</span><span class="p">(</span><span class="n">tables_query</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_fetch_indexes_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">keyspaces</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Fetches indexes schema data, filtered by a list of keyspaces.</span>
+<span class="sd">        This method allows for efficiently fetching schema information for multiple</span>
+<span class="sd">        keyspaces in a single operation, enabling applications to programmatically</span>
+<span class="sd">        analyze or document the database schema.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            keyspaces: A list of keyspace names from which to fetch tables schema data.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Dictionaries of index details (keyspace name, table name, index name, kind,</span>
+<span class="sd">            and options).</span>
+<span class="sd">        """</span>
+        <span class="n">tables_query</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format_keyspace_query</span><span class="p">(</span>
+<span class="w">            </span><span class="sd">"""</span>
+<span class="sd">                    SELECT keyspace_name, table_name, index_name, </span>
+<span class="sd">                        kind, options </span>
+<span class="sd">                    FROM system_schema.indexes</span>
+<span class="sd">                    """</span><span class="p">,</span>
+            <span class="n">keyspaces</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">fetch_all</span><span class="p">(</span><span class="n">tables_query</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_resolve_schema</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">keyspaces</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Table</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Efficiently fetches and organizes Cassandra table schema information,</span>
+<span class="sd">        such as comments, columns, and indexes, into a dictionary mapping keyspace</span>
+<span class="sd">        names to lists of Table objects.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            keyspaces: An optional list of keyspace names from which to fetch tables</span>
+<span class="sd">                schema data.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A dictionary with keyspace names as keys and lists of Table objects as</span>
+<span class="sd">            values, where each Table object is populated with schema details</span>
+<span class="sd">            appropriate for its keyspace and table name.</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">keyspaces</span><span class="p">:</span>
+            <span class="n">keyspaces</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fetch_keyspaces</span><span class="p">()</span>
+
+        <span class="n">tables_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fetch_tables_data</span><span class="p">(</span><span class="n">keyspaces</span><span class="p">)</span>
+        <span class="n">columns_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fetch_columns_data</span><span class="p">(</span><span class="n">keyspaces</span><span class="p">)</span>
+        <span class="n">indexes_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fetch_indexes_data</span><span class="p">(</span><span class="n">keyspaces</span><span class="p">)</span>
+
+        <span class="n">keyspace_dict</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">table_data</span> <span class="ow">in</span> <span class="n">tables_data</span><span class="p">:</span>
+            <span class="n">keyspace</span> <span class="o">=</span> <span class="n">table_data</span><span class="o">.</span><span class="n">keyspace_name</span>
+            <span class="n">table_name</span> <span class="o">=</span> <span class="n">table_data</span><span class="o">.</span><span class="n">table_name</span>
+            <span class="n">comment</span> <span class="o">=</span> <span class="n">table_data</span><span class="o">.</span><span class="n">comment</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_include_tables</span> <span class="ow">and</span> <span class="n">table_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_include_tables</span><span class="p">:</span>
+                <span class="k">continue</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_exclude_tables</span> <span class="ow">and</span> <span class="n">table_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_exclude_tables</span><span class="p">:</span>
+                <span class="k">continue</span>
+
+            <span class="c1"># Filter columns and indexes for this table</span>
+            <span class="n">table_columns</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">column_name</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">type</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">columns_data</span>
+                <span class="k">if</span> <span class="n">c</span><span class="o">.</span><span class="n">keyspace_name</span> <span class="o">==</span> <span class="n">keyspace</span> <span class="ow">and</span> <span class="n">c</span><span class="o">.</span><span class="n">table_name</span> <span class="o">==</span> <span class="n">table_name</span>
+            <span class="p">]</span>
+
+            <span class="n">partition_keys</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">c</span><span class="o">.</span><span class="n">column_name</span>
+                <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">columns_data</span>
+                <span class="k">if</span> <span class="n">c</span><span class="o">.</span><span class="n">kind</span> <span class="o">==</span> <span class="s2">"partition_key"</span>
+                <span class="ow">and</span> <span class="n">c</span><span class="o">.</span><span class="n">keyspace_name</span> <span class="o">==</span> <span class="n">keyspace</span>
+                <span class="ow">and</span> <span class="n">c</span><span class="o">.</span><span class="n">table_name</span> <span class="o">==</span> <span class="n">table_name</span>
+            <span class="p">]</span>
+
+            <span class="n">clustering_keys</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">column_name</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">clustering_order</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">columns_data</span>
+                <span class="k">if</span> <span class="n">c</span><span class="o">.</span><span class="n">kind</span> <span class="o">==</span> <span class="s2">"clustering"</span>
+                <span class="ow">and</span> <span class="n">c</span><span class="o">.</span><span class="n">keyspace_name</span> <span class="o">==</span> <span class="n">keyspace</span>
+                <span class="ow">and</span> <span class="n">c</span><span class="o">.</span><span class="n">table_name</span> <span class="o">==</span> <span class="n">table_name</span>
+            <span class="p">]</span>
+
+            <span class="n">table_indexes</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">index_name</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">kind</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">options</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">indexes_data</span>
+                <span class="k">if</span> <span class="n">c</span><span class="o">.</span><span class="n">keyspace_name</span> <span class="o">==</span> <span class="n">keyspace</span> <span class="ow">and</span> <span class="n">c</span><span class="o">.</span><span class="n">table_name</span> <span class="o">==</span> <span class="n">table_name</span>
+            <span class="p">]</span>
+
+            <span class="n">table_obj</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span>
+                <span class="n">keyspace</span><span class="o">=</span><span class="n">keyspace</span><span class="p">,</span>
+                <span class="n">table_name</span><span class="o">=</span><span class="n">table_name</span><span class="p">,</span>
+                <span class="n">comment</span><span class="o">=</span><span class="n">comment</span><span class="p">,</span>
+                <span class="n">columns</span><span class="o">=</span><span class="n">table_columns</span><span class="p">,</span>
+                <span class="n">partition</span><span class="o">=</span><span class="n">partition_keys</span><span class="p">,</span>
+                <span class="n">clustering</span><span class="o">=</span><span class="n">clustering_keys</span><span class="p">,</span>
+                <span class="n">indexes</span><span class="o">=</span><span class="n">table_indexes</span><span class="p">,</span>
+            <span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">keyspace</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">keyspace_dict</span><span class="p">:</span>
+                <span class="n">keyspace_dict</span><span class="p">[</span><span class="n">keyspace</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">keyspace_dict</span><span class="p">[</span><span class="n">keyspace</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">table_obj</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">keyspace_dict</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_resolve_session</span><span class="p">(</span>
+        <span class="n">session</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Session</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">cassio_init_kwargs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Session</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Attempts to resolve and return a Session object for use in database operations.</span>
+
+<span class="sd">        This function follows a specific order of precedence to determine the</span>
+<span class="sd">        appropriate session to use:</span>
+<span class="sd">        1. `session` parameter if given,</span>
+<span class="sd">        2. Existing `cassio` session,</span>
+<span class="sd">        3. A new `cassio` session derived from `cassio_init_kwargs`,</span>
+<span class="sd">        4. `None`</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            session: An optional session to use directly.</span>
+<span class="sd">            cassio_init_kwargs: An optional dictionary of keyword arguments to `cassio`.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            The resolved session object if successful, or `None` if the session</span>
+<span class="sd">            cannot be resolved.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If `cassio_init_kwargs` is provided but is not a dictionary of</span>
+<span class="sd">            keyword arguments.</span>
+<span class="sd">        """</span>
+
+        <span class="c1"># Prefer given session</span>
+        <span class="k">if</span> <span class="n">session</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">session</span>
+
+        <span class="c1"># If a session is not provided, create one using cassio if available</span>
+        <span class="c1"># dynamically import cassio to avoid circular imports</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="kn">import</span> <span class="nn">cassio.config</span>
+        <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">"cassio package not found, please install with"</span> <span class="s2">" `pip install cassio`"</span>
+            <span class="p">)</span>
+
+        <span class="c1"># Use pre-existing session on cassio</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">cassio</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">resolve_session</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">s</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">s</span>
+
+        <span class="c1"># Try to init and return cassio session</span>
+        <span class="k">if</span> <span class="n">cassio_init_kwargs</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">cassio_init_kwargs</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+                <span class="n">cassio</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="o">**</span><span class="n">cassio_init_kwargs</span><span class="p">)</span>
+                <span class="n">s</span> <span class="o">=</span> <span class="n">cassio</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">check_resolve_session</span><span class="p">()</span>
+                <span class="k">return</span> <span class="n">s</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"cassio_init_kwargs must be a keyword dictionary"</span><span class="p">)</span>
+
+        <span class="c1"># return None if we're not able to resolve</span>
+        <span class="k">return</span> <span class="kc">None</span></div>
+
+
+<div class="viewcode-block" id="DatabaseError"><a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.cassandra_database.DatabaseError.html#langchain_community.utilities.cassandra_database.DatabaseError">[docs]</a><span class="k">class</span> <span class="nc">DatabaseError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Exception raised for errors in the database schema.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        message -- explanation of the error</span>
+<span class="sd">    """</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="n">message</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">message</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Table"><a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.cassandra_database.Table.html#langchain_community.utilities.cassandra_database.Table">[docs]</a><span class="k">class</span> <span class="nc">Table</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">keyspace</span><span class="p">:</span> <span class="nb">str</span>
+<span class="w">    </span><span class="sd">"""The keyspace in which the table exists."""</span>
+
+    <span class="n">table_name</span><span class="p">:</span> <span class="nb">str</span>
+<span class="w">    </span><span class="sd">"""The name of the table."""</span>
+
+    <span class="n">comment</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""The comment associated with the table."""</span>
+
+    <span class="n">columns</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
+    <span class="n">partition</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
+    <span class="n">clustering</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
+    <span class="n">indexes</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
+
+    <span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
+        <span class="n">frozen</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="nd">@root_validator</span><span class="p">(</span><span class="n">pre</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">skip_on_failure</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">check_required_fields</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">class_values</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">class_values</span><span class="p">[</span><span class="s2">"columns"</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"non-empty column list for must be provided"</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">class_values</span><span class="p">[</span><span class="s2">"partition"</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"non-empty partition list must be provided"</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">class_values</span>
+
+<div class="viewcode-block" id="Table.from_database"><a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.cassandra_database.Table.html#langchain_community.utilities.cassandra_database.Table.from_database">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_database</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span> <span class="n">keyspace</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">table_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">db</span><span class="p">:</span> <span class="n">CassandraDatabase</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
+        <span class="n">columns</span><span class="p">,</span> <span class="n">partition</span><span class="p">,</span> <span class="n">clustering</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_resolve_columns</span><span class="p">(</span><span class="n">keyspace</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="n">db</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
+            <span class="n">keyspace</span><span class="o">=</span><span class="n">keyspace</span><span class="p">,</span>
+            <span class="n">table_name</span><span class="o">=</span><span class="n">table_name</span><span class="p">,</span>
+            <span class="n">comment</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">_resolve_comment</span><span class="p">(</span><span class="n">keyspace</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="n">db</span><span class="p">),</span>
+            <span class="n">columns</span><span class="o">=</span><span class="n">columns</span><span class="p">,</span>
+            <span class="n">partition</span><span class="o">=</span><span class="n">partition</span><span class="p">,</span>
+            <span class="n">clustering</span><span class="o">=</span><span class="n">clustering</span><span class="p">,</span>
+            <span class="n">indexes</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">_resolve_indexes</span><span class="p">(</span><span class="n">keyspace</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="n">db</span><span class="p">),</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="Table.as_markdown"><a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.cassandra_database.Table.html#langchain_community.utilities.cassandra_database.Table.as_markdown">[docs]</a>    <span class="k">def</span> <span class="nf">as_markdown</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">include_keyspace</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">header_level</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Generates a Markdown representation of the Cassandra table schema, allowing for</span>
+<span class="sd">        customizable header levels for the table name section.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            include_keyspace: If True, includes the keyspace in the output.</span>
+<span class="sd">                Defaults to True.</span>
+<span class="sd">            header_level: Specifies the markdown header level for the table name.</span>
+<span class="sd">                If None, the table name is included without a header.</span>
+<span class="sd">                Defaults to None (no header level).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A string in Markdown format detailing the table name</span>
+<span class="sd">            (with optional header level), keyspace (optional), comment, columns,</span>
+<span class="sd">            partition keys, clustering keys (with optional clustering order),</span>
+<span class="sd">            and indexes.</span>
+<span class="sd">        """</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="s2">""</span>
+        <span class="k">if</span> <span class="n">header_level</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">output</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="s1">'#'</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">header_level</span><span class="si">}</span><span class="s2"> "</span>
+        <span class="n">output</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">"Table Name: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">table_name</span><span class="si">}</span><span class="se">\n</span><span class="s2">"</span>
+
+        <span class="k">if</span> <span class="n">include_keyspace</span><span class="p">:</span>
+            <span class="n">output</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">"- Keyspace: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">keyspace</span><span class="si">}</span><span class="se">\n</span><span class="s2">"</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">comment</span><span class="p">:</span>
+            <span class="n">output</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">"- Comment: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">comment</span><span class="si">}</span><span class="se">\n</span><span class="s2">"</span>
+
+        <span class="n">output</span> <span class="o">+=</span> <span class="s2">"- Columns</span><span class="se">\n</span><span class="s2">"</span>
+        <span class="k">for</span> <span class="n">column</span><span class="p">,</span> <span class="nb">type</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+            <span class="n">output</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">"  - </span><span class="si">{</span><span class="n">column</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="nb">type</span><span class="si">}</span><span class="s2">)</span><span class="se">\n</span><span class="s2">"</span>
+
+        <span class="n">output</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">"- Partition Keys: (</span><span class="si">{</span><span class="s1">', '</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">partition</span><span class="p">)</span><span class="si">}</span><span class="s2">)</span><span class="se">\n</span><span class="s2">"</span>
+        <span class="n">output</span> <span class="o">+=</span> <span class="s2">"- Clustering Keys: "</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">clustering</span><span class="p">:</span>
+            <span class="n">cluster_list</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">column</span><span class="p">,</span> <span class="n">clustering_order</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">clustering</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">clustering_order</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">"none"</span><span class="p">:</span>
+                    <span class="n">cluster_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">column</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">cluster_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">column</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">clustering_order</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+            <span class="n">output</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">"(</span><span class="si">{</span><span class="s1">', '</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cluster_list</span><span class="p">)</span><span class="si">}</span><span class="s2">)</span><span class="se">\n</span><span class="s2">"</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">indexes</span><span class="p">:</span>
+            <span class="n">output</span> <span class="o">+=</span> <span class="s2">"- Indexes</span><span class="se">\n</span><span class="s2">"</span>
+            <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">kind</span><span class="p">,</span> <span class="n">options</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">indexes</span><span class="p">:</span>
+                <span class="n">output</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">"  - </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> : kind=</span><span class="si">{</span><span class="n">kind</span><span class="si">}</span><span class="s2">, options=</span><span class="si">{</span><span class="n">options</span><span class="si">}</span><span class="se">\n</span><span class="s2">"</span>
+
+        <span class="k">return</span> <span class="n">output</span></div>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_resolve_comment</span><span class="p">(</span>
+        <span class="n">keyspace</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">table_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">db</span><span class="p">:</span> <span class="n">CassandraDatabase</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">"""SELECT comment </span>
+<span class="s2">                FROM system_schema.tables </span>
+<span class="s2">                WHERE keyspace_name = '</span><span class="si">{</span><span class="n">keyspace</span><span class="si">}</span><span class="s2">' </span>
+<span class="s2">                AND table_name = '</span><span class="si">{</span><span class="n">table_name</span><span class="si">}</span><span class="s2">';"""</span><span class="p">,</span>
+            <span class="n">fetch</span><span class="o">=</span><span class="s2">"one"</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="n">comment</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"comment"</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">comment</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">comment</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">None</span>  <span class="c1"># Default comment if none is found</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">"""Unexpected result type from db.run: </span>
+<span class="s2">                             </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">result</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">"""</span>
+            <span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_resolve_columns</span><span class="p">(</span>
+        <span class="n">keyspace</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">table_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">db</span><span class="p">:</span> <span class="n">CassandraDatabase</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]],</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]]:</span>
+        <span class="n">columns</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">partition_info</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">cluster_info</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">"""SELECT column_name, type, kind, clustering_order, position </span>
+<span class="s2">                           FROM system_schema.columns </span>
+<span class="s2">                           WHERE keyspace_name = '</span><span class="si">{</span><span class="n">keyspace</span><span class="si">}</span><span class="s2">' </span>
+<span class="s2">                           AND table_name = '</span><span class="si">{</span><span class="n">table_name</span><span class="si">}</span><span class="s2">';"""</span>
+        <span class="p">)</span>
+        <span class="c1"># Type check to ensure 'results' is a sequence of dictionaries.</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">"Expected a sequence of dictionaries from 'run' method."</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">results</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">Dict</span><span class="p">):</span>
+                <span class="k">continue</span>  <span class="c1"># Skip if the row is not a dictionary.</span>
+
+            <span class="n">columns</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">row</span><span class="p">[</span><span class="s2">"column_name"</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s2">"type"</span><span class="p">]))</span>
+            <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="s2">"kind"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"partition_key"</span><span class="p">:</span>
+                <span class="n">partition_info</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">row</span><span class="p">[</span><span class="s2">"column_name"</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s2">"position"</span><span class="p">]))</span>
+            <span class="k">elif</span> <span class="n">row</span><span class="p">[</span><span class="s2">"kind"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"clustering"</span><span class="p">:</span>
+                <span class="n">cluster_info</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">"column_name"</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s2">"clustering_order"</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s2">"position"</span><span class="p">])</span>
+                <span class="p">)</span>
+
+        <span class="n">partition</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">column_name</span> <span class="k">for</span> <span class="n">column_name</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">partition_info</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="p">]</span>
+
+        <span class="n">cluster</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="p">(</span><span class="n">column_name</span><span class="p">,</span> <span class="n">clustering_order</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">column_name</span><span class="p">,</span> <span class="n">clustering_order</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span>
+                <span class="n">cluster_info</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+            <span class="p">)</span>
+        <span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">columns</span><span class="p">,</span> <span class="n">partition</span><span class="p">,</span> <span class="n">cluster</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_resolve_indexes</span><span class="p">(</span>
+        <span class="n">keyspace</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">table_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">db</span><span class="p">:</span> <span class="n">CassandraDatabase</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]:</span>
+        <span class="n">indexes</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">"""SELECT index_name, kind, options </span>
+<span class="s2">                        FROM system_schema.indexes </span>
+<span class="s2">                        WHERE keyspace_name = '</span><span class="si">{</span><span class="n">keyspace</span><span class="si">}</span><span class="s2">' </span>
+<span class="s2">                        AND table_name = '</span><span class="si">{</span><span class="n">table_name</span><span class="si">}</span><span class="s2">';"""</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Type check to ensure 'results' is a sequence of dictionaries</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">"Expected a sequence of dictionaries from 'run' method."</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">results</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">Dict</span><span class="p">):</span>
+                <span class="k">continue</span>  <span class="c1"># Skip if the row is not a dictionary.</span>
+
+            <span class="c1"># Convert 'options' to string if it's not already,</span>
+            <span class="c1"># assuming it's JSON-like and needs conversion</span>
+            <span class="n">index_options</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s2">"options"</span><span class="p">]</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">index_options</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+                <span class="c1"># Assuming index_options needs to be serialized or simply converted</span>
+                <span class="n">index_options</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">index_options</span><span class="p">)</span>
+
+            <span class="n">indexes</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">row</span><span class="p">[</span><span class="s2">"index_name"</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s2">"kind"</span><span class="p">],</span> <span class="n">index_options</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">indexes</span></div>
+</pre></div>
+</article>
+</div>
+</div>
+<footer class="bd-footer-content">
+</footer>
+</main>
+</div>
+</div>
+<!-- Scripts loaded after <body> so the DOM is not blocked -->
+<script src="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+<footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+<div class="footer-items__start">
+<div class="footer-item">
+<p class="copyright">
+    
+      © Copyright 2023, LangChain Inc.
+      <br/>
+</p>
+</div>
+</div>
+</div>
+</footer>
+</body>
+</html>

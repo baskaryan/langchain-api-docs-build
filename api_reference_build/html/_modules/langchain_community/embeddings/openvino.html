@@ -1,0 +1,608 @@
+
+<!DOCTYPE html>
+
+<html data-content_root="" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>langchain_community.embeddings.openvino — 🦜🔗 LangChain  documentation</title>
+<script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+<!-- Loaded before other Sphinx assets -->
+<link href="../../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet"/>
+<link href="../../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet"/>
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet"/>
+<link href="../../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet"/>
+<link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" rel="preload" type="font/woff2"/>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/autodoc_pydantic.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/sphinx-design.4cbf315f70debaebd550c87a6162cf0f.min.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/css/custom.css" rel="stylesheet" type="text/css"/>
+<!-- Pre-loaded scripts that we'll load fully later -->
+<link as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
+<link as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
+<script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/sphinx_highlight.js"></script>
+<script src="../../../_static/clipboard.min.js"></script>
+<script src="../../../_static/copybutton.js"></script>
+<script src="../../../_static/design-tabs.js"></script>
+<script>DOCUMENTATION_OPTIONS.pagename = '_modules/langchain_community/embeddings/openvino';</script>
+<link href="../../../_static/favicon.png" rel="icon"/>
+<link href="../../../search.html" rel="search" title="Search"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="en" name="docsearch:language"/>
+<meta content="Aug 14, 2024" name="docbuild:last-update"/>
+</head>
+<body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
+<div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
+<div id="pst-scroll-pixel-helper"></div>
+<button class="btn rounded-pill" id="pst-back-to-top" type="button">
+<i class="fa-solid fa-arrow-up"></i>Back to top</button>
+<input class="sidebar-toggle" id="pst-primary-sidebar-checkbox" type="checkbox"/>
+<label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+<input class="sidebar-toggle" id="pst-secondary-sidebar-checkbox" type="checkbox"/>
+<label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+<div class="search-button__wrapper">
+<div class="search-button__overlay"></div>
+<div class="search-button__search-container">
+<form action="../../../search.html" class="bd-search d-flex align-items-center" method="get">
+<i class="fa-solid fa-magnifying-glass"></i>
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="form-control" id="search-input" name="q" placeholder="Search" spellcheck="false" type="search"/>
+<span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+</div>
+<div class="pst-async-banner-revealer d-none">
+<aside aria-label="Version warning" class="d-none d-print-none" id="bd-header-version-warning"></aside>
+</div>
+<header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+<button aria-label="Site navigation" class="pst-navbar-icon sidebar-toggle primary-toggle">
+<span class="fa-solid fa-bars"></span>
+</button>
+<div class="navbar-header-items__start">
+<div class="navbar-item">
+<a class="navbar-brand logo" href="../../../index.html">
+<img alt="🦜🔗 LangChain  documentation - Home" class="logo__image only-light" src="../../../_static/wordmark-api.svg"/>
+<script>document.write(`<img src="../../../_static/wordmark-api-dark.svg" class="logo__image only-dark" alt="🦜🔗 LangChain  documentation - Home"/>`);</script>
+</a></div>
+</div>
+<div class="navbar-header-items">
+<div class="me-auto navbar-header-items__center">
+<div class="navbar-item">
+<nav>
+<ul class="bd-navbar-elements navbar-nav">
+<li class="nav-item">
+<a class="nav-link nav-internal" href="../../../reference.html">
+    Reference
+  </a>
+</li>
+<li class="nav-item">
+<a class="nav-link nav-external" href="https://api.python.langchain.com/">
+    Legacy reference
+  </a>
+</li>
+</ul>
+</nav></div>
+</div>
+<div class="navbar-header-items__end">
+<div class="navbar-item navbar-persistent--container">
+<form action="../../../search.html" class="bd-search d-flex align-items-center" method="get">
+<i class="fa-solid fa-magnifying-glass"></i>
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="form-control" id="search-input" name="q" placeholder="Search" spellcheck="false" type="search"/>
+<span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+</div>
+<div class="navbar-item"><!-- This will display a link to LangChain docs -->
+<head>
+<style>
+        .text-link {
+            text-decoration: none; /* Remove underline */
+            color: inherit;        /* Inherit color from parent element */
+        }
+    </style>
+</head>
+<body>
+<a class="text-link" href="https://python.langchain.com/">Docs</a>
+</body></div>
+<div class="navbar-item">
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+<div class="navbar-item"><ul aria-label="Quick Links" class="navbar-icon-links">
+<li class="nav-item">
+<a class="nav-link pst-navbar-icon" data-bs-placement="bottom" data-bs-toggle="tooltip" href="https://github.com/langchain-ai/langchain" rel="noopener" target="_blank" title="GitHub"><i aria-hidden="true" class="fa-brands fa-square-github fa-lg"></i>
+<span class="sr-only">GitHub</span></a>
+</li>
+<li class="nav-item">
+<a class="nav-link pst-navbar-icon" data-bs-placement="bottom" data-bs-toggle="tooltip" href="https://twitter.com/langchainai" rel="noopener" target="_blank" title="X / Twitter"><i aria-hidden="true" class="fab fa-twitter-square fa-lg"></i>
+<span class="sr-only">X / Twitter</span></a>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="navbar-persistent--mobile">
+<form action="../../../search.html" class="bd-search d-flex align-items-center" method="get">
+<i class="fa-solid fa-magnifying-glass"></i>
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="form-control" id="search-input" name="q" placeholder="Search" spellcheck="false" type="search"/>
+<span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+</div>
+</div>
+</header>
+<div class="bd-container">
+<div class="bd-container__inner bd-page-width">
+<div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+<div class="sidebar-header-items sidebar-primary__section">
+<div class="sidebar-header-items__center">
+<div class="navbar-item">
+<nav>
+<ul class="bd-navbar-elements navbar-nav">
+<li class="nav-item">
+<a class="nav-link nav-internal" href="../../../reference.html">
+    Reference
+  </a>
+</li>
+<li class="nav-item">
+<a class="nav-link nav-external" href="https://api.python.langchain.com/">
+    Legacy reference
+  </a>
+</li>
+</ul>
+</nav></div>
+</div>
+<div class="sidebar-header-items__end">
+<div class="navbar-item"><!-- This will display a link to LangChain docs -->
+<head>
+<style>
+        .text-link {
+            text-decoration: none; /* Remove underline */
+            color: inherit;        /* Inherit color from parent element */
+        }
+    </style>
+</head>
+<body>
+<a class="text-link" href="https://python.langchain.com/">Docs</a>
+</body></div>
+<div class="navbar-item">
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+<div class="navbar-item"><ul aria-label="Quick Links" class="navbar-icon-links">
+<li class="nav-item">
+<a class="nav-link pst-navbar-icon" data-bs-placement="bottom" data-bs-toggle="tooltip" href="https://github.com/langchain-ai/langchain" rel="noopener" target="_blank" title="GitHub"><i aria-hidden="true" class="fa-brands fa-square-github fa-lg"></i>
+<span class="sr-only">GitHub</span></a>
+</li>
+<li class="nav-item">
+<a class="nav-link pst-navbar-icon" data-bs-placement="bottom" data-bs-toggle="tooltip" href="https://twitter.com/langchainai" rel="noopener" target="_blank" title="X / Twitter"><i aria-hidden="true" class="fab fa-twitter-square fa-lg"></i>
+<span class="sr-only">X / Twitter</span></a>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sidebar-primary-items__end sidebar-primary__section">
+</div>
+<div id="rtd-footer-container"></div>
+</div>
+<main class="bd-main" id="main-content" role="main">
+<div class="bd-content">
+<div class="bd-article-container">
+<div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+<div class="header-article-items__start">
+<div class="header-article-item">
+<nav aria-label="Breadcrumb" class="d-print-none">
+<ul class="bd-breadcrumbs">
+<li class="breadcrumb-item breadcrumb-home">
+<a aria-label="Home" class="nav-link" href="../../../index.html">
+<i class="fa-solid fa-home"></i>
+</a>
+</li>
+<li class="breadcrumb-item"><a class="nav-link" href="../../index.html">Module code</a></li>
+<li aria-current="page" class="breadcrumb-item active">langchain_co...</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+</div>
+<div id="searchbox"></div>
+<article class="bd-article">
+<h1>Source code for langchain_community.embeddings.openvino</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span>
+
+<span class="kn">from</span> <span class="nn">langchain_core.embeddings</span> <span class="kn">import</span> <span class="n">Embeddings</span>
+<span class="kn">from</span> <span class="nn">langchain_core.pydantic_v1</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span>
+
+<span class="n">DEFAULT_QUERY_INSTRUCTION</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s2">"Represent the question for retrieving supporting documents: "</span>
+<span class="p">)</span>
+<span class="n">DEFAULT_QUERY_BGE_INSTRUCTION_EN</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s2">"Represent this question for searching relevant passages: "</span>
+<span class="p">)</span>
+<span class="n">DEFAULT_QUERY_BGE_INSTRUCTION_ZH</span> <span class="o">=</span> <span class="s2">"为这个句子生成表示以用于检索相关文章："</span>
+
+
+<div class="viewcode-block" id="OpenVINOEmbeddings"><a class="viewcode-back" href="../../../community/embeddings/langchain_community.embeddings.openvino.OpenVINOEmbeddings.html#langchain_community.embeddings.openvino.OpenVINOEmbeddings">[docs]</a><span class="k">class</span> <span class="nc">OpenVINOEmbeddings</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">,</span> <span class="n">Embeddings</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""OpenVINO embedding models.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            from langchain_community.embeddings import OpenVINOEmbeddings</span>
+
+<span class="sd">            model_name = "sentence-transformers/all-mpnet-base-v2"</span>
+<span class="sd">            model_kwargs = {'device': 'CPU'}</span>
+<span class="sd">            encode_kwargs = {'normalize_embeddings': True}</span>
+<span class="sd">            ov = OpenVINOEmbeddings(</span>
+<span class="sd">                model_name_or_path=model_name,</span>
+<span class="sd">                model_kwargs=model_kwargs,</span>
+<span class="sd">                encode_kwargs=encode_kwargs</span>
+<span class="sd">            )</span>
+<span class="sd">    """</span>
+
+    <span class="n">ov_model</span><span class="p">:</span> <span class="n">Any</span>
+<span class="w">    </span><span class="sd">"""OpenVINO model object."""</span>
+    <span class="n">tokenizer</span><span class="p">:</span> <span class="n">Any</span>
+<span class="w">    </span><span class="sd">"""Tokenizer for embedding model."""</span>
+    <span class="n">model_name_or_path</span><span class="p">:</span> <span class="nb">str</span>
+<span class="w">    </span><span class="sd">"""HuggingFace model id."""</span>
+    <span class="n">model_kwargs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">"""Keyword arguments to pass to the model."""</span>
+    <span class="n">encode_kwargs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">"""Keyword arguments to pass when calling the `encode` method of the model."""</span>
+    <span class="n">show_progress</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="w">    </span><span class="sd">"""Whether to show a progress bar."""</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Initialize the sentence_transformer."""</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="kn">from</span> <span class="nn">optimum.intel.openvino</span> <span class="kn">import</span> <span class="n">OVModelForFeatureExtraction</span>
+        <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
+                <span class="s2">"Could not import optimum-intel python package. "</span>
+                <span class="s2">"Please install it with: "</span>
+                <span class="s2">"pip install -U 'optimum[openvino,nncf]'"</span>
+            <span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="kn">from</span> <span class="nn">huggingface_hub</span> <span class="kn">import</span> <span class="n">HfApi</span>
+        <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
+                <span class="s2">"Could not import huggingface_hub python package. "</span>
+                <span class="s2">"Please install it with: "</span>
+                <span class="s2">"`pip install -U huggingface_hub`."</span>
+            <span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
+
+        <span class="k">def</span> <span class="nf">require_model_export</span><span class="p">(</span>
+            <span class="n">model_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">revision</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">subfolder</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+            <span class="n">model_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">model_id</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">subfolder</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">model_dir</span> <span class="o">=</span> <span class="n">model_dir</span> <span class="o">/</span> <span class="n">subfolder</span>
+            <span class="k">if</span> <span class="n">model_dir</span><span class="o">.</span><span class="n">is_dir</span><span class="p">():</span>
+                <span class="k">return</span> <span class="p">(</span>
+                    <span class="ow">not</span> <span class="p">(</span><span class="n">model_dir</span> <span class="o">/</span> <span class="s2">"openvino_model.xml"</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span>
+                    <span class="ow">or</span> <span class="ow">not</span> <span class="p">(</span><span class="n">model_dir</span> <span class="o">/</span> <span class="s2">"openvino_model.bin"</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span>
+                <span class="p">)</span>
+            <span class="n">hf_api</span> <span class="o">=</span> <span class="n">HfApi</span><span class="p">()</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">model_info</span> <span class="o">=</span> <span class="n">hf_api</span><span class="o">.</span><span class="n">model_info</span><span class="p">(</span><span class="n">model_id</span><span class="p">,</span> <span class="n">revision</span><span class="o">=</span><span class="n">revision</span> <span class="ow">or</span> <span class="s2">"main"</span><span class="p">)</span>
+                <span class="n">normalized_subfolder</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="kc">None</span> <span class="k">if</span> <span class="n">subfolder</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">Path</span><span class="p">(</span><span class="n">subfolder</span><span class="p">)</span><span class="o">.</span><span class="n">as_posix</span><span class="p">()</span>
+                <span class="p">)</span>
+                <span class="n">model_files</span> <span class="o">=</span> <span class="p">[</span>
+                    <span class="n">file</span><span class="o">.</span><span class="n">rfilename</span>
+                    <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">model_info</span><span class="o">.</span><span class="n">siblings</span>
+                    <span class="k">if</span> <span class="n">normalized_subfolder</span> <span class="ow">is</span> <span class="kc">None</span>
+                    <span class="ow">or</span> <span class="n">file</span><span class="o">.</span><span class="n">rfilename</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">normalized_subfolder</span><span class="p">)</span>
+                <span class="p">]</span>
+                <span class="n">ov_model_path</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="s2">"openvino_model.xml"</span>
+                    <span class="k">if</span> <span class="n">subfolder</span> <span class="ow">is</span> <span class="kc">None</span>
+                    <span class="k">else</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">normalized_subfolder</span><span class="si">}</span><span class="s2">/openvino_model.xml"</span>
+                <span class="p">)</span>
+                <span class="k">return</span> <span class="p">(</span>
+                    <span class="n">ov_model_path</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">model_files</span>
+                    <span class="ow">or</span> <span class="n">ov_model_path</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">".xml"</span><span class="p">,</span> <span class="s2">".bin"</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">model_files</span>
+                <span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">True</span>
+
+        <span class="k">if</span> <span class="n">require_model_export</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model_name_or_path</span><span class="p">):</span>
+            <span class="c1"># use remote model</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ov_model</span> <span class="o">=</span> <span class="n">OVModelForFeatureExtraction</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">model_name_or_path</span><span class="p">,</span> <span class="n">export</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">model_kwargs</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># use local model</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ov_model</span> <span class="o">=</span> <span class="n">OVModelForFeatureExtraction</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">model_name_or_path</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">model_kwargs</span>
+            <span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">AutoTokenizer</span>
+        <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
+                <span class="s2">"Unable to import transformers, please install with "</span>
+                <span class="s2">"`pip install -U transformers`."</span>
+            <span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tokenizer</span> <span class="o">=</span> <span class="n">AutoTokenizer</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model_name_or_path</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_text_length</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Help function to get the length for the input text. Text can be either</span>
+<span class="sd">        a list of ints (which means a single text as input), or a tuple of list of ints</span>
+<span class="sd">        (representing several text inputs to the model).</span>
+<span class="sd">        """</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>  <span class="c1"># {key: value} case</span>
+            <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">text</span><span class="o">.</span><span class="n">values</span><span class="p">())))</span>
+        <span class="k">elif</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="s2">"__len__"</span><span class="p">):</span>  <span class="c1"># Object has no len() method</span>
+            <span class="k">return</span> <span class="mi">1</span>
+        <span class="c1"># Empty string or list of ints</span>
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">text</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">text</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Sum of length of individual strings</span>
+            <span class="k">return</span> <span class="nb">sum</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">text</span><span class="p">])</span>
+
+<div class="viewcode-block" id="OpenVINOEmbeddings.encode"><a class="viewcode-back" href="../../../community/embeddings/langchain_community.embeddings.openvino.OpenVINOEmbeddings.html#langchain_community.embeddings.openvino.OpenVINOEmbeddings.encode">[docs]</a>    <span class="k">def</span> <span class="nf">encode</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">sentences</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+        <span class="n">batch_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
+        <span class="n">show_progress_bar</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">convert_to_numpy</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">convert_to_tensor</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">mean_pooling</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">normalize_embeddings</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Computes sentence embeddings.</span>
+
+<span class="sd">        :param sentences: the sentences to embed.</span>
+<span class="sd">        :param batch_size: the batch size used for the computation.</span>
+<span class="sd">        :param show_progress_bar: Whether to output a progress bar.</span>
+<span class="sd">        :param convert_to_numpy: Whether the output should be a list of numpy vectors.</span>
+<span class="sd">        :param convert_to_tensor: Whether the output should be one large tensor.</span>
+<span class="sd">        :param mean_pooling: Whether to pool returned vectors.</span>
+<span class="sd">        :param normalize_embeddings: Whether to normalize returned vectors.</span>
+
+<span class="sd">        :return: By default, a 2d numpy array with shape [num_inputs, output_dimension].</span>
+<span class="sd">        """</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+        <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
+                <span class="s2">"Unable to import numpy, please install with "</span> <span class="s2">"`pip install -U numpy`."</span>
+            <span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">trange</span>
+        <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
+                <span class="s2">"Unable to import tqdm, please install with "</span> <span class="s2">"`pip install -U tqdm`."</span>
+            <span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="kn">import</span> <span class="nn">torch</span>
+        <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
+                <span class="s2">"Unable to import torch, please install with "</span> <span class="s2">"`pip install -U torch`."</span>
+            <span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
+
+        <span class="k">def</span> <span class="nf">run_mean_pooling</span><span class="p">(</span><span class="n">model_output</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">attention_mask</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+            <span class="n">token_embeddings</span> <span class="o">=</span> <span class="n">model_output</span><span class="p">[</span>
+                <span class="mi">0</span>
+            <span class="p">]</span>  <span class="c1"># First element of model_output contains all token embeddings</span>
+            <span class="n">input_mask_expanded</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">attention_mask</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">expand</span><span class="p">(</span><span class="n">token_embeddings</span><span class="o">.</span><span class="n">size</span><span class="p">())</span><span class="o">.</span><span class="n">float</span><span class="p">()</span>
+            <span class="p">)</span>
+            <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">token_embeddings</span> <span class="o">*</span> <span class="n">input_mask_expanded</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">torch</span><span class="o">.</span><span class="n">clamp</span><span class="p">(</span>
+                <span class="n">input_mask_expanded</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="nb">min</span><span class="o">=</span><span class="mf">1e-9</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">convert_to_tensor</span><span class="p">:</span>
+            <span class="n">convert_to_numpy</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="n">input_was_string</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sentences</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span>
+            <span class="n">sentences</span><span class="p">,</span> <span class="s2">"__len__"</span>
+        <span class="p">):</span>  <span class="c1"># Cast an individual sentence to a list with length 1</span>
+            <span class="n">sentences</span> <span class="o">=</span> <span class="p">[</span><span class="n">sentences</span><span class="p">]</span>
+            <span class="n">input_was_string</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="n">all_embeddings</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">length_sorted_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">([</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">_text_length</span><span class="p">(</span><span class="n">sen</span><span class="p">)</span> <span class="k">for</span> <span class="n">sen</span> <span class="ow">in</span> <span class="n">sentences</span><span class="p">])</span>
+        <span class="n">sentences_sorted</span> <span class="o">=</span> <span class="p">[</span><span class="n">sentences</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">length_sorted_idx</span><span class="p">]</span>
+
+        <span class="k">for</span> <span class="n">start_index</span> <span class="ow">in</span> <span class="n">trange</span><span class="p">(</span>
+            <span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">sentences</span><span class="p">),</span> <span class="n">batch_size</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">"Batches"</span><span class="p">,</span> <span class="n">disable</span><span class="o">=</span><span class="ow">not</span> <span class="n">show_progress_bar</span>
+        <span class="p">):</span>
+            <span class="n">sentences_batch</span> <span class="o">=</span> <span class="n">sentences_sorted</span><span class="p">[</span><span class="n">start_index</span> <span class="p">:</span> <span class="n">start_index</span> <span class="o">+</span> <span class="n">batch_size</span><span class="p">]</span>
+
+            <span class="n">length</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ov_model</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">inputs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get_partial_shape</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">length</span><span class="o">.</span><span class="n">is_dynamic</span><span class="p">:</span>
+                <span class="n">features</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tokenizer</span><span class="p">(</span>
+                    <span class="n">sentences_batch</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">truncation</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">return_tensors</span><span class="o">=</span><span class="s2">"pt"</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">features</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tokenizer</span><span class="p">(</span>
+                    <span class="n">sentences_batch</span><span class="p">,</span>
+                    <span class="n">padding</span><span class="o">=</span><span class="s2">"max_length"</span><span class="p">,</span>
+                    <span class="n">max_length</span><span class="o">=</span><span class="n">length</span><span class="o">.</span><span class="n">get_length</span><span class="p">(),</span>
+                    <span class="n">truncation</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                    <span class="n">return_tensors</span><span class="o">=</span><span class="s2">"pt"</span><span class="p">,</span>
+                <span class="p">)</span>
+
+            <span class="n">out_features</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ov_model</span><span class="p">(</span><span class="o">**</span><span class="n">features</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">mean_pooling</span><span class="p">:</span>
+                <span class="n">embeddings</span> <span class="o">=</span> <span class="n">run_mean_pooling</span><span class="p">(</span><span class="n">out_features</span><span class="p">,</span> <span class="n">features</span><span class="p">[</span><span class="s2">"attention_mask"</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">embeddings</span> <span class="o">=</span> <span class="n">out_features</span><span class="p">[</span><span class="mi">0</span><span class="p">][:,</span> <span class="mi">0</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">normalize_embeddings</span><span class="p">:</span>
+                <span class="n">embeddings</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">functional</span><span class="o">.</span><span class="n">normalize</span><span class="p">(</span><span class="n">embeddings</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+            <span class="c1"># fixes for #522 and #487 to avoid oom problems on gpu with large datasets</span>
+            <span class="k">if</span> <span class="n">convert_to_numpy</span><span class="p">:</span>
+                <span class="n">embeddings</span> <span class="o">=</span> <span class="n">embeddings</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span>
+
+            <span class="n">all_embeddings</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">embeddings</span><span class="p">)</span>
+
+        <span class="n">all_embeddings</span> <span class="o">=</span> <span class="p">[</span><span class="n">all_embeddings</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">length_sorted_idx</span><span class="p">)]</span>
+
+        <span class="k">if</span> <span class="n">convert_to_tensor</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">all_embeddings</span><span class="p">):</span>
+                <span class="n">all_embeddings</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">all_embeddings</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">all_embeddings</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="n">convert_to_numpy</span><span class="p">:</span>
+            <span class="n">all_embeddings</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="n">emb</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span> <span class="k">for</span> <span class="n">emb</span> <span class="ow">in</span> <span class="n">all_embeddings</span><span class="p">])</span>
+
+        <span class="k">if</span> <span class="n">input_was_string</span><span class="p">:</span>
+            <span class="n">all_embeddings</span> <span class="o">=</span> <span class="n">all_embeddings</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">all_embeddings</span></div>
+
+    <span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
+        <span class="n">extra</span> <span class="o">=</span> <span class="s2">"forbid"</span>
+
+<div class="viewcode-block" id="OpenVINOEmbeddings.embed_documents"><a class="viewcode-back" href="../../../community/embeddings/langchain_community.embeddings.openvino.OpenVINOEmbeddings.html#langchain_community.embeddings.openvino.OpenVINOEmbeddings.embed_documents">[docs]</a>    <span class="k">def</span> <span class="nf">embed_documents</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">texts</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">"""Compute doc embeddings using a HuggingFace transformer model.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            texts: The list of texts to embed.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List of embeddings, one for each text.</span>
+<span class="sd">        """</span>
+
+        <span class="n">texts</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="s2">" "</span><span class="p">),</span> <span class="n">texts</span><span class="p">))</span>
+        <span class="n">embeddings</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
+            <span class="n">texts</span><span class="p">,</span> <span class="n">show_progress_bar</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">show_progress</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">encode_kwargs</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">embeddings</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="OpenVINOEmbeddings.embed_query"><a class="viewcode-back" href="../../../community/embeddings/langchain_community.embeddings.openvino.OpenVINOEmbeddings.html#langchain_community.embeddings.openvino.OpenVINOEmbeddings.embed_query">[docs]</a>    <span class="k">def</span> <span class="nf">embed_query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Compute query embeddings using a HuggingFace transformer model.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            text: The text to embed.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Embeddings for the text.</span>
+<span class="sd">        """</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">embed_documents</span><span class="p">([</span><span class="n">text</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="OpenVINOEmbeddings.save_model"><a class="viewcode-back" href="../../../community/embeddings/langchain_community.embeddings.openvino.OpenVINOEmbeddings.html#langchain_community.embeddings.openvino.OpenVINOEmbeddings.save_model">[docs]</a>    <span class="k">def</span> <span class="nf">save_model</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">model_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ov_model</span><span class="o">.</span><span class="n">half</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ov_model</span><span class="o">.</span><span class="n">save_pretrained</span><span class="p">(</span><span class="n">model_path</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tokenizer</span><span class="o">.</span><span class="n">save_pretrained</span><span class="p">(</span><span class="n">model_path</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">True</span></div></div>
+
+
+<div class="viewcode-block" id="OpenVINOBgeEmbeddings"><a class="viewcode-back" href="../../../community/embeddings/langchain_community.embeddings.openvino.OpenVINOBgeEmbeddings.html#langchain_community.embeddings.openvino.OpenVINOBgeEmbeddings">[docs]</a><span class="k">class</span> <span class="nc">OpenVINOBgeEmbeddings</span><span class="p">(</span><span class="n">OpenVINOEmbeddings</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""OpenVNO BGE embedding models.</span>
+
+<span class="sd">    Bge Example:</span>
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            from langchain_community.embeddings import OpenVINOBgeEmbeddings</span>
+
+<span class="sd">            model_name = "BAAI/bge-large-en"</span>
+<span class="sd">            model_kwargs = {'device': 'CPU'}</span>
+<span class="sd">            encode_kwargs = {'normalize_embeddings': True}</span>
+<span class="sd">            ov = OpenVINOBgeEmbeddings(</span>
+<span class="sd">                model_name_or_path=model_name,</span>
+<span class="sd">                model_kwargs=model_kwargs,</span>
+<span class="sd">                encode_kwargs=encode_kwargs</span>
+<span class="sd">            )</span>
+<span class="sd">    """</span>
+
+    <span class="n">query_instruction</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">DEFAULT_QUERY_BGE_INSTRUCTION_EN</span>
+<span class="w">    </span><span class="sd">"""Instruction to use for embedding query."""</span>
+    <span class="n">embed_instruction</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span>
+<span class="w">    </span><span class="sd">"""Instruction to use for embedding document."""</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Initialize the sentence_transformer."""</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="s2">"-zh"</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_name_or_path</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">query_instruction</span> <span class="o">=</span> <span class="n">DEFAULT_QUERY_BGE_INSTRUCTION_ZH</span>
+
+<div class="viewcode-block" id="OpenVINOBgeEmbeddings.embed_documents"><a class="viewcode-back" href="../../../community/embeddings/langchain_community.embeddings.openvino.OpenVINOBgeEmbeddings.html#langchain_community.embeddings.openvino.OpenVINOBgeEmbeddings.embed_documents">[docs]</a>    <span class="k">def</span> <span class="nf">embed_documents</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">texts</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">"""Compute doc embeddings using a HuggingFace transformer model.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            texts: The list of texts to embed.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List of embeddings, one for each text.</span>
+<span class="sd">        """</span>
+        <span class="n">texts</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">embed_instruction</span> <span class="o">+</span> <span class="n">t</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="s2">" "</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">texts</span><span class="p">]</span>
+        <span class="n">embeddings</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">texts</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">encode_kwargs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">embeddings</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="OpenVINOBgeEmbeddings.embed_query"><a class="viewcode-back" href="../../../community/embeddings/langchain_community.embeddings.openvino.OpenVINOBgeEmbeddings.html#langchain_community.embeddings.openvino.OpenVINOBgeEmbeddings.embed_query">[docs]</a>    <span class="k">def</span> <span class="nf">embed_query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Compute query embeddings using a HuggingFace transformer model.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            text: The text to embed.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Embeddings for the text.</span>
+<span class="sd">        """</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="s2">" "</span><span class="p">)</span>
+        <span class="n">embedding</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">query_instruction</span> <span class="o">+</span> <span class="n">text</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">encode_kwargs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">embedding</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span></div></div>
+</pre></div>
+</article>
+</div>
+</div>
+<footer class="bd-footer-content">
+</footer>
+</main>
+</div>
+</div>
+<!-- Scripts loaded after <body> so the DOM is not blocked -->
+<script src="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+<footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+<div class="footer-items__start">
+<div class="footer-item">
+<p class="copyright">
+    
+      © Copyright 2023, LangChain Inc.
+      <br/>
+</p>
+</div>
+</div>
+</div>
+</footer>
+</body>
+</html>

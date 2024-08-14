@@ -1,0 +1,870 @@
+
+<!DOCTYPE html>
+
+<html data-content_root="" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>langchain_community.vectorstores.infinispanvs — 🦜🔗 LangChain  documentation</title>
+<script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+<!-- Loaded before other Sphinx assets -->
+<link href="../../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet"/>
+<link href="../../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet"/>
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet"/>
+<link href="../../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet"/>
+<link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" rel="preload" type="font/woff2"/>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/autodoc_pydantic.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/sphinx-design.4cbf315f70debaebd550c87a6162cf0f.min.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/css/custom.css" rel="stylesheet" type="text/css"/>
+<!-- Pre-loaded scripts that we'll load fully later -->
+<link as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
+<link as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
+<script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/sphinx_highlight.js"></script>
+<script src="../../../_static/clipboard.min.js"></script>
+<script src="../../../_static/copybutton.js"></script>
+<script src="../../../_static/design-tabs.js"></script>
+<script>DOCUMENTATION_OPTIONS.pagename = '_modules/langchain_community/vectorstores/infinispanvs';</script>
+<link href="../../../_static/favicon.png" rel="icon"/>
+<link href="../../../search.html" rel="search" title="Search"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="en" name="docsearch:language"/>
+<meta content="Aug 14, 2024" name="docbuild:last-update"/>
+</head>
+<body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
+<div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
+<div id="pst-scroll-pixel-helper"></div>
+<button class="btn rounded-pill" id="pst-back-to-top" type="button">
+<i class="fa-solid fa-arrow-up"></i>Back to top</button>
+<input class="sidebar-toggle" id="pst-primary-sidebar-checkbox" type="checkbox"/>
+<label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+<input class="sidebar-toggle" id="pst-secondary-sidebar-checkbox" type="checkbox"/>
+<label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+<div class="search-button__wrapper">
+<div class="search-button__overlay"></div>
+<div class="search-button__search-container">
+<form action="../../../search.html" class="bd-search d-flex align-items-center" method="get">
+<i class="fa-solid fa-magnifying-glass"></i>
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="form-control" id="search-input" name="q" placeholder="Search" spellcheck="false" type="search"/>
+<span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+</div>
+<div class="pst-async-banner-revealer d-none">
+<aside aria-label="Version warning" class="d-none d-print-none" id="bd-header-version-warning"></aside>
+</div>
+<header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+<button aria-label="Site navigation" class="pst-navbar-icon sidebar-toggle primary-toggle">
+<span class="fa-solid fa-bars"></span>
+</button>
+<div class="navbar-header-items__start">
+<div class="navbar-item">
+<a class="navbar-brand logo" href="../../../index.html">
+<img alt="🦜🔗 LangChain  documentation - Home" class="logo__image only-light" src="../../../_static/wordmark-api.svg"/>
+<script>document.write(`<img src="../../../_static/wordmark-api-dark.svg" class="logo__image only-dark" alt="🦜🔗 LangChain  documentation - Home"/>`);</script>
+</a></div>
+</div>
+<div class="navbar-header-items">
+<div class="me-auto navbar-header-items__center">
+<div class="navbar-item">
+<nav>
+<ul class="bd-navbar-elements navbar-nav">
+<li class="nav-item">
+<a class="nav-link nav-internal" href="../../../reference.html">
+    Reference
+  </a>
+</li>
+<li class="nav-item">
+<a class="nav-link nav-external" href="https://api.python.langchain.com/">
+    Legacy reference
+  </a>
+</li>
+</ul>
+</nav></div>
+</div>
+<div class="navbar-header-items__end">
+<div class="navbar-item navbar-persistent--container">
+<form action="../../../search.html" class="bd-search d-flex align-items-center" method="get">
+<i class="fa-solid fa-magnifying-glass"></i>
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="form-control" id="search-input" name="q" placeholder="Search" spellcheck="false" type="search"/>
+<span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+</div>
+<div class="navbar-item"><!-- This will display a link to LangChain docs -->
+<head>
+<style>
+        .text-link {
+            text-decoration: none; /* Remove underline */
+            color: inherit;        /* Inherit color from parent element */
+        }
+    </style>
+</head>
+<body>
+<a class="text-link" href="https://python.langchain.com/">Docs</a>
+</body></div>
+<div class="navbar-item">
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+<div class="navbar-item"><ul aria-label="Quick Links" class="navbar-icon-links">
+<li class="nav-item">
+<a class="nav-link pst-navbar-icon" data-bs-placement="bottom" data-bs-toggle="tooltip" href="https://github.com/langchain-ai/langchain" rel="noopener" target="_blank" title="GitHub"><i aria-hidden="true" class="fa-brands fa-square-github fa-lg"></i>
+<span class="sr-only">GitHub</span></a>
+</li>
+<li class="nav-item">
+<a class="nav-link pst-navbar-icon" data-bs-placement="bottom" data-bs-toggle="tooltip" href="https://twitter.com/langchainai" rel="noopener" target="_blank" title="X / Twitter"><i aria-hidden="true" class="fab fa-twitter-square fa-lg"></i>
+<span class="sr-only">X / Twitter</span></a>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="navbar-persistent--mobile">
+<form action="../../../search.html" class="bd-search d-flex align-items-center" method="get">
+<i class="fa-solid fa-magnifying-glass"></i>
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="form-control" id="search-input" name="q" placeholder="Search" spellcheck="false" type="search"/>
+<span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+</div>
+</div>
+</header>
+<div class="bd-container">
+<div class="bd-container__inner bd-page-width">
+<div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+<div class="sidebar-header-items sidebar-primary__section">
+<div class="sidebar-header-items__center">
+<div class="navbar-item">
+<nav>
+<ul class="bd-navbar-elements navbar-nav">
+<li class="nav-item">
+<a class="nav-link nav-internal" href="../../../reference.html">
+    Reference
+  </a>
+</li>
+<li class="nav-item">
+<a class="nav-link nav-external" href="https://api.python.langchain.com/">
+    Legacy reference
+  </a>
+</li>
+</ul>
+</nav></div>
+</div>
+<div class="sidebar-header-items__end">
+<div class="navbar-item"><!-- This will display a link to LangChain docs -->
+<head>
+<style>
+        .text-link {
+            text-decoration: none; /* Remove underline */
+            color: inherit;        /* Inherit color from parent element */
+        }
+    </style>
+</head>
+<body>
+<a class="text-link" href="https://python.langchain.com/">Docs</a>
+</body></div>
+<div class="navbar-item">
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+<div class="navbar-item"><ul aria-label="Quick Links" class="navbar-icon-links">
+<li class="nav-item">
+<a class="nav-link pst-navbar-icon" data-bs-placement="bottom" data-bs-toggle="tooltip" href="https://github.com/langchain-ai/langchain" rel="noopener" target="_blank" title="GitHub"><i aria-hidden="true" class="fa-brands fa-square-github fa-lg"></i>
+<span class="sr-only">GitHub</span></a>
+</li>
+<li class="nav-item">
+<a class="nav-link pst-navbar-icon" data-bs-placement="bottom" data-bs-toggle="tooltip" href="https://twitter.com/langchainai" rel="noopener" target="_blank" title="X / Twitter"><i aria-hidden="true" class="fab fa-twitter-square fa-lg"></i>
+<span class="sr-only">X / Twitter</span></a>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sidebar-primary-items__end sidebar-primary__section">
+</div>
+<div id="rtd-footer-container"></div>
+</div>
+<main class="bd-main" id="main-content" role="main">
+<div class="bd-content">
+<div class="bd-article-container">
+<div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+<div class="header-article-items__start">
+<div class="header-article-item">
+<nav aria-label="Breadcrumb" class="d-print-none">
+<ul class="bd-breadcrumbs">
+<li class="breadcrumb-item breadcrumb-home">
+<a aria-label="Home" class="nav-link" href="../../../index.html">
+<i class="fa-solid fa-home"></i>
+</a>
+</li>
+<li class="breadcrumb-item"><a class="nav-link" href="../../index.html">Module code</a></li>
+<li aria-current="page" class="breadcrumb-item active">langchain_co...</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+</div>
+<div id="searchbox"></div>
+<article class="bd-article">
+<h1>Source code for langchain_community.vectorstores.infinispanvs</h1><div class="highlight"><pre>
+<span></span><span class="sd">"""Module providing Infinispan as a VectorStore"""</span>
+
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">uuid</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Type</span><span class="p">,</span> <span class="n">cast</span>
+
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">from</span> <span class="nn">langchain_core.documents</span> <span class="kn">import</span> <span class="n">Document</span>
+<span class="kn">from</span> <span class="nn">langchain_core.embeddings</span> <span class="kn">import</span> <span class="n">Embeddings</span>
+<span class="kn">from</span> <span class="nn">langchain_core.vectorstores</span> <span class="kn">import</span> <span class="n">VectorStore</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="InfinispanVS"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.infinispanvs.InfinispanVS.html#langchain_community.vectorstores.infinispanvs.InfinispanVS">[docs]</a><span class="k">class</span> <span class="nc">InfinispanVS</span><span class="p">(</span><span class="n">VectorStore</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""`Infinispan` VectorStore interface.</span>
+
+<span class="sd">        This class exposes the method to present Infinispan as a</span>
+<span class="sd">        VectorStore. It relies on the Infinispan class (below) which takes care</span>
+<span class="sd">        of the REST interface with the server.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        ... code-block:: python</span>
+<span class="sd">            from langchain_community.vectorstores import InfinispanVS</span>
+<span class="sd">            from mymodels import RGBEmbeddings</span>
+<span class="sd">            ...</span>
+<span class="sd">            vectorDb = InfinispanVS.from_documents(docs,</span>
+<span class="sd">                            embedding=RGBEmbeddings(),</span>
+<span class="sd">                            output_fields=["texture", "color"],</span>
+<span class="sd">                            lambda_key=lambda text,meta: str(meta["_key"]),</span>
+<span class="sd">                            lambda_content=lambda item: item["color"])</span>
+
+<span class="sd">        or an empty InfinispanVS instance can be created if preliminary setup</span>
+<span class="sd">        is required before populating the store</span>
+
+<span class="sd">        ... code-block:: python</span>
+<span class="sd">            from langchain_community.vectorstores import InfinispanVS</span>
+<span class="sd">            from mymodels import RGBEmbeddings</span>
+<span class="sd">            ...</span>
+<span class="sd">            ispnVS = InfinispanVS()</span>
+<span class="sd">            # configure Infinispan here</span>
+<span class="sd">            # i.e. create cache and schema</span>
+
+<span class="sd">            # then populate the store</span>
+<span class="sd">            vectorDb = InfinispanVS.from_documents(docs,</span>
+<span class="sd">                            embedding=RGBEmbeddings(),</span>
+<span class="sd">                            output_fields: ["texture", "color"],</span>
+<span class="sd">                            lambda_key: lambda text,meta: str(meta["_key"]),</span>
+<span class="sd">                            lambda_content: lambda item: item["color"]})</span>
+<span class="sd">    """</span>
+
+<div class="viewcode-block" id="InfinispanVS.__init__"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.infinispanvs.InfinispanVS.html#langchain_community.vectorstores.infinispanvs.InfinispanVS.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">embedding</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Embeddings</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">ids</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ispn</span> <span class="o">=</span> <span class="n">Infinispan</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_configuration</span> <span class="o">=</span> <span class="n">kwargs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cache_name</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_configuration</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"cache_name"</span><span class="p">,</span> <span class="s2">"vector"</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_entity_name</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_configuration</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"entity_name"</span><span class="p">,</span> <span class="s2">"vector"</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_embedding</span> <span class="o">=</span> <span class="n">embedding</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_textfield</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_configuration</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"textfield"</span><span class="p">,</span> <span class="s2">"text"</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_vectorfield</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_configuration</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"vectorfield"</span><span class="p">,</span> <span class="s2">"vector"</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_to_content</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_configuration</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+            <span class="s2">"lambda_content"</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">item</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_default_content</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_to_metadata</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_configuration</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+            <span class="s2">"lambda_metadata"</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">item</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_default_metadata</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_output_fields</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_configuration</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"output_fields"</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ids</span> <span class="o">=</span> <span class="n">ids</span></div>
+
+    <span class="k">def</span> <span class="nf">_default_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="n">meta</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+        <span class="n">meta</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_vectorfield</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">meta</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_textfield</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">meta</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"_type"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">meta</span>
+
+    <span class="k">def</span> <span class="nf">_default_content</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">item</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_textfield</span><span class="p">)</span>
+
+<div class="viewcode-block" id="InfinispanVS.schema_builder"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.infinispanvs.InfinispanVS.html#langchain_community.vectorstores.infinispanvs.InfinispanVS.schema_builder">[docs]</a>    <span class="k">def</span> <span class="nf">schema_builder</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">templ</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">dimension</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="n">metadata_proto_tpl</span> <span class="o">=</span> <span class="s2">"""</span>
+<span class="s2">/**</span>
+<span class="s2">* @Indexed</span>
+<span class="s2">*/</span>
+<span class="s2">message </span><span class="si">%s</span><span class="s2"> {</span>
+<span class="s2">/**</span>
+<span class="s2">* @Vector(dimension=</span><span class="si">%d</span><span class="s2">)</span>
+<span class="s2">*/</span>
+<span class="s2">repeated float </span><span class="si">%s</span><span class="s2"> = 1;</span>
+<span class="s2">"""</span>
+        <span class="n">metadata_proto</span> <span class="o">=</span> <span class="n">metadata_proto_tpl</span> <span class="o">%</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_entity_name</span><span class="p">,</span>
+            <span class="n">dimension</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_vectorfield</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="mi">2</span>
+        <span class="k">for</span> <span class="n">f</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">templ</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+                <span class="n">metadata_proto</span> <span class="o">+=</span> <span class="s2">"optional string "</span> <span class="o">+</span> <span class="n">f</span> <span class="o">+</span> <span class="s2">" = "</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span> <span class="o">+</span> <span class="s2">";</span><span class="se">\n</span><span class="s2">"</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+                <span class="n">metadata_proto</span> <span class="o">+=</span> <span class="s2">"optional int64 "</span> <span class="o">+</span> <span class="n">f</span> <span class="o">+</span> <span class="s2">" = "</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span> <span class="o">+</span> <span class="s2">";</span><span class="se">\n</span><span class="s2">"</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
+                <span class="n">metadata_proto</span> <span class="o">+=</span> <span class="s2">"optional double "</span> <span class="o">+</span> <span class="n">f</span> <span class="o">+</span> <span class="s2">" = "</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span> <span class="o">+</span> <span class="s2">";</span><span class="se">\n</span><span class="s2">"</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">):</span>
+                <span class="n">metadata_proto</span> <span class="o">+=</span> <span class="s2">"optional bytes "</span> <span class="o">+</span> <span class="n">f</span> <span class="o">+</span> <span class="s2">" = "</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span> <span class="o">+</span> <span class="s2">";</span><span class="se">\n</span><span class="s2">"</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+                <span class="n">metadata_proto</span> <span class="o">+=</span> <span class="s2">"optional bool "</span> <span class="o">+</span> <span class="n">f</span> <span class="o">+</span> <span class="s2">" = "</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span> <span class="o">+</span> <span class="s2">";</span><span class="se">\n</span><span class="s2">"</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
+                    <span class="s2">"Unable to build proto schema for metadata. "</span>
+                    <span class="s2">"Unhandled type for field: "</span> <span class="o">+</span> <span class="n">f</span>
+                <span class="p">)</span>
+            <span class="n">idx</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">metadata_proto</span> <span class="o">+=</span> <span class="s2">"}</span><span class="se">\n</span><span class="s2">"</span>
+        <span class="k">return</span> <span class="n">metadata_proto</span></div>
+
+<div class="viewcode-block" id="InfinispanVS.schema_create"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.infinispanvs.InfinispanVS.html#langchain_community.vectorstores.infinispanvs.InfinispanVS.schema_create">[docs]</a>    <span class="k">def</span> <span class="nf">schema_create</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">proto</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">requests</span><span class="o">.</span><span class="n">Response</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Deploy the schema for the vector db</span>
+<span class="sd">        Args:</span>
+<span class="sd">            proto(str): protobuf schema</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            An http Response containing the result of the operation</span>
+<span class="sd">        """</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ispn</span><span class="o">.</span><span class="n">schema_post</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_entity_name</span> <span class="o">+</span> <span class="s2">".proto"</span><span class="p">,</span> <span class="n">proto</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="InfinispanVS.schema_delete"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.infinispanvs.InfinispanVS.html#langchain_community.vectorstores.infinispanvs.InfinispanVS.schema_delete">[docs]</a>    <span class="k">def</span> <span class="nf">schema_delete</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">requests</span><span class="o">.</span><span class="n">Response</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Delete the schema for the vector db</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            An http Response containing the result of the operation</span>
+<span class="sd">        """</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ispn</span><span class="o">.</span><span class="n">schema_delete</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_entity_name</span> <span class="o">+</span> <span class="s2">".proto"</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="InfinispanVS.cache_create"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.infinispanvs.InfinispanVS.html#langchain_community.vectorstores.infinispanvs.InfinispanVS.cache_create">[docs]</a>    <span class="k">def</span> <span class="nf">cache_create</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">requests</span><span class="o">.</span><span class="n">Response</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Create the cache for the vector db</span>
+<span class="sd">        Args:</span>
+<span class="sd">            config(str): configuration of the cache.</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            An http Response containing the result of the operation</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="n">config</span> <span class="o">==</span> <span class="s2">""</span><span class="p">:</span>
+            <span class="n">config</span> <span class="o">=</span> <span class="p">(</span>
+<span class="w">                </span><span class="sd">'''</span>
+<span class="sd">            {</span>
+<span class="sd">  "distributed-cache": {</span>
+<span class="sd">    "owners": "2",</span>
+<span class="sd">    "mode": "SYNC",</span>
+<span class="sd">    "statistics": true,</span>
+<span class="sd">    "encoding": {</span>
+<span class="sd">      "media-type": "application/x-protostream"</span>
+<span class="sd">    },</span>
+<span class="sd">    "indexing": {</span>
+<span class="sd">      "enabled": true,</span>
+<span class="sd">      "storage": "filesystem",</span>
+<span class="sd">      "startup-mode": "AUTO",</span>
+<span class="sd">      "indexing-mode": "AUTO",</span>
+<span class="sd">      "indexed-entities": [</span>
+<span class="sd">        "'''</span>
+                <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_entity_name</span>
+                <span class="o">+</span> <span class="s2">""""</span>
+<span class="s2">      ]</span>
+<span class="s2">    }</span>
+<span class="s2">  }</span>
+<span class="s2">}</span>
+<span class="s2">"""</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ispn</span><span class="o">.</span><span class="n">cache_post</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_cache_name</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="InfinispanVS.cache_delete"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.infinispanvs.InfinispanVS.html#langchain_community.vectorstores.infinispanvs.InfinispanVS.cache_delete">[docs]</a>    <span class="k">def</span> <span class="nf">cache_delete</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">requests</span><span class="o">.</span><span class="n">Response</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Delete the cache for the vector db</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            An http Response containing the result of the operation</span>
+<span class="sd">        """</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ispn</span><span class="o">.</span><span class="n">cache_delete</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_cache_name</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="InfinispanVS.cache_clear"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.infinispanvs.InfinispanVS.html#langchain_community.vectorstores.infinispanvs.InfinispanVS.cache_clear">[docs]</a>    <span class="k">def</span> <span class="nf">cache_clear</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">requests</span><span class="o">.</span><span class="n">Response</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Clear the cache for the vector db</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            An http Response containing the result of the operation</span>
+<span class="sd">        """</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ispn</span><span class="o">.</span><span class="n">cache_clear</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_cache_name</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="InfinispanVS.cache_exists"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.infinispanvs.InfinispanVS.html#langchain_community.vectorstores.infinispanvs.InfinispanVS.cache_exists">[docs]</a>    <span class="k">def</span> <span class="nf">cache_exists</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Checks if the cache exists</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            true if exists</span>
+<span class="sd">        """</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ispn</span><span class="o">.</span><span class="n">cache_exists</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_cache_name</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="InfinispanVS.cache_index_clear"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.infinispanvs.InfinispanVS.html#langchain_community.vectorstores.infinispanvs.InfinispanVS.cache_index_clear">[docs]</a>    <span class="k">def</span> <span class="nf">cache_index_clear</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">requests</span><span class="o">.</span><span class="n">Response</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Clear the index for the vector db</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            An http Response containing the result of the operation</span>
+<span class="sd">        """</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ispn</span><span class="o">.</span><span class="n">index_clear</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_cache_name</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="InfinispanVS.cache_index_reindex"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.infinispanvs.InfinispanVS.html#langchain_community.vectorstores.infinispanvs.InfinispanVS.cache_index_reindex">[docs]</a>    <span class="k">def</span> <span class="nf">cache_index_reindex</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">requests</span><span class="o">.</span><span class="n">Response</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Rebuild the for the vector db</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            An http Response containing the result of the operation</span>
+<span class="sd">        """</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ispn</span><span class="o">.</span><span class="n">index_reindex</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_cache_name</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="InfinispanVS.add_texts"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.infinispanvs.InfinispanVS.html#langchain_community.vectorstores.infinispanvs.InfinispanVS.add_texts">[docs]</a>    <span class="k">def</span> <span class="nf">add_texts</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">texts</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+        <span class="n">metadatas</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">last_vector</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">texts_l</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">texts</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">last_vector</span><span class="p">:</span>
+            <span class="n">texts_l</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+        <span class="n">embeds</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_embedding</span><span class="o">.</span><span class="n">embed_documents</span><span class="p">(</span><span class="n">texts_l</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
+        <span class="k">if</span> <span class="n">last_vector</span><span class="p">:</span>
+            <span class="n">embeds</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">last_vector</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">metadatas</span><span class="p">:</span>
+            <span class="n">metadatas</span> <span class="o">=</span> <span class="p">[{}</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">texts</span><span class="p">]</span>
+        <span class="n">ids</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ids</span> <span class="ow">or</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">())</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">texts</span><span class="p">]</span>
+        <span class="n">data_input</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">metadatas</span><span class="p">,</span> <span class="n">embeds</span><span class="p">,</span> <span class="n">ids</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">metadata</span><span class="p">,</span> <span class="n">embed</span><span class="p">,</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">data_input</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"_type"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_entity_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_vectorfield</span><span class="p">:</span> <span class="n">embed</span><span class="p">}</span>
+            <span class="n">data</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">metadata</span><span class="p">)</span>
+            <span class="n">data_str</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ispn</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">data_str</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cache_name</span><span class="p">)</span>
+            <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">result</span></div>
+
+<div class="viewcode-block" id="InfinispanVS.similarity_search"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.infinispanvs.InfinispanVS.html#langchain_community.vectorstores.infinispanvs.InfinispanVS.similarity_search">[docs]</a>    <span class="k">def</span> <span class="nf">similarity_search</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Document</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Return docs most similar to query."""</span>
+        <span class="n">documents</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">similarity_search_with_score</span><span class="p">(</span><span class="n">query</span><span class="o">=</span><span class="n">query</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="n">k</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">doc</span> <span class="k">for</span> <span class="n">doc</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">documents</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="InfinispanVS.similarity_search_with_score"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.infinispanvs.InfinispanVS.html#langchain_community.vectorstores.infinispanvs.InfinispanVS.similarity_search_with_score">[docs]</a>    <span class="k">def</span> <span class="nf">similarity_search_with_score</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Document</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">"""Perform a search on a query string and return results with score.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            query (str): The text being searched.</span>
+<span class="sd">            k (int, optional): The amount of results to return. Defaults to 4.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List[Tuple[Document, float]]</span>
+<span class="sd">        """</span>
+        <span class="n">embed</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_embedding</span><span class="o">.</span><span class="n">embed_query</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
+        <span class="n">documents</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">similarity_search_with_score_by_vector</span><span class="p">(</span><span class="n">embedding</span><span class="o">=</span><span class="n">embed</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="n">k</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">documents</span></div>
+
+<div class="viewcode-block" id="InfinispanVS.similarity_search_by_vector"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.infinispanvs.InfinispanVS.html#langchain_community.vectorstores.infinispanvs.InfinispanVS.similarity_search_by_vector">[docs]</a>    <span class="k">def</span> <span class="nf">similarity_search_by_vector</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">embedding</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">k</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Document</span><span class="p">]:</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">similarity_search_with_score_by_vector</span><span class="p">(</span><span class="n">embedding</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">doc</span> <span class="k">for</span> <span class="n">doc</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">res</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="InfinispanVS.similarity_search_with_score_by_vector"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.infinispanvs.InfinispanVS.html#langchain_community.vectorstores.infinispanvs.InfinispanVS.similarity_search_with_score_by_vector">[docs]</a>    <span class="k">def</span> <span class="nf">similarity_search_with_score_by_vector</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">embedding</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">k</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Document</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">"""Return docs most similar to embedding vector.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            embedding: Embedding to look up documents similar to.</span>
+<span class="sd">            k: Number of Documents to return. Defaults to 4.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List of pair (Documents, score) most similar to the query vector.</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_output_fields</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">query_str</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="s2">"select v, score(v) from "</span>
+                <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_entity_name</span>
+                <span class="o">+</span> <span class="s2">" v where v."</span>
+                <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_vectorfield</span>
+                <span class="o">+</span> <span class="s2">" &lt;-&gt; "</span>
+                <span class="o">+</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">embedding</span><span class="p">)</span>
+                <span class="o">+</span> <span class="s2">"~"</span>
+                <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">query_proj</span> <span class="o">=</span> <span class="s2">"select "</span>
+            <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_output_fields</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+                <span class="n">query_proj</span> <span class="o">=</span> <span class="n">query_proj</span> <span class="o">+</span> <span class="s2">"v."</span> <span class="o">+</span> <span class="n">field</span> <span class="o">+</span> <span class="s2">","</span>
+            <span class="n">query_proj</span> <span class="o">=</span> <span class="n">query_proj</span> <span class="o">+</span> <span class="s2">"v."</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_output_fields</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">query_str</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">query_proj</span>
+                <span class="o">+</span> <span class="s2">", score(v) from "</span>
+                <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_entity_name</span>
+                <span class="o">+</span> <span class="s2">" v where v."</span>
+                <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_vectorfield</span>
+                <span class="o">+</span> <span class="s2">" &lt;-&gt; "</span>
+                <span class="o">+</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">embedding</span><span class="p">)</span>
+                <span class="o">+</span> <span class="s2">"~"</span>
+                <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="n">query_res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ispn</span><span class="o">.</span><span class="n">req_query</span><span class="p">(</span><span class="n">query_str</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cache_name</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">query_res</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_query_result_to_docs</span><span class="p">(</span><span class="n">result</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_query_result_to_docs</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Document</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
+        <span class="n">documents</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">result</span><span class="p">[</span><span class="s2">"hits"</span><span class="p">]:</span>
+            <span class="n">hit</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s2">"hit"</span><span class="p">]</span> <span class="ow">or</span> <span class="p">{}</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_output_fields</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">entity</span> <span class="o">=</span> <span class="n">hit</span><span class="p">[</span><span class="s2">"*"</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">entity</span> <span class="o">=</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">hit</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">)</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_output_fields</span><span class="p">}</span>
+            <span class="n">doc</span> <span class="o">=</span> <span class="n">Document</span><span class="p">(</span>
+                <span class="n">page_content</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_to_content</span><span class="p">(</span><span class="n">entity</span><span class="p">),</span>
+                <span class="n">metadata</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_to_metadata</span><span class="p">(</span><span class="n">entity</span><span class="p">),</span>
+            <span class="p">)</span>
+            <span class="n">documents</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">doc</span><span class="p">,</span> <span class="n">hit</span><span class="p">[</span><span class="s2">"score()"</span><span class="p">]))</span>
+        <span class="k">return</span> <span class="n">documents</span>
+
+<div class="viewcode-block" id="InfinispanVS.configure"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.infinispanvs.InfinispanVS.html#langchain_community.vectorstores.infinispanvs.InfinispanVS.configure">[docs]</a>    <span class="k">def</span> <span class="nf">configure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metadata</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">dimension</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">schema</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">schema_builder</span><span class="p">(</span><span class="n">metadata</span><span class="p">,</span> <span class="n">dimension</span><span class="p">)</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">schema_create</span><span class="p">(</span><span class="n">schema</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="n">output</span><span class="o">.</span><span class="n">ok</span><span class="p">,</span> <span class="s2">"Unable to create schema. Already exists? "</span>
+        <span class="s2">"Consider using clear_old=True"</span>
+        <span class="k">assert</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">text</span><span class="p">)[</span><span class="s2">"error"</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">cache_exists</span><span class="p">():</span>
+            <span class="n">output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cache_create</span><span class="p">()</span>
+            <span class="k">assert</span> <span class="n">output</span><span class="o">.</span><span class="n">ok</span><span class="p">,</span> <span class="s2">"Unable to create cache. Already exists? "</span>
+            <span class="s2">"Consider using clear_old=True"</span>
+            <span class="c1"># Ensure index is clean</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cache_index_clear</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="InfinispanVS.config_clear"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.infinispanvs.InfinispanVS.html#langchain_community.vectorstores.infinispanvs.InfinispanVS.config_clear">[docs]</a>    <span class="k">def</span> <span class="nf">config_clear</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">schema_delete</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cache_delete</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="InfinispanVS.from_texts"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.infinispanvs.InfinispanVS.html#langchain_community.vectorstores.infinispanvs.InfinispanVS.from_texts">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_texts</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">InfinispanVS</span><span class="p">],</span>
+        <span class="n">texts</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+        <span class="n">embedding</span><span class="p">:</span> <span class="n">Embeddings</span><span class="p">,</span>
+        <span class="n">metadatas</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">ids</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">clear_old</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">auto_config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">InfinispanVS</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Return VectorStore initialized from texts and embeddings."""</span>
+        <span class="n">infinispanvs</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span><span class="n">embedding</span><span class="o">=</span><span class="n">embedding</span><span class="p">,</span> <span class="n">ids</span><span class="o">=</span><span class="n">ids</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">auto_config</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">metadatas</span> <span class="ow">or</span> <span class="p">[])</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">clear_old</span><span class="p">:</span>
+                <span class="n">infinispanvs</span><span class="o">.</span><span class="n">config_clear</span><span class="p">()</span>
+            <span class="n">vec</span> <span class="o">=</span> <span class="n">embedding</span><span class="o">.</span><span class="n">embed_query</span><span class="p">(</span><span class="n">texts</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">texts</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])</span>
+            <span class="n">metadatas</span> <span class="o">=</span> <span class="n">cast</span><span class="p">(</span><span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">],</span> <span class="n">metadatas</span><span class="p">)</span>
+            <span class="n">infinispanvs</span><span class="o">.</span><span class="n">configure</span><span class="p">(</span><span class="n">metadatas</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">len</span><span class="p">(</span><span class="n">vec</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">clear_old</span><span class="p">:</span>
+                <span class="n">infinispanvs</span><span class="o">.</span><span class="n">cache_clear</span><span class="p">()</span>
+            <span class="n">vec</span> <span class="o">=</span> <span class="n">embedding</span><span class="o">.</span><span class="n">embed_query</span><span class="p">(</span><span class="n">texts</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">texts</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">texts</span><span class="p">:</span>
+            <span class="n">infinispanvs</span><span class="o">.</span><span class="n">add_texts</span><span class="p">(</span><span class="n">texts</span><span class="p">,</span> <span class="n">metadatas</span><span class="p">,</span> <span class="n">vector</span><span class="o">=</span><span class="n">vec</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">infinispanvs</span></div></div>
+
+
+<span class="n">REST_TIMEOUT</span> <span class="o">=</span> <span class="mi">10</span>
+
+
+<div class="viewcode-block" id="Infinispan"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.infinispanvs.Infinispan.html#langchain_community.vectorstores.infinispanvs.Infinispan">[docs]</a><span class="k">class</span> <span class="nc">Infinispan</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Helper class for `Infinispan` REST interface.</span>
+
+<span class="sd">    This class exposes the Infinispan operations needed to</span>
+<span class="sd">    create and set up a vector db.</span>
+
+<span class="sd">    You need a running Infinispan (15+) server without authentication.</span>
+<span class="sd">    You can easily start one, see:</span>
+<span class="sd">    https://github.com/rigazilla/infinispan-vector#run-infinispan</span>
+<span class="sd">    """</span>
+
+<div class="viewcode-block" id="Infinispan.__init__"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.infinispanvs.Infinispan.html#langchain_community.vectorstores.infinispanvs.Infinispan.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_configuration</span> <span class="o">=</span> <span class="n">kwargs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_schema</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_configuration</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"schema"</span><span class="p">,</span> <span class="s2">"http"</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_host</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_configuration</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"hosts"</span><span class="p">,</span> <span class="p">[</span><span class="s2">"127.0.0.1:11222"</span><span class="p">])[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_default_node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_schema</span> <span class="o">+</span> <span class="s2">"://"</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_host</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cache_url</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_configuration</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"cache_url"</span><span class="p">,</span> <span class="s2">"/rest/v2/caches"</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_schema_url</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_configuration</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"cache_url"</span><span class="p">,</span> <span class="s2">"/rest/v2/schemas"</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_use_post_for_query</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_configuration</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"use_post_for_query"</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="Infinispan.req_query"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.infinispanvs.Infinispan.html#langchain_community.vectorstores.infinispanvs.Infinispan.req_query">[docs]</a>    <span class="k">def</span> <span class="nf">req_query</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">cache_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">local</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">requests</span><span class="o">.</span><span class="n">Response</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Request a query</span>
+<span class="sd">        Args:</span>
+<span class="sd">            query(str): query requested</span>
+<span class="sd">            cache_name(str): name of the target cache</span>
+<span class="sd">            local(boolean): whether the query is local to clustered</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            An http Response containing the result set or errors</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_use_post_for_query</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_query_post</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">cache_name</span><span class="p">,</span> <span class="n">local</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_query_get</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">cache_name</span><span class="p">,</span> <span class="n">local</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_query_post</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">query_str</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">cache_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">local</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">requests</span><span class="o">.</span><span class="n">Response</span><span class="p">:</span>
+        <span class="n">api_url</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_default_node</span>
+            <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cache_url</span>
+            <span class="o">+</span> <span class="s2">"/"</span>
+            <span class="o">+</span> <span class="n">cache_name</span>
+            <span class="o">+</span> <span class="s2">"?action=search&amp;local="</span>
+            <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">local</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"query"</span><span class="p">:</span> <span class="n">query_str</span><span class="p">}</span>
+        <span class="n">data_json</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+            <span class="n">api_url</span><span class="p">,</span>
+            <span class="n">data_json</span><span class="p">,</span>
+            <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s2">"Content-Type"</span><span class="p">:</span> <span class="s2">"application/json"</span><span class="p">},</span>
+            <span class="n">timeout</span><span class="o">=</span><span class="n">REST_TIMEOUT</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">response</span>
+
+    <span class="k">def</span> <span class="nf">_query_get</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">query_str</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">cache_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">local</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">requests</span><span class="o">.</span><span class="n">Response</span><span class="p">:</span>
+        <span class="n">api_url</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_default_node</span>
+            <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cache_url</span>
+            <span class="o">+</span> <span class="s2">"/"</span>
+            <span class="o">+</span> <span class="n">cache_name</span>
+            <span class="o">+</span> <span class="s2">"?action=search&amp;query="</span>
+            <span class="o">+</span> <span class="n">query_str</span>
+            <span class="o">+</span> <span class="s2">"&amp;local="</span>
+            <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">local</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">api_url</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">REST_TIMEOUT</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">response</span>
+
+<div class="viewcode-block" id="Infinispan.post"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.infinispanvs.Infinispan.html#langchain_community.vectorstores.infinispanvs.Infinispan.post">[docs]</a>    <span class="k">def</span> <span class="nf">post</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">cache_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">requests</span><span class="o">.</span><span class="n">Response</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Post an entry</span>
+<span class="sd">        Args:</span>
+<span class="sd">            key(str): key of the entry</span>
+<span class="sd">            data(str): content of the entry in json format</span>
+<span class="sd">            cache_name(str): target cache</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            An http Response containing the result of the operation</span>
+<span class="sd">        """</span>
+        <span class="n">api_url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_default_node</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cache_url</span> <span class="o">+</span> <span class="s2">"/"</span> <span class="o">+</span> <span class="n">cache_name</span> <span class="o">+</span> <span class="s2">"/"</span> <span class="o">+</span> <span class="n">key</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+            <span class="n">api_url</span><span class="p">,</span>
+            <span class="n">data</span><span class="p">,</span>
+            <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s2">"Content-Type"</span><span class="p">:</span> <span class="s2">"application/json"</span><span class="p">},</span>
+            <span class="n">timeout</span><span class="o">=</span><span class="n">REST_TIMEOUT</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">response</span></div>
+
+<div class="viewcode-block" id="Infinispan.put"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.infinispanvs.Infinispan.html#langchain_community.vectorstores.infinispanvs.Infinispan.put">[docs]</a>    <span class="k">def</span> <span class="nf">put</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">cache_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">requests</span><span class="o">.</span><span class="n">Response</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Put an entry</span>
+<span class="sd">        Args:</span>
+<span class="sd">            key(str): key of the entry</span>
+<span class="sd">            data(str): content of the entry in json format</span>
+<span class="sd">            cache_name(str): target cache</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            An http Response containing the result of the operation</span>
+<span class="sd">        """</span>
+        <span class="n">api_url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_default_node</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cache_url</span> <span class="o">+</span> <span class="s2">"/"</span> <span class="o">+</span> <span class="n">cache_name</span> <span class="o">+</span> <span class="s2">"/"</span> <span class="o">+</span> <span class="n">key</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">put</span><span class="p">(</span>
+            <span class="n">api_url</span><span class="p">,</span>
+            <span class="n">data</span><span class="p">,</span>
+            <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s2">"Content-Type"</span><span class="p">:</span> <span class="s2">"application/json"</span><span class="p">},</span>
+            <span class="n">timeout</span><span class="o">=</span><span class="n">REST_TIMEOUT</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">response</span></div>
+
+<div class="viewcode-block" id="Infinispan.get"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.infinispanvs.Infinispan.html#langchain_community.vectorstores.infinispanvs.Infinispan.get">[docs]</a>    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">cache_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">requests</span><span class="o">.</span><span class="n">Response</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Get an entry</span>
+<span class="sd">        Args:</span>
+<span class="sd">            key(str): key of the entry</span>
+<span class="sd">            cache_name(str): target cache</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            An http Response containing the entry or errors</span>
+<span class="sd">        """</span>
+        <span class="n">api_url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_default_node</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cache_url</span> <span class="o">+</span> <span class="s2">"/"</span> <span class="o">+</span> <span class="n">cache_name</span> <span class="o">+</span> <span class="s2">"/"</span> <span class="o">+</span> <span class="n">key</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+            <span class="n">api_url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s2">"Content-Type"</span><span class="p">:</span> <span class="s2">"application/json"</span><span class="p">},</span> <span class="n">timeout</span><span class="o">=</span><span class="n">REST_TIMEOUT</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">response</span></div>
+
+<div class="viewcode-block" id="Infinispan.schema_post"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.infinispanvs.Infinispan.html#langchain_community.vectorstores.infinispanvs.Infinispan.schema_post">[docs]</a>    <span class="k">def</span> <span class="nf">schema_post</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">proto</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">requests</span><span class="o">.</span><span class="n">Response</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Deploy a schema</span>
+<span class="sd">        Args:</span>
+<span class="sd">            name(str): name of the schema. Will be used as a key</span>
+<span class="sd">            proto(str): protobuf schema</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            An http Response containing the result of the operation</span>
+<span class="sd">        """</span>
+        <span class="n">api_url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_default_node</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_schema_url</span> <span class="o">+</span> <span class="s2">"/"</span> <span class="o">+</span> <span class="n">name</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">api_url</span><span class="p">,</span> <span class="n">proto</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">REST_TIMEOUT</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">response</span></div>
+
+<div class="viewcode-block" id="Infinispan.cache_post"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.infinispanvs.Infinispan.html#langchain_community.vectorstores.infinispanvs.Infinispan.cache_post">[docs]</a>    <span class="k">def</span> <span class="nf">cache_post</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">requests</span><span class="o">.</span><span class="n">Response</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Create a cache</span>
+<span class="sd">        Args:</span>
+<span class="sd">            name(str): name of the cache.</span>
+<span class="sd">            config(str): configuration of the cache.</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            An http Response containing the result of the operation</span>
+<span class="sd">        """</span>
+        <span class="n">api_url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_default_node</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cache_url</span> <span class="o">+</span> <span class="s2">"/"</span> <span class="o">+</span> <span class="n">name</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+            <span class="n">api_url</span><span class="p">,</span>
+            <span class="n">config</span><span class="p">,</span>
+            <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s2">"Content-Type"</span><span class="p">:</span> <span class="s2">"application/json"</span><span class="p">},</span>
+            <span class="n">timeout</span><span class="o">=</span><span class="n">REST_TIMEOUT</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">response</span></div>
+
+<div class="viewcode-block" id="Infinispan.schema_delete"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.infinispanvs.Infinispan.html#langchain_community.vectorstores.infinispanvs.Infinispan.schema_delete">[docs]</a>    <span class="k">def</span> <span class="nf">schema_delete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">requests</span><span class="o">.</span><span class="n">Response</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Delete a schema</span>
+<span class="sd">        Args:</span>
+<span class="sd">            name(str): name of the schema.</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            An http Response containing the result of the operation</span>
+<span class="sd">        """</span>
+        <span class="n">api_url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_default_node</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_schema_url</span> <span class="o">+</span> <span class="s2">"/"</span> <span class="o">+</span> <span class="n">name</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">api_url</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">REST_TIMEOUT</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">response</span></div>
+
+<div class="viewcode-block" id="Infinispan.cache_delete"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.infinispanvs.Infinispan.html#langchain_community.vectorstores.infinispanvs.Infinispan.cache_delete">[docs]</a>    <span class="k">def</span> <span class="nf">cache_delete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">requests</span><span class="o">.</span><span class="n">Response</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Delete a cache</span>
+<span class="sd">        Args:</span>
+<span class="sd">            name(str): name of the cache.</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            An http Response containing the result of the operation</span>
+<span class="sd">        """</span>
+        <span class="n">api_url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_default_node</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cache_url</span> <span class="o">+</span> <span class="s2">"/"</span> <span class="o">+</span> <span class="n">name</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">api_url</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">REST_TIMEOUT</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">response</span></div>
+
+<div class="viewcode-block" id="Infinispan.cache_clear"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.infinispanvs.Infinispan.html#langchain_community.vectorstores.infinispanvs.Infinispan.cache_clear">[docs]</a>    <span class="k">def</span> <span class="nf">cache_clear</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cache_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">requests</span><span class="o">.</span><span class="n">Response</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Clear a cache</span>
+<span class="sd">        Args:</span>
+<span class="sd">            cache_name(str): name of the cache.</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            An http Response containing the result of the operation</span>
+<span class="sd">        """</span>
+        <span class="n">api_url</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_default_node</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cache_url</span> <span class="o">+</span> <span class="s2">"/"</span> <span class="o">+</span> <span class="n">cache_name</span> <span class="o">+</span> <span class="s2">"?action=clear"</span>
+        <span class="p">)</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">api_url</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">REST_TIMEOUT</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">response</span></div>
+
+<div class="viewcode-block" id="Infinispan.cache_exists"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.infinispanvs.Infinispan.html#langchain_community.vectorstores.infinispanvs.Infinispan.cache_exists">[docs]</a>    <span class="k">def</span> <span class="nf">cache_exists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cache_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Check if a cache exists</span>
+<span class="sd">        Args:</span>
+<span class="sd">            cache_name(str): name of the cache.</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            True if cache exists</span>
+<span class="sd">        """</span>
+        <span class="n">api_url</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_default_node</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cache_url</span> <span class="o">+</span> <span class="s2">"/"</span> <span class="o">+</span> <span class="n">cache_name</span> <span class="o">+</span> <span class="s2">"?action=clear"</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">resource_exists</span><span class="p">(</span><span class="n">api_url</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Infinispan.resource_exists"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.infinispanvs.Infinispan.html#langchain_community.vectorstores.infinispanvs.Infinispan.resource_exists">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">resource_exists</span><span class="p">(</span><span class="n">api_url</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Check if a resource exists</span>
+<span class="sd">        Args:</span>
+<span class="sd">            api_url(str): url of the resource.</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            true if resource exists</span>
+<span class="sd">        """</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="n">api_url</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">REST_TIMEOUT</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">ok</span></div>
+
+<div class="viewcode-block" id="Infinispan.index_clear"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.infinispanvs.Infinispan.html#langchain_community.vectorstores.infinispanvs.Infinispan.index_clear">[docs]</a>    <span class="k">def</span> <span class="nf">index_clear</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cache_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">requests</span><span class="o">.</span><span class="n">Response</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Clear an index on a cache</span>
+<span class="sd">        Args:</span>
+<span class="sd">            cache_name(str): name of the cache.</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            An http Response containing the result of the operation</span>
+<span class="sd">        """</span>
+        <span class="n">api_url</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_default_node</span>
+            <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cache_url</span>
+            <span class="o">+</span> <span class="s2">"/"</span>
+            <span class="o">+</span> <span class="n">cache_name</span>
+            <span class="o">+</span> <span class="s2">"/search/indexes?action=clear"</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">api_url</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">REST_TIMEOUT</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Infinispan.index_reindex"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.infinispanvs.Infinispan.html#langchain_community.vectorstores.infinispanvs.Infinispan.index_reindex">[docs]</a>    <span class="k">def</span> <span class="nf">index_reindex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cache_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">requests</span><span class="o">.</span><span class="n">Response</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Rebuild index on a cache</span>
+<span class="sd">        Args:</span>
+<span class="sd">            cache_name(str): name of the cache.</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            An http Response containing the result of the operation</span>
+<span class="sd">        """</span>
+        <span class="n">api_url</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_default_node</span>
+            <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cache_url</span>
+            <span class="o">+</span> <span class="s2">"/"</span>
+            <span class="o">+</span> <span class="n">cache_name</span>
+            <span class="o">+</span> <span class="s2">"/search/indexes?action=reindex"</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">api_url</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">REST_TIMEOUT</span><span class="p">)</span></div></div>
+</pre></div>
+</article>
+</div>
+</div>
+<footer class="bd-footer-content">
+</footer>
+</main>
+</div>
+</div>
+<!-- Scripts loaded after <body> so the DOM is not blocked -->
+<script src="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+<footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+<div class="footer-items__start">
+<div class="footer-item">
+<p class="copyright">
+    
+      © Copyright 2023, LangChain Inc.
+      <br/>
+</p>
+</div>
+</div>
+</div>
+</footer>
+</body>
+</html>

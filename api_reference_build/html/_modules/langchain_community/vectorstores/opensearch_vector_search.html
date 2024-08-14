@@ -1,0 +1,1735 @@
+
+<!DOCTYPE html>
+
+<html data-content_root="" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>langchain_community.vectorstores.opensearch_vector_search — 🦜🔗 LangChain  documentation</title>
+<script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+<!-- Loaded before other Sphinx assets -->
+<link href="../../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet"/>
+<link href="../../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet"/>
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet"/>
+<link href="../../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet"/>
+<link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" rel="preload" type="font/woff2"/>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/autodoc_pydantic.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/sphinx-design.4cbf315f70debaebd550c87a6162cf0f.min.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/css/custom.css" rel="stylesheet" type="text/css"/>
+<!-- Pre-loaded scripts that we'll load fully later -->
+<link as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
+<link as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
+<script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/sphinx_highlight.js"></script>
+<script src="../../../_static/clipboard.min.js"></script>
+<script src="../../../_static/copybutton.js"></script>
+<script src="../../../_static/design-tabs.js"></script>
+<script>DOCUMENTATION_OPTIONS.pagename = '_modules/langchain_community/vectorstores/opensearch_vector_search';</script>
+<link href="../../../_static/favicon.png" rel="icon"/>
+<link href="../../../search.html" rel="search" title="Search"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="en" name="docsearch:language"/>
+<meta content="Aug 14, 2024" name="docbuild:last-update"/>
+</head>
+<body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
+<div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
+<div id="pst-scroll-pixel-helper"></div>
+<button class="btn rounded-pill" id="pst-back-to-top" type="button">
+<i class="fa-solid fa-arrow-up"></i>Back to top</button>
+<input class="sidebar-toggle" id="pst-primary-sidebar-checkbox" type="checkbox"/>
+<label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+<input class="sidebar-toggle" id="pst-secondary-sidebar-checkbox" type="checkbox"/>
+<label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+<div class="search-button__wrapper">
+<div class="search-button__overlay"></div>
+<div class="search-button__search-container">
+<form action="../../../search.html" class="bd-search d-flex align-items-center" method="get">
+<i class="fa-solid fa-magnifying-glass"></i>
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="form-control" id="search-input" name="q" placeholder="Search" spellcheck="false" type="search"/>
+<span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+</div>
+<div class="pst-async-banner-revealer d-none">
+<aside aria-label="Version warning" class="d-none d-print-none" id="bd-header-version-warning"></aside>
+</div>
+<header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+<button aria-label="Site navigation" class="pst-navbar-icon sidebar-toggle primary-toggle">
+<span class="fa-solid fa-bars"></span>
+</button>
+<div class="navbar-header-items__start">
+<div class="navbar-item">
+<a class="navbar-brand logo" href="../../../index.html">
+<img alt="🦜🔗 LangChain  documentation - Home" class="logo__image only-light" src="../../../_static/wordmark-api.svg"/>
+<script>document.write(`<img src="../../../_static/wordmark-api-dark.svg" class="logo__image only-dark" alt="🦜🔗 LangChain  documentation - Home"/>`);</script>
+</a></div>
+</div>
+<div class="navbar-header-items">
+<div class="me-auto navbar-header-items__center">
+<div class="navbar-item">
+<nav>
+<ul class="bd-navbar-elements navbar-nav">
+<li class="nav-item">
+<a class="nav-link nav-internal" href="../../../reference.html">
+    Reference
+  </a>
+</li>
+<li class="nav-item">
+<a class="nav-link nav-external" href="https://api.python.langchain.com/">
+    Legacy reference
+  </a>
+</li>
+</ul>
+</nav></div>
+</div>
+<div class="navbar-header-items__end">
+<div class="navbar-item navbar-persistent--container">
+<form action="../../../search.html" class="bd-search d-flex align-items-center" method="get">
+<i class="fa-solid fa-magnifying-glass"></i>
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="form-control" id="search-input" name="q" placeholder="Search" spellcheck="false" type="search"/>
+<span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+</div>
+<div class="navbar-item"><!-- This will display a link to LangChain docs -->
+<head>
+<style>
+        .text-link {
+            text-decoration: none; /* Remove underline */
+            color: inherit;        /* Inherit color from parent element */
+        }
+    </style>
+</head>
+<body>
+<a class="text-link" href="https://python.langchain.com/">Docs</a>
+</body></div>
+<div class="navbar-item">
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+<div class="navbar-item"><ul aria-label="Quick Links" class="navbar-icon-links">
+<li class="nav-item">
+<a class="nav-link pst-navbar-icon" data-bs-placement="bottom" data-bs-toggle="tooltip" href="https://github.com/langchain-ai/langchain" rel="noopener" target="_blank" title="GitHub"><i aria-hidden="true" class="fa-brands fa-square-github fa-lg"></i>
+<span class="sr-only">GitHub</span></a>
+</li>
+<li class="nav-item">
+<a class="nav-link pst-navbar-icon" data-bs-placement="bottom" data-bs-toggle="tooltip" href="https://twitter.com/langchainai" rel="noopener" target="_blank" title="X / Twitter"><i aria-hidden="true" class="fab fa-twitter-square fa-lg"></i>
+<span class="sr-only">X / Twitter</span></a>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="navbar-persistent--mobile">
+<form action="../../../search.html" class="bd-search d-flex align-items-center" method="get">
+<i class="fa-solid fa-magnifying-glass"></i>
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="form-control" id="search-input" name="q" placeholder="Search" spellcheck="false" type="search"/>
+<span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+</div>
+</div>
+</header>
+<div class="bd-container">
+<div class="bd-container__inner bd-page-width">
+<div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+<div class="sidebar-header-items sidebar-primary__section">
+<div class="sidebar-header-items__center">
+<div class="navbar-item">
+<nav>
+<ul class="bd-navbar-elements navbar-nav">
+<li class="nav-item">
+<a class="nav-link nav-internal" href="../../../reference.html">
+    Reference
+  </a>
+</li>
+<li class="nav-item">
+<a class="nav-link nav-external" href="https://api.python.langchain.com/">
+    Legacy reference
+  </a>
+</li>
+</ul>
+</nav></div>
+</div>
+<div class="sidebar-header-items__end">
+<div class="navbar-item"><!-- This will display a link to LangChain docs -->
+<head>
+<style>
+        .text-link {
+            text-decoration: none; /* Remove underline */
+            color: inherit;        /* Inherit color from parent element */
+        }
+    </style>
+</head>
+<body>
+<a class="text-link" href="https://python.langchain.com/">Docs</a>
+</body></div>
+<div class="navbar-item">
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+<div class="navbar-item"><ul aria-label="Quick Links" class="navbar-icon-links">
+<li class="nav-item">
+<a class="nav-link pst-navbar-icon" data-bs-placement="bottom" data-bs-toggle="tooltip" href="https://github.com/langchain-ai/langchain" rel="noopener" target="_blank" title="GitHub"><i aria-hidden="true" class="fa-brands fa-square-github fa-lg"></i>
+<span class="sr-only">GitHub</span></a>
+</li>
+<li class="nav-item">
+<a class="nav-link pst-navbar-icon" data-bs-placement="bottom" data-bs-toggle="tooltip" href="https://twitter.com/langchainai" rel="noopener" target="_blank" title="X / Twitter"><i aria-hidden="true" class="fab fa-twitter-square fa-lg"></i>
+<span class="sr-only">X / Twitter</span></a>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sidebar-primary-items__end sidebar-primary__section">
+</div>
+<div id="rtd-footer-container"></div>
+</div>
+<main class="bd-main" id="main-content" role="main">
+<div class="bd-content">
+<div class="bd-article-container">
+<div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+<div class="header-article-items__start">
+<div class="header-article-item">
+<nav aria-label="Breadcrumb" class="d-print-none">
+<ul class="bd-breadcrumbs">
+<li class="breadcrumb-item breadcrumb-home">
+<a aria-label="Home" class="nav-link" href="../../../index.html">
+<i class="fa-solid fa-home"></i>
+</a>
+</li>
+<li class="breadcrumb-item"><a class="nav-link" href="../../index.html">Module code</a></li>
+<li aria-current="page" class="breadcrumb-item active">langchain_co...</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+</div>
+<div id="searchbox"></div>
+<article class="bd-article">
+<h1>Source code for langchain_community.vectorstores.opensearch_vector_search</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">import</span> <span class="nn">uuid</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">langchain_core.documents</span> <span class="kn">import</span> <span class="n">Document</span>
+<span class="kn">from</span> <span class="nn">langchain_core.embeddings</span> <span class="kn">import</span> <span class="n">Embeddings</span>
+<span class="kn">from</span> <span class="nn">langchain_core.utils</span> <span class="kn">import</span> <span class="n">get_from_dict_or_env</span>
+<span class="kn">from</span> <span class="nn">langchain_core.vectorstores</span> <span class="kn">import</span> <span class="n">VectorStore</span>
+
+<span class="kn">from</span> <span class="nn">langchain_community.vectorstores.utils</span> <span class="kn">import</span> <span class="n">maximal_marginal_relevance</span>
+
+<span class="n">IMPORT_OPENSEARCH_PY_ERROR</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s2">"Could not import OpenSearch. Please install it with `pip install opensearch-py`."</span>
+<span class="p">)</span>
+<span class="n">IMPORT_ASYNC_OPENSEARCH_PY_ERROR</span> <span class="o">=</span> <span class="s2">"""</span>
+<span class="s2">Could not import AsyncOpenSearch. </span>
+<span class="s2">Please install it with `pip install opensearch-py`."""</span>
+
+<span class="n">SCRIPT_SCORING_SEARCH</span> <span class="o">=</span> <span class="s2">"script_scoring"</span>
+<span class="n">PAINLESS_SCRIPTING_SEARCH</span> <span class="o">=</span> <span class="s2">"painless_scripting"</span>
+<span class="n">MATCH_ALL_QUERY</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"match_all"</span><span class="p">:</span> <span class="p">{}}</span>  <span class="c1"># type: Dict</span>
+
+
+<span class="k">def</span> <span class="nf">_import_opensearch</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Import OpenSearch if available, otherwise raise error."""</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="kn">from</span> <span class="nn">opensearchpy</span> <span class="kn">import</span> <span class="n">OpenSearch</span>
+    <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="n">IMPORT_OPENSEARCH_PY_ERROR</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">OpenSearch</span>
+
+
+<span class="k">def</span> <span class="nf">_import_async_opensearch</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Import AsyncOpenSearch if available, otherwise raise error."""</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="kn">from</span> <span class="nn">opensearchpy</span> <span class="kn">import</span> <span class="n">AsyncOpenSearch</span>
+    <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="n">IMPORT_ASYNC_OPENSEARCH_PY_ERROR</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">AsyncOpenSearch</span>
+
+
+<span class="k">def</span> <span class="nf">_import_bulk</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Import bulk if available, otherwise raise error."""</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="kn">from</span> <span class="nn">opensearchpy.helpers</span> <span class="kn">import</span> <span class="n">bulk</span>
+    <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="n">IMPORT_OPENSEARCH_PY_ERROR</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">bulk</span>
+
+
+<span class="k">def</span> <span class="nf">_import_async_bulk</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Import async_bulk if available, otherwise raise error."""</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="kn">from</span> <span class="nn">opensearchpy.helpers</span> <span class="kn">import</span> <span class="n">async_bulk</span>
+    <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="n">IMPORT_ASYNC_OPENSEARCH_PY_ERROR</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">async_bulk</span>
+
+
+<span class="k">def</span> <span class="nf">_import_not_found_error</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Import not found error if available, otherwise raise error."""</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="kn">from</span> <span class="nn">opensearchpy.exceptions</span> <span class="kn">import</span> <span class="n">NotFoundError</span>
+    <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="n">IMPORT_OPENSEARCH_PY_ERROR</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">NotFoundError</span>
+
+
+<span class="k">def</span> <span class="nf">_get_opensearch_client</span><span class="p">(</span><span class="n">opensearch_url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Get OpenSearch client from the opensearch_url, otherwise raise error."""</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">opensearch</span> <span class="o">=</span> <span class="n">_import_opensearch</span><span class="p">()</span>
+        <span class="n">client</span> <span class="o">=</span> <span class="n">opensearch</span><span class="p">(</span><span class="n">opensearch_url</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">"OpenSearch client string provided is not in proper format. "</span>
+            <span class="sa">f</span><span class="s2">"Got error: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2"> "</span>
+        <span class="p">)</span>
+    <span class="k">return</span> <span class="n">client</span>
+
+
+<span class="k">def</span> <span class="nf">_get_async_opensearch_client</span><span class="p">(</span><span class="n">opensearch_url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Get AsyncOpenSearch client from the opensearch_url, otherwise raise error."""</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">async_opensearch</span> <span class="o">=</span> <span class="n">_import_async_opensearch</span><span class="p">()</span>
+        <span class="n">client</span> <span class="o">=</span> <span class="n">async_opensearch</span><span class="p">(</span><span class="n">opensearch_url</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">"AsyncOpenSearch client string provided is not in proper format. "</span>
+            <span class="sa">f</span><span class="s2">"Got error: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2"> "</span>
+        <span class="p">)</span>
+    <span class="k">return</span> <span class="n">client</span>
+
+
+<span class="k">def</span> <span class="nf">_validate_embeddings_and_bulk_size</span><span class="p">(</span><span class="n">embeddings_length</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">bulk_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Validate Embeddings Length and Bulk Size."""</span>
+    <span class="k">if</span> <span class="n">embeddings_length</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">"Embeddings size is zero"</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">bulk_size</span> <span class="o">&lt;</span> <span class="n">embeddings_length</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">"The embeddings count, </span><span class="si">{</span><span class="n">embeddings_length</span><span class="si">}</span><span class="s2"> is more than the "</span>
+            <span class="sa">f</span><span class="s2">"[bulk_size], </span><span class="si">{</span><span class="n">bulk_size</span><span class="si">}</span><span class="s2">. Increase the value of [bulk_size]."</span>
+        <span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_validate_aoss_with_engines</span><span class="p">(</span><span class="n">is_aoss</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">engine</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Validate AOSS with the engine."""</span>
+    <span class="k">if</span> <span class="n">is_aoss</span> <span class="ow">and</span> <span class="n">engine</span> <span class="o">!=</span> <span class="s2">"nmslib"</span> <span class="ow">and</span> <span class="n">engine</span> <span class="o">!=</span> <span class="s2">"faiss"</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">"Amazon OpenSearch Service Serverless only "</span>
+            <span class="s2">"supports `nmslib` or `faiss` engines"</span>
+        <span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_is_aoss_enabled</span><span class="p">(</span><span class="n">http_auth</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Check if the service is http_auth is set as `aoss`."""</span>
+    <span class="k">if</span> <span class="p">(</span>
+        <span class="n">http_auth</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+        <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">http_auth</span><span class="p">,</span> <span class="s2">"service"</span><span class="p">)</span>
+        <span class="ow">and</span> <span class="n">http_auth</span><span class="o">.</span><span class="n">service</span> <span class="o">==</span> <span class="s2">"aoss"</span>
+    <span class="p">):</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">return</span> <span class="kc">False</span>
+
+
+<span class="k">def</span> <span class="nf">_bulk_ingest_embeddings</span><span class="p">(</span>
+    <span class="n">client</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="n">index_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">embeddings</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]],</span>
+    <span class="n">texts</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+    <span class="n">metadatas</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">ids</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">vector_field</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"vector_field"</span><span class="p">,</span>
+    <span class="n">text_field</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"text"</span><span class="p">,</span>
+    <span class="n">mapping</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">max_chunk_bytes</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">*</span> <span class="mi">1024</span> <span class="o">*</span> <span class="mi">1024</span><span class="p">,</span>
+    <span class="n">is_aoss</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""Bulk Ingest Embeddings into given index."""</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">mapping</span><span class="p">:</span>
+        <span class="n">mapping</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+
+    <span class="n">bulk</span> <span class="o">=</span> <span class="n">_import_bulk</span><span class="p">()</span>
+    <span class="n">not_found_error</span> <span class="o">=</span> <span class="n">_import_not_found_error</span><span class="p">()</span>
+    <span class="n">requests</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">return_ids</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">mapping</span> <span class="o">=</span> <span class="n">mapping</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">client</span><span class="o">.</span><span class="n">indices</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">index_name</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">not_found_error</span><span class="p">:</span>
+        <span class="n">client</span><span class="o">.</span><span class="n">indices</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">index_name</span><span class="p">,</span> <span class="n">body</span><span class="o">=</span><span class="n">mapping</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">text</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">texts</span><span class="p">):</span>
+        <span class="n">metadata</span> <span class="o">=</span> <span class="n">metadatas</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">if</span> <span class="n">metadatas</span> <span class="k">else</span> <span class="p">{}</span>
+        <span class="n">_id</span> <span class="o">=</span> <span class="n">ids</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">if</span> <span class="n">ids</span> <span class="k">else</span> <span class="nb">str</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">())</span>
+        <span class="n">request</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">"_op_type"</span><span class="p">:</span> <span class="s2">"index"</span><span class="p">,</span>
+            <span class="s2">"_index"</span><span class="p">:</span> <span class="n">index_name</span><span class="p">,</span>
+            <span class="n">vector_field</span><span class="p">:</span> <span class="n">embeddings</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+            <span class="n">text_field</span><span class="p">:</span> <span class="n">text</span><span class="p">,</span>
+            <span class="s2">"metadata"</span><span class="p">:</span> <span class="n">metadata</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="n">is_aoss</span><span class="p">:</span>
+            <span class="n">request</span><span class="p">[</span><span class="s2">"id"</span><span class="p">]</span> <span class="o">=</span> <span class="n">_id</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">request</span><span class="p">[</span><span class="s2">"_id"</span><span class="p">]</span> <span class="o">=</span> <span class="n">_id</span>
+        <span class="n">requests</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+        <span class="n">return_ids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_id</span><span class="p">)</span>
+    <span class="n">bulk</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">requests</span><span class="p">,</span> <span class="n">max_chunk_bytes</span><span class="o">=</span><span class="n">max_chunk_bytes</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">is_aoss</span><span class="p">:</span>
+        <span class="n">client</span><span class="o">.</span><span class="n">indices</span><span class="o">.</span><span class="n">refresh</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">index_name</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">return_ids</span>
+
+
+<span class="k">async</span> <span class="k">def</span> <span class="nf">_abulk_ingest_embeddings</span><span class="p">(</span>
+    <span class="n">client</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="n">index_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">embeddings</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]],</span>
+    <span class="n">texts</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+    <span class="n">metadatas</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">ids</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">vector_field</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"vector_field"</span><span class="p">,</span>
+    <span class="n">text_field</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"text"</span><span class="p">,</span>
+    <span class="n">mapping</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">max_chunk_bytes</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">*</span> <span class="mi">1024</span> <span class="o">*</span> <span class="mi">1024</span><span class="p">,</span>
+    <span class="n">is_aoss</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""Bulk Ingest Embeddings into given index asynchronously using AsyncOpenSearch."""</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">mapping</span><span class="p">:</span>
+        <span class="n">mapping</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+
+    <span class="n">async_bulk</span> <span class="o">=</span> <span class="n">_import_async_bulk</span><span class="p">()</span>
+    <span class="n">not_found_error</span> <span class="o">=</span> <span class="n">_import_not_found_error</span><span class="p">()</span>
+    <span class="n">requests</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">return_ids</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">indices</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">index_name</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">not_found_error</span><span class="p">:</span>
+        <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">indices</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">index_name</span><span class="p">,</span> <span class="n">body</span><span class="o">=</span><span class="n">mapping</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">text</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">texts</span><span class="p">):</span>
+        <span class="n">metadata</span> <span class="o">=</span> <span class="n">metadatas</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">if</span> <span class="n">metadatas</span> <span class="k">else</span> <span class="p">{}</span>
+        <span class="n">_id</span> <span class="o">=</span> <span class="n">ids</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">if</span> <span class="n">ids</span> <span class="k">else</span> <span class="nb">str</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">())</span>
+        <span class="n">request</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">"_op_type"</span><span class="p">:</span> <span class="s2">"index"</span><span class="p">,</span>
+            <span class="s2">"_index"</span><span class="p">:</span> <span class="n">index_name</span><span class="p">,</span>
+            <span class="n">vector_field</span><span class="p">:</span> <span class="n">embeddings</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+            <span class="n">text_field</span><span class="p">:</span> <span class="n">text</span><span class="p">,</span>
+            <span class="s2">"metadata"</span><span class="p">:</span> <span class="n">metadata</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="n">is_aoss</span><span class="p">:</span>
+            <span class="n">request</span><span class="p">[</span><span class="s2">"id"</span><span class="p">]</span> <span class="o">=</span> <span class="n">_id</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">request</span><span class="p">[</span><span class="s2">"_id"</span><span class="p">]</span> <span class="o">=</span> <span class="n">_id</span>
+        <span class="n">requests</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+        <span class="n">return_ids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_id</span><span class="p">)</span>
+
+    <span class="k">await</span> <span class="n">async_bulk</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">requests</span><span class="p">,</span> <span class="n">max_chunk_bytes</span><span class="o">=</span><span class="n">max_chunk_bytes</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">is_aoss</span><span class="p">:</span>
+        <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">indices</span><span class="o">.</span><span class="n">refresh</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">index_name</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">return_ids</span>
+
+
+<span class="k">def</span> <span class="nf">_default_scripting_text_mapping</span><span class="p">(</span>
+    <span class="n">dim</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">vector_field</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"vector_field"</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""For Painless Scripting or Script Scoring,the default mapping to create index."""</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">"mappings"</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">"properties"</span><span class="p">:</span> <span class="p">{</span>
+                <span class="n">vector_field</span><span class="p">:</span> <span class="p">{</span><span class="s2">"type"</span><span class="p">:</span> <span class="s2">"knn_vector"</span><span class="p">,</span> <span class="s2">"dimension"</span><span class="p">:</span> <span class="n">dim</span><span class="p">},</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+
+<span class="k">def</span> <span class="nf">_default_text_mapping</span><span class="p">(</span>
+    <span class="n">dim</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">engine</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"nmslib"</span><span class="p">,</span>
+    <span class="n">space_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"l2"</span><span class="p">,</span>
+    <span class="n">ef_search</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">512</span><span class="p">,</span>
+    <span class="n">ef_construction</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">512</span><span class="p">,</span>
+    <span class="n">m</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">16</span><span class="p">,</span>
+    <span class="n">vector_field</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"vector_field"</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""For Approximate k-NN Search, this is the default mapping to create index."""</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">"settings"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"index"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"knn"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"knn.algo_param.ef_search"</span><span class="p">:</span> <span class="n">ef_search</span><span class="p">}},</span>
+        <span class="s2">"mappings"</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">"properties"</span><span class="p">:</span> <span class="p">{</span>
+                <span class="n">vector_field</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"knn_vector"</span><span class="p">,</span>
+                    <span class="s2">"dimension"</span><span class="p">:</span> <span class="n">dim</span><span class="p">,</span>
+                    <span class="s2">"method"</span><span class="p">:</span> <span class="p">{</span>
+                        <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"hnsw"</span><span class="p">,</span>
+                        <span class="s2">"space_type"</span><span class="p">:</span> <span class="n">space_type</span><span class="p">,</span>
+                        <span class="s2">"engine"</span><span class="p">:</span> <span class="n">engine</span><span class="p">,</span>
+                        <span class="s2">"parameters"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"ef_construction"</span><span class="p">:</span> <span class="n">ef_construction</span><span class="p">,</span> <span class="s2">"m"</span><span class="p">:</span> <span class="n">m</span><span class="p">},</span>
+                    <span class="p">},</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">},</span>
+    <span class="p">}</span>
+
+
+<span class="k">def</span> <span class="nf">_default_approximate_search_query</span><span class="p">(</span>
+    <span class="n">query_vector</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
+    <span class="n">k</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
+    <span class="n">vector_field</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"vector_field"</span><span class="p">,</span>
+    <span class="n">score_threshold</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""For Approximate k-NN Search, this is the default query."""</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">"size"</span><span class="p">:</span> <span class="n">k</span><span class="p">,</span>
+        <span class="s2">"min_score"</span><span class="p">:</span> <span class="n">score_threshold</span><span class="p">,</span>
+        <span class="s2">"query"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"knn"</span><span class="p">:</span> <span class="p">{</span><span class="n">vector_field</span><span class="p">:</span> <span class="p">{</span><span class="s2">"vector"</span><span class="p">:</span> <span class="n">query_vector</span><span class="p">,</span> <span class="s2">"k"</span><span class="p">:</span> <span class="n">k</span><span class="p">}}},</span>
+    <span class="p">}</span>
+
+
+<span class="k">def</span> <span class="nf">_approximate_search_query_with_boolean_filter</span><span class="p">(</span>
+    <span class="n">query_vector</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
+    <span class="n">boolean_filter</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>
+    <span class="n">k</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
+    <span class="n">vector_field</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"vector_field"</span><span class="p">,</span>
+    <span class="n">subquery_clause</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"must"</span><span class="p">,</span>
+    <span class="n">score_threshold</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""For Approximate k-NN Search, with Boolean Filter."""</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">"size"</span><span class="p">:</span> <span class="n">k</span><span class="p">,</span>
+        <span class="s2">"min_score"</span><span class="p">:</span> <span class="n">score_threshold</span><span class="p">,</span>
+        <span class="s2">"query"</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">"bool"</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">"filter"</span><span class="p">:</span> <span class="n">boolean_filter</span><span class="p">,</span>
+                <span class="n">subquery_clause</span><span class="p">:</span> <span class="p">[</span>
+                    <span class="p">{</span><span class="s2">"knn"</span><span class="p">:</span> <span class="p">{</span><span class="n">vector_field</span><span class="p">:</span> <span class="p">{</span><span class="s2">"vector"</span><span class="p">:</span> <span class="n">query_vector</span><span class="p">,</span> <span class="s2">"k"</span><span class="p">:</span> <span class="n">k</span><span class="p">}}}</span>
+                <span class="p">],</span>
+            <span class="p">}</span>
+        <span class="p">},</span>
+    <span class="p">}</span>
+
+
+<span class="k">def</span> <span class="nf">_approximate_search_query_with_efficient_filter</span><span class="p">(</span>
+    <span class="n">query_vector</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
+    <span class="n">efficient_filter</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>
+    <span class="n">k</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
+    <span class="n">vector_field</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"vector_field"</span><span class="p">,</span>
+    <span class="n">score_threshold</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""For Approximate k-NN Search, with Efficient Filter for Lucene and</span>
+<span class="sd">    Faiss Engines."""</span>
+    <span class="n">search_query</span> <span class="o">=</span> <span class="n">_default_approximate_search_query</span><span class="p">(</span>
+        <span class="n">query_vector</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="n">k</span><span class="p">,</span> <span class="n">vector_field</span><span class="o">=</span><span class="n">vector_field</span><span class="p">,</span> <span class="n">score_threshold</span><span class="o">=</span><span class="n">score_threshold</span>
+    <span class="p">)</span>
+    <span class="n">search_query</span><span class="p">[</span><span class="s2">"query"</span><span class="p">][</span><span class="s2">"knn"</span><span class="p">][</span><span class="n">vector_field</span><span class="p">][</span><span class="s2">"filter"</span><span class="p">]</span> <span class="o">=</span> <span class="n">efficient_filter</span>
+    <span class="k">return</span> <span class="n">search_query</span>
+
+
+<span class="k">def</span> <span class="nf">_default_script_query</span><span class="p">(</span>
+    <span class="n">query_vector</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
+    <span class="n">k</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
+    <span class="n">space_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"l2"</span><span class="p">,</span>
+    <span class="n">pre_filter</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">vector_field</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"vector_field"</span><span class="p">,</span>
+    <span class="n">score_threshold</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""For Script Scoring Search, this is the default query."""</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">pre_filter</span><span class="p">:</span>
+        <span class="n">pre_filter</span> <span class="o">=</span> <span class="n">MATCH_ALL_QUERY</span>
+
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">"size"</span><span class="p">:</span> <span class="n">k</span><span class="p">,</span>
+        <span class="s2">"min_score"</span><span class="p">:</span> <span class="n">score_threshold</span><span class="p">,</span>
+        <span class="s2">"query"</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">"script_score"</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">"query"</span><span class="p">:</span> <span class="n">pre_filter</span><span class="p">,</span>
+                <span class="s2">"script"</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s2">"source"</span><span class="p">:</span> <span class="s2">"knn_score"</span><span class="p">,</span>
+                    <span class="s2">"lang"</span><span class="p">:</span> <span class="s2">"knn"</span><span class="p">,</span>
+                    <span class="s2">"params"</span><span class="p">:</span> <span class="p">{</span>
+                        <span class="s2">"field"</span><span class="p">:</span> <span class="n">vector_field</span><span class="p">,</span>
+                        <span class="s2">"query_value"</span><span class="p">:</span> <span class="n">query_vector</span><span class="p">,</span>
+                        <span class="s2">"space_type"</span><span class="p">:</span> <span class="n">space_type</span><span class="p">,</span>
+                    <span class="p">},</span>
+                <span class="p">},</span>
+            <span class="p">}</span>
+        <span class="p">},</span>
+    <span class="p">}</span>
+
+
+<span class="k">def</span> <span class="nf">__get_painless_scripting_source</span><span class="p">(</span>
+    <span class="n">space_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">vector_field</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"vector_field"</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""For Painless Scripting, it returns the script source based on space type."""</span>
+    <span class="n">source_value</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="s2">"(1.0 + "</span> <span class="o">+</span> <span class="n">space_type</span> <span class="o">+</span> <span class="s2">"(params.query_value, doc['"</span> <span class="o">+</span> <span class="n">vector_field</span> <span class="o">+</span> <span class="s2">"']))"</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="n">space_type</span> <span class="o">==</span> <span class="s2">"cosineSimilarity"</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">source_value</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">"1/"</span> <span class="o">+</span> <span class="n">source_value</span>
+
+
+<span class="k">def</span> <span class="nf">_default_painless_scripting_query</span><span class="p">(</span>
+    <span class="n">query_vector</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
+    <span class="n">k</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
+    <span class="n">space_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"l2Squared"</span><span class="p">,</span>
+    <span class="n">pre_filter</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">vector_field</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"vector_field"</span><span class="p">,</span>
+    <span class="n">score_threshold</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""For Painless Scripting Search, this is the default query."""</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">pre_filter</span><span class="p">:</span>
+        <span class="n">pre_filter</span> <span class="o">=</span> <span class="n">MATCH_ALL_QUERY</span>
+
+    <span class="n">source</span> <span class="o">=</span> <span class="n">__get_painless_scripting_source</span><span class="p">(</span><span class="n">space_type</span><span class="p">,</span> <span class="n">vector_field</span><span class="o">=</span><span class="n">vector_field</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">"size"</span><span class="p">:</span> <span class="n">k</span><span class="p">,</span>
+        <span class="s2">"min_score"</span><span class="p">:</span> <span class="n">score_threshold</span><span class="p">,</span>
+        <span class="s2">"query"</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">"script_score"</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">"query"</span><span class="p">:</span> <span class="n">pre_filter</span><span class="p">,</span>
+                <span class="s2">"script"</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s2">"source"</span><span class="p">:</span> <span class="n">source</span><span class="p">,</span>
+                    <span class="s2">"params"</span><span class="p">:</span> <span class="p">{</span>
+                        <span class="s2">"field"</span><span class="p">:</span> <span class="n">vector_field</span><span class="p">,</span>
+                        <span class="s2">"query_value"</span><span class="p">:</span> <span class="n">query_vector</span><span class="p">,</span>
+                    <span class="p">},</span>
+                <span class="p">},</span>
+            <span class="p">}</span>
+        <span class="p">},</span>
+    <span class="p">}</span>
+
+
+<div class="viewcode-block" id="OpenSearchVectorSearch"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.opensearch_vector_search.OpenSearchVectorSearch.html#langchain_community.vectorstores.opensearch_vector_search.OpenSearchVectorSearch">[docs]</a><span class="k">class</span> <span class="nc">OpenSearchVectorSearch</span><span class="p">(</span><span class="n">VectorStore</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""`Amazon OpenSearch Vector Engine` vector store.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            from langchain_community.vectorstores import OpenSearchVectorSearch</span>
+<span class="sd">            opensearch_vector_search = OpenSearchVectorSearch(</span>
+<span class="sd">                "http://localhost:9200",</span>
+<span class="sd">                "embeddings",</span>
+<span class="sd">                embedding_function</span>
+<span class="sd">            )</span>
+
+<span class="sd">    """</span>
+
+<div class="viewcode-block" id="OpenSearchVectorSearch.__init__"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.opensearch_vector_search.OpenSearchVectorSearch.html#langchain_community.vectorstores.opensearch_vector_search.OpenSearchVectorSearch.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">opensearch_url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">index_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">embedding_function</span><span class="p">:</span> <span class="n">Embeddings</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Initialize with necessary components."""</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">embedding_function</span> <span class="o">=</span> <span class="n">embedding_function</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">index_name</span> <span class="o">=</span> <span class="n">index_name</span>
+        <span class="n">http_auth</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"http_auth"</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">is_aoss</span> <span class="o">=</span> <span class="n">_is_aoss_enabled</span><span class="p">(</span><span class="n">http_auth</span><span class="o">=</span><span class="n">http_auth</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">_get_opensearch_client</span><span class="p">(</span><span class="n">opensearch_url</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">async_client</span> <span class="o">=</span> <span class="n">_get_async_opensearch_client</span><span class="p">(</span><span class="n">opensearch_url</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">engine</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"engine"</span><span class="p">)</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">embeddings</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Embeddings</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">embedding_function</span>
+
+    <span class="k">def</span> <span class="nf">__add</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">texts</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+        <span class="n">embeddings</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]],</span>
+        <span class="n">metadatas</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">ids</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">bulk_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">500</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="n">_validate_embeddings_and_bulk_size</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">embeddings</span><span class="p">),</span> <span class="n">bulk_size</span><span class="p">)</span>
+        <span class="n">index_name</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"index_name"</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">index_name</span><span class="p">)</span>
+        <span class="n">text_field</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"text_field"</span><span class="p">,</span> <span class="s2">"text"</span><span class="p">)</span>
+        <span class="n">dim</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">embeddings</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">engine</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"engine"</span><span class="p">,</span> <span class="s2">"nmslib"</span><span class="p">)</span>
+        <span class="n">space_type</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"space_type"</span><span class="p">,</span> <span class="s2">"l2"</span><span class="p">)</span>
+        <span class="n">ef_search</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"ef_search"</span><span class="p">,</span> <span class="mi">512</span><span class="p">)</span>
+        <span class="n">ef_construction</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"ef_construction"</span><span class="p">,</span> <span class="mi">512</span><span class="p">)</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"m"</span><span class="p">,</span> <span class="mi">16</span><span class="p">)</span>
+        <span class="n">vector_field</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"vector_field"</span><span class="p">,</span> <span class="s2">"vector_field"</span><span class="p">)</span>
+        <span class="n">max_chunk_bytes</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"max_chunk_bytes"</span><span class="p">,</span> <span class="mi">1</span> <span class="o">*</span> <span class="mi">1024</span> <span class="o">*</span> <span class="mi">1024</span><span class="p">)</span>
+
+        <span class="n">_validate_aoss_with_engines</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">is_aoss</span><span class="p">,</span> <span class="n">engine</span><span class="p">)</span>
+
+        <span class="n">mapping</span> <span class="o">=</span> <span class="n">_default_text_mapping</span><span class="p">(</span>
+            <span class="n">dim</span><span class="p">,</span> <span class="n">engine</span><span class="p">,</span> <span class="n">space_type</span><span class="p">,</span> <span class="n">ef_search</span><span class="p">,</span> <span class="n">ef_construction</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">vector_field</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">_bulk_ingest_embeddings</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">,</span>
+            <span class="n">index_name</span><span class="p">,</span>
+            <span class="n">embeddings</span><span class="p">,</span>
+            <span class="n">texts</span><span class="p">,</span>
+            <span class="n">metadatas</span><span class="o">=</span><span class="n">metadatas</span><span class="p">,</span>
+            <span class="n">ids</span><span class="o">=</span><span class="n">ids</span><span class="p">,</span>
+            <span class="n">vector_field</span><span class="o">=</span><span class="n">vector_field</span><span class="p">,</span>
+            <span class="n">text_field</span><span class="o">=</span><span class="n">text_field</span><span class="p">,</span>
+            <span class="n">mapping</span><span class="o">=</span><span class="n">mapping</span><span class="p">,</span>
+            <span class="n">max_chunk_bytes</span><span class="o">=</span><span class="n">max_chunk_bytes</span><span class="p">,</span>
+            <span class="n">is_aoss</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">is_aoss</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">__aadd</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">texts</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+        <span class="n">embeddings</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]],</span>
+        <span class="n">metadatas</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">ids</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">bulk_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">500</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="n">_validate_embeddings_and_bulk_size</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">embeddings</span><span class="p">),</span> <span class="n">bulk_size</span><span class="p">)</span>
+        <span class="n">index_name</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"index_name"</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">index_name</span><span class="p">)</span>
+        <span class="n">text_field</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"text_field"</span><span class="p">,</span> <span class="s2">"text"</span><span class="p">)</span>
+        <span class="n">dim</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">embeddings</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">engine</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"engine"</span><span class="p">,</span> <span class="s2">"nmslib"</span><span class="p">)</span>
+        <span class="n">space_type</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"space_type"</span><span class="p">,</span> <span class="s2">"l2"</span><span class="p">)</span>
+        <span class="n">ef_search</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"ef_search"</span><span class="p">,</span> <span class="mi">512</span><span class="p">)</span>
+        <span class="n">ef_construction</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"ef_construction"</span><span class="p">,</span> <span class="mi">512</span><span class="p">)</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"m"</span><span class="p">,</span> <span class="mi">16</span><span class="p">)</span>
+        <span class="n">vector_field</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"vector_field"</span><span class="p">,</span> <span class="s2">"vector_field"</span><span class="p">)</span>
+        <span class="n">max_chunk_bytes</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"max_chunk_bytes"</span><span class="p">,</span> <span class="mi">1</span> <span class="o">*</span> <span class="mi">1024</span> <span class="o">*</span> <span class="mi">1024</span><span class="p">)</span>
+
+        <span class="n">_validate_aoss_with_engines</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">is_aoss</span><span class="p">,</span> <span class="n">engine</span><span class="p">)</span>
+
+        <span class="n">mapping</span> <span class="o">=</span> <span class="n">_default_text_mapping</span><span class="p">(</span>
+            <span class="n">dim</span><span class="p">,</span> <span class="n">engine</span><span class="p">,</span> <span class="n">space_type</span><span class="p">,</span> <span class="n">ef_search</span><span class="p">,</span> <span class="n">ef_construction</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">vector_field</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="k">await</span> <span class="n">_abulk_ingest_embeddings</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">async_client</span><span class="p">,</span>
+            <span class="n">index_name</span><span class="p">,</span>
+            <span class="n">embeddings</span><span class="p">,</span>
+            <span class="n">texts</span><span class="p">,</span>
+            <span class="n">metadatas</span><span class="o">=</span><span class="n">metadatas</span><span class="p">,</span>
+            <span class="n">ids</span><span class="o">=</span><span class="n">ids</span><span class="p">,</span>
+            <span class="n">vector_field</span><span class="o">=</span><span class="n">vector_field</span><span class="p">,</span>
+            <span class="n">text_field</span><span class="o">=</span><span class="n">text_field</span><span class="p">,</span>
+            <span class="n">mapping</span><span class="o">=</span><span class="n">mapping</span><span class="p">,</span>
+            <span class="n">max_chunk_bytes</span><span class="o">=</span><span class="n">max_chunk_bytes</span><span class="p">,</span>
+            <span class="n">is_aoss</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">is_aoss</span><span class="p">,</span>
+        <span class="p">)</span>
+
+<div class="viewcode-block" id="OpenSearchVectorSearch.delete_index"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.opensearch_vector_search.OpenSearchVectorSearch.html#langchain_community.vectorstores.opensearch_vector_search.OpenSearchVectorSearch.delete_index">[docs]</a>    <span class="k">def</span> <span class="nf">delete_index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Deletes a given index from vectorstore."""</span>
+        <span class="k">if</span> <span class="n">index_name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">index_name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"index_name must be provided."</span><span class="p">)</span>
+            <span class="n">index_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">index_name</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">indices</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">index_name</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">e</span></div>
+
+<div class="viewcode-block" id="OpenSearchVectorSearch.index_exists"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.opensearch_vector_search.OpenSearchVectorSearch.html#langchain_community.vectorstores.opensearch_vector_search.OpenSearchVectorSearch.index_exists">[docs]</a>    <span class="k">def</span> <span class="nf">index_exists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""If given index present in vectorstore, returns True else False."""</span>
+        <span class="k">if</span> <span class="n">index_name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">index_name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"index_name must be provided."</span><span class="p">)</span>
+            <span class="n">index_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">index_name</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">indices</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">index_name</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="OpenSearchVectorSearch.create_index"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.opensearch_vector_search.OpenSearchVectorSearch.html#langchain_community.vectorstores.opensearch_vector_search.OpenSearchVectorSearch.create_index">[docs]</a>    <span class="k">def</span> <span class="nf">create_index</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">dimension</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">index_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">()</span><span class="o">.</span><span class="n">hex</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Create a new Index with given arguments"""</span>
+        <span class="n">is_appx_search</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"is_appx_search"</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="n">vector_field</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"vector_field"</span><span class="p">,</span> <span class="s2">"vector_field"</span><span class="p">)</span>
+        <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"text_field"</span><span class="p">,</span> <span class="s2">"text"</span><span class="p">)</span>
+        <span class="n">http_auth</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"http_auth"</span><span class="p">)</span>
+        <span class="n">is_aoss</span> <span class="o">=</span> <span class="n">_is_aoss_enabled</span><span class="p">(</span><span class="n">http_auth</span><span class="o">=</span><span class="n">http_auth</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">is_aoss</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">is_appx_search</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">"Amazon OpenSearch Service Serverless only "</span>
+                <span class="s2">"supports `approximate_search`"</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">is_appx_search</span><span class="p">:</span>
+            <span class="n">engine</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"engine"</span><span class="p">,</span> <span class="s2">"nmslib"</span><span class="p">)</span>
+            <span class="n">space_type</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"space_type"</span><span class="p">,</span> <span class="s2">"l2"</span><span class="p">)</span>
+            <span class="n">ef_search</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"ef_search"</span><span class="p">,</span> <span class="mi">512</span><span class="p">)</span>
+            <span class="n">ef_construction</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"ef_construction"</span><span class="p">,</span> <span class="mi">512</span><span class="p">)</span>
+            <span class="n">m</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"m"</span><span class="p">,</span> <span class="mi">16</span><span class="p">)</span>
+
+            <span class="n">_validate_aoss_with_engines</span><span class="p">(</span><span class="n">is_aoss</span><span class="p">,</span> <span class="n">engine</span><span class="p">)</span>
+
+            <span class="n">mapping</span> <span class="o">=</span> <span class="n">_default_text_mapping</span><span class="p">(</span>
+                <span class="n">dimension</span><span class="p">,</span>
+                <span class="n">engine</span><span class="p">,</span>
+                <span class="n">space_type</span><span class="p">,</span>
+                <span class="n">ef_search</span><span class="p">,</span>
+                <span class="n">ef_construction</span><span class="p">,</span>
+                <span class="n">m</span><span class="p">,</span>
+                <span class="n">vector_field</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">mapping</span> <span class="o">=</span> <span class="n">_default_scripting_text_mapping</span><span class="p">(</span><span class="n">dimension</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">index_exists</span><span class="p">(</span><span class="n">index_name</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"The index, </span><span class="si">{</span><span class="n">index_name</span><span class="si">}</span><span class="s2"> already exists."</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">indices</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">index_name</span><span class="p">,</span> <span class="n">body</span><span class="o">=</span><span class="n">mapping</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">index_name</span></div>
+
+<div class="viewcode-block" id="OpenSearchVectorSearch.add_texts"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.opensearch_vector_search.OpenSearchVectorSearch.html#langchain_community.vectorstores.opensearch_vector_search.OpenSearchVectorSearch.add_texts">[docs]</a>    <span class="k">def</span> <span class="nf">add_texts</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">texts</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+        <span class="n">metadatas</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">ids</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">bulk_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">500</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Run more texts through the embeddings and add to the vectorstore.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            texts: Iterable of strings to add to the vectorstore.</span>
+<span class="sd">            metadatas: Optional list of metadatas associated with the texts.</span>
+<span class="sd">            ids: Optional list of ids to associate with the texts.</span>
+<span class="sd">            bulk_size: Bulk API request count; Default: 500</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List of ids from adding the texts into the vectorstore.</span>
+
+<span class="sd">        Optional Args:</span>
+<span class="sd">            vector_field: Document field embeddings are stored in. Defaults to</span>
+<span class="sd">            "vector_field".</span>
+
+<span class="sd">            text_field: Document field the text of the document is stored in. Defaults</span>
+<span class="sd">            to "text".</span>
+<span class="sd">        """</span>
+        <span class="n">embeddings</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">embedding_function</span><span class="o">.</span><span class="n">embed_documents</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">texts</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__add</span><span class="p">(</span>
+            <span class="n">texts</span><span class="p">,</span>
+            <span class="n">embeddings</span><span class="p">,</span>
+            <span class="n">metadatas</span><span class="o">=</span><span class="n">metadatas</span><span class="p">,</span>
+            <span class="n">ids</span><span class="o">=</span><span class="n">ids</span><span class="p">,</span>
+            <span class="n">bulk_size</span><span class="o">=</span><span class="n">bulk_size</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="OpenSearchVectorSearch.aadd_texts"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.opensearch_vector_search.OpenSearchVectorSearch.html#langchain_community.vectorstores.opensearch_vector_search.OpenSearchVectorSearch.aadd_texts">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">aadd_texts</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">texts</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+        <span class="n">metadatas</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">ids</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">bulk_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">500</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Asynchronously run more texts through the embeddings</span>
+<span class="sd">        and add to the vectorstore.</span>
+<span class="sd">        """</span>
+        <span class="n">embeddings</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">embedding_function</span><span class="o">.</span><span class="n">aembed_documents</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">texts</span><span class="p">))</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">__aadd</span><span class="p">(</span>
+            <span class="n">texts</span><span class="p">,</span>
+            <span class="n">embeddings</span><span class="p">,</span>
+            <span class="n">metadatas</span><span class="o">=</span><span class="n">metadatas</span><span class="p">,</span>
+            <span class="n">ids</span><span class="o">=</span><span class="n">ids</span><span class="p">,</span>
+            <span class="n">bulk_size</span><span class="o">=</span><span class="n">bulk_size</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="OpenSearchVectorSearch.add_embeddings"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.opensearch_vector_search.OpenSearchVectorSearch.html#langchain_community.vectorstores.opensearch_vector_search.OpenSearchVectorSearch.add_embeddings">[docs]</a>    <span class="k">def</span> <span class="nf">add_embeddings</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">text_embeddings</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]]],</span>
+        <span class="n">metadatas</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">ids</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">bulk_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">500</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Add the given texts and embeddings to the vectorstore.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            text_embeddings: Iterable pairs of string and embedding to</span>
+<span class="sd">                add to the vectorstore.</span>
+<span class="sd">            metadatas: Optional list of metadatas associated with the texts.</span>
+<span class="sd">            ids: Optional list of ids to associate with the texts.</span>
+<span class="sd">            bulk_size: Bulk API request count; Default: 500</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List of ids from adding the texts into the vectorstore.</span>
+
+<span class="sd">        Optional Args:</span>
+<span class="sd">            vector_field: Document field embeddings are stored in. Defaults to</span>
+<span class="sd">            "vector_field".</span>
+
+<span class="sd">            text_field: Document field the text of the document is stored in. Defaults</span>
+<span class="sd">            to "text".</span>
+<span class="sd">        """</span>
+        <span class="n">texts</span><span class="p">,</span> <span class="n">embeddings</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">text_embeddings</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__add</span><span class="p">(</span>
+            <span class="nb">list</span><span class="p">(</span><span class="n">texts</span><span class="p">),</span>
+            <span class="nb">list</span><span class="p">(</span><span class="n">embeddings</span><span class="p">),</span>
+            <span class="n">metadatas</span><span class="o">=</span><span class="n">metadatas</span><span class="p">,</span>
+            <span class="n">ids</span><span class="o">=</span><span class="n">ids</span><span class="p">,</span>
+            <span class="n">bulk_size</span><span class="o">=</span><span class="n">bulk_size</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="OpenSearchVectorSearch.delete"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.opensearch_vector_search.OpenSearchVectorSearch.html#langchain_community.vectorstores.opensearch_vector_search.OpenSearchVectorSearch.delete">[docs]</a>    <span class="k">def</span> <span class="nf">delete</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">ids</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">refresh_indices</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Delete documents from the Opensearch index.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            ids: List of ids of documents to delete.</span>
+<span class="sd">            refresh_indices: Whether to refresh the index</span>
+<span class="sd">                            after deleting documents. Defaults to True.</span>
+<span class="sd">        """</span>
+        <span class="n">bulk</span> <span class="o">=</span> <span class="n">_import_bulk</span><span class="p">()</span>
+
+        <span class="n">body</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">if</span> <span class="n">ids</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"ids must be provided."</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">_id</span> <span class="ow">in</span> <span class="n">ids</span><span class="p">:</span>
+            <span class="n">body</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">"_op_type"</span><span class="p">:</span> <span class="s2">"delete"</span><span class="p">,</span> <span class="s2">"_index"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">index_name</span><span class="p">,</span> <span class="s2">"_id"</span><span class="p">:</span> <span class="n">_id</span><span class="p">})</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">body</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">bulk</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">,</span> <span class="n">body</span><span class="p">,</span> <span class="n">refresh</span><span class="o">=</span><span class="n">refresh_indices</span><span class="p">,</span> <span class="n">ignore_status</span><span class="o">=</span><span class="mi">404</span><span class="p">)</span>
+                <span class="k">return</span> <span class="kc">True</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">e</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="OpenSearchVectorSearch.adelete"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.opensearch_vector_search.OpenSearchVectorSearch.html#langchain_community.vectorstores.opensearch_vector_search.OpenSearchVectorSearch.adelete">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">adelete</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">ids</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Asynchronously delete by vector ID or other criteria.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            ids: List of ids to delete.</span>
+<span class="sd">            **kwargs: Other keyword arguments that subclasses might use.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Optional[bool]: True if deletion is successful,</span>
+<span class="sd">            False otherwise, None if not implemented.</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="n">ids</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"No ids provided to delete."</span><span class="p">)</span>
+
+        <span class="n">actions</span> <span class="o">=</span> <span class="p">[{</span><span class="s2">"delete"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"_index"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">index_name</span><span class="p">,</span> <span class="s2">"_id"</span><span class="p">:</span> <span class="n">id_</span><span class="p">}}</span> <span class="k">for</span> <span class="n">id_</span> <span class="ow">in</span> <span class="n">ids</span><span class="p">]</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">async_client</span><span class="o">.</span><span class="n">bulk</span><span class="p">(</span><span class="n">body</span><span class="o">=</span><span class="n">actions</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span>
+            <span class="n">item</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"delete"</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"error"</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">response</span><span class="p">[</span><span class="s2">"items"</span><span class="p">]</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="OpenSearchVectorSearch.similarity_search"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.opensearch_vector_search.OpenSearchVectorSearch.html#langchain_community.vectorstores.opensearch_vector_search.OpenSearchVectorSearch.similarity_search">[docs]</a>    <span class="k">def</span> <span class="nf">similarity_search</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">k</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
+        <span class="n">score_threshold</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Document</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Return docs most similar to query.</span>
+
+<span class="sd">        By default, supports Approximate Search.</span>
+<span class="sd">        Also supports Script Scoring and Painless Scripting.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            query: Text to look up documents similar to.</span>
+<span class="sd">            k: Number of Documents to return. Defaults to 4.</span>
+<span class="sd">            score_threshold: Specify a score threshold to return only documents</span>
+<span class="sd">            above the threshold. Defaults to 0.0.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List of Documents most similar to the query.</span>
+
+<span class="sd">        Optional Args:</span>
+<span class="sd">            vector_field: Document field embeddings are stored in. Defaults to</span>
+<span class="sd">            "vector_field".</span>
+
+<span class="sd">            text_field: Document field the text of the document is stored in. Defaults</span>
+<span class="sd">            to "text".</span>
+
+<span class="sd">            metadata_field: Document field that metadata is stored in. Defaults to</span>
+<span class="sd">            "metadata".</span>
+<span class="sd">            Can be set to a special value "*" to include the entire document.</span>
+
+<span class="sd">        Optional Args for Approximate Search:</span>
+<span class="sd">            search_type: "approximate_search"; default: "approximate_search"</span>
+
+<span class="sd">            boolean_filter: A Boolean filter is a post filter consists of a Boolean</span>
+<span class="sd">            query that contains a k-NN query and a filter.</span>
+
+<span class="sd">            subquery_clause: Query clause on the knn vector field; default: "must"</span>
+
+<span class="sd">            lucene_filter: the Lucene algorithm decides whether to perform an exact</span>
+<span class="sd">            k-NN search with pre-filtering or an approximate search with modified</span>
+<span class="sd">            post-filtering. (deprecated, use `efficient_filter`)</span>
+
+<span class="sd">            efficient_filter: the Lucene Engine or Faiss Engine decides whether to</span>
+<span class="sd">            perform an exact k-NN search with pre-filtering or an approximate search</span>
+<span class="sd">            with modified post-filtering.</span>
+
+<span class="sd">        Optional Args for Script Scoring Search:</span>
+<span class="sd">            search_type: "script_scoring"; default: "approximate_search"</span>
+
+<span class="sd">            space_type: "l2", "l1", "linf", "cosinesimil", "innerproduct",</span>
+<span class="sd">            "hammingbit"; default: "l2"</span>
+
+<span class="sd">            pre_filter: script_score query to pre-filter documents before identifying</span>
+<span class="sd">            nearest neighbors; default: {"match_all": {}}</span>
+
+<span class="sd">        Optional Args for Painless Scripting Search:</span>
+<span class="sd">            search_type: "painless_scripting"; default: "approximate_search"</span>
+
+<span class="sd">            space_type: "l2Squared", "l1Norm", "cosineSimilarity"; default: "l2Squared"</span>
+
+<span class="sd">            pre_filter: script_score query to pre-filter documents before identifying</span>
+<span class="sd">            nearest neighbors; default: {"match_all": {}}</span>
+<span class="sd">        """</span>
+        <span class="n">docs_with_scores</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">similarity_search_with_score</span><span class="p">(</span>
+            <span class="n">query</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">score_threshold</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">doc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">docs_with_scores</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="OpenSearchVectorSearch.similarity_search_by_vector"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.opensearch_vector_search.OpenSearchVectorSearch.html#langchain_community.vectorstores.opensearch_vector_search.OpenSearchVectorSearch.similarity_search_by_vector">[docs]</a>    <span class="k">def</span> <span class="nf">similarity_search_by_vector</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">embedding</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
+        <span class="n">k</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
+        <span class="n">score_threshold</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Document</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Return docs most similar to the embedding vector."""</span>
+        <span class="n">docs_with_scores</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">similarity_search_with_score_by_vector</span><span class="p">(</span>
+            <span class="n">embedding</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">score_threshold</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">doc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">docs_with_scores</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="OpenSearchVectorSearch.similarity_search_with_score"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.opensearch_vector_search.OpenSearchVectorSearch.html#langchain_community.vectorstores.opensearch_vector_search.OpenSearchVectorSearch.similarity_search_with_score">[docs]</a>    <span class="k">def</span> <span class="nf">similarity_search_with_score</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">k</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
+        <span class="n">score_threshold</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Document</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">"""Return docs and it's scores most similar to query.</span>
+
+<span class="sd">        By default, supports Approximate Search.</span>
+<span class="sd">        Also supports Script Scoring and Painless Scripting.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            query: Text to look up documents similar to.</span>
+<span class="sd">            k: Number of Documents to return. Defaults to 4.</span>
+<span class="sd">            score_threshold: Specify a score threshold to return only documents</span>
+<span class="sd">            above the threshold. Defaults to 0.0.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List of Documents along with its scores most similar to the query.</span>
+
+<span class="sd">        Optional Args:</span>
+<span class="sd">            same as `similarity_search`</span>
+<span class="sd">        """</span>
+        <span class="n">embedding</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">embedding_function</span><span class="o">.</span><span class="n">embed_query</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">similarity_search_with_score_by_vector</span><span class="p">(</span>
+            <span class="n">embedding</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">score_threshold</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="OpenSearchVectorSearch.similarity_search_with_score_by_vector"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.opensearch_vector_search.OpenSearchVectorSearch.html#langchain_community.vectorstores.opensearch_vector_search.OpenSearchVectorSearch.similarity_search_with_score_by_vector">[docs]</a>    <span class="k">def</span> <span class="nf">similarity_search_with_score_by_vector</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">embedding</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
+        <span class="n">k</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
+        <span class="n">score_threshold</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Document</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">"""Return docs and it's scores most similar to the embedding vector.</span>
+
+<span class="sd">        By default, supports Approximate Search.</span>
+<span class="sd">        Also supports Script Scoring and Painless Scripting.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            embedding: Embedding vector to look up documents similar to.</span>
+<span class="sd">            k: Number of Documents to return. Defaults to 4.</span>
+<span class="sd">            score_threshold: Specify a score threshold to return only documents</span>
+<span class="sd">            above the threshold. Defaults to 0.0.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List of Documents along with its scores most similar to the query.</span>
+
+<span class="sd">        Optional Args:</span>
+<span class="sd">            same as `similarity_search`</span>
+<span class="sd">        """</span>
+        <span class="n">text_field</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"text_field"</span><span class="p">,</span> <span class="s2">"text"</span><span class="p">)</span>
+        <span class="n">metadata_field</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"metadata_field"</span><span class="p">,</span> <span class="s2">"metadata"</span><span class="p">)</span>
+
+        <span class="n">hits</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_raw_similarity_search_with_score_by_vector</span><span class="p">(</span>
+            <span class="n">embedding</span><span class="o">=</span><span class="n">embedding</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="n">k</span><span class="p">,</span> <span class="n">score_threshold</span><span class="o">=</span><span class="n">score_threshold</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+        <span class="p">)</span>
+
+        <span class="n">documents_with_scores</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="p">(</span>
+                <span class="n">Document</span><span class="p">(</span>
+                    <span class="n">page_content</span><span class="o">=</span><span class="n">hit</span><span class="p">[</span><span class="s2">"_source"</span><span class="p">][</span><span class="n">text_field</span><span class="p">],</span>
+                    <span class="n">metadata</span><span class="o">=</span><span class="p">(</span>
+                        <span class="n">hit</span><span class="p">[</span><span class="s2">"_source"</span><span class="p">]</span>
+                        <span class="k">if</span> <span class="n">metadata_field</span> <span class="o">==</span> <span class="s2">"*"</span> <span class="ow">or</span> <span class="n">metadata_field</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">hit</span><span class="p">[</span><span class="s2">"_source"</span><span class="p">]</span>
+                        <span class="k">else</span> <span class="n">hit</span><span class="p">[</span><span class="s2">"_source"</span><span class="p">][</span><span class="n">metadata_field</span><span class="p">]</span>
+                    <span class="p">),</span>
+                <span class="p">),</span>
+                <span class="n">hit</span><span class="p">[</span><span class="s2">"_score"</span><span class="p">],</span>
+            <span class="p">)</span>
+            <span class="k">for</span> <span class="n">hit</span> <span class="ow">in</span> <span class="n">hits</span>
+        <span class="p">]</span>
+        <span class="k">return</span> <span class="n">documents_with_scores</span></div>
+
+    <span class="k">def</span> <span class="nf">_raw_similarity_search_with_score_by_vector</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">embedding</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
+        <span class="n">k</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
+        <span class="n">score_threshold</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Return raw opensearch documents (dict) including vectors,</span>
+<span class="sd">        scores most similar to the embedding vector.</span>
+
+<span class="sd">        By default, supports Approximate Search.</span>
+<span class="sd">        Also supports Script Scoring and Painless Scripting.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            embedding: Embedding vector to look up documents similar to.</span>
+<span class="sd">            k: Number of Documents to return. Defaults to 4.</span>
+<span class="sd">            score_threshold: Specify a score threshold to return only documents</span>
+<span class="sd">            above the threshold. Defaults to 0.0.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List of dict with its scores most similar to the embedding.</span>
+
+<span class="sd">        Optional Args:</span>
+<span class="sd">            same as `similarity_search`</span>
+<span class="sd">        """</span>
+        <span class="n">search_type</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"search_type"</span><span class="p">,</span> <span class="s2">"approximate_search"</span><span class="p">)</span>
+        <span class="n">vector_field</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"vector_field"</span><span class="p">,</span> <span class="s2">"vector_field"</span><span class="p">)</span>
+        <span class="n">index_name</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"index_name"</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">index_name</span><span class="p">)</span>
+        <span class="nb">filter</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"filter"</span><span class="p">,</span> <span class="p">{})</span>
+
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">is_aoss</span>
+            <span class="ow">and</span> <span class="n">search_type</span> <span class="o">!=</span> <span class="s2">"approximate_search"</span>
+            <span class="ow">and</span> <span class="n">search_type</span> <span class="o">!=</span> <span class="n">SCRIPT_SCORING_SEARCH</span>
+        <span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">"Amazon OpenSearch Service Serverless only "</span>
+                <span class="s2">"supports `approximate_search` and `script_scoring`"</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">search_type</span> <span class="o">==</span> <span class="s2">"approximate_search"</span><span class="p">:</span>
+            <span class="n">boolean_filter</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"boolean_filter"</span><span class="p">,</span> <span class="p">{})</span>
+            <span class="n">subquery_clause</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"subquery_clause"</span><span class="p">,</span> <span class="s2">"must"</span><span class="p">)</span>
+            <span class="n">efficient_filter</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"efficient_filter"</span><span class="p">,</span> <span class="p">{})</span>
+            <span class="c1"># `lucene_filter` is deprecated, added for Backwards Compatibility</span>
+            <span class="n">lucene_filter</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"lucene_filter"</span><span class="p">,</span> <span class="p">{})</span>
+
+            <span class="k">if</span> <span class="n">boolean_filter</span> <span class="o">!=</span> <span class="p">{}</span> <span class="ow">and</span> <span class="n">efficient_filter</span> <span class="o">!=</span> <span class="p">{}:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">"Both `boolean_filter` and `efficient_filter` are provided which "</span>
+                    <span class="s2">"is invalid"</span>
+                <span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">lucene_filter</span> <span class="o">!=</span> <span class="p">{}</span> <span class="ow">and</span> <span class="n">efficient_filter</span> <span class="o">!=</span> <span class="p">{}:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">"Both `lucene_filter` and `efficient_filter` are provided which "</span>
+                    <span class="s2">"is invalid. `lucene_filter` is deprecated"</span>
+                <span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">lucene_filter</span> <span class="o">!=</span> <span class="p">{}</span> <span class="ow">and</span> <span class="n">boolean_filter</span> <span class="o">!=</span> <span class="p">{}:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">"Both `lucene_filter` and `boolean_filter` are provided which "</span>
+                    <span class="s2">"is invalid. `lucene_filter` is deprecated"</span>
+                <span class="p">)</span>
+
+            <span class="k">if</span> <span class="p">(</span>
+                <span class="n">efficient_filter</span> <span class="o">==</span> <span class="p">{}</span>
+                <span class="ow">and</span> <span class="n">boolean_filter</span> <span class="o">==</span> <span class="p">{}</span>
+                <span class="ow">and</span> <span class="n">lucene_filter</span> <span class="o">==</span> <span class="p">{}</span>
+                <span class="ow">and</span> <span class="nb">filter</span> <span class="o">!=</span> <span class="p">{}</span>
+            <span class="p">):</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">"faiss"</span><span class="p">,</span> <span class="s2">"lucene"</span><span class="p">]:</span>
+                    <span class="n">efficient_filter</span> <span class="o">=</span> <span class="nb">filter</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">boolean_filter</span> <span class="o">=</span> <span class="nb">filter</span>
+
+            <span class="k">if</span> <span class="n">boolean_filter</span> <span class="o">!=</span> <span class="p">{}:</span>
+                <span class="n">search_query</span> <span class="o">=</span> <span class="n">_approximate_search_query_with_boolean_filter</span><span class="p">(</span>
+                    <span class="n">embedding</span><span class="p">,</span>
+                    <span class="n">boolean_filter</span><span class="p">,</span>
+                    <span class="n">k</span><span class="o">=</span><span class="n">k</span><span class="p">,</span>
+                    <span class="n">vector_field</span><span class="o">=</span><span class="n">vector_field</span><span class="p">,</span>
+                    <span class="n">subquery_clause</span><span class="o">=</span><span class="n">subquery_clause</span><span class="p">,</span>
+                    <span class="n">score_threshold</span><span class="o">=</span><span class="n">score_threshold</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="k">elif</span> <span class="n">efficient_filter</span> <span class="o">!=</span> <span class="p">{}:</span>
+                <span class="n">search_query</span> <span class="o">=</span> <span class="n">_approximate_search_query_with_efficient_filter</span><span class="p">(</span>
+                    <span class="n">embedding</span><span class="p">,</span>
+                    <span class="n">efficient_filter</span><span class="p">,</span>
+                    <span class="n">k</span><span class="o">=</span><span class="n">k</span><span class="p">,</span>
+                    <span class="n">vector_field</span><span class="o">=</span><span class="n">vector_field</span><span class="p">,</span>
+                    <span class="n">score_threshold</span><span class="o">=</span><span class="n">score_threshold</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="k">elif</span> <span class="n">lucene_filter</span> <span class="o">!=</span> <span class="p">{}:</span>
+                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                    <span class="s2">"`lucene_filter` is deprecated. Please use the keyword argument"</span>
+                    <span class="s2">" `efficient_filter`"</span>
+                <span class="p">)</span>
+                <span class="n">search_query</span> <span class="o">=</span> <span class="n">_approximate_search_query_with_efficient_filter</span><span class="p">(</span>
+                    <span class="n">embedding</span><span class="p">,</span>
+                    <span class="n">lucene_filter</span><span class="p">,</span>
+                    <span class="n">k</span><span class="o">=</span><span class="n">k</span><span class="p">,</span>
+                    <span class="n">vector_field</span><span class="o">=</span><span class="n">vector_field</span><span class="p">,</span>
+                    <span class="n">score_threshold</span><span class="o">=</span><span class="n">score_threshold</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">search_query</span> <span class="o">=</span> <span class="n">_default_approximate_search_query</span><span class="p">(</span>
+                    <span class="n">embedding</span><span class="p">,</span>
+                    <span class="n">k</span><span class="o">=</span><span class="n">k</span><span class="p">,</span>
+                    <span class="n">vector_field</span><span class="o">=</span><span class="n">vector_field</span><span class="p">,</span>
+                    <span class="n">score_threshold</span><span class="o">=</span><span class="n">score_threshold</span><span class="p">,</span>
+                <span class="p">)</span>
+        <span class="k">elif</span> <span class="n">search_type</span> <span class="o">==</span> <span class="n">SCRIPT_SCORING_SEARCH</span><span class="p">:</span>
+            <span class="n">space_type</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"space_type"</span><span class="p">,</span> <span class="s2">"l2"</span><span class="p">)</span>
+            <span class="n">pre_filter</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"pre_filter"</span><span class="p">,</span> <span class="n">MATCH_ALL_QUERY</span><span class="p">)</span>
+            <span class="n">search_query</span> <span class="o">=</span> <span class="n">_default_script_query</span><span class="p">(</span>
+                <span class="n">embedding</span><span class="p">,</span>
+                <span class="n">k</span><span class="p">,</span>
+                <span class="n">space_type</span><span class="p">,</span>
+                <span class="n">pre_filter</span><span class="p">,</span>
+                <span class="n">vector_field</span><span class="p">,</span>
+                <span class="n">score_threshold</span><span class="o">=</span><span class="n">score_threshold</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">elif</span> <span class="n">search_type</span> <span class="o">==</span> <span class="n">PAINLESS_SCRIPTING_SEARCH</span><span class="p">:</span>
+            <span class="n">space_type</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"space_type"</span><span class="p">,</span> <span class="s2">"l2Squared"</span><span class="p">)</span>
+            <span class="n">pre_filter</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"pre_filter"</span><span class="p">,</span> <span class="n">MATCH_ALL_QUERY</span><span class="p">)</span>
+            <span class="n">search_query</span> <span class="o">=</span> <span class="n">_default_painless_scripting_query</span><span class="p">(</span>
+                <span class="n">embedding</span><span class="p">,</span>
+                <span class="n">k</span><span class="p">,</span>
+                <span class="n">space_type</span><span class="p">,</span>
+                <span class="n">pre_filter</span><span class="p">,</span>
+                <span class="n">vector_field</span><span class="p">,</span>
+                <span class="n">score_threshold</span><span class="o">=</span><span class="n">score_threshold</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Invalid `search_type` provided as an argument"</span><span class="p">)</span>
+
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">index_name</span><span class="p">,</span> <span class="n">body</span><span class="o">=</span><span class="n">search_query</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="p">[</span><span class="n">hit</span> <span class="k">for</span> <span class="n">hit</span> <span class="ow">in</span> <span class="n">response</span><span class="p">[</span><span class="s2">"hits"</span><span class="p">][</span><span class="s2">"hits"</span><span class="p">]]</span>
+
+<div class="viewcode-block" id="OpenSearchVectorSearch.max_marginal_relevance_search"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.opensearch_vector_search.OpenSearchVectorSearch.html#langchain_community.vectorstores.opensearch_vector_search.OpenSearchVectorSearch.max_marginal_relevance_search">[docs]</a>    <span class="k">def</span> <span class="nf">max_marginal_relevance_search</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">k</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
+        <span class="n">fetch_k</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span>
+        <span class="n">lambda_mult</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Document</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Return docs selected using the maximal marginal relevance.</span>
+
+<span class="sd">        Maximal marginal relevance optimizes for similarity to query AND diversity</span>
+<span class="sd">        among selected documents.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            query: Text to look up documents similar to.</span>
+<span class="sd">            k: Number of Documents to return. Defaults to 4.</span>
+<span class="sd">            fetch_k: Number of Documents to fetch to pass to MMR algorithm.</span>
+<span class="sd">                     Defaults to 20.</span>
+<span class="sd">            lambda_mult: Number between 0 and 1 that determines the degree</span>
+<span class="sd">                        of diversity among the results with 0 corresponding</span>
+<span class="sd">                        to maximum diversity and 1 to minimum diversity.</span>
+<span class="sd">                        Defaults to 0.5.</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            List of Documents selected by maximal marginal relevance.</span>
+<span class="sd">        """</span>
+
+        <span class="n">vector_field</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"vector_field"</span><span class="p">,</span> <span class="s2">"vector_field"</span><span class="p">)</span>
+        <span class="n">text_field</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"text_field"</span><span class="p">,</span> <span class="s2">"text"</span><span class="p">)</span>
+        <span class="n">metadata_field</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"metadata_field"</span><span class="p">,</span> <span class="s2">"metadata"</span><span class="p">)</span>
+
+        <span class="c1"># Get embedding of the user query</span>
+        <span class="n">embedding</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">embedding_function</span><span class="o">.</span><span class="n">embed_query</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+
+        <span class="c1"># Do ANN/KNN search to get top fetch_k results where fetch_k &gt;= k</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_raw_similarity_search_with_score_by_vector</span><span class="p">(</span>
+            <span class="n">embedding</span><span class="p">,</span> <span class="n">fetch_k</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+        <span class="p">)</span>
+
+        <span class="n">embeddings</span> <span class="o">=</span> <span class="p">[</span><span class="n">result</span><span class="p">[</span><span class="s2">"_source"</span><span class="p">][</span><span class="n">vector_field</span><span class="p">]</span> <span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">results</span><span class="p">]</span>
+
+        <span class="c1"># Rerank top k results using MMR, (mmr_selected is a list of indices)</span>
+        <span class="n">mmr_selected</span> <span class="o">=</span> <span class="n">maximal_marginal_relevance</span><span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">embedding</span><span class="p">),</span> <span class="n">embeddings</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="n">k</span><span class="p">,</span> <span class="n">lambda_mult</span><span class="o">=</span><span class="n">lambda_mult</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="p">[</span>
+            <span class="n">Document</span><span class="p">(</span>
+                <span class="n">page_content</span><span class="o">=</span><span class="n">results</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s2">"_source"</span><span class="p">][</span><span class="n">text_field</span><span class="p">],</span>
+                <span class="n">metadata</span><span class="o">=</span><span class="n">results</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s2">"_source"</span><span class="p">][</span><span class="n">metadata_field</span><span class="p">],</span>
+            <span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">mmr_selected</span>
+        <span class="p">]</span></div>
+
+<div class="viewcode-block" id="OpenSearchVectorSearch.from_texts"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.opensearch_vector_search.OpenSearchVectorSearch.html#langchain_community.vectorstores.opensearch_vector_search.OpenSearchVectorSearch.from_texts">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_texts</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">texts</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+        <span class="n">embedding</span><span class="p">:</span> <span class="n">Embeddings</span><span class="p">,</span>
+        <span class="n">metadatas</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">bulk_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">500</span><span class="p">,</span>
+        <span class="n">ids</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">OpenSearchVectorSearch</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Construct OpenSearchVectorSearch wrapper from raw texts.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            .. code-block:: python</span>
+
+<span class="sd">                from langchain_community.vectorstores import OpenSearchVectorSearch</span>
+<span class="sd">                from langchain_community.embeddings import OpenAIEmbeddings</span>
+<span class="sd">                embeddings = OpenAIEmbeddings()</span>
+<span class="sd">                opensearch_vector_search = OpenSearchVectorSearch.from_texts(</span>
+<span class="sd">                    texts,</span>
+<span class="sd">                    embeddings,</span>
+<span class="sd">                    opensearch_url="http://localhost:9200"</span>
+<span class="sd">                )</span>
+
+<span class="sd">        OpenSearch by default supports Approximate Search powered by nmslib, faiss</span>
+<span class="sd">        and lucene engines recommended for large datasets. Also supports brute force</span>
+<span class="sd">        search through Script Scoring and Painless Scripting.</span>
+
+<span class="sd">        Optional Args:</span>
+<span class="sd">            vector_field: Document field embeddings are stored in. Defaults to</span>
+<span class="sd">            "vector_field".</span>
+
+<span class="sd">            text_field: Document field the text of the document is stored in. Defaults</span>
+<span class="sd">            to "text".</span>
+
+<span class="sd">        Optional Keyword Args for Approximate Search:</span>
+<span class="sd">            engine: "nmslib", "faiss", "lucene"; default: "nmslib"</span>
+
+<span class="sd">            space_type: "l2", "l1", "cosinesimil", "linf", "innerproduct"; default: "l2"</span>
+
+<span class="sd">            ef_search: Size of the dynamic list used during k-NN searches. Higher values</span>
+<span class="sd">            lead to more accurate but slower searches; default: 512</span>
+
+<span class="sd">            ef_construction: Size of the dynamic list used during k-NN graph creation.</span>
+<span class="sd">            Higher values lead to more accurate graph but slower indexing speed;</span>
+<span class="sd">            default: 512</span>
+
+<span class="sd">            m: Number of bidirectional links created for each new element. Large impact</span>
+<span class="sd">            on memory consumption. Between 2 and 100; default: 16</span>
+
+<span class="sd">        Keyword Args for Script Scoring or Painless Scripting:</span>
+<span class="sd">            is_appx_search: False</span>
+
+<span class="sd">        """</span>
+        <span class="n">embeddings</span> <span class="o">=</span> <span class="n">embedding</span><span class="o">.</span><span class="n">embed_documents</span><span class="p">(</span><span class="n">texts</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_embeddings</span><span class="p">(</span>
+            <span class="n">embeddings</span><span class="p">,</span>
+            <span class="n">texts</span><span class="p">,</span>
+            <span class="n">embedding</span><span class="p">,</span>
+            <span class="n">metadatas</span><span class="o">=</span><span class="n">metadatas</span><span class="p">,</span>
+            <span class="n">bulk_size</span><span class="o">=</span><span class="n">bulk_size</span><span class="p">,</span>
+            <span class="n">ids</span><span class="o">=</span><span class="n">ids</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="OpenSearchVectorSearch.afrom_texts"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.opensearch_vector_search.OpenSearchVectorSearch.html#langchain_community.vectorstores.opensearch_vector_search.OpenSearchVectorSearch.afrom_texts">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">afrom_texts</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">texts</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+        <span class="n">embedding</span><span class="p">:</span> <span class="n">Embeddings</span><span class="p">,</span>
+        <span class="n">metadatas</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">bulk_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">500</span><span class="p">,</span>
+        <span class="n">ids</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">OpenSearchVectorSearch</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Asynchronously construct OpenSearchVectorSearch wrapper from raw texts.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            .. code-block:: python</span>
+
+<span class="sd">                from langchain_community.vectorstores import OpenSearchVectorSearch</span>
+<span class="sd">                from langchain_community.embeddings import OpenAIEmbeddings</span>
+<span class="sd">                embeddings = OpenAIEmbeddings()</span>
+<span class="sd">                opensearch_vector_search = await OpenSearchVectorSearch.afrom_texts(</span>
+<span class="sd">                    texts,</span>
+<span class="sd">                    embeddings,</span>
+<span class="sd">                    opensearch_url="http://localhost:9200"</span>
+<span class="sd">                )</span>
+
+<span class="sd">        OpenSearch by default supports Approximate Search powered by nmslib, faiss</span>
+<span class="sd">        and lucene engines recommended for large datasets. Also supports brute force</span>
+<span class="sd">        search through Script Scoring and Painless Scripting.</span>
+
+<span class="sd">        Optional Args:</span>
+<span class="sd">            vector_field: Document field embeddings are stored in. Defaults to</span>
+<span class="sd">            "vector_field".</span>
+
+<span class="sd">            text_field: Document field the text of the document is stored in. Defaults</span>
+<span class="sd">            to "text".</span>
+
+<span class="sd">        Optional Keyword Args for Approximate Search:</span>
+<span class="sd">            engine: "nmslib", "faiss", "lucene"; default: "nmslib"</span>
+
+<span class="sd">            space_type: "l2", "l1", "cosinesimil", "linf", "innerproduct"; default: "l2"</span>
+
+<span class="sd">            ef_search: Size of the dynamic list used during k-NN searches. Higher values</span>
+<span class="sd">            lead to more accurate but slower searches; default: 512</span>
+
+<span class="sd">            ef_construction: Size of the dynamic list used during k-NN graph creation.</span>
+<span class="sd">            Higher values lead to more accurate graph but slower indexing speed;</span>
+<span class="sd">            default: 512</span>
+
+<span class="sd">            m: Number of bidirectional links created for each new element. Large impact</span>
+<span class="sd">            on memory consumption. Between 2 and 100; default: 16</span>
+
+<span class="sd">        Keyword Args for Script Scoring or Painless Scripting:</span>
+<span class="sd">            is_appx_search: False</span>
+
+<span class="sd">        """</span>
+        <span class="n">embeddings</span> <span class="o">=</span> <span class="k">await</span> <span class="n">embedding</span><span class="o">.</span><span class="n">aembed_documents</span><span class="p">(</span><span class="n">texts</span><span class="p">)</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="bp">cls</span><span class="o">.</span><span class="n">afrom_embeddings</span><span class="p">(</span>
+            <span class="n">embeddings</span><span class="p">,</span>
+            <span class="n">texts</span><span class="p">,</span>
+            <span class="n">embedding</span><span class="p">,</span>
+            <span class="n">metadatas</span><span class="o">=</span><span class="n">metadatas</span><span class="p">,</span>
+            <span class="n">bulk_size</span><span class="o">=</span><span class="n">bulk_size</span><span class="p">,</span>
+            <span class="n">ids</span><span class="o">=</span><span class="n">ids</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="OpenSearchVectorSearch.from_embeddings"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.opensearch_vector_search.OpenSearchVectorSearch.html#langchain_community.vectorstores.opensearch_vector_search.OpenSearchVectorSearch.from_embeddings">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_embeddings</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">embeddings</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]],</span>
+        <span class="n">texts</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+        <span class="n">embedding</span><span class="p">:</span> <span class="n">Embeddings</span><span class="p">,</span>
+        <span class="n">metadatas</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">bulk_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">500</span><span class="p">,</span>
+        <span class="n">ids</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">OpenSearchVectorSearch</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Construct OpenSearchVectorSearch wrapper from pre-vectorized embeddings.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            .. code-block:: python</span>
+
+<span class="sd">                from langchain_community.vectorstores import OpenSearchVectorSearch</span>
+<span class="sd">                from langchain_community.embeddings import OpenAIEmbeddings</span>
+<span class="sd">                embedder = OpenAIEmbeddings()</span>
+<span class="sd">                embeddings = embedder.embed_documents(["foo", "bar"])</span>
+<span class="sd">                opensearch_vector_search = OpenSearchVectorSearch.from_embeddings(</span>
+<span class="sd">                    embeddings,</span>
+<span class="sd">                    texts,</span>
+<span class="sd">                    embedder,</span>
+<span class="sd">                    opensearch_url="http://localhost:9200"</span>
+<span class="sd">                )</span>
+
+<span class="sd">        OpenSearch by default supports Approximate Search powered by nmslib, faiss</span>
+<span class="sd">        and lucene engines recommended for large datasets. Also supports brute force</span>
+<span class="sd">        search through Script Scoring and Painless Scripting.</span>
+
+<span class="sd">        Optional Args:</span>
+<span class="sd">            vector_field: Document field embeddings are stored in. Defaults to</span>
+<span class="sd">            "vector_field".</span>
+
+<span class="sd">            text_field: Document field the text of the document is stored in. Defaults</span>
+<span class="sd">            to "text".</span>
+
+<span class="sd">        Optional Keyword Args for Approximate Search:</span>
+<span class="sd">            engine: "nmslib", "faiss", "lucene"; default: "nmslib"</span>
+
+<span class="sd">            space_type: "l2", "l1", "cosinesimil", "linf", "innerproduct"; default: "l2"</span>
+
+<span class="sd">            ef_search: Size of the dynamic list used during k-NN searches. Higher values</span>
+<span class="sd">            lead to more accurate but slower searches; default: 512</span>
+
+<span class="sd">            ef_construction: Size of the dynamic list used during k-NN graph creation.</span>
+<span class="sd">            Higher values lead to more accurate graph but slower indexing speed;</span>
+<span class="sd">            default: 512</span>
+
+<span class="sd">            m: Number of bidirectional links created for each new element. Large impact</span>
+<span class="sd">            on memory consumption. Between 2 and 100; default: 16</span>
+
+<span class="sd">        Keyword Args for Script Scoring or Painless Scripting:</span>
+<span class="sd">            is_appx_search: False</span>
+
+<span class="sd">        """</span>
+        <span class="n">opensearch_url</span> <span class="o">=</span> <span class="n">get_from_dict_or_env</span><span class="p">(</span>
+            <span class="n">kwargs</span><span class="p">,</span> <span class="s2">"opensearch_url"</span><span class="p">,</span> <span class="s2">"OPENSEARCH_URL"</span>
+        <span class="p">)</span>
+        <span class="c1"># List of arguments that needs to be removed from kwargs</span>
+        <span class="c1"># before passing kwargs to get opensearch client</span>
+        <span class="n">keys_list</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s2">"opensearch_url"</span><span class="p">,</span>
+            <span class="s2">"index_name"</span><span class="p">,</span>
+            <span class="s2">"is_appx_search"</span><span class="p">,</span>
+            <span class="s2">"vector_field"</span><span class="p">,</span>
+            <span class="s2">"text_field"</span><span class="p">,</span>
+            <span class="s2">"engine"</span><span class="p">,</span>
+            <span class="s2">"space_type"</span><span class="p">,</span>
+            <span class="s2">"ef_search"</span><span class="p">,</span>
+            <span class="s2">"ef_construction"</span><span class="p">,</span>
+            <span class="s2">"m"</span><span class="p">,</span>
+            <span class="s2">"max_chunk_bytes"</span><span class="p">,</span>
+            <span class="s2">"is_aoss"</span><span class="p">,</span>
+        <span class="p">]</span>
+        <span class="n">_validate_embeddings_and_bulk_size</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">embeddings</span><span class="p">),</span> <span class="n">bulk_size</span><span class="p">)</span>
+        <span class="n">dim</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">embeddings</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="c1"># Get the index name from either from kwargs or ENV Variable</span>
+        <span class="c1"># before falling back to random generation</span>
+        <span class="n">index_name</span> <span class="o">=</span> <span class="n">get_from_dict_or_env</span><span class="p">(</span>
+            <span class="n">kwargs</span><span class="p">,</span> <span class="s2">"index_name"</span><span class="p">,</span> <span class="s2">"OPENSEARCH_INDEX_NAME"</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">()</span><span class="o">.</span><span class="n">hex</span>
+        <span class="p">)</span>
+        <span class="n">is_appx_search</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"is_appx_search"</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="n">vector_field</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"vector_field"</span><span class="p">,</span> <span class="s2">"vector_field"</span><span class="p">)</span>
+        <span class="n">text_field</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"text_field"</span><span class="p">,</span> <span class="s2">"text"</span><span class="p">)</span>
+        <span class="n">max_chunk_bytes</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"max_chunk_bytes"</span><span class="p">,</span> <span class="mi">1</span> <span class="o">*</span> <span class="mi">1024</span> <span class="o">*</span> <span class="mi">1024</span><span class="p">)</span>
+        <span class="n">http_auth</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"http_auth"</span><span class="p">)</span>
+        <span class="n">is_aoss</span> <span class="o">=</span> <span class="n">_is_aoss_enabled</span><span class="p">(</span><span class="n">http_auth</span><span class="o">=</span><span class="n">http_auth</span><span class="p">)</span>
+        <span class="n">engine</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="n">is_aoss</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">is_appx_search</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">"Amazon OpenSearch Service Serverless only "</span>
+                <span class="s2">"supports `approximate_search`"</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">is_appx_search</span><span class="p">:</span>
+            <span class="n">engine</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"engine"</span><span class="p">,</span> <span class="s2">"nmslib"</span><span class="p">)</span>
+            <span class="n">space_type</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"space_type"</span><span class="p">,</span> <span class="s2">"l2"</span><span class="p">)</span>
+            <span class="n">ef_search</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"ef_search"</span><span class="p">,</span> <span class="mi">512</span><span class="p">)</span>
+            <span class="n">ef_construction</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"ef_construction"</span><span class="p">,</span> <span class="mi">512</span><span class="p">)</span>
+            <span class="n">m</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"m"</span><span class="p">,</span> <span class="mi">16</span><span class="p">)</span>
+
+            <span class="n">_validate_aoss_with_engines</span><span class="p">(</span><span class="n">is_aoss</span><span class="p">,</span> <span class="n">engine</span><span class="p">)</span>
+
+            <span class="n">mapping</span> <span class="o">=</span> <span class="n">_default_text_mapping</span><span class="p">(</span>
+                <span class="n">dim</span><span class="p">,</span> <span class="n">engine</span><span class="p">,</span> <span class="n">space_type</span><span class="p">,</span> <span class="n">ef_search</span><span class="p">,</span> <span class="n">ef_construction</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">vector_field</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">mapping</span> <span class="o">=</span> <span class="n">_default_scripting_text_mapping</span><span class="p">(</span><span class="n">dim</span><span class="p">)</span>
+
+        <span class="p">[</span><span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">keys_list</span><span class="p">]</span>
+        <span class="n">client</span> <span class="o">=</span> <span class="n">_get_opensearch_client</span><span class="p">(</span><span class="n">opensearch_url</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">_bulk_ingest_embeddings</span><span class="p">(</span>
+            <span class="n">client</span><span class="p">,</span>
+            <span class="n">index_name</span><span class="p">,</span>
+            <span class="n">embeddings</span><span class="p">,</span>
+            <span class="n">texts</span><span class="p">,</span>
+            <span class="n">ids</span><span class="o">=</span><span class="n">ids</span><span class="p">,</span>
+            <span class="n">metadatas</span><span class="o">=</span><span class="n">metadatas</span><span class="p">,</span>
+            <span class="n">vector_field</span><span class="o">=</span><span class="n">vector_field</span><span class="p">,</span>
+            <span class="n">text_field</span><span class="o">=</span><span class="n">text_field</span><span class="p">,</span>
+            <span class="n">mapping</span><span class="o">=</span><span class="n">mapping</span><span class="p">,</span>
+            <span class="n">max_chunk_bytes</span><span class="o">=</span><span class="n">max_chunk_bytes</span><span class="p">,</span>
+            <span class="n">is_aoss</span><span class="o">=</span><span class="n">is_aoss</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">"engine"</span><span class="p">]</span> <span class="o">=</span> <span class="n">engine</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">opensearch_url</span><span class="p">,</span> <span class="n">index_name</span><span class="p">,</span> <span class="n">embedding</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="OpenSearchVectorSearch.afrom_embeddings"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.opensearch_vector_search.OpenSearchVectorSearch.html#langchain_community.vectorstores.opensearch_vector_search.OpenSearchVectorSearch.afrom_embeddings">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">afrom_embeddings</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">embeddings</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]],</span>
+        <span class="n">texts</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+        <span class="n">embedding</span><span class="p">:</span> <span class="n">Embeddings</span><span class="p">,</span>
+        <span class="n">metadatas</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">bulk_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">500</span><span class="p">,</span>
+        <span class="n">ids</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">OpenSearchVectorSearch</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Asynchronously construct OpenSearchVectorSearch wrapper from pre-vectorized</span>
+<span class="sd">        embeddings.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            .. code-block:: python</span>
+
+<span class="sd">                from langchain_community.vectorstores import OpenSearchVectorSearch</span>
+<span class="sd">                from langchain_community.embeddings import OpenAIEmbeddings</span>
+<span class="sd">                embedder = OpenAIEmbeddings()</span>
+<span class="sd">                embeddings = await embedder.aembed_documents(["foo", "bar"])</span>
+<span class="sd">                opensearch_vector_search =</span>
+<span class="sd">                    await OpenSearchVectorSearch.afrom_embeddings(</span>
+<span class="sd">                        embeddings,</span>
+<span class="sd">                        texts,</span>
+<span class="sd">                        embedder,</span>
+<span class="sd">                        opensearch_url="http://localhost:9200"</span>
+<span class="sd">                )</span>
+
+<span class="sd">        OpenSearch by default supports Approximate Search powered by nmslib, faiss</span>
+<span class="sd">        and lucene engines recommended for large datasets. Also supports brute force</span>
+<span class="sd">        search through Script Scoring and Painless Scripting.</span>
+
+<span class="sd">        Optional Args:</span>
+<span class="sd">            vector_field: Document field embeddings are stored in. Defaults to</span>
+<span class="sd">            "vector_field".</span>
+
+<span class="sd">            text_field: Document field the text of the document is stored in. Defaults</span>
+<span class="sd">            to "text".</span>
+
+<span class="sd">        Optional Keyword Args for Approximate Search:</span>
+<span class="sd">            engine: "nmslib", "faiss", "lucene"; default: "nmslib"</span>
+
+<span class="sd">            space_type: "l2", "l1", "cosinesimil", "linf", "innerproduct"; default: "l2"</span>
+
+<span class="sd">            ef_search: Size of the dynamic list used during k-NN searches. Higher values</span>
+<span class="sd">            lead to more accurate but slower searches; default: 512</span>
+
+<span class="sd">            ef_construction: Size of the dynamic list used during k-NN graph creation.</span>
+<span class="sd">            Higher values lead to more accurate graph but slower indexing speed;</span>
+<span class="sd">            default: 512</span>
+
+<span class="sd">            m: Number of bidirectional links created for each new element. Large impact</span>
+<span class="sd">            on memory consumption. Between 2 and 100; default: 16</span>
+
+<span class="sd">        Keyword Args for Script Scoring or Painless Scripting:</span>
+<span class="sd">            is_appx_search: False</span>
+
+<span class="sd">        """</span>
+        <span class="n">opensearch_url</span> <span class="o">=</span> <span class="n">get_from_dict_or_env</span><span class="p">(</span>
+            <span class="n">kwargs</span><span class="p">,</span> <span class="s2">"opensearch_url"</span><span class="p">,</span> <span class="s2">"OPENSEARCH_URL"</span>
+        <span class="p">)</span>
+        <span class="c1"># List of arguments that needs to be removed from kwargs</span>
+        <span class="c1"># before passing kwargs to get opensearch client</span>
+        <span class="n">keys_list</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s2">"opensearch_url"</span><span class="p">,</span>
+            <span class="s2">"index_name"</span><span class="p">,</span>
+            <span class="s2">"is_appx_search"</span><span class="p">,</span>
+            <span class="s2">"vector_field"</span><span class="p">,</span>
+            <span class="s2">"text_field"</span><span class="p">,</span>
+            <span class="s2">"engine"</span><span class="p">,</span>
+            <span class="s2">"space_type"</span><span class="p">,</span>
+            <span class="s2">"ef_search"</span><span class="p">,</span>
+            <span class="s2">"ef_construction"</span><span class="p">,</span>
+            <span class="s2">"m"</span><span class="p">,</span>
+            <span class="s2">"max_chunk_bytes"</span><span class="p">,</span>
+            <span class="s2">"is_aoss"</span><span class="p">,</span>
+        <span class="p">]</span>
+        <span class="n">_validate_embeddings_and_bulk_size</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">embeddings</span><span class="p">),</span> <span class="n">bulk_size</span><span class="p">)</span>
+        <span class="n">dim</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">embeddings</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="c1"># Get the index name from either from kwargs or ENV Variable</span>
+        <span class="c1"># before falling back to random generation</span>
+        <span class="n">index_name</span> <span class="o">=</span> <span class="n">get_from_dict_or_env</span><span class="p">(</span>
+            <span class="n">kwargs</span><span class="p">,</span> <span class="s2">"index_name"</span><span class="p">,</span> <span class="s2">"OPENSEARCH_INDEX_NAME"</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">()</span><span class="o">.</span><span class="n">hex</span>
+        <span class="p">)</span>
+        <span class="n">is_appx_search</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"is_appx_search"</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="n">vector_field</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"vector_field"</span><span class="p">,</span> <span class="s2">"vector_field"</span><span class="p">)</span>
+        <span class="n">text_field</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"text_field"</span><span class="p">,</span> <span class="s2">"text"</span><span class="p">)</span>
+        <span class="n">max_chunk_bytes</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"max_chunk_bytes"</span><span class="p">,</span> <span class="mi">1</span> <span class="o">*</span> <span class="mi">1024</span> <span class="o">*</span> <span class="mi">1024</span><span class="p">)</span>
+        <span class="n">http_auth</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"http_auth"</span><span class="p">)</span>
+        <span class="n">is_aoss</span> <span class="o">=</span> <span class="n">_is_aoss_enabled</span><span class="p">(</span><span class="n">http_auth</span><span class="o">=</span><span class="n">http_auth</span><span class="p">)</span>
+        <span class="n">engine</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="n">is_aoss</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">is_appx_search</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">"Amazon OpenSearch Service Serverless only "</span>
+                <span class="s2">"supports `approximate_search`"</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">is_appx_search</span><span class="p">:</span>
+            <span class="n">engine</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"engine"</span><span class="p">,</span> <span class="s2">"nmslib"</span><span class="p">)</span>
+            <span class="n">space_type</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"space_type"</span><span class="p">,</span> <span class="s2">"l2"</span><span class="p">)</span>
+            <span class="n">ef_search</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"ef_search"</span><span class="p">,</span> <span class="mi">512</span><span class="p">)</span>
+            <span class="n">ef_construction</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"ef_construction"</span><span class="p">,</span> <span class="mi">512</span><span class="p">)</span>
+            <span class="n">m</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"m"</span><span class="p">,</span> <span class="mi">16</span><span class="p">)</span>
+
+            <span class="n">_validate_aoss_with_engines</span><span class="p">(</span><span class="n">is_aoss</span><span class="p">,</span> <span class="n">engine</span><span class="p">)</span>
+
+            <span class="n">mapping</span> <span class="o">=</span> <span class="n">_default_text_mapping</span><span class="p">(</span>
+                <span class="n">dim</span><span class="p">,</span> <span class="n">engine</span><span class="p">,</span> <span class="n">space_type</span><span class="p">,</span> <span class="n">ef_search</span><span class="p">,</span> <span class="n">ef_construction</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">vector_field</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">mapping</span> <span class="o">=</span> <span class="n">_default_scripting_text_mapping</span><span class="p">(</span><span class="n">dim</span><span class="p">)</span>
+
+        <span class="p">[</span><span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">keys_list</span><span class="p">]</span>
+        <span class="n">client</span> <span class="o">=</span> <span class="n">_get_async_opensearch_client</span><span class="p">(</span><span class="n">opensearch_url</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">await</span> <span class="n">_abulk_ingest_embeddings</span><span class="p">(</span>
+            <span class="n">client</span><span class="p">,</span>
+            <span class="n">index_name</span><span class="p">,</span>
+            <span class="n">embeddings</span><span class="p">,</span>
+            <span class="n">texts</span><span class="p">,</span>
+            <span class="n">ids</span><span class="o">=</span><span class="n">ids</span><span class="p">,</span>
+            <span class="n">metadatas</span><span class="o">=</span><span class="n">metadatas</span><span class="p">,</span>
+            <span class="n">vector_field</span><span class="o">=</span><span class="n">vector_field</span><span class="p">,</span>
+            <span class="n">text_field</span><span class="o">=</span><span class="n">text_field</span><span class="p">,</span>
+            <span class="n">mapping</span><span class="o">=</span><span class="n">mapping</span><span class="p">,</span>
+            <span class="n">max_chunk_bytes</span><span class="o">=</span><span class="n">max_chunk_bytes</span><span class="p">,</span>
+            <span class="n">is_aoss</span><span class="o">=</span><span class="n">is_aoss</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">"engine"</span><span class="p">]</span> <span class="o">=</span> <span class="n">engine</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">opensearch_url</span><span class="p">,</span> <span class="n">index_name</span><span class="p">,</span> <span class="n">embedding</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div></div>
+</pre></div>
+</article>
+</div>
+</div>
+<footer class="bd-footer-content">
+</footer>
+</main>
+</div>
+</div>
+<!-- Scripts loaded after <body> so the DOM is not blocked -->
+<script src="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+<footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+<div class="footer-items__start">
+<div class="footer-item">
+<p class="copyright">
+    
+      © Copyright 2023, LangChain Inc.
+      <br/>
+</p>
+</div>
+</div>
+</div>
+</footer>
+</body>
+</html>

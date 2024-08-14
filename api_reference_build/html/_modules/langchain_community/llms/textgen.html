@@ -1,0 +1,673 @@
+
+<!DOCTYPE html>
+
+<html data-content_root="" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>langchain_community.llms.textgen — 🦜🔗 LangChain  documentation</title>
+<script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+<!-- Loaded before other Sphinx assets -->
+<link href="../../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet"/>
+<link href="../../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet"/>
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet"/>
+<link href="../../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet"/>
+<link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" rel="preload" type="font/woff2"/>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/autodoc_pydantic.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/sphinx-design.4cbf315f70debaebd550c87a6162cf0f.min.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/css/custom.css" rel="stylesheet" type="text/css"/>
+<!-- Pre-loaded scripts that we'll load fully later -->
+<link as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
+<link as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
+<script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/sphinx_highlight.js"></script>
+<script src="../../../_static/clipboard.min.js"></script>
+<script src="../../../_static/copybutton.js"></script>
+<script src="../../../_static/design-tabs.js"></script>
+<script>DOCUMENTATION_OPTIONS.pagename = '_modules/langchain_community/llms/textgen';</script>
+<link href="../../../_static/favicon.png" rel="icon"/>
+<link href="../../../search.html" rel="search" title="Search"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="en" name="docsearch:language"/>
+<meta content="Aug 14, 2024" name="docbuild:last-update"/>
+</head>
+<body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
+<div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
+<div id="pst-scroll-pixel-helper"></div>
+<button class="btn rounded-pill" id="pst-back-to-top" type="button">
+<i class="fa-solid fa-arrow-up"></i>Back to top</button>
+<input class="sidebar-toggle" id="pst-primary-sidebar-checkbox" type="checkbox"/>
+<label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+<input class="sidebar-toggle" id="pst-secondary-sidebar-checkbox" type="checkbox"/>
+<label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+<div class="search-button__wrapper">
+<div class="search-button__overlay"></div>
+<div class="search-button__search-container">
+<form action="../../../search.html" class="bd-search d-flex align-items-center" method="get">
+<i class="fa-solid fa-magnifying-glass"></i>
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="form-control" id="search-input" name="q" placeholder="Search" spellcheck="false" type="search"/>
+<span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+</div>
+<div class="pst-async-banner-revealer d-none">
+<aside aria-label="Version warning" class="d-none d-print-none" id="bd-header-version-warning"></aside>
+</div>
+<header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+<button aria-label="Site navigation" class="pst-navbar-icon sidebar-toggle primary-toggle">
+<span class="fa-solid fa-bars"></span>
+</button>
+<div class="navbar-header-items__start">
+<div class="navbar-item">
+<a class="navbar-brand logo" href="../../../index.html">
+<img alt="🦜🔗 LangChain  documentation - Home" class="logo__image only-light" src="../../../_static/wordmark-api.svg"/>
+<script>document.write(`<img src="../../../_static/wordmark-api-dark.svg" class="logo__image only-dark" alt="🦜🔗 LangChain  documentation - Home"/>`);</script>
+</a></div>
+</div>
+<div class="navbar-header-items">
+<div class="me-auto navbar-header-items__center">
+<div class="navbar-item">
+<nav>
+<ul class="bd-navbar-elements navbar-nav">
+<li class="nav-item">
+<a class="nav-link nav-internal" href="../../../reference.html">
+    Reference
+  </a>
+</li>
+<li class="nav-item">
+<a class="nav-link nav-external" href="https://api.python.langchain.com/">
+    Legacy reference
+  </a>
+</li>
+</ul>
+</nav></div>
+</div>
+<div class="navbar-header-items__end">
+<div class="navbar-item navbar-persistent--container">
+<form action="../../../search.html" class="bd-search d-flex align-items-center" method="get">
+<i class="fa-solid fa-magnifying-glass"></i>
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="form-control" id="search-input" name="q" placeholder="Search" spellcheck="false" type="search"/>
+<span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+</div>
+<div class="navbar-item"><!-- This will display a link to LangChain docs -->
+<head>
+<style>
+        .text-link {
+            text-decoration: none; /* Remove underline */
+            color: inherit;        /* Inherit color from parent element */
+        }
+    </style>
+</head>
+<body>
+<a class="text-link" href="https://python.langchain.com/">Docs</a>
+</body></div>
+<div class="navbar-item">
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+<div class="navbar-item"><ul aria-label="Quick Links" class="navbar-icon-links">
+<li class="nav-item">
+<a class="nav-link pst-navbar-icon" data-bs-placement="bottom" data-bs-toggle="tooltip" href="https://github.com/langchain-ai/langchain" rel="noopener" target="_blank" title="GitHub"><i aria-hidden="true" class="fa-brands fa-square-github fa-lg"></i>
+<span class="sr-only">GitHub</span></a>
+</li>
+<li class="nav-item">
+<a class="nav-link pst-navbar-icon" data-bs-placement="bottom" data-bs-toggle="tooltip" href="https://twitter.com/langchainai" rel="noopener" target="_blank" title="X / Twitter"><i aria-hidden="true" class="fab fa-twitter-square fa-lg"></i>
+<span class="sr-only">X / Twitter</span></a>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="navbar-persistent--mobile">
+<form action="../../../search.html" class="bd-search d-flex align-items-center" method="get">
+<i class="fa-solid fa-magnifying-glass"></i>
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="form-control" id="search-input" name="q" placeholder="Search" spellcheck="false" type="search"/>
+<span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+</div>
+</div>
+</header>
+<div class="bd-container">
+<div class="bd-container__inner bd-page-width">
+<div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+<div class="sidebar-header-items sidebar-primary__section">
+<div class="sidebar-header-items__center">
+<div class="navbar-item">
+<nav>
+<ul class="bd-navbar-elements navbar-nav">
+<li class="nav-item">
+<a class="nav-link nav-internal" href="../../../reference.html">
+    Reference
+  </a>
+</li>
+<li class="nav-item">
+<a class="nav-link nav-external" href="https://api.python.langchain.com/">
+    Legacy reference
+  </a>
+</li>
+</ul>
+</nav></div>
+</div>
+<div class="sidebar-header-items__end">
+<div class="navbar-item"><!-- This will display a link to LangChain docs -->
+<head>
+<style>
+        .text-link {
+            text-decoration: none; /* Remove underline */
+            color: inherit;        /* Inherit color from parent element */
+        }
+    </style>
+</head>
+<body>
+<a class="text-link" href="https://python.langchain.com/">Docs</a>
+</body></div>
+<div class="navbar-item">
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+<div class="navbar-item"><ul aria-label="Quick Links" class="navbar-icon-links">
+<li class="nav-item">
+<a class="nav-link pst-navbar-icon" data-bs-placement="bottom" data-bs-toggle="tooltip" href="https://github.com/langchain-ai/langchain" rel="noopener" target="_blank" title="GitHub"><i aria-hidden="true" class="fa-brands fa-square-github fa-lg"></i>
+<span class="sr-only">GitHub</span></a>
+</li>
+<li class="nav-item">
+<a class="nav-link pst-navbar-icon" data-bs-placement="bottom" data-bs-toggle="tooltip" href="https://twitter.com/langchainai" rel="noopener" target="_blank" title="X / Twitter"><i aria-hidden="true" class="fab fa-twitter-square fa-lg"></i>
+<span class="sr-only">X / Twitter</span></a>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sidebar-primary-items__end sidebar-primary__section">
+</div>
+<div id="rtd-footer-container"></div>
+</div>
+<main class="bd-main" id="main-content" role="main">
+<div class="bd-content">
+<div class="bd-article-container">
+<div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+<div class="header-article-items__start">
+<div class="header-article-item">
+<nav aria-label="Breadcrumb" class="d-print-none">
+<ul class="bd-breadcrumbs">
+<li class="breadcrumb-item breadcrumb-home">
+<a aria-label="Home" class="nav-link" href="../../../index.html">
+<i class="fa-solid fa-home"></i>
+</a>
+</li>
+<li class="breadcrumb-item"><a class="nav-link" href="../../index.html">Module code</a></li>
+<li aria-current="page" class="breadcrumb-item active">langchain_co...</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+</div>
+<div id="searchbox"></div>
+<article class="bd-article">
+<h1>Source code for langchain_community.llms.textgen</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">AsyncIterator</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
+
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">from</span> <span class="nn">langchain_core.callbacks</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">AsyncCallbackManagerForLLMRun</span><span class="p">,</span>
+    <span class="n">CallbackManagerForLLMRun</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">langchain_core.language_models.llms</span> <span class="kn">import</span> <span class="n">LLM</span>
+<span class="kn">from</span> <span class="nn">langchain_core.outputs</span> <span class="kn">import</span> <span class="n">GenerationChunk</span>
+<span class="kn">from</span> <span class="nn">langchain_core.pydantic_v1</span> <span class="kn">import</span> <span class="n">Field</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="TextGen"><a class="viewcode-back" href="../../../community/llms/langchain_community.llms.textgen.TextGen.html#langchain_community.llms.textgen.TextGen">[docs]</a><span class="k">class</span> <span class="nc">TextGen</span><span class="p">(</span><span class="n">LLM</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Text generation models from WebUI.</span>
+
+<span class="sd">    To use, you should have the text-generation-webui installed, a model loaded,</span>
+<span class="sd">    and --api added as a command-line option.</span>
+
+<span class="sd">    Suggested installation, use one-click installer for your OS:</span>
+<span class="sd">    https://github.com/oobabooga/text-generation-webui#one-click-installers</span>
+
+<span class="sd">    Parameters below taken from text-generation-webui api example:</span>
+<span class="sd">    https://github.com/oobabooga/text-generation-webui/blob/main/api-examples/api-example.py</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            from langchain_community.llms import TextGen</span>
+<span class="sd">            llm = TextGen(model_url="http://localhost:8500")</span>
+<span class="sd">    """</span>
+
+    <span class="n">model_url</span><span class="p">:</span> <span class="nb">str</span>
+<span class="w">    </span><span class="sd">"""The full URL to the textgen webui including http[s]://host:port """</span>
+
+    <span class="n">preset</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""The preset to use in the textgen webui """</span>
+
+    <span class="n">max_new_tokens</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">250</span>
+<span class="w">    </span><span class="sd">"""The maximum number of tokens to generate."""</span>
+
+    <span class="n">do_sample</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">alias</span><span class="o">=</span><span class="s2">"do_sample"</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">"""Do sample"""</span>
+
+    <span class="n">temperature</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.3</span>
+<span class="w">    </span><span class="sd">"""Primary factor to control randomness of outputs. 0 = deterministic</span>
+<span class="sd">    (only the most likely token is used). Higher value = more randomness."""</span>
+
+    <span class="n">top_p</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.1</span>
+<span class="w">    </span><span class="sd">"""If not set to 1, select tokens with probabilities adding up to less than this</span>
+<span class="sd">    number. Higher value = higher range of possible random results."""</span>
+
+    <span class="n">typical_p</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="w">    </span><span class="sd">"""If not set to 1, select only tokens that are at least this much more likely to</span>
+<span class="sd">    appear than random tokens, given the prior text."""</span>
+
+    <span class="n">epsilon_cutoff</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># In units of 1e-4</span>
+<span class="w">    </span><span class="sd">"""Epsilon cutoff"""</span>
+
+    <span class="n">eta_cutoff</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># In units of 1e-4</span>
+<span class="w">    </span><span class="sd">"""ETA cutoff"""</span>
+
+    <span class="n">repetition_penalty</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.18</span>
+<span class="w">    </span><span class="sd">"""Exponential penalty factor for repeating prior tokens. 1 means no penalty,</span>
+<span class="sd">    higher value = less repetition, lower value = more repetition."""</span>
+
+    <span class="n">top_k</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mi">40</span>
+<span class="w">    </span><span class="sd">"""Similar to top_p, but select instead only the top_k most likely tokens.</span>
+<span class="sd">    Higher value = higher range of possible random results."""</span>
+
+    <span class="n">min_length</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="w">    </span><span class="sd">"""Minimum generation length in tokens."""</span>
+
+    <span class="n">no_repeat_ngram_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="w">    </span><span class="sd">"""If not set to 0, specifies the length of token sets that are completely blocked</span>
+<span class="sd">    from repeating at all. Higher values = blocks larger phrases,</span>
+<span class="sd">    lower values = blocks words or letters from repeating.</span>
+<span class="sd">    Only 0 or high values are a good idea in most cases."""</span>
+
+    <span class="n">num_beams</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="w">    </span><span class="sd">"""Number of beams"""</span>
+
+    <span class="n">penalty_alpha</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="w">    </span><span class="sd">"""Penalty Alpha"""</span>
+
+    <span class="n">length_penalty</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="w">    </span><span class="sd">"""Length Penalty"""</span>
+
+    <span class="n">early_stopping</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="n">alias</span><span class="o">=</span><span class="s2">"early_stopping"</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">"""Early stopping"""</span>
+
+    <span class="n">seed</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">alias</span><span class="o">=</span><span class="s2">"seed"</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">"""Seed (-1 for random)"""</span>
+
+    <span class="n">add_bos_token</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">alias</span><span class="o">=</span><span class="s2">"add_bos_token"</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">"""Add the bos_token to the beginning of prompts.</span>
+<span class="sd">    Disabling this can make the replies more creative."""</span>
+
+    <span class="n">truncation_length</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2048</span>
+<span class="w">    </span><span class="sd">"""Truncate the prompt up to this length. The leftmost tokens are removed if</span>
+<span class="sd">    the prompt exceeds this length. Most models require this to be at most 2048."""</span>
+
+    <span class="n">ban_eos_token</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="n">alias</span><span class="o">=</span><span class="s2">"ban_eos_token"</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">"""Ban the eos_token. Forces the model to never end the generation prematurely."""</span>
+
+    <span class="n">skip_special_tokens</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">alias</span><span class="o">=</span><span class="s2">"skip_special_tokens"</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">"""Skip special tokens. Some specific models need this unset."""</span>
+
+    <span class="n">stopping_strings</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="w">    </span><span class="sd">"""A list of strings to stop generation when encountered."""</span>
+
+    <span class="n">streaming</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="w">    </span><span class="sd">"""Whether to stream the results, token by token."""</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">_default_params</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Get the default parameters for calling textgen."""</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">"max_new_tokens"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_new_tokens</span><span class="p">,</span>
+            <span class="s2">"do_sample"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">do_sample</span><span class="p">,</span>
+            <span class="s2">"temperature"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">temperature</span><span class="p">,</span>
+            <span class="s2">"top_p"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">top_p</span><span class="p">,</span>
+            <span class="s2">"typical_p"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">typical_p</span><span class="p">,</span>
+            <span class="s2">"epsilon_cutoff"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">epsilon_cutoff</span><span class="p">,</span>
+            <span class="s2">"eta_cutoff"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">eta_cutoff</span><span class="p">,</span>
+            <span class="s2">"repetition_penalty"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">repetition_penalty</span><span class="p">,</span>
+            <span class="s2">"top_k"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">top_k</span><span class="p">,</span>
+            <span class="s2">"min_length"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">min_length</span><span class="p">,</span>
+            <span class="s2">"no_repeat_ngram_size"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">no_repeat_ngram_size</span><span class="p">,</span>
+            <span class="s2">"num_beams"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_beams</span><span class="p">,</span>
+            <span class="s2">"penalty_alpha"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">penalty_alpha</span><span class="p">,</span>
+            <span class="s2">"length_penalty"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">length_penalty</span><span class="p">,</span>
+            <span class="s2">"early_stopping"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">early_stopping</span><span class="p">,</span>
+            <span class="s2">"seed"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">seed</span><span class="p">,</span>
+            <span class="s2">"add_bos_token"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_bos_token</span><span class="p">,</span>
+            <span class="s2">"truncation_length"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">truncation_length</span><span class="p">,</span>
+            <span class="s2">"ban_eos_token"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">ban_eos_token</span><span class="p">,</span>
+            <span class="s2">"skip_special_tokens"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">skip_special_tokens</span><span class="p">,</span>
+            <span class="s2">"stopping_strings"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">stopping_strings</span><span class="p">,</span>
+        <span class="p">}</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">_identifying_params</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Get the identifying parameters."""</span>
+        <span class="k">return</span> <span class="p">{</span><span class="o">**</span><span class="p">{</span><span class="s2">"model_url"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_url</span><span class="p">},</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">_default_params</span><span class="p">}</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">_llm_type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Return type of llm."""</span>
+        <span class="k">return</span> <span class="s2">"textgen"</span>
+
+    <span class="k">def</span> <span class="nf">_get_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stop</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Performs sanity check, preparing parameters in format needed by textgen.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            stop (Optional[List[str]]): List of stop sequences for textgen.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Dictionary containing the combined parameters.</span>
+<span class="sd">        """</span>
+
+        <span class="c1"># Raise error if stop sequences are in both input and default params</span>
+        <span class="c1"># if self.stop and stop is not None:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">stopping_strings</span> <span class="ow">and</span> <span class="n">stop</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"`stop` found in both the input and default params."</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">preset</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_default_params</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"preset"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">preset</span><span class="p">}</span>
+
+        <span class="c1"># then sets it as configured, or default to an empty list:</span>
+        <span class="n">params</span><span class="p">[</span><span class="s2">"stopping_strings"</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stopping_strings</span> <span class="ow">or</span> <span class="n">stop</span> <span class="ow">or</span> <span class="p">[]</span>
+
+        <span class="k">return</span> <span class="n">params</span>
+
+    <span class="k">def</span> <span class="nf">_call</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">prompt</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">stop</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">run_manager</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">CallbackManagerForLLMRun</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Call the textgen web API and return the output.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            prompt: The prompt to use for generation.</span>
+<span class="sd">            stop: A list of strings to stop generation when encountered.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            The generated text.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            .. code-block:: python</span>
+
+<span class="sd">                from langchain_community.llms import TextGen</span>
+<span class="sd">                llm = TextGen(model_url="http://localhost:5000")</span>
+<span class="sd">                llm.invoke("Write a story about llamas.")</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">streaming</span><span class="p">:</span>
+            <span class="n">combined_text_output</span> <span class="o">=</span> <span class="s2">""</span>
+            <span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_stream</span><span class="p">(</span>
+                <span class="n">prompt</span><span class="o">=</span><span class="n">prompt</span><span class="p">,</span> <span class="n">stop</span><span class="o">=</span><span class="n">stop</span><span class="p">,</span> <span class="n">run_manager</span><span class="o">=</span><span class="n">run_manager</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+            <span class="p">):</span>
+                <span class="n">combined_text_output</span> <span class="o">+=</span> <span class="n">chunk</span><span class="o">.</span><span class="n">text</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">combined_text_output</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">model_url</span><span class="si">}</span><span class="s2">/api/v1/generate"</span>
+            <span class="n">params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_parameters</span><span class="p">(</span><span class="n">stop</span><span class="p">)</span>
+            <span class="n">request</span> <span class="o">=</span> <span class="n">params</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="n">request</span><span class="p">[</span><span class="s2">"prompt"</span><span class="p">]</span> <span class="o">=</span> <span class="n">prompt</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">request</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s2">"results"</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">"text"</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"ERROR: response: </span><span class="si">{</span><span class="n">response</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>  <span class="c1"># noqa: T201</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="s2">""</span>
+
+        <span class="k">return</span> <span class="n">result</span>
+
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">_acall</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">prompt</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">stop</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">run_manager</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">AsyncCallbackManagerForLLMRun</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Call the textgen web API and return the output.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            prompt: The prompt to use for generation.</span>
+<span class="sd">            stop: A list of strings to stop generation when encountered.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            The generated text.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            .. code-block:: python</span>
+
+<span class="sd">                from langchain_community.llms import TextGen</span>
+<span class="sd">                llm = TextGen(model_url="http://localhost:5000")</span>
+<span class="sd">                llm.invoke("Write a story about llamas.")</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">streaming</span><span class="p">:</span>
+            <span class="n">combined_text_output</span> <span class="o">=</span> <span class="s2">""</span>
+            <span class="k">async</span> <span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_astream</span><span class="p">(</span>
+                <span class="n">prompt</span><span class="o">=</span><span class="n">prompt</span><span class="p">,</span> <span class="n">stop</span><span class="o">=</span><span class="n">stop</span><span class="p">,</span> <span class="n">run_manager</span><span class="o">=</span><span class="n">run_manager</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+            <span class="p">):</span>
+                <span class="n">combined_text_output</span> <span class="o">+=</span> <span class="n">chunk</span><span class="o">.</span><span class="n">text</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">combined_text_output</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">model_url</span><span class="si">}</span><span class="s2">/api/v1/generate"</span>
+            <span class="n">params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_parameters</span><span class="p">(</span><span class="n">stop</span><span class="p">)</span>
+            <span class="n">request</span> <span class="o">=</span> <span class="n">params</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="n">request</span><span class="p">[</span><span class="s2">"prompt"</span><span class="p">]</span> <span class="o">=</span> <span class="n">prompt</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">request</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s2">"results"</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">"text"</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"ERROR: response: </span><span class="si">{</span><span class="n">response</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>  <span class="c1"># noqa: T201</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="s2">""</span>
+
+        <span class="k">return</span> <span class="n">result</span>
+
+    <span class="k">def</span> <span class="nf">_stream</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">prompt</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">stop</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">run_manager</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">CallbackManagerForLLMRun</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">GenerationChunk</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Yields results objects as they are generated in real time.</span>
+
+<span class="sd">        It also calls the callback manager's on_llm_new_token event with</span>
+<span class="sd">        similar parameters to the OpenAI LLM class method of the same name.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            prompt: The prompts to pass into the model.</span>
+<span class="sd">            stop: Optional list of stop words to use when generating.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A generator representing the stream of tokens being generated.</span>
+
+<span class="sd">        Yields:</span>
+<span class="sd">            A dictionary like objects containing a string token and metadata.</span>
+<span class="sd">            See text-generation-webui docs and below for more.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            .. code-block:: python</span>
+
+<span class="sd">                from langchain_community.llms import TextGen</span>
+<span class="sd">                llm = TextGen(</span>
+<span class="sd">                    model_url = "ws://localhost:5005"</span>
+<span class="sd">                    streaming=True</span>
+<span class="sd">                )</span>
+<span class="sd">                for chunk in llm.stream("Ask 'Hi, how are you?' like a pirate:'",</span>
+<span class="sd">                        stop=["'","\n"]):</span>
+<span class="sd">                    print(chunk, end='', flush=True)  # noqa: T201</span>
+
+<span class="sd">        """</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="kn">import</span> <span class="nn">websocket</span>
+        <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
+                <span class="s2">"The `websocket-client` package is required for streaming."</span>
+            <span class="p">)</span>
+
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_parameters</span><span class="p">(</span><span class="n">stop</span><span class="p">),</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">}</span>
+
+        <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">model_url</span><span class="si">}</span><span class="s2">/api/v1/stream"</span>
+
+        <span class="n">request</span> <span class="o">=</span> <span class="n">params</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">request</span><span class="p">[</span><span class="s2">"prompt"</span><span class="p">]</span> <span class="o">=</span> <span class="n">prompt</span>
+
+        <span class="n">websocket_client</span> <span class="o">=</span> <span class="n">websocket</span><span class="o">.</span><span class="n">WebSocket</span><span class="p">()</span>
+
+        <span class="n">websocket_client</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+
+        <span class="n">websocket_client</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">request</span><span class="p">))</span>
+
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">websocket_client</span><span class="o">.</span><span class="n">recv</span><span class="p">()</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">result</span><span class="p">[</span><span class="s2">"event"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"text_stream"</span><span class="p">:</span>  <span class="c1"># type: ignore[call-overload, index]</span>
+                <span class="n">chunk</span> <span class="o">=</span> <span class="n">GenerationChunk</span><span class="p">(</span>
+                    <span class="n">text</span><span class="o">=</span><span class="n">result</span><span class="p">[</span><span class="s2">"text"</span><span class="p">],</span>  <span class="c1"># type: ignore[call-overload, index]</span>
+                    <span class="n">generation_info</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="k">yield</span> <span class="n">chunk</span>
+            <span class="k">elif</span> <span class="n">result</span><span class="p">[</span><span class="s2">"event"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"stream_end"</span><span class="p">:</span>  <span class="c1"># type: ignore[call-overload, index]</span>
+                <span class="n">websocket_client</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+                <span class="k">return</span>
+
+            <span class="k">if</span> <span class="n">run_manager</span><span class="p">:</span>
+                <span class="n">run_manager</span><span class="o">.</span><span class="n">on_llm_new_token</span><span class="p">(</span><span class="n">token</span><span class="o">=</span><span class="n">chunk</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">_astream</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">prompt</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">stop</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">run_manager</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">AsyncCallbackManagerForLLMRun</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AsyncIterator</span><span class="p">[</span><span class="n">GenerationChunk</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Yields results objects as they are generated in real time.</span>
+
+<span class="sd">        It also calls the callback manager's on_llm_new_token event with</span>
+<span class="sd">        similar parameters to the OpenAI LLM class method of the same name.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            prompt: The prompts to pass into the model.</span>
+<span class="sd">            stop: Optional list of stop words to use when generating.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A generator representing the stream of tokens being generated.</span>
+
+<span class="sd">        Yields:</span>
+<span class="sd">            A dictionary like objects containing a string token and metadata.</span>
+<span class="sd">            See text-generation-webui docs and below for more.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            .. code-block:: python</span>
+
+<span class="sd">                from langchain_community.llms import TextGen</span>
+<span class="sd">                llm = TextGen(</span>
+<span class="sd">                    model_url = "ws://localhost:5005"</span>
+<span class="sd">                    streaming=True</span>
+<span class="sd">                )</span>
+<span class="sd">                for chunk in llm.stream("Ask 'Hi, how are you?' like a pirate:'",</span>
+<span class="sd">                        stop=["'","\n"]):</span>
+<span class="sd">                    print(chunk, end='', flush=True)  # noqa: T201</span>
+
+<span class="sd">        """</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="kn">import</span> <span class="nn">websocket</span>
+        <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
+                <span class="s2">"The `websocket-client` package is required for streaming."</span>
+            <span class="p">)</span>
+
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_parameters</span><span class="p">(</span><span class="n">stop</span><span class="p">),</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">}</span>
+
+        <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">model_url</span><span class="si">}</span><span class="s2">/api/v1/stream"</span>
+
+        <span class="n">request</span> <span class="o">=</span> <span class="n">params</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">request</span><span class="p">[</span><span class="s2">"prompt"</span><span class="p">]</span> <span class="o">=</span> <span class="n">prompt</span>
+
+        <span class="n">websocket_client</span> <span class="o">=</span> <span class="n">websocket</span><span class="o">.</span><span class="n">WebSocket</span><span class="p">()</span>
+
+        <span class="n">websocket_client</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+
+        <span class="n">websocket_client</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">request</span><span class="p">))</span>
+
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">websocket_client</span><span class="o">.</span><span class="n">recv</span><span class="p">()</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">result</span><span class="p">[</span><span class="s2">"event"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"text_stream"</span><span class="p">:</span>  <span class="c1"># type: ignore[call-overload, index]</span>
+                <span class="n">chunk</span> <span class="o">=</span> <span class="n">GenerationChunk</span><span class="p">(</span>
+                    <span class="n">text</span><span class="o">=</span><span class="n">result</span><span class="p">[</span><span class="s2">"text"</span><span class="p">],</span>  <span class="c1"># type: ignore[call-overload, index]</span>
+                    <span class="n">generation_info</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="k">yield</span> <span class="n">chunk</span>
+            <span class="k">elif</span> <span class="n">result</span><span class="p">[</span><span class="s2">"event"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"stream_end"</span><span class="p">:</span>  <span class="c1"># type: ignore[call-overload, index]</span>
+                <span class="n">websocket_client</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+                <span class="k">return</span>
+
+            <span class="k">if</span> <span class="n">run_manager</span><span class="p">:</span>
+                <span class="k">await</span> <span class="n">run_manager</span><span class="o">.</span><span class="n">on_llm_new_token</span><span class="p">(</span><span class="n">token</span><span class="o">=</span><span class="n">chunk</span><span class="o">.</span><span class="n">text</span><span class="p">)</span></div>
+</pre></div>
+</article>
+</div>
+</div>
+<footer class="bd-footer-content">
+</footer>
+</main>
+</div>
+</div>
+<!-- Scripts loaded after <body> so the DOM is not blocked -->
+<script src="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+<footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+<div class="footer-items__start">
+<div class="footer-item">
+<p class="copyright">
+    
+      © Copyright 2023, LangChain Inc.
+      <br/>
+</p>
+</div>
+</div>
+</div>
+</footer>
+</body>
+</html>

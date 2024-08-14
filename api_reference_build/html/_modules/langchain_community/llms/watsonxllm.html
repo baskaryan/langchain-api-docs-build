@@ -1,0 +1,658 @@
+
+<!DOCTYPE html>
+
+<html data-content_root="" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>langchain_community.llms.watsonxllm — 🦜🔗 LangChain  documentation</title>
+<script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+<!-- Loaded before other Sphinx assets -->
+<link href="../../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet"/>
+<link href="../../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet"/>
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet"/>
+<link href="../../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet"/>
+<link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" rel="preload" type="font/woff2"/>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/autodoc_pydantic.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/sphinx-design.4cbf315f70debaebd550c87a6162cf0f.min.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/css/custom.css" rel="stylesheet" type="text/css"/>
+<!-- Pre-loaded scripts that we'll load fully later -->
+<link as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
+<link as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
+<script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/sphinx_highlight.js"></script>
+<script src="../../../_static/clipboard.min.js"></script>
+<script src="../../../_static/copybutton.js"></script>
+<script src="../../../_static/design-tabs.js"></script>
+<script>DOCUMENTATION_OPTIONS.pagename = '_modules/langchain_community/llms/watsonxllm';</script>
+<link href="../../../_static/favicon.png" rel="icon"/>
+<link href="../../../search.html" rel="search" title="Search"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="en" name="docsearch:language"/>
+<meta content="Aug 14, 2024" name="docbuild:last-update"/>
+</head>
+<body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
+<div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
+<div id="pst-scroll-pixel-helper"></div>
+<button class="btn rounded-pill" id="pst-back-to-top" type="button">
+<i class="fa-solid fa-arrow-up"></i>Back to top</button>
+<input class="sidebar-toggle" id="pst-primary-sidebar-checkbox" type="checkbox"/>
+<label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+<input class="sidebar-toggle" id="pst-secondary-sidebar-checkbox" type="checkbox"/>
+<label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+<div class="search-button__wrapper">
+<div class="search-button__overlay"></div>
+<div class="search-button__search-container">
+<form action="../../../search.html" class="bd-search d-flex align-items-center" method="get">
+<i class="fa-solid fa-magnifying-glass"></i>
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="form-control" id="search-input" name="q" placeholder="Search" spellcheck="false" type="search"/>
+<span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+</div>
+<div class="pst-async-banner-revealer d-none">
+<aside aria-label="Version warning" class="d-none d-print-none" id="bd-header-version-warning"></aside>
+</div>
+<header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+<button aria-label="Site navigation" class="pst-navbar-icon sidebar-toggle primary-toggle">
+<span class="fa-solid fa-bars"></span>
+</button>
+<div class="navbar-header-items__start">
+<div class="navbar-item">
+<a class="navbar-brand logo" href="../../../index.html">
+<img alt="🦜🔗 LangChain  documentation - Home" class="logo__image only-light" src="../../../_static/wordmark-api.svg"/>
+<script>document.write(`<img src="../../../_static/wordmark-api-dark.svg" class="logo__image only-dark" alt="🦜🔗 LangChain  documentation - Home"/>`);</script>
+</a></div>
+</div>
+<div class="navbar-header-items">
+<div class="me-auto navbar-header-items__center">
+<div class="navbar-item">
+<nav>
+<ul class="bd-navbar-elements navbar-nav">
+<li class="nav-item">
+<a class="nav-link nav-internal" href="../../../reference.html">
+    Reference
+  </a>
+</li>
+<li class="nav-item">
+<a class="nav-link nav-external" href="https://api.python.langchain.com/">
+    Legacy reference
+  </a>
+</li>
+</ul>
+</nav></div>
+</div>
+<div class="navbar-header-items__end">
+<div class="navbar-item navbar-persistent--container">
+<form action="../../../search.html" class="bd-search d-flex align-items-center" method="get">
+<i class="fa-solid fa-magnifying-glass"></i>
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="form-control" id="search-input" name="q" placeholder="Search" spellcheck="false" type="search"/>
+<span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+</div>
+<div class="navbar-item"><!-- This will display a link to LangChain docs -->
+<head>
+<style>
+        .text-link {
+            text-decoration: none; /* Remove underline */
+            color: inherit;        /* Inherit color from parent element */
+        }
+    </style>
+</head>
+<body>
+<a class="text-link" href="https://python.langchain.com/">Docs</a>
+</body></div>
+<div class="navbar-item">
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+<div class="navbar-item"><ul aria-label="Quick Links" class="navbar-icon-links">
+<li class="nav-item">
+<a class="nav-link pst-navbar-icon" data-bs-placement="bottom" data-bs-toggle="tooltip" href="https://github.com/langchain-ai/langchain" rel="noopener" target="_blank" title="GitHub"><i aria-hidden="true" class="fa-brands fa-square-github fa-lg"></i>
+<span class="sr-only">GitHub</span></a>
+</li>
+<li class="nav-item">
+<a class="nav-link pst-navbar-icon" data-bs-placement="bottom" data-bs-toggle="tooltip" href="https://twitter.com/langchainai" rel="noopener" target="_blank" title="X / Twitter"><i aria-hidden="true" class="fab fa-twitter-square fa-lg"></i>
+<span class="sr-only">X / Twitter</span></a>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="navbar-persistent--mobile">
+<form action="../../../search.html" class="bd-search d-flex align-items-center" method="get">
+<i class="fa-solid fa-magnifying-glass"></i>
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="form-control" id="search-input" name="q" placeholder="Search" spellcheck="false" type="search"/>
+<span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+</div>
+</div>
+</header>
+<div class="bd-container">
+<div class="bd-container__inner bd-page-width">
+<div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+<div class="sidebar-header-items sidebar-primary__section">
+<div class="sidebar-header-items__center">
+<div class="navbar-item">
+<nav>
+<ul class="bd-navbar-elements navbar-nav">
+<li class="nav-item">
+<a class="nav-link nav-internal" href="../../../reference.html">
+    Reference
+  </a>
+</li>
+<li class="nav-item">
+<a class="nav-link nav-external" href="https://api.python.langchain.com/">
+    Legacy reference
+  </a>
+</li>
+</ul>
+</nav></div>
+</div>
+<div class="sidebar-header-items__end">
+<div class="navbar-item"><!-- This will display a link to LangChain docs -->
+<head>
+<style>
+        .text-link {
+            text-decoration: none; /* Remove underline */
+            color: inherit;        /* Inherit color from parent element */
+        }
+    </style>
+</head>
+<body>
+<a class="text-link" href="https://python.langchain.com/">Docs</a>
+</body></div>
+<div class="navbar-item">
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+<div class="navbar-item"><ul aria-label="Quick Links" class="navbar-icon-links">
+<li class="nav-item">
+<a class="nav-link pst-navbar-icon" data-bs-placement="bottom" data-bs-toggle="tooltip" href="https://github.com/langchain-ai/langchain" rel="noopener" target="_blank" title="GitHub"><i aria-hidden="true" class="fa-brands fa-square-github fa-lg"></i>
+<span class="sr-only">GitHub</span></a>
+</li>
+<li class="nav-item">
+<a class="nav-link pst-navbar-icon" data-bs-placement="bottom" data-bs-toggle="tooltip" href="https://twitter.com/langchainai" rel="noopener" target="_blank" title="X / Twitter"><i aria-hidden="true" class="fab fa-twitter-square fa-lg"></i>
+<span class="sr-only">X / Twitter</span></a>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sidebar-primary-items__end sidebar-primary__section">
+</div>
+<div id="rtd-footer-container"></div>
+</div>
+<main class="bd-main" id="main-content" role="main">
+<div class="bd-content">
+<div class="bd-article-container">
+<div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+<div class="header-article-items__start">
+<div class="header-article-item">
+<nav aria-label="Breadcrumb" class="d-print-none">
+<ul class="bd-breadcrumbs">
+<li class="breadcrumb-item breadcrumb-home">
+<a aria-label="Home" class="nav-link" href="../../../index.html">
+<i class="fa-solid fa-home"></i>
+</a>
+</li>
+<li class="breadcrumb-item"><a class="nav-link" href="../../index.html">Module code</a></li>
+<li aria-current="page" class="breadcrumb-item active">langchain_co...</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+</div>
+<div id="searchbox"></div>
+<article class="bd-article">
+<h1>Source code for langchain_community.llms.watsonxllm</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">from</span> <span class="nn">langchain_core._api.deprecation</span> <span class="kn">import</span> <span class="n">deprecated</span>
+<span class="kn">from</span> <span class="nn">langchain_core.callbacks</span> <span class="kn">import</span> <span class="n">CallbackManagerForLLMRun</span>
+<span class="kn">from</span> <span class="nn">langchain_core.language_models.llms</span> <span class="kn">import</span> <span class="n">BaseLLM</span>
+<span class="kn">from</span> <span class="nn">langchain_core.outputs</span> <span class="kn">import</span> <span class="n">Generation</span><span class="p">,</span> <span class="n">GenerationChunk</span><span class="p">,</span> <span class="n">LLMResult</span>
+<span class="kn">from</span> <span class="nn">langchain_core.pydantic_v1</span> <span class="kn">import</span> <span class="n">SecretStr</span>
+<span class="kn">from</span> <span class="nn">langchain_core.utils</span> <span class="kn">import</span> <span class="n">convert_to_secret_str</span><span class="p">,</span> <span class="n">get_from_dict_or_env</span><span class="p">,</span> <span class="n">pre_init</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="WatsonxLLM"><a class="viewcode-back" href="../../../community/llms/langchain_community.llms.watsonxllm.WatsonxLLM.html#langchain_community.llms.watsonxllm.WatsonxLLM">[docs]</a><span class="nd">@deprecated</span><span class="p">(</span>
+    <span class="n">since</span><span class="o">=</span><span class="s2">"0.0.18"</span><span class="p">,</span> <span class="n">removal</span><span class="o">=</span><span class="s2">"0.3"</span><span class="p">,</span> <span class="n">alternative_import</span><span class="o">=</span><span class="s2">"langchain_ibm.WatsonxLLM"</span>
+<span class="p">)</span>
+<span class="k">class</span> <span class="nc">WatsonxLLM</span><span class="p">(</span><span class="n">BaseLLM</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    IBM watsonx.ai large language models.</span>
+
+<span class="sd">    To use, you should have ``ibm_watsonx_ai`` python package installed,</span>
+<span class="sd">    and the environment variable ``WATSONX_APIKEY`` set with your API key, or pass</span>
+<span class="sd">    it as a named parameter to the constructor.</span>
+
+
+<span class="sd">    Example:</span>
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            from ibm_watsonx_ai.metanames import GenTextParamsMetaNames</span>
+<span class="sd">            parameters = {</span>
+<span class="sd">                GenTextParamsMetaNames.DECODING_METHOD: "sample",</span>
+<span class="sd">                GenTextParamsMetaNames.MAX_NEW_TOKENS: 100,</span>
+<span class="sd">                GenTextParamsMetaNames.MIN_NEW_TOKENS: 1,</span>
+<span class="sd">                GenTextParamsMetaNames.TEMPERATURE: 0.5,</span>
+<span class="sd">                GenTextParamsMetaNames.TOP_K: 50,</span>
+<span class="sd">                GenTextParamsMetaNames.TOP_P: 1,</span>
+<span class="sd">            }</span>
+
+<span class="sd">            from langchain_community.llms import WatsonxLLM</span>
+<span class="sd">            watsonx_llm = WatsonxLLM(</span>
+<span class="sd">                model_id="google/flan-ul2",</span>
+<span class="sd">                url="https://us-south.ml.cloud.ibm.com",</span>
+<span class="sd">                apikey="*****",</span>
+<span class="sd">                project_id="*****",</span>
+<span class="sd">                params=parameters,</span>
+<span class="sd">            )</span>
+<span class="sd">    """</span>
+
+    <span class="n">model_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span>
+<span class="w">    </span><span class="sd">"""Type of model to use."""</span>
+
+    <span class="n">deployment_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span>
+<span class="w">    </span><span class="sd">"""Type of deployed model to use."""</span>
+
+    <span class="n">project_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span>
+<span class="w">    </span><span class="sd">"""ID of the Watson Studio project."""</span>
+
+    <span class="n">space_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span>
+<span class="w">    </span><span class="sd">"""ID of the Watson Studio space."""</span>
+
+    <span class="n">url</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">SecretStr</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""Url to Watson Machine Learning instance"""</span>
+
+    <span class="n">apikey</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">SecretStr</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""Apikey to Watson Machine Learning instance"""</span>
+
+    <span class="n">token</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">SecretStr</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""Token to Watson Machine Learning instance"""</span>
+
+    <span class="n">password</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">SecretStr</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""Password to Watson Machine Learning instance"""</span>
+
+    <span class="n">username</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">SecretStr</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""Username to Watson Machine Learning instance"""</span>
+
+    <span class="n">instance_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">SecretStr</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""Instance_id of Watson Machine Learning instance"""</span>
+
+    <span class="n">version</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">SecretStr</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""Version of Watson Machine Learning instance"""</span>
+
+    <span class="n">params</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""Model parameters to use during generate requests."""</span>
+
+    <span class="n">verify</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="s2">""</span>
+<span class="w">    </span><span class="sd">"""User can pass as verify one of following:</span>
+<span class="sd">        the path to a CA_BUNDLE file</span>
+<span class="sd">        the path of directory with certificates of trusted CAs</span>
+<span class="sd">        True - default path to truststore will be taken</span>
+<span class="sd">        False - no verification will be made"""</span>
+
+    <span class="n">streaming</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="w">    </span><span class="sd">""" Whether to stream the results or not. """</span>
+
+    <span class="n">watsonx_model</span><span class="p">:</span> <span class="n">Any</span>
+
+    <span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
+        <span class="n">extra</span> <span class="o">=</span> <span class="s2">"forbid"</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">is_lc_serializable</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">lc_secrets</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">"url"</span><span class="p">:</span> <span class="s2">"WATSONX_URL"</span><span class="p">,</span>
+            <span class="s2">"apikey"</span><span class="p">:</span> <span class="s2">"WATSONX_APIKEY"</span><span class="p">,</span>
+            <span class="s2">"token"</span><span class="p">:</span> <span class="s2">"WATSONX_TOKEN"</span><span class="p">,</span>
+            <span class="s2">"password"</span><span class="p">:</span> <span class="s2">"WATSONX_PASSWORD"</span><span class="p">,</span>
+            <span class="s2">"username"</span><span class="p">:</span> <span class="s2">"WATSONX_USERNAME"</span><span class="p">,</span>
+            <span class="s2">"instance_id"</span><span class="p">:</span> <span class="s2">"WATSONX_INSTANCE_ID"</span><span class="p">,</span>
+        <span class="p">}</span>
+
+    <span class="nd">@pre_init</span>
+    <span class="k">def</span> <span class="nf">validate_environment</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Validate that credentials and python package exists in environment."""</span>
+        <span class="n">values</span><span class="p">[</span><span class="s2">"url"</span><span class="p">]</span> <span class="o">=</span> <span class="n">convert_to_secret_str</span><span class="p">(</span>
+            <span class="n">get_from_dict_or_env</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="s2">"url"</span><span class="p">,</span> <span class="s2">"WATSONX_URL"</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="s2">"cloud.ibm.com"</span> <span class="ow">in</span> <span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"url"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span><span class="o">.</span><span class="n">get_secret_value</span><span class="p">():</span>
+            <span class="n">values</span><span class="p">[</span><span class="s2">"apikey"</span><span class="p">]</span> <span class="o">=</span> <span class="n">convert_to_secret_str</span><span class="p">(</span>
+                <span class="n">get_from_dict_or_env</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="s2">"apikey"</span><span class="p">,</span> <span class="s2">"WATSONX_APIKEY"</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="p">(</span>
+                <span class="ow">not</span> <span class="n">values</span><span class="p">[</span><span class="s2">"token"</span><span class="p">]</span>
+                <span class="ow">and</span> <span class="s2">"WATSONX_TOKEN"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span>
+                <span class="ow">and</span> <span class="ow">not</span> <span class="n">values</span><span class="p">[</span><span class="s2">"password"</span><span class="p">]</span>
+                <span class="ow">and</span> <span class="s2">"WATSONX_PASSWORD"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span>
+                <span class="ow">and</span> <span class="ow">not</span> <span class="n">values</span><span class="p">[</span><span class="s2">"apikey"</span><span class="p">]</span>
+                <span class="ow">and</span> <span class="s2">"WATSONX_APIKEY"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span>
+            <span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">"Did not find 'token', 'password' or 'apikey',"</span>
+                    <span class="s2">" please add an environment variable"</span>
+                    <span class="s2">" `WATSONX_TOKEN`, 'WATSONX_PASSWORD' or 'WATSONX_APIKEY' "</span>
+                    <span class="s2">"which contains it,"</span>
+                    <span class="s2">" or pass 'token', 'password' or 'apikey'"</span>
+                    <span class="s2">" as a named parameter."</span>
+                <span class="p">)</span>
+            <span class="k">elif</span> <span class="n">values</span><span class="p">[</span><span class="s2">"token"</span><span class="p">]</span> <span class="ow">or</span> <span class="s2">"WATSONX_TOKEN"</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
+                <span class="n">values</span><span class="p">[</span><span class="s2">"token"</span><span class="p">]</span> <span class="o">=</span> <span class="n">convert_to_secret_str</span><span class="p">(</span>
+                    <span class="n">get_from_dict_or_env</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="s2">"token"</span><span class="p">,</span> <span class="s2">"WATSONX_TOKEN"</span><span class="p">)</span>
+                <span class="p">)</span>
+            <span class="k">elif</span> <span class="n">values</span><span class="p">[</span><span class="s2">"password"</span><span class="p">]</span> <span class="ow">or</span> <span class="s2">"WATSONX_PASSWORD"</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
+                <span class="n">values</span><span class="p">[</span><span class="s2">"password"</span><span class="p">]</span> <span class="o">=</span> <span class="n">convert_to_secret_str</span><span class="p">(</span>
+                    <span class="n">get_from_dict_or_env</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="s2">"password"</span><span class="p">,</span> <span class="s2">"WATSONX_PASSWORD"</span><span class="p">)</span>
+                <span class="p">)</span>
+                <span class="n">values</span><span class="p">[</span><span class="s2">"username"</span><span class="p">]</span> <span class="o">=</span> <span class="n">convert_to_secret_str</span><span class="p">(</span>
+                    <span class="n">get_from_dict_or_env</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="s2">"username"</span><span class="p">,</span> <span class="s2">"WATSONX_USERNAME"</span><span class="p">)</span>
+                <span class="p">)</span>
+            <span class="k">elif</span> <span class="n">values</span><span class="p">[</span><span class="s2">"apikey"</span><span class="p">]</span> <span class="ow">or</span> <span class="s2">"WATSONX_APIKEY"</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
+                <span class="n">values</span><span class="p">[</span><span class="s2">"apikey"</span><span class="p">]</span> <span class="o">=</span> <span class="n">convert_to_secret_str</span><span class="p">(</span>
+                    <span class="n">get_from_dict_or_env</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="s2">"apikey"</span><span class="p">,</span> <span class="s2">"WATSONX_APIKEY"</span><span class="p">)</span>
+                <span class="p">)</span>
+                <span class="n">values</span><span class="p">[</span><span class="s2">"username"</span><span class="p">]</span> <span class="o">=</span> <span class="n">convert_to_secret_str</span><span class="p">(</span>
+                    <span class="n">get_from_dict_or_env</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="s2">"username"</span><span class="p">,</span> <span class="s2">"WATSONX_USERNAME"</span><span class="p">)</span>
+                <span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">values</span><span class="p">[</span><span class="s2">"instance_id"</span><span class="p">]</span> <span class="ow">or</span> <span class="s2">"WATSONX_INSTANCE_ID"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
+                <span class="n">values</span><span class="p">[</span><span class="s2">"instance_id"</span><span class="p">]</span> <span class="o">=</span> <span class="n">convert_to_secret_str</span><span class="p">(</span>
+                    <span class="n">get_from_dict_or_env</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="s2">"instance_id"</span><span class="p">,</span> <span class="s2">"WATSONX_INSTANCE_ID"</span><span class="p">)</span>
+                <span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="kn">from</span> <span class="nn">ibm_watsonx_ai.foundation_models</span> <span class="kn">import</span> <span class="n">ModelInference</span>
+
+            <span class="n">credentials</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">"url"</span><span class="p">:</span> <span class="n">values</span><span class="p">[</span><span class="s2">"url"</span><span class="p">]</span><span class="o">.</span><span class="n">get_secret_value</span><span class="p">()</span> <span class="k">if</span> <span class="n">values</span><span class="p">[</span><span class="s2">"url"</span><span class="p">]</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+                <span class="s2">"apikey"</span><span class="p">:</span> <span class="p">(</span>
+                    <span class="n">values</span><span class="p">[</span><span class="s2">"apikey"</span><span class="p">]</span><span class="o">.</span><span class="n">get_secret_value</span><span class="p">()</span> <span class="k">if</span> <span class="n">values</span><span class="p">[</span><span class="s2">"apikey"</span><span class="p">]</span> <span class="k">else</span> <span class="kc">None</span>
+                <span class="p">),</span>
+                <span class="s2">"token"</span><span class="p">:</span> <span class="p">(</span>
+                    <span class="n">values</span><span class="p">[</span><span class="s2">"token"</span><span class="p">]</span><span class="o">.</span><span class="n">get_secret_value</span><span class="p">()</span> <span class="k">if</span> <span class="n">values</span><span class="p">[</span><span class="s2">"token"</span><span class="p">]</span> <span class="k">else</span> <span class="kc">None</span>
+                <span class="p">),</span>
+                <span class="s2">"password"</span><span class="p">:</span> <span class="p">(</span>
+                    <span class="n">values</span><span class="p">[</span><span class="s2">"password"</span><span class="p">]</span><span class="o">.</span><span class="n">get_secret_value</span><span class="p">()</span>
+                    <span class="k">if</span> <span class="n">values</span><span class="p">[</span><span class="s2">"password"</span><span class="p">]</span>
+                    <span class="k">else</span> <span class="kc">None</span>
+                <span class="p">),</span>
+                <span class="s2">"username"</span><span class="p">:</span> <span class="p">(</span>
+                    <span class="n">values</span><span class="p">[</span><span class="s2">"username"</span><span class="p">]</span><span class="o">.</span><span class="n">get_secret_value</span><span class="p">()</span>
+                    <span class="k">if</span> <span class="n">values</span><span class="p">[</span><span class="s2">"username"</span><span class="p">]</span>
+                    <span class="k">else</span> <span class="kc">None</span>
+                <span class="p">),</span>
+                <span class="s2">"instance_id"</span><span class="p">:</span> <span class="p">(</span>
+                    <span class="n">values</span><span class="p">[</span><span class="s2">"instance_id"</span><span class="p">]</span><span class="o">.</span><span class="n">get_secret_value</span><span class="p">()</span>
+                    <span class="k">if</span> <span class="n">values</span><span class="p">[</span><span class="s2">"instance_id"</span><span class="p">]</span>
+                    <span class="k">else</span> <span class="kc">None</span>
+                <span class="p">),</span>
+                <span class="s2">"version"</span><span class="p">:</span> <span class="p">(</span>
+                    <span class="n">values</span><span class="p">[</span><span class="s2">"version"</span><span class="p">]</span><span class="o">.</span><span class="n">get_secret_value</span><span class="p">()</span> <span class="k">if</span> <span class="n">values</span><span class="p">[</span><span class="s2">"version"</span><span class="p">]</span> <span class="k">else</span> <span class="kc">None</span>
+                <span class="p">),</span>
+            <span class="p">}</span>
+            <span class="n">credentials_without_none_value</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="n">key</span><span class="p">:</span> <span class="n">value</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">credentials</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+            <span class="p">}</span>
+
+            <span class="n">watsonx_model</span> <span class="o">=</span> <span class="n">ModelInference</span><span class="p">(</span>
+                <span class="n">model_id</span><span class="o">=</span><span class="n">values</span><span class="p">[</span><span class="s2">"model_id"</span><span class="p">],</span>
+                <span class="n">deployment_id</span><span class="o">=</span><span class="n">values</span><span class="p">[</span><span class="s2">"deployment_id"</span><span class="p">],</span>
+                <span class="n">credentials</span><span class="o">=</span><span class="n">credentials_without_none_value</span><span class="p">,</span>
+                <span class="n">params</span><span class="o">=</span><span class="n">values</span><span class="p">[</span><span class="s2">"params"</span><span class="p">],</span>
+                <span class="n">project_id</span><span class="o">=</span><span class="n">values</span><span class="p">[</span><span class="s2">"project_id"</span><span class="p">],</span>
+                <span class="n">space_id</span><span class="o">=</span><span class="n">values</span><span class="p">[</span><span class="s2">"space_id"</span><span class="p">],</span>
+                <span class="n">verify</span><span class="o">=</span><span class="n">values</span><span class="p">[</span><span class="s2">"verify"</span><span class="p">],</span>
+            <span class="p">)</span>
+            <span class="n">values</span><span class="p">[</span><span class="s2">"watsonx_model"</span><span class="p">]</span> <span class="o">=</span> <span class="n">watsonx_model</span>
+
+        <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
+                <span class="s2">"Could not import ibm_watsonx_ai python package. "</span>
+                <span class="s2">"Please install it with `pip install ibm_watsonx_ai`."</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">values</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">_identifying_params</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Get the identifying parameters."""</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">"model_id"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_id</span><span class="p">,</span>
+            <span class="s2">"deployment_id"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">deployment_id</span><span class="p">,</span>
+            <span class="s2">"params"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">,</span>
+            <span class="s2">"project_id"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">project_id</span><span class="p">,</span>
+            <span class="s2">"space_id"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">space_id</span><span class="p">,</span>
+        <span class="p">}</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">_llm_type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Return type of llm."""</span>
+        <span class="k">return</span> <span class="s2">"IBM watsonx.ai"</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_extract_token_usage</span><span class="p">(</span>
+        <span class="n">response</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">response</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s2">"generated_token_count"</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">"input_token_count"</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
+
+        <span class="n">input_token_count</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">generated_token_count</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="k">def</span> <span class="nf">get_count_value</span><span class="p">(</span><span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">result</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">or</span> <span class="mi">0</span>
+
+        <span class="k">for</span> <span class="n">res</span> <span class="ow">in</span> <span class="n">response</span><span class="p">:</span>
+            <span class="n">results</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"results"</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">results</span><span class="p">:</span>
+                <span class="n">input_token_count</span> <span class="o">+=</span> <span class="n">get_count_value</span><span class="p">(</span><span class="s2">"input_token_count"</span><span class="p">,</span> <span class="n">results</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                <span class="n">generated_token_count</span> <span class="o">+=</span> <span class="n">get_count_value</span><span class="p">(</span>
+                    <span class="s2">"generated_token_count"</span><span class="p">,</span> <span class="n">results</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="p">)</span>
+
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">"generated_token_count"</span><span class="p">:</span> <span class="n">generated_token_count</span><span class="p">,</span>
+            <span class="s2">"input_token_count"</span><span class="p">:</span> <span class="n">input_token_count</span><span class="p">,</span>
+        <span class="p">}</span>
+
+    <span class="k">def</span> <span class="nf">_get_chat_params</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stop</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+        <span class="n">params</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">}</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="k">else</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="n">stop</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">params</span><span class="p">[</span><span class="s2">"stop_sequences"</span><span class="p">]</span> <span class="o">=</span> <span class="n">stop</span>
+        <span class="k">return</span> <span class="n">params</span>
+
+    <span class="k">def</span> <span class="nf">_create_llm_result</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">LLMResult</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Create the LLMResult from the choices and prompts."""</span>
+        <span class="n">generations</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">res</span> <span class="ow">in</span> <span class="n">response</span><span class="p">:</span>
+            <span class="n">results</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"results"</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">results</span><span class="p">:</span>
+                <span class="n">finish_reason</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"stop_reason"</span><span class="p">)</span>
+                <span class="n">gen</span> <span class="o">=</span> <span class="n">Generation</span><span class="p">(</span>
+                    <span class="n">text</span><span class="o">=</span><span class="n">results</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"generated_text"</span><span class="p">),</span>
+                    <span class="n">generation_info</span><span class="o">=</span><span class="p">{</span><span class="s2">"finish_reason"</span><span class="p">:</span> <span class="n">finish_reason</span><span class="p">},</span>
+                <span class="p">)</span>
+                <span class="n">generations</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">gen</span><span class="p">])</span>
+        <span class="n">final_token_usage</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extract_token_usage</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+        <span class="n">llm_output</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">"token_usage"</span><span class="p">:</span> <span class="n">final_token_usage</span><span class="p">,</span>
+            <span class="s2">"model_id"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_id</span><span class="p">,</span>
+            <span class="s2">"deployment_id"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">deployment_id</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">LLMResult</span><span class="p">(</span><span class="n">generations</span><span class="o">=</span><span class="n">generations</span><span class="p">,</span> <span class="n">llm_output</span><span class="o">=</span><span class="n">llm_output</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_stream_response_to_generation_chunk</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">stream_response</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GenerationChunk</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Convert a stream response to a generation chunk."""</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">stream_response</span><span class="p">[</span><span class="s2">"results"</span><span class="p">]:</span>
+            <span class="k">return</span> <span class="n">GenerationChunk</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="s2">""</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">GenerationChunk</span><span class="p">(</span>
+            <span class="n">text</span><span class="o">=</span><span class="n">stream_response</span><span class="p">[</span><span class="s2">"results"</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">"generated_text"</span><span class="p">],</span>
+            <span class="n">generation_info</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+                <span class="n">finish_reason</span><span class="o">=</span><span class="n">stream_response</span><span class="p">[</span><span class="s2">"results"</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"stop_reason"</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+                <span class="n">llm_output</span><span class="o">=</span><span class="p">{</span>
+                    <span class="s2">"model_id"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_id</span><span class="p">,</span>
+                    <span class="s2">"deployment_id"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">deployment_id</span><span class="p">,</span>
+                <span class="p">},</span>
+            <span class="p">),</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_call</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">prompt</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">stop</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">run_manager</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">CallbackManagerForLLMRun</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Call the IBM watsonx.ai inference endpoint.</span>
+<span class="sd">        Args:</span>
+<span class="sd">            prompt: The prompt to pass into the model.</span>
+<span class="sd">            stop: Optional list of stop words to use when generating.</span>
+<span class="sd">            run_manager: Optional callback manager.</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            The string generated by the model.</span>
+<span class="sd">        Example:</span>
+<span class="sd">            .. code-block:: python</span>
+
+<span class="sd">                response = watsonx_llm.invoke("What is a molecule")</span>
+<span class="sd">        """</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_generate</span><span class="p">(</span>
+            <span class="n">prompts</span><span class="o">=</span><span class="p">[</span><span class="n">prompt</span><span class="p">],</span> <span class="n">stop</span><span class="o">=</span><span class="n">stop</span><span class="p">,</span> <span class="n">run_manager</span><span class="o">=</span><span class="n">run_manager</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">result</span><span class="o">.</span><span class="n">generations</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">text</span>
+
+    <span class="k">def</span> <span class="nf">_generate</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">prompts</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+        <span class="n">stop</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">run_manager</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">CallbackManagerForLLMRun</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">stream</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LLMResult</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Call the IBM watsonx.ai inference endpoint which then generate the response.</span>
+<span class="sd">        Args:</span>
+<span class="sd">            prompts: List of strings (prompts) to pass into the model.</span>
+<span class="sd">            stop: Optional list of stop words to use when generating.</span>
+<span class="sd">            run_manager: Optional callback manager.</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            The full LLMResult output.</span>
+<span class="sd">        Example:</span>
+<span class="sd">            .. code-block:: python</span>
+
+<span class="sd">                response = watsonx_llm.generate(["What is a molecule"])</span>
+<span class="sd">        """</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_chat_params</span><span class="p">(</span><span class="n">stop</span><span class="o">=</span><span class="n">stop</span><span class="p">)</span>
+        <span class="n">should_stream</span> <span class="o">=</span> <span class="n">stream</span> <span class="k">if</span> <span class="n">stream</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">streaming</span>
+        <span class="k">if</span> <span class="n">should_stream</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">prompts</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">"WatsonxLLM currently only supports single prompt, got </span><span class="si">{</span><span class="n">prompts</span><span class="si">}</span><span class="s2">"</span>
+                <span class="p">)</span>
+            <span class="n">generation</span> <span class="o">=</span> <span class="n">GenerationChunk</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="s2">""</span><span class="p">)</span>
+            <span class="n">stream_iter</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_stream</span><span class="p">(</span>
+                <span class="n">prompts</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">stop</span><span class="o">=</span><span class="n">stop</span><span class="p">,</span> <span class="n">run_manager</span><span class="o">=</span><span class="n">run_manager</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+            <span class="p">)</span>
+            <span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="n">stream_iter</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">generation</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">generation</span> <span class="o">=</span> <span class="n">chunk</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">generation</span> <span class="o">+=</span> <span class="n">chunk</span>
+            <span class="k">assert</span> <span class="n">generation</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">generation</span><span class="o">.</span><span class="n">generation_info</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+                <span class="n">llm_output</span> <span class="o">=</span> <span class="n">generation</span><span class="o">.</span><span class="n">generation_info</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"llm_output"</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">LLMResult</span><span class="p">(</span><span class="n">generations</span><span class="o">=</span><span class="p">[[</span><span class="n">generation</span><span class="p">]],</span> <span class="n">llm_output</span><span class="o">=</span><span class="n">llm_output</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">LLMResult</span><span class="p">(</span><span class="n">generations</span><span class="o">=</span><span class="p">[[</span><span class="n">generation</span><span class="p">]])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">watsonx_model</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="n">prompt</span><span class="o">=</span><span class="n">prompts</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_llm_result</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_stream</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">prompt</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">stop</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">run_manager</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">CallbackManagerForLLMRun</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">GenerationChunk</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Call the IBM watsonx.ai inference endpoint which then streams the response.</span>
+<span class="sd">        Args:</span>
+<span class="sd">            prompt: The prompt to pass into the model.</span>
+<span class="sd">            stop: Optional list of stop words to use when generating.</span>
+<span class="sd">            run_manager: Optional callback manager.</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            The iterator which yields generation chunks.</span>
+<span class="sd">        Example:</span>
+<span class="sd">            .. code-block:: python</span>
+
+<span class="sd">                response = watsonx_llm.stream("What is a molecule")</span>
+<span class="sd">                for chunk in response:</span>
+<span class="sd">                    print(chunk, end='')  # noqa: T201</span>
+<span class="sd">        """</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_chat_params</span><span class="p">(</span><span class="n">stop</span><span class="o">=</span><span class="n">stop</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">stream_resp</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">watsonx_model</span><span class="o">.</span><span class="n">generate_text_stream</span><span class="p">(</span>
+            <span class="n">prompt</span><span class="o">=</span><span class="n">prompt</span><span class="p">,</span> <span class="n">raw_response</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span>
+        <span class="p">):</span>
+            <span class="n">chunk</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_stream_response_to_generation_chunk</span><span class="p">(</span><span class="n">stream_resp</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">run_manager</span><span class="p">:</span>
+                <span class="n">run_manager</span><span class="o">.</span><span class="n">on_llm_new_token</span><span class="p">(</span><span class="n">chunk</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="n">chunk</span><span class="o">=</span><span class="n">chunk</span><span class="p">)</span>
+            <span class="k">yield</span> <span class="n">chunk</span></div>
+</pre></div>
+</article>
+</div>
+</div>
+<footer class="bd-footer-content">
+</footer>
+</main>
+</div>
+</div>
+<!-- Scripts loaded after <body> so the DOM is not blocked -->
+<script src="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+<footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+<div class="footer-items__start">
+<div class="footer-item">
+<p class="copyright">
+    
+      © Copyright 2023, LangChain Inc.
+      <br/>
+</p>
+</div>
+</div>
+</div>
+</footer>
+</body>
+</html>

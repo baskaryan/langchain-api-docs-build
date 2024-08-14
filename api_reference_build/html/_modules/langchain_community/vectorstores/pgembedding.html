@@ -1,0 +1,787 @@
+
+<!DOCTYPE html>
+
+<html data-content_root="" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>langchain_community.vectorstores.pgembedding — 🦜🔗 LangChain  documentation</title>
+<script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+<!-- Loaded before other Sphinx assets -->
+<link href="../../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet"/>
+<link href="../../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet"/>
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet"/>
+<link href="../../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet"/>
+<link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" rel="preload" type="font/woff2"/>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/autodoc_pydantic.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/sphinx-design.4cbf315f70debaebd550c87a6162cf0f.min.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/css/custom.css" rel="stylesheet" type="text/css"/>
+<!-- Pre-loaded scripts that we'll load fully later -->
+<link as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
+<link as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
+<script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/sphinx_highlight.js"></script>
+<script src="../../../_static/clipboard.min.js"></script>
+<script src="../../../_static/copybutton.js"></script>
+<script src="../../../_static/design-tabs.js"></script>
+<script>DOCUMENTATION_OPTIONS.pagename = '_modules/langchain_community/vectorstores/pgembedding';</script>
+<link href="../../../_static/favicon.png" rel="icon"/>
+<link href="../../../search.html" rel="search" title="Search"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="en" name="docsearch:language"/>
+<meta content="Aug 14, 2024" name="docbuild:last-update"/>
+</head>
+<body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
+<div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
+<div id="pst-scroll-pixel-helper"></div>
+<button class="btn rounded-pill" id="pst-back-to-top" type="button">
+<i class="fa-solid fa-arrow-up"></i>Back to top</button>
+<input class="sidebar-toggle" id="pst-primary-sidebar-checkbox" type="checkbox"/>
+<label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+<input class="sidebar-toggle" id="pst-secondary-sidebar-checkbox" type="checkbox"/>
+<label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+<div class="search-button__wrapper">
+<div class="search-button__overlay"></div>
+<div class="search-button__search-container">
+<form action="../../../search.html" class="bd-search d-flex align-items-center" method="get">
+<i class="fa-solid fa-magnifying-glass"></i>
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="form-control" id="search-input" name="q" placeholder="Search" spellcheck="false" type="search"/>
+<span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+</div>
+<div class="pst-async-banner-revealer d-none">
+<aside aria-label="Version warning" class="d-none d-print-none" id="bd-header-version-warning"></aside>
+</div>
+<header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+<button aria-label="Site navigation" class="pst-navbar-icon sidebar-toggle primary-toggle">
+<span class="fa-solid fa-bars"></span>
+</button>
+<div class="navbar-header-items__start">
+<div class="navbar-item">
+<a class="navbar-brand logo" href="../../../index.html">
+<img alt="🦜🔗 LangChain  documentation - Home" class="logo__image only-light" src="../../../_static/wordmark-api.svg"/>
+<script>document.write(`<img src="../../../_static/wordmark-api-dark.svg" class="logo__image only-dark" alt="🦜🔗 LangChain  documentation - Home"/>`);</script>
+</a></div>
+</div>
+<div class="navbar-header-items">
+<div class="me-auto navbar-header-items__center">
+<div class="navbar-item">
+<nav>
+<ul class="bd-navbar-elements navbar-nav">
+<li class="nav-item">
+<a class="nav-link nav-internal" href="../../../reference.html">
+    Reference
+  </a>
+</li>
+<li class="nav-item">
+<a class="nav-link nav-external" href="https://api.python.langchain.com/">
+    Legacy reference
+  </a>
+</li>
+</ul>
+</nav></div>
+</div>
+<div class="navbar-header-items__end">
+<div class="navbar-item navbar-persistent--container">
+<form action="../../../search.html" class="bd-search d-flex align-items-center" method="get">
+<i class="fa-solid fa-magnifying-glass"></i>
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="form-control" id="search-input" name="q" placeholder="Search" spellcheck="false" type="search"/>
+<span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+</div>
+<div class="navbar-item"><!-- This will display a link to LangChain docs -->
+<head>
+<style>
+        .text-link {
+            text-decoration: none; /* Remove underline */
+            color: inherit;        /* Inherit color from parent element */
+        }
+    </style>
+</head>
+<body>
+<a class="text-link" href="https://python.langchain.com/">Docs</a>
+</body></div>
+<div class="navbar-item">
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+<div class="navbar-item"><ul aria-label="Quick Links" class="navbar-icon-links">
+<li class="nav-item">
+<a class="nav-link pst-navbar-icon" data-bs-placement="bottom" data-bs-toggle="tooltip" href="https://github.com/langchain-ai/langchain" rel="noopener" target="_blank" title="GitHub"><i aria-hidden="true" class="fa-brands fa-square-github fa-lg"></i>
+<span class="sr-only">GitHub</span></a>
+</li>
+<li class="nav-item">
+<a class="nav-link pst-navbar-icon" data-bs-placement="bottom" data-bs-toggle="tooltip" href="https://twitter.com/langchainai" rel="noopener" target="_blank" title="X / Twitter"><i aria-hidden="true" class="fab fa-twitter-square fa-lg"></i>
+<span class="sr-only">X / Twitter</span></a>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="navbar-persistent--mobile">
+<form action="../../../search.html" class="bd-search d-flex align-items-center" method="get">
+<i class="fa-solid fa-magnifying-glass"></i>
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="form-control" id="search-input" name="q" placeholder="Search" spellcheck="false" type="search"/>
+<span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+</div>
+</div>
+</header>
+<div class="bd-container">
+<div class="bd-container__inner bd-page-width">
+<div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+<div class="sidebar-header-items sidebar-primary__section">
+<div class="sidebar-header-items__center">
+<div class="navbar-item">
+<nav>
+<ul class="bd-navbar-elements navbar-nav">
+<li class="nav-item">
+<a class="nav-link nav-internal" href="../../../reference.html">
+    Reference
+  </a>
+</li>
+<li class="nav-item">
+<a class="nav-link nav-external" href="https://api.python.langchain.com/">
+    Legacy reference
+  </a>
+</li>
+</ul>
+</nav></div>
+</div>
+<div class="sidebar-header-items__end">
+<div class="navbar-item"><!-- This will display a link to LangChain docs -->
+<head>
+<style>
+        .text-link {
+            text-decoration: none; /* Remove underline */
+            color: inherit;        /* Inherit color from parent element */
+        }
+    </style>
+</head>
+<body>
+<a class="text-link" href="https://python.langchain.com/">Docs</a>
+</body></div>
+<div class="navbar-item">
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+<div class="navbar-item"><ul aria-label="Quick Links" class="navbar-icon-links">
+<li class="nav-item">
+<a class="nav-link pst-navbar-icon" data-bs-placement="bottom" data-bs-toggle="tooltip" href="https://github.com/langchain-ai/langchain" rel="noopener" target="_blank" title="GitHub"><i aria-hidden="true" class="fa-brands fa-square-github fa-lg"></i>
+<span class="sr-only">GitHub</span></a>
+</li>
+<li class="nav-item">
+<a class="nav-link pst-navbar-icon" data-bs-placement="bottom" data-bs-toggle="tooltip" href="https://twitter.com/langchainai" rel="noopener" target="_blank" title="X / Twitter"><i aria-hidden="true" class="fab fa-twitter-square fa-lg"></i>
+<span class="sr-only">X / Twitter</span></a>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sidebar-primary-items__end sidebar-primary__section">
+</div>
+<div id="rtd-footer-container"></div>
+</div>
+<main class="bd-main" id="main-content" role="main">
+<div class="bd-content">
+<div class="bd-article-container">
+<div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+<div class="header-article-items__start">
+<div class="header-article-item">
+<nav aria-label="Breadcrumb" class="d-print-none">
+<ul class="bd-breadcrumbs">
+<li class="breadcrumb-item breadcrumb-home">
+<a aria-label="Home" class="nav-link" href="../../../index.html">
+<i class="fa-solid fa-home"></i>
+</a>
+</li>
+<li class="breadcrumb-item"><a class="nav-link" href="../../index.html">Module code</a></li>
+<li aria-current="page" class="breadcrumb-item active">langchain_co...</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+</div>
+<div id="searchbox"></div>
+<article class="bd-article">
+<h1>Source code for langchain_community.vectorstores.pgembedding</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">uuid</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Type</span>
+
+<span class="kn">import</span> <span class="nn">sqlalchemy</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">func</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy.dialects.postgresql</span> <span class="kn">import</span> <span class="n">JSON</span><span class="p">,</span> <span class="n">UUID</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy.orm</span> <span class="kn">import</span> <span class="n">Session</span><span class="p">,</span> <span class="n">relationship</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">sqlalchemy.orm</span> <span class="kn">import</span> <span class="n">declarative_base</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">sqlalchemy.ext.declarative</span> <span class="kn">import</span> <span class="n">declarative_base</span>
+
+<span class="kn">from</span> <span class="nn">langchain_core.documents</span> <span class="kn">import</span> <span class="n">Document</span>
+<span class="kn">from</span> <span class="nn">langchain_core.embeddings</span> <span class="kn">import</span> <span class="n">Embeddings</span>
+<span class="kn">from</span> <span class="nn">langchain_core.utils</span> <span class="kn">import</span> <span class="n">get_from_dict_or_env</span>
+<span class="kn">from</span> <span class="nn">langchain_core.vectorstores</span> <span class="kn">import</span> <span class="n">VectorStore</span>
+
+<span class="n">Base</span> <span class="o">=</span> <span class="n">declarative_base</span><span class="p">()</span>  <span class="c1"># type: Any</span>
+
+
+<span class="n">ADA_TOKEN_COUNT</span> <span class="o">=</span> <span class="mi">1536</span>
+<span class="n">_LANGCHAIN_DEFAULT_COLLECTION_NAME</span> <span class="o">=</span> <span class="s2">"langchain"</span>
+
+
+<div class="viewcode-block" id="BaseModel"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.pgembedding.BaseModel.html#langchain_community.vectorstores.pgembedding.BaseModel">[docs]</a><span class="k">class</span> <span class="nc">BaseModel</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Base model for all SQL stores."""</span>
+
+    <span class="n">__abstract__</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">uuid</span> <span class="o">=</span> <span class="n">sqlalchemy</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">UUID</span><span class="p">(</span><span class="n">as_uuid</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="CollectionStore"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.pgembedding.CollectionStore.html#langchain_community.vectorstores.pgembedding.CollectionStore">[docs]</a><span class="k">class</span> <span class="nc">CollectionStore</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Collection store."""</span>
+
+    <span class="n">__tablename__</span> <span class="o">=</span> <span class="s2">"langchain_pg_collection"</span>
+
+    <span class="n">name</span> <span class="o">=</span> <span class="n">sqlalchemy</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">sqlalchemy</span><span class="o">.</span><span class="n">String</span><span class="p">)</span>
+    <span class="n">cmetadata</span> <span class="o">=</span> <span class="n">sqlalchemy</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">JSON</span><span class="p">)</span>
+
+    <span class="n">embeddings</span> <span class="o">=</span> <span class="n">relationship</span><span class="p">(</span>
+        <span class="s2">"EmbeddingStore"</span><span class="p">,</span>
+        <span class="n">back_populates</span><span class="o">=</span><span class="s2">"collection"</span><span class="p">,</span>
+        <span class="n">passive_deletes</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span>
+
+<div class="viewcode-block" id="CollectionStore.get_by_name"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.pgembedding.CollectionStore.html#langchain_community.vectorstores.pgembedding.CollectionStore.get_by_name">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">get_by_name</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">session</span><span class="p">:</span> <span class="n">Session</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="s2">"CollectionStore"</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">name</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>  <span class="c1"># type: ignore</span></div>
+
+<div class="viewcode-block" id="CollectionStore.get_or_create"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.pgembedding.CollectionStore.html#langchain_community.vectorstores.pgembedding.CollectionStore.get_or_create">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">get_or_create</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">session</span><span class="p">:</span> <span class="n">Session</span><span class="p">,</span>
+        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">cmetadata</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="s2">"CollectionStore"</span><span class="p">,</span> <span class="nb">bool</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Get or create a collection.</span>
+<span class="sd">        Returns [Collection, bool] where the bool is True if the collection was created.</span>
+<span class="sd">        """</span>
+        <span class="n">created</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">collection</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">get_by_name</span><span class="p">(</span><span class="n">session</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">collection</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">collection</span><span class="p">,</span> <span class="n">created</span>
+
+        <span class="n">collection</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">cmetadata</span><span class="o">=</span><span class="n">cmetadata</span><span class="p">)</span>
+        <span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">collection</span><span class="p">)</span>
+        <span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+        <span class="n">created</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="n">collection</span><span class="p">,</span> <span class="n">created</span></div></div>
+
+
+<div class="viewcode-block" id="EmbeddingStore"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.pgembedding.EmbeddingStore.html#langchain_community.vectorstores.pgembedding.EmbeddingStore">[docs]</a><span class="k">class</span> <span class="nc">EmbeddingStore</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Embedding store."""</span>
+
+    <span class="n">__tablename__</span> <span class="o">=</span> <span class="s2">"langchain_pg_embedding"</span>
+
+    <span class="n">collection_id</span> <span class="o">=</span> <span class="n">sqlalchemy</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span>
+        <span class="n">UUID</span><span class="p">(</span><span class="n">as_uuid</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+        <span class="n">sqlalchemy</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">CollectionStore</span><span class="o">.</span><span class="n">__tablename__</span><span class="si">}</span><span class="s2">.uuid"</span><span class="p">,</span>
+            <span class="n">ondelete</span><span class="o">=</span><span class="s2">"CASCADE"</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">collection</span> <span class="o">=</span> <span class="n">relationship</span><span class="p">(</span><span class="n">CollectionStore</span><span class="p">,</span> <span class="n">back_populates</span><span class="o">=</span><span class="s2">"embeddings"</span><span class="p">)</span>
+
+    <span class="n">embedding</span> <span class="o">=</span> <span class="n">sqlalchemy</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">sqlalchemy</span><span class="o">.</span><span class="n">ARRAY</span><span class="p">(</span><span class="n">sqlalchemy</span><span class="o">.</span><span class="n">REAL</span><span class="p">))</span>  <span class="c1"># type: ignore</span>
+    <span class="n">document</span> <span class="o">=</span> <span class="n">sqlalchemy</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">sqlalchemy</span><span class="o">.</span><span class="n">String</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">cmetadata</span> <span class="o">=</span> <span class="n">sqlalchemy</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">JSON</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># custom_id : any user defined id</span>
+    <span class="n">custom_id</span> <span class="o">=</span> <span class="n">sqlalchemy</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">sqlalchemy</span><span class="o">.</span><span class="n">String</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="QueryResult"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.pgembedding.QueryResult.html#langchain_community.vectorstores.pgembedding.QueryResult">[docs]</a><span class="k">class</span> <span class="nc">QueryResult</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Result from a query."""</span>
+
+    <span class="n">EmbeddingStore</span><span class="p">:</span> <span class="n">EmbeddingStore</span>
+    <span class="n">distance</span><span class="p">:</span> <span class="nb">float</span></div>
+
+
+<div class="viewcode-block" id="PGEmbedding"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.pgembedding.PGEmbedding.html#langchain_community.vectorstores.pgembedding.PGEmbedding">[docs]</a><span class="k">class</span> <span class="nc">PGEmbedding</span><span class="p">(</span><span class="n">VectorStore</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""`Postgres` with the `pg_embedding` extension as a vector store.</span>
+
+<span class="sd">    pg_embedding uses sequential scan by default. but you can create a HNSW index</span>
+<span class="sd">    using the create_hnsw_index method.</span>
+<span class="sd">    - `connection_string` is a postgres connection string.</span>
+<span class="sd">    - `embedding_function` any embedding function implementing</span>
+<span class="sd">        `langchain.embeddings.base.Embeddings` interface.</span>
+<span class="sd">    - `collection_name` is the name of the collection to use. (default: langchain)</span>
+<span class="sd">        - NOTE: This is not the name of the table, but the name of the collection.</span>
+<span class="sd">            The tables will be created when initializing the store (if not exists)</span>
+<span class="sd">            So, make sure the user has the right permissions to create tables.</span>
+<span class="sd">    - `distance_strategy` is the distance strategy to use. (default: EUCLIDEAN)</span>
+<span class="sd">        - `EUCLIDEAN` is the euclidean distance.</span>
+<span class="sd">    - `pre_delete_collection` if True, will delete the collection if it exists.</span>
+<span class="sd">        (default: False)</span>
+<span class="sd">        - Useful for testing.</span>
+<span class="sd">    """</span>
+
+<div class="viewcode-block" id="PGEmbedding.__init__"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.pgembedding.PGEmbedding.html#langchain_community.vectorstores.pgembedding.PGEmbedding.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">connection_string</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">embedding_function</span><span class="p">:</span> <span class="n">Embeddings</span><span class="p">,</span>
+        <span class="n">collection_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">_LANGCHAIN_DEFAULT_COLLECTION_NAME</span><span class="p">,</span>
+        <span class="n">collection_metadata</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">pre_delete_collection</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">logger</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">logging</span><span class="o">.</span><span class="n">Logger</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">connection_string</span> <span class="o">=</span> <span class="n">connection_string</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">embedding_function</span> <span class="o">=</span> <span class="n">embedding_function</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">collection_name</span> <span class="o">=</span> <span class="n">collection_name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">collection_metadata</span> <span class="o">=</span> <span class="n">collection_metadata</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pre_delete_collection</span> <span class="o">=</span> <span class="n">pre_delete_collection</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="n">logger</span> <span class="ow">or</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__post_init__</span><span class="p">()</span></div>
+
+    <span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_conn</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">create_hnsw_extension</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">create_tables_if_not_exists</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">create_collection</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">embeddings</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Embeddings</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">embedding_function</span>
+
+<div class="viewcode-block" id="PGEmbedding.connect"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.pgembedding.PGEmbedding.html#langchain_community.vectorstores.pgembedding.PGEmbedding.connect">[docs]</a>    <span class="k">def</span> <span class="nf">connect</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">sqlalchemy</span><span class="o">.</span><span class="n">engine</span><span class="o">.</span><span class="n">Connection</span><span class="p">:</span>
+        <span class="n">engine</span> <span class="o">=</span> <span class="n">sqlalchemy</span><span class="o">.</span><span class="n">create_engine</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">connection_string</span><span class="p">)</span>
+        <span class="n">conn</span> <span class="o">=</span> <span class="n">engine</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">conn</span></div>
+
+<div class="viewcode-block" id="PGEmbedding.create_hnsw_extension"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.pgembedding.PGEmbedding.html#langchain_community.vectorstores.pgembedding.PGEmbedding.create_hnsw_extension">[docs]</a>    <span class="k">def</span> <span class="nf">create_hnsw_extension</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">with</span> <span class="n">Session</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_conn</span><span class="p">)</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
+                <span class="n">statement</span> <span class="o">=</span> <span class="n">sqlalchemy</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="s2">"CREATE EXTENSION IF NOT EXISTS embedding"</span><span class="p">)</span>
+                <span class="n">session</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">statement</span><span class="p">)</span>
+                <span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="n">e</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="PGEmbedding.create_tables_if_not_exists"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.pgembedding.PGEmbedding.html#langchain_community.vectorstores.pgembedding.PGEmbedding.create_tables_if_not_exists">[docs]</a>    <span class="k">def</span> <span class="nf">create_tables_if_not_exists</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_conn</span><span class="o">.</span><span class="n">begin</span><span class="p">():</span>
+            <span class="n">Base</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">create_all</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_conn</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="PGEmbedding.drop_tables"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.pgembedding.PGEmbedding.html#langchain_community.vectorstores.pgembedding.PGEmbedding.drop_tables">[docs]</a>    <span class="k">def</span> <span class="nf">drop_tables</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_conn</span><span class="o">.</span><span class="n">begin</span><span class="p">():</span>
+            <span class="n">Base</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">drop_all</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_conn</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="PGEmbedding.create_collection"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.pgembedding.PGEmbedding.html#langchain_community.vectorstores.pgembedding.PGEmbedding.create_collection">[docs]</a>    <span class="k">def</span> <span class="nf">create_collection</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre_delete_collection</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">delete_collection</span><span class="p">()</span>
+        <span class="k">with</span> <span class="n">Session</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_conn</span><span class="p">)</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
+            <span class="n">CollectionStore</span><span class="o">.</span><span class="n">get_or_create</span><span class="p">(</span>
+                <span class="n">session</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">collection_name</span><span class="p">,</span> <span class="n">cmetadata</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">collection_metadata</span>
+            <span class="p">)</span></div>
+
+<div class="viewcode-block" id="PGEmbedding.create_hnsw_index"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.pgembedding.PGEmbedding.html#langchain_community.vectorstores.pgembedding.PGEmbedding.create_hnsw_index">[docs]</a>    <span class="k">def</span> <span class="nf">create_hnsw_index</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">max_elements</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10000</span><span class="p">,</span>
+        <span class="n">dims</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">ADA_TOKEN_COUNT</span><span class="p">,</span>
+        <span class="n">m</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span>
+        <span class="n">ef_construction</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">16</span><span class="p">,</span>
+        <span class="n">ef_search</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">16</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">create_index_query</span> <span class="o">=</span> <span class="n">sqlalchemy</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
+            <span class="s2">"CREATE INDEX IF NOT EXISTS langchain_pg_embedding_idx "</span>
+            <span class="s2">"ON langchain_pg_embedding USING hnsw (embedding) "</span>
+            <span class="s2">"WITH ("</span>
+            <span class="s2">"maxelements = </span><span class="si">{}</span><span class="s2">, "</span>
+            <span class="s2">"dims = </span><span class="si">{}</span><span class="s2">, "</span>
+            <span class="s2">"m = </span><span class="si">{}</span><span class="s2">, "</span>
+            <span class="s2">"efconstruction = </span><span class="si">{}</span><span class="s2">, "</span>
+            <span class="s2">"efsearch = </span><span class="si">{}</span><span class="s2">"</span>
+            <span class="s2">");"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">max_elements</span><span class="p">,</span> <span class="n">dims</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">ef_construction</span><span class="p">,</span> <span class="n">ef_search</span><span class="p">)</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Execute the queries</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">with</span> <span class="n">Session</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_conn</span><span class="p">)</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
+                <span class="c1"># Create the HNSW index</span>
+                <span class="n">session</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">create_index_query</span><span class="p">)</span>
+                <span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">"HNSW extension and index created successfully."</span><span class="p">)</span>  <span class="c1"># noqa: T201</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Failed to create HNSW extension or index: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>  <span class="c1"># noqa: T201</span></div>
+
+<div class="viewcode-block" id="PGEmbedding.delete_collection"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.pgembedding.PGEmbedding.html#langchain_community.vectorstores.pgembedding.PGEmbedding.delete_collection">[docs]</a>    <span class="k">def</span> <span class="nf">delete_collection</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"Trying to delete collection"</span><span class="p">)</span>
+        <span class="k">with</span> <span class="n">Session</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_conn</span><span class="p">)</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
+            <span class="n">collection</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_collection</span><span class="p">(</span><span class="n">session</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">collection</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">"Collection not found"</span><span class="p">)</span>
+                <span class="k">return</span>
+            <span class="n">session</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">collection</span><span class="p">)</span>
+            <span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="PGEmbedding.get_collection"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.pgembedding.PGEmbedding.html#langchain_community.vectorstores.pgembedding.PGEmbedding.get_collection">[docs]</a>    <span class="k">def</span> <span class="nf">get_collection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">session</span><span class="p">:</span> <span class="n">Session</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="s2">"CollectionStore"</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="n">CollectionStore</span><span class="o">.</span><span class="n">get_by_name</span><span class="p">(</span><span class="n">session</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">collection_name</span><span class="p">)</span></div>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_initialize_from_embeddings</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">texts</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+        <span class="n">embeddings</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]],</span>
+        <span class="n">embedding</span><span class="p">:</span> <span class="n">Embeddings</span><span class="p">,</span>
+        <span class="n">metadatas</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">ids</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">collection_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">_LANGCHAIN_DEFAULT_COLLECTION_NAME</span><span class="p">,</span>
+        <span class="n">pre_delete_collection</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PGEmbedding</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">ids</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">ids</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">())</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">texts</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">metadatas</span><span class="p">:</span>
+            <span class="n">metadatas</span> <span class="o">=</span> <span class="p">[{}</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">texts</span><span class="p">]</span>
+
+        <span class="n">connection_string</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">get_connection_string</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="n">store</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span>
+            <span class="n">connection_string</span><span class="o">=</span><span class="n">connection_string</span><span class="p">,</span>
+            <span class="n">collection_name</span><span class="o">=</span><span class="n">collection_name</span><span class="p">,</span>
+            <span class="n">embedding_function</span><span class="o">=</span><span class="n">embedding</span><span class="p">,</span>
+            <span class="n">pre_delete_collection</span><span class="o">=</span><span class="n">pre_delete_collection</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="n">store</span><span class="o">.</span><span class="n">add_embeddings</span><span class="p">(</span>
+            <span class="n">texts</span><span class="o">=</span><span class="n">texts</span><span class="p">,</span> <span class="n">embeddings</span><span class="o">=</span><span class="n">embeddings</span><span class="p">,</span> <span class="n">metadatas</span><span class="o">=</span><span class="n">metadatas</span><span class="p">,</span> <span class="n">ids</span><span class="o">=</span><span class="n">ids</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">store</span>
+
+<div class="viewcode-block" id="PGEmbedding.add_embeddings"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.pgembedding.PGEmbedding.html#langchain_community.vectorstores.pgembedding.PGEmbedding.add_embeddings">[docs]</a>    <span class="k">def</span> <span class="nf">add_embeddings</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">texts</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+        <span class="n">embeddings</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]],</span>
+        <span class="n">metadatas</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">],</span>
+        <span class="n">ids</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">with</span> <span class="n">Session</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_conn</span><span class="p">)</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
+            <span class="n">collection</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_collection</span><span class="p">(</span><span class="n">session</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">collection</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Collection not found"</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">text</span><span class="p">,</span> <span class="n">metadata</span><span class="p">,</span> <span class="n">embedding</span><span class="p">,</span> <span class="nb">id</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">texts</span><span class="p">,</span> <span class="n">metadatas</span><span class="p">,</span> <span class="n">embeddings</span><span class="p">,</span> <span class="n">ids</span><span class="p">):</span>
+                <span class="n">embedding_store</span> <span class="o">=</span> <span class="n">EmbeddingStore</span><span class="p">(</span>
+                    <span class="n">embedding</span><span class="o">=</span><span class="n">embedding</span><span class="p">,</span>
+                    <span class="n">document</span><span class="o">=</span><span class="n">text</span><span class="p">,</span>
+                    <span class="n">cmetadata</span><span class="o">=</span><span class="n">metadata</span><span class="p">,</span>
+                    <span class="n">custom_id</span><span class="o">=</span><span class="nb">id</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="n">collection</span><span class="o">.</span><span class="n">embeddings</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">embedding_store</span><span class="p">)</span>
+                <span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">embedding_store</span><span class="p">)</span>
+            <span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="PGEmbedding.add_texts"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.pgembedding.PGEmbedding.html#langchain_community.vectorstores.pgembedding.PGEmbedding.add_texts">[docs]</a>    <span class="k">def</span> <span class="nf">add_texts</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">texts</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+        <span class="n">metadatas</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">ids</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">ids</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">ids</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">())</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">texts</span><span class="p">]</span>
+
+        <span class="n">embeddings</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">embedding_function</span><span class="o">.</span><span class="n">embed_documents</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">texts</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">metadatas</span><span class="p">:</span>
+            <span class="n">metadatas</span> <span class="o">=</span> <span class="p">[{}</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">texts</span><span class="p">]</span>
+
+        <span class="k">with</span> <span class="n">Session</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_conn</span><span class="p">)</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
+            <span class="n">collection</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_collection</span><span class="p">(</span><span class="n">session</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">collection</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Collection not found"</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">text</span><span class="p">,</span> <span class="n">metadata</span><span class="p">,</span> <span class="n">embedding</span><span class="p">,</span> <span class="nb">id</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">texts</span><span class="p">,</span> <span class="n">metadatas</span><span class="p">,</span> <span class="n">embeddings</span><span class="p">,</span> <span class="n">ids</span><span class="p">):</span>
+                <span class="n">embedding_store</span> <span class="o">=</span> <span class="n">EmbeddingStore</span><span class="p">(</span>
+                    <span class="n">embedding</span><span class="o">=</span><span class="n">embedding</span><span class="p">,</span>
+                    <span class="n">document</span><span class="o">=</span><span class="n">text</span><span class="p">,</span>
+                    <span class="n">cmetadata</span><span class="o">=</span><span class="n">metadata</span><span class="p">,</span>
+                    <span class="n">custom_id</span><span class="o">=</span><span class="nb">id</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="n">collection</span><span class="o">.</span><span class="n">embeddings</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">embedding_store</span><span class="p">)</span>
+                <span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">embedding_store</span><span class="p">)</span>
+            <span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">ids</span></div>
+
+<div class="viewcode-block" id="PGEmbedding.similarity_search"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.pgembedding.PGEmbedding.html#langchain_community.vectorstores.pgembedding.PGEmbedding.similarity_search">[docs]</a>    <span class="k">def</span> <span class="nf">similarity_search</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">k</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
+        <span class="nb">filter</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Document</span><span class="p">]:</span>
+        <span class="n">embedding</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">embedding_function</span><span class="o">.</span><span class="n">embed_query</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="n">query</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">similarity_search_by_vector</span><span class="p">(</span>
+            <span class="n">embedding</span><span class="o">=</span><span class="n">embedding</span><span class="p">,</span>
+            <span class="n">k</span><span class="o">=</span><span class="n">k</span><span class="p">,</span>
+            <span class="nb">filter</span><span class="o">=</span><span class="nb">filter</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="PGEmbedding.similarity_search_with_score"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.pgembedding.PGEmbedding.html#langchain_community.vectorstores.pgembedding.PGEmbedding.similarity_search_with_score">[docs]</a>    <span class="k">def</span> <span class="nf">similarity_search_with_score</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">k</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
+        <span class="nb">filter</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Document</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
+        <span class="n">embedding</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">embedding_function</span><span class="o">.</span><span class="n">embed_query</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+        <span class="n">docs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">similarity_search_with_score_by_vector</span><span class="p">(</span>
+            <span class="n">embedding</span><span class="o">=</span><span class="n">embedding</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="n">k</span><span class="p">,</span> <span class="nb">filter</span><span class="o">=</span><span class="nb">filter</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">docs</span></div>
+
+<div class="viewcode-block" id="PGEmbedding.similarity_search_with_score_by_vector"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.pgembedding.PGEmbedding.html#langchain_community.vectorstores.pgembedding.PGEmbedding.similarity_search_with_score_by_vector">[docs]</a>    <span class="k">def</span> <span class="nf">similarity_search_with_score_by_vector</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">embedding</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
+        <span class="n">k</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
+        <span class="nb">filter</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Document</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
+        <span class="k">with</span> <span class="n">Session</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_conn</span><span class="p">)</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
+            <span class="n">collection</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_collection</span><span class="p">(</span><span class="n">session</span><span class="p">)</span>
+            <span class="n">set_enable_seqscan_stmt</span> <span class="o">=</span> <span class="n">sqlalchemy</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="s2">"SET enable_seqscan = off"</span><span class="p">)</span>
+            <span class="n">session</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">set_enable_seqscan_stmt</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">collection</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Collection not found"</span><span class="p">)</span>
+
+            <span class="n">filter_by</span> <span class="o">=</span> <span class="n">EmbeddingStore</span><span class="o">.</span><span class="n">collection_id</span> <span class="o">==</span> <span class="n">collection</span><span class="o">.</span><span class="n">uuid</span>
+
+            <span class="k">if</span> <span class="nb">filter</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">filter_clauses</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="nb">filter</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                    <span class="n">IN</span> <span class="o">=</span> <span class="s2">"in"</span>
+                    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">and</span> <span class="n">IN</span> <span class="ow">in</span> <span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="o">.</span><span class="n">lower</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+                        <span class="n">value_case_insensitive</span> <span class="o">=</span> <span class="p">{</span>
+                            <span class="n">k</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">value</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+                        <span class="p">}</span>
+                        <span class="n">filter_by_metadata</span> <span class="o">=</span> <span class="n">EmbeddingStore</span><span class="o">.</span><span class="n">cmetadata</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">astext</span><span class="o">.</span><span class="n">in_</span><span class="p">(</span>
+                            <span class="n">value_case_insensitive</span><span class="p">[</span><span class="n">IN</span><span class="p">]</span>
+                        <span class="p">)</span>
+                        <span class="n">filter_clauses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">filter_by_metadata</span><span class="p">)</span>
+                    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">and</span> <span class="s2">"substring"</span> <span class="ow">in</span> <span class="nb">map</span><span class="p">(</span>
+                        <span class="nb">str</span><span class="o">.</span><span class="n">lower</span><span class="p">,</span> <span class="n">value</span>
+                    <span class="p">):</span>
+                        <span class="n">filter_by_metadata</span> <span class="o">=</span> <span class="n">EmbeddingStore</span><span class="o">.</span><span class="n">cmetadata</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">astext</span><span class="o">.</span><span class="n">ilike</span><span class="p">(</span>
+                            <span class="sa">f</span><span class="s2">"%</span><span class="si">{</span><span class="n">value</span><span class="p">[</span><span class="s1">'substring'</span><span class="p">]</span><span class="si">}</span><span class="s2">%"</span>
+                        <span class="p">)</span>
+                        <span class="n">filter_clauses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">filter_by_metadata</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">filter_by_metadata</span> <span class="o">=</span> <span class="n">EmbeddingStore</span><span class="o">.</span><span class="n">cmetadata</span><span class="p">[</span>
+                            <span class="n">key</span>
+                        <span class="p">]</span><span class="o">.</span><span class="n">astext</span> <span class="o">==</span> <span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+                        <span class="n">filter_clauses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">filter_by_metadata</span><span class="p">)</span>
+
+                <span class="n">filter_by</span> <span class="o">=</span> <span class="n">sqlalchemy</span><span class="o">.</span><span class="n">and_</span><span class="p">(</span><span class="n">filter_by</span><span class="p">,</span> <span class="o">*</span><span class="n">filter_clauses</span><span class="p">)</span>
+
+            <span class="n">results</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">QueryResult</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
+                    <span class="n">EmbeddingStore</span><span class="p">,</span>
+                    <span class="n">func</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">EmbeddingStore</span><span class="o">.</span><span class="n">embedding</span><span class="o">.</span><span class="n">op</span><span class="p">(</span><span class="s2">"&lt;-&gt;"</span><span class="p">)(</span><span class="n">embedding</span><span class="p">))</span><span class="o">.</span><span class="n">label</span><span class="p">(</span>
+                        <span class="s2">"distance"</span>
+                    <span class="p">),</span>
+                <span class="p">)</span>  <span class="c1"># Specify the columns you need here, e.g., EmbeddingStore.embedding</span>
+                <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">filter_by</span><span class="p">)</span>
+                <span class="o">.</span><span class="n">order_by</span><span class="p">(</span>
+                    <span class="n">func</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">EmbeddingStore</span><span class="o">.</span><span class="n">embedding</span><span class="o">.</span><span class="n">op</span><span class="p">(</span><span class="s2">"&lt;-&gt;"</span><span class="p">)(</span><span class="n">embedding</span><span class="p">))</span><span class="o">.</span><span class="n">asc</span><span class="p">()</span>
+                <span class="p">)</span>  <span class="c1"># Using PostgreSQL specific operator with the correct column name</span>
+                <span class="o">.</span><span class="n">limit</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+                <span class="o">.</span><span class="n">all</span><span class="p">()</span>
+            <span class="p">)</span>
+
+        <span class="n">docs</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="p">(</span>
+                <span class="n">Document</span><span class="p">(</span>
+                    <span class="n">page_content</span><span class="o">=</span><span class="n">result</span><span class="o">.</span><span class="n">EmbeddingStore</span><span class="o">.</span><span class="n">document</span><span class="p">,</span>  <span class="c1"># type: ignore[arg-type]</span>
+                    <span class="n">metadata</span><span class="o">=</span><span class="n">result</span><span class="o">.</span><span class="n">EmbeddingStore</span><span class="o">.</span><span class="n">cmetadata</span><span class="p">,</span>
+                <span class="p">),</span>
+                <span class="n">result</span><span class="o">.</span><span class="n">distance</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">embedding_function</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="mf">0.0</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">results</span>
+        <span class="p">]</span>
+        <span class="k">return</span> <span class="n">docs</span></div>
+
+<div class="viewcode-block" id="PGEmbedding.similarity_search_by_vector"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.pgembedding.PGEmbedding.html#langchain_community.vectorstores.pgembedding.PGEmbedding.similarity_search_by_vector">[docs]</a>    <span class="k">def</span> <span class="nf">similarity_search_by_vector</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">embedding</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
+        <span class="n">k</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
+        <span class="nb">filter</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Document</span><span class="p">]:</span>
+        <span class="n">docs_and_scores</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">similarity_search_with_score_by_vector</span><span class="p">(</span>
+            <span class="n">embedding</span><span class="o">=</span><span class="n">embedding</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="n">k</span><span class="p">,</span> <span class="nb">filter</span><span class="o">=</span><span class="nb">filter</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">doc</span> <span class="k">for</span> <span class="n">doc</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">docs_and_scores</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="PGEmbedding.from_texts"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.pgembedding.PGEmbedding.html#langchain_community.vectorstores.pgembedding.PGEmbedding.from_texts">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_texts</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">PGEmbedding</span><span class="p">],</span>
+        <span class="n">texts</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+        <span class="n">embedding</span><span class="p">:</span> <span class="n">Embeddings</span><span class="p">,</span>
+        <span class="n">metadatas</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">collection_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">_LANGCHAIN_DEFAULT_COLLECTION_NAME</span><span class="p">,</span>
+        <span class="n">ids</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">pre_delete_collection</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PGEmbedding</span><span class="p">:</span>
+        <span class="n">embeddings</span> <span class="o">=</span> <span class="n">embedding</span><span class="o">.</span><span class="n">embed_documents</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">texts</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_initialize_from_embeddings</span><span class="p">(</span>
+            <span class="n">texts</span><span class="p">,</span>
+            <span class="n">embeddings</span><span class="p">,</span>
+            <span class="n">embedding</span><span class="p">,</span>
+            <span class="n">metadatas</span><span class="o">=</span><span class="n">metadatas</span><span class="p">,</span>
+            <span class="n">ids</span><span class="o">=</span><span class="n">ids</span><span class="p">,</span>
+            <span class="n">collection_name</span><span class="o">=</span><span class="n">collection_name</span><span class="p">,</span>
+            <span class="n">pre_delete_collection</span><span class="o">=</span><span class="n">pre_delete_collection</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="PGEmbedding.from_embeddings"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.pgembedding.PGEmbedding.html#langchain_community.vectorstores.pgembedding.PGEmbedding.from_embeddings">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_embeddings</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">text_embeddings</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]]],</span>
+        <span class="n">embedding</span><span class="p">:</span> <span class="n">Embeddings</span><span class="p">,</span>
+        <span class="n">metadatas</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">collection_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">_LANGCHAIN_DEFAULT_COLLECTION_NAME</span><span class="p">,</span>
+        <span class="n">ids</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">pre_delete_collection</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PGEmbedding</span><span class="p">:</span>
+        <span class="n">texts</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">text_embeddings</span><span class="p">]</span>
+        <span class="n">embeddings</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">text_embeddings</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_initialize_from_embeddings</span><span class="p">(</span>
+            <span class="n">texts</span><span class="p">,</span>
+            <span class="n">embeddings</span><span class="p">,</span>
+            <span class="n">embedding</span><span class="p">,</span>
+            <span class="n">metadatas</span><span class="o">=</span><span class="n">metadatas</span><span class="p">,</span>
+            <span class="n">ids</span><span class="o">=</span><span class="n">ids</span><span class="p">,</span>
+            <span class="n">collection_name</span><span class="o">=</span><span class="n">collection_name</span><span class="p">,</span>
+            <span class="n">pre_delete_collection</span><span class="o">=</span><span class="n">pre_delete_collection</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="PGEmbedding.from_existing_index"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.pgembedding.PGEmbedding.html#langchain_community.vectorstores.pgembedding.PGEmbedding.from_existing_index">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_existing_index</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">PGEmbedding</span><span class="p">],</span>
+        <span class="n">embedding</span><span class="p">:</span> <span class="n">Embeddings</span><span class="p">,</span>
+        <span class="n">collection_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">_LANGCHAIN_DEFAULT_COLLECTION_NAME</span><span class="p">,</span>
+        <span class="n">pre_delete_collection</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PGEmbedding</span><span class="p">:</span>
+        <span class="n">connection_string</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">get_connection_string</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="n">store</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span>
+            <span class="n">connection_string</span><span class="o">=</span><span class="n">connection_string</span><span class="p">,</span>
+            <span class="n">collection_name</span><span class="o">=</span><span class="n">collection_name</span><span class="p">,</span>
+            <span class="n">embedding_function</span><span class="o">=</span><span class="n">embedding</span><span class="p">,</span>
+            <span class="n">pre_delete_collection</span><span class="o">=</span><span class="n">pre_delete_collection</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">store</span></div>
+
+<div class="viewcode-block" id="PGEmbedding.get_connection_string"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.pgembedding.PGEmbedding.html#langchain_community.vectorstores.pgembedding.PGEmbedding.get_connection_string">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">get_connection_string</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="n">connection_string</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">get_from_dict_or_env</span><span class="p">(</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">kwargs</span><span class="p">,</span>
+            <span class="n">key</span><span class="o">=</span><span class="s2">"connection_string"</span><span class="p">,</span>
+            <span class="n">env_key</span><span class="o">=</span><span class="s2">"POSTGRES_CONNECTION_STRING"</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">connection_string</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">"Postgres connection string is required"</span>
+                <span class="s2">"Either pass it as a parameter"</span>
+                <span class="s2">"or set the POSTGRES_CONNECTION_STRING environment variable."</span>
+            <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">connection_string</span></div>
+
+<div class="viewcode-block" id="PGEmbedding.from_documents"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.pgembedding.PGEmbedding.html#langchain_community.vectorstores.pgembedding.PGEmbedding.from_documents">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_documents</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">PGEmbedding</span><span class="p">],</span>
+        <span class="n">documents</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Document</span><span class="p">],</span>
+        <span class="n">embedding</span><span class="p">:</span> <span class="n">Embeddings</span><span class="p">,</span>
+        <span class="n">collection_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">_LANGCHAIN_DEFAULT_COLLECTION_NAME</span><span class="p">,</span>
+        <span class="n">ids</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">pre_delete_collection</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PGEmbedding</span><span class="p">:</span>
+        <span class="n">texts</span> <span class="o">=</span> <span class="p">[</span><span class="n">d</span><span class="o">.</span><span class="n">page_content</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">documents</span><span class="p">]</span>
+        <span class="n">metadatas</span> <span class="o">=</span> <span class="p">[</span><span class="n">d</span><span class="o">.</span><span class="n">metadata</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">documents</span><span class="p">]</span>
+        <span class="n">connection_string</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">get_connection_string</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">"connection_string"</span><span class="p">]</span> <span class="o">=</span> <span class="n">connection_string</span>
+
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_texts</span><span class="p">(</span>
+            <span class="n">texts</span><span class="o">=</span><span class="n">texts</span><span class="p">,</span>
+            <span class="n">pre_delete_collection</span><span class="o">=</span><span class="n">pre_delete_collection</span><span class="p">,</span>
+            <span class="n">embedding</span><span class="o">=</span><span class="n">embedding</span><span class="p">,</span>
+            <span class="n">metadatas</span><span class="o">=</span><span class="n">metadatas</span><span class="p">,</span>
+            <span class="n">ids</span><span class="o">=</span><span class="n">ids</span><span class="p">,</span>
+            <span class="n">collection_name</span><span class="o">=</span><span class="n">collection_name</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+        <span class="p">)</span></div></div>
+</pre></div>
+</article>
+</div>
+</div>
+<footer class="bd-footer-content">
+</footer>
+</main>
+</div>
+</div>
+<!-- Scripts loaded after <body> so the DOM is not blocked -->
+<script src="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+<footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+<div class="footer-items__start">
+<div class="footer-item">
+<p class="copyright">
+    
+      © Copyright 2023, LangChain Inc.
+      <br/>
+</p>
+</div>
+</div>
+</div>
+</footer>
+</body>
+</html>

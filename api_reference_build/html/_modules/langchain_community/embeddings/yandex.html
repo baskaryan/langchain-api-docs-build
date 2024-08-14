@@ -1,0 +1,469 @@
+
+<!DOCTYPE html>
+
+<html data-content_root="" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>langchain_community.embeddings.yandex — 🦜🔗 LangChain  documentation</title>
+<script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+<!-- Loaded before other Sphinx assets -->
+<link href="../../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet"/>
+<link href="../../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet"/>
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet"/>
+<link href="../../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet"/>
+<link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" rel="preload" type="font/woff2"/>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/autodoc_pydantic.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/sphinx-design.4cbf315f70debaebd550c87a6162cf0f.min.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/css/custom.css" rel="stylesheet" type="text/css"/>
+<!-- Pre-loaded scripts that we'll load fully later -->
+<link as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
+<link as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
+<script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/sphinx_highlight.js"></script>
+<script src="../../../_static/clipboard.min.js"></script>
+<script src="../../../_static/copybutton.js"></script>
+<script src="../../../_static/design-tabs.js"></script>
+<script>DOCUMENTATION_OPTIONS.pagename = '_modules/langchain_community/embeddings/yandex';</script>
+<link href="../../../_static/favicon.png" rel="icon"/>
+<link href="../../../search.html" rel="search" title="Search"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="en" name="docsearch:language"/>
+<meta content="Aug 14, 2024" name="docbuild:last-update"/>
+</head>
+<body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
+<div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
+<div id="pst-scroll-pixel-helper"></div>
+<button class="btn rounded-pill" id="pst-back-to-top" type="button">
+<i class="fa-solid fa-arrow-up"></i>Back to top</button>
+<input class="sidebar-toggle" id="pst-primary-sidebar-checkbox" type="checkbox"/>
+<label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+<input class="sidebar-toggle" id="pst-secondary-sidebar-checkbox" type="checkbox"/>
+<label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+<div class="search-button__wrapper">
+<div class="search-button__overlay"></div>
+<div class="search-button__search-container">
+<form action="../../../search.html" class="bd-search d-flex align-items-center" method="get">
+<i class="fa-solid fa-magnifying-glass"></i>
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="form-control" id="search-input" name="q" placeholder="Search" spellcheck="false" type="search"/>
+<span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+</div>
+<div class="pst-async-banner-revealer d-none">
+<aside aria-label="Version warning" class="d-none d-print-none" id="bd-header-version-warning"></aside>
+</div>
+<header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+<button aria-label="Site navigation" class="pst-navbar-icon sidebar-toggle primary-toggle">
+<span class="fa-solid fa-bars"></span>
+</button>
+<div class="navbar-header-items__start">
+<div class="navbar-item">
+<a class="navbar-brand logo" href="../../../index.html">
+<img alt="🦜🔗 LangChain  documentation - Home" class="logo__image only-light" src="../../../_static/wordmark-api.svg"/>
+<script>document.write(`<img src="../../../_static/wordmark-api-dark.svg" class="logo__image only-dark" alt="🦜🔗 LangChain  documentation - Home"/>`);</script>
+</a></div>
+</div>
+<div class="navbar-header-items">
+<div class="me-auto navbar-header-items__center">
+<div class="navbar-item">
+<nav>
+<ul class="bd-navbar-elements navbar-nav">
+<li class="nav-item">
+<a class="nav-link nav-internal" href="../../../reference.html">
+    Reference
+  </a>
+</li>
+<li class="nav-item">
+<a class="nav-link nav-external" href="https://api.python.langchain.com/">
+    Legacy reference
+  </a>
+</li>
+</ul>
+</nav></div>
+</div>
+<div class="navbar-header-items__end">
+<div class="navbar-item navbar-persistent--container">
+<form action="../../../search.html" class="bd-search d-flex align-items-center" method="get">
+<i class="fa-solid fa-magnifying-glass"></i>
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="form-control" id="search-input" name="q" placeholder="Search" spellcheck="false" type="search"/>
+<span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+</div>
+<div class="navbar-item"><!-- This will display a link to LangChain docs -->
+<head>
+<style>
+        .text-link {
+            text-decoration: none; /* Remove underline */
+            color: inherit;        /* Inherit color from parent element */
+        }
+    </style>
+</head>
+<body>
+<a class="text-link" href="https://python.langchain.com/">Docs</a>
+</body></div>
+<div class="navbar-item">
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+<div class="navbar-item"><ul aria-label="Quick Links" class="navbar-icon-links">
+<li class="nav-item">
+<a class="nav-link pst-navbar-icon" data-bs-placement="bottom" data-bs-toggle="tooltip" href="https://github.com/langchain-ai/langchain" rel="noopener" target="_blank" title="GitHub"><i aria-hidden="true" class="fa-brands fa-square-github fa-lg"></i>
+<span class="sr-only">GitHub</span></a>
+</li>
+<li class="nav-item">
+<a class="nav-link pst-navbar-icon" data-bs-placement="bottom" data-bs-toggle="tooltip" href="https://twitter.com/langchainai" rel="noopener" target="_blank" title="X / Twitter"><i aria-hidden="true" class="fab fa-twitter-square fa-lg"></i>
+<span class="sr-only">X / Twitter</span></a>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="navbar-persistent--mobile">
+<form action="../../../search.html" class="bd-search d-flex align-items-center" method="get">
+<i class="fa-solid fa-magnifying-glass"></i>
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="form-control" id="search-input" name="q" placeholder="Search" spellcheck="false" type="search"/>
+<span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+</div>
+</div>
+</header>
+<div class="bd-container">
+<div class="bd-container__inner bd-page-width">
+<div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+<div class="sidebar-header-items sidebar-primary__section">
+<div class="sidebar-header-items__center">
+<div class="navbar-item">
+<nav>
+<ul class="bd-navbar-elements navbar-nav">
+<li class="nav-item">
+<a class="nav-link nav-internal" href="../../../reference.html">
+    Reference
+  </a>
+</li>
+<li class="nav-item">
+<a class="nav-link nav-external" href="https://api.python.langchain.com/">
+    Legacy reference
+  </a>
+</li>
+</ul>
+</nav></div>
+</div>
+<div class="sidebar-header-items__end">
+<div class="navbar-item"><!-- This will display a link to LangChain docs -->
+<head>
+<style>
+        .text-link {
+            text-decoration: none; /* Remove underline */
+            color: inherit;        /* Inherit color from parent element */
+        }
+    </style>
+</head>
+<body>
+<a class="text-link" href="https://python.langchain.com/">Docs</a>
+</body></div>
+<div class="navbar-item">
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+<div class="navbar-item"><ul aria-label="Quick Links" class="navbar-icon-links">
+<li class="nav-item">
+<a class="nav-link pst-navbar-icon" data-bs-placement="bottom" data-bs-toggle="tooltip" href="https://github.com/langchain-ai/langchain" rel="noopener" target="_blank" title="GitHub"><i aria-hidden="true" class="fa-brands fa-square-github fa-lg"></i>
+<span class="sr-only">GitHub</span></a>
+</li>
+<li class="nav-item">
+<a class="nav-link pst-navbar-icon" data-bs-placement="bottom" data-bs-toggle="tooltip" href="https://twitter.com/langchainai" rel="noopener" target="_blank" title="X / Twitter"><i aria-hidden="true" class="fab fa-twitter-square fa-lg"></i>
+<span class="sr-only">X / Twitter</span></a>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sidebar-primary-items__end sidebar-primary__section">
+</div>
+<div id="rtd-footer-container"></div>
+</div>
+<main class="bd-main" id="main-content" role="main">
+<div class="bd-content">
+<div class="bd-article-container">
+<div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+<div class="header-article-items__start">
+<div class="header-article-item">
+<nav aria-label="Breadcrumb" class="d-print-none">
+<ul class="bd-breadcrumbs">
+<li class="breadcrumb-item breadcrumb-home">
+<a aria-label="Home" class="nav-link" href="../../../index.html">
+<i class="fa-solid fa-home"></i>
+</a>
+</li>
+<li class="breadcrumb-item"><a class="nav-link" href="../../index.html">Module code</a></li>
+<li aria-current="page" class="breadcrumb-item active">langchain_co...</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+</div>
+<div id="searchbox"></div>
+<article class="bd-article">
+<h1>Source code for langchain_community.embeddings.yandex</h1><div class="highlight"><pre>
+<span></span><span class="sd">"""Wrapper around YandexGPT embedding models."""</span>
+
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Sequence</span>
+
+<span class="kn">from</span> <span class="nn">langchain_core.embeddings</span> <span class="kn">import</span> <span class="n">Embeddings</span>
+<span class="kn">from</span> <span class="nn">langchain_core.pydantic_v1</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span><span class="p">,</span> <span class="n">SecretStr</span>
+<span class="kn">from</span> <span class="nn">langchain_core.utils</span> <span class="kn">import</span> <span class="n">convert_to_secret_str</span><span class="p">,</span> <span class="n">get_from_dict_or_env</span><span class="p">,</span> <span class="n">pre_init</span>
+<span class="kn">from</span> <span class="nn">tenacity</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">before_sleep_log</span><span class="p">,</span>
+    <span class="n">retry</span><span class="p">,</span>
+    <span class="n">retry_if_exception_type</span><span class="p">,</span>
+    <span class="n">stop_after_attempt</span><span class="p">,</span>
+    <span class="n">wait_exponential</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="YandexGPTEmbeddings"><a class="viewcode-back" href="../../../community/embeddings/langchain_community.embeddings.yandex.YandexGPTEmbeddings.html#langchain_community.embeddings.yandex.YandexGPTEmbeddings">[docs]</a><span class="k">class</span> <span class="nc">YandexGPTEmbeddings</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">,</span> <span class="n">Embeddings</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""YandexGPT Embeddings models.</span>
+
+<span class="sd">    To use, you should have the ``yandexcloud`` python package installed.</span>
+
+<span class="sd">    There are two authentication options for the service account</span>
+<span class="sd">    with the ``ai.languageModels.user`` role:</span>
+<span class="sd">        - You can specify the token in a constructor parameter `iam_token`</span>
+<span class="sd">        or in an environment variable `YC_IAM_TOKEN`.</span>
+<span class="sd">        - You can specify the key in a constructor parameter `api_key`</span>
+<span class="sd">        or in an environment variable `YC_API_KEY`.</span>
+
+<span class="sd">    To use the default model specify the folder ID in a parameter `folder_id`</span>
+<span class="sd">    or in an environment variable `YC_FOLDER_ID`.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            from langchain_community.embeddings.yandex import YandexGPTEmbeddings</span>
+<span class="sd">            embeddings = YandexGPTEmbeddings(iam_token="t1.9eu...", folder_id=&lt;folder-id&gt;)</span>
+<span class="sd">    """</span>  <span class="c1"># noqa: E501</span>
+
+    <span class="n">iam_token</span><span class="p">:</span> <span class="n">SecretStr</span> <span class="o">=</span> <span class="s2">""</span>  <span class="c1"># type: ignore[assignment]</span>
+<span class="w">    </span><span class="sd">"""Yandex Cloud IAM token for service account</span>
+<span class="sd">    with the `ai.languageModels.user` role"""</span>
+    <span class="n">api_key</span><span class="p">:</span> <span class="n">SecretStr</span> <span class="o">=</span> <span class="s2">""</span>  <span class="c1"># type: ignore[assignment]</span>
+<span class="w">    </span><span class="sd">"""Yandex Cloud Api Key for service account</span>
+<span class="sd">    with the `ai.languageModels.user` role"""</span>
+    <span class="n">model_uri</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span> <span class="n">alias</span><span class="o">=</span><span class="s2">"query_model_uri"</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">"""Query model uri to use."""</span>
+    <span class="n">doc_model_uri</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span>
+<span class="w">    </span><span class="sd">"""Doc model uri to use."""</span>
+    <span class="n">folder_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span>
+<span class="w">    </span><span class="sd">"""Yandex Cloud folder ID"""</span>
+    <span class="n">doc_model_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"text-search-doc"</span>
+<span class="w">    </span><span class="sd">"""Doc model name to use."""</span>
+    <span class="n">model_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="s2">"text-search-query"</span><span class="p">,</span> <span class="n">alias</span><span class="o">=</span><span class="s2">"query_model_name"</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">"""Query model name to use."""</span>
+    <span class="n">model_version</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"latest"</span>
+<span class="w">    </span><span class="sd">"""Model version to use."""</span>
+    <span class="n">url</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"llm.api.cloud.yandex.net:443"</span>
+<span class="w">    </span><span class="sd">"""The url of the API."""</span>
+    <span class="n">max_retries</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">6</span>
+<span class="w">    </span><span class="sd">"""Maximum number of retries to make when generating."""</span>
+    <span class="n">sleep_interval</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
+<span class="w">    </span><span class="sd">"""Delay between API requests"""</span>
+    <span class="n">disable_request_logging</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="w">    </span><span class="sd">"""YandexGPT API logs all request data by default. </span>
+<span class="sd">    If you provide personal data, confidential information, disable logging."""</span>
+    <span class="n">_grpc_metadata</span><span class="p">:</span> <span class="n">Sequence</span>
+
+    <span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
+        <span class="n">allow_population_by_field_name</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="nd">@pre_init</span>
+    <span class="k">def</span> <span class="nf">validate_environment</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Validate that iam token exists in environment."""</span>
+
+        <span class="n">iam_token</span> <span class="o">=</span> <span class="n">convert_to_secret_str</span><span class="p">(</span>
+            <span class="n">get_from_dict_or_env</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="s2">"iam_token"</span><span class="p">,</span> <span class="s2">"YC_IAM_TOKEN"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">values</span><span class="p">[</span><span class="s2">"iam_token"</span><span class="p">]</span> <span class="o">=</span> <span class="n">iam_token</span>
+        <span class="n">api_key</span> <span class="o">=</span> <span class="n">convert_to_secret_str</span><span class="p">(</span>
+            <span class="n">get_from_dict_or_env</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="s2">"api_key"</span><span class="p">,</span> <span class="s2">"YC_API_KEY"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">values</span><span class="p">[</span><span class="s2">"api_key"</span><span class="p">]</span> <span class="o">=</span> <span class="n">api_key</span>
+        <span class="n">folder_id</span> <span class="o">=</span> <span class="n">get_from_dict_or_env</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="s2">"folder_id"</span><span class="p">,</span> <span class="s2">"YC_FOLDER_ID"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span>
+        <span class="n">values</span><span class="p">[</span><span class="s2">"folder_id"</span><span class="p">]</span> <span class="o">=</span> <span class="n">folder_id</span>
+        <span class="k">if</span> <span class="n">api_key</span><span class="o">.</span><span class="n">get_secret_value</span><span class="p">()</span> <span class="o">==</span> <span class="s2">""</span> <span class="ow">and</span> <span class="n">iam_token</span><span class="o">.</span><span class="n">get_secret_value</span><span class="p">()</span> <span class="o">==</span> <span class="s2">""</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Either 'YC_API_KEY' or 'YC_IAM_TOKEN' must be provided."</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">values</span><span class="p">[</span><span class="s2">"iam_token"</span><span class="p">]:</span>
+            <span class="n">values</span><span class="p">[</span><span class="s2">"_grpc_metadata"</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="p">(</span><span class="s2">"authorization"</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"Bearer </span><span class="si">{</span><span class="n">values</span><span class="p">[</span><span class="s1">'iam_token'</span><span class="p">]</span><span class="o">.</span><span class="n">get_secret_value</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+            <span class="p">]</span>
+            <span class="k">if</span> <span class="n">values</span><span class="p">[</span><span class="s2">"folder_id"</span><span class="p">]:</span>
+                <span class="n">values</span><span class="p">[</span><span class="s2">"_grpc_metadata"</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s2">"x-folder-id"</span><span class="p">,</span> <span class="n">values</span><span class="p">[</span><span class="s2">"folder_id"</span><span class="p">]))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">values</span><span class="p">[</span><span class="s2">"_grpc_metadata"</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="p">(</span><span class="s2">"authorization"</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"Api-Key </span><span class="si">{</span><span class="n">values</span><span class="p">[</span><span class="s1">'api_key'</span><span class="p">]</span><span class="o">.</span><span class="n">get_secret_value</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">),</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"doc_model_uri"</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">values</span><span class="p">[</span><span class="s2">"folder_id"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">""</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"'doc_model_uri' or 'folder_id' must be provided."</span><span class="p">)</span>
+            <span class="n">values</span><span class="p">[</span><span class="s2">"doc_model_uri"</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="sa">f</span><span class="s2">"emb://</span><span class="si">{</span><span class="n">values</span><span class="p">[</span><span class="s1">'folder_id'</span><span class="p">]</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">values</span><span class="p">[</span><span class="s1">'doc_model_name'</span><span class="p">]</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">values</span><span class="p">[</span><span class="s1">'model_version'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"model_uri"</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">values</span><span class="p">[</span><span class="s2">"folder_id"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">""</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"'model_uri' or 'folder_id' must be provided."</span><span class="p">)</span>
+            <span class="n">values</span><span class="p">[</span><span class="s2">"model_uri"</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="sa">f</span><span class="s2">"emb://</span><span class="si">{</span><span class="n">values</span><span class="p">[</span><span class="s1">'folder_id'</span><span class="p">]</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">values</span><span class="p">[</span><span class="s1">'model_name'</span><span class="p">]</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">values</span><span class="p">[</span><span class="s1">'model_version'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">values</span><span class="p">[</span><span class="s2">"disable_request_logging"</span><span class="p">]:</span>
+            <span class="n">values</span><span class="p">[</span><span class="s2">"_grpc_metadata"</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="p">(</span>
+                    <span class="s2">"x-data-logging-enabled"</span><span class="p">,</span>
+                    <span class="s2">"false"</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">values</span>
+
+<div class="viewcode-block" id="YandexGPTEmbeddings.embed_documents"><a class="viewcode-back" href="../../../community/embeddings/langchain_community.embeddings.yandex.YandexGPTEmbeddings.html#langchain_community.embeddings.yandex.YandexGPTEmbeddings.embed_documents">[docs]</a>    <span class="k">def</span> <span class="nf">embed_documents</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">texts</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">"""Embed documents using a YandexGPT embeddings models.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            texts: The list of texts to embed.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List of embeddings, one for each text.</span>
+<span class="sd">        """</span>
+
+        <span class="k">return</span> <span class="n">_embed_with_retry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">texts</span><span class="o">=</span><span class="n">texts</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="YandexGPTEmbeddings.embed_query"><a class="viewcode-back" href="../../../community/embeddings/langchain_community.embeddings.yandex.YandexGPTEmbeddings.html#langchain_community.embeddings.yandex.YandexGPTEmbeddings.embed_query">[docs]</a>    <span class="k">def</span> <span class="nf">embed_query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Embed a query using a YandexGPT embeddings models.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            text: The text to embed.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Embeddings for the text.</span>
+<span class="sd">        """</span>
+        <span class="k">return</span> <span class="n">_embed_with_retry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">texts</span><span class="o">=</span><span class="p">[</span><span class="n">text</span><span class="p">],</span> <span class="n">embed_query</span><span class="o">=</span><span class="kc">True</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span></div></div>
+
+
+<span class="k">def</span> <span class="nf">_create_retry_decorator</span><span class="p">(</span><span class="n">llm</span><span class="p">:</span> <span class="n">YandexGPTEmbeddings</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Any</span><span class="p">],</span> <span class="n">Any</span><span class="p">]:</span>
+    <span class="kn">from</span> <span class="nn">grpc</span> <span class="kn">import</span> <span class="n">RpcError</span>
+
+    <span class="n">min_seconds</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">max_seconds</span> <span class="o">=</span> <span class="mi">60</span>
+    <span class="k">return</span> <span class="n">retry</span><span class="p">(</span>
+        <span class="n">reraise</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">stop</span><span class="o">=</span><span class="n">stop_after_attempt</span><span class="p">(</span><span class="n">llm</span><span class="o">.</span><span class="n">max_retries</span><span class="p">),</span>
+        <span class="n">wait</span><span class="o">=</span><span class="n">wait_exponential</span><span class="p">(</span><span class="n">multiplier</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="nb">min</span><span class="o">=</span><span class="n">min_seconds</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="n">max_seconds</span><span class="p">),</span>
+        <span class="n">retry</span><span class="o">=</span><span class="p">(</span><span class="n">retry_if_exception_type</span><span class="p">((</span><span class="n">RpcError</span><span class="p">))),</span>
+        <span class="n">before_sleep</span><span class="o">=</span><span class="n">before_sleep_log</span><span class="p">(</span><span class="n">logger</span><span class="p">,</span> <span class="n">logging</span><span class="o">.</span><span class="n">WARNING</span><span class="p">),</span>
+    <span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_embed_with_retry</span><span class="p">(</span><span class="n">llm</span><span class="p">:</span> <span class="n">YandexGPTEmbeddings</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Use tenacity to retry the embedding call."""</span>
+    <span class="n">retry_decorator</span> <span class="o">=</span> <span class="n">_create_retry_decorator</span><span class="p">(</span><span class="n">llm</span><span class="p">)</span>
+
+    <span class="nd">@retry_decorator</span>
+    <span class="k">def</span> <span class="nf">_completion_with_retry</span><span class="p">(</span><span class="o">**</span><span class="n">_kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">_make_request</span><span class="p">(</span><span class="n">llm</span><span class="p">,</span> <span class="o">**</span><span class="n">_kwargs</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">_completion_with_retry</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_make_request</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">YandexGPTEmbeddings</span><span class="p">,</span> <span class="n">texts</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>  <span class="c1"># type: ignore[no-untyped-def]</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="kn">import</span> <span class="nn">grpc</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="kn">from</span> <span class="nn">yandex.cloud.ai.foundation_models.v1.embedding.embedding_service_pb2</span> <span class="kn">import</span> <span class="p">(</span>  <span class="c1"># noqa: E501</span>
+                <span class="n">TextEmbeddingRequest</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="kn">from</span> <span class="nn">yandex.cloud.ai.foundation_models.v1.embedding.embedding_service_pb2_grpc</span> <span class="kn">import</span> <span class="p">(</span>  <span class="c1"># noqa: E501</span>
+                <span class="n">EmbeddingsServiceStub</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ModuleNotFoundError</span><span class="p">:</span>
+            <span class="kn">from</span> <span class="nn">yandex.cloud.ai.foundation_models.v1.foundation_models_service_pb2</span> <span class="kn">import</span> <span class="p">(</span>  <span class="c1"># noqa: E501</span>
+                <span class="n">TextEmbeddingRequest</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="kn">from</span> <span class="nn">yandex.cloud.ai.foundation_models.v1.foundation_models_service_pb2_grpc</span> <span class="kn">import</span> <span class="p">(</span>  <span class="c1"># noqa: E501</span>
+                <span class="n">EmbeddingsServiceStub</span><span class="p">,</span>
+            <span class="p">)</span>
+    <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
+            <span class="s2">"Please install YandexCloud SDK  with `pip install yandexcloud` </span><span class="se">\</span>
+<span class="s2">            or upgrade it to recent version."</span>
+        <span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">channel_credentials</span> <span class="o">=</span> <span class="n">grpc</span><span class="o">.</span><span class="n">ssl_channel_credentials</span><span class="p">()</span>
+    <span class="n">channel</span> <span class="o">=</span> <span class="n">grpc</span><span class="o">.</span><span class="n">secure_channel</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="p">,</span> <span class="n">channel_credentials</span><span class="p">)</span>
+    <span class="c1"># Use the query model if embed_query is True</span>
+    <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"embed_query"</span><span class="p">):</span>
+        <span class="n">model_uri</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_uri</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">model_uri</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">doc_model_uri</span>
+
+    <span class="k">for</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">texts</span><span class="p">:</span>
+        <span class="n">request</span> <span class="o">=</span> <span class="n">TextEmbeddingRequest</span><span class="p">(</span><span class="n">model_uri</span><span class="o">=</span><span class="n">model_uri</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">text</span><span class="p">)</span>
+        <span class="n">stub</span> <span class="o">=</span> <span class="n">EmbeddingsServiceStub</span><span class="p">(</span><span class="n">channel</span><span class="p">)</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">stub</span><span class="o">.</span><span class="n">TextEmbedding</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_grpc_metadata</span><span class="p">)</span>  <span class="c1"># type: ignore[attr-defined]</span>
+        <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">embedding</span><span class="p">))</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sleep_interval</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">result</span>
+</pre></div>
+</article>
+</div>
+</div>
+<footer class="bd-footer-content">
+</footer>
+</main>
+</div>
+</div>
+<!-- Scripts loaded after <body> so the DOM is not blocked -->
+<script src="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+<footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+<div class="footer-items__start">
+<div class="footer-item">
+<p class="copyright">
+    
+      © Copyright 2023, LangChain Inc.
+      <br/>
+</p>
+</div>
+</div>
+</div>
+</footer>
+</body>
+</html>

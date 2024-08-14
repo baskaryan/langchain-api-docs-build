@@ -1,0 +1,805 @@
+
+<!DOCTYPE html>
+
+<html data-content_root="" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>langchain_community.agents.openai_assistant.base — 🦜🔗 LangChain  documentation</title>
+<script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+<!-- Loaded before other Sphinx assets -->
+<link href="../../../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet"/>
+<link href="../../../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet"/>
+<link href="../../../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet"/>
+<link href="../../../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet"/>
+<link as="font" crossorigin="" href="../../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="../../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="../../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" rel="preload" type="font/woff2"/>
+<link href="../../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../../_static/autodoc_pydantic.css" rel="stylesheet" type="text/css"/>
+<link href="../../../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
+<link href="../../../../_static/sphinx-design.4cbf315f70debaebd550c87a6162cf0f.min.css" rel="stylesheet" type="text/css"/>
+<link href="../../../../_static/css/custom.css" rel="stylesheet" type="text/css"/>
+<!-- Pre-loaded scripts that we'll load fully later -->
+<link as="script" href="../../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
+<link as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
+<script src="../../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+<script src="../../../../_static/doctools.js"></script>
+<script src="../../../../_static/sphinx_highlight.js"></script>
+<script src="../../../../_static/clipboard.min.js"></script>
+<script src="../../../../_static/copybutton.js"></script>
+<script src="../../../../_static/design-tabs.js"></script>
+<script>DOCUMENTATION_OPTIONS.pagename = '_modules/langchain_community/agents/openai_assistant/base';</script>
+<link href="../../../../_static/favicon.png" rel="icon"/>
+<link href="../../../../search.html" rel="search" title="Search"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="en" name="docsearch:language"/>
+<meta content="Aug 14, 2024" name="docbuild:last-update"/>
+</head>
+<body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
+<div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
+<div id="pst-scroll-pixel-helper"></div>
+<button class="btn rounded-pill" id="pst-back-to-top" type="button">
+<i class="fa-solid fa-arrow-up"></i>Back to top</button>
+<input class="sidebar-toggle" id="pst-primary-sidebar-checkbox" type="checkbox"/>
+<label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+<input class="sidebar-toggle" id="pst-secondary-sidebar-checkbox" type="checkbox"/>
+<label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+<div class="search-button__wrapper">
+<div class="search-button__overlay"></div>
+<div class="search-button__search-container">
+<form action="../../../../search.html" class="bd-search d-flex align-items-center" method="get">
+<i class="fa-solid fa-magnifying-glass"></i>
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="form-control" id="search-input" name="q" placeholder="Search" spellcheck="false" type="search"/>
+<span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+</div>
+<div class="pst-async-banner-revealer d-none">
+<aside aria-label="Version warning" class="d-none d-print-none" id="bd-header-version-warning"></aside>
+</div>
+<header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+<button aria-label="Site navigation" class="pst-navbar-icon sidebar-toggle primary-toggle">
+<span class="fa-solid fa-bars"></span>
+</button>
+<div class="navbar-header-items__start">
+<div class="navbar-item">
+<a class="navbar-brand logo" href="../../../../index.html">
+<img alt="🦜🔗 LangChain  documentation - Home" class="logo__image only-light" src="../../../../_static/wordmark-api.svg"/>
+<script>document.write(`<img src="../../../../_static/wordmark-api-dark.svg" class="logo__image only-dark" alt="🦜🔗 LangChain  documentation - Home"/>`);</script>
+</a></div>
+</div>
+<div class="navbar-header-items">
+<div class="me-auto navbar-header-items__center">
+<div class="navbar-item">
+<nav>
+<ul class="bd-navbar-elements navbar-nav">
+<li class="nav-item">
+<a class="nav-link nav-internal" href="../../../../reference.html">
+    Reference
+  </a>
+</li>
+<li class="nav-item">
+<a class="nav-link nav-external" href="https://api.python.langchain.com/">
+    Legacy reference
+  </a>
+</li>
+</ul>
+</nav></div>
+</div>
+<div class="navbar-header-items__end">
+<div class="navbar-item navbar-persistent--container">
+<form action="../../../../search.html" class="bd-search d-flex align-items-center" method="get">
+<i class="fa-solid fa-magnifying-glass"></i>
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="form-control" id="search-input" name="q" placeholder="Search" spellcheck="false" type="search"/>
+<span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+</div>
+<div class="navbar-item"><!-- This will display a link to LangChain docs -->
+<head>
+<style>
+        .text-link {
+            text-decoration: none; /* Remove underline */
+            color: inherit;        /* Inherit color from parent element */
+        }
+    </style>
+</head>
+<body>
+<a class="text-link" href="https://python.langchain.com/">Docs</a>
+</body></div>
+<div class="navbar-item">
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+<div class="navbar-item"><ul aria-label="Quick Links" class="navbar-icon-links">
+<li class="nav-item">
+<a class="nav-link pst-navbar-icon" data-bs-placement="bottom" data-bs-toggle="tooltip" href="https://github.com/langchain-ai/langchain" rel="noopener" target="_blank" title="GitHub"><i aria-hidden="true" class="fa-brands fa-square-github fa-lg"></i>
+<span class="sr-only">GitHub</span></a>
+</li>
+<li class="nav-item">
+<a class="nav-link pst-navbar-icon" data-bs-placement="bottom" data-bs-toggle="tooltip" href="https://twitter.com/langchainai" rel="noopener" target="_blank" title="X / Twitter"><i aria-hidden="true" class="fab fa-twitter-square fa-lg"></i>
+<span class="sr-only">X / Twitter</span></a>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="navbar-persistent--mobile">
+<form action="../../../../search.html" class="bd-search d-flex align-items-center" method="get">
+<i class="fa-solid fa-magnifying-glass"></i>
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="form-control" id="search-input" name="q" placeholder="Search" spellcheck="false" type="search"/>
+<span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+</div>
+</div>
+</header>
+<div class="bd-container">
+<div class="bd-container__inner bd-page-width">
+<div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+<div class="sidebar-header-items sidebar-primary__section">
+<div class="sidebar-header-items__center">
+<div class="navbar-item">
+<nav>
+<ul class="bd-navbar-elements navbar-nav">
+<li class="nav-item">
+<a class="nav-link nav-internal" href="../../../../reference.html">
+    Reference
+  </a>
+</li>
+<li class="nav-item">
+<a class="nav-link nav-external" href="https://api.python.langchain.com/">
+    Legacy reference
+  </a>
+</li>
+</ul>
+</nav></div>
+</div>
+<div class="sidebar-header-items__end">
+<div class="navbar-item"><!-- This will display a link to LangChain docs -->
+<head>
+<style>
+        .text-link {
+            text-decoration: none; /* Remove underline */
+            color: inherit;        /* Inherit color from parent element */
+        }
+    </style>
+</head>
+<body>
+<a class="text-link" href="https://python.langchain.com/">Docs</a>
+</body></div>
+<div class="navbar-item">
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+<div class="navbar-item"><ul aria-label="Quick Links" class="navbar-icon-links">
+<li class="nav-item">
+<a class="nav-link pst-navbar-icon" data-bs-placement="bottom" data-bs-toggle="tooltip" href="https://github.com/langchain-ai/langchain" rel="noopener" target="_blank" title="GitHub"><i aria-hidden="true" class="fa-brands fa-square-github fa-lg"></i>
+<span class="sr-only">GitHub</span></a>
+</li>
+<li class="nav-item">
+<a class="nav-link pst-navbar-icon" data-bs-placement="bottom" data-bs-toggle="tooltip" href="https://twitter.com/langchainai" rel="noopener" target="_blank" title="X / Twitter"><i aria-hidden="true" class="fab fa-twitter-square fa-lg"></i>
+<span class="sr-only">X / Twitter</span></a>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sidebar-primary-items__end sidebar-primary__section">
+</div>
+<div id="rtd-footer-container"></div>
+</div>
+<main class="bd-main" id="main-content" role="main">
+<div class="bd-content">
+<div class="bd-article-container">
+<div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+<div class="header-article-items__start">
+<div class="header-article-item">
+<nav aria-label="Breadcrumb" class="d-print-none">
+<ul class="bd-breadcrumbs">
+<li class="breadcrumb-item breadcrumb-home">
+<a aria-label="Home" class="nav-link" href="../../../../index.html">
+<i class="fa-solid fa-home"></i>
+</a>
+</li>
+<li class="breadcrumb-item"><a class="nav-link" href="../../../index.html">Module code</a></li>
+<li aria-current="page" class="breadcrumb-item active">langchain_co...</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+</div>
+<div id="searchbox"></div>
+<article class="bd-article">
+<h1>Source code for langchain_community.agents.openai_assistant.base</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">TYPE_CHECKING</span><span class="p">,</span>
+    <span class="n">Any</span><span class="p">,</span>
+    <span class="n">Callable</span><span class="p">,</span>
+    <span class="n">Dict</span><span class="p">,</span>
+    <span class="n">Optional</span><span class="p">,</span>
+    <span class="n">Sequence</span><span class="p">,</span>
+    <span class="n">Type</span><span class="p">,</span>
+    <span class="n">Union</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">langchain.agents.openai_assistant.base</span> <span class="kn">import</span> <span class="n">OpenAIAssistantRunnable</span><span class="p">,</span> <span class="n">OutputType</span>
+<span class="kn">from</span> <span class="nn">langchain_core._api</span> <span class="kn">import</span> <span class="n">beta</span>
+<span class="kn">from</span> <span class="nn">langchain_core.callbacks</span> <span class="kn">import</span> <span class="n">CallbackManager</span>
+<span class="kn">from</span> <span class="nn">langchain_core.load</span> <span class="kn">import</span> <span class="n">dumpd</span>
+<span class="kn">from</span> <span class="nn">langchain_core.pydantic_v1</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span><span class="p">,</span> <span class="n">root_validator</span>
+<span class="kn">from</span> <span class="nn">langchain_core.runnables</span> <span class="kn">import</span> <span class="n">RunnableConfig</span><span class="p">,</span> <span class="n">ensure_config</span>
+<span class="kn">from</span> <span class="nn">langchain_core.tools</span> <span class="kn">import</span> <span class="n">BaseTool</span>
+<span class="kn">from</span> <span class="nn">langchain_core.utils.function_calling</span> <span class="kn">import</span> <span class="n">convert_to_openai_tool</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">openai</span>
+    <span class="kn">from</span> <span class="nn">openai._types</span> <span class="kn">import</span> <span class="n">NotGiven</span>
+    <span class="kn">from</span> <span class="nn">openai.types.beta.assistant</span> <span class="kn">import</span> <span class="n">ToolResources</span> <span class="k">as</span> <span class="n">AssistantToolResources</span>
+
+
+<span class="k">def</span> <span class="nf">_get_openai_client</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">openai</span><span class="o">.</span><span class="n">OpenAI</span><span class="p">:</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="kn">import</span> <span class="nn">openai</span>
+
+        <span class="k">return</span> <span class="n">openai</span><span class="o">.</span><span class="n">OpenAI</span><span class="p">(</span><span class="n">default_headers</span><span class="o">=</span><span class="p">{</span><span class="s2">"OpenAI-Beta"</span><span class="p">:</span> <span class="s2">"assistants=v2"</span><span class="p">})</span>
+    <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
+            <span class="s2">"Unable to import openai, please install with `pip install openai`."</span>
+        <span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
+    <span class="k">except</span> <span class="ne">AttributeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span>
+            <span class="s2">"Please make sure you are using a v1.23-compatible version of openai. You "</span>
+            <span class="s1">'can install with `pip install "openai&gt;=1.23"`.'</span>
+        <span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
+
+
+<span class="k">def</span> <span class="nf">_get_openai_async_client</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">openai</span><span class="o">.</span><span class="n">AsyncOpenAI</span><span class="p">:</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="kn">import</span> <span class="nn">openai</span>
+
+        <span class="k">return</span> <span class="n">openai</span><span class="o">.</span><span class="n">AsyncOpenAI</span><span class="p">(</span><span class="n">default_headers</span><span class="o">=</span><span class="p">{</span><span class="s2">"OpenAI-Beta"</span><span class="p">:</span> <span class="s2">"assistants=v2"</span><span class="p">})</span>
+    <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
+            <span class="s2">"Unable to import openai, please install with `pip install openai`."</span>
+        <span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
+    <span class="k">except</span> <span class="ne">AttributeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span>
+            <span class="s2">"Please make sure you are using a v1.23-compatible version of openai. You "</span>
+            <span class="s1">'can install with `pip install "openai&gt;=1.23"`.'</span>
+        <span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
+
+
+<span class="k">def</span> <span class="nf">_convert_file_ids_into_attachments</span><span class="p">(</span><span class="n">file_ids</span><span class="p">:</span> <span class="nb">list</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Convert file_ids into attachments</span>
+<span class="sd">    File search and Code interpreter will be turned on by default.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        file_ids (list): List of file_ids that need to be converted into attachments.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        A list of attachments that are converted from file_ids.</span>
+<span class="sd">    """</span>
+    <span class="n">attachments</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="nb">id</span> <span class="ow">in</span> <span class="n">file_ids</span><span class="p">:</span>
+        <span class="n">attachments</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="p">{</span>
+                <span class="s2">"file_id"</span><span class="p">:</span> <span class="nb">id</span><span class="p">,</span>
+                <span class="s2">"tools"</span><span class="p">:</span> <span class="p">[{</span><span class="s2">"type"</span><span class="p">:</span> <span class="s2">"file_search"</span><span class="p">},</span> <span class="p">{</span><span class="s2">"type"</span><span class="p">:</span> <span class="s2">"code_interpreter"</span><span class="p">}],</span>
+            <span class="p">}</span>
+        <span class="p">)</span>
+    <span class="k">return</span> <span class="n">attachments</span>
+
+
+<span class="k">def</span> <span class="nf">_is_assistants_builtin_tool</span><span class="p">(</span>
+    <span class="n">tool</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">Type</span><span class="p">[</span><span class="n">BaseModel</span><span class="p">],</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">BaseTool</span><span class="p">],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Determine if tool corresponds to OpenAI Assistants built-in.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        tool : Tool that needs to be determined</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        A boolean response of true or false indicating if the tool corresponds to</span>
+<span class="sd">        OpenAI Assistants built-in.</span>
+<span class="sd">    """</span>
+    <span class="n">assistants_builtin_tools</span> <span class="o">=</span> <span class="p">(</span><span class="s2">"code_interpreter"</span><span class="p">,</span> <span class="s2">"retrieval"</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span>
+        <span class="nb">isinstance</span><span class="p">(</span><span class="n">tool</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span>
+        <span class="ow">and</span> <span class="p">(</span><span class="s2">"type"</span> <span class="ow">in</span> <span class="n">tool</span><span class="p">)</span>
+        <span class="ow">and</span> <span class="p">(</span><span class="n">tool</span><span class="p">[</span><span class="s2">"type"</span><span class="p">]</span> <span class="ow">in</span> <span class="n">assistants_builtin_tools</span><span class="p">)</span>
+    <span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_get_assistants_tool</span><span class="p">(</span>
+    <span class="n">tool</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">Type</span><span class="p">[</span><span class="n">BaseModel</span><span class="p">],</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">BaseTool</span><span class="p">],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""Convert a raw function/class to an OpenAI tool.</span>
+
+<span class="sd">    Note that OpenAI assistants supports several built-in tools,</span>
+<span class="sd">    such as "code_interpreter" and "retrieval."</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        tool: Tools or functions that need to be converted to OpenAI tools.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        A dictionary of tools that are converted into OpenAI tools.</span>
+
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="n">_is_assistants_builtin_tool</span><span class="p">(</span><span class="n">tool</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">tool</span>  <span class="c1"># type: ignore</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">convert_to_openai_tool</span><span class="p">(</span><span class="n">tool</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="OpenAIAssistantV2Runnable"><a class="viewcode-back" href="../../../../community/agents/langchain_community.agents.openai_assistant.base.OpenAIAssistantV2Runnable.html#langchain_community.agents.openai_assistant.base.OpenAIAssistantV2Runnable">[docs]</a><span class="nd">@beta</span><span class="p">()</span>
+<span class="k">class</span> <span class="nc">OpenAIAssistantV2Runnable</span><span class="p">(</span><span class="n">OpenAIAssistantRunnable</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Run an OpenAI Assistant.</span>
+
+<span class="sd">    Example using OpenAI tools:</span>
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            from langchain.agents.openai_assistant import OpenAIAssistantV2Runnable</span>
+
+<span class="sd">            interpreter_assistant = OpenAIAssistantV2Runnable.create_assistant(</span>
+<span class="sd">                name="langchain assistant",</span>
+<span class="sd">                instructions="You are a personal math tutor. Write and run code to answer math questions.",</span>
+<span class="sd">                tools=[{"type": "code_interpreter"}],</span>
+<span class="sd">                model="gpt-4-1106-preview"</span>
+<span class="sd">            )</span>
+<span class="sd">            output = interpreter_assistant.invoke({"content": "What's 10 - 4 raised to the 2.7"})</span>
+
+<span class="sd">    Example using custom tools and AgentExecutor:</span>
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            from langchain.agents.openai_assistant import OpenAIAssistantV2Runnable</span>
+<span class="sd">            from langchain.agents import AgentExecutor</span>
+<span class="sd">            from langchain.tools import E2BDataAnalysisTool</span>
+
+
+<span class="sd">            tools = [E2BDataAnalysisTool(api_key="...")]</span>
+<span class="sd">            agent = OpenAIAssistantV2Runnable.create_assistant(</span>
+<span class="sd">                name="langchain assistant e2b tool",</span>
+<span class="sd">                instructions="You are a personal math tutor. Write and run code to answer math questions.",</span>
+<span class="sd">                tools=tools,</span>
+<span class="sd">                model="gpt-4-1106-preview",</span>
+<span class="sd">                as_agent=True</span>
+<span class="sd">            )</span>
+
+<span class="sd">            agent_executor = AgentExecutor(agent=agent, tools=tools)</span>
+<span class="sd">            agent_executor.invoke({"content": "What's 10 - 4 raised to the 2.7"})</span>
+
+
+<span class="sd">    Example using custom tools and custom execution:</span>
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            from langchain.agents.openai_assistant import OpenAIAssistantV2Runnable</span>
+<span class="sd">            from langchain.agents import AgentExecutor</span>
+<span class="sd">            from langchain_core.agents import AgentFinish</span>
+<span class="sd">            from langchain.tools import E2BDataAnalysisTool</span>
+
+
+<span class="sd">            tools = [E2BDataAnalysisTool(api_key="...")]</span>
+<span class="sd">            agent = OpenAIAssistantV2Runnable.create_assistant(</span>
+<span class="sd">                name="langchain assistant e2b tool",</span>
+<span class="sd">                instructions="You are a personal math tutor. Write and run code to answer math questions.",</span>
+<span class="sd">                tools=tools,</span>
+<span class="sd">                model="gpt-4-1106-preview",</span>
+<span class="sd">                as_agent=True</span>
+<span class="sd">            )</span>
+
+<span class="sd">            def execute_agent(agent, tools, input):</span>
+<span class="sd">                tool_map = {tool.name: tool for tool in tools}</span>
+<span class="sd">                response = agent.invoke(input)</span>
+<span class="sd">                while not isinstance(response, AgentFinish):</span>
+<span class="sd">                    tool_outputs = []</span>
+<span class="sd">                    for action in response:</span>
+<span class="sd">                        tool_output = tool_map[action.tool].invoke(action.tool_input)</span>
+<span class="sd">                        tool_outputs.append({"output": tool_output, "tool_call_id": action.tool_call_id})</span>
+<span class="sd">                    response = agent.invoke(</span>
+<span class="sd">                        {</span>
+<span class="sd">                            "tool_outputs": tool_outputs,</span>
+<span class="sd">                            "run_id": action.run_id,</span>
+<span class="sd">                            "thread_id": action.thread_id</span>
+<span class="sd">                        }</span>
+<span class="sd">                    )</span>
+
+<span class="sd">                return response</span>
+
+<span class="sd">            response = execute_agent(agent, tools, {"content": "What's 10 - 4 raised to the 2.7"})</span>
+<span class="sd">            next_response = execute_agent(agent, tools, {"content": "now add 17.241", "thread_id": response.thread_id})</span>
+
+<span class="sd">    """</span>  <span class="c1"># noqa: E501</span>
+
+    <span class="n">client</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="n">_get_openai_client</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">"""OpenAI or AzureOpenAI client."""</span>
+    <span class="n">async_client</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""OpenAI or AzureOpenAI async client."""</span>
+    <span class="n">assistant_id</span><span class="p">:</span> <span class="nb">str</span>
+<span class="w">    </span><span class="sd">"""OpenAI assistant id."""</span>
+    <span class="n">check_every_ms</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1_000.0</span>
+<span class="w">    </span><span class="sd">"""Frequency with which to check run progress in ms."""</span>
+    <span class="n">as_agent</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="w">    </span><span class="sd">"""Use as a LangChain agent, compatible with the AgentExecutor."""</span>
+
+    <span class="nd">@root_validator</span><span class="p">(</span><span class="n">pre</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">skip_on_failure</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">validate_async_client</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">values</span><span class="p">[</span><span class="s2">"async_client"</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="kn">import</span> <span class="nn">openai</span>
+
+            <span class="n">api_key</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="s2">"client"</span><span class="p">]</span><span class="o">.</span><span class="n">api_key</span>
+            <span class="n">values</span><span class="p">[</span><span class="s2">"async_client"</span><span class="p">]</span> <span class="o">=</span> <span class="n">openai</span><span class="o">.</span><span class="n">AsyncOpenAI</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="n">api_key</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">values</span>
+
+<div class="viewcode-block" id="OpenAIAssistantV2Runnable.create_assistant"><a class="viewcode-back" href="../../../../community/agents/langchain_community.agents.openai_assistant.base.OpenAIAssistantV2Runnable.html#langchain_community.agents.openai_assistant.base.OpenAIAssistantV2Runnable.create_assistant">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">create_assistant</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">instructions</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">tools</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">BaseTool</span><span class="p">,</span> <span class="nb">dict</span><span class="p">]],</span>
+        <span class="n">model</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">client</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">openai</span><span class="o">.</span><span class="n">OpenAI</span><span class="p">,</span> <span class="n">openai</span><span class="o">.</span><span class="n">AzureOpenAI</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">tool_resources</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">AssistantToolResources</span><span class="p">,</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">NotGiven</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">OpenAIAssistantRunnable</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Create an OpenAI Assistant and instantiate the Runnable.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            name: Assistant name.</span>
+<span class="sd">            instructions: Assistant instructions.</span>
+<span class="sd">            tools: Assistant tools. Can be passed in OpenAI format or as BaseTools.</span>
+<span class="sd">            tool_resources: Assistant tool resources. Can be passed in OpenAI format</span>
+<span class="sd">            model: Assistant model to use.</span>
+<span class="sd">            client: OpenAI or AzureOpenAI client.</span>
+<span class="sd">                Will create default OpenAI client (Assistant v2) if not specified.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            OpenAIAssistantRunnable configured to run using the created assistant.</span>
+<span class="sd">        """</span>
+
+        <span class="n">client</span> <span class="o">=</span> <span class="n">client</span> <span class="ow">or</span> <span class="n">_get_openai_client</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">tool_resources</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="kn">from</span> <span class="nn">openai._types</span> <span class="kn">import</span> <span class="n">NOT_GIVEN</span>
+
+            <span class="n">tool_resources</span> <span class="o">=</span> <span class="n">NOT_GIVEN</span>
+        <span class="n">assistant</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">beta</span><span class="o">.</span><span class="n">assistants</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+            <span class="n">instructions</span><span class="o">=</span><span class="n">instructions</span><span class="p">,</span>
+            <span class="n">tools</span><span class="o">=</span><span class="p">[</span><span class="n">_get_assistants_tool</span><span class="p">(</span><span class="n">tool</span><span class="p">)</span> <span class="k">for</span> <span class="n">tool</span> <span class="ow">in</span> <span class="n">tools</span><span class="p">],</span>  <span class="c1"># type: ignore</span>
+            <span class="n">tool_resources</span><span class="o">=</span><span class="n">tool_resources</span><span class="p">,</span>
+            <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">assistant_id</span><span class="o">=</span><span class="n">assistant</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">client</span><span class="o">=</span><span class="n">client</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="OpenAIAssistantV2Runnable.invoke"><a class="viewcode-back" href="../../../../community/agents/langchain_community.agents.openai_assistant.base.OpenAIAssistantV2Runnable.html#langchain_community.agents.openai_assistant.base.OpenAIAssistantV2Runnable.invoke">[docs]</a>    <span class="k">def</span> <span class="nf">invoke</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="nb">input</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">RunnableConfig</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">OutputType</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Invoke assistant.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            input: Runnable input dict that can have:</span>
+<span class="sd">                content: User message when starting a new run.</span>
+<span class="sd">                thread_id: Existing thread to use.</span>
+<span class="sd">                run_id: Existing run to use. Should only be supplied when providing</span>
+<span class="sd">                    the tool output for a required action after an initial invocation.</span>
+<span class="sd">                file_ids: (deprecated) File ids to include in new run. Use</span>
+<span class="sd">                    'attachments' instead</span>
+<span class="sd">                attachments: Assistant files to include in new run. (v2 API).</span>
+<span class="sd">                message_metadata: Metadata to associate with new message.</span>
+<span class="sd">                thread_metadata: Metadata to associate with new thread. Only relevant</span>
+<span class="sd">                    when new thread being created.</span>
+<span class="sd">                instructions: Additional run instructions.</span>
+<span class="sd">                model: Override Assistant model for this run.</span>
+<span class="sd">                tools: Override Assistant tools for this run.</span>
+<span class="sd">                tool_resources: Override Assistant tool resources for this run (v2 API).</span>
+<span class="sd">                run_metadata: Metadata to associate with new run.</span>
+<span class="sd">            config: Runnable config:</span>
+
+<span class="sd">        Return:</span>
+<span class="sd">            If self.as_agent, will return</span>
+<span class="sd">                Union[List[OpenAIAssistantAction], OpenAIAssistantFinish]. Otherwise,</span>
+<span class="sd">                will return OpenAI types</span>
+<span class="sd">                Union[List[ThreadMessage], List[RequiredActionFunctionToolCall]].</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            BaseException: If an error occurs during the invocation.</span>
+<span class="sd">        """</span>
+
+        <span class="n">config</span> <span class="o">=</span> <span class="n">ensure_config</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+        <span class="n">callback_manager</span> <span class="o">=</span> <span class="n">CallbackManager</span><span class="o">.</span><span class="n">configure</span><span class="p">(</span>
+            <span class="n">inheritable_callbacks</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"callbacks"</span><span class="p">),</span>
+            <span class="n">inheritable_tags</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"tags"</span><span class="p">),</span>
+            <span class="n">inheritable_metadata</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"metadata"</span><span class="p">),</span>
+        <span class="p">)</span>
+        <span class="n">run_manager</span> <span class="o">=</span> <span class="n">callback_manager</span><span class="o">.</span><span class="n">on_chain_start</span><span class="p">(</span>
+            <span class="n">dumpd</span><span class="p">(</span><span class="bp">self</span><span class="p">),</span> <span class="nb">input</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"run_name"</span><span class="p">)</span>
+        <span class="p">)</span>
+
+        <span class="n">files</span> <span class="o">=</span> <span class="n">_convert_file_ids_into_attachments</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"file_ids"</span><span class="p">,</span> <span class="p">[]))</span>
+        <span class="n">attachments</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"attachments"</span><span class="p">,</span> <span class="p">[])</span> <span class="o">+</span> <span class="n">files</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Being run within AgentExecutor and there are tool outputs to submit.</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">as_agent</span> <span class="ow">and</span> <span class="nb">input</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"intermediate_steps"</span><span class="p">):</span>
+                <span class="n">tool_outputs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_intermediate_steps</span><span class="p">(</span>
+                    <span class="nb">input</span><span class="p">[</span><span class="s2">"intermediate_steps"</span><span class="p">]</span>
+                <span class="p">)</span>
+                <span class="n">run</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">beta</span><span class="o">.</span><span class="n">threads</span><span class="o">.</span><span class="n">runs</span><span class="o">.</span><span class="n">submit_tool_outputs</span><span class="p">(</span><span class="o">**</span><span class="n">tool_outputs</span><span class="p">)</span>
+            <span class="c1"># Starting a new thread and a new run.</span>
+            <span class="k">elif</span> <span class="s2">"thread_id"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">input</span><span class="p">:</span>
+                <span class="n">thread</span> <span class="o">=</span> <span class="p">{</span>
+                    <span class="s2">"messages"</span><span class="p">:</span> <span class="p">[</span>
+                        <span class="p">{</span>
+                            <span class="s2">"role"</span><span class="p">:</span> <span class="s2">"user"</span><span class="p">,</span>
+                            <span class="s2">"content"</span><span class="p">:</span> <span class="nb">input</span><span class="p">[</span><span class="s2">"content"</span><span class="p">],</span>
+                            <span class="s2">"attachments"</span><span class="p">:</span> <span class="n">attachments</span><span class="p">,</span>
+                            <span class="s2">"metadata"</span><span class="p">:</span> <span class="nb">input</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"message_metadata"</span><span class="p">),</span>
+                        <span class="p">}</span>
+                    <span class="p">],</span>
+                    <span class="s2">"metadata"</span><span class="p">:</span> <span class="nb">input</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"thread_metadata"</span><span class="p">),</span>
+                <span class="p">}</span>
+                <span class="n">run</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_thread_and_run</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">thread</span><span class="p">)</span>
+            <span class="c1"># Starting a new run in an existing thread.</span>
+            <span class="k">elif</span> <span class="s2">"run_id"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">input</span><span class="p">:</span>
+                <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">beta</span><span class="o">.</span><span class="n">threads</span><span class="o">.</span><span class="n">messages</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+                    <span class="nb">input</span><span class="p">[</span><span class="s2">"thread_id"</span><span class="p">],</span>
+                    <span class="n">content</span><span class="o">=</span><span class="nb">input</span><span class="p">[</span><span class="s2">"content"</span><span class="p">],</span>
+                    <span class="n">role</span><span class="o">=</span><span class="s2">"user"</span><span class="p">,</span>
+                    <span class="n">attachments</span><span class="o">=</span><span class="n">attachments</span><span class="p">,</span>
+                    <span class="n">metadata</span><span class="o">=</span><span class="nb">input</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"message_metadata"</span><span class="p">),</span>
+                <span class="p">)</span>
+                <span class="n">run</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_run</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
+            <span class="c1"># Submitting tool outputs to an existing run, outside the AgentExecutor</span>
+            <span class="c1"># framework.</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">run</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">beta</span><span class="o">.</span><span class="n">threads</span><span class="o">.</span><span class="n">runs</span><span class="o">.</span><span class="n">submit_tool_outputs</span><span class="p">(</span><span class="o">**</span><span class="nb">input</span><span class="p">)</span>
+            <span class="n">run</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wait_for_run</span><span class="p">(</span><span class="n">run</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">run</span><span class="o">.</span><span class="n">thread_id</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">BaseException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">run_manager</span><span class="o">.</span><span class="n">on_chain_error</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">e</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_response</span><span class="p">(</span><span class="n">run</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">BaseException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">run_manager</span><span class="o">.</span><span class="n">on_chain_error</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="n">run</span><span class="o">.</span><span class="n">dict</span><span class="p">())</span>
+            <span class="k">raise</span> <span class="n">e</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">run_manager</span><span class="o">.</span><span class="n">on_chain_end</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">response</span></div>
+
+<div class="viewcode-block" id="OpenAIAssistantV2Runnable.acreate_assistant"><a class="viewcode-back" href="../../../../community/agents/langchain_community.agents.openai_assistant.base.OpenAIAssistantV2Runnable.html#langchain_community.agents.openai_assistant.base.OpenAIAssistantV2Runnable.acreate_assistant">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">acreate_assistant</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">instructions</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">tools</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">BaseTool</span><span class="p">,</span> <span class="nb">dict</span><span class="p">]],</span>
+        <span class="n">model</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">async_client</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span>
+            <span class="n">Union</span><span class="p">[</span><span class="n">openai</span><span class="o">.</span><span class="n">AsyncOpenAI</span><span class="p">,</span> <span class="n">openai</span><span class="o">.</span><span class="n">AsyncAzureOpenAI</span><span class="p">]</span>
+        <span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">tool_resources</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">AssistantToolResources</span><span class="p">,</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">NotGiven</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">OpenAIAssistantRunnable</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Create an AsyncOpenAI Assistant and instantiate the Runnable.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            name: Assistant name.</span>
+<span class="sd">            instructions: Assistant instructions.</span>
+<span class="sd">            tools: Assistant tools. Can be passed in OpenAI format or as BaseTools.</span>
+<span class="sd">            tool_resources: Assistant tool resources. Can be passed in OpenAI format</span>
+<span class="sd">            model: Assistant model to use.</span>
+<span class="sd">            async_client: AsyncOpenAI client.</span>
+<span class="sd">            Will create default async_client if not specified.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            AsyncOpenAIAssistantRunnable configured to run using the created assistant.</span>
+<span class="sd">        """</span>
+        <span class="n">async_client</span> <span class="o">=</span> <span class="n">async_client</span> <span class="ow">or</span> <span class="n">_get_openai_async_client</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">tool_resources</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="kn">from</span> <span class="nn">openai._types</span> <span class="kn">import</span> <span class="n">NOT_GIVEN</span>
+
+            <span class="n">tool_resources</span> <span class="o">=</span> <span class="n">NOT_GIVEN</span>
+        <span class="n">openai_tools</span> <span class="o">=</span> <span class="p">[</span><span class="n">_get_assistants_tool</span><span class="p">(</span><span class="n">tool</span><span class="p">)</span> <span class="k">for</span> <span class="n">tool</span> <span class="ow">in</span> <span class="n">tools</span><span class="p">]</span>
+
+        <span class="n">assistant</span> <span class="o">=</span> <span class="k">await</span> <span class="n">async_client</span><span class="o">.</span><span class="n">beta</span><span class="o">.</span><span class="n">assistants</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+            <span class="n">instructions</span><span class="o">=</span><span class="n">instructions</span><span class="p">,</span>
+            <span class="n">tools</span><span class="o">=</span><span class="n">openai_tools</span><span class="p">,</span>  <span class="c1"># type: ignore</span>
+            <span class="n">tool_resources</span><span class="o">=</span><span class="n">tool_resources</span><span class="p">,</span>
+            <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">assistant_id</span><span class="o">=</span><span class="n">assistant</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">async_client</span><span class="o">=</span><span class="n">async_client</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="OpenAIAssistantV2Runnable.ainvoke"><a class="viewcode-back" href="../../../../community/agents/langchain_community.agents.openai_assistant.base.OpenAIAssistantV2Runnable.html#langchain_community.agents.openai_assistant.base.OpenAIAssistantV2Runnable.ainvoke">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">ainvoke</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="nb">input</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">RunnableConfig</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">OutputType</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Async invoke assistant.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            input: Runnable input dict that can have:</span>
+<span class="sd">                content: User message when starting a new run.</span>
+<span class="sd">                thread_id: Existing thread to use.</span>
+<span class="sd">                run_id: Existing run to use. Should only be supplied when providing</span>
+<span class="sd">                    the tool output for a required action after an initial invocation.</span>
+<span class="sd">                file_ids: (deprecated) File ids to include in new run. Use</span>
+<span class="sd">                    'attachments' instead</span>
+<span class="sd">                attachments: Assistant files to include in new run. (v2 API).</span>
+<span class="sd">                message_metadata: Metadata to associate with new message.</span>
+<span class="sd">                thread_metadata: Metadata to associate with new thread. Only relevant</span>
+<span class="sd">                    when new thread being created.</span>
+<span class="sd">                instructions: Additional run instructions.</span>
+<span class="sd">                model: Override Assistant model for this run.</span>
+<span class="sd">                tools: Override Assistant tools for this run.</span>
+<span class="sd">                tool_resources: Override Assistant tool resources for this run (v2 API).</span>
+<span class="sd">                run_metadata: Metadata to associate with new run.</span>
+<span class="sd">            config: Runnable config:</span>
+
+<span class="sd">        Return:</span>
+<span class="sd">            If self.as_agent, will return</span>
+<span class="sd">                Union[List[OpenAIAssistantAction], OpenAIAssistantFinish]. Otherwise,</span>
+<span class="sd">                will return OpenAI types</span>
+<span class="sd">                Union[List[ThreadMessage], List[RequiredActionFunctionToolCall]].</span>
+<span class="sd">        """</span>
+
+        <span class="n">config</span> <span class="o">=</span> <span class="n">config</span> <span class="ow">or</span> <span class="p">{}</span>
+        <span class="n">callback_manager</span> <span class="o">=</span> <span class="n">CallbackManager</span><span class="o">.</span><span class="n">configure</span><span class="p">(</span>
+            <span class="n">inheritable_callbacks</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"callbacks"</span><span class="p">),</span>
+            <span class="n">inheritable_tags</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"tags"</span><span class="p">),</span>
+            <span class="n">inheritable_metadata</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"metadata"</span><span class="p">),</span>
+        <span class="p">)</span>
+        <span class="n">run_manager</span> <span class="o">=</span> <span class="n">callback_manager</span><span class="o">.</span><span class="n">on_chain_start</span><span class="p">(</span>
+            <span class="n">dumpd</span><span class="p">(</span><span class="bp">self</span><span class="p">),</span> <span class="nb">input</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"run_name"</span><span class="p">)</span>
+        <span class="p">)</span>
+
+        <span class="n">files</span> <span class="o">=</span> <span class="n">_convert_file_ids_into_attachments</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"file_ids"</span><span class="p">,</span> <span class="p">[]))</span>
+        <span class="n">attachments</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"attachments"</span><span class="p">,</span> <span class="p">[])</span> <span class="o">+</span> <span class="n">files</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Being run within AgentExecutor and there are tool outputs to submit.</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">as_agent</span> <span class="ow">and</span> <span class="nb">input</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"intermediate_steps"</span><span class="p">):</span>
+                <span class="n">tool_outputs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_intermediate_steps</span><span class="p">(</span>
+                    <span class="nb">input</span><span class="p">[</span><span class="s2">"intermediate_steps"</span><span class="p">]</span>
+                <span class="p">)</span>
+                <span class="n">run</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">async_client</span><span class="o">.</span><span class="n">beta</span><span class="o">.</span><span class="n">threads</span><span class="o">.</span><span class="n">runs</span><span class="o">.</span><span class="n">submit_tool_outputs</span><span class="p">(</span>
+                    <span class="o">**</span><span class="n">tool_outputs</span>
+                <span class="p">)</span>
+            <span class="c1"># Starting a new thread and a new run.</span>
+            <span class="k">elif</span> <span class="s2">"thread_id"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">input</span><span class="p">:</span>
+                <span class="n">thread</span> <span class="o">=</span> <span class="p">{</span>
+                    <span class="s2">"messages"</span><span class="p">:</span> <span class="p">[</span>
+                        <span class="p">{</span>
+                            <span class="s2">"role"</span><span class="p">:</span> <span class="s2">"user"</span><span class="p">,</span>
+                            <span class="s2">"content"</span><span class="p">:</span> <span class="nb">input</span><span class="p">[</span><span class="s2">"content"</span><span class="p">],</span>
+                            <span class="s2">"attachments"</span><span class="p">:</span> <span class="n">attachments</span><span class="p">,</span>
+                            <span class="s2">"metadata"</span><span class="p">:</span> <span class="nb">input</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"message_metadata"</span><span class="p">),</span>
+                        <span class="p">}</span>
+                    <span class="p">],</span>
+                    <span class="s2">"metadata"</span><span class="p">:</span> <span class="nb">input</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"thread_metadata"</span><span class="p">),</span>
+                <span class="p">}</span>
+                <span class="n">run</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_acreate_thread_and_run</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">thread</span><span class="p">)</span>
+            <span class="c1"># Starting a new run in an existing thread.</span>
+            <span class="k">elif</span> <span class="s2">"run_id"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">input</span><span class="p">:</span>
+                <span class="n">_</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">async_client</span><span class="o">.</span><span class="n">beta</span><span class="o">.</span><span class="n">threads</span><span class="o">.</span><span class="n">messages</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+                    <span class="nb">input</span><span class="p">[</span><span class="s2">"thread_id"</span><span class="p">],</span>
+                    <span class="n">content</span><span class="o">=</span><span class="nb">input</span><span class="p">[</span><span class="s2">"content"</span><span class="p">],</span>
+                    <span class="n">role</span><span class="o">=</span><span class="s2">"user"</span><span class="p">,</span>
+                    <span class="n">attachments</span><span class="o">=</span><span class="n">attachments</span><span class="p">,</span>
+                    <span class="n">metadata</span><span class="o">=</span><span class="nb">input</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"message_metadata"</span><span class="p">),</span>
+                <span class="p">)</span>
+                <span class="n">run</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_acreate_run</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
+            <span class="c1"># Submitting tool outputs to an existing run, outside the AgentExecutor</span>
+            <span class="c1"># framework.</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">run</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">async_client</span><span class="o">.</span><span class="n">beta</span><span class="o">.</span><span class="n">threads</span><span class="o">.</span><span class="n">runs</span><span class="o">.</span><span class="n">submit_tool_outputs</span><span class="p">(</span>
+                    <span class="o">**</span><span class="nb">input</span>
+                <span class="p">)</span>
+            <span class="n">run</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_await_for_run</span><span class="p">(</span><span class="n">run</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">run</span><span class="o">.</span><span class="n">thread_id</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">BaseException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">run_manager</span><span class="o">.</span><span class="n">on_chain_error</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">e</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_response</span><span class="p">(</span><span class="n">run</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">BaseException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">run_manager</span><span class="o">.</span><span class="n">on_chain_error</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="n">run</span><span class="o">.</span><span class="n">dict</span><span class="p">())</span>
+            <span class="k">raise</span> <span class="n">e</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">run_manager</span><span class="o">.</span><span class="n">on_chain_end</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">response</span></div>
+
+    <span class="k">def</span> <span class="nf">_create_run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">input</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">k</span><span class="p">:</span> <span class="n">v</span>
+            <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">input</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"instructions"</span><span class="p">,</span> <span class="s2">"model"</span><span class="p">,</span> <span class="s2">"tools"</span><span class="p">,</span> <span class="s2">"tool_resources"</span><span class="p">,</span> <span class="s2">"run_metadata"</span><span class="p">)</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">beta</span><span class="o">.</span><span class="n">threads</span><span class="o">.</span><span class="n">runs</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+            <span class="nb">input</span><span class="p">[</span><span class="s2">"thread_id"</span><span class="p">],</span>
+            <span class="n">assistant_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">assistant_id</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">params</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_create_thread_and_run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">input</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">thread</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">k</span><span class="p">:</span> <span class="n">v</span>
+            <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">input</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"instructions"</span><span class="p">,</span> <span class="s2">"model"</span><span class="p">,</span> <span class="s2">"tools"</span><span class="p">,</span> <span class="s2">"run_metadata"</span><span class="p">)</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="n">tool_resources</span> <span class="o">:=</span> <span class="nb">input</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"tool_resources"</span><span class="p">):</span>
+            <span class="n">thread</span><span class="p">[</span><span class="s2">"tool_resources"</span><span class="p">]</span> <span class="o">=</span> <span class="n">tool_resources</span>
+        <span class="n">run</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">beta</span><span class="o">.</span><span class="n">threads</span><span class="o">.</span><span class="n">create_and_run</span><span class="p">(</span>
+            <span class="n">assistant_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">assistant_id</span><span class="p">,</span>
+            <span class="n">thread</span><span class="o">=</span><span class="n">thread</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">params</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">run</span>
+
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">_acreate_run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">input</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">k</span><span class="p">:</span> <span class="n">v</span>
+            <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">input</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"instructions"</span><span class="p">,</span> <span class="s2">"model"</span><span class="p">,</span> <span class="s2">"tools"</span><span class="p">,</span> <span class="s2">"tool_resources"</span> <span class="s2">"run_metadata"</span><span class="p">)</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">async_client</span><span class="o">.</span><span class="n">beta</span><span class="o">.</span><span class="n">threads</span><span class="o">.</span><span class="n">runs</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+            <span class="nb">input</span><span class="p">[</span><span class="s2">"thread_id"</span><span class="p">],</span>
+            <span class="n">assistant_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">assistant_id</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">params</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">_acreate_thread_and_run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">input</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">thread</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">k</span><span class="p">:</span> <span class="n">v</span>
+            <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">input</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"instructions"</span><span class="p">,</span> <span class="s2">"model"</span><span class="p">,</span> <span class="s2">"tools"</span><span class="p">,</span> <span class="s2">"run_metadata"</span><span class="p">)</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="n">tool_resources</span> <span class="o">:=</span> <span class="nb">input</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"tool_resources"</span><span class="p">):</span>
+            <span class="n">thread</span><span class="p">[</span><span class="s2">"tool_resources"</span><span class="p">]</span> <span class="o">=</span> <span class="n">tool_resources</span>
+        <span class="n">run</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">async_client</span><span class="o">.</span><span class="n">beta</span><span class="o">.</span><span class="n">threads</span><span class="o">.</span><span class="n">create_and_run</span><span class="p">(</span>
+            <span class="n">assistant_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">assistant_id</span><span class="p">,</span>
+            <span class="n">thread</span><span class="o">=</span><span class="n">thread</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">params</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">run</span></div>
+</pre></div>
+</article>
+</div>
+</div>
+<footer class="bd-footer-content">
+</footer>
+</main>
+</div>
+</div>
+<!-- Scripts loaded after <body> so the DOM is not blocked -->
+<script src="../../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+<footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+<div class="footer-items__start">
+<div class="footer-item">
+<p class="copyright">
+    
+      © Copyright 2023, LangChain Inc.
+      <br/>
+</p>
+</div>
+</div>
+</div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,774 @@
+
+<!DOCTYPE html>
+
+<html data-content_root="" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>langchain_community.document_loaders.youtube — 🦜🔗 LangChain  documentation</title>
+<script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+<!-- Loaded before other Sphinx assets -->
+<link href="../../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet"/>
+<link href="../../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet"/>
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet"/>
+<link href="../../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet"/>
+<link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" rel="preload" type="font/woff2"/>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/autodoc_pydantic.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/sphinx-design.4cbf315f70debaebd550c87a6162cf0f.min.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/css/custom.css" rel="stylesheet" type="text/css"/>
+<!-- Pre-loaded scripts that we'll load fully later -->
+<link as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
+<link as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
+<script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/sphinx_highlight.js"></script>
+<script src="../../../_static/clipboard.min.js"></script>
+<script src="../../../_static/copybutton.js"></script>
+<script src="../../../_static/design-tabs.js"></script>
+<script>DOCUMENTATION_OPTIONS.pagename = '_modules/langchain_community/document_loaders/youtube';</script>
+<link href="../../../_static/favicon.png" rel="icon"/>
+<link href="../../../search.html" rel="search" title="Search"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="en" name="docsearch:language"/>
+<meta content="Aug 14, 2024" name="docbuild:last-update"/>
+</head>
+<body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
+<div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
+<div id="pst-scroll-pixel-helper"></div>
+<button class="btn rounded-pill" id="pst-back-to-top" type="button">
+<i class="fa-solid fa-arrow-up"></i>Back to top</button>
+<input class="sidebar-toggle" id="pst-primary-sidebar-checkbox" type="checkbox"/>
+<label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+<input class="sidebar-toggle" id="pst-secondary-sidebar-checkbox" type="checkbox"/>
+<label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+<div class="search-button__wrapper">
+<div class="search-button__overlay"></div>
+<div class="search-button__search-container">
+<form action="../../../search.html" class="bd-search d-flex align-items-center" method="get">
+<i class="fa-solid fa-magnifying-glass"></i>
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="form-control" id="search-input" name="q" placeholder="Search" spellcheck="false" type="search"/>
+<span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+</div>
+<div class="pst-async-banner-revealer d-none">
+<aside aria-label="Version warning" class="d-none d-print-none" id="bd-header-version-warning"></aside>
+</div>
+<header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+<button aria-label="Site navigation" class="pst-navbar-icon sidebar-toggle primary-toggle">
+<span class="fa-solid fa-bars"></span>
+</button>
+<div class="navbar-header-items__start">
+<div class="navbar-item">
+<a class="navbar-brand logo" href="../../../index.html">
+<img alt="🦜🔗 LangChain  documentation - Home" class="logo__image only-light" src="../../../_static/wordmark-api.svg"/>
+<script>document.write(`<img src="../../../_static/wordmark-api-dark.svg" class="logo__image only-dark" alt="🦜🔗 LangChain  documentation - Home"/>`);</script>
+</a></div>
+</div>
+<div class="navbar-header-items">
+<div class="me-auto navbar-header-items__center">
+<div class="navbar-item">
+<nav>
+<ul class="bd-navbar-elements navbar-nav">
+<li class="nav-item">
+<a class="nav-link nav-internal" href="../../../reference.html">
+    Reference
+  </a>
+</li>
+<li class="nav-item">
+<a class="nav-link nav-external" href="https://api.python.langchain.com/">
+    Legacy reference
+  </a>
+</li>
+</ul>
+</nav></div>
+</div>
+<div class="navbar-header-items__end">
+<div class="navbar-item navbar-persistent--container">
+<form action="../../../search.html" class="bd-search d-flex align-items-center" method="get">
+<i class="fa-solid fa-magnifying-glass"></i>
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="form-control" id="search-input" name="q" placeholder="Search" spellcheck="false" type="search"/>
+<span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+</div>
+<div class="navbar-item"><!-- This will display a link to LangChain docs -->
+<head>
+<style>
+        .text-link {
+            text-decoration: none; /* Remove underline */
+            color: inherit;        /* Inherit color from parent element */
+        }
+    </style>
+</head>
+<body>
+<a class="text-link" href="https://python.langchain.com/">Docs</a>
+</body></div>
+<div class="navbar-item">
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+<div class="navbar-item"><ul aria-label="Quick Links" class="navbar-icon-links">
+<li class="nav-item">
+<a class="nav-link pst-navbar-icon" data-bs-placement="bottom" data-bs-toggle="tooltip" href="https://github.com/langchain-ai/langchain" rel="noopener" target="_blank" title="GitHub"><i aria-hidden="true" class="fa-brands fa-square-github fa-lg"></i>
+<span class="sr-only">GitHub</span></a>
+</li>
+<li class="nav-item">
+<a class="nav-link pst-navbar-icon" data-bs-placement="bottom" data-bs-toggle="tooltip" href="https://twitter.com/langchainai" rel="noopener" target="_blank" title="X / Twitter"><i aria-hidden="true" class="fab fa-twitter-square fa-lg"></i>
+<span class="sr-only">X / Twitter</span></a>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="navbar-persistent--mobile">
+<form action="../../../search.html" class="bd-search d-flex align-items-center" method="get">
+<i class="fa-solid fa-magnifying-glass"></i>
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="form-control" id="search-input" name="q" placeholder="Search" spellcheck="false" type="search"/>
+<span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+</div>
+</div>
+</header>
+<div class="bd-container">
+<div class="bd-container__inner bd-page-width">
+<div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+<div class="sidebar-header-items sidebar-primary__section">
+<div class="sidebar-header-items__center">
+<div class="navbar-item">
+<nav>
+<ul class="bd-navbar-elements navbar-nav">
+<li class="nav-item">
+<a class="nav-link nav-internal" href="../../../reference.html">
+    Reference
+  </a>
+</li>
+<li class="nav-item">
+<a class="nav-link nav-external" href="https://api.python.langchain.com/">
+    Legacy reference
+  </a>
+</li>
+</ul>
+</nav></div>
+</div>
+<div class="sidebar-header-items__end">
+<div class="navbar-item"><!-- This will display a link to LangChain docs -->
+<head>
+<style>
+        .text-link {
+            text-decoration: none; /* Remove underline */
+            color: inherit;        /* Inherit color from parent element */
+        }
+    </style>
+</head>
+<body>
+<a class="text-link" href="https://python.langchain.com/">Docs</a>
+</body></div>
+<div class="navbar-item">
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+<div class="navbar-item"><ul aria-label="Quick Links" class="navbar-icon-links">
+<li class="nav-item">
+<a class="nav-link pst-navbar-icon" data-bs-placement="bottom" data-bs-toggle="tooltip" href="https://github.com/langchain-ai/langchain" rel="noopener" target="_blank" title="GitHub"><i aria-hidden="true" class="fa-brands fa-square-github fa-lg"></i>
+<span class="sr-only">GitHub</span></a>
+</li>
+<li class="nav-item">
+<a class="nav-link pst-navbar-icon" data-bs-placement="bottom" data-bs-toggle="tooltip" href="https://twitter.com/langchainai" rel="noopener" target="_blank" title="X / Twitter"><i aria-hidden="true" class="fab fa-twitter-square fa-lg"></i>
+<span class="sr-only">X / Twitter</span></a>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sidebar-primary-items__end sidebar-primary__section">
+</div>
+<div id="rtd-footer-container"></div>
+</div>
+<main class="bd-main" id="main-content" role="main">
+<div class="bd-content">
+<div class="bd-article-container">
+<div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+<div class="header-article-items__start">
+<div class="header-article-item">
+<nav aria-label="Breadcrumb" class="d-print-none">
+<ul class="bd-breadcrumbs">
+<li class="breadcrumb-item breadcrumb-home">
+<a aria-label="Home" class="nav-link" href="../../../index.html">
+<i class="fa-solid fa-home"></i>
+</a>
+</li>
+<li class="breadcrumb-item"><a class="nav-link" href="../../index.html">Module code</a></li>
+<li aria-current="page" class="breadcrumb-item active">langchain_co...</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+</div>
+<div id="searchbox"></div>
+<article class="bd-article">
+<h1>Source code for langchain_community.document_loaders.youtube</h1><div class="highlight"><pre>
+<span></span><span class="sd">"""Loads YouTube transcript."""</span>
+
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Generator</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">urllib.parse</span> <span class="kn">import</span> <span class="n">parse_qs</span><span class="p">,</span> <span class="n">urlparse</span>
+<span class="kn">from</span> <span class="nn">xml.etree.ElementTree</span> <span class="kn">import</span> <span class="n">ParseError</span>  <span class="c1"># OK: trusted-source</span>
+
+<span class="kn">from</span> <span class="nn">langchain_core.documents</span> <span class="kn">import</span> <span class="n">Document</span>
+<span class="kn">from</span> <span class="nn">langchain_core.pydantic_v1</span> <span class="kn">import</span> <span class="n">root_validator</span>
+<span class="kn">from</span> <span class="nn">langchain_core.pydantic_v1.dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+
+<span class="kn">from</span> <span class="nn">langchain_community.document_loaders.base</span> <span class="kn">import</span> <span class="n">BaseLoader</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+<span class="n">SCOPES</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"https://www.googleapis.com/auth/youtube.readonly"</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="GoogleApiClient"><a class="viewcode-back" href="../../../community/document_loaders/langchain_community.document_loaders.youtube.GoogleApiClient.html#langchain_community.document_loaders.youtube.GoogleApiClient">[docs]</a><span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">GoogleApiClient</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Generic Google API Client.</span>
+
+<span class="sd">    To use, you should have the ``google_auth_oauthlib,youtube_transcript_api,google``</span>
+<span class="sd">    python package installed.</span>
+<span class="sd">    As the google api expects credentials you need to set up a google account and</span>
+<span class="sd">    register your Service. "https://developers.google.com/docs/api/quickstart/python"</span>
+
+<span class="sd">    *Security Note*: Note that parsing of the transcripts relies on the standard</span>
+<span class="sd">        xml library but the input is viewed as trusted in this case.</span>
+
+
+<span class="sd">    Example:</span>
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            from langchain_community.document_loaders import GoogleApiClient</span>
+<span class="sd">            google_api_client = GoogleApiClient(</span>
+<span class="sd">                service_account_path=Path("path_to_your_sec_file.json")</span>
+<span class="sd">            )</span>
+
+<span class="sd">    """</span>
+
+    <span class="n">credentials_path</span><span class="p">:</span> <span class="n">Path</span> <span class="o">=</span> <span class="n">Path</span><span class="o">.</span><span class="n">home</span><span class="p">()</span> <span class="o">/</span> <span class="s2">".credentials"</span> <span class="o">/</span> <span class="s2">"credentials.json"</span>
+    <span class="n">service_account_path</span><span class="p">:</span> <span class="n">Path</span> <span class="o">=</span> <span class="n">Path</span><span class="o">.</span><span class="n">home</span><span class="p">()</span> <span class="o">/</span> <span class="s2">".credentials"</span> <span class="o">/</span> <span class="s2">"credentials.json"</span>
+    <span class="n">token_path</span><span class="p">:</span> <span class="n">Path</span> <span class="o">=</span> <span class="n">Path</span><span class="o">.</span><span class="n">home</span><span class="p">()</span> <span class="o">/</span> <span class="s2">".credentials"</span> <span class="o">/</span> <span class="s2">"token.json"</span>
+
+    <span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">creds</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_load_credentials</span><span class="p">()</span>
+
+<div class="viewcode-block" id="GoogleApiClient.validate_channel_or_videoIds_is_set"><a class="viewcode-back" href="../../../community/document_loaders/langchain_community.document_loaders.youtube.GoogleApiClient.html#langchain_community.document_loaders.youtube.GoogleApiClient.validate_channel_or_videoIds_is_set">[docs]</a>    <span class="nd">@root_validator</span><span class="p">(</span><span class="n">pre</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">validate_channel_or_videoIds_is_set</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Validate that either folder_id or document_ids is set, but not both."""</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"credentials_path"</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+            <span class="s2">"service_account_path"</span>
+        <span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Must specify either channel_name or video_ids"</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">values</span></div>
+
+    <span class="k">def</span> <span class="nf">_load_credentials</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Load credentials."""</span>
+        <span class="c1"># Adapted from https://developers.google.com/drive/api/v3/quickstart/python</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="kn">from</span> <span class="nn">google.auth.transport.requests</span> <span class="kn">import</span> <span class="n">Request</span>
+            <span class="kn">from</span> <span class="nn">google.oauth2</span> <span class="kn">import</span> <span class="n">service_account</span>
+            <span class="kn">from</span> <span class="nn">google.oauth2.credentials</span> <span class="kn">import</span> <span class="n">Credentials</span>
+            <span class="kn">from</span> <span class="nn">google_auth_oauthlib.flow</span> <span class="kn">import</span> <span class="n">InstalledAppFlow</span>
+            <span class="kn">from</span> <span class="nn">youtube_transcript_api</span> <span class="kn">import</span> <span class="n">YouTubeTranscriptApi</span>  <span class="c1"># noqa: F401</span>
+        <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
+                <span class="s2">"You must run"</span>
+                <span class="s2">"`pip install --upgrade "</span>
+                <span class="s2">"google-api-python-client google-auth-httplib2 "</span>
+                <span class="s2">"google-auth-oauthlib "</span>
+                <span class="s2">"youtube-transcript-api` "</span>
+                <span class="s2">"to use the Google Drive loader"</span>
+            <span class="p">)</span>
+
+        <span class="n">creds</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">service_account_path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+            <span class="k">return</span> <span class="n">service_account</span><span class="o">.</span><span class="n">Credentials</span><span class="o">.</span><span class="n">from_service_account_file</span><span class="p">(</span>
+                <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">service_account_path</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">token_path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+            <span class="n">creds</span> <span class="o">=</span> <span class="n">Credentials</span><span class="o">.</span><span class="n">from_authorized_user_file</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">token_path</span><span class="p">),</span> <span class="n">SCOPES</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">creds</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">creds</span><span class="o">.</span><span class="n">valid</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">creds</span> <span class="ow">and</span> <span class="n">creds</span><span class="o">.</span><span class="n">expired</span> <span class="ow">and</span> <span class="n">creds</span><span class="o">.</span><span class="n">refresh_token</span><span class="p">:</span>
+                <span class="n">creds</span><span class="o">.</span><span class="n">refresh</span><span class="p">(</span><span class="n">Request</span><span class="p">())</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">flow</span> <span class="o">=</span> <span class="n">InstalledAppFlow</span><span class="o">.</span><span class="n">from_client_secrets_file</span><span class="p">(</span>
+                    <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">credentials_path</span><span class="p">),</span> <span class="n">SCOPES</span>
+                <span class="p">)</span>
+                <span class="n">creds</span> <span class="o">=</span> <span class="n">flow</span><span class="o">.</span><span class="n">run_local_server</span><span class="p">(</span><span class="n">port</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">token_path</span><span class="p">,</span> <span class="s2">"w"</span><span class="p">)</span> <span class="k">as</span> <span class="n">token</span><span class="p">:</span>
+                <span class="n">token</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">creds</span><span class="o">.</span><span class="n">to_json</span><span class="p">())</span>
+
+        <span class="k">return</span> <span class="n">creds</span></div>
+
+
+<span class="n">ALLOWED_SCHEMES</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"http"</span><span class="p">,</span> <span class="s2">"https"</span><span class="p">}</span>
+<span class="n">ALLOWED_NETLOCS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"youtu.be"</span><span class="p">,</span>
+    <span class="s2">"m.youtube.com"</span><span class="p">,</span>
+    <span class="s2">"youtube.com"</span><span class="p">,</span>
+    <span class="s2">"www.youtube.com"</span><span class="p">,</span>
+    <span class="s2">"www.youtube-nocookie.com"</span><span class="p">,</span>
+    <span class="s2">"vid.plus"</span><span class="p">,</span>
+<span class="p">}</span>
+
+
+<span class="k">def</span> <span class="nf">_parse_video_id</span><span class="p">(</span><span class="n">url</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""Parse a YouTube URL and return the video ID if valid, otherwise None."""</span>
+    <span class="n">parsed_url</span> <span class="o">=</span> <span class="n">urlparse</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">parsed_url</span><span class="o">.</span><span class="n">scheme</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ALLOWED_SCHEMES</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="k">if</span> <span class="n">parsed_url</span><span class="o">.</span><span class="n">netloc</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ALLOWED_NETLOCS</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="n">path</span> <span class="o">=</span> <span class="n">parsed_url</span><span class="o">.</span><span class="n">path</span>
+
+    <span class="k">if</span> <span class="n">path</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">"/watch"</span><span class="p">):</span>
+        <span class="n">query</span> <span class="o">=</span> <span class="n">parsed_url</span><span class="o">.</span><span class="n">query</span>
+        <span class="n">parsed_query</span> <span class="o">=</span> <span class="n">parse_qs</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">"v"</span> <span class="ow">in</span> <span class="n">parsed_query</span><span class="p">:</span>
+            <span class="n">ids</span> <span class="o">=</span> <span class="n">parsed_query</span><span class="p">[</span><span class="s2">"v"</span><span class="p">]</span>
+            <span class="n">video_id</span> <span class="o">=</span> <span class="n">ids</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ids</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="n">ids</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="n">parsed_url</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s2">"/"</span><span class="p">)</span>
+        <span class="n">video_id</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"/"</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">video_id</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">11</span><span class="p">:</span>  <span class="c1"># Video IDs are 11 characters long</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="k">return</span> <span class="n">video_id</span>
+
+
+<div class="viewcode-block" id="TranscriptFormat"><a class="viewcode-back" href="../../../community/document_loaders/langchain_community.document_loaders.youtube.TranscriptFormat.html#langchain_community.document_loaders.youtube.TranscriptFormat">[docs]</a><span class="k">class</span> <span class="nc">TranscriptFormat</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Output formats of transcripts from `YoutubeLoader`."""</span>
+
+    <span class="n">TEXT</span> <span class="o">=</span> <span class="s2">"text"</span>
+    <span class="n">LINES</span> <span class="o">=</span> <span class="s2">"lines"</span>
+    <span class="n">CHUNKS</span> <span class="o">=</span> <span class="s2">"chunks"</span></div>
+
+
+<div class="viewcode-block" id="YoutubeLoader"><a class="viewcode-back" href="../../../community/document_loaders/langchain_community.document_loaders.youtube.YoutubeLoader.html#langchain_community.document_loaders.youtube.YoutubeLoader">[docs]</a><span class="k">class</span> <span class="nc">YoutubeLoader</span><span class="p">(</span><span class="n">BaseLoader</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Load `YouTube` video transcripts."""</span>
+
+<div class="viewcode-block" id="YoutubeLoader.__init__"><a class="viewcode-back" href="../../../community/document_loaders/langchain_community.document_loaders.youtube.YoutubeLoader.html#langchain_community.document_loaders.youtube.YoutubeLoader.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">video_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">add_video_info</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">language</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="s2">"en"</span><span class="p">,</span>
+        <span class="n">translation</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">transcript_format</span><span class="p">:</span> <span class="n">TranscriptFormat</span> <span class="o">=</span> <span class="n">TranscriptFormat</span><span class="o">.</span><span class="n">TEXT</span><span class="p">,</span>
+        <span class="n">continue_on_failure</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">chunk_size_seconds</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">120</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Initialize with YouTube video ID."""</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">video_id</span> <span class="o">=</span> <span class="n">video_id</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_metadata</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"source"</span><span class="p">:</span> <span class="n">video_id</span><span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_video_info</span> <span class="o">=</span> <span class="n">add_video_info</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">language</span> <span class="o">=</span> <span class="n">language</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">language</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">language</span> <span class="o">=</span> <span class="p">[</span><span class="n">language</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">language</span> <span class="o">=</span> <span class="n">language</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">translation</span> <span class="o">=</span> <span class="n">translation</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">transcript_format</span> <span class="o">=</span> <span class="n">transcript_format</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">continue_on_failure</span> <span class="o">=</span> <span class="n">continue_on_failure</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">chunk_size_seconds</span> <span class="o">=</span> <span class="n">chunk_size_seconds</span></div>
+
+<div class="viewcode-block" id="YoutubeLoader.extract_video_id"><a class="viewcode-back" href="../../../community/document_loaders/langchain_community.document_loaders.youtube.YoutubeLoader.html#langchain_community.document_loaders.youtube.YoutubeLoader.extract_video_id">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">extract_video_id</span><span class="p">(</span><span class="n">youtube_url</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Extract video ID from common YouTube URLs."""</span>
+        <span class="n">video_id</span> <span class="o">=</span> <span class="n">_parse_video_id</span><span class="p">(</span><span class="n">youtube_url</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">video_id</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s1">'Could not determine the video ID for the URL "</span><span class="si">{</span><span class="n">youtube_url</span><span class="si">}</span><span class="s1">".'</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">video_id</span></div>
+
+<div class="viewcode-block" id="YoutubeLoader.from_youtube_url"><a class="viewcode-back" href="../../../community/document_loaders/langchain_community.document_loaders.youtube.YoutubeLoader.html#langchain_community.document_loaders.youtube.YoutubeLoader.from_youtube_url">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_youtube_url</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">youtube_url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">YoutubeLoader</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Given a YouTube URL, construct a loader.</span>
+<span class="sd">        See `YoutubeLoader()` constructor for a list of keyword arguments.</span>
+<span class="sd">        """</span>
+        <span class="n">video_id</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">extract_video_id</span><span class="p">(</span><span class="n">youtube_url</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">video_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_make_chunk_document</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">chunk_pieces</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">],</span> <span class="n">chunk_start_seconds</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Document</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Create Document from chunk of transcript pieces."""</span>
+        <span class="n">m</span><span class="p">,</span> <span class="n">s</span> <span class="o">=</span> <span class="nb">divmod</span><span class="p">(</span><span class="n">chunk_start_seconds</span><span class="p">,</span> <span class="mi">60</span><span class="p">)</span>
+        <span class="n">h</span><span class="p">,</span> <span class="n">m</span> <span class="o">=</span> <span class="nb">divmod</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="mi">60</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Document</span><span class="p">(</span>
+            <span class="n">page_content</span><span class="o">=</span><span class="s2">" "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                <span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">chunk_piece</span><span class="p">:</span> <span class="n">chunk_piece</span><span class="p">[</span><span class="s2">"text"</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">" "</span><span class="p">),</span> <span class="n">chunk_pieces</span><span class="p">)</span>
+            <span class="p">),</span>
+            <span class="n">metadata</span><span class="o">=</span><span class="p">{</span>
+                <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">_metadata</span><span class="p">,</span>
+                <span class="s2">"start_seconds"</span><span class="p">:</span> <span class="n">chunk_start_seconds</span><span class="p">,</span>
+                <span class="s2">"start_timestamp"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">h</span><span class="si">:</span><span class="s2">02d</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">m</span><span class="si">:</span><span class="s2">02d</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">s</span><span class="si">:</span><span class="s2">02d</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+                <span class="s2">"source"</span><span class="p">:</span>
+                <span class="c1"># replace video ID with URL to start time</span>
+                <span class="sa">f</span><span class="s2">"https://www.youtube.com/watch?v=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">video_id</span><span class="si">}</span><span class="s2">"</span>
+                <span class="sa">f</span><span class="s2">"&amp;t=</span><span class="si">{</span><span class="n">chunk_start_seconds</span><span class="si">}</span><span class="s2">s"</span><span class="p">,</span>
+            <span class="p">},</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_get_transcript_chunks</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">transcript_pieces</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Generator</span><span class="p">[</span><span class="n">Document</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="n">chunk_pieces</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">chunk_start_seconds</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">chunk_time_limit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">chunk_size_seconds</span>
+        <span class="k">for</span> <span class="n">transcript_piece</span> <span class="ow">in</span> <span class="n">transcript_pieces</span><span class="p">:</span>
+            <span class="n">piece_end</span> <span class="o">=</span> <span class="n">transcript_piece</span><span class="p">[</span><span class="s2">"start"</span><span class="p">]</span> <span class="o">+</span> <span class="n">transcript_piece</span><span class="p">[</span><span class="s2">"duration"</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">piece_end</span> <span class="o">&gt;</span> <span class="n">chunk_time_limit</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">chunk_pieces</span><span class="p">:</span>
+                    <span class="k">yield</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_chunk_document</span><span class="p">(</span><span class="n">chunk_pieces</span><span class="p">,</span> <span class="n">chunk_start_seconds</span><span class="p">)</span>
+                <span class="n">chunk_pieces</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="n">chunk_start_seconds</span> <span class="o">=</span> <span class="n">chunk_time_limit</span>
+                <span class="n">chunk_time_limit</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">chunk_size_seconds</span>
+
+            <span class="n">chunk_pieces</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">transcript_piece</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">chunk_pieces</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">yield</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_chunk_document</span><span class="p">(</span><span class="n">chunk_pieces</span><span class="p">,</span> <span class="n">chunk_start_seconds</span><span class="p">)</span>
+
+<div class="viewcode-block" id="YoutubeLoader.load"><a class="viewcode-back" href="../../../community/document_loaders/langchain_community.document_loaders.youtube.YoutubeLoader.html#langchain_community.document_loaders.youtube.YoutubeLoader.load">[docs]</a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Document</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Load YouTube transcripts into `Document` objects."""</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="kn">from</span> <span class="nn">youtube_transcript_api</span> <span class="kn">import</span> <span class="p">(</span>
+                <span class="n">NoTranscriptFound</span><span class="p">,</span>
+                <span class="n">TranscriptsDisabled</span><span class="p">,</span>
+                <span class="n">YouTubeTranscriptApi</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
+                <span class="s1">'Could not import "youtube_transcript_api" Python package. '</span>
+                <span class="s2">"Please install it with `pip install youtube-transcript-api`."</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_video_info</span><span class="p">:</span>
+            <span class="c1"># Get more video meta info</span>
+            <span class="c1"># Such as title, description, thumbnail url, publish_date</span>
+            <span class="n">video_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_video_info</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_metadata</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">video_info</span><span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">transcript_list</span> <span class="o">=</span> <span class="n">YouTubeTranscriptApi</span><span class="o">.</span><span class="n">list_transcripts</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">video_id</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">TranscriptsDisabled</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[]</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">transcript</span> <span class="o">=</span> <span class="n">transcript_list</span><span class="o">.</span><span class="n">find_transcript</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">language</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">NoTranscriptFound</span><span class="p">:</span>
+            <span class="n">transcript</span> <span class="o">=</span> <span class="n">transcript_list</span><span class="o">.</span><span class="n">find_transcript</span><span class="p">([</span><span class="s2">"en"</span><span class="p">])</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">translation</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">transcript</span> <span class="o">=</span> <span class="n">transcript</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">translation</span><span class="p">)</span>
+
+        <span class="n">transcript_pieces</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="n">transcript</span><span class="o">.</span><span class="n">fetch</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">transcript_format</span> <span class="o">==</span> <span class="n">TranscriptFormat</span><span class="o">.</span><span class="n">TEXT</span><span class="p">:</span>
+            <span class="n">transcript</span> <span class="o">=</span> <span class="s2">" "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                <span class="nb">map</span><span class="p">(</span>
+                    <span class="k">lambda</span> <span class="n">transcript_piece</span><span class="p">:</span> <span class="n">transcript_piece</span><span class="p">[</span><span class="s2">"text"</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">" "</span><span class="p">),</span>
+                    <span class="n">transcript_pieces</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+            <span class="k">return</span> <span class="p">[</span><span class="n">Document</span><span class="p">(</span><span class="n">page_content</span><span class="o">=</span><span class="n">transcript</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_metadata</span><span class="p">)]</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">transcript_format</span> <span class="o">==</span> <span class="n">TranscriptFormat</span><span class="o">.</span><span class="n">LINES</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">list</span><span class="p">(</span>
+                <span class="nb">map</span><span class="p">(</span>
+                    <span class="k">lambda</span> <span class="n">transcript_piece</span><span class="p">:</span> <span class="n">Document</span><span class="p">(</span>
+                        <span class="n">page_content</span><span class="o">=</span><span class="n">transcript_piece</span><span class="p">[</span><span class="s2">"text"</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">" "</span><span class="p">),</span>
+                        <span class="n">metadata</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+                            <span class="nb">filter</span><span class="p">(</span>
+                                <span class="k">lambda</span> <span class="n">item</span><span class="p">:</span> <span class="n">item</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">"text"</span><span class="p">,</span> <span class="n">transcript_piece</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+                            <span class="p">)</span>
+                        <span class="p">),</span>
+                    <span class="p">),</span>
+                    <span class="n">transcript_pieces</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">transcript_format</span> <span class="o">==</span> <span class="n">TranscriptFormat</span><span class="o">.</span><span class="n">CHUNKS</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_transcript_chunks</span><span class="p">(</span><span class="n">transcript_pieces</span><span class="p">))</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Unknown transcript format."</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_get_video_info</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Get important video information.</span>
+
+<span class="sd">        Components include:</span>
+<span class="sd">            - title</span>
+<span class="sd">            - description</span>
+<span class="sd">            - thumbnail URL,</span>
+<span class="sd">            - publish_date</span>
+<span class="sd">            - channel author</span>
+<span class="sd">            - and more.</span>
+<span class="sd">        """</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="kn">from</span> <span class="nn">pytube</span> <span class="kn">import</span> <span class="n">YouTube</span>
+
+        <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
+                <span class="s1">'Could not import "pytube" Python package. '</span>
+                <span class="s2">"Please install it with `pip install pytube`."</span>
+            <span class="p">)</span>
+        <span class="n">yt</span> <span class="o">=</span> <span class="n">YouTube</span><span class="p">(</span><span class="sa">f</span><span class="s2">"https://www.youtube.com/watch?v=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">video_id</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="n">video_info</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">"title"</span><span class="p">:</span> <span class="n">yt</span><span class="o">.</span><span class="n">title</span> <span class="ow">or</span> <span class="s2">"Unknown"</span><span class="p">,</span>
+            <span class="s2">"description"</span><span class="p">:</span> <span class="n">yt</span><span class="o">.</span><span class="n">description</span> <span class="ow">or</span> <span class="s2">"Unknown"</span><span class="p">,</span>
+            <span class="s2">"view_count"</span><span class="p">:</span> <span class="n">yt</span><span class="o">.</span><span class="n">views</span> <span class="ow">or</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="s2">"thumbnail_url"</span><span class="p">:</span> <span class="n">yt</span><span class="o">.</span><span class="n">thumbnail_url</span> <span class="ow">or</span> <span class="s2">"Unknown"</span><span class="p">,</span>
+            <span class="s2">"publish_date"</span><span class="p">:</span> <span class="n">yt</span><span class="o">.</span><span class="n">publish_date</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">"%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S"</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">yt</span><span class="o">.</span><span class="n">publish_date</span>
+            <span class="k">else</span> <span class="s2">"Unknown"</span><span class="p">,</span>
+            <span class="s2">"length"</span><span class="p">:</span> <span class="n">yt</span><span class="o">.</span><span class="n">length</span> <span class="ow">or</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="s2">"author"</span><span class="p">:</span> <span class="n">yt</span><span class="o">.</span><span class="n">author</span> <span class="ow">or</span> <span class="s2">"Unknown"</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">video_info</span></div>
+
+
+<div class="viewcode-block" id="GoogleApiYoutubeLoader"><a class="viewcode-back" href="../../../community/document_loaders/langchain_community.document_loaders.youtube.GoogleApiYoutubeLoader.html#langchain_community.document_loaders.youtube.GoogleApiYoutubeLoader">[docs]</a><span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">GoogleApiYoutubeLoader</span><span class="p">(</span><span class="n">BaseLoader</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Load all Videos from a `YouTube` Channel.</span>
+
+<span class="sd">    To use, you should have the ``googleapiclient,youtube_transcript_api``</span>
+<span class="sd">    python package installed.</span>
+<span class="sd">    As the service needs a google_api_client, you first have to initialize</span>
+<span class="sd">    the GoogleApiClient.</span>
+
+<span class="sd">    Additionally you have to either provide a channel name or a list of videoids</span>
+<span class="sd">    "https://developers.google.com/docs/api/quickstart/python"</span>
+
+
+
+<span class="sd">    Example:</span>
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            from langchain_community.document_loaders import GoogleApiClient</span>
+<span class="sd">            from langchain_community.document_loaders import GoogleApiYoutubeLoader</span>
+<span class="sd">            google_api_client = GoogleApiClient(</span>
+<span class="sd">                service_account_path=Path("path_to_your_sec_file.json")</span>
+<span class="sd">            )</span>
+<span class="sd">            loader = GoogleApiYoutubeLoader(</span>
+<span class="sd">                google_api_client=google_api_client,</span>
+<span class="sd">                channel_name = "CodeAesthetic"</span>
+<span class="sd">            )</span>
+<span class="sd">            load.load()</span>
+
+<span class="sd">    """</span>
+
+    <span class="n">google_api_client</span><span class="p">:</span> <span class="n">GoogleApiClient</span>
+    <span class="n">channel_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">video_ids</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">add_video_info</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">captions_language</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"en"</span>
+    <span class="n">continue_on_failure</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">youtube_client</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_youtube_client</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">google_api_client</span><span class="o">.</span><span class="n">creds</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_build_youtube_client</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">creds</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="kn">from</span> <span class="nn">googleapiclient.discovery</span> <span class="kn">import</span> <span class="n">build</span>
+            <span class="kn">from</span> <span class="nn">youtube_transcript_api</span> <span class="kn">import</span> <span class="n">YouTubeTranscriptApi</span>  <span class="c1"># noqa: F401</span>
+        <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
+                <span class="s2">"You must run"</span>
+                <span class="s2">"`pip install --upgrade "</span>
+                <span class="s2">"google-api-python-client google-auth-httplib2 "</span>
+                <span class="s2">"google-auth-oauthlib "</span>
+                <span class="s2">"youtube-transcript-api` "</span>
+                <span class="s2">"to use the Google Drive loader"</span>
+            <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">build</span><span class="p">(</span><span class="s2">"youtube"</span><span class="p">,</span> <span class="s2">"v3"</span><span class="p">,</span> <span class="n">credentials</span><span class="o">=</span><span class="n">creds</span><span class="p">)</span>
+
+<div class="viewcode-block" id="GoogleApiYoutubeLoader.validate_channel_or_videoIds_is_set"><a class="viewcode-back" href="../../../community/document_loaders/langchain_community.document_loaders.youtube.GoogleApiYoutubeLoader.html#langchain_community.document_loaders.youtube.GoogleApiYoutubeLoader.validate_channel_or_videoIds_is_set">[docs]</a>    <span class="nd">@root_validator</span><span class="p">(</span><span class="n">pre</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">validate_channel_or_videoIds_is_set</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Validate that either folder_id or document_ids is set, but not both."""</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"channel_name"</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"video_ids"</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Must specify either channel_name or video_ids"</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">values</span></div>
+
+    <span class="k">def</span> <span class="nf">_get_transcripe_for_video_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">video_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="kn">from</span> <span class="nn">youtube_transcript_api</span> <span class="kn">import</span> <span class="n">NoTranscriptFound</span><span class="p">,</span> <span class="n">YouTubeTranscriptApi</span>
+
+        <span class="n">transcript_list</span> <span class="o">=</span> <span class="n">YouTubeTranscriptApi</span><span class="o">.</span><span class="n">list_transcripts</span><span class="p">(</span><span class="n">video_id</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">transcript</span> <span class="o">=</span> <span class="n">transcript_list</span><span class="o">.</span><span class="n">find_transcript</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">captions_language</span><span class="p">])</span>
+        <span class="k">except</span> <span class="n">NoTranscriptFound</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">available_transcript</span> <span class="ow">in</span> <span class="n">transcript_list</span><span class="p">:</span>
+                <span class="n">transcript</span> <span class="o">=</span> <span class="n">available_transcript</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">captions_language</span><span class="p">)</span>
+                <span class="k">continue</span>
+
+        <span class="n">transcript_pieces</span> <span class="o">=</span> <span class="n">transcript</span><span class="o">.</span><span class="n">fetch</span><span class="p">()</span>
+        <span class="k">return</span> <span class="s2">" "</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">t</span><span class="p">[</span><span class="s2">"text"</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">" "</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">transcript_pieces</span><span class="p">])</span>
+
+    <span class="k">def</span> <span class="nf">_get_document_for_video_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">video_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Document</span><span class="p">:</span>
+        <span class="n">captions</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_transcripe_for_video_id</span><span class="p">(</span><span class="n">video_id</span><span class="p">)</span>
+        <span class="n">video_response</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">youtube_client</span><span class="o">.</span><span class="n">videos</span><span class="p">()</span>
+            <span class="o">.</span><span class="n">list</span><span class="p">(</span>
+                <span class="n">part</span><span class="o">=</span><span class="s2">"id,snippet"</span><span class="p">,</span>
+                <span class="nb">id</span><span class="o">=</span><span class="n">video_id</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="o">.</span><span class="n">execute</span><span class="p">()</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">Document</span><span class="p">(</span>
+            <span class="n">page_content</span><span class="o">=</span><span class="n">captions</span><span class="p">,</span>
+            <span class="n">metadata</span><span class="o">=</span><span class="n">video_response</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"items"</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_get_channel_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">channel_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="n">request</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">youtube_client</span><span class="o">.</span><span class="n">search</span><span class="p">()</span><span class="o">.</span><span class="n">list</span><span class="p">(</span>
+            <span class="n">part</span><span class="o">=</span><span class="s2">"id"</span><span class="p">,</span>
+            <span class="n">q</span><span class="o">=</span><span class="n">channel_name</span><span class="p">,</span>
+            <span class="nb">type</span><span class="o">=</span><span class="s2">"channel"</span><span class="p">,</span>
+            <span class="n">maxResults</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>  <span class="c1"># we only need one result since channel names are unique</span>
+        <span class="p">)</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">execute</span><span class="p">()</span>
+        <span class="n">channel_id</span> <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="s2">"items"</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">"id"</span><span class="p">][</span><span class="s2">"channelId"</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">channel_id</span>
+
+    <span class="k">def</span> <span class="nf">_get_uploads_playlist_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">channel_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="n">request</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">youtube_client</span><span class="o">.</span><span class="n">channels</span><span class="p">()</span><span class="o">.</span><span class="n">list</span><span class="p">(</span>
+            <span class="n">part</span><span class="o">=</span><span class="s2">"contentDetails"</span><span class="p">,</span>
+            <span class="nb">id</span><span class="o">=</span><span class="n">channel_id</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">execute</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">response</span><span class="p">[</span><span class="s2">"items"</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">"contentDetails"</span><span class="p">][</span><span class="s2">"relatedPlaylists"</span><span class="p">][</span><span class="s2">"uploads"</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">_get_document_for_channel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">channel</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Document</span><span class="p">]:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="kn">from</span> <span class="nn">youtube_transcript_api</span> <span class="kn">import</span> <span class="p">(</span>
+                <span class="n">NoTranscriptFound</span><span class="p">,</span>
+                <span class="n">TranscriptsDisabled</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
+                <span class="s2">"You must run"</span>
+                <span class="s2">"`pip install --upgrade "</span>
+                <span class="s2">"youtube-transcript-api` "</span>
+                <span class="s2">"to use the youtube loader"</span>
+            <span class="p">)</span>
+
+        <span class="n">channel_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_channel_id</span><span class="p">(</span><span class="n">channel</span><span class="p">)</span>
+        <span class="n">uploads_playlist_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_uploads_playlist_id</span><span class="p">(</span><span class="n">channel_id</span><span class="p">)</span>
+        <span class="n">request</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">youtube_client</span><span class="o">.</span><span class="n">playlistItems</span><span class="p">()</span><span class="o">.</span><span class="n">list</span><span class="p">(</span>
+            <span class="n">part</span><span class="o">=</span><span class="s2">"id,snippet"</span><span class="p">,</span>
+            <span class="n">playlistId</span><span class="o">=</span><span class="n">uploads_playlist_id</span><span class="p">,</span>
+            <span class="n">maxResults</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">video_ids</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">while</span> <span class="n">request</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">execute</span><span class="p">()</span>
+
+            <span class="c1"># Add each video ID to the list</span>
+            <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">response</span><span class="p">[</span><span class="s2">"items"</span><span class="p">]:</span>
+                <span class="n">video_id</span> <span class="o">=</span> <span class="n">item</span><span class="p">[</span><span class="s2">"snippet"</span><span class="p">][</span><span class="s2">"resourceId"</span><span class="p">][</span><span class="s2">"videoId"</span><span class="p">]</span>
+                <span class="n">meta_data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"videoId"</span><span class="p">:</span> <span class="n">video_id</span><span class="p">}</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_video_info</span><span class="p">:</span>
+                    <span class="n">item</span><span class="p">[</span><span class="s2">"snippet"</span><span class="p">]</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"thumbnails"</span><span class="p">)</span>
+                    <span class="n">meta_data</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="s2">"snippet"</span><span class="p">])</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">page_content</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_transcripe_for_video_id</span><span class="p">(</span><span class="n">video_id</span><span class="p">)</span>
+                    <span class="n">video_ids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                        <span class="n">Document</span><span class="p">(</span>
+                            <span class="n">page_content</span><span class="o">=</span><span class="n">page_content</span><span class="p">,</span>
+                            <span class="n">metadata</span><span class="o">=</span><span class="n">meta_data</span><span class="p">,</span>
+                        <span class="p">)</span>
+                    <span class="p">)</span>
+                <span class="k">except</span> <span class="p">(</span><span class="n">TranscriptsDisabled</span><span class="p">,</span> <span class="n">NoTranscriptFound</span><span class="p">,</span> <span class="n">ParseError</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">continue_on_failure</span><span class="p">:</span>
+                        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
+                            <span class="s2">"Error fetching transscript "</span>
+                            <span class="o">+</span> <span class="sa">f</span><span class="s2">" </span><span class="si">{</span><span class="n">item</span><span class="p">[</span><span class="s1">'id'</span><span class="p">][</span><span class="s1">'videoId'</span><span class="p">]</span><span class="si">}</span><span class="s2">, exception: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span>
+                        <span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="k">raise</span> <span class="n">e</span>
+                    <span class="k">pass</span>
+            <span class="n">request</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">youtube_client</span><span class="o">.</span><span class="n">search</span><span class="p">()</span><span class="o">.</span><span class="n">list_next</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">response</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">video_ids</span>
+
+<div class="viewcode-block" id="GoogleApiYoutubeLoader.load"><a class="viewcode-back" href="../../../community/document_loaders/langchain_community.document_loaders.youtube.GoogleApiYoutubeLoader.html#langchain_community.document_loaders.youtube.GoogleApiYoutubeLoader.load">[docs]</a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Document</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Load documents."""</span>
+        <span class="n">document_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">channel_name</span><span class="p">:</span>
+            <span class="n">document_list</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_document_for_channel</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">channel_name</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">video_ids</span><span class="p">:</span>
+            <span class="n">document_list</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
+                <span class="p">[</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_get_document_for_video_id</span><span class="p">(</span><span class="n">video_id</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">video_id</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">video_ids</span>
+                <span class="p">]</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Must specify either channel_name or video_ids"</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">document_list</span></div></div>
+</pre></div>
+</article>
+</div>
+</div>
+<footer class="bd-footer-content">
+</footer>
+</main>
+</div>
+</div>
+<!-- Scripts loaded after <body> so the DOM is not blocked -->
+<script src="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+<footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+<div class="footer-items__start">
+<div class="footer-item">
+<p class="copyright">
+    
+      © Copyright 2023, LangChain Inc.
+      <br/>
+</p>
+</div>
+</div>
+</div>
+</footer>
+</body>
+</html>

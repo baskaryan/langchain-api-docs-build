@@ -1,0 +1,1010 @@
+
+<!DOCTYPE html>
+
+<html data-content_root="" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>sqlalchemy.orm.instrumentation — 🦜🔗 LangChain  documentation</title>
+<script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+<!-- Loaded before other Sphinx assets -->
+<link href="../../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet"/>
+<link href="../../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet"/>
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet"/>
+<link href="../../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet"/>
+<link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" rel="preload" type="font/woff2"/>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/autodoc_pydantic.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/sphinx-design.4cbf315f70debaebd550c87a6162cf0f.min.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/css/custom.css" rel="stylesheet" type="text/css"/>
+<!-- Pre-loaded scripts that we'll load fully later -->
+<link as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
+<link as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
+<script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/sphinx_highlight.js"></script>
+<script src="../../../_static/clipboard.min.js"></script>
+<script src="../../../_static/copybutton.js"></script>
+<script src="../../../_static/design-tabs.js"></script>
+<script>DOCUMENTATION_OPTIONS.pagename = '_modules/sqlalchemy/orm/instrumentation';</script>
+<link href="../../../_static/favicon.png" rel="icon"/>
+<link href="../../../search.html" rel="search" title="Search"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="en" name="docsearch:language"/>
+<meta content="Aug 14, 2024" name="docbuild:last-update"/>
+</head>
+<body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
+<div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
+<div id="pst-scroll-pixel-helper"></div>
+<button class="btn rounded-pill" id="pst-back-to-top" type="button">
+<i class="fa-solid fa-arrow-up"></i>Back to top</button>
+<input class="sidebar-toggle" id="pst-primary-sidebar-checkbox" type="checkbox"/>
+<label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+<input class="sidebar-toggle" id="pst-secondary-sidebar-checkbox" type="checkbox"/>
+<label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+<div class="search-button__wrapper">
+<div class="search-button__overlay"></div>
+<div class="search-button__search-container">
+<form action="../../../search.html" class="bd-search d-flex align-items-center" method="get">
+<i class="fa-solid fa-magnifying-glass"></i>
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="form-control" id="search-input" name="q" placeholder="Search" spellcheck="false" type="search"/>
+<span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+</div>
+<div class="pst-async-banner-revealer d-none">
+<aside aria-label="Version warning" class="d-none d-print-none" id="bd-header-version-warning"></aside>
+</div>
+<header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+<button aria-label="Site navigation" class="pst-navbar-icon sidebar-toggle primary-toggle">
+<span class="fa-solid fa-bars"></span>
+</button>
+<div class="navbar-header-items__start">
+<div class="navbar-item">
+<a class="navbar-brand logo" href="../../../index.html">
+<img alt="🦜🔗 LangChain  documentation - Home" class="logo__image only-light" src="../../../_static/wordmark-api.svg"/>
+<script>document.write(`<img src="../../../_static/wordmark-api-dark.svg" class="logo__image only-dark" alt="🦜🔗 LangChain  documentation - Home"/>`);</script>
+</a></div>
+</div>
+<div class="navbar-header-items">
+<div class="me-auto navbar-header-items__center">
+<div class="navbar-item">
+<nav>
+<ul class="bd-navbar-elements navbar-nav">
+<li class="nav-item">
+<a class="nav-link nav-internal" href="../../../reference.html">
+    Reference
+  </a>
+</li>
+<li class="nav-item">
+<a class="nav-link nav-external" href="https://api.python.langchain.com/">
+    Legacy reference
+  </a>
+</li>
+</ul>
+</nav></div>
+</div>
+<div class="navbar-header-items__end">
+<div class="navbar-item navbar-persistent--container">
+<form action="../../../search.html" class="bd-search d-flex align-items-center" method="get">
+<i class="fa-solid fa-magnifying-glass"></i>
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="form-control" id="search-input" name="q" placeholder="Search" spellcheck="false" type="search"/>
+<span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+</div>
+<div class="navbar-item"><!-- This will display a link to LangChain docs -->
+<head>
+<style>
+        .text-link {
+            text-decoration: none; /* Remove underline */
+            color: inherit;        /* Inherit color from parent element */
+        }
+    </style>
+</head>
+<body>
+<a class="text-link" href="https://python.langchain.com/">Docs</a>
+</body></div>
+<div class="navbar-item">
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+<div class="navbar-item"><ul aria-label="Quick Links" class="navbar-icon-links">
+<li class="nav-item">
+<a class="nav-link pst-navbar-icon" data-bs-placement="bottom" data-bs-toggle="tooltip" href="https://github.com/langchain-ai/langchain" rel="noopener" target="_blank" title="GitHub"><i aria-hidden="true" class="fa-brands fa-square-github fa-lg"></i>
+<span class="sr-only">GitHub</span></a>
+</li>
+<li class="nav-item">
+<a class="nav-link pst-navbar-icon" data-bs-placement="bottom" data-bs-toggle="tooltip" href="https://twitter.com/langchainai" rel="noopener" target="_blank" title="X / Twitter"><i aria-hidden="true" class="fab fa-twitter-square fa-lg"></i>
+<span class="sr-only">X / Twitter</span></a>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="navbar-persistent--mobile">
+<form action="../../../search.html" class="bd-search d-flex align-items-center" method="get">
+<i class="fa-solid fa-magnifying-glass"></i>
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="form-control" id="search-input" name="q" placeholder="Search" spellcheck="false" type="search"/>
+<span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+</div>
+</div>
+</header>
+<div class="bd-container">
+<div class="bd-container__inner bd-page-width">
+<div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+<div class="sidebar-header-items sidebar-primary__section">
+<div class="sidebar-header-items__center">
+<div class="navbar-item">
+<nav>
+<ul class="bd-navbar-elements navbar-nav">
+<li class="nav-item">
+<a class="nav-link nav-internal" href="../../../reference.html">
+    Reference
+  </a>
+</li>
+<li class="nav-item">
+<a class="nav-link nav-external" href="https://api.python.langchain.com/">
+    Legacy reference
+  </a>
+</li>
+</ul>
+</nav></div>
+</div>
+<div class="sidebar-header-items__end">
+<div class="navbar-item"><!-- This will display a link to LangChain docs -->
+<head>
+<style>
+        .text-link {
+            text-decoration: none; /* Remove underline */
+            color: inherit;        /* Inherit color from parent element */
+        }
+    </style>
+</head>
+<body>
+<a class="text-link" href="https://python.langchain.com/">Docs</a>
+</body></div>
+<div class="navbar-item">
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+<div class="navbar-item"><ul aria-label="Quick Links" class="navbar-icon-links">
+<li class="nav-item">
+<a class="nav-link pst-navbar-icon" data-bs-placement="bottom" data-bs-toggle="tooltip" href="https://github.com/langchain-ai/langchain" rel="noopener" target="_blank" title="GitHub"><i aria-hidden="true" class="fa-brands fa-square-github fa-lg"></i>
+<span class="sr-only">GitHub</span></a>
+</li>
+<li class="nav-item">
+<a class="nav-link pst-navbar-icon" data-bs-placement="bottom" data-bs-toggle="tooltip" href="https://twitter.com/langchainai" rel="noopener" target="_blank" title="X / Twitter"><i aria-hidden="true" class="fab fa-twitter-square fa-lg"></i>
+<span class="sr-only">X / Twitter</span></a>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sidebar-primary-items__end sidebar-primary__section">
+</div>
+<div id="rtd-footer-container"></div>
+</div>
+<main class="bd-main" id="main-content" role="main">
+<div class="bd-content">
+<div class="bd-article-container">
+<div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+<div class="header-article-items__start">
+<div class="header-article-item">
+<nav aria-label="Breadcrumb" class="d-print-none">
+<ul class="bd-breadcrumbs">
+<li class="breadcrumb-item breadcrumb-home">
+<a aria-label="Home" class="nav-link" href="../../../index.html">
+<i class="fa-solid fa-home"></i>
+</a>
+</li>
+<li class="breadcrumb-item"><a class="nav-link" href="../../index.html">Module code</a></li>
+<li aria-current="page" class="breadcrumb-item active">sqlalchemy.o...</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+</div>
+<div id="searchbox"></div>
+<article class="bd-article">
+<h1>Source code for sqlalchemy.orm.instrumentation</h1><div class="highlight"><pre>
+<span></span><span class="c1"># orm/instrumentation.py</span>
+<span class="c1"># Copyright (C) 2005-2024 the SQLAlchemy authors and contributors</span>
+<span class="c1"># &lt;see AUTHORS file&gt;</span>
+<span class="c1">#</span>
+<span class="c1"># This module is part of SQLAlchemy and is released under</span>
+<span class="c1"># the MIT License: https://www.opensource.org/licenses/mit-license.php</span>
+<span class="c1"># mypy: allow-untyped-defs, allow-untyped-calls</span>
+
+<span class="sd">"""Defines SQLAlchemy's system of class instrumentation.</span>
+
+<span class="sd">This module is usually not directly visible to user applications, but</span>
+<span class="sd">defines a large part of the ORM's interactivity.</span>
+
+<span class="sd">instrumentation.py deals with registration of end-user classes</span>
+<span class="sd">for state tracking.   It interacts closely with state.py</span>
+<span class="sd">and attributes.py which establish per-instance and per-class-attribute</span>
+<span class="sd">instrumentation, respectively.</span>
+
+<span class="sd">The class instrumentation system can be customized on a per-class</span>
+<span class="sd">or global basis using the :mod:`sqlalchemy.ext.instrumentation`</span>
+<span class="sd">module, which provides the means to build and specify</span>
+<span class="sd">alternate instrumentation forms.</span>
+
+<span class="sd">.. versionchanged: 0.8</span>
+<span class="sd">   The instrumentation extension system was moved out of the</span>
+<span class="sd">   ORM and into the external :mod:`sqlalchemy.ext.instrumentation`</span>
+<span class="sd">   package.  When that package is imported, it installs</span>
+<span class="sd">   itself within sqlalchemy.orm so that its more comprehensive</span>
+<span class="sd">   resolution mechanics take effect.</span>
+
+<span class="sd">"""</span>
+
+
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">cast</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Collection</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Generic</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Iterable</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Set</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Type</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TYPE_CHECKING</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TypeVar</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span>
+<span class="kn">import</span> <span class="nn">weakref</span>
+
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">base</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">collections</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">exc</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">interfaces</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">state</span>
+<span class="kn">from</span> <span class="nn">._typing</span> <span class="kn">import</span> <span class="n">_O</span>
+<span class="kn">from</span> <span class="nn">.attributes</span> <span class="kn">import</span> <span class="n">_is_collection_attribute_impl</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">util</span>
+<span class="kn">from</span> <span class="nn">..event</span> <span class="kn">import</span> <span class="n">EventTarget</span>
+<span class="kn">from</span> <span class="nn">..util</span> <span class="kn">import</span> <span class="n">HasMemoized</span>
+<span class="kn">from</span> <span class="nn">..util.typing</span> <span class="kn">import</span> <span class="n">Literal</span>
+<span class="kn">from</span> <span class="nn">..util.typing</span> <span class="kn">import</span> <span class="n">Protocol</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">._typing</span> <span class="kn">import</span> <span class="n">_RegistryType</span>
+    <span class="kn">from</span> <span class="nn">.attributes</span> <span class="kn">import</span> <span class="n">AttributeImpl</span>
+    <span class="kn">from</span> <span class="nn">.attributes</span> <span class="kn">import</span> <span class="n">QueryableAttribute</span>
+    <span class="kn">from</span> <span class="nn">.collections</span> <span class="kn">import</span> <span class="n">_AdaptedCollectionProtocol</span>
+    <span class="kn">from</span> <span class="nn">.collections</span> <span class="kn">import</span> <span class="n">_CollectionFactoryType</span>
+    <span class="kn">from</span> <span class="nn">.decl_base</span> <span class="kn">import</span> <span class="n">_MapperConfig</span>
+    <span class="kn">from</span> <span class="nn">.events</span> <span class="kn">import</span> <span class="n">InstanceEvents</span>
+    <span class="kn">from</span> <span class="nn">.mapper</span> <span class="kn">import</span> <span class="n">Mapper</span>
+    <span class="kn">from</span> <span class="nn">.state</span> <span class="kn">import</span> <span class="n">InstanceState</span>
+    <span class="kn">from</span> <span class="nn">..event</span> <span class="kn">import</span> <span class="n">dispatcher</span>
+
+<span class="n">_T</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">"_T"</span><span class="p">,</span> <span class="n">bound</span><span class="o">=</span><span class="n">Any</span><span class="p">)</span>
+<span class="n">DEL_ATTR</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">symbol</span><span class="p">(</span><span class="s2">"DEL_ATTR"</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">_ExpiredAttributeLoaderProto</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">state</span><span class="p">:</span> <span class="n">state</span><span class="o">.</span><span class="n">InstanceState</span><span class="p">[</span><span class="n">Any</span><span class="p">],</span>
+        <span class="n">toload</span><span class="p">:</span> <span class="n">Set</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+        <span class="n">passive</span><span class="p">:</span> <span class="n">base</span><span class="o">.</span><span class="n">PassiveFlag</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span> <span class="o">...</span>
+
+
+<span class="k">class</span> <span class="nc">_ManagerFactory</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">class_</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">_O</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">ClassManager</span><span class="p">[</span><span class="n">_O</span><span class="p">]:</span> <span class="o">...</span>
+
+
+<span class="k">class</span> <span class="nc">ClassManager</span><span class="p">(</span>
+    <span class="n">HasMemoized</span><span class="p">,</span>
+    <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="s2">"QueryableAttribute[Any]"</span><span class="p">],</span>
+    <span class="n">Generic</span><span class="p">[</span><span class="n">_O</span><span class="p">],</span>
+    <span class="n">EventTarget</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Tracks state information at the class level."""</span>
+
+    <span class="n">dispatch</span><span class="p">:</span> <span class="n">dispatcher</span><span class="p">[</span><span class="n">ClassManager</span><span class="p">[</span><span class="n">_O</span><span class="p">]]</span>
+
+    <span class="n">MANAGER_ATTR</span> <span class="o">=</span> <span class="n">base</span><span class="o">.</span><span class="n">DEFAULT_MANAGER_ATTR</span>
+    <span class="n">STATE_ATTR</span> <span class="o">=</span> <span class="n">base</span><span class="o">.</span><span class="n">DEFAULT_STATE_ATTR</span>
+
+    <span class="n">_state_setter</span> <span class="o">=</span> <span class="nb">staticmethod</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">attrsetter</span><span class="p">(</span><span class="n">STATE_ATTR</span><span class="p">))</span>
+
+    <span class="n">expired_attribute_loader</span><span class="p">:</span> <span class="n">_ExpiredAttributeLoaderProto</span>
+    <span class="s2">"previously known as deferred_scalar_loader"</span>
+
+    <span class="n">init_method</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="kc">None</span><span class="p">]]</span>
+    <span class="n">original_init</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="kc">None</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="n">factory</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">_ManagerFactory</span><span class="p">]</span>
+
+    <span class="n">declarative_scan</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">weakref</span><span class="o">.</span><span class="n">ref</span><span class="p">[</span><span class="n">_MapperConfig</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="n">registry</span><span class="p">:</span> <span class="n">_RegistryType</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+        <span class="c1"># starts as None during setup</span>
+        <span class="n">registry</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="n">class_</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">_O</span><span class="p">]</span>
+
+    <span class="n">_bases</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">ClassManager</span><span class="p">[</span><span class="n">Any</span><span class="p">]]</span>
+
+    <span class="nd">@property</span>
+    <span class="nd">@util</span><span class="o">.</span><span class="n">deprecated</span><span class="p">(</span>
+        <span class="s2">"1.4"</span><span class="p">,</span>
+        <span class="n">message</span><span class="o">=</span><span class="s2">"The ClassManager.deferred_scalar_loader attribute is now "</span>
+        <span class="s2">"named expired_attribute_loader"</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">def</span> <span class="nf">deferred_scalar_loader</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">expired_attribute_loader</span>
+
+    <span class="nd">@deferred_scalar_loader</span><span class="o">.</span><span class="n">setter</span>
+    <span class="nd">@util</span><span class="o">.</span><span class="n">deprecated</span><span class="p">(</span>
+        <span class="s2">"1.4"</span><span class="p">,</span>
+        <span class="n">message</span><span class="o">=</span><span class="s2">"The ClassManager.deferred_scalar_loader attribute is now "</span>
+        <span class="s2">"named expired_attribute_loader"</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">def</span> <span class="nf">deferred_scalar_loader</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">expired_attribute_loader</span> <span class="o">=</span> <span class="n">obj</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">class_</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">class_</span> <span class="o">=</span> <span class="n">class_</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">info</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">new_init</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">local_attrs</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">originals</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_finalized</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">factory</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">init_method</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_bases</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">mgr</span>
+            <span class="k">for</span> <span class="n">mgr</span> <span class="ow">in</span> <span class="n">cast</span><span class="p">(</span>
+                <span class="s2">"List[Optional[ClassManager[Any]]]"</span><span class="p">,</span>
+                <span class="p">[</span>
+                    <span class="n">opt_manager_of_class</span><span class="p">(</span><span class="n">base</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">base</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">class_</span><span class="o">.</span><span class="vm">__bases__</span>
+                    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">base</span><span class="p">,</span> <span class="nb">type</span><span class="p">)</span>
+                <span class="p">],</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="n">mgr</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+        <span class="p">]</span>
+
+        <span class="k">for</span> <span class="n">base_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bases</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">base_</span><span class="p">)</span>
+
+        <span class="n">cast</span><span class="p">(</span>
+            <span class="s2">"InstanceEvents"</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dispatch</span><span class="o">.</span><span class="n">_events</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">_new_classmanager_instance</span><span class="p">(</span><span class="n">class_</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">basecls</span> <span class="ow">in</span> <span class="n">class_</span><span class="o">.</span><span class="vm">__mro__</span><span class="p">:</span>
+            <span class="n">mgr</span> <span class="o">=</span> <span class="n">opt_manager_of_class</span><span class="p">(</span><span class="n">basecls</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">mgr</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dispatch</span><span class="o">.</span><span class="n">_update</span><span class="p">(</span><span class="n">mgr</span><span class="o">.</span><span class="n">dispatch</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">manage</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="s2">"__del__"</span> <span class="ow">in</span> <span class="n">class_</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">:</span>
+            <span class="n">util</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                <span class="s2">"__del__() method on class </span><span class="si">%s</span><span class="s2"> will "</span>
+                <span class="s2">"cause unreachable cycles and memory leaks, "</span>
+                <span class="s2">"as SQLAlchemy instrumentation often creates "</span>
+                <span class="s2">"reference cycles.  Please remove this method."</span> <span class="o">%</span> <span class="n">class_</span>
+            <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_update_state</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">finalize</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">mapper</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Mapper</span><span class="p">[</span><span class="n">_O</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">registry</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">_RegistryType</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">declarative_scan</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">_MapperConfig</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">expired_attribute_loader</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span>
+            <span class="n">_ExpiredAttributeLoaderProto</span>
+        <span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">init_method</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="kc">None</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">mapper</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mapper</span> <span class="o">=</span> <span class="n">mapper</span>  <span class="c1">#</span>
+        <span class="k">if</span> <span class="n">registry</span><span class="p">:</span>
+            <span class="n">registry</span><span class="o">.</span><span class="n">_add_manager</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">declarative_scan</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">declarative_scan</span> <span class="o">=</span> <span class="n">weakref</span><span class="o">.</span><span class="n">ref</span><span class="p">(</span><span class="n">declarative_scan</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">expired_attribute_loader</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">expired_attribute_loader</span> <span class="o">=</span> <span class="n">expired_attribute_loader</span>
+
+        <span class="k">if</span> <span class="n">init_method</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_finalized</span><span class="p">,</span> <span class="p">(</span>
+                <span class="s2">"class is already instrumented, "</span>
+                <span class="s2">"init_method </span><span class="si">%s</span><span class="s2"> can't be applied"</span> <span class="o">%</span> <span class="n">init_method</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">init_method</span> <span class="o">=</span> <span class="n">init_method</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_finalized</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">original_init</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">init_method</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">init_method</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+                <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">class_</span><span class="o">.</span><span class="fm">__init__</span> <span class="ow">is</span> <span class="nb">object</span><span class="o">.</span><span class="fm">__init__</span>
+                <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">class_</span><span class="o">.</span><span class="fm">__init__</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">finalize</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_finalized</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_finalize</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">_finalize</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_finalized</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_finalized</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_instrument_init</span><span class="p">()</span>
+
+        <span class="n">_instrumentation_factory</span><span class="o">.</span><span class="n">dispatch</span><span class="o">.</span><span class="n">class_instrument</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">class_</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>  <span class="c1"># type: ignore[override]</span>
+        <span class="k">return</span> <span class="nb">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">other</span> <span class="ow">is</span> <span class="bp">self</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">is_mapped</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">"mapper"</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span>
+
+    <span class="nd">@HasMemoized</span><span class="o">.</span><span class="n">memoized_attribute</span>
+    <span class="k">def</span> <span class="nf">_all_key_set</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">frozenset</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="nd">@HasMemoized</span><span class="o">.</span><span class="n">memoized_attribute</span>
+    <span class="k">def</span> <span class="nf">_collection_impl_keys</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">frozenset</span><span class="p">(</span>
+            <span class="p">[</span><span class="n">attr</span><span class="o">.</span><span class="n">key</span> <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">()</span> <span class="k">if</span> <span class="n">attr</span><span class="o">.</span><span class="n">impl</span><span class="o">.</span><span class="n">collection</span><span class="p">]</span>
+        <span class="p">)</span>
+
+    <span class="nd">@HasMemoized</span><span class="o">.</span><span class="n">memoized_attribute</span>
+    <span class="k">def</span> <span class="nf">_scalar_loader_impls</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">frozenset</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="n">attr</span><span class="o">.</span><span class="n">impl</span>
+                <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
+                <span class="k">if</span> <span class="n">attr</span><span class="o">.</span><span class="n">impl</span><span class="o">.</span><span class="n">accepts_scalar_loader</span>
+            <span class="p">]</span>
+        <span class="p">)</span>
+
+    <span class="nd">@HasMemoized</span><span class="o">.</span><span class="n">memoized_attribute</span>
+    <span class="k">def</span> <span class="nf">_loader_impls</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">frozenset</span><span class="p">([</span><span class="n">attr</span><span class="o">.</span><span class="n">impl</span> <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">()])</span>
+
+    <span class="nd">@util</span><span class="o">.</span><span class="n">memoized_property</span>
+    <span class="k">def</span> <span class="nf">mapper</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Mapper</span><span class="p">[</span><span class="n">_O</span><span class="p">]:</span>
+        <span class="c1"># raises unless self.mapper has been assigned</span>
+        <span class="k">raise</span> <span class="n">exc</span><span class="o">.</span><span class="n">UnmappedClassError</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">class_</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_all_sqla_attributes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exclude</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""return an iterator of all classbound attributes that are</span>
+<span class="sd">        implement :class:`.InspectionAttr`.</span>
+
+<span class="sd">        This includes :class:`.QueryableAttribute` as well as extension</span>
+<span class="sd">        types such as :class:`.hybrid_property` and</span>
+<span class="sd">        :class:`.AssociationProxy`.</span>
+
+<span class="sd">        """</span>
+
+        <span class="n">found</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="c1"># constraints:</span>
+        <span class="c1"># 1. yield keys in cls.__dict__ order</span>
+        <span class="c1"># 2. if a subclass has the same key as a superclass, include that</span>
+        <span class="c1">#    key as part of the ordering of the superclass, because an</span>
+        <span class="c1">#    overridden key is usually installed by the mapper which is going</span>
+        <span class="c1">#    on a different ordering</span>
+        <span class="c1"># 3. don't use getattr() as this fires off descriptors</span>
+
+        <span class="k">for</span> <span class="n">supercls</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">class_</span><span class="o">.</span><span class="vm">__mro__</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="n">inherits</span> <span class="o">=</span> <span class="n">supercls</span><span class="o">.</span><span class="vm">__mro__</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">supercls</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">:</span>
+                <span class="n">found</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">supercls</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">inherits</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="n">val</span> <span class="o">=</span> <span class="n">found</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+                <span class="k">if</span> <span class="p">(</span>
+                    <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">interfaces</span><span class="o">.</span><span class="n">InspectionAttr</span><span class="p">)</span>
+                    <span class="ow">and</span> <span class="n">val</span><span class="o">.</span><span class="n">is_attribute</span>
+                <span class="p">):</span>
+                    <span class="k">yield</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span>
+
+    <span class="k">def</span> <span class="nf">_get_class_attr_mro</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""return an attribute on the class without tripping it."""</span>
+
+        <span class="k">for</span> <span class="n">supercls</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">class_</span><span class="o">.</span><span class="vm">__mro__</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">supercls</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">supercls</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">default</span>
+
+    <span class="k">def</span> <span class="nf">_attr_has_impl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Return True if the given attribute is fully initialized.</span>
+
+<span class="sd">        i.e. has an impl.</span>
+<span class="sd">        """</span>
+
+        <span class="k">return</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span> <span class="ow">and</span> <span class="bp">self</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">impl</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">_subclass_manager</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="bp">cls</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">_T</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">ClassManager</span><span class="p">[</span><span class="n">_T</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Create a new ClassManager for a subclass of this ClassManager's</span>
+<span class="sd">        class.</span>
+
+<span class="sd">        This is called automatically when attributes are instrumented so that</span>
+<span class="sd">        the attributes can be propagated to subclasses against their own</span>
+<span class="sd">        class-local manager, without the need for mappers etc. to have already</span>
+<span class="sd">        pre-configured managers for the full class hierarchy.   Mappers</span>
+<span class="sd">        can post-configure the auto-generated ClassManager when needed.</span>
+
+<span class="sd">        """</span>
+        <span class="k">return</span> <span class="n">register_class</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">finalize</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_instrument_init</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">new_init</span> <span class="o">=</span> <span class="n">_generate_init</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">class_</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">original_init</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">install_member</span><span class="p">(</span><span class="s2">"__init__"</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">new_init</span><span class="p">)</span>
+
+    <span class="nd">@util</span><span class="o">.</span><span class="n">memoized_property</span>
+    <span class="k">def</span> <span class="nf">_state_constructor</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Type</span><span class="p">[</span><span class="n">state</span><span class="o">.</span><span class="n">InstanceState</span><span class="p">[</span><span class="n">_O</span><span class="p">]]:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dispatch</span><span class="o">.</span><span class="n">first_init</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">class_</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">state</span><span class="o">.</span><span class="n">InstanceState</span>
+
+    <span class="k">def</span> <span class="nf">manage</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Mark this instance as the manager for its class."""</span>
+
+        <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">class_</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">MANAGER_ATTR</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+
+    <span class="nd">@util</span><span class="o">.</span><span class="n">hybridmethod</span>
+    <span class="k">def</span> <span class="nf">manager_getter</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">_default_manager_getter</span>
+
+    <span class="nd">@util</span><span class="o">.</span><span class="n">hybridmethod</span>
+    <span class="k">def</span> <span class="nf">state_getter</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Return a (instance) -&gt; InstanceState callable.</span>
+
+<span class="sd">        "state getter" callables should raise either KeyError or</span>
+<span class="sd">        AttributeError if no InstanceState could be found for the</span>
+<span class="sd">        instance.</span>
+<span class="sd">        """</span>
+
+        <span class="k">return</span> <span class="n">_default_state_getter</span>
+
+    <span class="nd">@util</span><span class="o">.</span><span class="n">hybridmethod</span>
+    <span class="k">def</span> <span class="nf">dict_getter</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">_default_dict_getter</span>
+
+    <span class="k">def</span> <span class="nf">instrument_attribute</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">inst</span><span class="p">:</span> <span class="n">QueryableAttribute</span><span class="p">[</span><span class="n">Any</span><span class="p">],</span>
+        <span class="n">propagated</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">propagated</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">local_attrs</span><span class="p">:</span>
+                <span class="k">return</span>  <span class="c1"># don't override local attr with inherited attr</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">local_attrs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">inst</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">install_descriptor</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">inst</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_reset_memoizations</span><span class="p">()</span>
+        <span class="bp">self</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">inst</span>
+
+        <span class="k">for</span> <span class="bp">cls</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">class_</span><span class="o">.</span><span class="n">__subclasses__</span><span class="p">():</span>
+            <span class="n">manager</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_subclass_manager</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
+            <span class="n">manager</span><span class="o">.</span><span class="n">instrument_attribute</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">inst</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">subclass_managers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">recursive</span><span class="p">):</span>
+        <span class="k">for</span> <span class="bp">cls</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">class_</span><span class="o">.</span><span class="n">__subclasses__</span><span class="p">():</span>
+            <span class="n">mgr</span> <span class="o">=</span> <span class="n">opt_manager_of_class</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">mgr</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">mgr</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">self</span><span class="p">:</span>
+                <span class="k">yield</span> <span class="n">mgr</span>
+                <span class="k">if</span> <span class="n">recursive</span><span class="p">:</span>
+                    <span class="k">yield from</span> <span class="n">mgr</span><span class="o">.</span><span class="n">subclass_managers</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">post_configure_attribute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+        <span class="n">_instrumentation_factory</span><span class="o">.</span><span class="n">dispatch</span><span class="o">.</span><span class="n">attribute_instrument</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">class_</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="bp">self</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">uninstrument_attribute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">propagated</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="k">if</span> <span class="n">propagated</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">local_attrs</span><span class="p">:</span>
+                <span class="k">return</span>  <span class="c1"># don't get rid of local attr</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">local_attrs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">uninstall_descriptor</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_reset_memoizations</span><span class="p">()</span>
+        <span class="k">del</span> <span class="bp">self</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+        <span class="k">for</span> <span class="bp">cls</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">class_</span><span class="o">.</span><span class="n">__subclasses__</span><span class="p">():</span>
+            <span class="n">manager</span> <span class="o">=</span> <span class="n">opt_manager_of_class</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">manager</span><span class="p">:</span>
+                <span class="n">manager</span><span class="o">.</span><span class="n">uninstrument_attribute</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">unregister</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""remove all instrumentation established by this ClassManager."""</span>
+
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">originals</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">uninstall_member</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">mapper</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dispatch</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># type: ignore</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">new_init</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">local_attrs</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">uninstrument_attribute</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">MANAGER_ATTR</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">class_</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">:</span>
+            <span class="nb">delattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">class_</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">MANAGER_ATTR</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">install_descriptor</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">inst</span><span class="p">:</span> <span class="n">QueryableAttribute</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">STATE_ATTR</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">MANAGER_ATTR</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span>
+                <span class="s2">"</span><span class="si">%r</span><span class="s2">: requested attribute name conflicts with "</span>
+                <span class="s2">"instrumentation attribute of the same name."</span> <span class="o">%</span> <span class="n">key</span>
+            <span class="p">)</span>
+        <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">class_</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">inst</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">uninstall_descriptor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">delattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">class_</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">install_member</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">implementation</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">STATE_ATTR</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">MANAGER_ATTR</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span>
+                <span class="s2">"</span><span class="si">%r</span><span class="s2">: requested attribute name conflicts with "</span>
+                <span class="s2">"instrumentation attribute of the same name."</span> <span class="o">%</span> <span class="n">key</span>
+            <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">originals</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">class_</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">DEL_ATTR</span><span class="p">))</span>
+        <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">class_</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">implementation</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">uninstall_member</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">original</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">originals</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">original</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">DEL_ATTR</span><span class="p">:</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">class_</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">original</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">delattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">class_</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">instrument_collection_class</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">collection_class</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">Collection</span><span class="p">[</span><span class="n">Any</span><span class="p">]]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_CollectionFactoryType</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">collections</span><span class="o">.</span><span class="n">prepare_instrumentation</span><span class="p">(</span><span class="n">collection_class</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">initialize_collection</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">state</span><span class="p">:</span> <span class="n">InstanceState</span><span class="p">[</span><span class="n">_O</span><span class="p">],</span>
+        <span class="n">factory</span><span class="p">:</span> <span class="n">_CollectionFactoryType</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">collections</span><span class="o">.</span><span class="n">CollectionAdapter</span><span class="p">,</span> <span class="n">_AdaptedCollectionProtocol</span><span class="p">]:</span>
+        <span class="n">user_data</span> <span class="o">=</span> <span class="n">factory</span><span class="p">()</span>
+        <span class="n">impl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_impl</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="n">_is_collection_attribute_impl</span><span class="p">(</span><span class="n">impl</span><span class="p">)</span>
+        <span class="n">adapter</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">CollectionAdapter</span><span class="p">(</span><span class="n">impl</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">user_data</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">adapter</span><span class="p">,</span> <span class="n">user_data</span>
+
+    <span class="k">def</span> <span class="nf">is_instrumented</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">search</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">search</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">local_attrs</span>
+
+    <span class="k">def</span> <span class="nf">get_impl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AttributeImpl</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">impl</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">attributes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Any</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+
+    <span class="c1"># InstanceState management</span>
+
+    <span class="k">def</span> <span class="nf">new_instance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">InstanceState</span><span class="p">[</span><span class="n">_O</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_O</span><span class="p">:</span>
+        <span class="c1"># here, we would prefer _O to be bound to "object"</span>
+        <span class="c1"># so that mypy sees that __new__ is present.   currently</span>
+        <span class="c1"># it's bound to Any as there were other problems not having</span>
+        <span class="c1"># it that way but these can be revisited</span>
+        <span class="n">instance</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">class_</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">class_</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">state</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_state_constructor</span><span class="p">(</span><span class="n">instance</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_state_setter</span><span class="p">(</span><span class="n">instance</span><span class="p">,</span> <span class="n">state</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">instance</span>
+
+    <span class="k">def</span> <span class="nf">setup_instance</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">:</span> <span class="n">_O</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">InstanceState</span><span class="p">[</span><span class="n">_O</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">state</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_state_constructor</span><span class="p">(</span><span class="n">instance</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_state_setter</span><span class="p">(</span><span class="n">instance</span><span class="p">,</span> <span class="n">state</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">teardown_instance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">:</span> <span class="n">_O</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">delattr</span><span class="p">(</span><span class="n">instance</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">STATE_ATTR</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_serialize</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="n">InstanceState</span><span class="p">[</span><span class="n">_O</span><span class="p">],</span> <span class="n">state_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_SerializeManager</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">_SerializeManager</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">state_dict</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_new_state_if_none</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">:</span> <span class="n">_O</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">Literal</span><span class="p">[</span><span class="kc">False</span><span class="p">],</span> <span class="n">InstanceState</span><span class="p">[</span><span class="n">_O</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">"""Install a default InstanceState if none is present.</span>
+
+<span class="sd">        A private convenience method used by the __init__ decorator.</span>
+
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">instance</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">STATE_ATTR</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">class_</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">instance</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_mapped</span><span class="p">:</span>
+            <span class="c1"># this will create a new ClassManager for the</span>
+            <span class="c1"># subclass, without a mapper.  This is likely a</span>
+            <span class="c1"># user error situation but allow the object</span>
+            <span class="c1"># to be constructed, so that it is usable</span>
+            <span class="c1"># in a non-ORM context at least.</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_subclass_manager</span><span class="p">(</span>
+                <span class="n">instance</span><span class="o">.</span><span class="vm">__class__</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">_new_state_if_none</span><span class="p">(</span><span class="n">instance</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_state_constructor</span><span class="p">(</span><span class="n">instance</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_state_setter</span><span class="p">(</span><span class="n">instance</span><span class="p">,</span> <span class="n">state</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">state</span>
+
+    <span class="k">def</span> <span class="nf">has_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">:</span> <span class="n">_O</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">instance</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">STATE_ATTR</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">has_parent</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="n">InstanceState</span><span class="p">[</span><span class="n">_O</span><span class="p">],</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">optimistic</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""TODO"""</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_impl</span><span class="p">(</span><span class="n">key</span><span class="p">)</span><span class="o">.</span><span class="n">hasparent</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">optimistic</span><span class="o">=</span><span class="n">optimistic</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__bool__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""All ClassManagers are non-zero regardless of attribute state."""</span>
+        <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">"&lt;</span><span class="si">%s</span><span class="s2"> of </span><span class="si">%r</span><span class="s2"> at </span><span class="si">%x</span><span class="s2">&gt;"</span> <span class="o">%</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">class_</span><span class="p">,</span>
+            <span class="nb">id</span><span class="p">(</span><span class="bp">self</span><span class="p">),</span>
+        <span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">_SerializeManager</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Provide serialization of a :class:`.ClassManager`.</span>
+
+<span class="sd">    The :class:`.InstanceState` uses ``__init__()`` on serialize</span>
+<span class="sd">    and ``__call__()`` on deserialize.</span>
+
+<span class="sd">    """</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="n">state</span><span class="o">.</span><span class="n">InstanceState</span><span class="p">[</span><span class="n">Any</span><span class="p">],</span> <span class="n">d</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">class_</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">class_</span>
+        <span class="n">manager</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">manager</span>
+        <span class="n">manager</span><span class="o">.</span><span class="n">dispatch</span><span class="o">.</span><span class="n">pickle</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">inst</span><span class="p">,</span> <span class="n">state_dict</span><span class="p">):</span>
+        <span class="n">state</span><span class="o">.</span><span class="n">manager</span> <span class="o">=</span> <span class="n">manager</span> <span class="o">=</span> <span class="n">opt_manager_of_class</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">class_</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">manager</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">exc</span><span class="o">.</span><span class="n">UnmappedInstanceError</span><span class="p">(</span>
+                <span class="n">inst</span><span class="p">,</span>
+                <span class="s2">"Cannot deserialize object of type </span><span class="si">%r</span><span class="s2"> - "</span>
+                <span class="s2">"no mapper() has "</span>
+                <span class="s2">"been configured for this class within the current "</span>
+                <span class="s2">"Python process!"</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">class_</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">elif</span> <span class="n">manager</span><span class="o">.</span><span class="n">is_mapped</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">manager</span><span class="o">.</span><span class="n">mapper</span><span class="o">.</span><span class="n">configured</span><span class="p">:</span>
+            <span class="n">manager</span><span class="o">.</span><span class="n">mapper</span><span class="o">.</span><span class="n">_check_configure</span><span class="p">()</span>
+
+        <span class="c1"># setup _sa_instance_state ahead of time so that</span>
+        <span class="c1"># unpickle events can access the object normally.</span>
+        <span class="c1"># see [ticket:2362]</span>
+        <span class="k">if</span> <span class="n">inst</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">manager</span><span class="o">.</span><span class="n">setup_instance</span><span class="p">(</span><span class="n">inst</span><span class="p">,</span> <span class="n">state</span><span class="p">)</span>
+        <span class="n">manager</span><span class="o">.</span><span class="n">dispatch</span><span class="o">.</span><span class="n">unpickle</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">state_dict</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">InstrumentationFactory</span><span class="p">(</span><span class="n">EventTarget</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Factory for new ClassManager instances."""</span>
+
+    <span class="n">dispatch</span><span class="p">:</span> <span class="n">dispatcher</span><span class="p">[</span><span class="n">InstrumentationFactory</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">create_manager_for_cls</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">class_</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">_O</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">ClassManager</span><span class="p">[</span><span class="n">_O</span><span class="p">]:</span>
+        <span class="k">assert</span> <span class="n">class_</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+        <span class="k">assert</span> <span class="n">opt_manager_of_class</span><span class="p">(</span><span class="n">class_</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span>
+
+        <span class="c1"># give a more complicated subclass</span>
+        <span class="c1"># a chance to do what it wants here</span>
+        <span class="n">manager</span><span class="p">,</span> <span class="n">factory</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_locate_extended_factory</span><span class="p">(</span><span class="n">class_</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">factory</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">factory</span> <span class="o">=</span> <span class="n">ClassManager</span>
+            <span class="n">manager</span> <span class="o">=</span> <span class="n">ClassManager</span><span class="p">(</span><span class="n">class_</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="n">manager</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_check_conflicts</span><span class="p">(</span><span class="n">class_</span><span class="p">,</span> <span class="n">factory</span><span class="p">)</span>
+
+        <span class="n">manager</span><span class="o">.</span><span class="n">factory</span> <span class="o">=</span> <span class="n">factory</span>
+
+        <span class="k">return</span> <span class="n">manager</span>
+
+    <span class="k">def</span> <span class="nf">_locate_extended_factory</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">class_</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">_O</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">ClassManager</span><span class="p">[</span><span class="n">_O</span><span class="p">]],</span> <span class="n">Optional</span><span class="p">[</span><span class="n">_ManagerFactory</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">"""Overridden by a subclass to do an extended lookup."""</span>
+        <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">_check_conflicts</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">class_</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">_O</span><span class="p">],</span> <span class="n">factory</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Type</span><span class="p">[</span><span class="n">_O</span><span class="p">]],</span> <span class="n">ClassManager</span><span class="p">[</span><span class="n">_O</span><span class="p">]]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Overridden by a subclass to test for conflicting factories."""</span>
+
+    <span class="k">def</span> <span class="nf">unregister</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">class_</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">_O</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">manager</span> <span class="o">=</span> <span class="n">manager_of_class</span><span class="p">(</span><span class="n">class_</span><span class="p">)</span>
+        <span class="n">manager</span><span class="o">.</span><span class="n">unregister</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dispatch</span><span class="o">.</span><span class="n">class_uninstrument</span><span class="p">(</span><span class="n">class_</span><span class="p">)</span>
+
+
+<span class="c1"># this attribute is replaced by sqlalchemy.ext.instrumentation</span>
+<span class="c1"># when imported.</span>
+<span class="n">_instrumentation_factory</span> <span class="o">=</span> <span class="n">InstrumentationFactory</span><span class="p">()</span>
+
+<span class="c1"># these attributes are replaced by sqlalchemy.ext.instrumentation</span>
+<span class="c1"># when a non-standard InstrumentationManager class is first</span>
+<span class="c1"># used to instrument a class.</span>
+<span class="n">instance_state</span> <span class="o">=</span> <span class="n">_default_state_getter</span> <span class="o">=</span> <span class="n">base</span><span class="o">.</span><span class="n">instance_state</span>
+
+<span class="n">instance_dict</span> <span class="o">=</span> <span class="n">_default_dict_getter</span> <span class="o">=</span> <span class="n">base</span><span class="o">.</span><span class="n">instance_dict</span>
+
+<span class="n">manager_of_class</span> <span class="o">=</span> <span class="n">_default_manager_getter</span> <span class="o">=</span> <span class="n">base</span><span class="o">.</span><span class="n">manager_of_class</span>
+<span class="n">opt_manager_of_class</span> <span class="o">=</span> <span class="n">_default_opt_manager_getter</span> <span class="o">=</span> <span class="n">base</span><span class="o">.</span><span class="n">opt_manager_of_class</span>
+
+
+<span class="k">def</span> <span class="nf">register_class</span><span class="p">(</span>
+    <span class="n">class_</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">_O</span><span class="p">],</span>
+    <span class="n">finalize</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">mapper</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Mapper</span><span class="p">[</span><span class="n">_O</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">registry</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">_RegistryType</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">declarative_scan</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">_MapperConfig</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">expired_attribute_loader</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">_ExpiredAttributeLoaderProto</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">init_method</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="kc">None</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ClassManager</span><span class="p">[</span><span class="n">_O</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""Register class instrumentation.</span>
+
+<span class="sd">    Returns the existing or newly created class manager.</span>
+
+<span class="sd">    """</span>
+
+    <span class="n">manager</span> <span class="o">=</span> <span class="n">opt_manager_of_class</span><span class="p">(</span><span class="n">class_</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">manager</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">manager</span> <span class="o">=</span> <span class="n">_instrumentation_factory</span><span class="o">.</span><span class="n">create_manager_for_cls</span><span class="p">(</span><span class="n">class_</span><span class="p">)</span>
+    <span class="n">manager</span><span class="o">.</span><span class="n">_update_state</span><span class="p">(</span>
+        <span class="n">mapper</span><span class="o">=</span><span class="n">mapper</span><span class="p">,</span>
+        <span class="n">registry</span><span class="o">=</span><span class="n">registry</span><span class="p">,</span>
+        <span class="n">declarative_scan</span><span class="o">=</span><span class="n">declarative_scan</span><span class="p">,</span>
+        <span class="n">expired_attribute_loader</span><span class="o">=</span><span class="n">expired_attribute_loader</span><span class="p">,</span>
+        <span class="n">init_method</span><span class="o">=</span><span class="n">init_method</span><span class="p">,</span>
+        <span class="n">finalize</span><span class="o">=</span><span class="n">finalize</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">manager</span>
+
+
+<span class="k">def</span> <span class="nf">unregister_class</span><span class="p">(</span><span class="n">class_</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Unregister class instrumentation."""</span>
+
+    <span class="n">_instrumentation_factory</span><span class="o">.</span><span class="n">unregister</span><span class="p">(</span><span class="n">class_</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">is_instrumented</span><span class="p">(</span><span class="n">instance</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Return True if the given attribute on the given instance is</span>
+<span class="sd">    instrumented by the attributes package.</span>
+
+<span class="sd">    This function may be used regardless of instrumentation</span>
+<span class="sd">    applied directly to the class, i.e. no descriptors are required.</span>
+
+<span class="sd">    """</span>
+    <span class="k">return</span> <span class="n">manager_of_class</span><span class="p">(</span><span class="n">instance</span><span class="o">.</span><span class="vm">__class__</span><span class="p">)</span><span class="o">.</span><span class="n">is_instrumented</span><span class="p">(</span>
+        <span class="n">key</span><span class="p">,</span> <span class="n">search</span><span class="o">=</span><span class="kc">True</span>
+    <span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_generate_init</span><span class="p">(</span><span class="n">class_</span><span class="p">,</span> <span class="n">class_manager</span><span class="p">,</span> <span class="n">original_init</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Build an __init__ decorator that triggers ClassManager events."""</span>
+
+    <span class="c1"># TODO: we should use the ClassManager's notion of the</span>
+    <span class="c1"># original '__init__' method, once ClassManager is fixed</span>
+    <span class="c1"># to always reference that.</span>
+
+    <span class="k">if</span> <span class="n">original_init</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">original_init</span> <span class="o">=</span> <span class="n">class_</span><span class="o">.</span><span class="fm">__init__</span>
+
+    <span class="c1"># Go through some effort here and don't change the user's __init__</span>
+    <span class="c1"># calling signature, including the unlikely case that it has</span>
+    <span class="c1"># a return value.</span>
+    <span class="c1"># FIXME: need to juggle local names to avoid constructor argument</span>
+    <span class="c1"># clashes.</span>
+    <span class="n">func_body</span> <span class="o">=</span> <span class="s2">"""</span><span class="se">\</span>
+<span class="s2">def __init__(</span><span class="si">%(apply_pos)s</span><span class="s2">):</span>
+<span class="s2">    new_state = class_manager._new_state_if_none(</span><span class="si">%(self_arg)s</span><span class="s2">)</span>
+<span class="s2">    if new_state:</span>
+<span class="s2">        return new_state._initialize_instance(</span><span class="si">%(apply_kw)s</span><span class="s2">)</span>
+<span class="s2">    else:</span>
+<span class="s2">        return original_init(</span><span class="si">%(apply_kw)s</span><span class="s2">)</span>
+<span class="s2">"""</span>
+    <span class="n">func_vars</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">format_argspec_init</span><span class="p">(</span><span class="n">original_init</span><span class="p">,</span> <span class="n">grouped</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">func_text</span> <span class="o">=</span> <span class="n">func_body</span> <span class="o">%</span> <span class="n">func_vars</span>
+
+    <span class="n">func_defaults</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">original_init</span><span class="p">,</span> <span class="s2">"__defaults__"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="n">func_kw_defaults</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">original_init</span><span class="p">,</span> <span class="s2">"__kwdefaults__"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+    <span class="n">env</span> <span class="o">=</span> <span class="nb">locals</span><span class="p">()</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">env</span><span class="p">[</span><span class="s2">"__name__"</span><span class="p">]</span> <span class="o">=</span> <span class="vm">__name__</span>
+    <span class="n">exec</span><span class="p">(</span><span class="n">func_text</span><span class="p">,</span> <span class="n">env</span><span class="p">)</span>
+    <span class="fm">__init__</span> <span class="o">=</span> <span class="n">env</span><span class="p">[</span><span class="s2">"__init__"</span><span class="p">]</span>
+    <span class="fm">__init__</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="n">original_init</span><span class="o">.</span><span class="vm">__doc__</span>
+    <span class="fm">__init__</span><span class="o">.</span><span class="n">_sa_original_init</span> <span class="o">=</span> <span class="n">original_init</span>
+
+    <span class="k">if</span> <span class="n">func_defaults</span><span class="p">:</span>
+        <span class="fm">__init__</span><span class="o">.</span><span class="vm">__defaults__</span> <span class="o">=</span> <span class="n">func_defaults</span>
+    <span class="k">if</span> <span class="n">func_kw_defaults</span><span class="p">:</span>
+        <span class="fm">__init__</span><span class="o">.</span><span class="vm">__kwdefaults__</span> <span class="o">=</span> <span class="n">func_kw_defaults</span>
+
+    <span class="k">return</span> <span class="fm">__init__</span>
+</pre></div>
+</article>
+</div>
+</div>
+<footer class="bd-footer-content">
+</footer>
+</main>
+</div>
+</div>
+<!-- Scripts loaded after <body> so the DOM is not blocked -->
+<script src="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+<footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+<div class="footer-items__start">
+<div class="footer-item">
+<p class="copyright">
+    
+      © Copyright 2023, LangChain Inc.
+      <br/>
+</p>
+</div>
+</div>
+</div>
+</footer>
+</body>
+</html>

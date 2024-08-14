@@ -1,0 +1,746 @@
+
+<!DOCTYPE html>
+
+<html data-content_root="" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>langchain_community.callbacks.tracers.wandb — 🦜🔗 LangChain  documentation</title>
+<script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+<!-- Loaded before other Sphinx assets -->
+<link href="../../../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet"/>
+<link href="../../../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet"/>
+<link href="../../../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet"/>
+<link href="../../../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet"/>
+<link as="font" crossorigin="" href="../../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="../../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="../../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" rel="preload" type="font/woff2"/>
+<link href="../../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../../_static/autodoc_pydantic.css" rel="stylesheet" type="text/css"/>
+<link href="../../../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
+<link href="../../../../_static/sphinx-design.4cbf315f70debaebd550c87a6162cf0f.min.css" rel="stylesheet" type="text/css"/>
+<link href="../../../../_static/css/custom.css" rel="stylesheet" type="text/css"/>
+<!-- Pre-loaded scripts that we'll load fully later -->
+<link as="script" href="../../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
+<link as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
+<script src="../../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+<script src="../../../../_static/doctools.js"></script>
+<script src="../../../../_static/sphinx_highlight.js"></script>
+<script src="../../../../_static/clipboard.min.js"></script>
+<script src="../../../../_static/copybutton.js"></script>
+<script src="../../../../_static/design-tabs.js"></script>
+<script>DOCUMENTATION_OPTIONS.pagename = '_modules/langchain_community/callbacks/tracers/wandb';</script>
+<link href="../../../../_static/favicon.png" rel="icon"/>
+<link href="../../../../search.html" rel="search" title="Search"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="en" name="docsearch:language"/>
+<meta content="Aug 14, 2024" name="docbuild:last-update"/>
+</head>
+<body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
+<div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
+<div id="pst-scroll-pixel-helper"></div>
+<button class="btn rounded-pill" id="pst-back-to-top" type="button">
+<i class="fa-solid fa-arrow-up"></i>Back to top</button>
+<input class="sidebar-toggle" id="pst-primary-sidebar-checkbox" type="checkbox"/>
+<label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+<input class="sidebar-toggle" id="pst-secondary-sidebar-checkbox" type="checkbox"/>
+<label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+<div class="search-button__wrapper">
+<div class="search-button__overlay"></div>
+<div class="search-button__search-container">
+<form action="../../../../search.html" class="bd-search d-flex align-items-center" method="get">
+<i class="fa-solid fa-magnifying-glass"></i>
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="form-control" id="search-input" name="q" placeholder="Search" spellcheck="false" type="search"/>
+<span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+</div>
+<div class="pst-async-banner-revealer d-none">
+<aside aria-label="Version warning" class="d-none d-print-none" id="bd-header-version-warning"></aside>
+</div>
+<header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+<button aria-label="Site navigation" class="pst-navbar-icon sidebar-toggle primary-toggle">
+<span class="fa-solid fa-bars"></span>
+</button>
+<div class="navbar-header-items__start">
+<div class="navbar-item">
+<a class="navbar-brand logo" href="../../../../index.html">
+<img alt="🦜🔗 LangChain  documentation - Home" class="logo__image only-light" src="../../../../_static/wordmark-api.svg"/>
+<script>document.write(`<img src="../../../../_static/wordmark-api-dark.svg" class="logo__image only-dark" alt="🦜🔗 LangChain  documentation - Home"/>`);</script>
+</a></div>
+</div>
+<div class="navbar-header-items">
+<div class="me-auto navbar-header-items__center">
+<div class="navbar-item">
+<nav>
+<ul class="bd-navbar-elements navbar-nav">
+<li class="nav-item">
+<a class="nav-link nav-internal" href="../../../../reference.html">
+    Reference
+  </a>
+</li>
+<li class="nav-item">
+<a class="nav-link nav-external" href="https://api.python.langchain.com/">
+    Legacy reference
+  </a>
+</li>
+</ul>
+</nav></div>
+</div>
+<div class="navbar-header-items__end">
+<div class="navbar-item navbar-persistent--container">
+<form action="../../../../search.html" class="bd-search d-flex align-items-center" method="get">
+<i class="fa-solid fa-magnifying-glass"></i>
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="form-control" id="search-input" name="q" placeholder="Search" spellcheck="false" type="search"/>
+<span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+</div>
+<div class="navbar-item"><!-- This will display a link to LangChain docs -->
+<head>
+<style>
+        .text-link {
+            text-decoration: none; /* Remove underline */
+            color: inherit;        /* Inherit color from parent element */
+        }
+    </style>
+</head>
+<body>
+<a class="text-link" href="https://python.langchain.com/">Docs</a>
+</body></div>
+<div class="navbar-item">
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+<div class="navbar-item"><ul aria-label="Quick Links" class="navbar-icon-links">
+<li class="nav-item">
+<a class="nav-link pst-navbar-icon" data-bs-placement="bottom" data-bs-toggle="tooltip" href="https://github.com/langchain-ai/langchain" rel="noopener" target="_blank" title="GitHub"><i aria-hidden="true" class="fa-brands fa-square-github fa-lg"></i>
+<span class="sr-only">GitHub</span></a>
+</li>
+<li class="nav-item">
+<a class="nav-link pst-navbar-icon" data-bs-placement="bottom" data-bs-toggle="tooltip" href="https://twitter.com/langchainai" rel="noopener" target="_blank" title="X / Twitter"><i aria-hidden="true" class="fab fa-twitter-square fa-lg"></i>
+<span class="sr-only">X / Twitter</span></a>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="navbar-persistent--mobile">
+<form action="../../../../search.html" class="bd-search d-flex align-items-center" method="get">
+<i class="fa-solid fa-magnifying-glass"></i>
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="form-control" id="search-input" name="q" placeholder="Search" spellcheck="false" type="search"/>
+<span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+</div>
+</div>
+</header>
+<div class="bd-container">
+<div class="bd-container__inner bd-page-width">
+<div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+<div class="sidebar-header-items sidebar-primary__section">
+<div class="sidebar-header-items__center">
+<div class="navbar-item">
+<nav>
+<ul class="bd-navbar-elements navbar-nav">
+<li class="nav-item">
+<a class="nav-link nav-internal" href="../../../../reference.html">
+    Reference
+  </a>
+</li>
+<li class="nav-item">
+<a class="nav-link nav-external" href="https://api.python.langchain.com/">
+    Legacy reference
+  </a>
+</li>
+</ul>
+</nav></div>
+</div>
+<div class="sidebar-header-items__end">
+<div class="navbar-item"><!-- This will display a link to LangChain docs -->
+<head>
+<style>
+        .text-link {
+            text-decoration: none; /* Remove underline */
+            color: inherit;        /* Inherit color from parent element */
+        }
+    </style>
+</head>
+<body>
+<a class="text-link" href="https://python.langchain.com/">Docs</a>
+</body></div>
+<div class="navbar-item">
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+<div class="navbar-item"><ul aria-label="Quick Links" class="navbar-icon-links">
+<li class="nav-item">
+<a class="nav-link pst-navbar-icon" data-bs-placement="bottom" data-bs-toggle="tooltip" href="https://github.com/langchain-ai/langchain" rel="noopener" target="_blank" title="GitHub"><i aria-hidden="true" class="fa-brands fa-square-github fa-lg"></i>
+<span class="sr-only">GitHub</span></a>
+</li>
+<li class="nav-item">
+<a class="nav-link pst-navbar-icon" data-bs-placement="bottom" data-bs-toggle="tooltip" href="https://twitter.com/langchainai" rel="noopener" target="_blank" title="X / Twitter"><i aria-hidden="true" class="fab fa-twitter-square fa-lg"></i>
+<span class="sr-only">X / Twitter</span></a>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sidebar-primary-items__end sidebar-primary__section">
+</div>
+<div id="rtd-footer-container"></div>
+</div>
+<main class="bd-main" id="main-content" role="main">
+<div class="bd-content">
+<div class="bd-article-container">
+<div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+<div class="header-article-items__start">
+<div class="header-article-item">
+<nav aria-label="Breadcrumb" class="d-print-none">
+<ul class="bd-breadcrumbs">
+<li class="breadcrumb-item breadcrumb-home">
+<a aria-label="Home" class="nav-link" href="../../../../index.html">
+<i class="fa-solid fa-home"></i>
+</a>
+</li>
+<li class="breadcrumb-item"><a class="nav-link" href="../../../index.html">Module code</a></li>
+<li aria-current="page" class="breadcrumb-item active">langchain_co...</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+</div>
+<div id="searchbox"></div>
+<article class="bd-article">
+<h1>Source code for langchain_community.callbacks.tracers.wandb</h1><div class="highlight"><pre>
+<span></span><span class="sd">"""A Tracer Implementation that records activity to Weights &amp; Biases."""</span>
+
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">TYPE_CHECKING</span><span class="p">,</span>
+    <span class="n">Any</span><span class="p">,</span>
+    <span class="n">Callable</span><span class="p">,</span>
+    <span class="n">Dict</span><span class="p">,</span>
+    <span class="n">List</span><span class="p">,</span>
+    <span class="n">Optional</span><span class="p">,</span>
+    <span class="n">Sequence</span><span class="p">,</span>
+    <span class="n">Tuple</span><span class="p">,</span>
+    <span class="n">TypedDict</span><span class="p">,</span>
+    <span class="n">Union</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">langchain_core.output_parsers.pydantic</span> <span class="kn">import</span> <span class="n">PydanticBaseModel</span>
+<span class="kn">from</span> <span class="nn">langchain_core.tracers.base</span> <span class="kn">import</span> <span class="n">BaseTracer</span>
+<span class="kn">from</span> <span class="nn">langchain_core.tracers.schemas</span> <span class="kn">import</span> <span class="n">Run</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">wandb</span> <span class="kn">import</span> <span class="n">Settings</span> <span class="k">as</span> <span class="n">WBSettings</span>
+    <span class="kn">from</span> <span class="nn">wandb.sdk.data_types.trace_tree</span> <span class="kn">import</span> <span class="n">Trace</span>
+    <span class="kn">from</span> <span class="nn">wandb.sdk.lib.paths</span> <span class="kn">import</span> <span class="n">StrPath</span>
+    <span class="kn">from</span> <span class="nn">wandb.wandb_run</span> <span class="kn">import</span> <span class="n">Run</span> <span class="k">as</span> <span class="n">WBRun</span>
+
+<span class="n">PRINT_WARNINGS</span> <span class="o">=</span> <span class="kc">True</span>
+
+
+<span class="k">def</span> <span class="nf">_serialize_io</span><span class="p">(</span><span class="n">run_io</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Utility to serialize the input and output of a run to store in wandb.</span>
+<span class="sd">    Currently, supports serializing pydantic models and protobuf messages.</span>
+
+<span class="sd">    :param run_io: The inputs and outputs of the run.</span>
+<span class="sd">    :return: The serialized inputs and outputs.</span>
+
+
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">run_io</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">{}</span>
+    <span class="kn">from</span> <span class="nn">google.protobuf.json_format</span> <span class="kn">import</span> <span class="n">MessageToJson</span>
+    <span class="kn">from</span> <span class="nn">google.protobuf.message</span> <span class="kn">import</span> <span class="n">Message</span>
+
+    <span class="n">serialized_inputs</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">run_io</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">Message</span><span class="p">):</span>
+            <span class="n">serialized_inputs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">MessageToJson</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">PydanticBaseModel</span><span class="p">):</span>
+            <span class="n">serialized_inputs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">value</span><span class="o">.</span><span class="n">model_dump_json</span><span class="p">()</span>
+                <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="s2">"model_dump_json"</span><span class="p">)</span>
+                <span class="k">else</span> <span class="n">value</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+            <span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">"input_documents"</span><span class="p">:</span>
+            <span class="n">serialized_inputs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+                <span class="p">{</span><span class="sa">f</span><span class="s2">"input_document_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">"</span><span class="p">:</span> <span class="n">doc</span><span class="o">.</span><span class="n">json</span><span class="p">()</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">doc</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">value</span><span class="p">)}</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">serialized_inputs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="k">return</span> <span class="n">serialized_inputs</span>
+
+
+<div class="viewcode-block" id="flatten_run"><a class="viewcode-back" href="../../../../community/callbacks/langchain_community.callbacks.tracers.wandb.flatten_run.html#langchain_community.callbacks.tracers.wandb.flatten_run">[docs]</a><span class="k">def</span> <span class="nf">flatten_run</span><span class="p">(</span><span class="n">run</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">"""Utility to flatten a nest run object into a list of runs.</span>
+<span class="sd">    :param run: The base run to flatten.</span>
+<span class="sd">    :return: The flattened list of runs.</span>
+<span class="sd">    """</span>
+
+    <span class="k">def</span> <span class="nf">flatten</span><span class="p">(</span><span class="n">child_runs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">"""Utility to recursively flatten a list of child runs in a run.</span>
+<span class="sd">        :param child_runs: The list of child runs to flatten.</span>
+<span class="sd">        :return: The flattened list of runs.</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="n">child_runs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[]</span>
+
+        <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">child_runs</span><span class="p">:</span>
+            <span class="n">child_runs</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"child_runs"</span><span class="p">,</span> <span class="p">[])</span>
+            <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+            <span class="n">result</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">flatten</span><span class="p">(</span><span class="n">child_runs</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">result</span>
+
+    <span class="k">return</span> <span class="n">flatten</span><span class="p">([</span><span class="n">run</span><span class="p">])</span></div>
+
+
+<div class="viewcode-block" id="truncate_run_iterative"><a class="viewcode-back" href="../../../../community/callbacks/langchain_community.callbacks.tracers.wandb.truncate_run_iterative.html#langchain_community.callbacks.tracers.wandb.truncate_run_iterative">[docs]</a><span class="k">def</span> <span class="nf">truncate_run_iterative</span><span class="p">(</span>
+    <span class="n">runs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]],</span> <span class="n">keep_keys</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="p">()</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">"""Utility to truncate a list of runs dictionaries to only keep the specified</span>
+<span class="sd">        keys in each run.</span>
+<span class="sd">    :param runs: The list of runs to truncate.</span>
+<span class="sd">    :param keep_keys: The keys to keep in each run.</span>
+<span class="sd">    :return: The truncated list of runs.</span>
+<span class="sd">    """</span>
+
+    <span class="k">def</span> <span class="nf">truncate_single</span><span class="p">(</span><span class="n">run</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Utility to truncate a single run dictionary to only keep the specified</span>
+<span class="sd">            keys.</span>
+<span class="sd">        :param run: The run dictionary to truncate.</span>
+<span class="sd">        :return: The truncated run dictionary</span>
+<span class="sd">        """</span>
+        <span class="n">new_dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">run</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">keep_keys</span><span class="p">:</span>
+                <span class="n">new_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">run</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">new_dict</span>
+
+    <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">truncate_single</span><span class="p">,</span> <span class="n">runs</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="modify_serialized_iterative"><a class="viewcode-back" href="../../../../community/callbacks/langchain_community.callbacks.tracers.wandb.modify_serialized_iterative.html#langchain_community.callbacks.tracers.wandb.modify_serialized_iterative">[docs]</a><span class="k">def</span> <span class="nf">modify_serialized_iterative</span><span class="p">(</span>
+    <span class="n">runs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]],</span>
+    <span class="n">exact_keys</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="p">(),</span>
+    <span class="n">partial_keys</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="p">(),</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">"""Utility to modify the serialized field of a list of runs dictionaries.</span>
+<span class="sd">    removes any keys that match the exact_keys and any keys that contain any of the</span>
+<span class="sd">    partial_keys.</span>
+<span class="sd">    recursively moves the dictionaries under the kwargs key to the top level.</span>
+<span class="sd">    changes the "id" field to a string "_kind" field that tells WBTraceTree how to</span>
+<span class="sd">    visualize the run. promotes the "serialized" field to the top level.</span>
+<span class="sd">    :param runs: The list of runs to modify.</span>
+<span class="sd">    :param exact_keys: A tuple of keys to remove from the serialized field.</span>
+<span class="sd">    :param partial_keys: A tuple of partial keys to remove from the serialized</span>
+<span class="sd">        field.</span>
+<span class="sd">    :return: The modified list of runs.</span>
+<span class="sd">    """</span>
+
+    <span class="k">def</span> <span class="nf">remove_exact_and_partial_keys</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Recursively removes exact and partial keys from a dictionary.</span>
+<span class="sd">        :param obj: The dictionary to remove keys from.</span>
+<span class="sd">        :return: The modified dictionary.</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="n">obj</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="n">k</span><span class="p">:</span> <span class="n">v</span>
+                <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">obj</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+                <span class="k">if</span> <span class="n">k</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">exact_keys</span>
+                <span class="ow">and</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span><span class="n">partial</span> <span class="ow">in</span> <span class="n">k</span> <span class="k">for</span> <span class="n">partial</span> <span class="ow">in</span> <span class="n">partial_keys</span><span class="p">)</span>
+            <span class="p">}</span>
+            <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">obj</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">obj</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">remove_exact_and_partial_keys</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="n">obj</span> <span class="o">=</span> <span class="p">[</span><span class="n">remove_exact_and_partial_keys</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">obj</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">obj</span>
+
+    <span class="k">def</span> <span class="nf">handle_id_and_kwargs</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">root</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Recursively handles the id and kwargs fields of a dictionary.</span>
+<span class="sd">        changes the id field to a string "_kind" field that tells WBTraceTree how</span>
+<span class="sd">        to visualize the run. recursively moves the dictionaries under the kwargs</span>
+<span class="sd">        key to the top level.</span>
+<span class="sd">        :param obj: a run dictionary with id and kwargs fields.</span>
+<span class="sd">        :param root: whether this is the root dictionary or the serialized</span>
+<span class="sd">            dictionary.</span>
+<span class="sd">        :return: The modified dictionary.</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="k">if</span> <span class="s2">"data"</span> <span class="ow">in</span> <span class="n">obj</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">[</span><span class="s2">"data"</span><span class="p">],</span> <span class="nb">dict</span><span class="p">):</span>
+                <span class="n">obj</span> <span class="o">=</span> <span class="n">obj</span><span class="p">[</span><span class="s2">"data"</span><span class="p">]</span>
+            <span class="k">if</span> <span class="p">(</span><span class="s2">"id"</span> <span class="ow">in</span> <span class="n">obj</span> <span class="ow">or</span> <span class="s2">"name"</span> <span class="ow">in</span> <span class="n">obj</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">root</span><span class="p">:</span>
+                <span class="n">_kind</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"id"</span><span class="p">)</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">_kind</span><span class="p">:</span>
+                    <span class="n">_kind</span> <span class="o">=</span> <span class="p">[</span><span class="n">obj</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"name"</span><span class="p">)]</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">_kind</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                    <span class="n">obj</span><span class="p">[</span><span class="s2">"_kind"</span><span class="p">]</span> <span class="o">=</span> <span class="n">_kind</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                    <span class="n">obj</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"id"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+                    <span class="n">obj</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"name"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+                <span class="k">if</span> <span class="s2">"kwargs"</span> <span class="ow">in</span> <span class="n">obj</span><span class="p">:</span>
+                    <span class="n">kwargs</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"kwargs"</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                        <span class="n">obj</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
+            <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">obj</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">obj</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">handle_id_and_kwargs</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="n">obj</span> <span class="o">=</span> <span class="p">[</span><span class="n">handle_id_and_kwargs</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">obj</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">obj</span>
+
+    <span class="k">def</span> <span class="nf">transform_serialized</span><span class="p">(</span><span class="n">serialized</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Transforms the serialized field of a run dictionary to be compatible</span>
+<span class="sd">            with WBTraceTree.</span>
+<span class="sd">        :param serialized: The serialized field of a run dictionary.</span>
+<span class="sd">        :return: The transformed serialized field.</span>
+<span class="sd">        """</span>
+        <span class="n">serialized</span> <span class="o">=</span> <span class="n">handle_id_and_kwargs</span><span class="p">(</span><span class="n">serialized</span><span class="p">,</span> <span class="n">root</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">serialized</span> <span class="o">=</span> <span class="n">remove_exact_and_partial_keys</span><span class="p">(</span><span class="n">serialized</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">serialized</span>
+
+    <span class="k">def</span> <span class="nf">transform_run</span><span class="p">(</span><span class="n">run</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Transforms a run dictionary to be compatible with WBTraceTree.</span>
+<span class="sd">        :param run: The run dictionary to transform.</span>
+<span class="sd">        :return: The transformed run dictionary.</span>
+<span class="sd">        """</span>
+        <span class="n">transformed_dict</span> <span class="o">=</span> <span class="n">transform_serialized</span><span class="p">(</span><span class="n">run</span><span class="p">)</span>
+
+        <span class="n">serialized</span> <span class="o">=</span> <span class="n">transformed_dict</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"serialized"</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">serialized</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">transformed_dict</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
+
+        <span class="n">_kind</span> <span class="o">=</span> <span class="n">transformed_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"_kind"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="n">transformed_dict</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"name"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">name</span><span class="p">:</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">_kind</span>
+
+        <span class="n">output_dict</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">"</span><span class="p">:</span> <span class="n">transformed_dict</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">output_dict</span>
+
+    <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">transform_run</span><span class="p">,</span> <span class="n">runs</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="build_tree"><a class="viewcode-back" href="../../../../community/callbacks/langchain_community.callbacks.tracers.wandb.build_tree.html#langchain_community.callbacks.tracers.wandb.build_tree">[docs]</a><span class="k">def</span> <span class="nf">build_tree</span><span class="p">(</span><span class="n">runs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""Builds a nested dictionary from a list of runs.</span>
+<span class="sd">    :param runs: The list of runs to build the tree from.</span>
+<span class="sd">    :return: The nested dictionary representing the langchain Run in a tree</span>
+<span class="sd">        structure compatible with WBTraceTree.</span>
+<span class="sd">    """</span>
+    <span class="n">id_to_data</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">child_to_parent</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">for</span> <span class="n">entity</span> <span class="ow">in</span> <span class="n">runs</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">entity</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">id_val</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"id"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="n">parent_run_id</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"parent_run_id"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="n">id_to_data</span><span class="p">[</span><span class="n">id_val</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">data</span><span class="p">}</span>
+            <span class="k">if</span> <span class="n">parent_run_id</span><span class="p">:</span>
+                <span class="n">child_to_parent</span><span class="p">[</span><span class="n">id_val</span><span class="p">]</span> <span class="o">=</span> <span class="n">parent_run_id</span>
+
+    <span class="k">for</span> <span class="n">child_id</span><span class="p">,</span> <span class="n">parent_id</span> <span class="ow">in</span> <span class="n">child_to_parent</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">parent_dict</span> <span class="o">=</span> <span class="n">id_to_data</span><span class="p">[</span><span class="n">parent_id</span><span class="p">]</span>
+        <span class="n">parent_dict</span><span class="p">[</span><span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">parent_dict</span><span class="p">))][</span><span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">id_to_data</span><span class="p">[</span><span class="n">child_id</span><span class="p">]))]</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">id_to_data</span><span class="p">[</span><span class="n">child_id</span><span class="p">][</span><span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">id_to_data</span><span class="p">[</span><span class="n">child_id</span><span class="p">]))]</span>
+        <span class="p">)</span>
+
+    <span class="n">root_dict</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span>
+        <span class="n">data</span> <span class="k">for</span> <span class="n">id_val</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">id_to_data</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">id_val</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">child_to_parent</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">root_dict</span></div>
+
+
+<div class="viewcode-block" id="WandbRunArgs"><a class="viewcode-back" href="../../../../community/callbacks/langchain_community.callbacks.tracers.wandb.WandbRunArgs.html#langchain_community.callbacks.tracers.wandb.WandbRunArgs">[docs]</a><span class="k">class</span> <span class="nc">WandbRunArgs</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Arguments for the WandbTracer."""</span>
+
+    <span class="n">job_type</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="nb">dir</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">StrPath</span><span class="p">]</span>
+    <span class="n">config</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Dict</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span>
+    <span class="n">project</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">entity</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">reinit</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span>
+    <span class="n">tags</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Sequence</span><span class="p">]</span>
+    <span class="n">group</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">notes</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">magic</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">bool</span><span class="p">]]</span>
+    <span class="n">config_exclude_keys</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span>
+    <span class="n">config_include_keys</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span>
+    <span class="n">anonymous</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">mode</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">allow_val_change</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span>
+    <span class="n">resume</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span>
+    <span class="n">force</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span>
+    <span class="n">tensorboard</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span>
+    <span class="n">sync_tensorboard</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span>
+    <span class="n">monitor_gym</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span>
+    <span class="n">save_code</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span>
+    <span class="nb">id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">settings</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">WBSettings</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="kc">None</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="WandbTracer"><a class="viewcode-back" href="../../../../community/callbacks/langchain_community.callbacks.tracers.wandb.WandbTracer.html#langchain_community.callbacks.tracers.wandb.WandbTracer">[docs]</a><span class="k">class</span> <span class="nc">WandbTracer</span><span class="p">(</span><span class="n">BaseTracer</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Callback Handler that logs to Weights and Biases.</span>
+
+<span class="sd">    This handler will log the model architecture and run traces to Weights and Biases.</span>
+<span class="sd">    This will ensure that all LangChain activity is logged to W&amp;B.</span>
+<span class="sd">    """</span>
+
+    <span class="n">_run</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">WBRun</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">_run_args</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">WandbRunArgs</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+<div class="viewcode-block" id="WandbTracer.__init__"><a class="viewcode-back" href="../../../../community/callbacks/langchain_community.callbacks.tracers.wandb.WandbTracer.html#langchain_community.callbacks.tracers.wandb.WandbTracer.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">run_args</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">WandbRunArgs</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">io_serializer</span><span class="p">:</span> <span class="n">Callable</span> <span class="o">=</span> <span class="n">_serialize_io</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Initializes the WandbTracer.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">            run_args: (dict, optional) Arguments to pass to `wandb.init()`. If not</span>
+<span class="sd">                provided, `wandb.init()` will be called with no arguments. Please</span>
+<span class="sd">                refer to the `wandb.init` for more details.</span>
+<span class="sd">            io_serializer: callable A function that serializes the input and outputs</span>
+<span class="sd">             of a run to store in wandb. Defaults to "_serialize_io"</span>
+
+<span class="sd">        To use W&amp;B to monitor all LangChain activity, add this tracer like any other</span>
+<span class="sd">        LangChain callback:</span>
+<span class="sd">        ```</span>
+<span class="sd">        from wandb.integration.langchain import WandbTracer</span>
+
+<span class="sd">        tracer = WandbTracer()</span>
+<span class="sd">        chain = LLMChain(llm, callbacks=[tracer])</span>
+<span class="sd">        # ...end of notebook / script:</span>
+<span class="sd">        tracer.finish()</span>
+<span class="sd">        ```</span>
+<span class="sd">        """</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="kn">import</span> <span class="nn">wandb</span>
+            <span class="kn">from</span> <span class="nn">wandb.sdk.data_types</span> <span class="kn">import</span> <span class="n">trace_tree</span>
+        <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
+                <span class="s2">"Could not import wandb python package."</span>
+                <span class="s2">"Please install it with `pip install -U wandb`."</span>
+            <span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_wandb</span> <span class="o">=</span> <span class="n">wandb</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_trace_tree</span> <span class="o">=</span> <span class="n">trace_tree</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_run_args</span> <span class="o">=</span> <span class="n">run_args</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ensure_run</span><span class="p">(</span><span class="n">should_print_url</span><span class="o">=</span><span class="p">(</span><span class="n">wandb</span><span class="o">.</span><span class="n">run</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_io_serializer</span> <span class="o">=</span> <span class="n">io_serializer</span></div>
+
+<div class="viewcode-block" id="WandbTracer.finish"><a class="viewcode-back" href="../../../../community/callbacks/langchain_community.callbacks.tracers.wandb.WandbTracer.html#langchain_community.callbacks.tracers.wandb.WandbTracer.finish">[docs]</a>    <span class="k">def</span> <span class="nf">finish</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Waits for all asynchronous processes to finish and data to upload.</span>
+
+<span class="sd">        Proxy for `wandb.finish()`.</span>
+<span class="sd">        """</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_wandb</span><span class="o">.</span><span class="n">finish</span><span class="p">()</span></div>
+
+    <span class="k">def</span> <span class="nf">_ensure_run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">should_print_url</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Ensures an active W&amp;B run exists.</span>
+
+<span class="sd">        If not, will start a new run with the provided run_args.</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wandb</span><span class="o">.</span><span class="n">run</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">run_args</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_run_args</span> <span class="ow">or</span> <span class="p">{})}</span>
+
+            <span class="k">if</span> <span class="s2">"settings"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">run_args</span><span class="p">:</span>
+                <span class="n">run_args</span><span class="p">[</span><span class="s2">"settings"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"silent"</span><span class="p">:</span> <span class="kc">True</span><span class="p">}</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">_wandb</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="o">**</span><span class="n">run_args</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wandb</span><span class="o">.</span><span class="n">run</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">should_print_url</span><span class="p">:</span>
+                <span class="n">run_url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wandb</span><span class="o">.</span><span class="n">run</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">run_url</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_wandb</span><span class="o">.</span><span class="n">termlog</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">"Streaming LangChain activity to W&amp;B at </span><span class="si">{</span><span class="n">run_url</span><span class="si">}</span><span class="se">\n</span><span class="s2">"</span>
+                    <span class="s2">"`WandbTracer` is currently in beta.</span><span class="se">\n</span><span class="s2">"</span>
+                    <span class="s2">"Please report any issues to "</span>
+                    <span class="s2">"https://github.com/wandb/wandb/issues with the tag "</span>
+                    <span class="s2">"`langchain`."</span>
+                <span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">_wandb</span><span class="o">.</span><span class="n">run</span><span class="o">.</span><span class="n">_label</span><span class="p">(</span><span class="n">repo</span><span class="o">=</span><span class="s2">"langchain"</span><span class="p">)</span>
+
+<div class="viewcode-block" id="WandbTracer.process_model_dict"><a class="viewcode-back" href="../../../../community/callbacks/langchain_community.callbacks.tracers.wandb.WandbTracer.html#langchain_community.callbacks.tracers.wandb.WandbTracer.process_model_dict">[docs]</a>    <span class="k">def</span> <span class="nf">process_model_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">run</span><span class="p">:</span> <span class="n">Run</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">"""Utility to process a run for wandb model_dict serialization.</span>
+<span class="sd">        :param run: The run to process.</span>
+<span class="sd">        :return: The convert model_dict to pass to WBTraceTree.</span>
+<span class="sd">        """</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">run</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
+            <span class="n">processed</span> <span class="o">=</span> <span class="n">flatten_run</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+            <span class="n">keep_keys</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="s2">"id"</span><span class="p">,</span>
+                <span class="s2">"name"</span><span class="p">,</span>
+                <span class="s2">"serialized"</span><span class="p">,</span>
+                <span class="s2">"parent_run_id"</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">processed</span> <span class="o">=</span> <span class="n">truncate_run_iterative</span><span class="p">(</span><span class="n">processed</span><span class="p">,</span> <span class="n">keep_keys</span><span class="o">=</span><span class="n">keep_keys</span><span class="p">)</span>
+            <span class="n">exact_keys</span><span class="p">,</span> <span class="n">partial_keys</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="p">(</span><span class="s2">"lc"</span><span class="p">,</span> <span class="s2">"type"</span><span class="p">,</span> <span class="s2">"graph"</span><span class="p">),</span>
+                <span class="p">(</span>
+                    <span class="s2">"api_key"</span><span class="p">,</span>
+                    <span class="s2">"input"</span><span class="p">,</span>
+                    <span class="s2">"output"</span><span class="p">,</span>
+                <span class="p">),</span>
+            <span class="p">)</span>
+            <span class="n">processed</span> <span class="o">=</span> <span class="n">modify_serialized_iterative</span><span class="p">(</span>
+                <span class="n">processed</span><span class="p">,</span> <span class="n">exact_keys</span><span class="o">=</span><span class="n">exact_keys</span><span class="p">,</span> <span class="n">partial_keys</span><span class="o">=</span><span class="n">partial_keys</span>
+            <span class="p">)</span>
+            <span class="n">output</span> <span class="o">=</span> <span class="n">build_tree</span><span class="p">(</span><span class="n">processed</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">output</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">PRINT_WARNINGS</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_wandb</span><span class="o">.</span><span class="n">termerror</span><span class="p">(</span><span class="sa">f</span><span class="s2">"WARNING: Failed to serialize model: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">None</span></div>
+
+    <span class="k">def</span> <span class="nf">_log_trace_from_run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">run</span><span class="p">:</span> <span class="n">Run</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Logs a LangChain Run to W*B as a W&amp;B Trace."""</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ensure_run</span><span class="p">()</span>
+
+        <span class="k">def</span> <span class="nf">create_trace</span><span class="p">(</span>
+            <span class="n">run</span><span class="p">:</span> <span class="s2">"Run"</span><span class="p">,</span> <span class="n">parent</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="s2">"Trace"</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="s2">"Trace"</span><span class="p">]:</span>
+<span class="w">            </span><span class="sd">"""</span>
+<span class="sd">            Create a trace for a given run and its child runs.</span>
+
+<span class="sd">            Args:</span>
+<span class="sd">                run (Run): The run for which to create a trace.</span>
+<span class="sd">                parent (Optional[Trace]): The parent trace.</span>
+<span class="sd">                If provided, the created trace is added as a child to the parent trace.</span>
+
+<span class="sd">            Returns:</span>
+<span class="sd">                Optional[Trace]: The created trace.</span>
+<span class="sd">                 If an error occurs during the creation of the trace, None is returned.</span>
+
+<span class="sd">            Raises:</span>
+<span class="sd">                Exception: If an error occurs during the creation of the trace,</span>
+<span class="sd">                no exception is raised and a warning is printed.</span>
+<span class="sd">            """</span>
+
+            <span class="k">def</span> <span class="nf">get_metadata_dict</span><span class="p">(</span><span class="n">r</span><span class="p">:</span> <span class="s2">"Run"</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">                </span><span class="sd">"""</span>
+<span class="sd">                Extract metadata from a given run.</span>
+
+<span class="sd">                This function extracts metadata from a given run</span>
+<span class="sd">                and returns it as a dictionary.</span>
+
+<span class="sd">                Args:</span>
+<span class="sd">                    r (Run): The run from which to extract metadata.</span>
+
+<span class="sd">                Returns:</span>
+<span class="sd">                    Dict[str, Any]: A dictionary containing the extracted metadata.</span>
+<span class="sd">                """</span>
+                <span class="n">run_dict</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
+                <span class="n">metadata_dict</span> <span class="o">=</span> <span class="n">run_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"metadata"</span><span class="p">,</span> <span class="p">{})</span>
+                <span class="n">metadata_dict</span><span class="p">[</span><span class="s2">"run_id"</span><span class="p">]</span> <span class="o">=</span> <span class="n">run_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"id"</span><span class="p">)</span>
+                <span class="n">metadata_dict</span><span class="p">[</span><span class="s2">"parent_run_id"</span><span class="p">]</span> <span class="o">=</span> <span class="n">run_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"parent_run_id"</span><span class="p">)</span>
+                <span class="n">metadata_dict</span><span class="p">[</span><span class="s2">"tags"</span><span class="p">]</span> <span class="o">=</span> <span class="n">run_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"tags"</span><span class="p">)</span>
+                <span class="n">metadata_dict</span><span class="p">[</span><span class="s2">"execution_order"</span><span class="p">]</span> <span class="o">=</span> <span class="n">run_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+                    <span class="s2">"dotted_order"</span><span class="p">,</span> <span class="s2">""</span>
+                <span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">"."</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">metadata_dict</span>
+
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">run</span><span class="o">.</span><span class="n">run_type</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">"llm"</span><span class="p">,</span> <span class="s2">"tool"</span><span class="p">]:</span>
+                    <span class="n">run_type</span> <span class="o">=</span> <span class="n">run</span><span class="o">.</span><span class="n">run_type</span>
+                <span class="k">elif</span> <span class="n">run</span><span class="o">.</span><span class="n">run_type</span> <span class="o">==</span> <span class="s2">"chain"</span><span class="p">:</span>
+                    <span class="n">run_type</span> <span class="o">=</span> <span class="s2">"agent"</span> <span class="k">if</span> <span class="s2">"agent"</span> <span class="ow">in</span> <span class="n">run</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">else</span> <span class="s2">"chain"</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">run_type</span> <span class="o">=</span> <span class="kc">None</span>
+
+                <span class="n">metadata</span> <span class="o">=</span> <span class="n">get_metadata_dict</span><span class="p">(</span><span class="n">run</span><span class="p">)</span>
+                <span class="n">trace_tree</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_trace_tree</span><span class="o">.</span><span class="n">Trace</span><span class="p">(</span>
+                    <span class="n">name</span><span class="o">=</span><span class="n">run</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                    <span class="n">kind</span><span class="o">=</span><span class="n">run_type</span><span class="p">,</span>
+                    <span class="n">status_code</span><span class="o">=</span><span class="s2">"error"</span> <span class="k">if</span> <span class="n">run</span><span class="o">.</span><span class="n">error</span> <span class="k">else</span> <span class="s2">"success"</span><span class="p">,</span>
+                    <span class="n">start_time_ms</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">run</span><span class="o">.</span><span class="n">start_time</span><span class="o">.</span><span class="n">timestamp</span><span class="p">()</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">run</span><span class="o">.</span><span class="n">start_time</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+                    <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+                    <span class="n">end_time_ms</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">run</span><span class="o">.</span><span class="n">end_time</span><span class="o">.</span><span class="n">timestamp</span><span class="p">()</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">run</span><span class="o">.</span><span class="n">end_time</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+                    <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+                    <span class="n">metadata</span><span class="o">=</span><span class="n">metadata</span><span class="p">,</span>
+                    <span class="n">inputs</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_io_serializer</span><span class="p">(</span><span class="n">run</span><span class="o">.</span><span class="n">inputs</span><span class="p">),</span>
+                    <span class="n">outputs</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_io_serializer</span><span class="p">(</span><span class="n">run</span><span class="o">.</span><span class="n">outputs</span><span class="p">),</span>
+                <span class="p">)</span>
+
+                <span class="c1"># If the run has child runs, recursively create traces for them</span>
+                <span class="k">for</span> <span class="n">child_run</span> <span class="ow">in</span> <span class="n">run</span><span class="o">.</span><span class="n">child_runs</span><span class="p">:</span>
+                    <span class="n">create_trace</span><span class="p">(</span><span class="n">child_run</span><span class="p">,</span> <span class="n">trace_tree</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="n">parent</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">trace_tree</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">parent</span><span class="o">.</span><span class="n">add_child</span><span class="p">(</span><span class="n">trace_tree</span><span class="p">)</span>
+                    <span class="k">return</span> <span class="n">parent</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">PRINT_WARNINGS</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_wandb</span><span class="o">.</span><span class="n">termwarn</span><span class="p">(</span>
+                        <span class="sa">f</span><span class="s2">"WARNING: Failed to serialize trace for run due to: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span>
+                    <span class="p">)</span>
+                <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="n">run_trace</span> <span class="o">=</span> <span class="n">create_trace</span><span class="p">(</span><span class="n">run</span><span class="p">)</span>
+        <span class="n">model_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">process_model_dict</span><span class="p">(</span><span class="n">run</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">model_dict</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">run_trace</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">run_trace</span><span class="o">.</span><span class="n">_model_dict</span> <span class="o">=</span> <span class="n">model_dict</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wandb</span><span class="o">.</span><span class="n">run</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">run_trace</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">run_trace</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s2">"langchain_trace"</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_persist_run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">run</span><span class="p">:</span> <span class="s2">"Run"</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Persist a run."""</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_log_trace_from_run</span><span class="p">(</span><span class="n">run</span><span class="p">)</span></div>
+</pre></div>
+</article>
+</div>
+</div>
+<footer class="bd-footer-content">
+</footer>
+</main>
+</div>
+</div>
+<!-- Scripts loaded after <body> so the DOM is not blocked -->
+<script src="../../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+<footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+<div class="footer-items__start">
+<div class="footer-item">
+<p class="copyright">
+    
+      © Copyright 2023, LangChain Inc.
+      <br/>
+</p>
+</div>
+</div>
+</div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,1066 @@
+
+<!DOCTYPE html>
+
+<html data-content_root="" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>langchain_community.document_loaders.confluence — 🦜🔗 LangChain  documentation</title>
+<script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+<!-- Loaded before other Sphinx assets -->
+<link href="../../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet"/>
+<link href="../../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet"/>
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet"/>
+<link href="../../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet"/>
+<link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" rel="preload" type="font/woff2"/>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/autodoc_pydantic.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/sphinx-design.4cbf315f70debaebd550c87a6162cf0f.min.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/css/custom.css" rel="stylesheet" type="text/css"/>
+<!-- Pre-loaded scripts that we'll load fully later -->
+<link as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
+<link as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
+<script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/sphinx_highlight.js"></script>
+<script src="../../../_static/clipboard.min.js"></script>
+<script src="../../../_static/copybutton.js"></script>
+<script src="../../../_static/design-tabs.js"></script>
+<script>DOCUMENTATION_OPTIONS.pagename = '_modules/langchain_community/document_loaders/confluence';</script>
+<link href="../../../_static/favicon.png" rel="icon"/>
+<link href="../../../search.html" rel="search" title="Search"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="en" name="docsearch:language"/>
+<meta content="Aug 14, 2024" name="docbuild:last-update"/>
+</head>
+<body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
+<div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
+<div id="pst-scroll-pixel-helper"></div>
+<button class="btn rounded-pill" id="pst-back-to-top" type="button">
+<i class="fa-solid fa-arrow-up"></i>Back to top</button>
+<input class="sidebar-toggle" id="pst-primary-sidebar-checkbox" type="checkbox"/>
+<label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+<input class="sidebar-toggle" id="pst-secondary-sidebar-checkbox" type="checkbox"/>
+<label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+<div class="search-button__wrapper">
+<div class="search-button__overlay"></div>
+<div class="search-button__search-container">
+<form action="../../../search.html" class="bd-search d-flex align-items-center" method="get">
+<i class="fa-solid fa-magnifying-glass"></i>
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="form-control" id="search-input" name="q" placeholder="Search" spellcheck="false" type="search"/>
+<span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+</div>
+<div class="pst-async-banner-revealer d-none">
+<aside aria-label="Version warning" class="d-none d-print-none" id="bd-header-version-warning"></aside>
+</div>
+<header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+<button aria-label="Site navigation" class="pst-navbar-icon sidebar-toggle primary-toggle">
+<span class="fa-solid fa-bars"></span>
+</button>
+<div class="navbar-header-items__start">
+<div class="navbar-item">
+<a class="navbar-brand logo" href="../../../index.html">
+<img alt="🦜🔗 LangChain  documentation - Home" class="logo__image only-light" src="../../../_static/wordmark-api.svg"/>
+<script>document.write(`<img src="../../../_static/wordmark-api-dark.svg" class="logo__image only-dark" alt="🦜🔗 LangChain  documentation - Home"/>`);</script>
+</a></div>
+</div>
+<div class="navbar-header-items">
+<div class="me-auto navbar-header-items__center">
+<div class="navbar-item">
+<nav>
+<ul class="bd-navbar-elements navbar-nav">
+<li class="nav-item">
+<a class="nav-link nav-internal" href="../../../reference.html">
+    Reference
+  </a>
+</li>
+<li class="nav-item">
+<a class="nav-link nav-external" href="https://api.python.langchain.com/">
+    Legacy reference
+  </a>
+</li>
+</ul>
+</nav></div>
+</div>
+<div class="navbar-header-items__end">
+<div class="navbar-item navbar-persistent--container">
+<form action="../../../search.html" class="bd-search d-flex align-items-center" method="get">
+<i class="fa-solid fa-magnifying-glass"></i>
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="form-control" id="search-input" name="q" placeholder="Search" spellcheck="false" type="search"/>
+<span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+</div>
+<div class="navbar-item"><!-- This will display a link to LangChain docs -->
+<head>
+<style>
+        .text-link {
+            text-decoration: none; /* Remove underline */
+            color: inherit;        /* Inherit color from parent element */
+        }
+    </style>
+</head>
+<body>
+<a class="text-link" href="https://python.langchain.com/">Docs</a>
+</body></div>
+<div class="navbar-item">
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+<div class="navbar-item"><ul aria-label="Quick Links" class="navbar-icon-links">
+<li class="nav-item">
+<a class="nav-link pst-navbar-icon" data-bs-placement="bottom" data-bs-toggle="tooltip" href="https://github.com/langchain-ai/langchain" rel="noopener" target="_blank" title="GitHub"><i aria-hidden="true" class="fa-brands fa-square-github fa-lg"></i>
+<span class="sr-only">GitHub</span></a>
+</li>
+<li class="nav-item">
+<a class="nav-link pst-navbar-icon" data-bs-placement="bottom" data-bs-toggle="tooltip" href="https://twitter.com/langchainai" rel="noopener" target="_blank" title="X / Twitter"><i aria-hidden="true" class="fab fa-twitter-square fa-lg"></i>
+<span class="sr-only">X / Twitter</span></a>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="navbar-persistent--mobile">
+<form action="../../../search.html" class="bd-search d-flex align-items-center" method="get">
+<i class="fa-solid fa-magnifying-glass"></i>
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="form-control" id="search-input" name="q" placeholder="Search" spellcheck="false" type="search"/>
+<span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+</div>
+</div>
+</header>
+<div class="bd-container">
+<div class="bd-container__inner bd-page-width">
+<div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+<div class="sidebar-header-items sidebar-primary__section">
+<div class="sidebar-header-items__center">
+<div class="navbar-item">
+<nav>
+<ul class="bd-navbar-elements navbar-nav">
+<li class="nav-item">
+<a class="nav-link nav-internal" href="../../../reference.html">
+    Reference
+  </a>
+</li>
+<li class="nav-item">
+<a class="nav-link nav-external" href="https://api.python.langchain.com/">
+    Legacy reference
+  </a>
+</li>
+</ul>
+</nav></div>
+</div>
+<div class="sidebar-header-items__end">
+<div class="navbar-item"><!-- This will display a link to LangChain docs -->
+<head>
+<style>
+        .text-link {
+            text-decoration: none; /* Remove underline */
+            color: inherit;        /* Inherit color from parent element */
+        }
+    </style>
+</head>
+<body>
+<a class="text-link" href="https://python.langchain.com/">Docs</a>
+</body></div>
+<div class="navbar-item">
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+<div class="navbar-item"><ul aria-label="Quick Links" class="navbar-icon-links">
+<li class="nav-item">
+<a class="nav-link pst-navbar-icon" data-bs-placement="bottom" data-bs-toggle="tooltip" href="https://github.com/langchain-ai/langchain" rel="noopener" target="_blank" title="GitHub"><i aria-hidden="true" class="fa-brands fa-square-github fa-lg"></i>
+<span class="sr-only">GitHub</span></a>
+</li>
+<li class="nav-item">
+<a class="nav-link pst-navbar-icon" data-bs-placement="bottom" data-bs-toggle="tooltip" href="https://twitter.com/langchainai" rel="noopener" target="_blank" title="X / Twitter"><i aria-hidden="true" class="fab fa-twitter-square fa-lg"></i>
+<span class="sr-only">X / Twitter</span></a>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sidebar-primary-items__end sidebar-primary__section">
+</div>
+<div id="rtd-footer-container"></div>
+</div>
+<main class="bd-main" id="main-content" role="main">
+<div class="bd-content">
+<div class="bd-article-container">
+<div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+<div class="header-article-items__start">
+<div class="header-article-item">
+<nav aria-label="Breadcrumb" class="d-print-none">
+<ul class="bd-breadcrumbs">
+<li class="breadcrumb-item breadcrumb-home">
+<a aria-label="Home" class="nav-link" href="../../../index.html">
+<i class="fa-solid fa-home"></i>
+</a>
+</li>
+<li class="breadcrumb-item"><a class="nav-link" href="../../index.html">Module code</a></li>
+<li aria-current="page" class="breadcrumb-item active">langchain_co...</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+</div>
+<div id="searchbox"></div>
+<article class="bd-article">
+<h1>Source code for langchain_community.document_loaders.confluence</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
+<span class="kn">from</span> <span class="nn">io</span> <span class="kn">import</span> <span class="n">BytesIO</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">from</span> <span class="nn">langchain_core.documents</span> <span class="kn">import</span> <span class="n">Document</span>
+<span class="kn">from</span> <span class="nn">tenacity</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">before_sleep_log</span><span class="p">,</span>
+    <span class="n">retry</span><span class="p">,</span>
+    <span class="n">stop_after_attempt</span><span class="p">,</span>
+    <span class="n">wait_exponential</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">langchain_community.document_loaders.base</span> <span class="kn">import</span> <span class="n">BaseLoader</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="ContentFormat"><a class="viewcode-back" href="../../../community/document_loaders/langchain_community.document_loaders.confluence.ContentFormat.html#langchain_community.document_loaders.confluence.ContentFormat">[docs]</a><span class="k">class</span> <span class="nc">ContentFormat</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">Enum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Enumerator of the content formats of Confluence page."""</span>
+
+    <span class="n">EDITOR</span> <span class="o">=</span> <span class="s2">"body.editor"</span>
+    <span class="n">EXPORT_VIEW</span> <span class="o">=</span> <span class="s2">"body.export_view"</span>
+    <span class="n">ANONYMOUS_EXPORT_VIEW</span> <span class="o">=</span> <span class="s2">"body.anonymous_export_view"</span>
+    <span class="n">STORAGE</span> <span class="o">=</span> <span class="s2">"body.storage"</span>
+    <span class="n">VIEW</span> <span class="o">=</span> <span class="s2">"body.view"</span>
+
+    <span class="k">def</span> <span class="nf">get_content</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">page</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">page</span><span class="p">[</span><span class="s2">"body"</span><span class="p">][</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">()][</span><span class="s2">"value"</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="ConfluenceLoader"><a class="viewcode-back" href="../../../community/document_loaders/langchain_community.document_loaders.confluence.ConfluenceLoader.html#langchain_community.document_loaders.confluence.ConfluenceLoader">[docs]</a><span class="k">class</span> <span class="nc">ConfluenceLoader</span><span class="p">(</span><span class="n">BaseLoader</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Load `Confluence` pages.</span>
+
+<span class="sd">    Port of https://llamahub.ai/l/confluence</span>
+<span class="sd">    This currently supports username/api_key, Oauth2 login or personal access token</span>
+<span class="sd">    authentication.</span>
+
+<span class="sd">    Specify a list page_ids and/or space_key to load in the corresponding pages into</span>
+<span class="sd">    Document objects, if both are specified the union of both sets will be returned.</span>
+
+<span class="sd">    You can also specify a boolean `include_attachments` to include attachments, this</span>
+<span class="sd">    is set to False by default, if set to True all attachments will be downloaded and</span>
+<span class="sd">    ConfluenceLoader will extract the text from the attachments and add it to the</span>
+<span class="sd">    Document object. Currently supported attachment types are: PDF, PNG, JPEG/JPG,</span>
+<span class="sd">    SVG, Word and Excel.</span>
+
+<span class="sd">    Confluence API supports difference format of page content. The storage format is the</span>
+<span class="sd">    raw XML representation for storage. The view format is the HTML representation for</span>
+<span class="sd">    viewing with macros are rendered as though it is viewed by users. You can pass</span>
+<span class="sd">    a enum `content_format` argument to specify the content format, this is</span>
+<span class="sd">    set to `ContentFormat.STORAGE` by default, the supported values are:</span>
+<span class="sd">    `ContentFormat.EDITOR`, `ContentFormat.EXPORT_VIEW`,</span>
+<span class="sd">    `ContentFormat.ANONYMOUS_EXPORT_VIEW`, `ContentFormat.STORAGE`,</span>
+<span class="sd">    and `ContentFormat.VIEW`.</span>
+
+<span class="sd">    Hint: space_key and page_id can both be found in the URL of a page in Confluence</span>
+<span class="sd">    - https://yoursite.atlassian.com/wiki/spaces/&lt;space_key&gt;/pages/&lt;page_id&gt;</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            from langchain_community.document_loaders import ConfluenceLoader</span>
+
+<span class="sd">            loader = ConfluenceLoader(</span>
+<span class="sd">                url="https://yoursite.atlassian.com/wiki",</span>
+<span class="sd">                username="me",</span>
+<span class="sd">                api_key="12345",</span>
+<span class="sd">                space_key="SPACE",</span>
+<span class="sd">                limit=50,</span>
+<span class="sd">            )</span>
+<span class="sd">            documents = loader.load()</span>
+
+<span class="sd">            # Server on perm</span>
+<span class="sd">            loader = ConfluenceLoader(</span>
+<span class="sd">                url="https://confluence.yoursite.com/",</span>
+<span class="sd">                username="me",</span>
+<span class="sd">                api_key="your_password",</span>
+<span class="sd">                cloud=False,</span>
+<span class="sd">                space_key="SPACE",</span>
+<span class="sd">                limit=50,</span>
+<span class="sd">            )</span>
+<span class="sd">            documents = loader.load()</span>
+
+<span class="sd">    :param url: _description_</span>
+<span class="sd">    :type url: str</span>
+<span class="sd">    :param api_key: _description_, defaults to None</span>
+<span class="sd">    :type api_key: str, optional</span>
+<span class="sd">    :param username: _description_, defaults to None</span>
+<span class="sd">    :type username: str, optional</span>
+<span class="sd">    :param oauth2: _description_, defaults to {}</span>
+<span class="sd">    :type oauth2: dict, optional</span>
+<span class="sd">    :param token: _description_, defaults to None</span>
+<span class="sd">    :type token: str, optional</span>
+<span class="sd">    :param cloud: _description_, defaults to True</span>
+<span class="sd">    :type cloud: bool, optional</span>
+<span class="sd">    :param number_of_retries: How many times to retry, defaults to 3</span>
+<span class="sd">    :type number_of_retries: Optional[int], optional</span>
+<span class="sd">    :param min_retry_seconds: defaults to 2</span>
+<span class="sd">    :type min_retry_seconds: Optional[int], optional</span>
+<span class="sd">    :param max_retry_seconds:  defaults to 10</span>
+<span class="sd">    :type max_retry_seconds: Optional[int], optional</span>
+<span class="sd">    :param confluence_kwargs: additional kwargs to initialize confluence with</span>
+<span class="sd">    :type confluence_kwargs: dict, optional</span>
+<span class="sd">    :param space_key: Space key retrieved from a confluence URL, defaults to None</span>
+<span class="sd">    :type space_key: Optional[str], optional</span>
+<span class="sd">    :param page_ids: List of specific page IDs to load, defaults to None</span>
+<span class="sd">    :type page_ids: Optional[List[str]], optional</span>
+<span class="sd">    :param label: Get all pages with this label, defaults to None</span>
+<span class="sd">    :type label: Optional[str], optional</span>
+<span class="sd">    :param cql: CQL Expression, defaults to None</span>
+<span class="sd">    :type cql: Optional[str], optional</span>
+<span class="sd">    :param include_restricted_content: defaults to False</span>
+<span class="sd">    :type include_restricted_content: bool, optional</span>
+<span class="sd">    :param include_archived_content: Whether to include archived content,</span>
+<span class="sd">                                     defaults to False</span>
+<span class="sd">    :type include_archived_content: bool, optional</span>
+<span class="sd">    :param include_attachments: defaults to False</span>
+<span class="sd">    :type include_attachments: bool, optional</span>
+<span class="sd">    :param include_comments: defaults to False</span>
+<span class="sd">    :type include_comments: bool, optional</span>
+<span class="sd">    :param content_format: Specify content format, defaults to</span>
+<span class="sd">                            ContentFormat.STORAGE, the supported values are:</span>
+<span class="sd">                            `ContentFormat.EDITOR`, `ContentFormat.EXPORT_VIEW`,</span>
+<span class="sd">                            `ContentFormat.ANONYMOUS_EXPORT_VIEW`,</span>
+<span class="sd">                            `ContentFormat.STORAGE`, and `ContentFormat.VIEW`.</span>
+<span class="sd">    :type content_format: ContentFormat</span>
+<span class="sd">    :param limit: Maximum number of pages to retrieve per request, defaults to 50</span>
+<span class="sd">    :type limit: int, optional</span>
+<span class="sd">    :param max_pages: Maximum number of pages to retrieve in total, defaults 1000</span>
+<span class="sd">    :type max_pages: int, optional</span>
+<span class="sd">    :param ocr_languages: The languages to use for the Tesseract agent. To use a</span>
+<span class="sd">                          language, you'll first need to install the appropriate</span>
+<span class="sd">                          Tesseract language pack.</span>
+<span class="sd">    :type ocr_languages: str, optional</span>
+<span class="sd">    :param keep_markdown_format: Whether to keep the markdown format, defaults to</span>
+<span class="sd">        False</span>
+<span class="sd">    :type keep_markdown_format: bool</span>
+<span class="sd">    :param keep_newlines: Whether to keep the newlines format, defaults to</span>
+<span class="sd">        False</span>
+<span class="sd">    :type keep_newlines: bool</span>
+<span class="sd">    :raises ValueError: Errors while validating input</span>
+<span class="sd">    :raises ImportError: Required dependencies not installed.</span>
+<span class="sd">    """</span>
+
+<div class="viewcode-block" id="ConfluenceLoader.__init__"><a class="viewcode-back" href="../../../community/document_loaders/langchain_community.document_loaders.confluence.ConfluenceLoader.html#langchain_community.document_loaders.confluence.ConfluenceLoader.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">api_key</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">username</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">session</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">requests</span><span class="o">.</span><span class="n">Session</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">oauth2</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">token</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">cloud</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">number_of_retries</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span>
+        <span class="n">min_retry_seconds</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="n">max_retry_seconds</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+        <span class="n">confluence_kwargs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">space_key</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">page_ids</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">label</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">cql</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">include_restricted_content</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">include_archived_content</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">include_attachments</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">include_comments</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">content_format</span><span class="p">:</span> <span class="n">ContentFormat</span> <span class="o">=</span> <span class="n">ContentFormat</span><span class="o">.</span><span class="n">STORAGE</span><span class="p">,</span>
+        <span class="n">limit</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span>
+        <span class="n">max_pages</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span>
+        <span class="n">ocr_languages</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">keep_markdown_format</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">keep_newlines</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">space_key</span> <span class="o">=</span> <span class="n">space_key</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">page_ids</span> <span class="o">=</span> <span class="n">page_ids</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">label</span> <span class="o">=</span> <span class="n">label</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cql</span> <span class="o">=</span> <span class="n">cql</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">include_restricted_content</span> <span class="o">=</span> <span class="n">include_restricted_content</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">include_archived_content</span> <span class="o">=</span> <span class="n">include_archived_content</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">include_attachments</span> <span class="o">=</span> <span class="n">include_attachments</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">include_comments</span> <span class="o">=</span> <span class="n">include_comments</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">content_format</span> <span class="o">=</span> <span class="n">content_format</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">limit</span> <span class="o">=</span> <span class="n">limit</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_pages</span> <span class="o">=</span> <span class="n">max_pages</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ocr_languages</span> <span class="o">=</span> <span class="n">ocr_languages</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">keep_markdown_format</span> <span class="o">=</span> <span class="n">keep_markdown_format</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">keep_newlines</span> <span class="o">=</span> <span class="n">keep_newlines</span>
+
+        <span class="n">confluence_kwargs</span> <span class="o">=</span> <span class="n">confluence_kwargs</span> <span class="ow">or</span> <span class="p">{}</span>
+        <span class="n">errors</span> <span class="o">=</span> <span class="n">ConfluenceLoader</span><span class="o">.</span><span class="n">validate_init_args</span><span class="p">(</span>
+            <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span>
+            <span class="n">api_key</span><span class="o">=</span><span class="n">api_key</span><span class="p">,</span>
+            <span class="n">username</span><span class="o">=</span><span class="n">username</span><span class="p">,</span>
+            <span class="n">session</span><span class="o">=</span><span class="n">session</span><span class="p">,</span>
+            <span class="n">oauth2</span><span class="o">=</span><span class="n">oauth2</span><span class="p">,</span>
+            <span class="n">token</span><span class="o">=</span><span class="n">token</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">errors</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Error(s) while validating input: </span><span class="si">{</span><span class="n">errors</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="kn">from</span> <span class="nn">atlassian</span> <span class="kn">import</span> <span class="n">Confluence</span>
+        <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
+                <span class="s2">"`atlassian` package not found, please run "</span>
+                <span class="s2">"`pip install atlassian-python-api`"</span>
+            <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">base_url</span> <span class="o">=</span> <span class="n">url</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">number_of_retries</span> <span class="o">=</span> <span class="n">number_of_retries</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">min_retry_seconds</span> <span class="o">=</span> <span class="n">min_retry_seconds</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_retry_seconds</span> <span class="o">=</span> <span class="n">max_retry_seconds</span>
+
+        <span class="k">if</span> <span class="n">session</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">confluence</span> <span class="o">=</span> <span class="n">Confluence</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">session</span><span class="o">=</span><span class="n">session</span><span class="p">,</span> <span class="o">**</span><span class="n">confluence_kwargs</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">oauth2</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">confluence</span> <span class="o">=</span> <span class="n">Confluence</span><span class="p">(</span>
+                <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">oauth2</span><span class="o">=</span><span class="n">oauth2</span><span class="p">,</span> <span class="n">cloud</span><span class="o">=</span><span class="n">cloud</span><span class="p">,</span> <span class="o">**</span><span class="n">confluence_kwargs</span>
+            <span class="p">)</span>
+        <span class="k">elif</span> <span class="n">token</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">confluence</span> <span class="o">=</span> <span class="n">Confluence</span><span class="p">(</span>
+                <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">token</span><span class="o">=</span><span class="n">token</span><span class="p">,</span> <span class="n">cloud</span><span class="o">=</span><span class="n">cloud</span><span class="p">,</span> <span class="o">**</span><span class="n">confluence_kwargs</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">confluence</span> <span class="o">=</span> <span class="n">Confluence</span><span class="p">(</span>
+                <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span>
+                <span class="n">username</span><span class="o">=</span><span class="n">username</span><span class="p">,</span>
+                <span class="n">password</span><span class="o">=</span><span class="n">api_key</span><span class="p">,</span>
+                <span class="n">cloud</span><span class="o">=</span><span class="n">cloud</span><span class="p">,</span>
+                <span class="o">**</span><span class="n">confluence_kwargs</span><span class="p">,</span>
+            <span class="p">)</span></div>
+
+<div class="viewcode-block" id="ConfluenceLoader.validate_init_args"><a class="viewcode-back" href="../../../community/document_loaders/langchain_community.document_loaders.confluence.ConfluenceLoader.html#langchain_community.document_loaders.confluence.ConfluenceLoader.validate_init_args">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">validate_init_args</span><span class="p">(</span>
+        <span class="n">url</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">api_key</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">username</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">session</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">requests</span><span class="o">.</span><span class="n">Session</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">oauth2</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">token</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Validates proper combinations of init arguments"""</span>
+
+        <span class="n">errors</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="n">url</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"Must provide `base_url`"</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">api_key</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">username</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">username</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">api_key</span><span class="p">):</span>
+            <span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="s2">"If one of `api_key` or `username` is provided, "</span>
+                <span class="s2">"the other must be as well."</span>
+            <span class="p">)</span>
+
+        <span class="n">non_null_creds</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>
+            <span class="n">x</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="p">((</span><span class="n">api_key</span> <span class="ow">or</span> <span class="n">username</span><span class="p">),</span> <span class="n">session</span><span class="p">,</span> <span class="n">oauth2</span><span class="p">,</span> <span class="n">token</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="nb">sum</span><span class="p">(</span><span class="n">non_null_creds</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">all_names</span> <span class="o">=</span> <span class="p">(</span><span class="s2">"(api_key, username)"</span><span class="p">,</span> <span class="s2">"session"</span><span class="p">,</span> <span class="s2">"oauth2"</span><span class="p">,</span> <span class="s2">"token"</span><span class="p">)</span>
+            <span class="n">provided</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">n</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">non_null_creds</span><span class="p">,</span> <span class="n">all_names</span><span class="p">)</span> <span class="k">if</span> <span class="n">x</span><span class="p">)</span>
+            <span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">"Cannot provide a value for more than one of: </span><span class="si">{</span><span class="n">all_names</span><span class="si">}</span><span class="s2">. Received "</span>
+                <span class="sa">f</span><span class="s2">"values for: </span><span class="si">{</span><span class="n">provided</span><span class="si">}</span><span class="s2">"</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="n">oauth2</span>
+            <span class="ow">and</span> <span class="nb">set</span><span class="p">(</span><span class="n">oauth2</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+            <span class="o">==</span> <span class="p">{</span>
+                <span class="s2">"token"</span><span class="p">,</span>
+                <span class="s2">"client_id"</span><span class="p">,</span>
+            <span class="p">}</span>
+            <span class="ow">and</span> <span class="nb">set</span><span class="p">(</span><span class="n">oauth2</span><span class="p">[</span><span class="s2">"token"</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+            <span class="o">!=</span> <span class="p">{</span>
+                <span class="s2">"access_token"</span><span class="p">,</span>
+                <span class="s2">"token_type"</span><span class="p">,</span>
+            <span class="p">}</span>
+        <span class="p">):</span>
+            <span class="c1"># OAuth2 token authentication</span>
+            <span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="s2">"You have either omitted require keys or added extra "</span>
+                <span class="s2">"keys to the oauth2 dictionary. key values should be "</span>
+                <span class="s2">"`['client_id', 'token': ['access_token', 'token_type']]`"</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="n">oauth2</span>
+            <span class="ow">and</span> <span class="nb">set</span><span class="p">(</span><span class="n">oauth2</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+            <span class="o">!=</span> <span class="p">{</span>
+                <span class="s2">"access_token"</span><span class="p">,</span>
+                <span class="s2">"access_token_secret"</span><span class="p">,</span>
+                <span class="s2">"consumer_key"</span><span class="p">,</span>
+                <span class="s2">"key_cert"</span><span class="p">,</span>
+            <span class="p">}</span>
+            <span class="ow">and</span> <span class="nb">set</span><span class="p">(</span><span class="n">oauth2</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+            <span class="o">!=</span> <span class="p">{</span>
+                <span class="s2">"token"</span><span class="p">,</span>
+                <span class="s2">"client_id"</span><span class="p">,</span>
+            <span class="p">}</span>
+        <span class="p">):</span>
+            <span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="s2">"You have either omitted required keys or added extra "</span>
+                <span class="s2">"keys to the oauth2 dictionary. key values should be "</span>
+                <span class="s2">"`['access_token', 'access_token_secret', 'consumer_key', 'key_cert']` "</span>
+                <span class="s2">"or `['client_id', 'token': ['access_token', 'token_type']]`"</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">errors</span> <span class="ow">or</span> <span class="kc">None</span></div>
+
+    <span class="k">def</span> <span class="nf">_resolve_param</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">kwargs</span><span class="p">[</span><span class="n">param_name</span><span class="p">]</span> <span class="k">if</span> <span class="n">param_name</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="k">else</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param_name</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_lazy_load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Document</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">"Received runtime arguments </span><span class="si">{</span><span class="n">kwargs</span><span class="si">}</span><span class="s2">. Passing runtime args to `load`"</span>
+                <span class="sa">f</span><span class="s2">" is deprecated. Please pass arguments during initialization instead."</span>
+            <span class="p">)</span>
+        <span class="n">space_key</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolve_param</span><span class="p">(</span><span class="s2">"space_key"</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">page_ids</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolve_param</span><span class="p">(</span><span class="s2">"page_ids"</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">label</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolve_param</span><span class="p">(</span><span class="s2">"label"</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">cql</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolve_param</span><span class="p">(</span><span class="s2">"cql"</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">include_restricted_content</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolve_param</span><span class="p">(</span>
+            <span class="s2">"include_restricted_content"</span><span class="p">,</span> <span class="n">kwargs</span>
+        <span class="p">)</span>
+        <span class="n">include_archived_content</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolve_param</span><span class="p">(</span>
+            <span class="s2">"include_archived_content"</span><span class="p">,</span> <span class="n">kwargs</span>
+        <span class="p">)</span>
+        <span class="n">include_attachments</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolve_param</span><span class="p">(</span><span class="s2">"include_attachments"</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">include_comments</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolve_param</span><span class="p">(</span><span class="s2">"include_comments"</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">content_format</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolve_param</span><span class="p">(</span><span class="s2">"content_format"</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">limit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolve_param</span><span class="p">(</span><span class="s2">"limit"</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">max_pages</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolve_param</span><span class="p">(</span><span class="s2">"max_pages"</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">ocr_languages</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolve_param</span><span class="p">(</span><span class="s2">"ocr_languages"</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">keep_markdown_format</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolve_param</span><span class="p">(</span><span class="s2">"keep_markdown_format"</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">keep_newlines</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolve_param</span><span class="p">(</span><span class="s2">"keep_newlines"</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">space_key</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">page_ids</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">label</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">cql</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">"Must specify at least one among `space_key`, `page_ids`, "</span>
+                <span class="s2">"`label`, `cql` parameters."</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">space_key</span><span class="p">:</span>
+            <span class="n">pages</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">paginate_request</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">confluence</span><span class="o">.</span><span class="n">get_all_pages_from_space</span><span class="p">,</span>
+                <span class="n">space</span><span class="o">=</span><span class="n">space_key</span><span class="p">,</span>
+                <span class="n">limit</span><span class="o">=</span><span class="n">limit</span><span class="p">,</span>
+                <span class="n">max_pages</span><span class="o">=</span><span class="n">max_pages</span><span class="p">,</span>
+                <span class="n">status</span><span class="o">=</span><span class="s2">"any"</span> <span class="k">if</span> <span class="n">include_archived_content</span> <span class="k">else</span> <span class="s2">"current"</span><span class="p">,</span>
+                <span class="n">expand</span><span class="o">=</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">content_format</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2">,version"</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="k">yield from</span> <span class="bp">self</span><span class="o">.</span><span class="n">process_pages</span><span class="p">(</span>
+                <span class="n">pages</span><span class="p">,</span>
+                <span class="n">include_restricted_content</span><span class="p">,</span>
+                <span class="n">include_attachments</span><span class="p">,</span>
+                <span class="n">include_comments</span><span class="p">,</span>
+                <span class="n">content_format</span><span class="p">,</span>
+                <span class="n">ocr_languages</span><span class="o">=</span><span class="n">ocr_languages</span><span class="p">,</span>
+                <span class="n">keep_markdown_format</span><span class="o">=</span><span class="n">keep_markdown_format</span><span class="p">,</span>
+                <span class="n">keep_newlines</span><span class="o">=</span><span class="n">keep_newlines</span><span class="p">,</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">label</span><span class="p">:</span>
+            <span class="n">pages</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">paginate_request</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">confluence</span><span class="o">.</span><span class="n">get_all_pages_by_label</span><span class="p">,</span>
+                <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
+                <span class="n">limit</span><span class="o">=</span><span class="n">limit</span><span class="p">,</span>
+                <span class="n">max_pages</span><span class="o">=</span><span class="n">max_pages</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">ids_by_label</span> <span class="o">=</span> <span class="p">[</span><span class="n">page</span><span class="p">[</span><span class="s2">"id"</span><span class="p">]</span> <span class="k">for</span> <span class="n">page</span> <span class="ow">in</span> <span class="n">pages</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">page_ids</span><span class="p">:</span>
+                <span class="n">page_ids</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">page_ids</span> <span class="o">+</span> <span class="n">ids_by_label</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">page_ids</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">ids_by_label</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="n">cql</span><span class="p">:</span>
+            <span class="n">pages</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">paginate_request</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_search_content_by_cql</span><span class="p">,</span>
+                <span class="n">cql</span><span class="o">=</span><span class="n">cql</span><span class="p">,</span>
+                <span class="n">limit</span><span class="o">=</span><span class="n">limit</span><span class="p">,</span>
+                <span class="n">max_pages</span><span class="o">=</span><span class="n">max_pages</span><span class="p">,</span>
+                <span class="n">include_archived_spaces</span><span class="o">=</span><span class="n">include_archived_content</span><span class="p">,</span>
+                <span class="n">expand</span><span class="o">=</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">content_format</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2">,version"</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="k">yield from</span> <span class="bp">self</span><span class="o">.</span><span class="n">process_pages</span><span class="p">(</span>
+                <span class="n">pages</span><span class="p">,</span>
+                <span class="n">include_restricted_content</span><span class="p">,</span>
+                <span class="n">include_attachments</span><span class="p">,</span>
+                <span class="n">include_comments</span><span class="p">,</span>
+                <span class="n">content_format</span><span class="p">,</span>
+                <span class="n">ocr_languages</span><span class="p">,</span>
+                <span class="n">keep_markdown_format</span><span class="p">,</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">page_ids</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">page_id</span> <span class="ow">in</span> <span class="n">page_ids</span><span class="p">:</span>
+                <span class="n">get_page</span> <span class="o">=</span> <span class="n">retry</span><span class="p">(</span>
+                    <span class="n">reraise</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                    <span class="n">stop</span><span class="o">=</span><span class="n">stop_after_attempt</span><span class="p">(</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">number_of_retries</span>  <span class="c1"># type: ignore[arg-type]</span>
+                    <span class="p">),</span>
+                    <span class="n">wait</span><span class="o">=</span><span class="n">wait_exponential</span><span class="p">(</span>
+                        <span class="n">multiplier</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>  <span class="c1"># type: ignore[arg-type]</span>
+                        <span class="nb">min</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">min_retry_seconds</span><span class="p">,</span>  <span class="c1"># type: ignore[arg-type]</span>
+                        <span class="nb">max</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">max_retry_seconds</span><span class="p">,</span>  <span class="c1"># type: ignore[arg-type]</span>
+                    <span class="p">),</span>
+                    <span class="n">before_sleep</span><span class="o">=</span><span class="n">before_sleep_log</span><span class="p">(</span><span class="n">logger</span><span class="p">,</span> <span class="n">logging</span><span class="o">.</span><span class="n">WARNING</span><span class="p">),</span>
+                <span class="p">)(</span><span class="bp">self</span><span class="o">.</span><span class="n">confluence</span><span class="o">.</span><span class="n">get_page_by_id</span><span class="p">)</span>
+                <span class="n">page</span> <span class="o">=</span> <span class="n">get_page</span><span class="p">(</span>
+                    <span class="n">page_id</span><span class="o">=</span><span class="n">page_id</span><span class="p">,</span> <span class="n">expand</span><span class="o">=</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">content_format</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2">,version"</span>
+                <span class="p">)</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">include_restricted_content</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_public_page</span><span class="p">(</span><span class="n">page</span><span class="p">):</span>
+                    <span class="k">continue</span>
+                <span class="k">yield</span> <span class="bp">self</span><span class="o">.</span><span class="n">process_page</span><span class="p">(</span>
+                    <span class="n">page</span><span class="p">,</span>
+                    <span class="n">include_attachments</span><span class="p">,</span>
+                    <span class="n">include_comments</span><span class="p">,</span>
+                    <span class="n">content_format</span><span class="p">,</span>
+                    <span class="n">ocr_languages</span><span class="p">,</span>
+                    <span class="n">keep_markdown_format</span><span class="p">,</span>
+                <span class="p">)</span>
+
+<div class="viewcode-block" id="ConfluenceLoader.load"><a class="viewcode-back" href="../../../community/document_loaders/langchain_community.document_loaders.confluence.ConfluenceLoader.html#langchain_community.document_loaders.confluence.ConfluenceLoader.load">[docs]</a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Document</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_lazy_load</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="ConfluenceLoader.lazy_load"><a class="viewcode-back" href="../../../community/document_loaders/langchain_community.document_loaders.confluence.ConfluenceLoader.html#langchain_community.document_loaders.confluence.ConfluenceLoader.lazy_load">[docs]</a>    <span class="k">def</span> <span class="nf">lazy_load</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Document</span><span class="p">]:</span>
+        <span class="k">yield from</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lazy_load</span><span class="p">()</span></div>
+
+    <span class="k">def</span> <span class="nf">_search_content_by_cql</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">cql</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">include_archived_spaces</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="s2">"rest/api/content/search"</span>
+
+        <span class="n">params</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"cql"</span><span class="p">:</span> <span class="n">cql</span><span class="p">}</span>
+        <span class="n">params</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">include_archived_spaces</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">params</span><span class="p">[</span><span class="s2">"includeArchivedSpaces"</span><span class="p">]</span> <span class="o">=</span> <span class="n">include_archived_spaces</span>
+
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">confluence</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"results"</span><span class="p">,</span> <span class="p">[])</span>
+
+<div class="viewcode-block" id="ConfluenceLoader.paginate_request"><a class="viewcode-back" href="../../../community/document_loaders/langchain_community.document_loaders.confluence.ConfluenceLoader.html#langchain_community.document_loaders.confluence.ConfluenceLoader.paginate_request">[docs]</a>    <span class="k">def</span> <span class="nf">paginate_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">retrieval_method</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Paginate the various methods to retrieve groups of pages.</span>
+
+<span class="sd">        Unfortunately, due to page size, sometimes the Confluence API</span>
+<span class="sd">        doesn't match the limit value. If `limit` is &gt;100 confluence</span>
+<span class="sd">        seems to cap the response to 100. Also, due to the Atlassian Python</span>
+<span class="sd">        package, we don't get the "next" values from the "_links" key because</span>
+<span class="sd">        they only return the value from the result key. So here, the pagination</span>
+<span class="sd">        starts from 0 and goes until the max_pages, getting the `limit` number</span>
+<span class="sd">        of pages with each request. We have to manually check if there</span>
+<span class="sd">        are more docs based on the length of the returned list of pages, rather than</span>
+<span class="sd">        just checking for the presence of a `next` key in the response like this page</span>
+<span class="sd">        would have you do:</span>
+<span class="sd">        https://developer.atlassian.com/server/confluence/pagination-in-the-rest-api/</span>
+
+<span class="sd">        :param retrieval_method: Function used to retrieve docs</span>
+<span class="sd">        :type retrieval_method: callable</span>
+<span class="sd">        :return: List of documents</span>
+<span class="sd">        :rtype: List</span>
+<span class="sd">        """</span>
+
+        <span class="n">max_pages</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"max_pages"</span><span class="p">)</span>
+        <span class="n">docs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">docs</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">max_pages</span><span class="p">:</span>
+            <span class="n">get_pages</span> <span class="o">=</span> <span class="n">retry</span><span class="p">(</span>
+                <span class="n">reraise</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">stop</span><span class="o">=</span><span class="n">stop_after_attempt</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">number_of_retries</span>  <span class="c1"># type: ignore[arg-type]</span>
+                <span class="p">),</span>
+                <span class="n">wait</span><span class="o">=</span><span class="n">wait_exponential</span><span class="p">(</span>
+                    <span class="n">multiplier</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                    <span class="nb">min</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">min_retry_seconds</span><span class="p">,</span>  <span class="c1"># type: ignore[arg-type]</span>
+                    <span class="nb">max</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">max_retry_seconds</span><span class="p">,</span>  <span class="c1"># type: ignore[arg-type]</span>
+                <span class="p">),</span>
+                <span class="n">before_sleep</span><span class="o">=</span><span class="n">before_sleep_log</span><span class="p">(</span><span class="n">logger</span><span class="p">,</span> <span class="n">logging</span><span class="o">.</span><span class="n">WARNING</span><span class="p">),</span>
+            <span class="p">)(</span><span class="n">retrieval_method</span><span class="p">)</span>
+            <span class="n">batch</span> <span class="o">=</span> <span class="n">get_pages</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">docs</span><span class="p">))</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">batch</span><span class="p">:</span>
+                <span class="k">break</span>
+            <span class="n">docs</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">batch</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">docs</span><span class="p">[:</span><span class="n">max_pages</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="ConfluenceLoader.is_public_page"><a class="viewcode-back" href="../../../community/document_loaders/langchain_community.document_loaders.confluence.ConfluenceLoader.html#langchain_community.document_loaders.confluence.ConfluenceLoader.is_public_page">[docs]</a>    <span class="k">def</span> <span class="nf">is_public_page</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">page</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Check if a page is publicly accessible."""</span>
+        <span class="n">restrictions</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">confluence</span><span class="o">.</span><span class="n">get_all_restrictions_for_content</span><span class="p">(</span><span class="n">page</span><span class="p">[</span><span class="s2">"id"</span><span class="p">])</span>
+
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="n">page</span><span class="p">[</span><span class="s2">"status"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"current"</span>
+            <span class="ow">and</span> <span class="ow">not</span> <span class="n">restrictions</span><span class="p">[</span><span class="s2">"read"</span><span class="p">][</span><span class="s2">"restrictions"</span><span class="p">][</span><span class="s2">"user"</span><span class="p">][</span><span class="s2">"results"</span><span class="p">]</span>
+            <span class="ow">and</span> <span class="ow">not</span> <span class="n">restrictions</span><span class="p">[</span><span class="s2">"read"</span><span class="p">][</span><span class="s2">"restrictions"</span><span class="p">][</span><span class="s2">"group"</span><span class="p">][</span><span class="s2">"results"</span><span class="p">]</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="ConfluenceLoader.process_pages"><a class="viewcode-back" href="../../../community/document_loaders/langchain_community.document_loaders.confluence.ConfluenceLoader.html#langchain_community.document_loaders.confluence.ConfluenceLoader.process_pages">[docs]</a>    <span class="k">def</span> <span class="nf">process_pages</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">pages</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">],</span>
+        <span class="n">include_restricted_content</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+        <span class="n">include_attachments</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+        <span class="n">include_comments</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+        <span class="n">content_format</span><span class="p">:</span> <span class="n">ContentFormat</span><span class="p">,</span>
+        <span class="n">ocr_languages</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">keep_markdown_format</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">keep_newlines</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Document</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Process a list of pages into a list of documents."""</span>
+        <span class="k">for</span> <span class="n">page</span> <span class="ow">in</span> <span class="n">pages</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">include_restricted_content</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_public_page</span><span class="p">(</span><span class="n">page</span><span class="p">):</span>
+                <span class="k">continue</span>
+            <span class="k">yield</span> <span class="bp">self</span><span class="o">.</span><span class="n">process_page</span><span class="p">(</span>
+                <span class="n">page</span><span class="p">,</span>
+                <span class="n">include_attachments</span><span class="p">,</span>
+                <span class="n">include_comments</span><span class="p">,</span>
+                <span class="n">content_format</span><span class="p">,</span>
+                <span class="n">ocr_languages</span><span class="o">=</span><span class="n">ocr_languages</span><span class="p">,</span>
+                <span class="n">keep_markdown_format</span><span class="o">=</span><span class="n">keep_markdown_format</span><span class="p">,</span>
+                <span class="n">keep_newlines</span><span class="o">=</span><span class="n">keep_newlines</span><span class="p">,</span>
+            <span class="p">)</span></div>
+
+<div class="viewcode-block" id="ConfluenceLoader.process_page"><a class="viewcode-back" href="../../../community/document_loaders/langchain_community.document_loaders.confluence.ConfluenceLoader.html#langchain_community.document_loaders.confluence.ConfluenceLoader.process_page">[docs]</a>    <span class="k">def</span> <span class="nf">process_page</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">page</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+        <span class="n">include_attachments</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+        <span class="n">include_comments</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+        <span class="n">content_format</span><span class="p">:</span> <span class="n">ContentFormat</span><span class="p">,</span>
+        <span class="n">ocr_languages</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">keep_markdown_format</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">keep_newlines</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Document</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">keep_markdown_format</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="kn">from</span> <span class="nn">markdownify</span> <span class="kn">import</span> <span class="n">markdownify</span>
+            <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
+                    <span class="s2">"`markdownify` package not found, please run "</span>
+                    <span class="s2">"`pip install markdownify`"</span>
+                <span class="p">)</span>
+        <span class="k">if</span> <span class="n">include_comments</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">keep_markdown_format</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="kn">from</span> <span class="nn">bs4</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span>
+            <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
+                    <span class="s2">"`beautifulsoup4` package not found, please run "</span>
+                    <span class="s2">"`pip install beautifulsoup4`"</span>
+                <span class="p">)</span>
+        <span class="k">if</span> <span class="n">include_attachments</span><span class="p">:</span>
+            <span class="n">attachment_texts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">process_attachment</span><span class="p">(</span><span class="n">page</span><span class="p">[</span><span class="s2">"id"</span><span class="p">],</span> <span class="n">ocr_languages</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">attachment_texts</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="n">content</span> <span class="o">=</span> <span class="n">content_format</span><span class="o">.</span><span class="n">get_content</span><span class="p">(</span><span class="n">page</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">keep_markdown_format</span><span class="p">:</span>
+            <span class="c1"># Use markdownify to keep the page Markdown style</span>
+            <span class="n">text</span> <span class="o">=</span> <span class="n">markdownify</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">heading_style</span><span class="o">=</span><span class="s2">"ATX"</span><span class="p">)</span> <span class="o">+</span> <span class="s2">""</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">attachment_texts</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">keep_newlines</span><span class="p">:</span>
+                <span class="n">text</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span>
+                    <span class="n">content</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"&lt;/p&gt;"</span><span class="p">,</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">&lt;/p&gt;"</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"&lt;br /&gt;"</span><span class="p">,</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">),</span> <span class="s2">"lxml"</span>
+                <span class="p">)</span><span class="o">.</span><span class="n">get_text</span><span class="p">(</span><span class="s2">" "</span><span class="p">)</span> <span class="o">+</span> <span class="s2">""</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">attachment_texts</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">text</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="s2">"lxml"</span><span class="p">)</span><span class="o">.</span><span class="n">get_text</span><span class="p">(</span>
+                    <span class="s2">" "</span><span class="p">,</span> <span class="n">strip</span><span class="o">=</span><span class="kc">True</span>
+                <span class="p">)</span> <span class="o">+</span> <span class="s2">""</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">attachment_texts</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">include_comments</span><span class="p">:</span>
+            <span class="n">comments</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">confluence</span><span class="o">.</span><span class="n">get_page_comments</span><span class="p">(</span>
+                <span class="n">page</span><span class="p">[</span><span class="s2">"id"</span><span class="p">],</span> <span class="n">expand</span><span class="o">=</span><span class="s2">"body.view.value"</span><span class="p">,</span> <span class="n">depth</span><span class="o">=</span><span class="s2">"all"</span>
+            <span class="p">)[</span><span class="s2">"results"</span><span class="p">]</span>
+            <span class="n">comment_texts</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">comment</span><span class="p">[</span><span class="s2">"body"</span><span class="p">][</span><span class="s2">"view"</span><span class="p">][</span><span class="s2">"value"</span><span class="p">],</span> <span class="s2">"lxml"</span><span class="p">)</span><span class="o">.</span><span class="n">get_text</span><span class="p">(</span>
+                    <span class="s2">" "</span><span class="p">,</span> <span class="n">strip</span><span class="o">=</span><span class="kc">True</span>
+                <span class="p">)</span>
+                <span class="k">for</span> <span class="n">comment</span> <span class="ow">in</span> <span class="n">comments</span>
+            <span class="p">]</span>
+            <span class="n">text</span> <span class="o">=</span> <span class="n">text</span> <span class="o">+</span> <span class="s2">""</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">comment_texts</span><span class="p">)</span>
+
+        <span class="n">metadata</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">"title"</span><span class="p">:</span> <span class="n">page</span><span class="p">[</span><span class="s2">"title"</span><span class="p">],</span>
+            <span class="s2">"id"</span><span class="p">:</span> <span class="n">page</span><span class="p">[</span><span class="s2">"id"</span><span class="p">],</span>
+            <span class="s2">"source"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">"/"</span><span class="p">)</span> <span class="o">+</span> <span class="n">page</span><span class="p">[</span><span class="s2">"_links"</span><span class="p">][</span><span class="s2">"webui"</span><span class="p">],</span>
+        <span class="p">}</span>
+
+        <span class="k">if</span> <span class="s2">"version"</span> <span class="ow">in</span> <span class="n">page</span> <span class="ow">and</span> <span class="s2">"when"</span> <span class="ow">in</span> <span class="n">page</span><span class="p">[</span><span class="s2">"version"</span><span class="p">]:</span>
+            <span class="n">metadata</span><span class="p">[</span><span class="s2">"when"</span><span class="p">]</span> <span class="o">=</span> <span class="n">page</span><span class="p">[</span><span class="s2">"version"</span><span class="p">][</span><span class="s2">"when"</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">Document</span><span class="p">(</span>
+            <span class="n">page_content</span><span class="o">=</span><span class="n">text</span><span class="p">,</span>
+            <span class="n">metadata</span><span class="o">=</span><span class="n">metadata</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="ConfluenceLoader.process_attachment"><a class="viewcode-back" href="../../../community/document_loaders/langchain_community.document_loaders.confluence.ConfluenceLoader.html#langchain_community.document_loaders.confluence.ConfluenceLoader.process_attachment">[docs]</a>    <span class="k">def</span> <span class="nf">process_attachment</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">page_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">ocr_languages</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span>  <span class="c1"># noqa: F401</span>
+        <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
+                <span class="s2">"`Pillow` package not found, "</span> <span class="s2">"please run `pip install Pillow`"</span>
+            <span class="p">)</span>
+
+        <span class="c1"># depending on setup you may also need to set the correct path for</span>
+        <span class="c1"># poppler and tesseract</span>
+        <span class="n">attachments</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">confluence</span><span class="o">.</span><span class="n">get_attachments_from_content</span><span class="p">(</span><span class="n">page_id</span><span class="p">)[</span><span class="s2">"results"</span><span class="p">]</span>
+        <span class="n">texts</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">attachment</span> <span class="ow">in</span> <span class="n">attachments</span><span class="p">:</span>
+            <span class="n">media_type</span> <span class="o">=</span> <span class="n">attachment</span><span class="p">[</span><span class="s2">"metadata"</span><span class="p">][</span><span class="s2">"mediaType"</span><span class="p">]</span>
+            <span class="n">absolute_url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_url</span> <span class="o">+</span> <span class="n">attachment</span><span class="p">[</span><span class="s2">"_links"</span><span class="p">][</span><span class="s2">"download"</span><span class="p">]</span>
+            <span class="n">title</span> <span class="o">=</span> <span class="n">attachment</span><span class="p">[</span><span class="s2">"title"</span><span class="p">]</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">media_type</span> <span class="o">==</span> <span class="s2">"application/pdf"</span><span class="p">:</span>
+                    <span class="n">text</span> <span class="o">=</span> <span class="n">title</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">process_pdf</span><span class="p">(</span><span class="n">absolute_url</span><span class="p">,</span> <span class="n">ocr_languages</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="p">(</span>
+                    <span class="n">media_type</span> <span class="o">==</span> <span class="s2">"image/png"</span>
+                    <span class="ow">or</span> <span class="n">media_type</span> <span class="o">==</span> <span class="s2">"image/jpg"</span>
+                    <span class="ow">or</span> <span class="n">media_type</span> <span class="o">==</span> <span class="s2">"image/jpeg"</span>
+                <span class="p">):</span>
+                    <span class="n">text</span> <span class="o">=</span> <span class="n">title</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">process_image</span><span class="p">(</span><span class="n">absolute_url</span><span class="p">,</span> <span class="n">ocr_languages</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="p">(</span>
+                    <span class="n">media_type</span> <span class="o">==</span> <span class="s2">"application/vnd.openxmlformats-officedocument"</span>
+                    <span class="s2">".wordprocessingml.document"</span>
+                <span class="p">):</span>
+                    <span class="n">text</span> <span class="o">=</span> <span class="n">title</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">process_doc</span><span class="p">(</span><span class="n">absolute_url</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">media_type</span> <span class="o">==</span> <span class="s2">"application/vnd.ms-excel"</span><span class="p">:</span>
+                    <span class="n">text</span> <span class="o">=</span> <span class="n">title</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">process_xls</span><span class="p">(</span><span class="n">absolute_url</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">media_type</span> <span class="o">==</span> <span class="s2">"image/svg+xml"</span><span class="p">:</span>
+                    <span class="n">text</span> <span class="o">=</span> <span class="n">title</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">process_svg</span><span class="p">(</span><span class="n">absolute_url</span><span class="p">,</span> <span class="n">ocr_languages</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="n">texts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+            <span class="k">except</span> <span class="n">requests</span><span class="o">.</span><span class="n">HTTPError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">404</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Attachment not found at </span><span class="si">{</span><span class="n">absolute_url</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>  <span class="c1"># noqa: T201</span>
+                    <span class="k">continue</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">raise</span>
+
+        <span class="k">return</span> <span class="n">texts</span></div>
+
+<div class="viewcode-block" id="ConfluenceLoader.process_pdf"><a class="viewcode-back" href="../../../community/document_loaders/langchain_community.document_loaders.confluence.ConfluenceLoader.html#langchain_community.document_loaders.confluence.ConfluenceLoader.process_pdf">[docs]</a>    <span class="k">def</span> <span class="nf">process_pdf</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">link</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">ocr_languages</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="kn">import</span> <span class="nn">pytesseract</span>
+            <span class="kn">from</span> <span class="nn">pdf2image</span> <span class="kn">import</span> <span class="n">convert_from_bytes</span>
+        <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
+                <span class="s2">"`pytesseract` or `pdf2image` package not found, "</span>
+                <span class="s2">"please run `pip install pytesseract pdf2image`"</span>
+            <span class="p">)</span>
+
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">confluence</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">link</span><span class="p">,</span> <span class="n">absolute</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="s2">""</span>
+
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">!=</span> <span class="mi">200</span>
+            <span class="ow">or</span> <span class="n">response</span><span class="o">.</span><span class="n">content</span> <span class="o">==</span> <span class="sa">b</span><span class="s2">""</span>
+            <span class="ow">or</span> <span class="n">response</span><span class="o">.</span><span class="n">content</span> <span class="ow">is</span> <span class="kc">None</span>
+        <span class="p">):</span>
+            <span class="k">return</span> <span class="n">text</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">images</span> <span class="o">=</span> <span class="n">convert_from_bytes</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">text</span>
+
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">image</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">images</span><span class="p">):</span>
+            <span class="n">image_text</span> <span class="o">=</span> <span class="n">pytesseract</span><span class="o">.</span><span class="n">image_to_string</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="n">ocr_languages</span><span class="p">)</span>
+            <span class="n">text</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">"Page </span><span class="si">{</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">:</span><span class="se">\n</span><span class="si">{</span><span class="n">image_text</span><span class="si">}</span><span class="se">\n\n</span><span class="s2">"</span>
+
+        <span class="k">return</span> <span class="n">text</span></div>
+
+<div class="viewcode-block" id="ConfluenceLoader.process_image"><a class="viewcode-back" href="../../../community/document_loaders/langchain_community.document_loaders.confluence.ConfluenceLoader.html#langchain_community.document_loaders.confluence.ConfluenceLoader.process_image">[docs]</a>    <span class="k">def</span> <span class="nf">process_image</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">link</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">ocr_languages</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="kn">import</span> <span class="nn">pytesseract</span>
+            <span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
+        <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
+                <span class="s2">"`pytesseract` or `Pillow` package not found, "</span>
+                <span class="s2">"please run `pip install pytesseract Pillow`"</span>
+            <span class="p">)</span>
+
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">confluence</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">link</span><span class="p">,</span> <span class="n">absolute</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="s2">""</span>
+
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">!=</span> <span class="mi">200</span>
+            <span class="ow">or</span> <span class="n">response</span><span class="o">.</span><span class="n">content</span> <span class="o">==</span> <span class="sa">b</span><span class="s2">""</span>
+            <span class="ow">or</span> <span class="n">response</span><span class="o">.</span><span class="n">content</span> <span class="ow">is</span> <span class="kc">None</span>
+        <span class="p">):</span>
+            <span class="k">return</span> <span class="n">text</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">image</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">BytesIO</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">content</span><span class="p">))</span>
+        <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">text</span>
+
+        <span class="k">return</span> <span class="n">pytesseract</span><span class="o">.</span><span class="n">image_to_string</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="n">ocr_languages</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ConfluenceLoader.process_doc"><a class="viewcode-back" href="../../../community/document_loaders/langchain_community.document_loaders.confluence.ConfluenceLoader.html#langchain_community.document_loaders.confluence.ConfluenceLoader.process_doc">[docs]</a>    <span class="k">def</span> <span class="nf">process_doc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">link</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="kn">import</span> <span class="nn">docx2txt</span>
+        <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
+                <span class="s2">"`docx2txt` package not found, please run `pip install docx2txt`"</span>
+            <span class="p">)</span>
+
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">confluence</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">link</span><span class="p">,</span> <span class="n">absolute</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="s2">""</span>
+
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">!=</span> <span class="mi">200</span>
+            <span class="ow">or</span> <span class="n">response</span><span class="o">.</span><span class="n">content</span> <span class="o">==</span> <span class="sa">b</span><span class="s2">""</span>
+            <span class="ow">or</span> <span class="n">response</span><span class="o">.</span><span class="n">content</span> <span class="ow">is</span> <span class="kc">None</span>
+        <span class="p">):</span>
+            <span class="k">return</span> <span class="n">text</span>
+        <span class="n">file_data</span> <span class="o">=</span> <span class="n">BytesIO</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">docx2txt</span><span class="o">.</span><span class="n">process</span><span class="p">(</span><span class="n">file_data</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ConfluenceLoader.process_xls"><a class="viewcode-back" href="../../../community/document_loaders/langchain_community.document_loaders.confluence.ConfluenceLoader.html#langchain_community.document_loaders.confluence.ConfluenceLoader.process_xls">[docs]</a>    <span class="k">def</span> <span class="nf">process_xls</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">link</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="kn">import</span> <span class="nn">io</span>
+        <span class="kn">import</span> <span class="nn">os</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="kn">import</span> <span class="nn">xlrd</span>
+
+        <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="s2">"`xlrd` package not found, please run `pip install xlrd`"</span><span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+        <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
+                <span class="s2">"`pandas` package not found, please run `pip install pandas`"</span>
+            <span class="p">)</span>
+
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">confluence</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">link</span><span class="p">,</span> <span class="n">absolute</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="s2">""</span>
+
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">!=</span> <span class="mi">200</span>
+            <span class="ow">or</span> <span class="n">response</span><span class="o">.</span><span class="n">content</span> <span class="o">==</span> <span class="sa">b</span><span class="s2">""</span>
+            <span class="ow">or</span> <span class="n">response</span><span class="o">.</span><span class="n">content</span> <span class="ow">is</span> <span class="kc">None</span>
+        <span class="p">):</span>
+            <span class="k">return</span> <span class="n">text</span>
+
+        <span class="n">filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">link</span><span class="p">)</span>
+        <span class="c1"># Getting the whole content of the url after filename,</span>
+        <span class="c1"># Example: ".csv?version=2&amp;modificationDate=1631800010678&amp;cacheVersion=1&amp;api=v2"</span>
+        <span class="n">file_extension</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">filename</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">file_extension</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span>
+            <span class="s2">".csv"</span>
+        <span class="p">):</span>  <span class="c1"># if the extension found in the url is ".csv"</span>
+            <span class="n">content_string</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">"utf-8"</span><span class="p">)</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">io</span><span class="o">.</span><span class="n">StringIO</span><span class="p">(</span><span class="n">content_string</span><span class="p">))</span>
+            <span class="n">text</span> <span class="o">+=</span> <span class="n">df</span><span class="o">.</span><span class="n">to_string</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">+</span> <span class="s2">"</span><span class="se">\n\n</span><span class="s2">"</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">workbook</span> <span class="o">=</span> <span class="n">xlrd</span><span class="o">.</span><span class="n">open_workbook</span><span class="p">(</span><span class="n">file_contents</span><span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">sheet</span> <span class="ow">in</span> <span class="n">workbook</span><span class="o">.</span><span class="n">sheets</span><span class="p">():</span>
+                <span class="n">text</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">sheet</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">:</span><span class="se">\n</span><span class="s2">"</span>
+                <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">sheet</span><span class="o">.</span><span class="n">nrows</span><span class="p">):</span>
+                    <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">sheet</span><span class="o">.</span><span class="n">ncols</span><span class="p">):</span>
+                        <span class="n">text</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">sheet</span><span class="o">.</span><span class="n">cell_value</span><span class="p">(</span><span class="n">row</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="p">)</span><span class="si">}</span><span class="se">\t</span><span class="s2">"</span>
+                    <span class="n">text</span> <span class="o">+=</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span>
+                <span class="n">text</span> <span class="o">+=</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span>
+
+        <span class="k">return</span> <span class="n">text</span></div>
+
+<div class="viewcode-block" id="ConfluenceLoader.process_svg"><a class="viewcode-back" href="../../../community/document_loaders/langchain_community.document_loaders.confluence.ConfluenceLoader.html#langchain_community.document_loaders.confluence.ConfluenceLoader.process_svg">[docs]</a>    <span class="k">def</span> <span class="nf">process_svg</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">link</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">ocr_languages</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="kn">import</span> <span class="nn">pytesseract</span>
+            <span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
+            <span class="kn">from</span> <span class="nn">reportlab.graphics</span> <span class="kn">import</span> <span class="n">renderPM</span>
+            <span class="kn">from</span> <span class="nn">svglib.svglib</span> <span class="kn">import</span> <span class="n">svg2rlg</span>
+        <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
+                <span class="s2">"`pytesseract`, `Pillow`, `reportlab` or `svglib` package not found, "</span>
+                <span class="s2">"please run `pip install pytesseract Pillow reportlab svglib`"</span>
+            <span class="p">)</span>
+
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">confluence</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">link</span><span class="p">,</span> <span class="n">absolute</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="s2">""</span>
+
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">!=</span> <span class="mi">200</span>
+            <span class="ow">or</span> <span class="n">response</span><span class="o">.</span><span class="n">content</span> <span class="o">==</span> <span class="sa">b</span><span class="s2">""</span>
+            <span class="ow">or</span> <span class="n">response</span><span class="o">.</span><span class="n">content</span> <span class="ow">is</span> <span class="kc">None</span>
+        <span class="p">):</span>
+            <span class="k">return</span> <span class="n">text</span>
+
+        <span class="n">drawing</span> <span class="o">=</span> <span class="n">svg2rlg</span><span class="p">(</span><span class="n">BytesIO</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">content</span><span class="p">))</span>
+
+        <span class="n">img_data</span> <span class="o">=</span> <span class="n">BytesIO</span><span class="p">()</span>
+        <span class="n">renderPM</span><span class="o">.</span><span class="n">drawToFile</span><span class="p">(</span><span class="n">drawing</span><span class="p">,</span> <span class="n">img_data</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s2">"PNG"</span><span class="p">)</span>
+        <span class="n">img_data</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">image</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">img_data</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">pytesseract</span><span class="o">.</span><span class="n">image_to_string</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="n">ocr_languages</span><span class="p">)</span></div></div>
+</pre></div>
+</article>
+</div>
+</div>
+<footer class="bd-footer-content">
+</footer>
+</main>
+</div>
+</div>
+<!-- Scripts loaded after <body> so the DOM is not blocked -->
+<script src="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+<footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+<div class="footer-items__start">
+<div class="footer-item">
+<p class="copyright">
+    
+      © Copyright 2023, LangChain Inc.
+      <br/>
+</p>
+</div>
+</div>
+</div>
+</footer>
+</body>
+</html>

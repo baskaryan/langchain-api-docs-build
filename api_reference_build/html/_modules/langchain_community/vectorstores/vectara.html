@@ -1,0 +1,1158 @@
+
+<!DOCTYPE html>
+
+<html data-content_root="" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>langchain_community.vectorstores.vectara — 🦜🔗 LangChain  documentation</title>
+<script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+<!-- Loaded before other Sphinx assets -->
+<link href="../../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet"/>
+<link href="../../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet"/>
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet"/>
+<link href="../../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet"/>
+<link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" rel="preload" type="font/woff2"/>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/autodoc_pydantic.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/sphinx-design.4cbf315f70debaebd550c87a6162cf0f.min.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/css/custom.css" rel="stylesheet" type="text/css"/>
+<!-- Pre-loaded scripts that we'll load fully later -->
+<link as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
+<link as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
+<script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/sphinx_highlight.js"></script>
+<script src="../../../_static/clipboard.min.js"></script>
+<script src="../../../_static/copybutton.js"></script>
+<script src="../../../_static/design-tabs.js"></script>
+<script>DOCUMENTATION_OPTIONS.pagename = '_modules/langchain_community/vectorstores/vectara';</script>
+<link href="../../../_static/favicon.png" rel="icon"/>
+<link href="../../../search.html" rel="search" title="Search"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="en" name="docsearch:language"/>
+<meta content="Aug 14, 2024" name="docbuild:last-update"/>
+</head>
+<body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
+<div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
+<div id="pst-scroll-pixel-helper"></div>
+<button class="btn rounded-pill" id="pst-back-to-top" type="button">
+<i class="fa-solid fa-arrow-up"></i>Back to top</button>
+<input class="sidebar-toggle" id="pst-primary-sidebar-checkbox" type="checkbox"/>
+<label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+<input class="sidebar-toggle" id="pst-secondary-sidebar-checkbox" type="checkbox"/>
+<label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+<div class="search-button__wrapper">
+<div class="search-button__overlay"></div>
+<div class="search-button__search-container">
+<form action="../../../search.html" class="bd-search d-flex align-items-center" method="get">
+<i class="fa-solid fa-magnifying-glass"></i>
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="form-control" id="search-input" name="q" placeholder="Search" spellcheck="false" type="search"/>
+<span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+</div>
+<div class="pst-async-banner-revealer d-none">
+<aside aria-label="Version warning" class="d-none d-print-none" id="bd-header-version-warning"></aside>
+</div>
+<header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+<button aria-label="Site navigation" class="pst-navbar-icon sidebar-toggle primary-toggle">
+<span class="fa-solid fa-bars"></span>
+</button>
+<div class="navbar-header-items__start">
+<div class="navbar-item">
+<a class="navbar-brand logo" href="../../../index.html">
+<img alt="🦜🔗 LangChain  documentation - Home" class="logo__image only-light" src="../../../_static/wordmark-api.svg"/>
+<script>document.write(`<img src="../../../_static/wordmark-api-dark.svg" class="logo__image only-dark" alt="🦜🔗 LangChain  documentation - Home"/>`);</script>
+</a></div>
+</div>
+<div class="navbar-header-items">
+<div class="me-auto navbar-header-items__center">
+<div class="navbar-item">
+<nav>
+<ul class="bd-navbar-elements navbar-nav">
+<li class="nav-item">
+<a class="nav-link nav-internal" href="../../../reference.html">
+    Reference
+  </a>
+</li>
+<li class="nav-item">
+<a class="nav-link nav-external" href="https://api.python.langchain.com/">
+    Legacy reference
+  </a>
+</li>
+</ul>
+</nav></div>
+</div>
+<div class="navbar-header-items__end">
+<div class="navbar-item navbar-persistent--container">
+<form action="../../../search.html" class="bd-search d-flex align-items-center" method="get">
+<i class="fa-solid fa-magnifying-glass"></i>
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="form-control" id="search-input" name="q" placeholder="Search" spellcheck="false" type="search"/>
+<span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+</div>
+<div class="navbar-item"><!-- This will display a link to LangChain docs -->
+<head>
+<style>
+        .text-link {
+            text-decoration: none; /* Remove underline */
+            color: inherit;        /* Inherit color from parent element */
+        }
+    </style>
+</head>
+<body>
+<a class="text-link" href="https://python.langchain.com/">Docs</a>
+</body></div>
+<div class="navbar-item">
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+<div class="navbar-item"><ul aria-label="Quick Links" class="navbar-icon-links">
+<li class="nav-item">
+<a class="nav-link pst-navbar-icon" data-bs-placement="bottom" data-bs-toggle="tooltip" href="https://github.com/langchain-ai/langchain" rel="noopener" target="_blank" title="GitHub"><i aria-hidden="true" class="fa-brands fa-square-github fa-lg"></i>
+<span class="sr-only">GitHub</span></a>
+</li>
+<li class="nav-item">
+<a class="nav-link pst-navbar-icon" data-bs-placement="bottom" data-bs-toggle="tooltip" href="https://twitter.com/langchainai" rel="noopener" target="_blank" title="X / Twitter"><i aria-hidden="true" class="fab fa-twitter-square fa-lg"></i>
+<span class="sr-only">X / Twitter</span></a>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="navbar-persistent--mobile">
+<form action="../../../search.html" class="bd-search d-flex align-items-center" method="get">
+<i class="fa-solid fa-magnifying-glass"></i>
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="form-control" id="search-input" name="q" placeholder="Search" spellcheck="false" type="search"/>
+<span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+</div>
+</div>
+</header>
+<div class="bd-container">
+<div class="bd-container__inner bd-page-width">
+<div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+<div class="sidebar-header-items sidebar-primary__section">
+<div class="sidebar-header-items__center">
+<div class="navbar-item">
+<nav>
+<ul class="bd-navbar-elements navbar-nav">
+<li class="nav-item">
+<a class="nav-link nav-internal" href="../../../reference.html">
+    Reference
+  </a>
+</li>
+<li class="nav-item">
+<a class="nav-link nav-external" href="https://api.python.langchain.com/">
+    Legacy reference
+  </a>
+</li>
+</ul>
+</nav></div>
+</div>
+<div class="sidebar-header-items__end">
+<div class="navbar-item"><!-- This will display a link to LangChain docs -->
+<head>
+<style>
+        .text-link {
+            text-decoration: none; /* Remove underline */
+            color: inherit;        /* Inherit color from parent element */
+        }
+    </style>
+</head>
+<body>
+<a class="text-link" href="https://python.langchain.com/">Docs</a>
+</body></div>
+<div class="navbar-item">
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+<div class="navbar-item"><ul aria-label="Quick Links" class="navbar-icon-links">
+<li class="nav-item">
+<a class="nav-link pst-navbar-icon" data-bs-placement="bottom" data-bs-toggle="tooltip" href="https://github.com/langchain-ai/langchain" rel="noopener" target="_blank" title="GitHub"><i aria-hidden="true" class="fa-brands fa-square-github fa-lg"></i>
+<span class="sr-only">GitHub</span></a>
+</li>
+<li class="nav-item">
+<a class="nav-link pst-navbar-icon" data-bs-placement="bottom" data-bs-toggle="tooltip" href="https://twitter.com/langchainai" rel="noopener" target="_blank" title="X / Twitter"><i aria-hidden="true" class="fab fa-twitter-square fa-lg"></i>
+<span class="sr-only">X / Twitter</span></a>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sidebar-primary-items__end sidebar-primary__section">
+</div>
+<div id="rtd-footer-container"></div>
+</div>
+<main class="bd-main" id="main-content" role="main">
+<div class="bd-content">
+<div class="bd-article-container">
+<div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+<div class="header-article-items__start">
+<div class="header-article-item">
+<nav aria-label="Breadcrumb" class="d-print-none">
+<ul class="bd-breadcrumbs">
+<li class="breadcrumb-item breadcrumb-home">
+<a aria-label="Home" class="nav-link" href="../../../index.html">
+<i class="fa-solid fa-home"></i>
+</a>
+</li>
+<li class="breadcrumb-item"><a class="nav-link" href="../../index.html">Module code</a></li>
+<li aria-current="page" class="breadcrumb-item active">langchain_co...</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+</div>
+<div id="searchbox"></div>
+<article class="bd-article">
+<h1>Source code for langchain_community.vectorstores.vectara</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
+<span class="kn">from</span> <span class="nn">hashlib</span> <span class="kn">import</span> <span class="n">md5</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Type</span>
+
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">from</span> <span class="nn">langchain_core.callbacks.manager</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">CallbackManagerForRetrieverRun</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">langchain_core.documents</span> <span class="kn">import</span> <span class="n">Document</span>
+<span class="kn">from</span> <span class="nn">langchain_core.embeddings</span> <span class="kn">import</span> <span class="n">Embeddings</span>
+<span class="kn">from</span> <span class="nn">langchain_core.runnables</span> <span class="kn">import</span> <span class="n">Runnable</span><span class="p">,</span> <span class="n">RunnableConfig</span>
+<span class="kn">from</span> <span class="nn">langchain_core.vectorstores</span> <span class="kn">import</span> <span class="n">VectorStore</span><span class="p">,</span> <span class="n">VectorStoreRetriever</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+<span class="n">MMR_RERANKER_ID</span> <span class="o">=</span> <span class="mi">272725718</span>
+<span class="n">RERANKER_MULTILINGUAL_V1_ID</span> <span class="o">=</span> <span class="mi">272725719</span>
+
+
+<div class="viewcode-block" id="SummaryConfig"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.vectara.SummaryConfig.html#langchain_community.vectorstores.vectara.SummaryConfig">[docs]</a><span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">SummaryConfig</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Configuration for summary generation.</span>
+
+<span class="sd">    is_enabled: True if summary is enabled, False otherwise</span>
+<span class="sd">    max_results: maximum number of results to summarize</span>
+<span class="sd">    response_lang: requested language for the summary</span>
+<span class="sd">    prompt_name: name of the prompt to use for summarization</span>
+<span class="sd">      (see https://docs.vectara.com/docs/learn/grounded-generation/select-a-summarizer)</span>
+<span class="sd">    """</span>
+
+    <span class="n">is_enabled</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">max_results</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">7</span>
+    <span class="n">response_lang</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"eng"</span>
+    <span class="n">prompt_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"vectara-summary-ext-v1.2.0"</span>
+    <span class="n">stream</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span></div>
+
+
+<div class="viewcode-block" id="MMRConfig"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.vectara.MMRConfig.html#langchain_community.vectorstores.vectara.MMRConfig">[docs]</a><span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">MMRConfig</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Configuration for Maximal Marginal Relevance (MMR) search.</span>
+<span class="sd">       This will soon be deprated in favor of RerankConfig.</span>
+
+<span class="sd">    is_enabled: True if MMR is enabled, False otherwise</span>
+<span class="sd">    mmr_k: number of results to fetch for MMR, defaults to 50</span>
+<span class="sd">    diversity_bias: number between 0 and 1 that determines the degree</span>
+<span class="sd">        of diversity among the results with 0 corresponding</span>
+<span class="sd">        to minimum diversity and 1 to maximum diversity.</span>
+<span class="sd">        Defaults to 0.3.</span>
+<span class="sd">        Note: diversity_bias is equivalent 1-lambda_mult</span>
+<span class="sd">        where lambda_mult is the value often used in max_marginal_relevance_search()</span>
+<span class="sd">        We chose to use that since we believe it's more intuitive to the user.</span>
+<span class="sd">    """</span>
+
+    <span class="n">is_enabled</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">mmr_k</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">50</span>
+    <span class="n">diversity_bias</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.3</span></div>
+
+
+<div class="viewcode-block" id="RerankConfig"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.vectara.RerankConfig.html#langchain_community.vectorstores.vectara.RerankConfig">[docs]</a><span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">RerankConfig</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Configuration for Reranker.</span>
+
+<span class="sd">    reranker: "mmr", "rerank_multilingual_v1" or "none"</span>
+<span class="sd">    rerank_k: number of results to fetch before reranking, defaults to 50</span>
+<span class="sd">    mmr_diversity_bias: for MMR only - a number between 0 and 1 that determines</span>
+<span class="sd">        the degree of diversity among the results with 0 corresponding</span>
+<span class="sd">        to minimum diversity and 1 to maximum diversity.</span>
+<span class="sd">        Defaults to 0.3.</span>
+<span class="sd">        Note: mmr_diversity_bias is equivalent 1-lambda_mult</span>
+<span class="sd">        where lambda_mult is the value often used in max_marginal_relevance_search()</span>
+<span class="sd">        We chose to use that since we believe it's more intuitive to the user.</span>
+<span class="sd">    """</span>
+
+    <span class="n">reranker</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"none"</span>
+    <span class="n">rerank_k</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">50</span>
+    <span class="n">mmr_diversity_bias</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.3</span></div>
+
+
+<div class="viewcode-block" id="VectaraQueryConfig"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.vectara.VectaraQueryConfig.html#langchain_community.vectorstores.vectara.VectaraQueryConfig">[docs]</a><span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">VectaraQueryConfig</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Configuration for Vectara query.</span>
+
+<span class="sd">    k: Number of Documents to return. Defaults to 10.</span>
+<span class="sd">    lambda_val: lexical match parameter for hybrid search.</span>
+<span class="sd">    filter Dictionary of argument(s) to filter on metadata. For example a</span>
+<span class="sd">        filter can be "doc.rating &gt; 3.0 and part.lang = 'deu'"} see</span>
+<span class="sd">        https://docs.vectara.com/docs/search-apis/sql/filter-overview</span>
+<span class="sd">        for more details.</span>
+<span class="sd">    score_threshold: minimal score threshold for the result.</span>
+<span class="sd">        If defined, results with score less than this value will be</span>
+<span class="sd">        filtered out.</span>
+<span class="sd">    n_sentence_before: number of sentences before the matching segment</span>
+<span class="sd">        to add, defaults to 2</span>
+<span class="sd">    n_sentence_after: number of sentences before the matching segment</span>
+<span class="sd">        to add, defaults to 2</span>
+<span class="sd">    rerank_config: RerankConfig configuration dataclass</span>
+<span class="sd">    summary_config: SummaryConfig configuration dataclass</span>
+<span class="sd">    """</span>
+
+    <span class="n">k</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span>
+    <span class="n">lambda_val</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="nb">filter</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span>
+    <span class="n">score_threshold</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">n_sentence_before</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">n_sentence_after</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">rerank_config</span><span class="p">:</span> <span class="n">RerankConfig</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="n">RerankConfig</span><span class="p">)</span>
+    <span class="n">summary_config</span><span class="p">:</span> <span class="n">SummaryConfig</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="n">SummaryConfig</span><span class="p">)</span>
+
+<div class="viewcode-block" id="VectaraQueryConfig.__init__"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.vectara.VectaraQueryConfig.html#langchain_community.vectorstores.vectara.VectaraQueryConfig.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">k</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+        <span class="n">lambda_val</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="nb">filter</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
+        <span class="n">score_threshold</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">n_sentence_before</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="n">n_sentence_after</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="n">n_sentence_context</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">mmr_config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">MMRConfig</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">summary_config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">SummaryConfig</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">rerank_config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">RerankConfig</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">k</span> <span class="o">=</span> <span class="n">k</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lambda_val</span> <span class="o">=</span> <span class="n">lambda_val</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">filter</span> <span class="o">=</span> <span class="nb">filter</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">score_threshold</span> <span class="o">=</span> <span class="n">score_threshold</span>
+
+        <span class="k">if</span> <span class="n">summary_config</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">summary_config</span> <span class="o">=</span> <span class="n">summary_config</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">summary_config</span> <span class="o">=</span> <span class="n">SummaryConfig</span><span class="p">()</span>
+
+        <span class="c1"># handle n_sentence_context for backward compatibility</span>
+        <span class="k">if</span> <span class="n">n_sentence_context</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">n_sentence_before</span> <span class="o">=</span> <span class="n">n_sentence_context</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">n_sentence_after</span> <span class="o">=</span> <span class="n">n_sentence_context</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                <span class="s2">"n_sentence_context is deprecated. "</span>
+                <span class="s2">"Please use n_sentence_before and n_sentence_after instead"</span><span class="p">,</span>
+                <span class="ne">DeprecationWarning</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">n_sentence_before</span> <span class="o">=</span> <span class="n">n_sentence_before</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">n_sentence_after</span> <span class="o">=</span> <span class="n">n_sentence_after</span>
+
+        <span class="c1"># handle mmr_config for backward compatibility</span>
+        <span class="k">if</span> <span class="n">rerank_config</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">rerank_config</span> <span class="o">=</span> <span class="n">rerank_config</span>
+        <span class="k">elif</span> <span class="n">mmr_config</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">rerank_config</span> <span class="o">=</span> <span class="n">RerankConfig</span><span class="p">(</span>
+                <span class="n">reranker</span><span class="o">=</span><span class="s2">"mmr"</span><span class="p">,</span>
+                <span class="n">rerank_k</span><span class="o">=</span><span class="n">mmr_config</span><span class="o">.</span><span class="n">mmr_k</span><span class="p">,</span>
+                <span class="n">mmr_diversity_bias</span><span class="o">=</span><span class="n">mmr_config</span><span class="o">.</span><span class="n">diversity_bias</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                <span class="s2">"MMRConfig is deprecated. Please use RerankConfig instead."</span><span class="p">,</span>
+                <span class="ne">DeprecationWarning</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">rerank_config</span> <span class="o">=</span> <span class="n">RerankConfig</span><span class="p">()</span></div></div>
+
+
+<div class="viewcode-block" id="Vectara"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.vectara.Vectara.html#langchain_community.vectorstores.vectara.Vectara">[docs]</a><span class="k">class</span> <span class="nc">Vectara</span><span class="p">(</span><span class="n">VectorStore</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""`Vectara API` vector store.</span>
+
+<span class="sd">     See (https://vectara.com).</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            from langchain_community.vectorstores import Vectara</span>
+
+<span class="sd">            vectorstore = Vectara(</span>
+<span class="sd">                vectara_customer_id=vectara_customer_id,</span>
+<span class="sd">                vectara_corpus_id=vectara_corpus_id,</span>
+<span class="sd">                vectara_api_key=vectara_api_key</span>
+<span class="sd">            )</span>
+<span class="sd">    """</span>
+
+<div class="viewcode-block" id="Vectara.__init__"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.vectara.Vectara.html#langchain_community.vectorstores.vectara.Vectara.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">vectara_customer_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">vectara_corpus_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">vectara_api_key</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">vectara_api_timeout</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">120</span><span class="p">,</span>
+        <span class="n">source</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"langchain"</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Initialize with Vectara API."""</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_vectara_customer_id</span> <span class="o">=</span> <span class="n">vectara_customer_id</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+            <span class="s2">"VECTARA_CUSTOMER_ID"</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_vectara_corpus_id</span> <span class="o">=</span> <span class="n">vectara_corpus_id</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+            <span class="s2">"VECTARA_CORPUS_ID"</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_vectara_api_key</span> <span class="o">=</span> <span class="n">vectara_api_key</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"VECTARA_API_KEY"</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_vectara_customer_id</span> <span class="ow">is</span> <span class="kc">None</span>
+            <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_vectara_corpus_id</span> <span class="ow">is</span> <span class="kc">None</span>
+            <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_vectara_api_key</span> <span class="ow">is</span> <span class="kc">None</span>
+        <span class="p">):</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                <span class="s2">"Can't find Vectara credentials, customer_id or corpus_id in "</span>
+                <span class="s2">"environment."</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Using corpus id </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_vectara_corpus_id</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_source</span> <span class="o">=</span> <span class="n">source</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_session</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">Session</span><span class="p">()</span>  <span class="c1"># to reuse connections</span>
+        <span class="n">adapter</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">adapters</span><span class="o">.</span><span class="n">HTTPAdapter</span><span class="p">(</span><span class="n">max_retries</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">mount</span><span class="p">(</span><span class="s2">"http://"</span><span class="p">,</span> <span class="n">adapter</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vectara_api_timeout</span> <span class="o">=</span> <span class="n">vectara_api_timeout</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">embeddings</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Embeddings</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">_get_post_headers</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Returns headers that should be attached to each post request."""</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">"x-api-key"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_vectara_api_key</span><span class="p">,</span>
+            <span class="s2">"customer-id"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_vectara_customer_id</span><span class="p">,</span>
+            <span class="s2">"Content-Type"</span><span class="p">:</span> <span class="s2">"application/json"</span><span class="p">,</span>
+            <span class="s2">"X-Source"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_source</span><span class="p">,</span>
+        <span class="p">}</span>
+
+    <span class="k">def</span> <span class="nf">_delete_doc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">doc_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Delete a document from the Vectara corpus.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            doc_id (str): ID of the document to delete.</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: True if deletion was successful, False otherwise.</span>
+<span class="sd">        """</span>
+        <span class="n">body</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">"customer_id"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_vectara_customer_id</span><span class="p">,</span>
+            <span class="s2">"corpus_id"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_vectara_corpus_id</span><span class="p">,</span>
+            <span class="s2">"document_id"</span><span class="p">:</span> <span class="n">doc_id</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+            <span class="s2">"https://api.vectara.io/v1/delete-doc"</span><span class="p">,</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">body</span><span class="p">),</span>
+            <span class="n">verify</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_post_headers</span><span class="p">(),</span>
+            <span class="n">timeout</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">vectara_api_timeout</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">!=</span> <span class="mi">200</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">"Delete request failed for doc_id = </span><span class="si">{</span><span class="n">doc_id</span><span class="si">}</span><span class="s2"> with status code "</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">, reason </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">reason</span><span class="si">}</span><span class="s2">, text "</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="si">}</span><span class="s2">"</span>
+            <span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="k">def</span> <span class="nf">_index_doc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">doc</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">use_core_api</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="n">request</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">request</span><span class="p">[</span><span class="s2">"customer_id"</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_vectara_customer_id</span>
+        <span class="n">request</span><span class="p">[</span><span class="s2">"corpus_id"</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_vectara_corpus_id</span>
+        <span class="n">request</span><span class="p">[</span><span class="s2">"document"</span><span class="p">]</span> <span class="o">=</span> <span class="n">doc</span>
+
+        <span class="n">api_endpoint</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="s2">"https://api.vectara.io/v1/core/index"</span>
+            <span class="k">if</span> <span class="n">use_core_api</span>
+            <span class="k">else</span> <span class="s2">"https://api.vectara.io/v1/index"</span>
+        <span class="p">)</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+            <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_post_headers</span><span class="p">(),</span>
+            <span class="n">url</span><span class="o">=</span><span class="n">api_endpoint</span><span class="p">,</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">request</span><span class="p">),</span>
+            <span class="n">timeout</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">vectara_api_timeout</span><span class="p">,</span>
+            <span class="n">verify</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="n">status_code</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span>
+
+        <span class="n">result</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+        <span class="n">status_str</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="s2">"status"</span><span class="p">][</span><span class="s2">"code"</span><span class="p">]</span> <span class="k">if</span> <span class="s2">"status"</span> <span class="ow">in</span> <span class="n">result</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">status_code</span> <span class="o">==</span> <span class="mi">409</span> <span class="ow">or</span> <span class="n">status_str</span> <span class="ow">and</span> <span class="p">(</span><span class="n">status_str</span> <span class="o">==</span> <span class="s2">"ALREADY_EXISTS"</span><span class="p">):</span>
+            <span class="k">return</span> <span class="s2">"E_ALREADY_EXISTS"</span>
+        <span class="k">elif</span> <span class="n">status_str</span> <span class="ow">and</span> <span class="p">(</span><span class="n">status_str</span> <span class="o">==</span> <span class="s2">"FORBIDDEN"</span><span class="p">):</span>
+            <span class="k">return</span> <span class="s2">"E_NO_PERMISSIONS"</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">"E_SUCCEEDED"</span>
+
+<div class="viewcode-block" id="Vectara.delete"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.vectara.Vectara.html#langchain_community.vectorstores.vectara.Vectara.delete">[docs]</a>    <span class="k">def</span> <span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ids</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Delete by vector ID or other criteria.</span>
+<span class="sd">        Args:</span>
+<span class="sd">            ids: List of ids to delete.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Optional[bool]: True if deletion is successful,</span>
+<span class="sd">            False otherwise, None if not implemented.</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="n">ids</span><span class="p">:</span>
+            <span class="n">success</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_delete_doc</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span> <span class="k">for</span> <span class="nb">id</span> <span class="ow">in</span> <span class="n">ids</span><span class="p">]</span>
+            <span class="k">return</span> <span class="nb">all</span><span class="p">(</span><span class="n">success</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="Vectara.add_files"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.vectara.Vectara.html#langchain_community.vectorstores.vectara.Vectara.add_files">[docs]</a>    <span class="k">def</span> <span class="nf">add_files</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">files_list</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+        <span class="n">metadatas</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Vectara provides a way to add documents directly via our API where</span>
+<span class="sd">        pre-processing and chunking occurs internally in an optimal way</span>
+<span class="sd">        This method provides a way to use that API in LangChain</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            files_list: Iterable of strings, each representing a local file path.</span>
+<span class="sd">                    Files could be text, HTML, PDF, markdown, doc/docx, ppt/pptx, etc.</span>
+<span class="sd">                    see API docs for full list</span>
+<span class="sd">            metadatas: Optional list of metadatas associated with each file</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List of ids associated with each of the files indexed</span>
+<span class="sd">        """</span>
+        <span class="n">doc_ids</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">inx</span><span class="p">,</span> <span class="n">file</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">files_list</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">file</span><span class="p">):</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">"File </span><span class="si">{</span><span class="n">file</span><span class="si">}</span><span class="s2"> does not exist, skipping"</span><span class="p">)</span>
+                <span class="k">continue</span>
+            <span class="n">md</span> <span class="o">=</span> <span class="n">metadatas</span><span class="p">[</span><span class="n">inx</span><span class="p">]</span> <span class="k">if</span> <span class="n">metadatas</span> <span class="k">else</span> <span class="p">{}</span>
+            <span class="n">files</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">"file"</span><span class="p">:</span> <span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s2">"rb"</span><span class="p">)),</span>
+                <span class="s2">"doc_metadata"</span><span class="p">:</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">md</span><span class="p">),</span>
+            <span class="p">}</span>
+            <span class="n">headers</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_post_headers</span><span class="p">()</span>
+            <span class="n">headers</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"Content-Type"</span><span class="p">)</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">"https://api.vectara.io/upload?c=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_vectara_customer_id</span><span class="si">}</span><span class="s2">&amp;o=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_vectara_corpus_id</span><span class="si">}</span><span class="s2">&amp;d=True"</span><span class="p">,</span>
+                <span class="n">files</span><span class="o">=</span><span class="n">files</span><span class="p">,</span>
+                <span class="n">verify</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span>
+                <span class="n">timeout</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">vectara_api_timeout</span><span class="p">,</span>
+            <span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">409</span><span class="p">:</span>
+                <span class="n">doc_id</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s2">"document"</span><span class="p">][</span><span class="s2">"documentId"</span><span class="p">]</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">"File </span><span class="si">{</span><span class="n">file</span><span class="si">}</span><span class="s2"> already exists on Vectara (doc_id=</span><span class="si">{</span><span class="n">doc_id</span><span class="si">}</span><span class="s2">), skipping"</span>
+                <span class="p">)</span>
+            <span class="k">elif</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
+                <span class="n">doc_id</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s2">"document"</span><span class="p">][</span><span class="s2">"documentId"</span><span class="p">]</span>
+                <span class="n">doc_ids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">doc_id</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Error indexing file </span><span class="si">{</span><span class="n">file</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">doc_ids</span></div>
+
+<div class="viewcode-block" id="Vectara.add_texts"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.vectara.Vectara.html#langchain_community.vectorstores.vectara.Vectara.add_texts">[docs]</a>    <span class="k">def</span> <span class="nf">add_texts</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">texts</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+        <span class="n">metadatas</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">doc_metadata</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Run more texts through the embeddings and add to the vectorstore.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            texts: Iterable of strings to add to the vectorstore.</span>
+<span class="sd">            metadatas: Optional list of metadatas associated with the texts.</span>
+<span class="sd">            doc_metadata: optional metadata for the document</span>
+
+<span class="sd">        This function indexes all the input text strings in the Vectara corpus as a</span>
+<span class="sd">        single Vectara document, where each input text is considered a "section" and the</span>
+<span class="sd">        metadata are associated with each section.</span>
+<span class="sd">        if 'doc_metadata' is provided, it is associated with the Vectara document.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            document ID of the document added</span>
+
+<span class="sd">        """</span>
+        <span class="n">doc_hash</span> <span class="o">=</span> <span class="n">md5</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">texts</span><span class="p">:</span>
+            <span class="n">doc_hash</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span>
+        <span class="n">doc_id</span> <span class="o">=</span> <span class="n">doc_hash</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">metadatas</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">metadatas</span> <span class="o">=</span> <span class="p">[{}</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">texts</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">doc_metadata</span><span class="p">:</span>
+            <span class="n">doc_metadata</span><span class="p">[</span><span class="s2">"source"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"langchain"</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">doc_metadata</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"source"</span><span class="p">:</span> <span class="s2">"langchain"</span><span class="p">}</span>
+
+        <span class="n">use_core_api</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"use_core_api"</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="n">section_key</span> <span class="o">=</span> <span class="s2">"parts"</span> <span class="k">if</span> <span class="n">use_core_api</span> <span class="k">else</span> <span class="s2">"section"</span>
+        <span class="n">doc</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">"document_id"</span><span class="p">:</span> <span class="n">doc_id</span><span class="p">,</span>
+            <span class="s2">"metadataJson"</span><span class="p">:</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">doc_metadata</span><span class="p">),</span>
+            <span class="n">section_key</span><span class="p">:</span> <span class="p">[</span>
+                <span class="p">{</span><span class="s2">"text"</span><span class="p">:</span> <span class="n">text</span><span class="p">,</span> <span class="s2">"metadataJson"</span><span class="p">:</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">md</span><span class="p">)}</span>
+                <span class="k">for</span> <span class="n">text</span><span class="p">,</span> <span class="n">md</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">texts</span><span class="p">,</span> <span class="n">metadatas</span><span class="p">)</span>
+            <span class="p">],</span>
+        <span class="p">}</span>
+
+        <span class="n">success_str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_index_doc</span><span class="p">(</span><span class="n">doc</span><span class="p">,</span> <span class="n">use_core_api</span><span class="o">=</span><span class="n">use_core_api</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">success_str</span> <span class="o">==</span> <span class="s2">"E_ALREADY_EXISTS"</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_delete_doc</span><span class="p">(</span><span class="n">doc_id</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_index_doc</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">success_str</span> <span class="o">==</span> <span class="s2">"E_NO_PERMISSIONS"</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span>  <span class="c1"># noqa: T201</span>
+<span class="w">                </span><span class="sd">"""No permissions to add document to Vectara. </span>
+<span class="sd">                Check your corpus ID, customer ID and API key"""</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">doc_id</span><span class="p">]</span></div>
+
+    <span class="k">def</span> <span class="nf">_get_query_body</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">config</span><span class="p">:</span> <span class="n">VectaraQueryConfig</span><span class="p">,</span>
+        <span class="n">chat</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">chat_conv_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Build the body for the API</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            query: Text to look up documents similar to.</span>
+<span class="sd">            config: VectaraQueryConfig object</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            A dictionary with the body of the query</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">rerank_config</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="n">config</span><span class="o">.</span><span class="n">rerank_config</span> <span class="o">=</span> <span class="n">RerankConfig</span><span class="p">(</span><span class="o">**</span><span class="n">config</span><span class="o">.</span><span class="n">rerank_config</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">summary_config</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="n">config</span><span class="o">.</span><span class="n">summary_config</span> <span class="o">=</span> <span class="n">SummaryConfig</span><span class="p">(</span><span class="o">**</span><span class="n">config</span><span class="o">.</span><span class="n">summary_config</span><span class="p">)</span>
+
+        <span class="n">body</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">"query"</span><span class="p">:</span> <span class="p">[</span>
+                <span class="p">{</span>
+                    <span class="s2">"query"</span><span class="p">:</span> <span class="n">query</span><span class="p">,</span>
+                    <span class="s2">"start"</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+                    <span class="s2">"numResults"</span><span class="p">:</span> <span class="p">(</span>
+                        <span class="n">config</span><span class="o">.</span><span class="n">rerank_config</span><span class="o">.</span><span class="n">rerank_k</span>
+                        <span class="k">if</span> <span class="p">(</span>
+                            <span class="n">config</span><span class="o">.</span><span class="n">rerank_config</span><span class="o">.</span><span class="n">reranker</span>
+                            <span class="ow">in</span> <span class="p">[</span><span class="s2">"mmr"</span><span class="p">,</span> <span class="s2">"rerank_multilingual_v1"</span><span class="p">]</span>
+                        <span class="p">)</span>
+                        <span class="k">else</span> <span class="n">config</span><span class="o">.</span><span class="n">k</span>
+                    <span class="p">),</span>
+                    <span class="s2">"contextConfig"</span><span class="p">:</span> <span class="p">{</span>
+                        <span class="s2">"sentencesBefore"</span><span class="p">:</span> <span class="n">config</span><span class="o">.</span><span class="n">n_sentence_before</span><span class="p">,</span>
+                        <span class="s2">"sentencesAfter"</span><span class="p">:</span> <span class="n">config</span><span class="o">.</span><span class="n">n_sentence_after</span><span class="p">,</span>
+                    <span class="p">},</span>
+                    <span class="s2">"corpusKey"</span><span class="p">:</span> <span class="p">[</span>
+                        <span class="p">{</span>
+                            <span class="s2">"corpusId"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_vectara_corpus_id</span><span class="p">,</span>
+                            <span class="s2">"metadataFilter"</span><span class="p">:</span> <span class="n">config</span><span class="o">.</span><span class="n">filter</span><span class="p">,</span>
+                        <span class="p">}</span>
+                    <span class="p">],</span>
+                <span class="p">}</span>
+            <span class="p">]</span>
+        <span class="p">}</span>
+
+        <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">lambda_val</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">body</span><span class="p">[</span><span class="s2">"query"</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">"corpusKey"</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">"lexicalInterpolationConfig"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>  <span class="c1"># type: ignore</span>
+                <span class="s2">"lambda"</span><span class="p">:</span> <span class="n">config</span><span class="o">.</span><span class="n">lambda_val</span>
+            <span class="p">}</span>
+
+        <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">rerank_config</span><span class="o">.</span><span class="n">reranker</span> <span class="o">==</span> <span class="s2">"mmr"</span><span class="p">:</span>
+            <span class="n">body</span><span class="p">[</span><span class="s2">"query"</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">"rerankingConfig"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">"rerankerId"</span><span class="p">:</span> <span class="n">MMR_RERANKER_ID</span><span class="p">,</span>
+                <span class="s2">"mmrConfig"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"diversityBias"</span><span class="p">:</span> <span class="n">config</span><span class="o">.</span><span class="n">rerank_config</span><span class="o">.</span><span class="n">mmr_diversity_bias</span><span class="p">},</span>
+            <span class="p">}</span>
+        <span class="k">elif</span> <span class="n">config</span><span class="o">.</span><span class="n">rerank_config</span><span class="o">.</span><span class="n">reranker</span> <span class="o">==</span> <span class="s2">"rerank_multilingual_v1"</span><span class="p">:</span>
+            <span class="n">body</span><span class="p">[</span><span class="s2">"query"</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">"rerankingConfig"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">"rerankerId"</span><span class="p">:</span> <span class="n">RERANKER_MULTILINGUAL_V1_ID</span><span class="p">,</span>
+            <span class="p">}</span>
+
+        <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">summary_config</span><span class="o">.</span><span class="n">is_enabled</span><span class="p">:</span>
+            <span class="n">body</span><span class="p">[</span><span class="s2">"query"</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">"summary"</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="p">{</span>
+                    <span class="s2">"maxSummarizedResults"</span><span class="p">:</span> <span class="n">config</span><span class="o">.</span><span class="n">summary_config</span><span class="o">.</span><span class="n">max_results</span><span class="p">,</span>
+                    <span class="s2">"responseLang"</span><span class="p">:</span> <span class="n">config</span><span class="o">.</span><span class="n">summary_config</span><span class="o">.</span><span class="n">response_lang</span><span class="p">,</span>
+                    <span class="s2">"summarizerPromptName"</span><span class="p">:</span> <span class="n">config</span><span class="o">.</span><span class="n">summary_config</span><span class="o">.</span><span class="n">prompt_name</span><span class="p">,</span>
+                <span class="p">}</span>
+            <span class="p">]</span>
+            <span class="k">if</span> <span class="n">chat</span><span class="p">:</span>
+                <span class="n">body</span><span class="p">[</span><span class="s2">"query"</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">"summary"</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">"chat"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>  <span class="c1"># type: ignore</span>
+                    <span class="s2">"store"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+                    <span class="s2">"conversationId"</span><span class="p">:</span> <span class="n">chat_conv_id</span><span class="p">,</span>
+                <span class="p">}</span>
+        <span class="k">return</span> <span class="n">body</span>
+
+<div class="viewcode-block" id="Vectara.vectara_query"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.vectara.Vectara.html#langchain_community.vectorstores.vectara.Vectara.vectara_query">[docs]</a>    <span class="k">def</span> <span class="nf">vectara_query</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">config</span><span class="p">:</span> <span class="n">VectaraQueryConfig</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Document</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">"""Run a Vectara query</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            query: Text to look up documents similar to.</span>
+<span class="sd">            config: VectaraQueryConfig object</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            A list of k Documents matching the given query</span>
+<span class="sd">            If summary is enabled, last document is the summary text with 'summary'=True</span>
+<span class="sd">        """</span>
+        <span class="n">body</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_query_body</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+            <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_post_headers</span><span class="p">(),</span>
+            <span class="n">url</span><span class="o">=</span><span class="s2">"https://api.vectara.io/v1/query"</span><span class="p">,</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">body</span><span class="p">),</span>
+            <span class="n">timeout</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">vectara_api_timeout</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">!=</span> <span class="mi">200</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
+                <span class="s2">"Query failed </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span>
+                <span class="sa">f</span><span class="s2">"(code </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">, reason </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">reason</span><span class="si">}</span><span class="s2">, details "</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="si">}</span><span class="s2">)"</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="k">return</span> <span class="p">[]</span>
+
+        <span class="n">result</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">score_threshold</span><span class="p">:</span>
+            <span class="n">responses</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">r</span>
+                <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">result</span><span class="p">[</span><span class="s2">"responseSet"</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">"response"</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">r</span><span class="p">[</span><span class="s2">"score"</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">config</span><span class="o">.</span><span class="n">score_threshold</span>
+            <span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">responses</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="s2">"responseSet"</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">"response"</span><span class="p">]</span>
+        <span class="n">documents</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="s2">"responseSet"</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">"document"</span><span class="p">]</span>
+
+        <span class="n">metadatas</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">responses</span><span class="p">:</span>
+            <span class="n">md</span> <span class="o">=</span> <span class="p">{</span><span class="n">m</span><span class="p">[</span><span class="s2">"name"</span><span class="p">]:</span> <span class="n">m</span><span class="p">[</span><span class="s2">"value"</span><span class="p">]</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">x</span><span class="p">[</span><span class="s2">"metadata"</span><span class="p">]}</span>
+            <span class="n">doc_num</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="s2">"documentIndex"</span><span class="p">]</span>
+            <span class="n">doc_md</span> <span class="o">=</span> <span class="p">{</span><span class="n">m</span><span class="p">[</span><span class="s2">"name"</span><span class="p">]:</span> <span class="n">m</span><span class="p">[</span><span class="s2">"value"</span><span class="p">]</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">documents</span><span class="p">[</span><span class="n">doc_num</span><span class="p">][</span><span class="s2">"metadata"</span><span class="p">]}</span>
+            <span class="k">if</span> <span class="s2">"source"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">doc_md</span><span class="p">:</span>
+                <span class="n">doc_md</span><span class="p">[</span><span class="s2">"source"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"vectara"</span>
+            <span class="n">md</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">doc_md</span><span class="p">)</span>
+            <span class="n">metadatas</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">md</span><span class="p">)</span>
+
+        <span class="n">res</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="p">(</span>
+                <span class="n">Document</span><span class="p">(</span>
+                    <span class="n">page_content</span><span class="o">=</span><span class="n">x</span><span class="p">[</span><span class="s2">"text"</span><span class="p">],</span>
+                    <span class="n">metadata</span><span class="o">=</span><span class="n">md</span><span class="p">,</span>
+                <span class="p">),</span>
+                <span class="n">x</span><span class="p">[</span><span class="s2">"score"</span><span class="p">],</span>
+            <span class="p">)</span>
+            <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">md</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">responses</span><span class="p">,</span> <span class="n">metadatas</span><span class="p">)</span>
+        <span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">rerank_config</span><span class="o">.</span><span class="n">reranker</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">"mmr"</span><span class="p">,</span> <span class="s2">"rerank_multilingual_v1"</span><span class="p">]:</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="n">res</span><span class="p">[:</span> <span class="n">config</span><span class="o">.</span><span class="n">k</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">summary_config</span><span class="o">.</span><span class="n">is_enabled</span><span class="p">:</span>
+            <span class="n">summary</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="s2">"responseSet"</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">"summary"</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">"text"</span><span class="p">]</span>
+            <span class="n">fcs</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="s2">"responseSet"</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">"summary"</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">"factualConsistency"</span><span class="p">][</span><span class="s2">"score"</span><span class="p">]</span>
+            <span class="n">res</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="p">(</span>
+                    <span class="n">Document</span><span class="p">(</span>
+                        <span class="n">page_content</span><span class="o">=</span><span class="n">summary</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="p">{</span><span class="s2">"summary"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"fcs"</span><span class="p">:</span> <span class="n">fcs</span><span class="p">}</span>
+                    <span class="p">),</span>
+                    <span class="mf">0.0</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">res</span></div>
+
+<div class="viewcode-block" id="Vectara.similarity_search_with_score"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.vectara.Vectara.html#langchain_community.vectorstores.vectara.Vectara.similarity_search_with_score">[docs]</a>    <span class="k">def</span> <span class="nf">similarity_search_with_score</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Document</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">"""Return Vectara documents most similar to query, along with scores.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            query: Text to look up documents similar to.</span>
+<span class="sd">            k: Number of Documents to return. Defaults to 10.</span>
+
+<span class="sd">            any other querying variable in VectaraQueryConfig like:</span>
+<span class="sd">            - lambda_val: lexical match parameter for hybrid search.</span>
+<span class="sd">            - filter: filter string</span>
+<span class="sd">            - score_threshold: minimal score threshold for the result.</span>
+<span class="sd">            - n_sentence_before: number of sentences before the matching segment</span>
+<span class="sd">            - n_sentence_after: number of sentences after the matching segment</span>
+<span class="sd">            - rerank_config: optional configuration for Reranking</span>
+<span class="sd">              (see RerankConfig dataclass)</span>
+<span class="sd">            - summary_config: optional configuration for summary</span>
+<span class="sd">              (see SummaryConfig dataclass)</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            List of Documents most similar to the query and score for each.</span>
+<span class="sd">        """</span>
+        <span class="n">config</span> <span class="o">=</span> <span class="n">VectaraQueryConfig</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">docs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vectara_query</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">docs</span></div>
+
+<div class="viewcode-block" id="Vectara.similarity_search"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.vectara.Vectara.html#langchain_community.vectorstores.vectara.Vectara.similarity_search">[docs]</a>    <span class="k">def</span> <span class="nf">similarity_search</span><span class="p">(</span>  <span class="c1"># type: ignore[override]</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Document</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Return Vectara documents most similar to query, along with scores.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            query: Text to look up documents similar to.</span>
+<span class="sd">            any other querying variable in VectaraQueryConfig</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List of Documents most similar to the query</span>
+<span class="sd">        """</span>
+        <span class="n">docs_and_scores</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">similarity_search_with_score</span><span class="p">(</span>
+            <span class="n">query</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">doc</span> <span class="k">for</span> <span class="n">doc</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">docs_and_scores</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="Vectara.max_marginal_relevance_search"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.vectara.Vectara.html#langchain_community.vectorstores.vectara.Vectara.max_marginal_relevance_search">[docs]</a>    <span class="k">def</span> <span class="nf">max_marginal_relevance_search</span><span class="p">(</span>  <span class="c1"># type: ignore[override]</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">fetch_k</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span>
+        <span class="n">lambda_mult</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Document</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Return docs selected using the maximal marginal relevance.</span>
+<span class="sd">        Maximal marginal relevance optimizes for similarity to query AND diversity</span>
+<span class="sd">        among selected documents.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            query: Text to look up documents similar to.</span>
+<span class="sd">            k: Number of Documents to return. Defaults to 5.</span>
+<span class="sd">            fetch_k: Number of Documents to fetch to pass to MMR algorithm.</span>
+<span class="sd">                     Defaults to 50</span>
+<span class="sd">            lambda_mult: Number between 0 and 1 that determines the degree</span>
+<span class="sd">                        of diversity among the results with 0 corresponding</span>
+<span class="sd">                        to maximum diversity and 1 to minimum diversity.</span>
+<span class="sd">                        Defaults to 0.5.</span>
+<span class="sd">            kwargs: any other querying variable in VectaraQueryConfig</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            List of Documents selected by maximal marginal relevance.</span>
+<span class="sd">        """</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">"rerank_config"</span><span class="p">]</span> <span class="o">=</span> <span class="n">RerankConfig</span><span class="p">(</span>
+            <span class="n">reranker</span><span class="o">=</span><span class="s2">"mmr"</span><span class="p">,</span> <span class="n">rerank_k</span><span class="o">=</span><span class="n">fetch_k</span><span class="p">,</span> <span class="n">mmr_diversity_bias</span><span class="o">=</span><span class="mi">1</span> <span class="o">-</span> <span class="n">lambda_mult</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">similarity_search</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Vectara.from_texts"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.vectara.Vectara.html#langchain_community.vectorstores.vectara.Vectara.from_texts">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_texts</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">Vectara</span><span class="p">],</span>
+        <span class="n">texts</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+        <span class="n">embedding</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Embeddings</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">metadatas</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Vectara</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Construct Vectara wrapper from raw documents.</span>
+<span class="sd">        This is intended to be a quick way to get started.</span>
+<span class="sd">        Example:</span>
+<span class="sd">            .. code-block:: python</span>
+
+<span class="sd">                from langchain_community.vectorstores import Vectara</span>
+<span class="sd">                vectara = Vectara.from_texts(</span>
+<span class="sd">                    texts,</span>
+<span class="sd">                    vectara_customer_id=customer_id,</span>
+<span class="sd">                    vectara_corpus_id=corpus_id,</span>
+<span class="sd">                    vectara_api_key=api_key,</span>
+<span class="sd">                )</span>
+<span class="sd">        """</span>
+        <span class="c1"># Notes:</span>
+        <span class="c1"># * Vectara generates its own embeddings, so we ignore the provided</span>
+        <span class="c1">#   embeddings (required by interface)</span>
+        <span class="c1"># * when metadatas[] are provided they are associated with each "part"</span>
+        <span class="c1">#   in Vectara. doc_metadata can be used to provide additional metadata</span>
+        <span class="c1">#   for the document itself (applies to all "texts" in this call)</span>
+        <span class="n">doc_metadata</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"doc_metadata"</span><span class="p">,</span> <span class="p">{})</span>
+        <span class="n">vectara</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">vectara</span><span class="o">.</span><span class="n">add_texts</span><span class="p">(</span><span class="n">texts</span><span class="p">,</span> <span class="n">metadatas</span><span class="p">,</span> <span class="n">doc_metadata</span><span class="o">=</span><span class="n">doc_metadata</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">vectara</span></div>
+
+<div class="viewcode-block" id="Vectara.from_files"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.vectara.Vectara.html#langchain_community.vectorstores.vectara.Vectara.from_files">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_files</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">Vectara</span><span class="p">],</span>
+        <span class="n">files</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+        <span class="n">embedding</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Embeddings</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">metadatas</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Vectara</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Construct Vectara wrapper from raw documents.</span>
+<span class="sd">        This is intended to be a quick way to get started.</span>
+<span class="sd">        Example:</span>
+<span class="sd">            .. code-block:: python</span>
+
+<span class="sd">                from langchain_community.vectorstores import Vectara</span>
+<span class="sd">                vectara = Vectara.from_files(</span>
+<span class="sd">                    files_list,</span>
+<span class="sd">                    vectara_customer_id=customer_id,</span>
+<span class="sd">                    vectara_corpus_id=corpus_id,</span>
+<span class="sd">                    vectara_api_key=api_key,</span>
+<span class="sd">                )</span>
+<span class="sd">        """</span>
+        <span class="c1"># Note: Vectara generates its own embeddings, so we ignore the provided</span>
+        <span class="c1"># embeddings (required by interface)</span>
+        <span class="n">vectara</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">vectara</span><span class="o">.</span><span class="n">add_files</span><span class="p">(</span><span class="n">files</span><span class="p">,</span> <span class="n">metadatas</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">vectara</span></div>
+
+<div class="viewcode-block" id="Vectara.as_rag"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.vectara.Vectara.html#langchain_community.vectorstores.vectara.Vectara.as_rag">[docs]</a>    <span class="k">def</span> <span class="nf">as_rag</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">VectaraQueryConfig</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">VectaraRAG</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Return a Vectara RAG runnable."""</span>
+        <span class="k">return</span> <span class="n">VectaraRAG</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Vectara.as_chat"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.vectara.Vectara.html#langchain_community.vectorstores.vectara.Vectara.as_chat">[docs]</a>    <span class="k">def</span> <span class="nf">as_chat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">VectaraQueryConfig</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">VectaraRAG</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Return a Vectara RAG runnable for chat."""</span>
+        <span class="k">return</span> <span class="n">VectaraRAG</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="n">chat</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Vectara.as_retriever"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.vectara.Vectara.html#langchain_community.vectorstores.vectara.Vectara.as_retriever">[docs]</a>    <span class="k">def</span> <span class="nf">as_retriever</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">VectaraRetriever</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""return a retriever object."""</span>
+        <span class="k">return</span> <span class="n">VectaraRetriever</span><span class="p">(</span>
+            <span class="n">vectorstore</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"config"</span><span class="p">,</span> <span class="n">VectaraQueryConfig</span><span class="p">())</span>
+        <span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="VectaraRetriever"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.vectara.VectaraRetriever.html#langchain_community.vectorstores.vectara.VectaraRetriever">[docs]</a><span class="k">class</span> <span class="nc">VectaraRetriever</span><span class="p">(</span><span class="n">VectorStoreRetriever</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Vectara Retriever class."""</span>
+
+    <span class="n">vectorstore</span><span class="p">:</span> <span class="n">Vectara</span>
+<span class="w">    </span><span class="sd">"""VectorStore to use for retrieval."""</span>
+
+    <span class="n">config</span><span class="p">:</span> <span class="n">VectaraQueryConfig</span>
+<span class="w">    </span><span class="sd">"""Configuration for this retriever."""</span>
+
+    <span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
+        <span class="n">arbitrary_types_allowed</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">def</span> <span class="nf">_get_relevant_documents</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">run_manager</span><span class="p">:</span> <span class="n">CallbackManagerForRetrieverRun</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Document</span><span class="p">]:</span>
+        <span class="n">docs_and_scores</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vectorstore</span><span class="o">.</span><span class="n">vectara_query</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">doc</span> <span class="k">for</span> <span class="n">doc</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">docs_and_scores</span><span class="p">]</span>
+
+<div class="viewcode-block" id="VectaraRetriever.add_documents"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.vectara.VectaraRetriever.html#langchain_community.vectorstores.vectara.VectaraRetriever.add_documents">[docs]</a>    <span class="k">def</span> <span class="nf">add_documents</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">documents</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Document</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Add documents to vectorstore."""</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">vectorstore</span><span class="o">.</span><span class="n">add_documents</span><span class="p">(</span><span class="n">documents</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="VectaraRAG"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.vectara.VectaraRAG.html#langchain_community.vectorstores.vectara.VectaraRAG">[docs]</a><span class="k">class</span> <span class="nc">VectaraRAG</span><span class="p">(</span><span class="n">Runnable</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Vectara RAG runnable.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        vectara: Vectara object</span>
+<span class="sd">        config: VectaraQueryConfig object</span>
+<span class="sd">        chat: bool, default False</span>
+<span class="sd">    """</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">vectara</span><span class="p">:</span> <span class="n">Vectara</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">VectaraQueryConfig</span><span class="p">,</span> <span class="n">chat</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vectara</span> <span class="o">=</span> <span class="n">vectara</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">config</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">chat</span> <span class="o">=</span> <span class="n">chat</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conv_id</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">stream</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="nb">input</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">RunnableConfig</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Get streaming output from Vectara RAG.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            input: The input query</span>
+<span class="sd">            config: RunnableConfig object</span>
+<span class="sd">            kwargs: Any additional arguments</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            The output dictionary with question, answer and context</span>
+<span class="sd">        """</span>
+        <span class="n">body</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vectara</span><span class="o">.</span><span class="n">_get_query_body</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">chat</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv_id</span><span class="p">)</span>
+
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vectara</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+            <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">vectara</span><span class="o">.</span><span class="n">_get_post_headers</span><span class="p">(),</span>
+            <span class="n">url</span><span class="o">=</span><span class="s2">"https://api.vectara.io/v1/stream-query"</span><span class="p">,</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">body</span><span class="p">),</span>
+            <span class="n">timeout</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">vectara</span><span class="o">.</span><span class="n">vectara_api_timeout</span><span class="p">,</span>
+            <span class="n">stream</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">!=</span> <span class="mi">200</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
+                <span class="s2">"Query failed </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span>
+                <span class="sa">f</span><span class="s2">"(code </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">, reason </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">reason</span><span class="si">}</span><span class="s2">, details "</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="si">}</span><span class="s2">)"</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="n">responses</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">documents</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">yield</span> <span class="p">{</span><span class="s2">"question"</span><span class="p">:</span> <span class="nb">input</span><span class="p">}</span>  <span class="c1"># First chunk is the question</span>
+
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">iter_lines</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">line</span><span class="p">:</span>  <span class="c1"># filter out keep-alive new lines</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">"utf-8"</span><span class="p">))</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">"result"</span><span class="p">]</span>
+                <span class="n">response_set</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="s2">"responseSet"</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">response_set</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">summary</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"summary"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">summary</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="k">continue</span>
+                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">summary</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"status"</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
+                            <span class="sa">f</span><span class="s2">"Summary generation failed with status "</span>
+                            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">summary</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'status'</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'statusDetail'</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span>
+                        <span class="p">)</span>
+                        <span class="k">continue</span>
+
+                    <span class="c1"># Store conversation ID for chat, if applicable</span>
+                    <span class="n">chat</span> <span class="o">=</span> <span class="n">summary</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"chat"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">chat</span> <span class="ow">and</span> <span class="n">chat</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"status"</span><span class="p">,</span> <span class="kc">None</span><span class="p">):</span>
+                        <span class="n">st_code</span> <span class="o">=</span> <span class="n">chat</span><span class="p">[</span><span class="s2">"status"</span><span class="p">]</span>
+                        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Chat query failed with code </span><span class="si">{</span><span class="n">st_code</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="n">st_code</span> <span class="o">==</span> <span class="s2">"RESOURCE_EXHAUSTED"</span><span class="p">:</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">conv_id</span> <span class="o">=</span> <span class="kc">None</span>
+                            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
+                                <span class="s2">"Sorry, Vectara chat turns exceeds plan limit."</span>
+                            <span class="p">)</span>
+                            <span class="k">continue</span>
+
+                    <span class="n">conv_id</span> <span class="o">=</span> <span class="n">chat</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"conversationId"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="k">if</span> <span class="n">chat</span> <span class="k">else</span> <span class="kc">None</span>
+                    <span class="k">if</span> <span class="n">conv_id</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">conv_id</span> <span class="o">=</span> <span class="n">conv_id</span>
+
+                    <span class="c1"># If FCS is provided, pull it from the JSON response</span>
+                    <span class="k">if</span> <span class="n">summary</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"factualConsistency"</span><span class="p">,</span> <span class="kc">None</span><span class="p">):</span>
+                        <span class="n">fcs</span> <span class="o">=</span> <span class="n">summary</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"factualConsistency"</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"score"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+                        <span class="k">yield</span> <span class="p">{</span><span class="s2">"fcs"</span><span class="p">:</span> <span class="n">fcs</span><span class="p">}</span>
+                        <span class="k">continue</span>
+
+                    <span class="c1"># Yield the summary chunk</span>
+                    <span class="n">chunk</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">summary</span><span class="p">[</span><span class="s2">"text"</span><span class="p">])</span>
+                    <span class="k">yield</span> <span class="p">{</span><span class="s2">"answer"</span><span class="p">:</span> <span class="n">chunk</span><span class="p">}</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">score_threshold</span><span class="p">:</span>
+                        <span class="n">responses</span> <span class="o">=</span> <span class="p">[</span>
+                            <span class="n">r</span>
+                            <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">response_set</span><span class="p">[</span><span class="s2">"response"</span><span class="p">]</span>
+                            <span class="k">if</span> <span class="n">r</span><span class="p">[</span><span class="s2">"score"</span><span class="p">]</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">score_threshold</span>
+                        <span class="p">]</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">responses</span> <span class="o">=</span> <span class="n">response_set</span><span class="p">[</span><span class="s2">"response"</span><span class="p">]</span>
+                    <span class="n">documents</span> <span class="o">=</span> <span class="n">response_set</span><span class="p">[</span><span class="s2">"document"</span><span class="p">]</span>
+                    <span class="n">metadatas</span> <span class="o">=</span> <span class="p">[]</span>
+                    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">responses</span><span class="p">:</span>
+                        <span class="n">md</span> <span class="o">=</span> <span class="p">{</span><span class="n">m</span><span class="p">[</span><span class="s2">"name"</span><span class="p">]:</span> <span class="n">m</span><span class="p">[</span><span class="s2">"value"</span><span class="p">]</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">x</span><span class="p">[</span><span class="s2">"metadata"</span><span class="p">]}</span>
+                        <span class="n">doc_num</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="s2">"documentIndex"</span><span class="p">]</span>
+                        <span class="n">doc_md</span> <span class="o">=</span> <span class="p">{</span>
+                            <span class="n">m</span><span class="p">[</span><span class="s2">"name"</span><span class="p">]:</span> <span class="n">m</span><span class="p">[</span><span class="s2">"value"</span><span class="p">]</span>
+                            <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">documents</span><span class="p">[</span><span class="n">doc_num</span><span class="p">][</span><span class="s2">"metadata"</span><span class="p">]</span>
+                        <span class="p">}</span>
+                        <span class="k">if</span> <span class="s2">"source"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">doc_md</span><span class="p">:</span>
+                            <span class="n">doc_md</span><span class="p">[</span><span class="s2">"source"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"vectara"</span>
+                        <span class="n">md</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">doc_md</span><span class="p">)</span>
+                        <span class="n">metadatas</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">md</span><span class="p">)</span>
+                    <span class="n">res</span> <span class="o">=</span> <span class="p">[</span>
+                        <span class="p">(</span>
+                            <span class="n">Document</span><span class="p">(</span>
+                                <span class="n">page_content</span><span class="o">=</span><span class="n">x</span><span class="p">[</span><span class="s2">"text"</span><span class="p">],</span>
+                                <span class="n">metadata</span><span class="o">=</span><span class="n">md</span><span class="p">,</span>
+                            <span class="p">),</span>
+                            <span class="n">x</span><span class="p">[</span><span class="s2">"score"</span><span class="p">],</span>
+                        <span class="p">)</span>
+                        <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">md</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">responses</span><span class="p">,</span> <span class="n">metadatas</span><span class="p">)</span>
+                    <span class="p">]</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">rerank_config</span><span class="o">.</span><span class="n">reranker</span> <span class="ow">in</span> <span class="p">[</span>
+                        <span class="s2">"mmr"</span><span class="p">,</span>
+                        <span class="s2">"rerank_multilingual_v1"</span><span class="p">,</span>
+                    <span class="p">]:</span>
+                        <span class="n">res</span> <span class="o">=</span> <span class="n">res</span><span class="p">[:</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">k</span><span class="p">]</span>
+                    <span class="k">yield</span> <span class="p">{</span><span class="s2">"context"</span><span class="p">:</span> <span class="n">res</span><span class="p">}</span>
+        <span class="k">return</span>
+
+    <span class="k">def</span> <span class="nf">invoke</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="nb">input</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">RunnableConfig</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"answer"</span><span class="p">:</span> <span class="s2">""</span><span class="p">}</span>
+        <span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">stream</span><span class="p">(</span><span class="nb">input</span><span class="p">):</span>
+            <span class="k">if</span> <span class="s2">"context"</span> <span class="ow">in</span> <span class="n">chunk</span><span class="p">:</span>
+                <span class="n">res</span><span class="p">[</span><span class="s2">"context"</span><span class="p">]</span> <span class="o">=</span> <span class="n">chunk</span><span class="p">[</span><span class="s2">"context"</span><span class="p">]</span>
+            <span class="k">elif</span> <span class="s2">"question"</span> <span class="ow">in</span> <span class="n">chunk</span><span class="p">:</span>
+                <span class="n">res</span><span class="p">[</span><span class="s2">"question"</span><span class="p">]</span> <span class="o">=</span> <span class="n">chunk</span><span class="p">[</span><span class="s2">"question"</span><span class="p">]</span>
+            <span class="k">elif</span> <span class="s2">"answer"</span> <span class="ow">in</span> <span class="n">chunk</span><span class="p">:</span>
+                <span class="n">res</span><span class="p">[</span><span class="s2">"answer"</span><span class="p">]</span> <span class="o">+=</span> <span class="n">chunk</span><span class="p">[</span><span class="s2">"answer"</span><span class="p">]</span>
+            <span class="k">elif</span> <span class="s2">"fcs"</span> <span class="ow">in</span> <span class="n">chunk</span><span class="p">:</span>
+                <span class="n">res</span><span class="p">[</span><span class="s2">"fcs"</span><span class="p">]</span> <span class="o">=</span> <span class="n">chunk</span><span class="p">[</span><span class="s2">"fcs"</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Unknown chunk type: </span><span class="si">{</span><span class="n">chunk</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">res</span></div>
+</pre></div>
+</article>
+</div>
+</div>
+<footer class="bd-footer-content">
+</footer>
+</main>
+</div>
+</div>
+<!-- Scripts loaded after <body> so the DOM is not blocked -->
+<script src="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+<footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+<div class="footer-items__start">
+<div class="footer-item">
+<p class="copyright">
+    
+      © Copyright 2023, LangChain Inc.
+      <br/>
+</p>
+</div>
+</div>
+</div>
+</footer>
+</body>
+</html>

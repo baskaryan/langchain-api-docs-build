@@ -1,0 +1,1781 @@
+
+<!DOCTYPE html>
+
+<html data-content_root="" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>langchain_community.vectorstores.redis.base — 🦜🔗 LangChain  documentation</title>
+<script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+<!-- Loaded before other Sphinx assets -->
+<link href="../../../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet"/>
+<link href="../../../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet"/>
+<link href="../../../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet"/>
+<link href="../../../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet"/>
+<link as="font" crossorigin="" href="../../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="../../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="../../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" rel="preload" type="font/woff2"/>
+<link href="../../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../../_static/autodoc_pydantic.css" rel="stylesheet" type="text/css"/>
+<link href="../../../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
+<link href="../../../../_static/sphinx-design.4cbf315f70debaebd550c87a6162cf0f.min.css" rel="stylesheet" type="text/css"/>
+<link href="../../../../_static/css/custom.css" rel="stylesheet" type="text/css"/>
+<!-- Pre-loaded scripts that we'll load fully later -->
+<link as="script" href="../../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
+<link as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
+<script src="../../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+<script src="../../../../_static/doctools.js"></script>
+<script src="../../../../_static/sphinx_highlight.js"></script>
+<script src="../../../../_static/clipboard.min.js"></script>
+<script src="../../../../_static/copybutton.js"></script>
+<script src="../../../../_static/design-tabs.js"></script>
+<script>DOCUMENTATION_OPTIONS.pagename = '_modules/langchain_community/vectorstores/redis/base';</script>
+<link href="../../../../_static/favicon.png" rel="icon"/>
+<link href="../../../../search.html" rel="search" title="Search"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="en" name="docsearch:language"/>
+<meta content="Aug 14, 2024" name="docbuild:last-update"/>
+</head>
+<body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
+<div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
+<div id="pst-scroll-pixel-helper"></div>
+<button class="btn rounded-pill" id="pst-back-to-top" type="button">
+<i class="fa-solid fa-arrow-up"></i>Back to top</button>
+<input class="sidebar-toggle" id="pst-primary-sidebar-checkbox" type="checkbox"/>
+<label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+<input class="sidebar-toggle" id="pst-secondary-sidebar-checkbox" type="checkbox"/>
+<label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+<div class="search-button__wrapper">
+<div class="search-button__overlay"></div>
+<div class="search-button__search-container">
+<form action="../../../../search.html" class="bd-search d-flex align-items-center" method="get">
+<i class="fa-solid fa-magnifying-glass"></i>
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="form-control" id="search-input" name="q" placeholder="Search" spellcheck="false" type="search"/>
+<span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+</div>
+<div class="pst-async-banner-revealer d-none">
+<aside aria-label="Version warning" class="d-none d-print-none" id="bd-header-version-warning"></aside>
+</div>
+<header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+<button aria-label="Site navigation" class="pst-navbar-icon sidebar-toggle primary-toggle">
+<span class="fa-solid fa-bars"></span>
+</button>
+<div class="navbar-header-items__start">
+<div class="navbar-item">
+<a class="navbar-brand logo" href="../../../../index.html">
+<img alt="🦜🔗 LangChain  documentation - Home" class="logo__image only-light" src="../../../../_static/wordmark-api.svg"/>
+<script>document.write(`<img src="../../../../_static/wordmark-api-dark.svg" class="logo__image only-dark" alt="🦜🔗 LangChain  documentation - Home"/>`);</script>
+</a></div>
+</div>
+<div class="navbar-header-items">
+<div class="me-auto navbar-header-items__center">
+<div class="navbar-item">
+<nav>
+<ul class="bd-navbar-elements navbar-nav">
+<li class="nav-item">
+<a class="nav-link nav-internal" href="../../../../reference.html">
+    Reference
+  </a>
+</li>
+<li class="nav-item">
+<a class="nav-link nav-external" href="https://api.python.langchain.com/">
+    Legacy reference
+  </a>
+</li>
+</ul>
+</nav></div>
+</div>
+<div class="navbar-header-items__end">
+<div class="navbar-item navbar-persistent--container">
+<form action="../../../../search.html" class="bd-search d-flex align-items-center" method="get">
+<i class="fa-solid fa-magnifying-glass"></i>
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="form-control" id="search-input" name="q" placeholder="Search" spellcheck="false" type="search"/>
+<span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+</div>
+<div class="navbar-item"><!-- This will display a link to LangChain docs -->
+<head>
+<style>
+        .text-link {
+            text-decoration: none; /* Remove underline */
+            color: inherit;        /* Inherit color from parent element */
+        }
+    </style>
+</head>
+<body>
+<a class="text-link" href="https://python.langchain.com/">Docs</a>
+</body></div>
+<div class="navbar-item">
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+<div class="navbar-item"><ul aria-label="Quick Links" class="navbar-icon-links">
+<li class="nav-item">
+<a class="nav-link pst-navbar-icon" data-bs-placement="bottom" data-bs-toggle="tooltip" href="https://github.com/langchain-ai/langchain" rel="noopener" target="_blank" title="GitHub"><i aria-hidden="true" class="fa-brands fa-square-github fa-lg"></i>
+<span class="sr-only">GitHub</span></a>
+</li>
+<li class="nav-item">
+<a class="nav-link pst-navbar-icon" data-bs-placement="bottom" data-bs-toggle="tooltip" href="https://twitter.com/langchainai" rel="noopener" target="_blank" title="X / Twitter"><i aria-hidden="true" class="fab fa-twitter-square fa-lg"></i>
+<span class="sr-only">X / Twitter</span></a>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="navbar-persistent--mobile">
+<form action="../../../../search.html" class="bd-search d-flex align-items-center" method="get">
+<i class="fa-solid fa-magnifying-glass"></i>
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="form-control" id="search-input" name="q" placeholder="Search" spellcheck="false" type="search"/>
+<span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+</div>
+</div>
+</header>
+<div class="bd-container">
+<div class="bd-container__inner bd-page-width">
+<div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+<div class="sidebar-header-items sidebar-primary__section">
+<div class="sidebar-header-items__center">
+<div class="navbar-item">
+<nav>
+<ul class="bd-navbar-elements navbar-nav">
+<li class="nav-item">
+<a class="nav-link nav-internal" href="../../../../reference.html">
+    Reference
+  </a>
+</li>
+<li class="nav-item">
+<a class="nav-link nav-external" href="https://api.python.langchain.com/">
+    Legacy reference
+  </a>
+</li>
+</ul>
+</nav></div>
+</div>
+<div class="sidebar-header-items__end">
+<div class="navbar-item"><!-- This will display a link to LangChain docs -->
+<head>
+<style>
+        .text-link {
+            text-decoration: none; /* Remove underline */
+            color: inherit;        /* Inherit color from parent element */
+        }
+    </style>
+</head>
+<body>
+<a class="text-link" href="https://python.langchain.com/">Docs</a>
+</body></div>
+<div class="navbar-item">
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+<div class="navbar-item"><ul aria-label="Quick Links" class="navbar-icon-links">
+<li class="nav-item">
+<a class="nav-link pst-navbar-icon" data-bs-placement="bottom" data-bs-toggle="tooltip" href="https://github.com/langchain-ai/langchain" rel="noopener" target="_blank" title="GitHub"><i aria-hidden="true" class="fa-brands fa-square-github fa-lg"></i>
+<span class="sr-only">GitHub</span></a>
+</li>
+<li class="nav-item">
+<a class="nav-link pst-navbar-icon" data-bs-placement="bottom" data-bs-toggle="tooltip" href="https://twitter.com/langchainai" rel="noopener" target="_blank" title="X / Twitter"><i aria-hidden="true" class="fab fa-twitter-square fa-lg"></i>
+<span class="sr-only">X / Twitter</span></a>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sidebar-primary-items__end sidebar-primary__section">
+</div>
+<div id="rtd-footer-container"></div>
+</div>
+<main class="bd-main" id="main-content" role="main">
+<div class="bd-content">
+<div class="bd-article-container">
+<div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+<div class="header-article-items__start">
+<div class="header-article-item">
+<nav aria-label="Breadcrumb" class="d-print-none">
+<ul class="bd-breadcrumbs">
+<li class="breadcrumb-item breadcrumb-home">
+<a aria-label="Home" class="nav-link" href="../../../../index.html">
+<i class="fa-solid fa-home"></i>
+</a>
+</li>
+<li class="breadcrumb-item"><a class="nav-link" href="../../../index.html">Module code</a></li>
+<li aria-current="page" class="breadcrumb-item active">langchain_co...</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+</div>
+<div id="searchbox"></div>
+<article class="bd-article">
+<h1>Source code for langchain_community.vectorstores.redis.base</h1><div class="highlight"><pre>
+<span></span><span class="sd">"""Wrapper around Redis vector database."""</span>
+
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">uuid</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">TYPE_CHECKING</span><span class="p">,</span>
+    <span class="n">Any</span><span class="p">,</span>
+    <span class="n">Callable</span><span class="p">,</span>
+    <span class="n">Dict</span><span class="p">,</span>
+    <span class="n">Iterable</span><span class="p">,</span>
+    <span class="n">List</span><span class="p">,</span>
+    <span class="n">Mapping</span><span class="p">,</span>
+    <span class="n">Optional</span><span class="p">,</span>
+    <span class="n">Tuple</span><span class="p">,</span>
+    <span class="n">Type</span><span class="p">,</span>
+    <span class="n">Union</span><span class="p">,</span>
+    <span class="n">cast</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">yaml</span>
+<span class="kn">from</span> <span class="nn">langchain_core._api</span> <span class="kn">import</span> <span class="n">deprecated</span>
+<span class="kn">from</span> <span class="nn">langchain_core.callbacks</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">AsyncCallbackManagerForRetrieverRun</span><span class="p">,</span>
+    <span class="n">CallbackManagerForRetrieverRun</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">langchain_core.documents</span> <span class="kn">import</span> <span class="n">Document</span>
+<span class="kn">from</span> <span class="nn">langchain_core.embeddings</span> <span class="kn">import</span> <span class="n">Embeddings</span>
+<span class="kn">from</span> <span class="nn">langchain_core.utils</span> <span class="kn">import</span> <span class="n">get_from_dict_or_env</span>
+<span class="kn">from</span> <span class="nn">langchain_core.vectorstores</span> <span class="kn">import</span> <span class="n">VectorStore</span><span class="p">,</span> <span class="n">VectorStoreRetriever</span>
+
+<span class="kn">from</span> <span class="nn">langchain_community.utilities.redis</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">_array_to_buffer</span><span class="p">,</span>
+    <span class="n">_buffer_to_array</span><span class="p">,</span>
+    <span class="n">check_redis_module_exist</span><span class="p">,</span>
+    <span class="n">get_client</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">langchain_community.vectorstores.redis.constants</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">REDIS_REQUIRED_MODULES</span><span class="p">,</span>
+    <span class="n">REDIS_TAG_SEPARATOR</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">langchain_community.vectorstores.utils</span> <span class="kn">import</span> <span class="n">maximal_marginal_relevance</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+<span class="n">ListOfDict</span> <span class="o">=</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">redis.client</span> <span class="kn">import</span> <span class="n">Redis</span> <span class="k">as</span> <span class="n">RedisType</span>
+    <span class="kn">from</span> <span class="nn">redis.commands.search.query</span> <span class="kn">import</span> <span class="n">Query</span>
+
+    <span class="kn">from</span> <span class="nn">langchain_community.vectorstores.redis.filters</span> <span class="kn">import</span> <span class="n">RedisFilterExpression</span>
+    <span class="kn">from</span> <span class="nn">langchain_community.vectorstores.redis.schema</span> <span class="kn">import</span> <span class="n">RedisModel</span>
+
+
+<span class="k">def</span> <span class="nf">_default_relevance_score</span><span class="p">(</span><span class="n">val</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="k">return</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">val</span>
+
+
+<div class="viewcode-block" id="check_index_exists"><a class="viewcode-back" href="../../../../community/vectorstores/langchain_community.vectorstores.redis.base.check_index_exists.html#langchain_community.vectorstores.redis.base.check_index_exists">[docs]</a><span class="k">def</span> <span class="nf">check_index_exists</span><span class="p">(</span><span class="n">client</span><span class="p">:</span> <span class="n">RedisType</span><span class="p">,</span> <span class="n">index_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Check if Redis index exists."""</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">client</span><span class="o">.</span><span class="n">ft</span><span class="p">(</span><span class="n">index_name</span><span class="p">)</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+    <span class="k">except</span><span class="p">:</span>  <span class="c1"># noqa: E722</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"Index does not exist"</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"Index already exists"</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kc">True</span></div>
+
+
+<div class="viewcode-block" id="Redis"><a class="viewcode-back" href="../../../../community/vectorstores/langchain_community.vectorstores.redis.base.Redis.html#langchain_community.vectorstores.redis.base.Redis">[docs]</a><span class="k">class</span> <span class="nc">Redis</span><span class="p">(</span><span class="n">VectorStore</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Redis vector database.</span>
+
+<span class="sd">    Deployment Options:</span>
+<span class="sd">        Below, we will use a local deployment as an example. However, Redis can be deployed in all of the following ways:</span>
+
+<span class="sd">        - [Redis Cloud](https://redis.com/redis-enterprise-cloud/overview/)</span>
+<span class="sd">        - [Docker (Redis Stack)](https://hub.docker.com/r/redis/redis-stack)</span>
+<span class="sd">        - Cloud marketplaces: [AWS Marketplace](https://aws.amazon.com/marketplace/pp/prodview-e6y7ork67pjwg?sr=0-2&amp;ref_=beagle&amp;applicationId=AWSMPContessa), [Google Marketplace](https://console.cloud.google.com/marketplace/details/redislabs-public/redis-enterprise?pli=1), or [Azure Marketplace](https://azuremarketplace.microsoft.com/en-us/marketplace/apps/garantiadata.redis_enterprise_1sp_public_preview?tab=Overview)</span>
+<span class="sd">        - On-premise: [Redis Enterprise Software](https://redis.com/redis-enterprise-software/overview/)</span>
+<span class="sd">        - Kubernetes: [Redis Enterprise Software on Kubernetes](https://docs.redis.com/latest/kubernetes/)</span>
+
+<span class="sd">    Setup:</span>
+<span class="sd">        Install ``redis``, ``redisvl``, and ``langchain-community`` and run Redis locally.</span>
+
+<span class="sd">        .. code-block:: bash</span>
+
+<span class="sd">            pip install -qU redis redisvl langchain-community</span>
+<span class="sd">            docker run -d -p 6379:6379 -p 8001:8001 redis/redis-stack:latest</span>
+
+<span class="sd">    Key init args — indexing params:</span>
+<span class="sd">        index_name: str</span>
+<span class="sd">            Name of the index.</span>
+<span class="sd">        index_schema: Optional[Union[Dict[str, ListOfDict], str, os.PathLike]]</span>
+<span class="sd">            Schema of the index and the vector schema. Can be a dict, or path to yaml file.</span>
+<span class="sd">        embedding: Embeddings</span>
+<span class="sd">            Embedding function to use.</span>
+
+<span class="sd">    Key init args — client params:</span>
+<span class="sd">        redis_url: str</span>
+<span class="sd">            Redis connection url.</span>
+
+<span class="sd">    Instantiate:</span>
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            from langchain_community.vectorstores.redis import Redis</span>
+<span class="sd">            from langchain_openai import OpenAIEmbeddings</span>
+
+<span class="sd">            vector_store = Redis(</span>
+<span class="sd">                redis_url="redis://localhost:6379",</span>
+<span class="sd">                embedding=OpenAIEmbeddings(),</span>
+<span class="sd">                index_name="users",</span>
+<span class="sd">            )</span>
+
+<span class="sd">    Add Documents:</span>
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            from langchain_core.documents import Document</span>
+
+<span class="sd">            document_1 = Document(page_content="foo", metadata={"baz": "bar"})</span>
+<span class="sd">            document_2 = Document(page_content="thud", metadata={"bar": "baz"})</span>
+<span class="sd">            document_3 = Document(page_content="i will be deleted :(")</span>
+
+<span class="sd">            documents = [document_1, document_2, document_3]</span>
+<span class="sd">            ids = ["1", "2", "3"]</span>
+<span class="sd">            vector_store.add_documents(documents=documents, ids=ids)</span>
+
+<span class="sd">    Delete Documents:</span>
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            vector_store.delete(ids=["3"])</span>
+
+<span class="sd">    Search:</span>
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            results = vector_store.similarity_search(query="thud",k=1)</span>
+<span class="sd">            for doc in results:</span>
+<span class="sd">                print(f"* {doc.page_content} [{doc.metadata}]")</span>
+
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            * thud [{'id': 'doc:users:2'}]</span>
+
+<span class="sd">    Search with filter:</span>
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            from langchain_community.vectorstores.redis import RedisTag</span>
+
+<span class="sd">            results = vector_store.similarity_search(query="thud",k=1,filter=(RedisTag("baz") != "bar"))</span>
+<span class="sd">            for doc in results:</span>
+<span class="sd">                print(f"* {doc.page_content} [{doc.metadata}]")</span>
+
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            * thud [{'id': 'doc:users:2'}]</span>
+
+<span class="sd">    Search with score:</span>
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            results = vector_store.similarity_search_with_score(query="qux",k=1)</span>
+<span class="sd">            for doc, score in results:</span>
+<span class="sd">                print(f"* [SIM={score:3f}] {doc.page_content} [{doc.metadata}]")</span>
+
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            * [SIM=0.167700] foo [{'id': 'doc:users:1'}]</span>
+
+<span class="sd">    Async:</span>
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            # add documents</span>
+<span class="sd">            # await vector_store.aadd_documents(documents=documents, ids=ids)</span>
+
+<span class="sd">            # delete documents</span>
+<span class="sd">            # await vector_store.adelete(ids=["3"])</span>
+
+<span class="sd">            # search</span>
+<span class="sd">            # results = vector_store.asimilarity_search(query="thud",k=1)</span>
+
+<span class="sd">            # search with score</span>
+<span class="sd">            results = await vector_store.asimilarity_search_with_score(query="qux",k=1)</span>
+<span class="sd">            for doc,score in results:</span>
+<span class="sd">                print(f"* [SIM={score:3f}] {doc.page_content} [{doc.metadata}]")</span>
+
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            * [SIM=0.167700] foo [{'id': 'doc:users:1'}]</span>
+
+<span class="sd">    Use as Retriever:</span>
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            retriever = vector_store.as_retriever(</span>
+<span class="sd">                search_type="mmr",</span>
+<span class="sd">                search_kwargs={"k": 1, "fetch_k": 2, "lambda_mult": 0.5},</span>
+<span class="sd">            )</span>
+<span class="sd">            retriever.invoke("thud")</span>
+
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            [Document(metadata={'id': 'doc:users:2'}, page_content='thud')]</span>
+
+<span class="sd">    **Advanced examples:**</span>
+
+<span class="sd">    Custom vector schema can be supplied to change the way that</span>
+<span class="sd">    Redis creates the underlying vector schema. This is useful</span>
+<span class="sd">    for production use cases where you want to optimize the</span>
+<span class="sd">    vector schema for your use case. ex. using HNSW instead of</span>
+<span class="sd">    FLAT (knn) which is the default</span>
+
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            vector_schema = {</span>
+<span class="sd">                "algorithm": "HNSW"</span>
+<span class="sd">            }</span>
+
+<span class="sd">            rds = Redis.from_texts(</span>
+<span class="sd">                texts, # a list of strings</span>
+<span class="sd">                metadata, # a list of metadata dicts</span>
+<span class="sd">                embeddings, # an Embeddings object</span>
+<span class="sd">                vector_schema=vector_schema,</span>
+<span class="sd">                redis_url="redis://localhost:6379",</span>
+<span class="sd">            )</span>
+
+<span class="sd">    Custom index schema can be supplied to change the way that the</span>
+<span class="sd">    metadata is indexed. This is useful for you would like to use the</span>
+<span class="sd">    hybrid querying (filtering) capability of Redis.</span>
+
+<span class="sd">    By default, this implementation will automatically generate the index</span>
+<span class="sd">    schema according to the following rules:</span>
+<span class="sd">        - All strings are indexed as text fields</span>
+<span class="sd">        - All numbers are indexed as numeric fields</span>
+<span class="sd">        - All lists of strings are indexed as tag fields (joined by</span>
+<span class="sd">            langchain_community.vectorstores.redis.constants.REDIS_TAG_SEPARATOR)</span>
+<span class="sd">        - All None values are not indexed but still stored in Redis these are</span>
+<span class="sd">            not retrievable through the interface here, but the raw Redis client</span>
+<span class="sd">            can be used to retrieve them.</span>
+<span class="sd">        - All other types are not indexed</span>
+
+<span class="sd">    To override these rules, you can pass in a custom index schema like the following</span>
+
+<span class="sd">        .. code-block:: yaml</span>
+
+<span class="sd">            tag:</span>
+<span class="sd">                - name: credit_score</span>
+<span class="sd">            text:</span>
+<span class="sd">                - name: user</span>
+<span class="sd">                - name: job</span>
+
+<span class="sd">    Typically, the ``credit_score`` field would be a text field since it's a string,</span>
+<span class="sd">    however, we can override this behavior by specifying the field type as shown with</span>
+<span class="sd">    the yaml config (can also be a dictionary) above and the code below.</span>
+
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            rds = Redis.from_texts(</span>
+<span class="sd">                texts, # a list of strings</span>
+<span class="sd">                metadata, # a list of metadata dicts</span>
+<span class="sd">                embeddings, # an Embeddings object</span>
+<span class="sd">                index_schema="path/to/index_schema.yaml", # can also be a dictionary</span>
+<span class="sd">                redis_url="redis://localhost:6379",</span>
+<span class="sd">            )</span>
+
+<span class="sd">    When connecting to an existing index where a custom schema has been applied, it's</span>
+<span class="sd">    important to pass in the same schema to the ``from_existing_index`` method.</span>
+<span class="sd">    Otherwise, the schema for newly added samples will be incorrect and metadata</span>
+<span class="sd">    will not be returned.</span>
+
+<span class="sd">    """</span>  <span class="c1"># noqa: E501</span>
+
+    <span class="n">DEFAULT_VECTOR_SCHEMA</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"content_vector"</span><span class="p">,</span>
+        <span class="s2">"algorithm"</span><span class="p">:</span> <span class="s2">"FLAT"</span><span class="p">,</span>
+        <span class="s2">"dims"</span><span class="p">:</span> <span class="mi">1536</span><span class="p">,</span>
+        <span class="s2">"distance_metric"</span><span class="p">:</span> <span class="s2">"COSINE"</span><span class="p">,</span>
+        <span class="s2">"datatype"</span><span class="p">:</span> <span class="s2">"FLOAT32"</span><span class="p">,</span>
+    <span class="p">}</span>
+
+<div class="viewcode-block" id="Redis.__init__"><a class="viewcode-back" href="../../../../community/vectorstores/langchain_community.vectorstores.redis.base.Redis.html#langchain_community.vectorstores.redis.base.Redis.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">redis_url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">index_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">embedding</span><span class="p">:</span> <span class="n">Embeddings</span><span class="p">,</span>
+        <span class="n">index_schema</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">ListOfDict</span><span class="p">],</span> <span class="nb">str</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">PathLike</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">vector_schema</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">relevance_score_fn</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="nb">float</span><span class="p">],</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">key_prefix</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Initialize Redis vector store with necessary components."""</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_check_deprecated_kwargs</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># TODO use importlib to check if redis is installed</span>
+            <span class="kn">import</span> <span class="nn">redis</span>  <span class="c1"># noqa: F401</span>
+
+        <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
+                <span class="s2">"Could not import redis python package. "</span>
+                <span class="s2">"Please install it with `pip install redis`."</span>
+            <span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">index_name</span> <span class="o">=</span> <span class="n">index_name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_embeddings</span> <span class="o">=</span> <span class="n">embedding</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">redis_client</span> <span class="o">=</span> <span class="n">get_client</span><span class="p">(</span><span class="n">redis_url</span><span class="o">=</span><span class="n">redis_url</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="c1"># check if redis has redisearch module installed</span>
+            <span class="n">check_redis_module_exist</span><span class="p">(</span><span class="n">redis_client</span><span class="p">,</span> <span class="n">REDIS_REQUIRED_MODULES</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Redis failed to connect: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">redis_client</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">relevance_score_fn</span> <span class="o">=</span> <span class="n">relevance_score_fn</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_schema</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_schema_with_defaults</span><span class="p">(</span><span class="n">index_schema</span><span class="p">,</span> <span class="n">vector_schema</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">key_prefix</span> <span class="o">=</span> <span class="n">key_prefix</span> <span class="k">if</span> <span class="n">key_prefix</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="sa">f</span><span class="s2">"doc:</span><span class="si">{</span><span class="n">index_name</span><span class="si">}</span><span class="s2">"</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">embeddings</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Embeddings</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Access the query embedding object if available."""</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_embeddings</span>
+
+<div class="viewcode-block" id="Redis.from_texts_return_keys"><a class="viewcode-back" href="../../../../community/vectorstores/langchain_community.vectorstores.redis.base.Redis.html#langchain_community.vectorstores.redis.base.Redis.from_texts_return_keys">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_texts_return_keys</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">texts</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+        <span class="n">embedding</span><span class="p">:</span> <span class="n">Embeddings</span><span class="p">,</span>
+        <span class="n">metadatas</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">index_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">index_schema</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">ListOfDict</span><span class="p">],</span> <span class="nb">str</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">PathLike</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">vector_schema</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Redis</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">"""Create a Redis vectorstore from raw documents.</span>
+
+<span class="sd">        This is a user-friendly interface that:</span>
+<span class="sd">            1. Embeds documents.</span>
+<span class="sd">            2. Creates a new Redis index if it doesn't already exist</span>
+<span class="sd">            3. Adds the documents to the newly created Redis index.</span>
+<span class="sd">            4. Returns the keys of the newly created documents once stored.</span>
+
+<span class="sd">        This method will generate schema based on the metadata passed in</span>
+<span class="sd">        if the `index_schema` is not defined. If the `index_schema` is defined,</span>
+<span class="sd">        it will compare against the generated schema and warn if there are</span>
+<span class="sd">        differences. If you are purposefully defining the schema for the</span>
+<span class="sd">        metadata, then you can ignore that warning.</span>
+
+<span class="sd">        To examine the schema options, initialize an instance of this class</span>
+<span class="sd">        and print out the schema using the `Redis.schema`` property. This</span>
+<span class="sd">        will include the content and content_vector classes which are</span>
+<span class="sd">        always present in the langchain schema.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            .. code-block:: python</span>
+
+<span class="sd">                from langchain_community.vectorstores import Redis</span>
+<span class="sd">                from langchain_community.embeddings import OpenAIEmbeddings</span>
+<span class="sd">                embeddings = OpenAIEmbeddings()</span>
+<span class="sd">                redis, keys = Redis.from_texts_return_keys(</span>
+<span class="sd">                    texts,</span>
+<span class="sd">                    embeddings,</span>
+<span class="sd">                    redis_url="redis://localhost:6379"</span>
+<span class="sd">                )</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            texts (List[str]): List of texts to add to the vectorstore.</span>
+<span class="sd">            embedding (Embeddings): Embeddings to use for the vectorstore.</span>
+<span class="sd">            metadatas (Optional[List[dict]], optional): Optional list of metadata</span>
+<span class="sd">                dicts to add to the vectorstore. Defaults to None.</span>
+<span class="sd">            index_name (Optional[str], optional): Optional name of the index to</span>
+<span class="sd">                create or add to. Defaults to None.</span>
+<span class="sd">            index_schema (Optional[Union[Dict[str, ListOfDict], str, os.PathLike]],</span>
+<span class="sd">                optional):</span>
+<span class="sd">                Optional fields to index within the metadata. Overrides generated</span>
+<span class="sd">                schema. Defaults to None.</span>
+<span class="sd">            vector_schema (Optional[Dict[str, Union[str, int]]], optional): Optional</span>
+<span class="sd">                vector schema to use. Defaults to None.</span>
+<span class="sd">            **kwargs (Any): Additional keyword arguments to pass to the Redis client.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Tuple[Redis, List[str]]: Tuple of the Redis instance and the keys of</span>
+<span class="sd">                the newly created documents.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If the number of metadatas does not match the number of texts.</span>
+<span class="sd">        """</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># TODO use importlib to check if redis is installed</span>
+            <span class="kn">import</span> <span class="nn">redis</span>  <span class="c1"># noqa: F401</span>
+
+            <span class="kn">from</span> <span class="nn">langchain_community.vectorstores.redis.schema</span> <span class="kn">import</span> <span class="n">read_schema</span>
+
+        <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
+                <span class="s2">"Could not import redis python package. "</span>
+                <span class="s2">"Please install it with `pip install redis`."</span>
+            <span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
+
+        <span class="n">redis_url</span> <span class="o">=</span> <span class="n">get_from_dict_or_env</span><span class="p">(</span><span class="n">kwargs</span><span class="p">,</span> <span class="s2">"redis_url"</span><span class="p">,</span> <span class="s2">"REDIS_URL"</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="s2">"redis_url"</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"redis_url"</span><span class="p">)</span>
+
+        <span class="c1"># flag to use generated schema</span>
+        <span class="k">if</span> <span class="s2">"generate"</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"generate"</span><span class="p">)</span>
+
+        <span class="c1"># see if the user specified keys</span>
+        <span class="n">keys</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="s2">"keys"</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="n">keys</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"keys"</span><span class="p">)</span>
+
+        <span class="c1"># Name of the search index if not given</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">index_name</span><span class="p">:</span>
+            <span class="n">index_name</span> <span class="o">=</span> <span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">()</span><span class="o">.</span><span class="n">hex</span>
+
+        <span class="c1"># type check for metadata</span>
+        <span class="k">if</span> <span class="n">metadatas</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">metadatas</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">metadatas</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">texts</span><span class="p">):</span>  <span class="c1"># type: ignore</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Number of metadatas must match number of texts"</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">metadatas</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">metadatas</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">dict</span><span class="p">)):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Metadatas must be a list of dicts"</span><span class="p">)</span>
+
+            <span class="n">generated_schema</span> <span class="o">=</span> <span class="n">_generate_field_schema</span><span class="p">(</span><span class="n">metadatas</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">index_schema</span><span class="p">:</span>
+                <span class="c1"># read in the schema solely to compare to the generated schema</span>
+                <span class="n">user_schema</span> <span class="o">=</span> <span class="n">read_schema</span><span class="p">(</span><span class="n">index_schema</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
+
+                <span class="c1"># the very rare case where a super user decides to pass the index</span>
+                <span class="c1"># schema and a document loader is used that has metadata which</span>
+                <span class="c1"># we need to map into fields.</span>
+                <span class="k">if</span> <span class="n">user_schema</span> <span class="o">!=</span> <span class="n">generated_schema</span><span class="p">:</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                        <span class="s2">"`index_schema` does not match generated metadata schema.</span><span class="se">\n</span><span class="s2">"</span>
+                        <span class="o">+</span> <span class="s2">"If you meant to manually override the schema, please "</span>
+                        <span class="o">+</span> <span class="s2">"ignore this message.</span><span class="se">\n</span><span class="s2">"</span>
+                        <span class="o">+</span> <span class="sa">f</span><span class="s2">"index_schema: </span><span class="si">{</span><span class="n">user_schema</span><span class="si">}</span><span class="se">\n</span><span class="s2">"</span>
+                        <span class="o">+</span> <span class="sa">f</span><span class="s2">"generated_schema: </span><span class="si">{</span><span class="n">generated_schema</span><span class="si">}</span><span class="se">\n</span><span class="s2">"</span>
+                    <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># use the generated schema</span>
+                <span class="n">index_schema</span> <span class="o">=</span> <span class="n">generated_schema</span>
+
+        <span class="c1"># Create instance</span>
+        <span class="c1"># init the class -- if Redis is unavailable, will throw exception</span>
+        <span class="n">instance</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span>
+            <span class="n">redis_url</span><span class="p">,</span>
+            <span class="n">index_name</span><span class="p">,</span>
+            <span class="n">embedding</span><span class="p">,</span>
+            <span class="n">index_schema</span><span class="o">=</span><span class="n">index_schema</span><span class="p">,</span>
+            <span class="n">vector_schema</span><span class="o">=</span><span class="n">vector_schema</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Add data to Redis</span>
+        <span class="n">keys</span> <span class="o">=</span> <span class="n">instance</span><span class="o">.</span><span class="n">add_texts</span><span class="p">(</span><span class="n">texts</span><span class="p">,</span> <span class="n">metadatas</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="n">keys</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">instance</span><span class="p">,</span> <span class="n">keys</span></div>
+
+<div class="viewcode-block" id="Redis.from_texts"><a class="viewcode-back" href="../../../../community/vectorstores/langchain_community.vectorstores.redis.base.Redis.html#langchain_community.vectorstores.redis.base.Redis.from_texts">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_texts</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">Redis</span><span class="p">],</span>
+        <span class="n">texts</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+        <span class="n">embedding</span><span class="p">:</span> <span class="n">Embeddings</span><span class="p">,</span>
+        <span class="n">metadatas</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">index_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">index_schema</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">ListOfDict</span><span class="p">],</span> <span class="nb">str</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">PathLike</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">vector_schema</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Redis</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Create a Redis vectorstore from a list of texts.</span>
+
+<span class="sd">        This is a user-friendly interface that:</span>
+<span class="sd">            1. Embeds documents.</span>
+<span class="sd">            2. Creates a new Redis index if it doesn't already exist</span>
+<span class="sd">            3. Adds the documents to the newly created Redis index.</span>
+
+<span class="sd">        This method will generate schema based on the metadata passed in</span>
+<span class="sd">        if the `index_schema` is not defined. If the `index_schema` is defined,</span>
+<span class="sd">        it will compare against the generated schema and warn if there are</span>
+<span class="sd">        differences. If you are purposefully defining the schema for the</span>
+<span class="sd">        metadata, then you can ignore that warning.</span>
+
+<span class="sd">        To examine the schema options, initialize an instance of this class</span>
+<span class="sd">        and print out the schema using the `Redis.schema`` property. This</span>
+<span class="sd">        will include the content and content_vector classes which are</span>
+<span class="sd">        always present in the langchain schema.</span>
+
+
+<span class="sd">        Example:</span>
+<span class="sd">            .. code-block:: python</span>
+
+<span class="sd">                from langchain_community.vectorstores import Redis</span>
+<span class="sd">                from langchain_community.embeddings import OpenAIEmbeddings</span>
+<span class="sd">                embeddings = OpenAIEmbeddings()</span>
+<span class="sd">                redisearch = RediSearch.from_texts(</span>
+<span class="sd">                    texts,</span>
+<span class="sd">                    embeddings,</span>
+<span class="sd">                    redis_url="redis://username:password@localhost:6379"</span>
+<span class="sd">                )</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            texts (List[str]): List of texts to add to the vectorstore.</span>
+<span class="sd">            embedding (Embeddings): Embedding model class (i.e. OpenAIEmbeddings)</span>
+<span class="sd">                for embedding queries.</span>
+<span class="sd">            metadatas (Optional[List[dict]], optional): Optional list of metadata dicts</span>
+<span class="sd">                to add to the vectorstore. Defaults to None.</span>
+<span class="sd">            index_name (Optional[str], optional): Optional name of the index to create</span>
+<span class="sd">                or add to. Defaults to None.</span>
+<span class="sd">            index_schema (Optional[Union[Dict[str, ListOfDict], str, os.PathLike]],</span>
+<span class="sd">                optional):</span>
+<span class="sd">                Optional fields to index within the metadata. Overrides generated</span>
+<span class="sd">                schema. Defaults to None.</span>
+<span class="sd">            vector_schema (Optional[Dict[str, Union[str, int]]], optional): Optional</span>
+<span class="sd">                vector schema to use. Defaults to None.</span>
+<span class="sd">            **kwargs (Any): Additional keyword arguments to pass to the Redis client.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Redis: Redis VectorStore instance.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If the number of metadatas does not match the number of texts.</span>
+<span class="sd">            ImportError: If the redis python package is not installed.</span>
+<span class="sd">        """</span>
+        <span class="n">instance</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_texts_return_keys</span><span class="p">(</span>
+            <span class="n">texts</span><span class="p">,</span>
+            <span class="n">embedding</span><span class="p">,</span>
+            <span class="n">metadatas</span><span class="o">=</span><span class="n">metadatas</span><span class="p">,</span>
+            <span class="n">index_name</span><span class="o">=</span><span class="n">index_name</span><span class="p">,</span>
+            <span class="n">index_schema</span><span class="o">=</span><span class="n">index_schema</span><span class="p">,</span>
+            <span class="n">vector_schema</span><span class="o">=</span><span class="n">vector_schema</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">instance</span></div>
+
+<div class="viewcode-block" id="Redis.from_existing_index"><a class="viewcode-back" href="../../../../community/vectorstores/langchain_community.vectorstores.redis.base.Redis.html#langchain_community.vectorstores.redis.base.Redis.from_existing_index">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_existing_index</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">embedding</span><span class="p">:</span> <span class="n">Embeddings</span><span class="p">,</span>
+        <span class="n">index_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">schema</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">ListOfDict</span><span class="p">],</span> <span class="nb">str</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">PathLike</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">ListOfDict</span><span class="p">]],</span>
+        <span class="n">key_prefix</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Redis</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Connect to an existing Redis index.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            .. code-block:: python</span>
+
+<span class="sd">                from langchain_community.vectorstores import Redis</span>
+<span class="sd">                from langchain_community.embeddings import OpenAIEmbeddings</span>
+
+<span class="sd">                embeddings = OpenAIEmbeddings()</span>
+
+<span class="sd">                # must pass in schema and key_prefix from another index</span>
+<span class="sd">                existing_rds = Redis.from_existing_index(</span>
+<span class="sd">                    embeddings,</span>
+<span class="sd">                    index_name="my-index",</span>
+<span class="sd">                    schema=rds.schema, # schema dumped from another index</span>
+<span class="sd">                    key_prefix=rds.key_prefix, # key prefix from another index</span>
+<span class="sd">                    redis_url="redis://username:password@localhost:6379",</span>
+<span class="sd">                )</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            embedding (Embeddings): Embedding model class (i.e. OpenAIEmbeddings)</span>
+<span class="sd">                for embedding queries.</span>
+<span class="sd">            index_name (str): Name of the index to connect to.</span>
+<span class="sd">            schema (Union[Dict[str, str], str, os.PathLike, Dict[str, ListOfDict]]):</span>
+<span class="sd">                Schema of the index and the vector schema. Can be a dict, or path to</span>
+<span class="sd">                yaml file.</span>
+<span class="sd">            key_prefix (Optional[str]): Prefix to use for all keys in Redis associated</span>
+<span class="sd">                with this index.</span>
+<span class="sd">            **kwargs (Any): Additional keyword arguments to pass to the Redis client.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Redis: Redis VectorStore instance.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If the index does not exist.</span>
+<span class="sd">            ImportError: If the redis python package is not installed.</span>
+<span class="sd">        """</span>
+        <span class="n">redis_url</span> <span class="o">=</span> <span class="n">get_from_dict_or_env</span><span class="p">(</span><span class="n">kwargs</span><span class="p">,</span> <span class="s2">"redis_url"</span><span class="p">,</span> <span class="s2">"REDIS_URL"</span><span class="p">)</span>
+        <span class="c1"># We need to first remove redis_url from kwargs,</span>
+        <span class="c1"># otherwise passing it to Redis will result in an error.</span>
+        <span class="k">if</span> <span class="s2">"redis_url"</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"redis_url"</span><span class="p">)</span>
+
+        <span class="c1"># Create instance</span>
+        <span class="c1"># init the class -- if Redis is unavailable, will throw exception</span>
+        <span class="n">instance</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span>
+            <span class="n">redis_url</span><span class="p">,</span>
+            <span class="n">index_name</span><span class="p">,</span>
+            <span class="n">embedding</span><span class="p">,</span>
+            <span class="n">index_schema</span><span class="o">=</span><span class="n">schema</span><span class="p">,</span>
+            <span class="n">key_prefix</span><span class="o">=</span><span class="n">key_prefix</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Check for existence of the declared index</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">check_index_exists</span><span class="p">(</span><span class="n">instance</span><span class="o">.</span><span class="n">client</span><span class="p">,</span> <span class="n">index_name</span><span class="p">):</span>
+            <span class="c1"># Will only raise if the running Redis server does not</span>
+            <span class="c1"># have a record of this particular index</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">"Redis failed to connect: Index </span><span class="si">{</span><span class="n">index_name</span><span class="si">}</span><span class="s2"> does not exist."</span>
+            <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">instance</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">schema</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">"""Return the schema of the index."""</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_schema</span><span class="o">.</span><span class="n">as_dict</span><span class="p">()</span>
+
+<div class="viewcode-block" id="Redis.write_schema"><a class="viewcode-back" href="../../../../community/vectorstores/langchain_community.vectorstores.redis.base.Redis.html#langchain_community.vectorstores.redis.base.Redis.write_schema">[docs]</a>    <span class="k">def</span> <span class="nf">write_schema</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">PathLike</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Write the schema to a yaml file."""</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">"w+"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">yaml</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">schema</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Redis.delete"><a class="viewcode-back" href="../../../../community/vectorstores/langchain_community.vectorstores.redis.base.Redis.html#langchain_community.vectorstores.redis.base.Redis.delete">[docs]</a>    <span class="k">def</span> <span class="nf">delete</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">ids</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Delete a Redis entry.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            ids: List of ids (keys in redis) to delete.</span>
+<span class="sd">            redis_url: Redis connection url. This should be passed in the kwargs</span>
+<span class="sd">                or set as an environment variable: REDIS_URL.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: Whether or not the deletions were successful.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If the redis python package is not installed.</span>
+<span class="sd">            ValueError: If the ids (keys in redis) are not provided</span>
+<span class="sd">        """</span>
+        <span class="n">client</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span>
+        <span class="c1"># Check if index exists</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">ids</span><span class="p">:</span>
+                <span class="n">client</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="o">*</span><span class="n">ids</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Entries deleted"</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">except</span><span class="p">:</span>  <span class="c1"># noqa: E722</span>
+            <span class="c1"># ids does not exist</span>
+            <span class="k">return</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="Redis.drop_index"><a class="viewcode-back" href="../../../../community/vectorstores/langchain_community.vectorstores.redis.base.Redis.html#langchain_community.vectorstores.redis.base.Redis.drop_index">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">drop_index</span><span class="p">(</span>
+        <span class="n">index_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">delete_documents</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Drop a Redis search index.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            index_name (str): Name of the index to drop.</span>
+<span class="sd">            delete_documents (bool): Whether to drop the associated documents.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: Whether or not the drop was successful.</span>
+<span class="sd">        """</span>
+        <span class="n">redis_url</span> <span class="o">=</span> <span class="n">get_from_dict_or_env</span><span class="p">(</span><span class="n">kwargs</span><span class="p">,</span> <span class="s2">"redis_url"</span><span class="p">,</span> <span class="s2">"REDIS_URL"</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="kn">import</span> <span class="nn">redis</span>  <span class="c1"># noqa: F401</span>
+        <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
+                <span class="s2">"Could not import redis python package. "</span>
+                <span class="s2">"Please install it with `pip install redis`."</span>
+            <span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># We need to first remove redis_url from kwargs,</span>
+            <span class="c1"># otherwise passing it to Redis will result in an error.</span>
+            <span class="k">if</span> <span class="s2">"redis_url"</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+                <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"redis_url"</span><span class="p">)</span>
+            <span class="n">client</span> <span class="o">=</span> <span class="n">get_client</span><span class="p">(</span><span class="n">redis_url</span><span class="o">=</span><span class="n">redis_url</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Your redis connected error: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="c1"># Check if index exists</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">client</span><span class="o">.</span><span class="n">ft</span><span class="p">(</span><span class="n">index_name</span><span class="p">)</span><span class="o">.</span><span class="n">dropindex</span><span class="p">(</span><span class="n">delete_documents</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Drop index"</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">except</span><span class="p">:</span>  <span class="c1"># noqa: E722</span>
+            <span class="c1"># Index not exist</span>
+            <span class="k">return</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="Redis.add_texts"><a class="viewcode-back" href="../../../../community/vectorstores/langchain_community.vectorstores.redis.base.Redis.html#langchain_community.vectorstores.redis.base.Redis.add_texts">[docs]</a>    <span class="k">def</span> <span class="nf">add_texts</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">texts</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+        <span class="n">metadatas</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">embeddings</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">batch_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span>
+        <span class="n">clean_metadata</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Add more texts to the vectorstore.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            texts (Iterable[str]): Iterable of strings/text to add to the vectorstore.</span>
+<span class="sd">            metadatas (Optional[List[dict]], optional): Optional list of metadatas.</span>
+<span class="sd">                Defaults to None.</span>
+<span class="sd">            embeddings (Optional[List[List[float]]], optional): Optional pre-generated</span>
+<span class="sd">                embeddings. Defaults to None.</span>
+<span class="sd">            keys (List[str]) or ids (List[str]): Identifiers of entries.</span>
+<span class="sd">                Defaults to None.</span>
+<span class="sd">            batch_size (int, optional): Batch size to use for writes. Defaults to 1000.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List[str]: List of ids added to the vectorstore</span>
+<span class="sd">        """</span>
+        <span class="n">ids</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1"># Get keys or ids from kwargs</span>
+        <span class="c1"># Other vectorstores use ids</span>
+        <span class="n">keys_or_ids</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"keys"</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"ids"</span><span class="p">))</span>
+
+        <span class="c1"># type check for metadata</span>
+        <span class="k">if</span> <span class="n">metadatas</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">metadatas</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">metadatas</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">texts</span><span class="p">):</span>  <span class="c1"># type: ignore</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Number of metadatas must match number of texts"</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">metadatas</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">metadatas</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">dict</span><span class="p">)):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Metadatas must be a list of dicts"</span><span class="p">)</span>
+
+        <span class="n">embeddings</span> <span class="o">=</span> <span class="n">embeddings</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_embeddings</span><span class="o">.</span><span class="n">embed_documents</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">texts</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_create_index_if_not_exist</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">embeddings</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+
+        <span class="c1"># Write data to redis</span>
+        <span class="n">pipeline</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">pipeline</span><span class="p">(</span><span class="n">transaction</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">text</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">texts</span><span class="p">):</span>
+            <span class="c1"># Use provided values by default or fallback</span>
+            <span class="n">key</span> <span class="o">=</span> <span class="n">keys_or_ids</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">if</span> <span class="n">keys_or_ids</span> <span class="k">else</span> <span class="nb">str</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">()</span><span class="o">.</span><span class="n">hex</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">key</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">key_prefix</span> <span class="o">+</span> <span class="s2">":"</span><span class="p">):</span>
+                <span class="n">key</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">key_prefix</span> <span class="o">+</span> <span class="s2">":"</span> <span class="o">+</span> <span class="n">key</span>
+            <span class="n">metadata</span> <span class="o">=</span> <span class="n">metadatas</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">if</span> <span class="n">metadatas</span> <span class="k">else</span> <span class="p">{}</span>
+            <span class="n">metadata</span> <span class="o">=</span> <span class="n">_prepare_metadata</span><span class="p">(</span><span class="n">metadata</span><span class="p">)</span> <span class="k">if</span> <span class="n">clean_metadata</span> <span class="k">else</span> <span class="n">metadata</span>
+            <span class="n">pipeline</span><span class="o">.</span><span class="n">hset</span><span class="p">(</span>
+                <span class="n">key</span><span class="p">,</span>
+                <span class="n">mapping</span><span class="o">=</span><span class="p">{</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_schema</span><span class="o">.</span><span class="n">content_key</span><span class="p">:</span> <span class="n">text</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_schema</span><span class="o">.</span><span class="n">content_vector_key</span><span class="p">:</span> <span class="n">_array_to_buffer</span><span class="p">(</span>
+                        <span class="n">embeddings</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">_schema</span><span class="o">.</span><span class="n">vector_dtype</span>
+                    <span class="p">),</span>
+                    <span class="o">**</span><span class="n">metadata</span><span class="p">,</span>
+                <span class="p">},</span>
+            <span class="p">)</span>
+            <span class="n">ids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+
+            <span class="c1"># Write batch</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="n">batch_size</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">pipeline</span><span class="o">.</span><span class="n">execute</span><span class="p">()</span>
+
+        <span class="c1"># Cleanup final batch</span>
+        <span class="n">pipeline</span><span class="o">.</span><span class="n">execute</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">ids</span></div>
+
+<div class="viewcode-block" id="Redis.as_retriever"><a class="viewcode-back" href="../../../../community/vectorstores/langchain_community.vectorstores.redis.base.Redis.html#langchain_community.vectorstores.redis.base.Redis.as_retriever">[docs]</a>    <span class="k">def</span> <span class="nf">as_retriever</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RedisVectorStoreRetriever</span><span class="p">:</span>
+        <span class="n">tags</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"tags"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[]</span>
+        <span class="n">tags</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_retriever_tags</span><span class="p">())</span>
+        <span class="k">return</span> <span class="n">RedisVectorStoreRetriever</span><span class="p">(</span><span class="n">vectorstore</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="n">tags</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Redis.similarity_search_limit_score"><a class="viewcode-back" href="../../../../community/vectorstores/langchain_community.vectorstores.redis.base.Redis.html#langchain_community.vectorstores.redis.base.Redis.similarity_search_limit_score">[docs]</a>    <span class="nd">@deprecated</span><span class="p">(</span><span class="s2">"0.0.1"</span><span class="p">,</span> <span class="n">alternative</span><span class="o">=</span><span class="s2">"similarity_search(distance_threshold=0.1)"</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">similarity_search_limit_score</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="n">score_threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.2</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Document</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Returns the most similar indexed documents to the query text within the</span>
+<span class="sd">        score_threshold range.</span>
+
+<span class="sd">        Deprecated: Use similarity_search with distance_threshold instead.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            query (str): The query text for which to find similar documents.</span>
+<span class="sd">            k (int): The number of documents to return. Default is 4.</span>
+<span class="sd">            score_threshold (float): The minimum matching *distance* required</span>
+<span class="sd">                for a document to be considered a match. Defaults to 0.2.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List[Document]: A list of documents that are most similar to the query text</span>
+<span class="sd">                including the match score for each document.</span>
+
+<span class="sd">        Note:</span>
+<span class="sd">            If there are no documents that satisfy the score_threshold value,</span>
+<span class="sd">            an empty list is returned.</span>
+
+<span class="sd">        """</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">similarity_search</span><span class="p">(</span>
+            <span class="n">query</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="n">k</span><span class="p">,</span> <span class="n">distance_threshold</span><span class="o">=</span><span class="n">score_threshold</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="Redis.similarity_search_with_score"><a class="viewcode-back" href="../../../../community/vectorstores/langchain_community.vectorstores.redis.base.Redis.html#langchain_community.vectorstores.redis.base.Redis.similarity_search_with_score">[docs]</a>    <span class="k">def</span> <span class="nf">similarity_search_with_score</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">k</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
+        <span class="nb">filter</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">RedisFilterExpression</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">return_metadata</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Document</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">"""Run similarity search with **vector distance**.</span>
+
+<span class="sd">        The "scores" returned from this function are the raw vector</span>
+<span class="sd">        distances from the query vector. For similarity scores, use</span>
+<span class="sd">        ``similarity_search_with_relevance_scores``.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            query (str): The query text for which to find similar documents.</span>
+<span class="sd">            k (int): The number of documents to return. Default is 4.</span>
+<span class="sd">            filter (RedisFilterExpression, optional): Optional metadata filter.</span>
+<span class="sd">                Defaults to None.</span>
+<span class="sd">            return_metadata (bool, optional): Whether to return metadata.</span>
+<span class="sd">                Defaults to True.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List[Tuple[Document, float]]: A list of documents that are</span>
+<span class="sd">                most similar to the query with the distance for each document.</span>
+<span class="sd">        """</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="kn">import</span> <span class="nn">redis</span>
+
+        <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
+                <span class="s2">"Could not import redis python package. "</span>
+                <span class="s2">"Please install it with `pip install redis`."</span>
+            <span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
+
+        <span class="k">if</span> <span class="s2">"score_threshold"</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                <span class="s2">"score_threshold is deprecated. Use distance_threshold instead."</span>
+                <span class="o">+</span> <span class="s2">"score_threshold should only be used in "</span>
+                <span class="o">+</span> <span class="s2">"similarity_search_with_relevance_scores."</span>
+                <span class="o">+</span> <span class="s2">"score_threshold will be removed in a future release."</span><span class="p">,</span>
+            <span class="p">)</span>
+
+        <span class="n">query_embedding</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_embeddings</span><span class="o">.</span><span class="n">embed_query</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+
+        <span class="n">redis_query</span><span class="p">,</span> <span class="n">params_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_prepare_query</span><span class="p">(</span>
+            <span class="n">query_embedding</span><span class="p">,</span>
+            <span class="n">k</span><span class="o">=</span><span class="n">k</span><span class="p">,</span>
+            <span class="nb">filter</span><span class="o">=</span><span class="nb">filter</span><span class="p">,</span>
+            <span class="n">with_metadata</span><span class="o">=</span><span class="n">return_metadata</span><span class="p">,</span>
+            <span class="n">with_distance</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Perform vector search</span>
+        <span class="c1"># ignore type because redis-py is wrong about bytes</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">ft</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">index_name</span><span class="p">)</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">redis_query</span><span class="p">,</span> <span class="n">params_dict</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
+        <span class="k">except</span> <span class="n">redis</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">ResponseError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="c1"># split error message and see if it starts with "Syntax"</span>
+            <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">" "</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"Syntax"</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">"Query failed with syntax error. "</span>
+                    <span class="o">+</span> <span class="s2">"This is likely due to malformation of "</span>
+                    <span class="o">+</span> <span class="s2">"filter, vector, or query argument"</span>
+                <span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
+            <span class="k">raise</span> <span class="n">e</span>
+
+        <span class="c1"># Prepare document results</span>
+        <span class="n">docs_with_scores</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Document</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">results</span><span class="o">.</span><span class="n">docs</span><span class="p">:</span>
+            <span class="n">metadata</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">if</span> <span class="n">return_metadata</span><span class="p">:</span>
+                <span class="n">metadata</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"id"</span><span class="p">:</span> <span class="n">result</span><span class="o">.</span><span class="n">id</span><span class="p">}</span>
+                <span class="n">metadata</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_collect_metadata</span><span class="p">(</span><span class="n">result</span><span class="p">))</span>
+
+            <span class="n">doc</span> <span class="o">=</span> <span class="n">Document</span><span class="p">(</span><span class="n">page_content</span><span class="o">=</span><span class="n">result</span><span class="o">.</span><span class="n">content</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="n">metadata</span><span class="p">)</span>
+            <span class="n">distance</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_calculate_fp_distance</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">distance</span><span class="p">)</span>
+            <span class="n">docs_with_scores</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">doc</span><span class="p">,</span> <span class="n">distance</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">docs_with_scores</span></div>
+
+<div class="viewcode-block" id="Redis.similarity_search"><a class="viewcode-back" href="../../../../community/vectorstores/langchain_community.vectorstores.redis.base.Redis.html#langchain_community.vectorstores.redis.base.Redis.similarity_search">[docs]</a>    <span class="k">def</span> <span class="nf">similarity_search</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">k</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
+        <span class="nb">filter</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">RedisFilterExpression</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">return_metadata</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">distance_threshold</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Document</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Run similarity search</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            query (str): The query text for which to find similar documents.</span>
+<span class="sd">            k (int): The number of documents to return. Default is 4.</span>
+<span class="sd">            filter (RedisFilterExpression, optional): Optional metadata filter.</span>
+<span class="sd">                Defaults to None.</span>
+<span class="sd">            return_metadata (bool, optional): Whether to return metadata.</span>
+<span class="sd">                Defaults to True.</span>
+<span class="sd">            distance_threshold (Optional[float], optional): Maximum vector distance</span>
+<span class="sd">                between selected documents and the query vector. Defaults to None.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List[Document]: A list of documents that are most similar to the query</span>
+<span class="sd">                text.</span>
+<span class="sd">        """</span>
+        <span class="n">query_embedding</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_embeddings</span><span class="o">.</span><span class="n">embed_query</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">similarity_search_by_vector</span><span class="p">(</span>
+            <span class="n">query_embedding</span><span class="p">,</span>
+            <span class="n">k</span><span class="o">=</span><span class="n">k</span><span class="p">,</span>
+            <span class="nb">filter</span><span class="o">=</span><span class="nb">filter</span><span class="p">,</span>
+            <span class="n">return_metadata</span><span class="o">=</span><span class="n">return_metadata</span><span class="p">,</span>
+            <span class="n">distance_threshold</span><span class="o">=</span><span class="n">distance_threshold</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="Redis.similarity_search_by_vector"><a class="viewcode-back" href="../../../../community/vectorstores/langchain_community.vectorstores.redis.base.Redis.html#langchain_community.vectorstores.redis.base.Redis.similarity_search_by_vector">[docs]</a>    <span class="k">def</span> <span class="nf">similarity_search_by_vector</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">embedding</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
+        <span class="n">k</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
+        <span class="nb">filter</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">RedisFilterExpression</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">return_metadata</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">distance_threshold</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Document</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Run similarity search between a query vector and the indexed vectors.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            embedding (List[float]): The query vector for which to find similar</span>
+<span class="sd">                documents.</span>
+<span class="sd">            k (int): The number of documents to return. Default is 4.</span>
+<span class="sd">            filter (RedisFilterExpression, optional): Optional metadata filter.</span>
+<span class="sd">                Defaults to None.</span>
+<span class="sd">            return_metadata (bool, optional): Whether to return metadata.</span>
+<span class="sd">                Defaults to True.</span>
+<span class="sd">            distance_threshold (Optional[float], optional): Maximum vector distance</span>
+<span class="sd">                between selected documents and the query vector. Defaults to None.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List[Document]: A list of documents that are most similar to the query</span>
+<span class="sd">                text.</span>
+<span class="sd">        """</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="kn">import</span> <span class="nn">redis</span>
+
+        <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
+                <span class="s2">"Could not import redis python package. "</span>
+                <span class="s2">"Please install it with `pip install redis`."</span>
+            <span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
+
+        <span class="k">if</span> <span class="s2">"score_threshold"</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                <span class="s2">"score_threshold is deprecated. Use distance_threshold instead."</span>
+                <span class="o">+</span> <span class="s2">"score_threshold should only be used in "</span>
+                <span class="o">+</span> <span class="s2">"similarity_search_with_relevance_scores."</span>
+                <span class="o">+</span> <span class="s2">"score_threshold will be removed in a future release."</span><span class="p">,</span>
+            <span class="p">)</span>
+
+        <span class="n">redis_query</span><span class="p">,</span> <span class="n">params_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_prepare_query</span><span class="p">(</span>
+            <span class="n">embedding</span><span class="p">,</span>
+            <span class="n">k</span><span class="o">=</span><span class="n">k</span><span class="p">,</span>
+            <span class="nb">filter</span><span class="o">=</span><span class="nb">filter</span><span class="p">,</span>
+            <span class="n">distance_threshold</span><span class="o">=</span><span class="n">distance_threshold</span><span class="p">,</span>
+            <span class="n">with_metadata</span><span class="o">=</span><span class="n">return_metadata</span><span class="p">,</span>
+            <span class="n">with_distance</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Perform vector search</span>
+        <span class="c1"># ignore type because redis-py is wrong about bytes</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">ft</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">index_name</span><span class="p">)</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">redis_query</span><span class="p">,</span> <span class="n">params_dict</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
+        <span class="k">except</span> <span class="n">redis</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">ResponseError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="c1"># split error message and see if it starts with "Syntax"</span>
+            <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">" "</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"Syntax"</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">"Query failed with syntax error. "</span>
+                    <span class="o">+</span> <span class="s2">"This is likely due to malformation of "</span>
+                    <span class="o">+</span> <span class="s2">"filter, vector, or query argument"</span>
+                <span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
+            <span class="k">raise</span> <span class="n">e</span>
+
+        <span class="c1"># Prepare document results</span>
+        <span class="n">docs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">results</span><span class="o">.</span><span class="n">docs</span><span class="p">:</span>
+            <span class="n">metadata</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">if</span> <span class="n">return_metadata</span><span class="p">:</span>
+                <span class="n">metadata</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"id"</span><span class="p">:</span> <span class="n">result</span><span class="o">.</span><span class="n">id</span><span class="p">}</span>
+                <span class="n">metadata</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_collect_metadata</span><span class="p">(</span><span class="n">result</span><span class="p">))</span>
+
+            <span class="n">content_key</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_schema</span><span class="o">.</span><span class="n">content_key</span>
+            <span class="n">docs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="n">Document</span><span class="p">(</span><span class="n">page_content</span><span class="o">=</span><span class="nb">getattr</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">content_key</span><span class="p">),</span> <span class="n">metadata</span><span class="o">=</span><span class="n">metadata</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">docs</span></div>
+
+<div class="viewcode-block" id="Redis.max_marginal_relevance_search"><a class="viewcode-back" href="../../../../community/vectorstores/langchain_community.vectorstores.redis.base.Redis.html#langchain_community.vectorstores.redis.base.Redis.max_marginal_relevance_search">[docs]</a>    <span class="k">def</span> <span class="nf">max_marginal_relevance_search</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">k</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
+        <span class="n">fetch_k</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span>
+        <span class="n">lambda_mult</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span>
+        <span class="nb">filter</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">RedisFilterExpression</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">return_metadata</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">distance_threshold</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Document</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Return docs selected using the maximal marginal relevance.</span>
+
+<span class="sd">        Maximal marginal relevance optimizes for similarity to query AND diversity</span>
+<span class="sd">            among selected documents.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            query (str): Text to look up documents similar to.</span>
+<span class="sd">            k (int): Number of Documents to return. Defaults to 4.</span>
+<span class="sd">            fetch_k (int): Number of Documents to fetch to pass to MMR algorithm.</span>
+<span class="sd">            lambda_mult (float): Number between 0 and 1 that determines the degree</span>
+<span class="sd">                of diversity among the results with 0 corresponding</span>
+<span class="sd">                to maximum diversity and 1 to minimum diversity.</span>
+<span class="sd">                Defaults to 0.5.</span>
+<span class="sd">            filter (RedisFilterExpression, optional): Optional metadata filter.</span>
+<span class="sd">                Defaults to None.</span>
+<span class="sd">            return_metadata (bool, optional): Whether to return metadata.</span>
+<span class="sd">                Defaults to True.</span>
+<span class="sd">            distance_threshold (Optional[float], optional): Maximum vector distance</span>
+<span class="sd">                between selected documents and the query vector. Defaults to None.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List[Document]: A list of Documents selected by maximal marginal relevance.</span>
+<span class="sd">        """</span>
+        <span class="c1"># Embed the query</span>
+        <span class="n">query_embedding</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_embeddings</span><span class="o">.</span><span class="n">embed_query</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+
+        <span class="c1"># Fetch the initial documents</span>
+        <span class="n">prefetch_docs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">similarity_search_by_vector</span><span class="p">(</span>
+            <span class="n">query_embedding</span><span class="p">,</span>
+            <span class="n">k</span><span class="o">=</span><span class="n">fetch_k</span><span class="p">,</span>
+            <span class="nb">filter</span><span class="o">=</span><span class="nb">filter</span><span class="p">,</span>
+            <span class="n">return_metadata</span><span class="o">=</span><span class="n">return_metadata</span><span class="p">,</span>
+            <span class="n">distance_threshold</span><span class="o">=</span><span class="n">distance_threshold</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">prefetch_ids</span> <span class="o">=</span> <span class="p">[</span><span class="n">doc</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s2">"id"</span><span class="p">]</span> <span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">prefetch_docs</span><span class="p">]</span>
+
+        <span class="c1"># Get the embeddings for the fetched documents</span>
+        <span class="n">prefetch_embeddings</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">_buffer_to_array</span><span class="p">(</span>
+                <span class="n">cast</span><span class="p">(</span>
+                    <span class="nb">bytes</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">hget</span><span class="p">(</span><span class="n">prefetch_id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_schema</span><span class="o">.</span><span class="n">content_vector_key</span><span class="p">),</span>
+                <span class="p">),</span>
+                <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_schema</span><span class="o">.</span><span class="n">vector_dtype</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="k">for</span> <span class="n">prefetch_id</span> <span class="ow">in</span> <span class="n">prefetch_ids</span>
+        <span class="p">]</span>
+
+        <span class="c1"># Select documents using maximal marginal relevance</span>
+        <span class="n">selected_indices</span> <span class="o">=</span> <span class="n">maximal_marginal_relevance</span><span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">query_embedding</span><span class="p">),</span> <span class="n">prefetch_embeddings</span><span class="p">,</span> <span class="n">lambda_mult</span><span class="o">=</span><span class="n">lambda_mult</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="n">k</span>
+        <span class="p">)</span>
+        <span class="n">selected_docs</span> <span class="o">=</span> <span class="p">[</span><span class="n">prefetch_docs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">selected_indices</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">selected_docs</span></div>
+
+    <span class="k">def</span> <span class="nf">_collect_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="p">:</span> <span class="s2">"Document"</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Collect metadata from Redis.</span>
+
+<span class="sd">        Method ensures that there isn't a mismatch between the metadata</span>
+<span class="sd">        and the index schema passed to this class by the user or generated</span>
+<span class="sd">        by this class.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            result (Document): redis.commands.search.Document object returned</span>
+<span class="sd">                from Redis.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Dict[str, Any]: Collected metadata.</span>
+<span class="sd">        """</span>
+        <span class="c1"># new metadata dict as modified by this method</span>
+        <span class="n">meta</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_schema</span><span class="o">.</span><span class="n">metadata_keys</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">meta</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+                <span class="c1"># warning about attribute missing</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">"Metadata key </span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2"> not found in metadata. "</span>
+                    <span class="o">+</span> <span class="s2">"Setting to None. </span><span class="se">\n</span><span class="s2">"</span>
+                    <span class="o">+</span> <span class="s2">"Metadata fields defined for this instance: "</span>
+                    <span class="o">+</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_schema</span><span class="o">.</span><span class="n">metadata_keys</span><span class="si">}</span><span class="s2">"</span>
+                <span class="p">)</span>
+                <span class="n">meta</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="n">meta</span>
+
+    <span class="k">def</span> <span class="nf">_prepare_query</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">query_embedding</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
+        <span class="n">k</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
+        <span class="nb">filter</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">RedisFilterExpression</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">distance_threshold</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">with_metadata</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">with_distance</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="s2">"Query"</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
+        <span class="c1"># Creates Redis query</span>
+        <span class="n">params_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">"vector"</span><span class="p">:</span> <span class="n">_array_to_buffer</span><span class="p">(</span><span class="n">query_embedding</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_schema</span><span class="o">.</span><span class="n">vector_dtype</span><span class="p">),</span>
+        <span class="p">}</span>
+
+        <span class="c1"># prepare return fields including score</span>
+        <span class="n">return_fields</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_schema</span><span class="o">.</span><span class="n">content_key</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">with_distance</span><span class="p">:</span>
+            <span class="n">return_fields</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"distance"</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">with_metadata</span><span class="p">:</span>
+            <span class="n">return_fields</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_schema</span><span class="o">.</span><span class="n">metadata_keys</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">distance_threshold</span><span class="p">:</span>
+            <span class="n">params_dict</span><span class="p">[</span><span class="s2">"distance_threshold"</span><span class="p">]</span> <span class="o">=</span> <span class="n">distance_threshold</span>
+            <span class="k">return</span> <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_prepare_range_query</span><span class="p">(</span>
+                    <span class="n">k</span><span class="p">,</span> <span class="nb">filter</span><span class="o">=</span><span class="nb">filter</span><span class="p">,</span> <span class="n">return_fields</span><span class="o">=</span><span class="n">return_fields</span>
+                <span class="p">),</span>
+                <span class="n">params_dict</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_prepare_vector_query</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="nb">filter</span><span class="o">=</span><span class="nb">filter</span><span class="p">,</span> <span class="n">return_fields</span><span class="o">=</span><span class="n">return_fields</span><span class="p">),</span>
+            <span class="n">params_dict</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_prepare_range_query</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">k</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="nb">filter</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">RedisFilterExpression</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">return_fields</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Query"</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="kn">from</span> <span class="nn">redis.commands.search.query</span> <span class="kn">import</span> <span class="n">Query</span>
+        <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
+                <span class="s2">"Could not import redis python package. "</span>
+                <span class="s2">"Please install it with `pip install redis`."</span>
+            <span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
+        <span class="n">return_fields</span> <span class="o">=</span> <span class="n">return_fields</span> <span class="ow">or</span> <span class="p">[]</span>
+        <span class="n">vector_key</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_schema</span><span class="o">.</span><span class="n">content_vector_key</span>
+        <span class="n">base_query</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"@</span><span class="si">{</span><span class="n">vector_key</span><span class="si">}</span><span class="s2">:[VECTOR_RANGE $distance_threshold $vector]"</span>
+
+        <span class="k">if</span> <span class="nb">filter</span><span class="p">:</span>
+            <span class="n">base_query</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">filter</span><span class="p">)</span> <span class="o">+</span> <span class="s2">" "</span> <span class="o">+</span> <span class="n">base_query</span>
+
+        <span class="n">query_string</span> <span class="o">=</span> <span class="n">base_query</span> <span class="o">+</span> <span class="s2">"=&gt;{$yield_distance_as: distance}"</span>
+
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="n">Query</span><span class="p">(</span><span class="n">query_string</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">return_fields</span><span class="p">(</span><span class="o">*</span><span class="n">return_fields</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">sort_by</span><span class="p">(</span><span class="s2">"distance"</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">paging</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">dialect</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_prepare_vector_query</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">k</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="nb">filter</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">RedisFilterExpression</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">return_fields</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Query"</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Prepare query for vector search.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            k: Number of results to return.</span>
+<span class="sd">            filter: Optional metadata filter.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            query: Query object.</span>
+<span class="sd">        """</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="kn">from</span> <span class="nn">redis.commands.search.query</span> <span class="kn">import</span> <span class="n">Query</span>
+        <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
+                <span class="s2">"Could not import redis python package. "</span>
+                <span class="s2">"Please install it with `pip install redis`."</span>
+            <span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
+        <span class="n">return_fields</span> <span class="o">=</span> <span class="n">return_fields</span> <span class="ow">or</span> <span class="p">[]</span>
+        <span class="n">query_prefix</span> <span class="o">=</span> <span class="s2">"*"</span>
+        <span class="k">if</span> <span class="nb">filter</span><span class="p">:</span>
+            <span class="n">query_prefix</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="nb">filter</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span>
+        <span class="n">vector_key</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_schema</span><span class="o">.</span><span class="n">content_vector_key</span>
+        <span class="n">base_query</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"(</span><span class="si">{</span><span class="n">query_prefix</span><span class="si">}</span><span class="s2">)=&gt;[KNN </span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2"> @</span><span class="si">{</span><span class="n">vector_key</span><span class="si">}</span><span class="s2"> $vector AS distance]"</span>
+
+        <span class="n">query</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">Query</span><span class="p">(</span><span class="n">base_query</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">return_fields</span><span class="p">(</span><span class="o">*</span><span class="n">return_fields</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">sort_by</span><span class="p">(</span><span class="s2">"distance"</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">paging</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">dialect</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">query</span>
+
+    <span class="k">def</span> <span class="nf">_get_schema_with_defaults</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">index_schema</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">ListOfDict</span><span class="p">],</span> <span class="nb">str</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">PathLike</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">vector_schema</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"RedisModel"</span><span class="p">:</span>
+        <span class="c1"># should only be called after init of Redis (so Import handled)</span>
+        <span class="kn">from</span> <span class="nn">langchain_community.vectorstores.redis.schema</span> <span class="kn">import</span> <span class="p">(</span>
+            <span class="n">RedisModel</span><span class="p">,</span>
+            <span class="n">read_schema</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="n">schema</span> <span class="o">=</span> <span class="n">RedisModel</span><span class="p">()</span>
+        <span class="c1"># read in schema (yaml file or dict) and</span>
+        <span class="c1"># pass to the Pydantic validators</span>
+        <span class="k">if</span> <span class="n">index_schema</span><span class="p">:</span>
+            <span class="n">schema_values</span> <span class="o">=</span> <span class="n">read_schema</span><span class="p">(</span><span class="n">index_schema</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
+            <span class="n">schema</span> <span class="o">=</span> <span class="n">RedisModel</span><span class="p">(</span><span class="o">**</span><span class="n">schema_values</span><span class="p">)</span>
+
+            <span class="c1"># ensure user did not exclude the content field</span>
+            <span class="c1"># no modifications if content field found</span>
+            <span class="n">schema</span><span class="o">.</span><span class="n">add_content_field</span><span class="p">()</span>
+
+        <span class="c1"># if no content_vector field, add vector field to schema</span>
+        <span class="c1"># this makes adding a vector field to the schema optional when</span>
+        <span class="c1"># the user just wants additional metadata</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># see if user overrode the content vector</span>
+            <span class="n">schema</span><span class="o">.</span><span class="n">content_vector</span>
+            <span class="c1"># if user overrode the content vector, check if they</span>
+            <span class="c1"># also passed vector schema. This won't be used since</span>
+            <span class="c1"># the index schema overrode the content vector</span>
+            <span class="k">if</span> <span class="n">vector_schema</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                    <span class="s2">"`vector_schema` is ignored since content_vector is "</span>
+                    <span class="o">+</span> <span class="s2">"overridden in `index_schema`."</span>
+                <span class="p">)</span>
+
+        <span class="c1"># user did not override content vector</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="c1"># set default vector schema and update with user provided schema</span>
+            <span class="c1"># if the user provided any</span>
+            <span class="n">vector_field</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">DEFAULT_VECTOR_SCHEMA</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">vector_schema</span><span class="p">:</span>
+                <span class="n">vector_field</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">vector_schema</span><span class="p">)</span>
+
+            <span class="c1"># add the vector field either way</span>
+            <span class="n">schema</span><span class="o">.</span><span class="n">add_vector_field</span><span class="p">(</span><span class="n">vector_field</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">schema</span>
+
+    <span class="k">def</span> <span class="nf">_create_index_if_not_exist</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dim</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1536</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="kn">from</span> <span class="nn">redis.commands.search.indexDefinition</span> <span class="kn">import</span> <span class="p">(</span>  <span class="c1"># type: ignore</span>
+                <span class="n">IndexDefinition</span><span class="p">,</span>
+                <span class="n">IndexType</span><span class="p">,</span>
+            <span class="p">)</span>
+
+        <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
+                <span class="s2">"Could not import redis python package. "</span>
+                <span class="s2">"Please install it with `pip install redis`."</span>
+            <span class="p">)</span>
+
+        <span class="c1"># Set vector dimension</span>
+        <span class="c1"># can't obtain beforehand because we don't</span>
+        <span class="c1"># know which embedding model is being used.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_schema</span><span class="o">.</span><span class="n">content_vector</span><span class="o">.</span><span class="n">dims</span> <span class="o">=</span> <span class="n">dim</span>
+
+        <span class="c1"># Check if index exists</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">check_index_exists</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">index_name</span><span class="p">):</span>
+            <span class="c1"># Create Redis Index</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">ft</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">index_name</span><span class="p">)</span><span class="o">.</span><span class="n">create_index</span><span class="p">(</span>
+                <span class="n">fields</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_schema</span><span class="o">.</span><span class="n">get_fields</span><span class="p">(),</span>
+                <span class="n">definition</span><span class="o">=</span><span class="n">IndexDefinition</span><span class="p">(</span>
+                    <span class="n">prefix</span><span class="o">=</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">key_prefix</span><span class="p">],</span> <span class="n">index_type</span><span class="o">=</span><span class="n">IndexType</span><span class="o">.</span><span class="n">HASH</span>
+                <span class="p">),</span>
+            <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_calculate_fp_distance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">distance</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Calculate the distance based on the vector datatype</span>
+
+<span class="sd">        Two datatypes supported:</span>
+<span class="sd">        - FLOAT32</span>
+<span class="sd">        - FLOAT64</span>
+
+<span class="sd">        if it's FLOAT32, we need to round the distance to 4 decimal places</span>
+<span class="sd">        otherwise, round to 7 decimal places.</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_schema</span><span class="o">.</span><span class="n">content_vector</span><span class="o">.</span><span class="n">datatype</span> <span class="o">==</span> <span class="s2">"FLOAT32"</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">round</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">distance</span><span class="p">),</span> <span class="mi">4</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">round</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">distance</span><span class="p">),</span> <span class="mi">7</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_check_deprecated_kwargs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Check for deprecated kwargs."""</span>
+
+        <span class="n">deprecated_kwargs</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">"redis_host"</span><span class="p">:</span> <span class="s2">"redis_url"</span><span class="p">,</span>
+            <span class="s2">"redis_port"</span><span class="p">:</span> <span class="s2">"redis_url"</span><span class="p">,</span>
+            <span class="s2">"redis_password"</span><span class="p">:</span> <span class="s2">"redis_url"</span><span class="p">,</span>
+            <span class="s2">"content_key"</span><span class="p">:</span> <span class="s2">"index_schema"</span><span class="p">,</span>
+            <span class="s2">"vector_key"</span><span class="p">:</span> <span class="s2">"vector_schema"</span><span class="p">,</span>
+            <span class="s2">"distance_metric"</span><span class="p">:</span> <span class="s2">"vector_schema"</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">deprecated_kwargs</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">"Keyword argument '</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">' is deprecated. "</span>
+                    <span class="sa">f</span><span class="s2">"Please use '</span><span class="si">{</span><span class="n">deprecated_kwargs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="si">}</span><span class="s2">' instead."</span>
+                <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_select_relevance_score_fn</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">float</span><span class="p">],</span> <span class="nb">float</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">relevance_score_fn</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">relevance_score_fn</span>
+
+        <span class="n">metric_map</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">"COSINE"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cosine_relevance_score_fn</span><span class="p">,</span>
+            <span class="s2">"IP"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_max_inner_product_relevance_score_fn</span><span class="p">,</span>
+            <span class="s2">"L2"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_euclidean_relevance_score_fn</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">metric_map</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_schema</span><span class="o">.</span><span class="n">content_vector</span><span class="o">.</span><span class="n">distance_metric</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">_default_relevance_score</span></div>
+
+
+<span class="k">def</span> <span class="nf">_generate_field_schema</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Generate a schema for the search index in Redis based on the input metadata.</span>
+
+<span class="sd">    Given a dictionary of metadata, this function categorizes each metadata</span>
+<span class="sd">        field into one of the three categories:</span>
+<span class="sd">    - text: The field contains textual data.</span>
+<span class="sd">    - numeric: The field contains numeric data (either integer or float).</span>
+<span class="sd">    - tag: The field contains list of tags (strings).</span>
+
+<span class="sd">    Args</span>
+<span class="sd">        data (Dict[str, Any]): A dictionary where keys are metadata field names</span>
+<span class="sd">            and values are the metadata values.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Dict[str, Any]: A dictionary with three keys "text", "numeric", and "tag".</span>
+<span class="sd">            Each key maps to a list of fields that belong to that category.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: If a metadata field cannot be categorized into any of</span>
+<span class="sd">            the three known types.</span>
+<span class="sd">    """</span>
+    <span class="n">result</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">"text"</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="s2">"numeric"</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="s2">"tag"</span><span class="p">:</span> <span class="p">[],</span>
+    <span class="p">}</span>
+
+    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="c1"># Numeric fields</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="nb">int</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+            <span class="n">result</span><span class="p">[</span><span class="s2">"numeric"</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">"name"</span><span class="p">:</span> <span class="n">key</span><span class="p">})</span>
+            <span class="k">continue</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">):</span>
+            <span class="k">pass</span>
+
+        <span class="c1"># None values are not indexed as of now</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">continue</span>
+
+        <span class="c1"># if it's a list of strings, we assume it's a tag</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">value</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">str</span><span class="p">):</span>
+                <span class="n">result</span><span class="p">[</span><span class="s2">"tag"</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">"name"</span><span class="p">:</span> <span class="n">key</span><span class="p">})</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">name</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="vm">__name__</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">"List/tuple values should contain strings: '</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">': </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">"</span>
+                <span class="p">)</span>
+            <span class="k">continue</span>
+
+        <span class="c1"># Check if value is string before processing further</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">result</span><span class="p">[</span><span class="s2">"text"</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">"name"</span><span class="p">:</span> <span class="n">key</span><span class="p">})</span>
+            <span class="k">continue</span>
+
+        <span class="c1"># Unable to classify the field value</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">"Could not generate Redis index field type mapping "</span>
+            <span class="o">+</span> <span class="sa">f</span><span class="s2">"for metadata: '</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">': </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">"</span>
+        <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">result</span>
+
+
+<span class="k">def</span> <span class="nf">_prepare_metadata</span><span class="p">(</span><span class="n">metadata</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Prepare metadata for indexing in Redis by sanitizing its values.</span>
+
+<span class="sd">    - String, integer, and float values remain unchanged.</span>
+<span class="sd">    - None or empty values are replaced with empty strings.</span>
+<span class="sd">    - Lists/tuples of strings are joined into a single string with a comma separator.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        metadata (Dict[str, Any]): A dictionary where keys are metadata</span>
+<span class="sd">            field names and values are the metadata values.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Dict[str, Any]: A sanitized dictionary ready for indexing in Redis.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: If any metadata value is not one of the known</span>
+<span class="sd">            types (string, int, float, or list of strings).</span>
+<span class="sd">    """</span>
+
+    <span class="k">def</span> <span class="nf">raise_error</span><span class="p">(</span><span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">"Metadata value for key '</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">' must be a string, int, "</span>
+            <span class="o">+</span> <span class="sa">f</span><span class="s2">"float, or list of strings. Got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">"</span>
+        <span class="p">)</span>
+
+    <span class="n">clean_meta</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">metadata</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">clean_meta</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="s2">""</span>
+            <span class="k">continue</span>
+
+        <span class="c1"># No transformation needed</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+            <span class="n">clean_meta</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+
+        <span class="c1"># if it's a list/tuple of strings, we join it</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">value</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">str</span><span class="p">):</span>
+                <span class="n">clean_meta</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">REDIS_TAG_SEPARATOR</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">raise_error</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">raise_error</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">clean_meta</span>
+
+
+<div class="viewcode-block" id="RedisVectorStoreRetriever"><a class="viewcode-back" href="../../../../community/vectorstores/langchain_community.vectorstores.redis.base.RedisVectorStoreRetriever.html#langchain_community.vectorstores.redis.base.RedisVectorStoreRetriever">[docs]</a><span class="k">class</span> <span class="nc">RedisVectorStoreRetriever</span><span class="p">(</span><span class="n">VectorStoreRetriever</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Retriever for Redis VectorStore."""</span>
+
+    <span class="n">vectorstore</span><span class="p">:</span> <span class="n">Redis</span>
+<span class="w">    </span><span class="sd">"""Redis VectorStore."""</span>
+    <span class="n">search_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"similarity"</span>
+<span class="w">    </span><span class="sd">"""Type of search to perform. Can be either</span>
+<span class="sd">    'similarity',</span>
+<span class="sd">    'similarity_distance_threshold',</span>
+<span class="sd">    'similarity_score_threshold'</span>
+<span class="sd">    """</span>
+
+    <span class="n">search_kwargs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">"k"</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+        <span class="s2">"score_threshold"</span><span class="p">:</span> <span class="mf">0.9</span><span class="p">,</span>
+        <span class="c1"># set to None to avoid distance used in score_threshold search</span>
+        <span class="s2">"distance_threshold"</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">}</span>
+<span class="w">    </span><span class="sd">"""Default search kwargs."""</span>
+
+    <span class="n">allowed_search_types</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">"similarity"</span><span class="p">,</span>
+        <span class="s2">"similarity_distance_threshold"</span><span class="p">,</span>
+        <span class="s2">"similarity_score_threshold"</span><span class="p">,</span>
+        <span class="s2">"mmr"</span><span class="p">,</span>
+    <span class="p">]</span>
+<span class="w">    </span><span class="sd">"""Allowed search types."""</span>
+
+    <span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
+        <span class="n">arbitrary_types_allowed</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">def</span> <span class="nf">_get_relevant_documents</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">run_manager</span><span class="p">:</span> <span class="n">CallbackManagerForRetrieverRun</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Document</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">search_type</span> <span class="o">==</span> <span class="s2">"similarity"</span><span class="p">:</span>
+            <span class="n">docs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vectorstore</span><span class="o">.</span><span class="n">similarity_search</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">search_kwargs</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">search_type</span> <span class="o">==</span> <span class="s2">"similarity_distance_threshold"</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">search_kwargs</span><span class="p">[</span><span class="s2">"distance_threshold"</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">"distance_threshold must be provided for "</span>
+                    <span class="o">+</span> <span class="s2">"similarity_distance_threshold retriever"</span>
+                <span class="p">)</span>
+            <span class="n">docs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vectorstore</span><span class="o">.</span><span class="n">similarity_search</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">search_kwargs</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">search_type</span> <span class="o">==</span> <span class="s2">"similarity_score_threshold"</span><span class="p">:</span>
+            <span class="n">docs_and_similarities</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">vectorstore</span><span class="o">.</span><span class="n">similarity_search_with_relevance_scores</span><span class="p">(</span>
+                    <span class="n">query</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">search_kwargs</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+            <span class="n">docs</span> <span class="o">=</span> <span class="p">[</span><span class="n">doc</span> <span class="k">for</span> <span class="n">doc</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">docs_and_similarities</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">search_type</span> <span class="o">==</span> <span class="s2">"mmr"</span><span class="p">:</span>
+            <span class="n">docs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vectorstore</span><span class="o">.</span><span class="n">max_marginal_relevance_search</span><span class="p">(</span>
+                <span class="n">query</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">search_kwargs</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"search_type of </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">search_type</span><span class="si">}</span><span class="s2"> not allowed."</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">docs</span>
+
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">_aget_relevant_documents</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">run_manager</span><span class="p">:</span> <span class="n">AsyncCallbackManagerForRetrieverRun</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Document</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">search_type</span> <span class="o">==</span> <span class="s2">"similarity"</span><span class="p">:</span>
+            <span class="n">docs</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">vectorstore</span><span class="o">.</span><span class="n">asimilarity_search</span><span class="p">(</span>
+                <span class="n">query</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">search_kwargs</span>
+            <span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">search_type</span> <span class="o">==</span> <span class="s2">"similarity_distance_threshold"</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">search_kwargs</span><span class="p">[</span><span class="s2">"distance_threshold"</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">"distance_threshold must be provided for "</span>
+                    <span class="o">+</span> <span class="s2">"similarity_distance_threshold retriever"</span>
+                <span class="p">)</span>
+            <span class="n">docs</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">vectorstore</span><span class="o">.</span><span class="n">asimilarity_search</span><span class="p">(</span>
+                <span class="n">query</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">search_kwargs</span>
+            <span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">search_type</span> <span class="o">==</span> <span class="s2">"similarity_score_threshold"</span><span class="p">:</span>
+            <span class="n">docs_and_similarities</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">vectorstore</span><span class="o">.</span><span class="n">asimilarity_search_with_relevance_scores</span><span class="p">(</span>
+                    <span class="n">query</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">search_kwargs</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+            <span class="n">docs</span> <span class="o">=</span> <span class="p">[</span><span class="n">doc</span> <span class="k">for</span> <span class="n">doc</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">docs_and_similarities</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">search_type</span> <span class="o">==</span> <span class="s2">"mmr"</span><span class="p">:</span>
+            <span class="n">docs</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">vectorstore</span><span class="o">.</span><span class="n">amax_marginal_relevance_search</span><span class="p">(</span>
+                <span class="n">query</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">search_kwargs</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"search_type of </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">search_type</span><span class="si">}</span><span class="s2"> not allowed."</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">docs</span>
+
+<div class="viewcode-block" id="RedisVectorStoreRetriever.add_documents"><a class="viewcode-back" href="../../../../community/vectorstores/langchain_community.vectorstores.redis.base.RedisVectorStoreRetriever.html#langchain_community.vectorstores.redis.base.RedisVectorStoreRetriever.add_documents">[docs]</a>    <span class="k">def</span> <span class="nf">add_documents</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">documents</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Document</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Add documents to vectorstore."""</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">vectorstore</span><span class="o">.</span><span class="n">add_documents</span><span class="p">(</span><span class="n">documents</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="RedisVectorStoreRetriever.aadd_documents"><a class="viewcode-back" href="../../../../community/vectorstores/langchain_community.vectorstores.redis.base.RedisVectorStoreRetriever.html#langchain_community.vectorstores.redis.base.RedisVectorStoreRetriever.aadd_documents">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">aadd_documents</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">documents</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Document</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Add documents to vectorstore."""</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">vectorstore</span><span class="o">.</span><span class="n">aadd_documents</span><span class="p">(</span><span class="n">documents</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div></div>
+</pre></div>
+</article>
+</div>
+</div>
+<footer class="bd-footer-content">
+</footer>
+</main>
+</div>
+</div>
+<!-- Scripts loaded after <body> so the DOM is not blocked -->
+<script src="../../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+<footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+<div class="footer-items__start">
+<div class="footer-item">
+<p class="copyright">
+    
+      © Copyright 2023, LangChain Inc.
+      <br/>
+</p>
+</div>
+</div>
+</div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,817 @@
+
+<!DOCTYPE html>
+
+<html data-content_root="" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>langchain_community.document_loaders.pebblo — 🦜🔗 LangChain  documentation</title>
+<script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+<!-- Loaded before other Sphinx assets -->
+<link href="../../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet"/>
+<link href="../../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet"/>
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet"/>
+<link href="../../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet"/>
+<link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" rel="preload" type="font/woff2"/>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/autodoc_pydantic.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/sphinx-design.4cbf315f70debaebd550c87a6162cf0f.min.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/css/custom.css" rel="stylesheet" type="text/css"/>
+<!-- Pre-loaded scripts that we'll load fully later -->
+<link as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
+<link as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
+<script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/sphinx_highlight.js"></script>
+<script src="../../../_static/clipboard.min.js"></script>
+<script src="../../../_static/copybutton.js"></script>
+<script src="../../../_static/design-tabs.js"></script>
+<script>DOCUMENTATION_OPTIONS.pagename = '_modules/langchain_community/document_loaders/pebblo';</script>
+<link href="../../../_static/favicon.png" rel="icon"/>
+<link href="../../../search.html" rel="search" title="Search"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="en" name="docsearch:language"/>
+<meta content="Aug 14, 2024" name="docbuild:last-update"/>
+</head>
+<body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
+<div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
+<div id="pst-scroll-pixel-helper"></div>
+<button class="btn rounded-pill" id="pst-back-to-top" type="button">
+<i class="fa-solid fa-arrow-up"></i>Back to top</button>
+<input class="sidebar-toggle" id="pst-primary-sidebar-checkbox" type="checkbox"/>
+<label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+<input class="sidebar-toggle" id="pst-secondary-sidebar-checkbox" type="checkbox"/>
+<label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+<div class="search-button__wrapper">
+<div class="search-button__overlay"></div>
+<div class="search-button__search-container">
+<form action="../../../search.html" class="bd-search d-flex align-items-center" method="get">
+<i class="fa-solid fa-magnifying-glass"></i>
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="form-control" id="search-input" name="q" placeholder="Search" spellcheck="false" type="search"/>
+<span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+</div>
+<div class="pst-async-banner-revealer d-none">
+<aside aria-label="Version warning" class="d-none d-print-none" id="bd-header-version-warning"></aside>
+</div>
+<header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+<button aria-label="Site navigation" class="pst-navbar-icon sidebar-toggle primary-toggle">
+<span class="fa-solid fa-bars"></span>
+</button>
+<div class="navbar-header-items__start">
+<div class="navbar-item">
+<a class="navbar-brand logo" href="../../../index.html">
+<img alt="🦜🔗 LangChain  documentation - Home" class="logo__image only-light" src="../../../_static/wordmark-api.svg"/>
+<script>document.write(`<img src="../../../_static/wordmark-api-dark.svg" class="logo__image only-dark" alt="🦜🔗 LangChain  documentation - Home"/>`);</script>
+</a></div>
+</div>
+<div class="navbar-header-items">
+<div class="me-auto navbar-header-items__center">
+<div class="navbar-item">
+<nav>
+<ul class="bd-navbar-elements navbar-nav">
+<li class="nav-item">
+<a class="nav-link nav-internal" href="../../../reference.html">
+    Reference
+  </a>
+</li>
+<li class="nav-item">
+<a class="nav-link nav-external" href="https://api.python.langchain.com/">
+    Legacy reference
+  </a>
+</li>
+</ul>
+</nav></div>
+</div>
+<div class="navbar-header-items__end">
+<div class="navbar-item navbar-persistent--container">
+<form action="../../../search.html" class="bd-search d-flex align-items-center" method="get">
+<i class="fa-solid fa-magnifying-glass"></i>
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="form-control" id="search-input" name="q" placeholder="Search" spellcheck="false" type="search"/>
+<span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+</div>
+<div class="navbar-item"><!-- This will display a link to LangChain docs -->
+<head>
+<style>
+        .text-link {
+            text-decoration: none; /* Remove underline */
+            color: inherit;        /* Inherit color from parent element */
+        }
+    </style>
+</head>
+<body>
+<a class="text-link" href="https://python.langchain.com/">Docs</a>
+</body></div>
+<div class="navbar-item">
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+<div class="navbar-item"><ul aria-label="Quick Links" class="navbar-icon-links">
+<li class="nav-item">
+<a class="nav-link pst-navbar-icon" data-bs-placement="bottom" data-bs-toggle="tooltip" href="https://github.com/langchain-ai/langchain" rel="noopener" target="_blank" title="GitHub"><i aria-hidden="true" class="fa-brands fa-square-github fa-lg"></i>
+<span class="sr-only">GitHub</span></a>
+</li>
+<li class="nav-item">
+<a class="nav-link pst-navbar-icon" data-bs-placement="bottom" data-bs-toggle="tooltip" href="https://twitter.com/langchainai" rel="noopener" target="_blank" title="X / Twitter"><i aria-hidden="true" class="fab fa-twitter-square fa-lg"></i>
+<span class="sr-only">X / Twitter</span></a>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="navbar-persistent--mobile">
+<form action="../../../search.html" class="bd-search d-flex align-items-center" method="get">
+<i class="fa-solid fa-magnifying-glass"></i>
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="form-control" id="search-input" name="q" placeholder="Search" spellcheck="false" type="search"/>
+<span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+</div>
+</div>
+</header>
+<div class="bd-container">
+<div class="bd-container__inner bd-page-width">
+<div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+<div class="sidebar-header-items sidebar-primary__section">
+<div class="sidebar-header-items__center">
+<div class="navbar-item">
+<nav>
+<ul class="bd-navbar-elements navbar-nav">
+<li class="nav-item">
+<a class="nav-link nav-internal" href="../../../reference.html">
+    Reference
+  </a>
+</li>
+<li class="nav-item">
+<a class="nav-link nav-external" href="https://api.python.langchain.com/">
+    Legacy reference
+  </a>
+</li>
+</ul>
+</nav></div>
+</div>
+<div class="sidebar-header-items__end">
+<div class="navbar-item"><!-- This will display a link to LangChain docs -->
+<head>
+<style>
+        .text-link {
+            text-decoration: none; /* Remove underline */
+            color: inherit;        /* Inherit color from parent element */
+        }
+    </style>
+</head>
+<body>
+<a class="text-link" href="https://python.langchain.com/">Docs</a>
+</body></div>
+<div class="navbar-item">
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+<div class="navbar-item"><ul aria-label="Quick Links" class="navbar-icon-links">
+<li class="nav-item">
+<a class="nav-link pst-navbar-icon" data-bs-placement="bottom" data-bs-toggle="tooltip" href="https://github.com/langchain-ai/langchain" rel="noopener" target="_blank" title="GitHub"><i aria-hidden="true" class="fa-brands fa-square-github fa-lg"></i>
+<span class="sr-only">GitHub</span></a>
+</li>
+<li class="nav-item">
+<a class="nav-link pst-navbar-icon" data-bs-placement="bottom" data-bs-toggle="tooltip" href="https://twitter.com/langchainai" rel="noopener" target="_blank" title="X / Twitter"><i aria-hidden="true" class="fab fa-twitter-square fa-lg"></i>
+<span class="sr-only">X / Twitter</span></a>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sidebar-primary-items__end sidebar-primary__section">
+</div>
+<div id="rtd-footer-container"></div>
+</div>
+<main class="bd-main" id="main-content" role="main">
+<div class="bd-content">
+<div class="bd-article-container">
+<div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+<div class="header-article-items__start">
+<div class="header-article-item">
+<nav aria-label="Breadcrumb" class="d-print-none">
+<ul class="bd-breadcrumbs">
+<li class="breadcrumb-item breadcrumb-home">
+<a aria-label="Home" class="nav-link" href="../../../index.html">
+<i class="fa-solid fa-home"></i>
+</a>
+</li>
+<li class="breadcrumb-item"><a class="nav-link" href="../../index.html">Module code</a></li>
+<li aria-current="page" class="breadcrumb-item active">langchain_co...</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+</div>
+<div id="searchbox"></div>
+<article class="bd-article">
+<h1>Source code for langchain_community.document_loaders.pebblo</h1><div class="highlight"><pre>
+<span></span><span class="sd">"""Pebblo's safe dataloader is a wrapper for document loaders"""</span>
+
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">uuid</span>
+<span class="kn">from</span> <span class="nn">http</span> <span class="kn">import</span> <span class="n">HTTPStatus</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
+
+<span class="kn">import</span> <span class="nn">requests</span>  <span class="c1"># type: ignore</span>
+<span class="kn">from</span> <span class="nn">langchain_core.documents</span> <span class="kn">import</span> <span class="n">Document</span>
+
+<span class="kn">from</span> <span class="nn">langchain_community.document_loaders.base</span> <span class="kn">import</span> <span class="n">BaseLoader</span>
+<span class="kn">from</span> <span class="nn">langchain_community.utilities.pebblo</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">APP_DISCOVER_URL</span><span class="p">,</span>
+    <span class="n">BATCH_SIZE_BYTES</span><span class="p">,</span>
+    <span class="n">CLASSIFIER_URL</span><span class="p">,</span>
+    <span class="n">LOADER_DOC_URL</span><span class="p">,</span>
+    <span class="n">PEBBLO_CLOUD_URL</span><span class="p">,</span>
+    <span class="n">PLUGIN_VERSION</span><span class="p">,</span>
+    <span class="n">App</span><span class="p">,</span>
+    <span class="n">Doc</span><span class="p">,</span>
+    <span class="n">IndexedDocument</span><span class="p">,</span>
+    <span class="n">generate_size_based_batches</span><span class="p">,</span>
+    <span class="n">get_full_path</span><span class="p">,</span>
+    <span class="n">get_loader_full_path</span><span class="p">,</span>
+    <span class="n">get_loader_type</span><span class="p">,</span>
+    <span class="n">get_runtime</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="PebbloSafeLoader"><a class="viewcode-back" href="../../../community/document_loaders/langchain_community.document_loaders.pebblo.PebbloSafeLoader.html#langchain_community.document_loaders.pebblo.PebbloSafeLoader">[docs]</a><span class="k">class</span> <span class="nc">PebbloSafeLoader</span><span class="p">(</span><span class="n">BaseLoader</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Pebblo Safe Loader class is a wrapper around document loaders enabling the data</span>
+<span class="sd">    to be scrutinized.</span>
+<span class="sd">    """</span>
+
+    <span class="n">_discover_sent</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">_loader_sent</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+
+<div class="viewcode-block" id="PebbloSafeLoader.__init__"><a class="viewcode-back" href="../../../community/document_loaders/langchain_community.document_loaders.pebblo.PebbloSafeLoader.html#langchain_community.document_loaders.pebblo.PebbloSafeLoader.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">langchain_loader</span><span class="p">:</span> <span class="n">BaseLoader</span><span class="p">,</span>
+        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">owner</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
+        <span class="n">description</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
+        <span class="n">api_key</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">load_semantic</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">classifier_url</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">classifier_location</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"local"</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">name</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">NameError</span><span class="p">(</span><span class="s2">"Must specify a valid name."</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">app_name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"PEBBLO_API_KEY"</span><span class="p">)</span> <span class="ow">or</span> <span class="n">api_key</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">load_id</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">loader</span> <span class="o">=</span> <span class="n">langchain_loader</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">load_semantic</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"PEBBLO_LOAD_SEMANTIC"</span><span class="p">)</span> <span class="ow">or</span> <span class="n">load_semantic</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">owner</span> <span class="o">=</span> <span class="n">owner</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="n">description</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">source_path</span> <span class="o">=</span> <span class="n">get_loader_full_path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">loader</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">source_owner</span> <span class="o">=</span> <span class="n">PebbloSafeLoader</span><span class="o">.</span><span class="n">get_file_owner_from_path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">source_path</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">docs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Document</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">docs_with_id</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">IndexedDocument</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">loader_name</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">loader</span><span class="p">))</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"."</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"'"</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">source_type</span> <span class="o">=</span> <span class="n">get_loader_type</span><span class="p">(</span><span class="n">loader_name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">source_path_size</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_source_size</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">source_path</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">source_aggregate_size</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">classifier_url</span> <span class="o">=</span> <span class="n">classifier_url</span> <span class="ow">or</span> <span class="n">CLASSIFIER_URL</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">classifier_location</span> <span class="o">=</span> <span class="n">classifier_location</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">batch_size</span> <span class="o">=</span> <span class="n">BATCH_SIZE_BYTES</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">loader_details</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">"loader"</span><span class="p">:</span> <span class="n">loader_name</span><span class="p">,</span>
+            <span class="s2">"source_path"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">source_path</span><span class="p">,</span>
+            <span class="s2">"source_type"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">source_type</span><span class="p">,</span>
+            <span class="o">**</span><span class="p">(</span>
+                <span class="p">{</span><span class="s2">"source_path_size"</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">source_path_size</span><span class="p">)}</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">source_path_size</span> <span class="o">&gt;</span> <span class="mi">0</span>
+                <span class="k">else</span> <span class="p">{}</span>
+            <span class="p">),</span>
+        <span class="p">}</span>
+        <span class="c1"># generate app</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">app</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_app_details</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_send_discover</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="PebbloSafeLoader.load"><a class="viewcode-back" href="../../../community/document_loaders/langchain_community.document_loaders.pebblo.PebbloSafeLoader.html#langchain_community.document_loaders.pebblo.PebbloSafeLoader.load">[docs]</a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Document</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Load Documents.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            list: Documents fetched from load method of the wrapped `loader`.</span>
+<span class="sd">        """</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">docs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">loader</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+        <span class="c1"># Classify docs in batches</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">classify_in_batches</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">docs</span></div>
+
+<div class="viewcode-block" id="PebbloSafeLoader.classify_in_batches"><a class="viewcode-back" href="../../../community/document_loaders/langchain_community.document_loaders.pebblo.PebbloSafeLoader.html#langchain_community.document_loaders.pebblo.PebbloSafeLoader.classify_in_batches">[docs]</a>    <span class="k">def</span> <span class="nf">classify_in_batches</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Classify documents in batches.</span>
+<span class="sd">        This is to avoid API timeouts when sending large number of documents.</span>
+<span class="sd">        Batches are generated based on the page_content size.</span>
+<span class="sd">        """</span>
+        <span class="n">batches</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Document</span><span class="p">]]</span> <span class="o">=</span> <span class="n">generate_size_based_batches</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">docs</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">batch_size</span>
+        <span class="p">)</span>
+
+        <span class="n">processed_docs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Document</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="n">total_batches</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">batches</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">batch</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">batches</span><span class="p">):</span>
+            <span class="n">is_last_batch</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">i</span> <span class="o">==</span> <span class="n">total_batches</span> <span class="o">-</span> <span class="mi">1</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">docs</span> <span class="o">=</span> <span class="n">batch</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">docs_with_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_index_docs</span><span class="p">()</span>
+            <span class="n">classified_docs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_classify_doc</span><span class="p">(</span><span class="n">loading_end</span><span class="o">=</span><span class="n">is_last_batch</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_add_pebblo_specific_metadata</span><span class="p">(</span><span class="n">classified_docs</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">load_semantic</span><span class="p">:</span>
+                <span class="n">batch_processed_docs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_add_semantic_to_docs</span><span class="p">(</span><span class="n">classified_docs</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">batch_processed_docs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_unindex_docs</span><span class="p">()</span>
+            <span class="n">processed_docs</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">batch_processed_docs</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">docs</span> <span class="o">=</span> <span class="n">processed_docs</span></div>
+
+<div class="viewcode-block" id="PebbloSafeLoader.lazy_load"><a class="viewcode-back" href="../../../community/document_loaders/langchain_community.document_loaders.pebblo.PebbloSafeLoader.html#langchain_community.document_loaders.pebblo.PebbloSafeLoader.lazy_load">[docs]</a>    <span class="k">def</span> <span class="nf">lazy_load</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Document</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Load documents in lazy fashion.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            NotImplementedError: raised when lazy_load id not implemented</span>
+<span class="sd">            within wrapped loader.</span>
+
+<span class="sd">        Yields:</span>
+<span class="sd">            list: Documents from loader's lazy loading.</span>
+<span class="sd">        """</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">doc_iterator</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">loader</span><span class="o">.</span><span class="n">lazy_load</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">NotImplementedError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+            <span class="n">err_str</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">loader</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> does not implement lazy_load()"</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">err_str</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="n">err_str</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">exc</span>
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">doc</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">doc_iterator</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">StopIteration</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">docs</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">break</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">docs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">((</span><span class="n">doc</span><span class="p">,))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">docs_with_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_index_docs</span><span class="p">()</span>
+            <span class="n">classified_doc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_classify_doc</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_add_pebblo_specific_metadata</span><span class="p">(</span><span class="n">classified_doc</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">load_semantic</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">docs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_add_semantic_to_docs</span><span class="p">(</span><span class="n">classified_doc</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">docs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_unindex_docs</span><span class="p">()</span>
+            <span class="k">yield</span> <span class="bp">self</span><span class="o">.</span><span class="n">docs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="PebbloSafeLoader.set_discover_sent"><a class="viewcode-back" href="../../../community/document_loaders/langchain_community.document_loaders.pebblo.PebbloSafeLoader.html#langchain_community.document_loaders.pebblo.PebbloSafeLoader.set_discover_sent">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">set_discover_sent</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">_discover_sent</span> <span class="o">=</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="PebbloSafeLoader.set_loader_sent"><a class="viewcode-back" href="../../../community/document_loaders/langchain_community.document_loaders.pebblo.PebbloSafeLoader.html#langchain_community.document_loaders.pebblo.PebbloSafeLoader.set_loader_sent">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">set_loader_sent</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">_loader_sent</span> <span class="o">=</span> <span class="kc">True</span></div>
+
+    <span class="k">def</span> <span class="nf">_classify_doc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">loading_end</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Send documents fetched from loader to pebblo-server. Then send</span>
+<span class="sd">        classified documents to Daxa cloud(If api_key is present). Internal method.</span>
+
+<span class="sd">        Args:</span>
+
+<span class="sd">            loading_end (bool, optional): Flag indicating the halt of data</span>
+<span class="sd">                                          loading by loader. Defaults to False.</span>
+<span class="sd">        """</span>
+        <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">"Accept"</span><span class="p">:</span> <span class="s2">"application/json"</span><span class="p">,</span>
+            <span class="s2">"Content-Type"</span><span class="p">:</span> <span class="s2">"application/json"</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="n">loading_end</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">PebbloSafeLoader</span><span class="o">.</span><span class="n">set_loader_sent</span><span class="p">()</span>
+        <span class="n">doc_content</span> <span class="o">=</span> <span class="p">[</span><span class="n">doc</span><span class="o">.</span><span class="n">dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">docs_with_id</span><span class="p">]</span>
+        <span class="n">docs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">doc_content</span><span class="p">:</span>
+            <span class="n">doc_metadata</span> <span class="o">=</span> <span class="n">doc</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"metadata"</span><span class="p">,</span> <span class="p">{})</span>
+            <span class="n">doc_authorized_identities</span> <span class="o">=</span> <span class="n">doc_metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"authorized_identities"</span><span class="p">,</span> <span class="p">[])</span>
+            <span class="n">doc_source_path</span> <span class="o">=</span> <span class="n">get_full_path</span><span class="p">(</span>
+                <span class="n">doc_metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+                    <span class="s2">"full_path"</span><span class="p">,</span> <span class="n">doc_metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"source"</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">source_path</span><span class="p">)</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+            <span class="n">doc_source_owner</span> <span class="o">=</span> <span class="n">doc_metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+                <span class="s2">"owner"</span><span class="p">,</span> <span class="n">PebbloSafeLoader</span><span class="o">.</span><span class="n">get_file_owner_from_path</span><span class="p">(</span><span class="n">doc_source_path</span><span class="p">)</span>
+            <span class="p">)</span>
+            <span class="n">doc_source_size</span> <span class="o">=</span> <span class="n">doc_metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+                <span class="s2">"size"</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_source_size</span><span class="p">(</span><span class="n">doc_source_path</span><span class="p">)</span>
+            <span class="p">)</span>
+            <span class="n">page_content</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">doc</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"page_content"</span><span class="p">))</span>
+            <span class="n">page_content_size</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calculate_content_size</span><span class="p">(</span><span class="n">page_content</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">source_aggregate_size</span> <span class="o">+=</span> <span class="n">page_content_size</span>
+            <span class="n">doc_id</span> <span class="o">=</span> <span class="n">doc</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"pb_id"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">or</span> <span class="mi">0</span>
+            <span class="n">docs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="p">{</span>
+                    <span class="s2">"doc"</span><span class="p">:</span> <span class="n">page_content</span><span class="p">,</span>
+                    <span class="s2">"source_path"</span><span class="p">:</span> <span class="n">doc_source_path</span><span class="p">,</span>
+                    <span class="s2">"pb_id"</span><span class="p">:</span> <span class="n">doc_id</span><span class="p">,</span>
+                    <span class="s2">"last_modified"</span><span class="p">:</span> <span class="n">doc</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"metadata"</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"last_modified"</span><span class="p">),</span>
+                    <span class="s2">"file_owner"</span><span class="p">:</span> <span class="n">doc_source_owner</span><span class="p">,</span>
+                    <span class="o">**</span><span class="p">(</span>
+                        <span class="p">{</span><span class="s2">"authorized_identities"</span><span class="p">:</span> <span class="n">doc_authorized_identities</span><span class="p">}</span>
+                        <span class="k">if</span> <span class="n">doc_authorized_identities</span>
+                        <span class="k">else</span> <span class="p">{}</span>
+                    <span class="p">),</span>
+                    <span class="o">**</span><span class="p">(</span>
+                        <span class="p">{</span><span class="s2">"source_path_size"</span><span class="p">:</span> <span class="n">doc_source_size</span><span class="p">}</span>
+                        <span class="k">if</span> <span class="n">doc_source_size</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+                        <span class="k">else</span> <span class="p">{}</span>
+                    <span class="p">),</span>
+                <span class="p">}</span>
+            <span class="p">)</span>
+        <span class="n">payload</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">"name"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">app_name</span><span class="p">,</span>
+            <span class="s2">"owner"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">owner</span><span class="p">,</span>
+            <span class="s2">"docs"</span><span class="p">:</span> <span class="n">docs</span><span class="p">,</span>
+            <span class="s2">"plugin_version"</span><span class="p">:</span> <span class="n">PLUGIN_VERSION</span><span class="p">,</span>
+            <span class="s2">"load_id"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">load_id</span><span class="p">,</span>
+            <span class="s2">"loader_details"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">loader_details</span><span class="p">,</span>
+            <span class="s2">"loading_end"</span><span class="p">:</span> <span class="s2">"false"</span><span class="p">,</span>
+            <span class="s2">"source_owner"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">source_owner</span><span class="p">,</span>
+            <span class="s2">"classifier_location"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">classifier_location</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="n">loading_end</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">payload</span><span class="p">[</span><span class="s2">"loading_end"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"true"</span>
+            <span class="k">if</span> <span class="s2">"loader_details"</span> <span class="ow">in</span> <span class="n">payload</span><span class="p">:</span>
+                <span class="n">payload</span><span class="p">[</span><span class="s2">"loader_details"</span><span class="p">][</span><span class="s2">"source_aggregate_size"</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">source_aggregate_size</span>
+                <span class="p">)</span>
+        <span class="n">payload</span> <span class="o">=</span> <span class="n">Doc</span><span class="p">(</span><span class="o">**</span><span class="n">payload</span><span class="p">)</span><span class="o">.</span><span class="n">dict</span><span class="p">(</span><span class="n">exclude_unset</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">classified_docs</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="c1"># Raw payload to be sent to classifier</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">classifier_location</span> <span class="o">==</span> <span class="s2">"local"</span><span class="p">:</span>
+            <span class="n">load_doc_url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">classifier_url</span><span class="si">}{</span><span class="n">LOADER_DOC_URL</span><span class="si">}</span><span class="s2">"</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">pebblo_resp</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+                    <span class="n">load_doc_url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">payload</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">300</span>
+                <span class="p">)</span>
+
+                <span class="c1"># Updating the structure of pebblo response docs for efficient searching</span>
+                <span class="k">for</span> <span class="n">classified_doc</span> <span class="ow">in</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">pebblo_resp</span><span class="o">.</span><span class="n">text</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"docs"</span><span class="p">,</span> <span class="p">[]):</span>
+                    <span class="n">classified_docs</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">classified_doc</span><span class="p">[</span><span class="s2">"pb_id"</span><span class="p">]:</span> <span class="n">classified_doc</span><span class="p">})</span>
+                <span class="k">if</span> <span class="n">pebblo_resp</span><span class="o">.</span><span class="n">status_code</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span>
+                    <span class="n">HTTPStatus</span><span class="o">.</span><span class="n">OK</span><span class="p">,</span>
+                    <span class="n">HTTPStatus</span><span class="o">.</span><span class="n">BAD_GATEWAY</span><span class="p">,</span>
+                <span class="p">]:</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                        <span class="s2">"Received unexpected HTTP response code: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span>
+                        <span class="n">pebblo_resp</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span>
+                    <span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+                    <span class="s2">"send_loader_doc[local]: request url </span><span class="si">%s</span><span class="s2">, body </span><span class="si">%s</span><span class="s2"> len </span><span class="si">%s</span><span class="se">\</span>
+<span class="s2">                        response status </span><span class="si">%s</span><span class="s2"> body </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span>
+                    <span class="n">pebblo_resp</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">url</span><span class="p">,</span>
+                    <span class="nb">str</span><span class="p">(</span><span class="n">pebblo_resp</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">body</span><span class="p">),</span>
+                    <span class="nb">str</span><span class="p">(</span>
+                        <span class="nb">len</span><span class="p">(</span>
+                            <span class="n">pebblo_resp</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">body</span> <span class="k">if</span> <span class="n">pebblo_resp</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">body</span> <span class="k">else</span> <span class="p">[]</span>
+                        <span class="p">)</span>
+                    <span class="p">),</span>
+                    <span class="nb">str</span><span class="p">(</span><span class="n">pebblo_resp</span><span class="o">.</span><span class="n">status_code</span><span class="p">),</span>
+                    <span class="n">pebblo_resp</span><span class="o">.</span><span class="n">json</span><span class="p">(),</span>
+                <span class="p">)</span>
+            <span class="k">except</span> <span class="n">requests</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">RequestException</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">"Unable to reach pebblo server."</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">"An Exception caught in _send_loader_doc: local </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">classifier_location</span> <span class="o">==</span> <span class="s2">"local"</span><span class="p">:</span>
+                <span class="n">docs</span> <span class="o">=</span> <span class="n">payload</span><span class="p">[</span><span class="s2">"docs"</span><span class="p">]</span>
+                <span class="k">for</span> <span class="n">doc_data</span> <span class="ow">in</span> <span class="n">docs</span><span class="p">:</span>
+                    <span class="n">classified_data</span> <span class="o">=</span> <span class="n">classified_docs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">doc_data</span><span class="p">[</span><span class="s2">"pb_id"</span><span class="p">],</span> <span class="p">{})</span>
+                    <span class="n">doc_data</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+                        <span class="p">{</span>
+                            <span class="s2">"pb_checksum"</span><span class="p">:</span> <span class="n">classified_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"pb_checksum"</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+                            <span class="s2">"loader_source_path"</span><span class="p">:</span> <span class="n">classified_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+                                <span class="s2">"loader_source_path"</span><span class="p">,</span> <span class="kc">None</span>
+                            <span class="p">),</span>
+                            <span class="s2">"entities"</span><span class="p">:</span> <span class="n">classified_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"entities"</span><span class="p">,</span> <span class="p">{}),</span>
+                            <span class="s2">"topics"</span><span class="p">:</span> <span class="n">classified_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"topics"</span><span class="p">,</span> <span class="p">{}),</span>
+                        <span class="p">}</span>
+                    <span class="p">)</span>
+                    <span class="n">doc_data</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"doc"</span><span class="p">)</span>
+
+            <span class="n">headers</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">"x-api-key"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span><span class="p">})</span>
+            <span class="n">pebblo_cloud_url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">PEBBLO_CLOUD_URL</span><span class="si">}{</span><span class="n">LOADER_DOC_URL</span><span class="si">}</span><span class="s2">"</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">pebblo_cloud_response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+                    <span class="n">pebblo_cloud_url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">payload</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">20</span>
+                <span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+                    <span class="s2">"send_loader_doc[cloud]: request url </span><span class="si">%s</span><span class="s2">, body </span><span class="si">%s</span><span class="s2"> len </span><span class="si">%s</span><span class="se">\</span>
+<span class="s2">                        response status </span><span class="si">%s</span><span class="s2"> body </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span>
+                    <span class="n">pebblo_cloud_response</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">url</span><span class="p">,</span>
+                    <span class="nb">str</span><span class="p">(</span><span class="n">pebblo_cloud_response</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">body</span><span class="p">),</span>
+                    <span class="nb">str</span><span class="p">(</span>
+                        <span class="nb">len</span><span class="p">(</span>
+                            <span class="n">pebblo_cloud_response</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">body</span>
+                            <span class="k">if</span> <span class="n">pebblo_cloud_response</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">body</span>
+                            <span class="k">else</span> <span class="p">[]</span>
+                        <span class="p">)</span>
+                    <span class="p">),</span>
+                    <span class="nb">str</span><span class="p">(</span><span class="n">pebblo_cloud_response</span><span class="o">.</span><span class="n">status_code</span><span class="p">),</span>
+                    <span class="n">pebblo_cloud_response</span><span class="o">.</span><span class="n">json</span><span class="p">(),</span>
+                <span class="p">)</span>
+            <span class="k">except</span> <span class="n">requests</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">RequestException</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">"Unable to reach Pebblo cloud server."</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">"An Exception caught in _send_loader_doc: cloud </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">classifier_location</span> <span class="o">==</span> <span class="s2">"pebblo-cloud"</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">"API key is missing for sending docs to Pebblo cloud."</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">NameError</span><span class="p">(</span><span class="s2">"API key is missing for sending docs to Pebblo cloud."</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">classified_docs</span>
+
+<div class="viewcode-block" id="PebbloSafeLoader.calculate_content_size"><a class="viewcode-back" href="../../../community/document_loaders/langchain_community.document_loaders.pebblo.PebbloSafeLoader.html#langchain_community.document_loaders.pebblo.PebbloSafeLoader.calculate_content_size">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">calculate_content_size</span><span class="p">(</span><span class="n">page_content</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Calculate the content size in bytes:</span>
+<span class="sd">        - Encode the string to bytes using a specific encoding (e.g., UTF-8)</span>
+<span class="sd">        - Get the length of the encoded bytes.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            page_content (str): Data string.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            int: Size of string in bytes.</span>
+<span class="sd">        """</span>
+
+        <span class="c1"># Encode the content to bytes using UTF-8</span>
+        <span class="n">encoded_content</span> <span class="o">=</span> <span class="n">page_content</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">"utf-8"</span><span class="p">)</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">encoded_content</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">size</span></div>
+
+    <span class="k">def</span> <span class="nf">_send_discover</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Send app discovery payload to pebblo-server. Internal method."""</span>
+        <span class="n">pebblo_resp</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">"Accept"</span><span class="p">:</span> <span class="s2">"application/json"</span><span class="p">,</span>
+            <span class="s2">"Content-Type"</span><span class="p">:</span> <span class="s2">"application/json"</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="n">payload</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">dict</span><span class="p">(</span><span class="n">exclude_unset</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="c1"># Raw discover payload to be sent to classifier</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">classifier_location</span> <span class="o">==</span> <span class="s2">"local"</span><span class="p">:</span>
+            <span class="n">app_discover_url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">classifier_url</span><span class="si">}{</span><span class="n">APP_DISCOVER_URL</span><span class="si">}</span><span class="s2">"</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">pebblo_resp</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+                    <span class="n">app_discover_url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">payload</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">20</span>
+                <span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+                    <span class="s2">"send_discover[local]: request url </span><span class="si">%s</span><span class="s2">, body </span><span class="si">%s</span><span class="s2"> len </span><span class="si">%s</span><span class="se">\</span>
+<span class="s2">                        response status </span><span class="si">%s</span><span class="s2"> body </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span>
+                    <span class="n">pebblo_resp</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">url</span><span class="p">,</span>
+                    <span class="nb">str</span><span class="p">(</span><span class="n">pebblo_resp</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">body</span><span class="p">),</span>
+                    <span class="nb">str</span><span class="p">(</span>
+                        <span class="nb">len</span><span class="p">(</span>
+                            <span class="n">pebblo_resp</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">body</span> <span class="k">if</span> <span class="n">pebblo_resp</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">body</span> <span class="k">else</span> <span class="p">[]</span>
+                        <span class="p">)</span>
+                    <span class="p">),</span>
+                    <span class="nb">str</span><span class="p">(</span><span class="n">pebblo_resp</span><span class="o">.</span><span class="n">status_code</span><span class="p">),</span>
+                    <span class="n">pebblo_resp</span><span class="o">.</span><span class="n">json</span><span class="p">(),</span>
+                <span class="p">)</span>
+                <span class="k">if</span> <span class="n">pebblo_resp</span><span class="o">.</span><span class="n">status_code</span> <span class="ow">in</span> <span class="p">[</span><span class="n">HTTPStatus</span><span class="o">.</span><span class="n">OK</span><span class="p">,</span> <span class="n">HTTPStatus</span><span class="o">.</span><span class="n">BAD_GATEWAY</span><span class="p">]:</span>
+                    <span class="n">PebbloSafeLoader</span><span class="o">.</span><span class="n">set_discover_sent</span><span class="p">()</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                        <span class="sa">f</span><span class="s2">"Received unexpected HTTP response code:</span><span class="se">\</span>
+<span class="s2">                            </span><span class="si">{</span><span class="n">pebblo_resp</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">"</span>
+                    <span class="p">)</span>
+            <span class="k">except</span> <span class="n">requests</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">RequestException</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">"Unable to reach pebblo server."</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">"An Exception caught in _send_discover: local </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">headers</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">"x-api-key"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span><span class="p">})</span>
+                <span class="c1"># If the pebblo_resp is None,</span>
+                <span class="c1"># then the pebblo server version is not available</span>
+                <span class="k">if</span> <span class="n">pebblo_resp</span><span class="p">:</span>
+                    <span class="n">pebblo_server_version</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">pebblo_resp</span><span class="o">.</span><span class="n">text</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+                        <span class="s2">"pebblo_server_version"</span>
+                    <span class="p">)</span>
+                    <span class="n">payload</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">"pebblo_server_version"</span><span class="p">:</span> <span class="n">pebblo_server_version</span><span class="p">})</span>
+
+                <span class="n">payload</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">"pebblo_client_version"</span><span class="p">:</span> <span class="n">PLUGIN_VERSION</span><span class="p">})</span>
+                <span class="n">pebblo_cloud_url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">PEBBLO_CLOUD_URL</span><span class="si">}{</span><span class="n">APP_DISCOVER_URL</span><span class="si">}</span><span class="s2">"</span>
+                <span class="n">pebblo_cloud_response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+                    <span class="n">pebblo_cloud_url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">payload</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">20</span>
+                <span class="p">)</span>
+
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+                    <span class="s2">"send_discover[cloud]: request url </span><span class="si">%s</span><span class="s2">, body </span><span class="si">%s</span><span class="s2"> len </span><span class="si">%s</span><span class="se">\</span>
+<span class="s2">                        response status </span><span class="si">%s</span><span class="s2"> body </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span>
+                    <span class="n">pebblo_cloud_response</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">url</span><span class="p">,</span>
+                    <span class="nb">str</span><span class="p">(</span><span class="n">pebblo_cloud_response</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">body</span><span class="p">),</span>
+                    <span class="nb">str</span><span class="p">(</span>
+                        <span class="nb">len</span><span class="p">(</span>
+                            <span class="n">pebblo_cloud_response</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">body</span>
+                            <span class="k">if</span> <span class="n">pebblo_cloud_response</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">body</span>
+                            <span class="k">else</span> <span class="p">[]</span>
+                        <span class="p">)</span>
+                    <span class="p">),</span>
+                    <span class="nb">str</span><span class="p">(</span><span class="n">pebblo_cloud_response</span><span class="o">.</span><span class="n">status_code</span><span class="p">),</span>
+                    <span class="n">pebblo_cloud_response</span><span class="o">.</span><span class="n">json</span><span class="p">(),</span>
+                <span class="p">)</span>
+            <span class="k">except</span> <span class="n">requests</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">RequestException</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">"Unable to reach Pebblo cloud server."</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">"An Exception caught in _send_discover: cloud </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_get_app_details</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">App</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Fetch app details. Internal method.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            App: App details.</span>
+<span class="sd">        """</span>
+        <span class="n">framework</span><span class="p">,</span> <span class="n">runtime</span> <span class="o">=</span> <span class="n">get_runtime</span><span class="p">()</span>
+        <span class="n">app</span> <span class="o">=</span> <span class="n">App</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">app_name</span><span class="p">,</span>
+            <span class="n">owner</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">owner</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">description</span><span class="p">,</span>
+            <span class="n">load_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">load_id</span><span class="p">,</span>
+            <span class="n">runtime</span><span class="o">=</span><span class="n">runtime</span><span class="p">,</span>
+            <span class="n">framework</span><span class="o">=</span><span class="n">framework</span><span class="p">,</span>
+            <span class="n">plugin_version</span><span class="o">=</span><span class="n">PLUGIN_VERSION</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">app</span>
+
+<div class="viewcode-block" id="PebbloSafeLoader.get_file_owner_from_path"><a class="viewcode-back" href="../../../community/document_loaders/langchain_community.document_loaders.pebblo.PebbloSafeLoader.html#langchain_community.document_loaders.pebblo.PebbloSafeLoader.get_file_owner_from_path">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">get_file_owner_from_path</span><span class="p">(</span><span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Fetch owner of local file path.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            file_path (str): Local file path.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: Name of owner.</span>
+<span class="sd">        """</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="kn">import</span> <span class="nn">pwd</span>
+
+            <span class="n">file_owner_uid</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">stat</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span><span class="o">.</span><span class="n">st_uid</span>
+            <span class="n">file_owner_name</span> <span class="o">=</span> <span class="n">pwd</span><span class="o">.</span><span class="n">getpwuid</span><span class="p">(</span><span class="n">file_owner_uid</span><span class="p">)</span><span class="o">.</span><span class="n">pw_name</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="n">file_owner_name</span> <span class="o">=</span> <span class="s2">"unknown"</span>
+        <span class="k">return</span> <span class="n">file_owner_name</span></div>
+
+<div class="viewcode-block" id="PebbloSafeLoader.get_source_size"><a class="viewcode-back" href="../../../community/document_loaders/langchain_community.document_loaders.pebblo.PebbloSafeLoader.html#langchain_community.document_loaders.pebblo.PebbloSafeLoader.get_source_size">[docs]</a>    <span class="k">def</span> <span class="nf">get_source_size</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Fetch size of source path. Source can be a directory or a file.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            source_path (str): Local path of data source.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            int: Source size in bytes.</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">source_path</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">0</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">source_path</span><span class="p">):</span>
+            <span class="n">size</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">getsize</span><span class="p">(</span><span class="n">source_path</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">source_path</span><span class="p">):</span>
+            <span class="n">total_size</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">for</span> <span class="n">dirpath</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">filenames</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">walk</span><span class="p">(</span><span class="n">source_path</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">filenames</span><span class="p">:</span>
+                    <span class="n">fp</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dirpath</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">islink</span><span class="p">(</span><span class="n">fp</span><span class="p">):</span>
+                        <span class="n">total_size</span> <span class="o">+=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">getsize</span><span class="p">(</span><span class="n">fp</span><span class="p">)</span>
+            <span class="n">size</span> <span class="o">=</span> <span class="n">total_size</span>
+        <span class="k">return</span> <span class="n">size</span></div>
+
+    <span class="k">def</span> <span class="nf">_index_docs</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">IndexedDocument</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Indexes the documents and returns a list of IndexedDocument objects.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List[IndexedDocument]: A list of IndexedDocument objects with unique IDs.</span>
+<span class="sd">        """</span>
+        <span class="n">docs_with_id</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">IndexedDocument</span><span class="p">(</span><span class="n">pb_id</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="o">**</span><span class="n">doc</span><span class="o">.</span><span class="n">dict</span><span class="p">())</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">doc</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">docs</span><span class="p">)</span>
+        <span class="p">]</span>
+        <span class="k">return</span> <span class="n">docs_with_id</span>
+
+    <span class="k">def</span> <span class="nf">_add_semantic_to_docs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classified_docs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Document</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Adds semantic metadata to the given list of documents.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            classified_docs (Dict): A dictionary of dictionaries containing the</span>
+<span class="sd">                classified documents with pb_id as key.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List[Document]: A list of Document objects with added semantic metadata.</span>
+<span class="sd">        """</span>
+        <span class="n">indexed_docs</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">doc</span><span class="o">.</span><span class="n">pb_id</span><span class="p">:</span> <span class="n">Document</span><span class="p">(</span><span class="n">page_content</span><span class="o">=</span><span class="n">doc</span><span class="o">.</span><span class="n">page_content</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="n">doc</span><span class="o">.</span><span class="n">metadata</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">docs_with_id</span>
+        <span class="p">}</span>
+
+        <span class="k">for</span> <span class="n">classified_doc</span> <span class="ow">in</span> <span class="n">classified_docs</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="n">doc_id</span> <span class="o">=</span> <span class="n">classified_doc</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"pb_id"</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">doc_id</span> <span class="ow">in</span> <span class="n">indexed_docs</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_add_semantic_to_doc</span><span class="p">(</span><span class="n">indexed_docs</span><span class="p">[</span><span class="n">doc_id</span><span class="p">],</span> <span class="n">classified_doc</span><span class="p">)</span>
+
+        <span class="n">semantic_metadata_docs</span> <span class="o">=</span> <span class="p">[</span><span class="n">doc</span> <span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">indexed_docs</span><span class="o">.</span><span class="n">values</span><span class="p">()]</span>
+
+        <span class="k">return</span> <span class="n">semantic_metadata_docs</span>
+
+    <span class="k">def</span> <span class="nf">_unindex_docs</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Document</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Converts a list of IndexedDocument objects to a list of Document objects.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List[Document]: A list of Document objects.</span>
+<span class="sd">        """</span>
+        <span class="n">docs</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">Document</span><span class="p">(</span><span class="n">page_content</span><span class="o">=</span><span class="n">doc</span><span class="o">.</span><span class="n">page_content</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="n">doc</span><span class="o">.</span><span class="n">metadata</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">doc</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">docs_with_id</span><span class="p">)</span>
+        <span class="p">]</span>
+        <span class="k">return</span> <span class="n">docs</span>
+
+    <span class="k">def</span> <span class="nf">_add_semantic_to_doc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">doc</span><span class="p">:</span> <span class="n">Document</span><span class="p">,</span> <span class="n">classified_doc</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Document</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Adds semantic metadata to the given document in-place.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            doc (Document): A Document object.</span>
+<span class="sd">            classified_doc (dict): A dictionary containing the classified document.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Document: The Document object with added semantic metadata.</span>
+<span class="sd">        """</span>
+        <span class="n">doc</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s2">"pebblo_semantic_entities"</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>
+            <span class="n">classified_doc</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"entities"</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+        <span class="p">)</span>
+        <span class="n">doc</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s2">"pebblo_semantic_topics"</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>
+            <span class="n">classified_doc</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"topics"</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">doc</span>
+
+    <span class="k">def</span> <span class="nf">_add_pebblo_specific_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classified_docs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Add Pebblo specific metadata to documents."""</span>
+        <span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">docs_with_id</span><span class="p">:</span>
+            <span class="n">doc_metadata</span> <span class="o">=</span> <span class="n">doc</span><span class="o">.</span><span class="n">metadata</span>
+            <span class="n">doc_metadata</span><span class="p">[</span><span class="s2">"full_path"</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_full_path</span><span class="p">(</span>
+                <span class="n">doc_metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+                    <span class="s2">"full_path"</span><span class="p">,</span> <span class="n">doc_metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"source"</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">source_path</span><span class="p">)</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+            <span class="n">doc_metadata</span><span class="p">[</span><span class="s2">"pb_checksum"</span><span class="p">]</span> <span class="o">=</span> <span class="n">classified_docs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">doc</span><span class="o">.</span><span class="n">pb_id</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+                <span class="s2">"pb_checksum"</span><span class="p">,</span> <span class="kc">None</span>
+            <span class="p">)</span></div>
+</pre></div>
+</article>
+</div>
+</div>
+<footer class="bd-footer-content">
+</footer>
+</main>
+</div>
+</div>
+<!-- Scripts loaded after <body> so the DOM is not blocked -->
+<script src="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+<footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+<div class="footer-items__start">
+<div class="footer-item">
+<p class="copyright">
+    
+      © Copyright 2023, LangChain Inc.
+      <br/>
+</p>
+</div>
+</div>
+</div>
+</footer>
+</body>
+</html>

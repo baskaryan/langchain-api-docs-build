@@ -1,0 +1,787 @@
+
+<!DOCTYPE html>
+
+<html data-content_root="" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>langchain_community.chains.pebblo_retrieval.enforcement_filters — 🦜🔗 LangChain  documentation</title>
+<script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+<!-- Loaded before other Sphinx assets -->
+<link href="../../../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet"/>
+<link href="../../../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet"/>
+<link href="../../../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet"/>
+<link href="../../../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet"/>
+<link as="font" crossorigin="" href="../../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="../../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="../../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" rel="preload" type="font/woff2"/>
+<link href="../../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../../_static/autodoc_pydantic.css" rel="stylesheet" type="text/css"/>
+<link href="../../../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
+<link href="../../../../_static/sphinx-design.4cbf315f70debaebd550c87a6162cf0f.min.css" rel="stylesheet" type="text/css"/>
+<link href="../../../../_static/css/custom.css" rel="stylesheet" type="text/css"/>
+<!-- Pre-loaded scripts that we'll load fully later -->
+<link as="script" href="../../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
+<link as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
+<script src="../../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+<script src="../../../../_static/doctools.js"></script>
+<script src="../../../../_static/sphinx_highlight.js"></script>
+<script src="../../../../_static/clipboard.min.js"></script>
+<script src="../../../../_static/copybutton.js"></script>
+<script src="../../../../_static/design-tabs.js"></script>
+<script>DOCUMENTATION_OPTIONS.pagename = '_modules/langchain_community/chains/pebblo_retrieval/enforcement_filters';</script>
+<link href="../../../../_static/favicon.png" rel="icon"/>
+<link href="../../../../search.html" rel="search" title="Search"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="en" name="docsearch:language"/>
+<meta content="Aug 14, 2024" name="docbuild:last-update"/>
+</head>
+<body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
+<div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
+<div id="pst-scroll-pixel-helper"></div>
+<button class="btn rounded-pill" id="pst-back-to-top" type="button">
+<i class="fa-solid fa-arrow-up"></i>Back to top</button>
+<input class="sidebar-toggle" id="pst-primary-sidebar-checkbox" type="checkbox"/>
+<label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+<input class="sidebar-toggle" id="pst-secondary-sidebar-checkbox" type="checkbox"/>
+<label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+<div class="search-button__wrapper">
+<div class="search-button__overlay"></div>
+<div class="search-button__search-container">
+<form action="../../../../search.html" class="bd-search d-flex align-items-center" method="get">
+<i class="fa-solid fa-magnifying-glass"></i>
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="form-control" id="search-input" name="q" placeholder="Search" spellcheck="false" type="search"/>
+<span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+</div>
+<div class="pst-async-banner-revealer d-none">
+<aside aria-label="Version warning" class="d-none d-print-none" id="bd-header-version-warning"></aside>
+</div>
+<header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+<button aria-label="Site navigation" class="pst-navbar-icon sidebar-toggle primary-toggle">
+<span class="fa-solid fa-bars"></span>
+</button>
+<div class="navbar-header-items__start">
+<div class="navbar-item">
+<a class="navbar-brand logo" href="../../../../index.html">
+<img alt="🦜🔗 LangChain  documentation - Home" class="logo__image only-light" src="../../../../_static/wordmark-api.svg"/>
+<script>document.write(`<img src="../../../../_static/wordmark-api-dark.svg" class="logo__image only-dark" alt="🦜🔗 LangChain  documentation - Home"/>`);</script>
+</a></div>
+</div>
+<div class="navbar-header-items">
+<div class="me-auto navbar-header-items__center">
+<div class="navbar-item">
+<nav>
+<ul class="bd-navbar-elements navbar-nav">
+<li class="nav-item">
+<a class="nav-link nav-internal" href="../../../../reference.html">
+    Reference
+  </a>
+</li>
+<li class="nav-item">
+<a class="nav-link nav-external" href="https://api.python.langchain.com/">
+    Legacy reference
+  </a>
+</li>
+</ul>
+</nav></div>
+</div>
+<div class="navbar-header-items__end">
+<div class="navbar-item navbar-persistent--container">
+<form action="../../../../search.html" class="bd-search d-flex align-items-center" method="get">
+<i class="fa-solid fa-magnifying-glass"></i>
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="form-control" id="search-input" name="q" placeholder="Search" spellcheck="false" type="search"/>
+<span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+</div>
+<div class="navbar-item"><!-- This will display a link to LangChain docs -->
+<head>
+<style>
+        .text-link {
+            text-decoration: none; /* Remove underline */
+            color: inherit;        /* Inherit color from parent element */
+        }
+    </style>
+</head>
+<body>
+<a class="text-link" href="https://python.langchain.com/">Docs</a>
+</body></div>
+<div class="navbar-item">
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+<div class="navbar-item"><ul aria-label="Quick Links" class="navbar-icon-links">
+<li class="nav-item">
+<a class="nav-link pst-navbar-icon" data-bs-placement="bottom" data-bs-toggle="tooltip" href="https://github.com/langchain-ai/langchain" rel="noopener" target="_blank" title="GitHub"><i aria-hidden="true" class="fa-brands fa-square-github fa-lg"></i>
+<span class="sr-only">GitHub</span></a>
+</li>
+<li class="nav-item">
+<a class="nav-link pst-navbar-icon" data-bs-placement="bottom" data-bs-toggle="tooltip" href="https://twitter.com/langchainai" rel="noopener" target="_blank" title="X / Twitter"><i aria-hidden="true" class="fab fa-twitter-square fa-lg"></i>
+<span class="sr-only">X / Twitter</span></a>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="navbar-persistent--mobile">
+<form action="../../../../search.html" class="bd-search d-flex align-items-center" method="get">
+<i class="fa-solid fa-magnifying-glass"></i>
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="form-control" id="search-input" name="q" placeholder="Search" spellcheck="false" type="search"/>
+<span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+</div>
+</div>
+</header>
+<div class="bd-container">
+<div class="bd-container__inner bd-page-width">
+<div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+<div class="sidebar-header-items sidebar-primary__section">
+<div class="sidebar-header-items__center">
+<div class="navbar-item">
+<nav>
+<ul class="bd-navbar-elements navbar-nav">
+<li class="nav-item">
+<a class="nav-link nav-internal" href="../../../../reference.html">
+    Reference
+  </a>
+</li>
+<li class="nav-item">
+<a class="nav-link nav-external" href="https://api.python.langchain.com/">
+    Legacy reference
+  </a>
+</li>
+</ul>
+</nav></div>
+</div>
+<div class="sidebar-header-items__end">
+<div class="navbar-item"><!-- This will display a link to LangChain docs -->
+<head>
+<style>
+        .text-link {
+            text-decoration: none; /* Remove underline */
+            color: inherit;        /* Inherit color from parent element */
+        }
+    </style>
+</head>
+<body>
+<a class="text-link" href="https://python.langchain.com/">Docs</a>
+</body></div>
+<div class="navbar-item">
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+<div class="navbar-item"><ul aria-label="Quick Links" class="navbar-icon-links">
+<li class="nav-item">
+<a class="nav-link pst-navbar-icon" data-bs-placement="bottom" data-bs-toggle="tooltip" href="https://github.com/langchain-ai/langchain" rel="noopener" target="_blank" title="GitHub"><i aria-hidden="true" class="fa-brands fa-square-github fa-lg"></i>
+<span class="sr-only">GitHub</span></a>
+</li>
+<li class="nav-item">
+<a class="nav-link pst-navbar-icon" data-bs-placement="bottom" data-bs-toggle="tooltip" href="https://twitter.com/langchainai" rel="noopener" target="_blank" title="X / Twitter"><i aria-hidden="true" class="fab fa-twitter-square fa-lg"></i>
+<span class="sr-only">X / Twitter</span></a>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sidebar-primary-items__end sidebar-primary__section">
+</div>
+<div id="rtd-footer-container"></div>
+</div>
+<main class="bd-main" id="main-content" role="main">
+<div class="bd-content">
+<div class="bd-article-container">
+<div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+<div class="header-article-items__start">
+<div class="header-article-item">
+<nav aria-label="Breadcrumb" class="d-print-none">
+<ul class="bd-breadcrumbs">
+<li class="breadcrumb-item breadcrumb-home">
+<a aria-label="Home" class="nav-link" href="../../../../index.html">
+<i class="fa-solid fa-home"></i>
+</a>
+</li>
+<li class="breadcrumb-item"><a class="nav-link" href="../../../index.html">Module code</a></li>
+<li aria-current="page" class="breadcrumb-item active">langchain_co...</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+</div>
+<div id="searchbox"></div>
+<article class="bd-article">
+<h1>Source code for langchain_community.chains.pebblo_retrieval.enforcement_filters</h1><div class="highlight"><pre>
+<span></span><span class="sd">"""</span>
+<span class="sd">Identity &amp; Semantic Enforcement filters for PebbloRetrievalQA chain:</span>
+
+<span class="sd">This module contains methods for applying Identity and Semantic Enforcement filters</span>
+<span class="sd">in the PebbloRetrievalQA chain.</span>
+<span class="sd">These filters are used to control the retrieval of documents based on authorization and</span>
+<span class="sd">semantic context.</span>
+<span class="sd">The Identity Enforcement filter ensures that only authorized identities can access</span>
+<span class="sd">certain documents, while the Semantic Enforcement filter controls document retrieval</span>
+<span class="sd">based on semantic context.</span>
+
+<span class="sd">The methods in this module are designed to work with different types of vector stores.</span>
+<span class="sd">"""</span>
+
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">from</span> <span class="nn">langchain_core.vectorstores</span> <span class="kn">import</span> <span class="n">VectorStoreRetriever</span>
+
+<span class="kn">from</span> <span class="nn">langchain_community.chains.pebblo_retrieval.models</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">AuthContext</span><span class="p">,</span>
+    <span class="n">SemanticContext</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+<span class="n">PINECONE</span> <span class="o">=</span> <span class="s2">"Pinecone"</span>
+<span class="n">QDRANT</span> <span class="o">=</span> <span class="s2">"Qdrant"</span>
+<span class="n">PGVECTOR</span> <span class="o">=</span> <span class="s2">"PGVector"</span>
+
+<span class="n">SUPPORTED_VECTORSTORES</span> <span class="o">=</span> <span class="p">{</span><span class="n">PINECONE</span><span class="p">,</span> <span class="n">QDRANT</span><span class="p">,</span> <span class="n">PGVECTOR</span><span class="p">}</span>
+
+
+<div class="viewcode-block" id="clear_enforcement_filters"><a class="viewcode-back" href="../../../../community/chains/langchain_community.chains.pebblo_retrieval.enforcement_filters.clear_enforcement_filters.html#langchain_community.chains.pebblo_retrieval.enforcement_filters.clear_enforcement_filters">[docs]</a><span class="k">def</span> <span class="nf">clear_enforcement_filters</span><span class="p">(</span><span class="n">retriever</span><span class="p">:</span> <span class="n">VectorStoreRetriever</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Clear the identity and semantic enforcement filters in the retriever search_kwargs.</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="n">retriever</span><span class="o">.</span><span class="n">vectorstore</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">==</span> <span class="n">PGVECTOR</span><span class="p">:</span>
+        <span class="n">search_kwargs</span> <span class="o">=</span> <span class="n">retriever</span><span class="o">.</span><span class="n">search_kwargs</span>
+        <span class="k">if</span> <span class="s2">"filter"</span> <span class="ow">in</span> <span class="n">search_kwargs</span><span class="p">:</span>
+            <span class="n">filters</span> <span class="o">=</span> <span class="n">search_kwargs</span><span class="p">[</span><span class="s2">"filter"</span><span class="p">]</span>
+            <span class="n">_pgvector_clear_pebblo_filters</span><span class="p">(</span>
+                <span class="n">search_kwargs</span><span class="p">,</span> <span class="n">filters</span><span class="p">,</span> <span class="s2">"authorized_identities"</span>
+            <span class="p">)</span>
+            <span class="n">_pgvector_clear_pebblo_filters</span><span class="p">(</span>
+                <span class="n">search_kwargs</span><span class="p">,</span> <span class="n">filters</span><span class="p">,</span> <span class="s2">"pebblo_semantic_topics"</span>
+            <span class="p">)</span>
+            <span class="n">_pgvector_clear_pebblo_filters</span><span class="p">(</span>
+                <span class="n">search_kwargs</span><span class="p">,</span> <span class="n">filters</span><span class="p">,</span> <span class="s2">"pebblo_semantic_entities"</span>
+            <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="set_enforcement_filters"><a class="viewcode-back" href="../../../../community/chains/langchain_community.chains.pebblo_retrieval.enforcement_filters.set_enforcement_filters.html#langchain_community.chains.pebblo_retrieval.enforcement_filters.set_enforcement_filters">[docs]</a><span class="k">def</span> <span class="nf">set_enforcement_filters</span><span class="p">(</span>
+    <span class="n">retriever</span><span class="p">:</span> <span class="n">VectorStoreRetriever</span><span class="p">,</span>
+    <span class="n">auth_context</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">AuthContext</span><span class="p">],</span>
+    <span class="n">semantic_context</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">SemanticContext</span><span class="p">],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Set identity and semantic enforcement filters in the retriever.</span>
+<span class="sd">    """</span>
+    <span class="c1"># Clear existing enforcement filters</span>
+    <span class="n">clear_enforcement_filters</span><span class="p">(</span><span class="n">retriever</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">auth_context</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">_set_identity_enforcement_filter</span><span class="p">(</span><span class="n">retriever</span><span class="p">,</span> <span class="n">auth_context</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">semantic_context</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">_set_semantic_enforcement_filter</span><span class="p">(</span><span class="n">retriever</span><span class="p">,</span> <span class="n">semantic_context</span><span class="p">)</span></div>
+
+
+<span class="k">def</span> <span class="nf">_apply_qdrant_semantic_filter</span><span class="p">(</span>
+    <span class="n">search_kwargs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">semantic_context</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">SemanticContext</span><span class="p">]</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Set semantic enforcement filter in search_kwargs for Qdrant vectorstore.</span>
+<span class="sd">    """</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="kn">from</span> <span class="nn">qdrant_client.http</span> <span class="kn">import</span> <span class="n">models</span> <span class="k">as</span> <span class="n">rest</span>
+    <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">"Could not import `qdrant-client.http` python package. "</span>
+            <span class="s2">"Please install it with `pip install qdrant-client`."</span>
+        <span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
+
+    <span class="c1"># Create a semantic enforcement filter condition</span>
+    <span class="n">semantic_filters</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span>
+        <span class="n">Union</span><span class="p">[</span>
+            <span class="n">rest</span><span class="o">.</span><span class="n">FieldCondition</span><span class="p">,</span>
+            <span class="n">rest</span><span class="o">.</span><span class="n">IsEmptyCondition</span><span class="p">,</span>
+            <span class="n">rest</span><span class="o">.</span><span class="n">IsNullCondition</span><span class="p">,</span>
+            <span class="n">rest</span><span class="o">.</span><span class="n">HasIdCondition</span><span class="p">,</span>
+            <span class="n">rest</span><span class="o">.</span><span class="n">NestedCondition</span><span class="p">,</span>
+            <span class="n">rest</span><span class="o">.</span><span class="n">Filter</span><span class="p">,</span>
+        <span class="p">]</span>
+    <span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">if</span> <span class="p">(</span>
+        <span class="n">semantic_context</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+        <span class="ow">and</span> <span class="n">semantic_context</span><span class="o">.</span><span class="n">pebblo_semantic_topics</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+    <span class="p">):</span>
+        <span class="n">semantic_topics_filter</span> <span class="o">=</span> <span class="n">rest</span><span class="o">.</span><span class="n">FieldCondition</span><span class="p">(</span>
+            <span class="n">key</span><span class="o">=</span><span class="s2">"metadata.pebblo_semantic_topics"</span><span class="p">,</span>
+            <span class="n">match</span><span class="o">=</span><span class="n">rest</span><span class="o">.</span><span class="n">MatchAny</span><span class="p">(</span><span class="nb">any</span><span class="o">=</span><span class="n">semantic_context</span><span class="o">.</span><span class="n">pebblo_semantic_topics</span><span class="o">.</span><span class="n">deny</span><span class="p">),</span>
+        <span class="p">)</span>
+        <span class="n">semantic_filters</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">semantic_topics_filter</span><span class="p">)</span>
+    <span class="k">if</span> <span class="p">(</span>
+        <span class="n">semantic_context</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+        <span class="ow">and</span> <span class="n">semantic_context</span><span class="o">.</span><span class="n">pebblo_semantic_entities</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+    <span class="p">):</span>
+        <span class="n">semantic_entities_filter</span> <span class="o">=</span> <span class="n">rest</span><span class="o">.</span><span class="n">FieldCondition</span><span class="p">(</span>
+            <span class="n">key</span><span class="o">=</span><span class="s2">"metadata.pebblo_semantic_entities"</span><span class="p">,</span>
+            <span class="n">match</span><span class="o">=</span><span class="n">rest</span><span class="o">.</span><span class="n">MatchAny</span><span class="p">(</span><span class="nb">any</span><span class="o">=</span><span class="n">semantic_context</span><span class="o">.</span><span class="n">pebblo_semantic_entities</span><span class="o">.</span><span class="n">deny</span><span class="p">),</span>
+        <span class="p">)</span>
+        <span class="n">semantic_filters</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">semantic_entities_filter</span><span class="p">)</span>
+
+    <span class="c1"># If 'filter' already exists in search_kwargs</span>
+    <span class="k">if</span> <span class="s2">"filter"</span> <span class="ow">in</span> <span class="n">search_kwargs</span><span class="p">:</span>
+        <span class="n">existing_filter</span><span class="p">:</span> <span class="n">rest</span><span class="o">.</span><span class="n">Filter</span> <span class="o">=</span> <span class="n">search_kwargs</span><span class="p">[</span><span class="s2">"filter"</span><span class="p">]</span>
+
+        <span class="c1"># Check if existing_filter is a qdrant-client filter</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">existing_filter</span><span class="p">,</span> <span class="n">rest</span><span class="o">.</span><span class="n">Filter</span><span class="p">):</span>
+            <span class="c1"># If 'must_not' condition exists in the existing filter</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">existing_filter</span><span class="o">.</span><span class="n">must_not</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                <span class="c1"># Warn if 'pebblo_semantic_topics' or 'pebblo_semantic_entities'</span>
+                <span class="c1"># filter is overridden</span>
+                <span class="n">new_must_not_conditions</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span>
+                    <span class="n">Union</span><span class="p">[</span>
+                        <span class="n">rest</span><span class="o">.</span><span class="n">FieldCondition</span><span class="p">,</span>
+                        <span class="n">rest</span><span class="o">.</span><span class="n">IsEmptyCondition</span><span class="p">,</span>
+                        <span class="n">rest</span><span class="o">.</span><span class="n">IsNullCondition</span><span class="p">,</span>
+                        <span class="n">rest</span><span class="o">.</span><span class="n">HasIdCondition</span><span class="p">,</span>
+                        <span class="n">rest</span><span class="o">.</span><span class="n">NestedCondition</span><span class="p">,</span>
+                        <span class="n">rest</span><span class="o">.</span><span class="n">Filter</span><span class="p">,</span>
+                    <span class="p">]</span>
+                <span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="c1"># Drop semantic filter conditions if already present</span>
+                <span class="k">for</span> <span class="n">condition</span> <span class="ow">in</span> <span class="n">existing_filter</span><span class="o">.</span><span class="n">must_not</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">condition</span><span class="p">,</span> <span class="s2">"key"</span><span class="p">):</span>
+                        <span class="k">if</span> <span class="n">condition</span><span class="o">.</span><span class="n">key</span> <span class="o">==</span> <span class="s2">"metadata.pebblo_semantic_topics"</span><span class="p">:</span>
+                            <span class="k">continue</span>
+                        <span class="k">if</span> <span class="n">condition</span><span class="o">.</span><span class="n">key</span> <span class="o">==</span> <span class="s2">"metadata.pebblo_semantic_entities"</span><span class="p">:</span>
+                            <span class="k">continue</span>
+                        <span class="n">new_must_not_conditions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">condition</span><span class="p">)</span>
+                <span class="c1"># Add semantic enforcement filters to 'must_not' conditions</span>
+                <span class="n">existing_filter</span><span class="o">.</span><span class="n">must_not</span> <span class="o">=</span> <span class="n">new_must_not_conditions</span>
+                <span class="n">existing_filter</span><span class="o">.</span><span class="n">must_not</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">semantic_filters</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># Set 'must_not' condition with semantic enforcement filters</span>
+                <span class="n">existing_filter</span><span class="o">.</span><span class="n">must_not</span> <span class="o">=</span> <span class="n">semantic_filters</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                <span class="s2">"Using dict as a `filter` is deprecated. "</span>
+                <span class="s2">"Please use qdrant-client filters directly: "</span>
+                <span class="s2">"https://qdrant.tech/documentation/concepts/filtering/"</span>
+            <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># If 'filter' does not exist in search_kwargs, create it</span>
+        <span class="n">search_kwargs</span><span class="p">[</span><span class="s2">"filter"</span><span class="p">]</span> <span class="o">=</span> <span class="n">rest</span><span class="o">.</span><span class="n">Filter</span><span class="p">(</span><span class="n">must_not</span><span class="o">=</span><span class="n">semantic_filters</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_apply_qdrant_authorization_filter</span><span class="p">(</span>
+    <span class="n">search_kwargs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">auth_context</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">AuthContext</span><span class="p">]</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Set identity enforcement filter in search_kwargs for Qdrant vectorstore.</span>
+<span class="sd">    """</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="kn">from</span> <span class="nn">qdrant_client.http</span> <span class="kn">import</span> <span class="n">models</span> <span class="k">as</span> <span class="n">rest</span>
+    <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">"Could not import `qdrant-client.http` python package. "</span>
+            <span class="s2">"Please install it with `pip install qdrant-client`."</span>
+        <span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
+
+    <span class="k">if</span> <span class="n">auth_context</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># Create a identity enforcement filter condition</span>
+        <span class="n">identity_enforcement_filter</span> <span class="o">=</span> <span class="n">rest</span><span class="o">.</span><span class="n">FieldCondition</span><span class="p">(</span>
+            <span class="n">key</span><span class="o">=</span><span class="s2">"metadata.authorized_identities"</span><span class="p">,</span>
+            <span class="n">match</span><span class="o">=</span><span class="n">rest</span><span class="o">.</span><span class="n">MatchAny</span><span class="p">(</span><span class="nb">any</span><span class="o">=</span><span class="n">auth_context</span><span class="o">.</span><span class="n">user_auth</span><span class="p">),</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span>
+
+    <span class="c1"># If 'filter' already exists in search_kwargs</span>
+    <span class="k">if</span> <span class="s2">"filter"</span> <span class="ow">in</span> <span class="n">search_kwargs</span><span class="p">:</span>
+        <span class="n">existing_filter</span><span class="p">:</span> <span class="n">rest</span><span class="o">.</span><span class="n">Filter</span> <span class="o">=</span> <span class="n">search_kwargs</span><span class="p">[</span><span class="s2">"filter"</span><span class="p">]</span>
+
+        <span class="c1"># Check if existing_filter is a qdrant-client filter</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">existing_filter</span><span class="p">,</span> <span class="n">rest</span><span class="o">.</span><span class="n">Filter</span><span class="p">):</span>
+            <span class="c1"># If 'must' exists in the existing filter</span>
+            <span class="k">if</span> <span class="n">existing_filter</span><span class="o">.</span><span class="n">must</span><span class="p">:</span>
+                <span class="n">new_must_conditions</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span>
+                    <span class="n">Union</span><span class="p">[</span>
+                        <span class="n">rest</span><span class="o">.</span><span class="n">FieldCondition</span><span class="p">,</span>
+                        <span class="n">rest</span><span class="o">.</span><span class="n">IsEmptyCondition</span><span class="p">,</span>
+                        <span class="n">rest</span><span class="o">.</span><span class="n">IsNullCondition</span><span class="p">,</span>
+                        <span class="n">rest</span><span class="o">.</span><span class="n">HasIdCondition</span><span class="p">,</span>
+                        <span class="n">rest</span><span class="o">.</span><span class="n">NestedCondition</span><span class="p">,</span>
+                        <span class="n">rest</span><span class="o">.</span><span class="n">Filter</span><span class="p">,</span>
+                    <span class="p">]</span>
+                <span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="c1"># Drop 'authorized_identities' filter condition if already present</span>
+                <span class="k">for</span> <span class="n">condition</span> <span class="ow">in</span> <span class="n">existing_filter</span><span class="o">.</span><span class="n">must</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="p">(</span>
+                        <span class="nb">hasattr</span><span class="p">(</span><span class="n">condition</span><span class="p">,</span> <span class="s2">"key"</span><span class="p">)</span>
+                        <span class="ow">and</span> <span class="n">condition</span><span class="o">.</span><span class="n">key</span> <span class="o">==</span> <span class="s2">"metadata.authorized_identities"</span>
+                    <span class="p">):</span>
+                        <span class="k">continue</span>
+                    <span class="n">new_must_conditions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">condition</span><span class="p">)</span>
+
+                <span class="c1"># Add identity enforcement filter to 'must' conditions</span>
+                <span class="n">existing_filter</span><span class="o">.</span><span class="n">must</span> <span class="o">=</span> <span class="n">new_must_conditions</span>
+                <span class="n">existing_filter</span><span class="o">.</span><span class="n">must</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">identity_enforcement_filter</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># Set 'must' condition with identity enforcement filter</span>
+                <span class="n">existing_filter</span><span class="o">.</span><span class="n">must</span> <span class="o">=</span> <span class="p">[</span><span class="n">identity_enforcement_filter</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                <span class="s2">"Using dict as a `filter` is deprecated. "</span>
+                <span class="s2">"Please use qdrant-client filters directly: "</span>
+                <span class="s2">"https://qdrant.tech/documentation/concepts/filtering/"</span>
+            <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># If 'filter' does not exist in search_kwargs, create it</span>
+        <span class="n">search_kwargs</span><span class="p">[</span><span class="s2">"filter"</span><span class="p">]</span> <span class="o">=</span> <span class="n">rest</span><span class="o">.</span><span class="n">Filter</span><span class="p">(</span><span class="n">must</span><span class="o">=</span><span class="p">[</span><span class="n">identity_enforcement_filter</span><span class="p">])</span>
+
+
+<span class="k">def</span> <span class="nf">_apply_pinecone_semantic_filter</span><span class="p">(</span>
+    <span class="n">search_kwargs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">semantic_context</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">SemanticContext</span><span class="p">]</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Set semantic enforcement filter in search_kwargs for Pinecone vectorstore.</span>
+<span class="sd">    """</span>
+    <span class="c1"># Check if semantic_context is provided</span>
+    <span class="n">semantic_context</span> <span class="o">=</span> <span class="n">semantic_context</span>
+    <span class="k">if</span> <span class="n">semantic_context</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">semantic_context</span><span class="o">.</span><span class="n">pebblo_semantic_topics</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># Add pebblo_semantic_topics filter to search_kwargs</span>
+            <span class="n">search_kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"filter"</span><span class="p">,</span> <span class="p">{})[</span><span class="s2">"pebblo_semantic_topics"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">"$nin"</span><span class="p">:</span> <span class="n">semantic_context</span><span class="o">.</span><span class="n">pebblo_semantic_topics</span><span class="o">.</span><span class="n">deny</span>
+            <span class="p">}</span>
+
+        <span class="k">if</span> <span class="n">semantic_context</span><span class="o">.</span><span class="n">pebblo_semantic_entities</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># Add pebblo_semantic_entities filter to search_kwargs</span>
+            <span class="n">search_kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"filter"</span><span class="p">,</span> <span class="p">{})[</span><span class="s2">"pebblo_semantic_entities"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">"$nin"</span><span class="p">:</span> <span class="n">semantic_context</span><span class="o">.</span><span class="n">pebblo_semantic_entities</span><span class="o">.</span><span class="n">deny</span>
+            <span class="p">}</span>
+
+
+<span class="k">def</span> <span class="nf">_apply_pinecone_authorization_filter</span><span class="p">(</span>
+    <span class="n">search_kwargs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">auth_context</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">AuthContext</span><span class="p">]</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Set identity enforcement filter in search_kwargs for Pinecone vectorstore.</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="n">auth_context</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">search_kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"filter"</span><span class="p">,</span> <span class="p">{})[</span><span class="s2">"authorized_identities"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">"$in"</span><span class="p">:</span> <span class="n">auth_context</span><span class="o">.</span><span class="n">user_auth</span>
+        <span class="p">}</span>
+
+
+<span class="k">def</span> <span class="nf">_apply_pgvector_filter</span><span class="p">(</span>
+    <span class="n">search_kwargs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">filters</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">],</span> <span class="n">pebblo_filter</span><span class="p">:</span> <span class="nb">dict</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Apply pebblo filters in the search_kwargs filters.</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">filters</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">filters</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="c1"># The only operators allowed at the top level are $and, $or, and $not</span>
+            <span class="c1"># First check if an operator or a field</span>
+            <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">filters</span><span class="o">.</span><span class="n">items</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">key</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"$"</span><span class="p">):</span>
+                <span class="c1"># Then it's an operator</span>
+                <span class="k">if</span> <span class="n">key</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">"$and"</span><span class="p">,</span> <span class="s2">"$or"</span><span class="p">,</span> <span class="s2">"$not"</span><span class="p">]:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                        <span class="sa">f</span><span class="s2">"Invalid filter condition. Expected $and, $or or $not "</span>
+                        <span class="sa">f</span><span class="s2">"but got: </span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">"</span>
+                    <span class="p">)</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                        <span class="sa">f</span><span class="s2">"Expected a list, but got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="si">}</span><span class="s2"> for value: </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">"</span>
+                    <span class="p">)</span>
+
+                <span class="c1"># Here we handle the $and, $or, and $not operators(Semantic filters)</span>
+                <span class="k">if</span> <span class="n">key</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">"$and"</span><span class="p">:</span>
+                    <span class="c1"># Add pebblo_filter to the $and list as it is</span>
+                    <span class="n">value</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pebblo_filter</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">key</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">"$not"</span><span class="p">:</span>
+                    <span class="c1"># Check if pebblo_filter is an operator or a field</span>
+                    <span class="n">_key</span><span class="p">,</span> <span class="n">_value</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">pebblo_filter</span><span class="o">.</span><span class="n">items</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="k">if</span> <span class="n">_key</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"$"</span><span class="p">):</span>
+                        <span class="c1"># Then it's a operator</span>
+                        <span class="k">if</span> <span class="n">_key</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">"$not"</span><span class="p">:</span>
+                            <span class="c1"># It's Semantic filter, add it's value to filters</span>
+                            <span class="n">value</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_value</span><span class="p">)</span>
+                            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                                <span class="s2">"Adding $not operator to the existing $not operator"</span>
+                            <span class="p">)</span>
+                            <span class="k">return</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="c1"># Only $not operator is supported in pebblo_filter</span>
+                            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                                <span class="sa">f</span><span class="s2">"Invalid filter key. Expected '$not' but got: </span><span class="si">{</span><span class="n">_key</span><span class="si">}</span><span class="s2">"</span>
+                            <span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="c1"># Then it's a field(Auth filter), move filters into $and</span>
+                        <span class="n">search_kwargs</span><span class="p">[</span><span class="s2">"filter"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"$and"</span><span class="p">:</span> <span class="p">[</span><span class="n">filters</span><span class="p">,</span> <span class="n">pebblo_filter</span><span class="p">]}</span>
+                        <span class="k">return</span>
+                <span class="k">elif</span> <span class="n">key</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">"$or"</span><span class="p">:</span>
+                    <span class="n">search_kwargs</span><span class="p">[</span><span class="s2">"filter"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"$and"</span><span class="p">:</span> <span class="p">[</span><span class="n">filters</span><span class="p">,</span> <span class="n">pebblo_filter</span><span class="p">]}</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># Then it's a field and we can check pebblo_filter now</span>
+                <span class="c1"># Check if pebblo_filter is an operator or a field</span>
+                <span class="n">_key</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">pebblo_filter</span><span class="o">.</span><span class="n">items</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">_key</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"$"</span><span class="p">):</span>
+                    <span class="c1"># Then it's a operator</span>
+                    <span class="k">if</span> <span class="n">_key</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">"$not"</span><span class="p">:</span>
+                        <span class="c1"># It's a $not operator(Semantic filter), move filters into $and</span>
+                        <span class="n">search_kwargs</span><span class="p">[</span><span class="s2">"filter"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"$and"</span><span class="p">:</span> <span class="p">[</span><span class="n">filters</span><span class="p">,</span> <span class="n">pebblo_filter</span><span class="p">]}</span>
+                        <span class="k">return</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="c1"># Only $not operator is allowed in pebblo_filter</span>
+                        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                            <span class="sa">f</span><span class="s2">"Invalid filter key. Expected '$not' but got: </span><span class="si">{</span><span class="n">_key</span><span class="si">}</span><span class="s2">"</span>
+                        <span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="c1"># Then it's a field(This handles Auth filter)</span>
+                    <span class="n">filters</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">pebblo_filter</span><span class="p">)</span>
+                    <span class="k">return</span>
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">filters</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="c1"># Then all keys have to be fields (they cannot be operators)</span>
+            <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">filters</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">key</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"$"</span><span class="p">):</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                        <span class="sa">f</span><span class="s2">"Invalid filter condition. Expected a field but got: </span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">"</span>
+                    <span class="p">)</span>
+            <span class="c1"># filters should all be fields and we can check pebblo_filter now</span>
+            <span class="c1"># Check if pebblo_filter is an operator or a field</span>
+            <span class="n">_key</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">pebblo_filter</span><span class="o">.</span><span class="n">items</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">_key</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"$"</span><span class="p">):</span>
+                <span class="c1"># Then it's a operator</span>
+                <span class="k">if</span> <span class="n">_key</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">"$not"</span><span class="p">:</span>
+                    <span class="c1"># It's a $not operator(Semantic filter), move filters into '$and'</span>
+                    <span class="n">search_kwargs</span><span class="p">[</span><span class="s2">"filter"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"$and"</span><span class="p">:</span> <span class="p">[</span><span class="n">filters</span><span class="p">,</span> <span class="n">pebblo_filter</span><span class="p">]}</span>
+                    <span class="k">return</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="c1"># Only $not operator is supported in pebblo_filter</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                        <span class="sa">f</span><span class="s2">"Invalid filter key. Expected '$not' but got: </span><span class="si">{</span><span class="n">_key</span><span class="si">}</span><span class="s2">"</span>
+                    <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># Then it's a field(This handles Auth filter)</span>
+                <span class="n">filters</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">pebblo_filter</span><span class="p">)</span>
+                <span class="k">return</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Got an empty dictionary for filters, set pebblo_filter in filter</span>
+            <span class="n">search_kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"filter"</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">pebblo_filter</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">filters</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># If filters is None, set pebblo_filter as a new filter</span>
+        <span class="n">search_kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"filter"</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">pebblo_filter</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">"Invalid filter. Expected a dictionary/None but got type: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">filters</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span>
+        <span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_pgvector_clear_pebblo_filters</span><span class="p">(</span>
+    <span class="n">search_kwargs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">filters</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">pebblo_filter_key</span><span class="p">:</span> <span class="nb">str</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Remove pebblo filters from the search_kwargs filters.</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">filters</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">filters</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="c1"># The only operators allowed at the top level are $and, $or, and $not</span>
+            <span class="c1"># First check if an operator or a field</span>
+            <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">filters</span><span class="o">.</span><span class="n">items</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">key</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"$"</span><span class="p">):</span>
+                <span class="c1"># Then it's an operator</span>
+                <span class="c1"># Validate the operator's key and value type</span>
+                <span class="k">if</span> <span class="n">key</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">"$and"</span><span class="p">,</span> <span class="s2">"$or"</span><span class="p">,</span> <span class="s2">"$not"</span><span class="p">]:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                        <span class="sa">f</span><span class="s2">"Invalid filter condition. Expected $and, $or or $not "</span>
+                        <span class="sa">f</span><span class="s2">"but got: </span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">"</span>
+                    <span class="p">)</span>
+                <span class="k">elif</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                        <span class="sa">f</span><span class="s2">"Expected a list, but got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="si">}</span><span class="s2"> for value: </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">"</span>
+                    <span class="p">)</span>
+
+                <span class="c1"># Here we handle the $and, $or, and $not operators</span>
+                <span class="k">if</span> <span class="n">key</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">"$and"</span><span class="p">:</span>
+                    <span class="c1"># Remove the pebblo filter from the $and list</span>
+                    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">_filter</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+                        <span class="k">if</span> <span class="n">pebblo_filter_key</span> <span class="ow">in</span> <span class="n">_filter</span><span class="p">:</span>
+                            <span class="c1"># This handles Auth filter</span>
+                            <span class="n">value</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+                            <span class="k">break</span>
+                        <span class="c1"># Check for $not operator with Semantic filter</span>
+                        <span class="k">if</span> <span class="s2">"$not"</span> <span class="ow">in</span> <span class="n">_filter</span><span class="p">:</span>
+                            <span class="n">sem_filter_found</span> <span class="o">=</span> <span class="kc">False</span>
+                            <span class="c1"># This handles Semantic filter</span>
+                            <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">nested_filter</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">_filter</span><span class="p">[</span><span class="s2">"$not"</span><span class="p">]):</span>
+                                <span class="k">if</span> <span class="n">pebblo_filter_key</span> <span class="ow">in</span> <span class="n">nested_filter</span><span class="p">:</span>
+                                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">_filter</span><span class="p">[</span><span class="s2">"$not"</span><span class="p">])</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                                        <span class="c1"># If only one filter is left,</span>
+                                        <span class="c1"># then remove the $not operator</span>
+                                        <span class="n">value</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+                                    <span class="k">else</span><span class="p">:</span>
+                                        <span class="n">value</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s2">"$not"</span><span class="p">]</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+                                    <span class="n">sem_filter_found</span> <span class="o">=</span> <span class="kc">True</span>
+                                    <span class="k">break</span>
+                            <span class="k">if</span> <span class="n">sem_filter_found</span><span class="p">:</span>
+                                <span class="k">break</span>
+                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                        <span class="c1"># If only one filter is left, then remove the $and operator</span>
+                        <span class="n">search_kwargs</span><span class="p">[</span><span class="s2">"filter"</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="k">elif</span> <span class="n">key</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">"$not"</span><span class="p">:</span>
+                    <span class="c1"># Remove the pebblo filter from the $not list</span>
+                    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">_filter</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+                        <span class="k">if</span> <span class="n">pebblo_filter_key</span> <span class="ow">in</span> <span class="n">_filter</span><span class="p">:</span>
+                            <span class="c1"># This removes Semantic filter</span>
+                            <span class="n">value</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+                            <span class="k">break</span>
+                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="c1"># If no filter is left, then unset the filter</span>
+                        <span class="n">search_kwargs</span><span class="p">[</span><span class="s2">"filter"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+                <span class="k">elif</span> <span class="n">key</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">"$or"</span><span class="p">:</span>
+                    <span class="c1"># If $or, pebblo filter will not be present</span>
+                    <span class="k">return</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># Then it's a field, check if it's a pebblo filter</span>
+                <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="n">pebblo_filter_key</span><span class="p">:</span>
+                    <span class="n">filters</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+                <span class="k">return</span>
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">filters</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="c1"># Then all keys have to be fields (they cannot be operators)</span>
+            <span class="k">if</span> <span class="n">pebblo_filter_key</span> <span class="ow">in</span> <span class="n">filters</span><span class="p">:</span>
+                <span class="c1"># This handles Auth filter</span>
+                <span class="n">filters</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">pebblo_filter_key</span><span class="p">)</span>
+            <span class="k">return</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Got an empty dictionary for filters, ignore the filter</span>
+            <span class="k">return</span>
+    <span class="k">elif</span> <span class="n">filters</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># If filters is None, ignore the filter</span>
+        <span class="k">return</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">"Invalid filter. Expected a dictionary/None but got type: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">filters</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span>
+        <span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_apply_pgvector_semantic_filter</span><span class="p">(</span>
+    <span class="n">search_kwargs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">semantic_context</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">SemanticContext</span><span class="p">]</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Set semantic enforcement filter in search_kwargs for PGVector vectorstore.</span>
+<span class="sd">    """</span>
+    <span class="c1"># Check if semantic_context is provided</span>
+    <span class="k">if</span> <span class="n">semantic_context</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">_semantic_filters</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">filters</span> <span class="o">=</span> <span class="n">search_kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"filter"</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">semantic_context</span><span class="o">.</span><span class="n">pebblo_semantic_topics</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># Add pebblo_semantic_topics filter to search_kwargs</span>
+            <span class="n">topic_filter</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">"pebblo_semantic_topics"</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s2">"$eq"</span><span class="p">:</span> <span class="n">semantic_context</span><span class="o">.</span><span class="n">pebblo_semantic_topics</span><span class="o">.</span><span class="n">deny</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+            <span class="n">_semantic_filters</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">topic_filter</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">semantic_context</span><span class="o">.</span><span class="n">pebblo_semantic_entities</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># Add pebblo_semantic_entities filter to search_kwargs</span>
+            <span class="n">entity_filter</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">"pebblo_semantic_entities"</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s2">"$eq"</span><span class="p">:</span> <span class="n">semantic_context</span><span class="o">.</span><span class="n">pebblo_semantic_entities</span><span class="o">.</span><span class="n">deny</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+            <span class="n">_semantic_filters</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">entity_filter</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">_semantic_filters</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">semantic_filter</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"$not"</span><span class="p">:</span> <span class="n">_semantic_filters</span><span class="p">}</span>
+            <span class="n">_apply_pgvector_filter</span><span class="p">(</span><span class="n">search_kwargs</span><span class="p">,</span> <span class="n">filters</span><span class="p">,</span> <span class="n">semantic_filter</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_apply_pgvector_authorization_filter</span><span class="p">(</span>
+    <span class="n">search_kwargs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">auth_context</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">AuthContext</span><span class="p">]</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Set identity enforcement filter in search_kwargs for PGVector vectorstore.</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="n">auth_context</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">auth_filter</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"authorized_identities"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"$eq"</span><span class="p">:</span> <span class="n">auth_context</span><span class="o">.</span><span class="n">user_auth</span><span class="p">}}</span>
+        <span class="n">filters</span> <span class="o">=</span> <span class="n">search_kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"filter"</span><span class="p">)</span>
+        <span class="n">_apply_pgvector_filter</span><span class="p">(</span><span class="n">search_kwargs</span><span class="p">,</span> <span class="n">filters</span><span class="p">,</span> <span class="n">auth_filter</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_set_identity_enforcement_filter</span><span class="p">(</span>
+    <span class="n">retriever</span><span class="p">:</span> <span class="n">VectorStoreRetriever</span><span class="p">,</span> <span class="n">auth_context</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">AuthContext</span><span class="p">]</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Set identity enforcement filter in search_kwargs.</span>
+
+<span class="sd">    This method sets the identity enforcement filter in the search_kwargs</span>
+<span class="sd">    of the retriever based on the type of the vectorstore.</span>
+<span class="sd">    """</span>
+    <span class="n">search_kwargs</span> <span class="o">=</span> <span class="n">retriever</span><span class="o">.</span><span class="n">search_kwargs</span>
+    <span class="k">if</span> <span class="n">retriever</span><span class="o">.</span><span class="n">vectorstore</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">==</span> <span class="n">PINECONE</span><span class="p">:</span>
+        <span class="n">_apply_pinecone_authorization_filter</span><span class="p">(</span><span class="n">search_kwargs</span><span class="p">,</span> <span class="n">auth_context</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">retriever</span><span class="o">.</span><span class="n">vectorstore</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">==</span> <span class="n">QDRANT</span><span class="p">:</span>
+        <span class="n">_apply_qdrant_authorization_filter</span><span class="p">(</span><span class="n">search_kwargs</span><span class="p">,</span> <span class="n">auth_context</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">retriever</span><span class="o">.</span><span class="n">vectorstore</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">==</span> <span class="n">PGVECTOR</span><span class="p">:</span>
+        <span class="n">_apply_pgvector_authorization_filter</span><span class="p">(</span><span class="n">search_kwargs</span><span class="p">,</span> <span class="n">auth_context</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_set_semantic_enforcement_filter</span><span class="p">(</span>
+    <span class="n">retriever</span><span class="p">:</span> <span class="n">VectorStoreRetriever</span><span class="p">,</span> <span class="n">semantic_context</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">SemanticContext</span><span class="p">]</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Set semantic enforcement filter in search_kwargs.</span>
+
+<span class="sd">    This method sets the semantic enforcement filter in the search_kwargs</span>
+<span class="sd">    of the retriever based on the type of the vectorstore.</span>
+<span class="sd">    """</span>
+    <span class="n">search_kwargs</span> <span class="o">=</span> <span class="n">retriever</span><span class="o">.</span><span class="n">search_kwargs</span>
+    <span class="k">if</span> <span class="n">retriever</span><span class="o">.</span><span class="n">vectorstore</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">==</span> <span class="n">PINECONE</span><span class="p">:</span>
+        <span class="n">_apply_pinecone_semantic_filter</span><span class="p">(</span><span class="n">search_kwargs</span><span class="p">,</span> <span class="n">semantic_context</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">retriever</span><span class="o">.</span><span class="n">vectorstore</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">==</span> <span class="n">QDRANT</span><span class="p">:</span>
+        <span class="n">_apply_qdrant_semantic_filter</span><span class="p">(</span><span class="n">search_kwargs</span><span class="p">,</span> <span class="n">semantic_context</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">retriever</span><span class="o">.</span><span class="n">vectorstore</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">==</span> <span class="n">PGVECTOR</span><span class="p">:</span>
+        <span class="n">_apply_pgvector_semantic_filter</span><span class="p">(</span><span class="n">search_kwargs</span><span class="p">,</span> <span class="n">semantic_context</span><span class="p">)</span>
+</pre></div>
+</article>
+</div>
+</div>
+<footer class="bd-footer-content">
+</footer>
+</main>
+</div>
+</div>
+<!-- Scripts loaded after <body> so the DOM is not blocked -->
+<script src="../../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+<footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+<div class="footer-items__start">
+<div class="footer-item">
+<p class="copyright">
+    
+      © Copyright 2023, LangChain Inc.
+      <br/>
+</p>
+</div>
+</div>
+</div>
+</footer>
+</body>
+</html>

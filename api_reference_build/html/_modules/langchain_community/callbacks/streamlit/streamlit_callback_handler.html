@@ -1,0 +1,671 @@
+
+<!DOCTYPE html>
+
+<html data-content_root="" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>langchain_community.callbacks.streamlit.streamlit_callback_handler — 🦜🔗 LangChain  documentation</title>
+<script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+<!-- Loaded before other Sphinx assets -->
+<link href="../../../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet"/>
+<link href="../../../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet"/>
+<link href="../../../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet"/>
+<link href="../../../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet"/>
+<link as="font" crossorigin="" href="../../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="../../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="../../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" rel="preload" type="font/woff2"/>
+<link href="../../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../../_static/autodoc_pydantic.css" rel="stylesheet" type="text/css"/>
+<link href="../../../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
+<link href="../../../../_static/sphinx-design.4cbf315f70debaebd550c87a6162cf0f.min.css" rel="stylesheet" type="text/css"/>
+<link href="../../../../_static/css/custom.css" rel="stylesheet" type="text/css"/>
+<!-- Pre-loaded scripts that we'll load fully later -->
+<link as="script" href="../../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
+<link as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
+<script src="../../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+<script src="../../../../_static/doctools.js"></script>
+<script src="../../../../_static/sphinx_highlight.js"></script>
+<script src="../../../../_static/clipboard.min.js"></script>
+<script src="../../../../_static/copybutton.js"></script>
+<script src="../../../../_static/design-tabs.js"></script>
+<script>DOCUMENTATION_OPTIONS.pagename = '_modules/langchain_community/callbacks/streamlit/streamlit_callback_handler';</script>
+<link href="../../../../_static/favicon.png" rel="icon"/>
+<link href="../../../../search.html" rel="search" title="Search"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="en" name="docsearch:language"/>
+<meta content="Aug 14, 2024" name="docbuild:last-update"/>
+</head>
+<body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
+<div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
+<div id="pst-scroll-pixel-helper"></div>
+<button class="btn rounded-pill" id="pst-back-to-top" type="button">
+<i class="fa-solid fa-arrow-up"></i>Back to top</button>
+<input class="sidebar-toggle" id="pst-primary-sidebar-checkbox" type="checkbox"/>
+<label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+<input class="sidebar-toggle" id="pst-secondary-sidebar-checkbox" type="checkbox"/>
+<label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+<div class="search-button__wrapper">
+<div class="search-button__overlay"></div>
+<div class="search-button__search-container">
+<form action="../../../../search.html" class="bd-search d-flex align-items-center" method="get">
+<i class="fa-solid fa-magnifying-glass"></i>
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="form-control" id="search-input" name="q" placeholder="Search" spellcheck="false" type="search"/>
+<span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+</div>
+<div class="pst-async-banner-revealer d-none">
+<aside aria-label="Version warning" class="d-none d-print-none" id="bd-header-version-warning"></aside>
+</div>
+<header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+<button aria-label="Site navigation" class="pst-navbar-icon sidebar-toggle primary-toggle">
+<span class="fa-solid fa-bars"></span>
+</button>
+<div class="navbar-header-items__start">
+<div class="navbar-item">
+<a class="navbar-brand logo" href="../../../../index.html">
+<img alt="🦜🔗 LangChain  documentation - Home" class="logo__image only-light" src="../../../../_static/wordmark-api.svg"/>
+<script>document.write(`<img src="../../../../_static/wordmark-api-dark.svg" class="logo__image only-dark" alt="🦜🔗 LangChain  documentation - Home"/>`);</script>
+</a></div>
+</div>
+<div class="navbar-header-items">
+<div class="me-auto navbar-header-items__center">
+<div class="navbar-item">
+<nav>
+<ul class="bd-navbar-elements navbar-nav">
+<li class="nav-item">
+<a class="nav-link nav-internal" href="../../../../reference.html">
+    Reference
+  </a>
+</li>
+<li class="nav-item">
+<a class="nav-link nav-external" href="https://api.python.langchain.com/">
+    Legacy reference
+  </a>
+</li>
+</ul>
+</nav></div>
+</div>
+<div class="navbar-header-items__end">
+<div class="navbar-item navbar-persistent--container">
+<form action="../../../../search.html" class="bd-search d-flex align-items-center" method="get">
+<i class="fa-solid fa-magnifying-glass"></i>
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="form-control" id="search-input" name="q" placeholder="Search" spellcheck="false" type="search"/>
+<span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+</div>
+<div class="navbar-item"><!-- This will display a link to LangChain docs -->
+<head>
+<style>
+        .text-link {
+            text-decoration: none; /* Remove underline */
+            color: inherit;        /* Inherit color from parent element */
+        }
+    </style>
+</head>
+<body>
+<a class="text-link" href="https://python.langchain.com/">Docs</a>
+</body></div>
+<div class="navbar-item">
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+<div class="navbar-item"><ul aria-label="Quick Links" class="navbar-icon-links">
+<li class="nav-item">
+<a class="nav-link pst-navbar-icon" data-bs-placement="bottom" data-bs-toggle="tooltip" href="https://github.com/langchain-ai/langchain" rel="noopener" target="_blank" title="GitHub"><i aria-hidden="true" class="fa-brands fa-square-github fa-lg"></i>
+<span class="sr-only">GitHub</span></a>
+</li>
+<li class="nav-item">
+<a class="nav-link pst-navbar-icon" data-bs-placement="bottom" data-bs-toggle="tooltip" href="https://twitter.com/langchainai" rel="noopener" target="_blank" title="X / Twitter"><i aria-hidden="true" class="fab fa-twitter-square fa-lg"></i>
+<span class="sr-only">X / Twitter</span></a>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="navbar-persistent--mobile">
+<form action="../../../../search.html" class="bd-search d-flex align-items-center" method="get">
+<i class="fa-solid fa-magnifying-glass"></i>
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="form-control" id="search-input" name="q" placeholder="Search" spellcheck="false" type="search"/>
+<span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+</div>
+</div>
+</header>
+<div class="bd-container">
+<div class="bd-container__inner bd-page-width">
+<div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+<div class="sidebar-header-items sidebar-primary__section">
+<div class="sidebar-header-items__center">
+<div class="navbar-item">
+<nav>
+<ul class="bd-navbar-elements navbar-nav">
+<li class="nav-item">
+<a class="nav-link nav-internal" href="../../../../reference.html">
+    Reference
+  </a>
+</li>
+<li class="nav-item">
+<a class="nav-link nav-external" href="https://api.python.langchain.com/">
+    Legacy reference
+  </a>
+</li>
+</ul>
+</nav></div>
+</div>
+<div class="sidebar-header-items__end">
+<div class="navbar-item"><!-- This will display a link to LangChain docs -->
+<head>
+<style>
+        .text-link {
+            text-decoration: none; /* Remove underline */
+            color: inherit;        /* Inherit color from parent element */
+        }
+    </style>
+</head>
+<body>
+<a class="text-link" href="https://python.langchain.com/">Docs</a>
+</body></div>
+<div class="navbar-item">
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+<div class="navbar-item"><ul aria-label="Quick Links" class="navbar-icon-links">
+<li class="nav-item">
+<a class="nav-link pst-navbar-icon" data-bs-placement="bottom" data-bs-toggle="tooltip" href="https://github.com/langchain-ai/langchain" rel="noopener" target="_blank" title="GitHub"><i aria-hidden="true" class="fa-brands fa-square-github fa-lg"></i>
+<span class="sr-only">GitHub</span></a>
+</li>
+<li class="nav-item">
+<a class="nav-link pst-navbar-icon" data-bs-placement="bottom" data-bs-toggle="tooltip" href="https://twitter.com/langchainai" rel="noopener" target="_blank" title="X / Twitter"><i aria-hidden="true" class="fab fa-twitter-square fa-lg"></i>
+<span class="sr-only">X / Twitter</span></a>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sidebar-primary-items__end sidebar-primary__section">
+</div>
+<div id="rtd-footer-container"></div>
+</div>
+<main class="bd-main" id="main-content" role="main">
+<div class="bd-content">
+<div class="bd-article-container">
+<div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+<div class="header-article-items__start">
+<div class="header-article-item">
+<nav aria-label="Breadcrumb" class="d-print-none">
+<ul class="bd-breadcrumbs">
+<li class="breadcrumb-item breadcrumb-home">
+<a aria-label="Home" class="nav-link" href="../../../../index.html">
+<i class="fa-solid fa-home"></i>
+</a>
+</li>
+<li class="breadcrumb-item"><a class="nav-link" href="../../../index.html">Module code</a></li>
+<li aria-current="page" class="breadcrumb-item active">langchain_co...</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+</div>
+<div id="searchbox"></div>
+<article class="bd-article">
+<h1>Source code for langchain_community.callbacks.streamlit.streamlit_callback_handler</h1><div class="highlight"><pre>
+<span></span><span class="sd">"""Callback Handler that prints to streamlit."""</span>
+
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">NamedTuple</span><span class="p">,</span> <span class="n">Optional</span>
+
+<span class="kn">from</span> <span class="nn">langchain_core.agents</span> <span class="kn">import</span> <span class="n">AgentAction</span><span class="p">,</span> <span class="n">AgentFinish</span>
+<span class="kn">from</span> <span class="nn">langchain_core.callbacks</span> <span class="kn">import</span> <span class="n">BaseCallbackHandler</span>
+<span class="kn">from</span> <span class="nn">langchain_core.outputs</span> <span class="kn">import</span> <span class="n">LLMResult</span>
+
+<span class="kn">from</span> <span class="nn">langchain_community.callbacks.streamlit.mutable_expander</span> <span class="kn">import</span> <span class="n">MutableExpander</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">streamlit.delta_generator</span> <span class="kn">import</span> <span class="n">DeltaGenerator</span>
+
+
+<span class="k">def</span> <span class="nf">_convert_newlines</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Convert newline characters to markdown newline sequences</span>
+<span class="sd">    (space, space, newline).</span>
+<span class="sd">    """</span>
+    <span class="k">return</span> <span class="n">text</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="s2">"  </span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+
+
+<span class="n">CHECKMARK_EMOJI</span> <span class="o">=</span> <span class="s2">"✅"</span>
+<span class="n">THINKING_EMOJI</span> <span class="o">=</span> <span class="s2">":thinking_face:"</span>
+<span class="n">HISTORY_EMOJI</span> <span class="o">=</span> <span class="s2">":books:"</span>
+<span class="n">EXCEPTION_EMOJI</span> <span class="o">=</span> <span class="s2">"⚠️"</span>
+
+
+<div class="viewcode-block" id="LLMThoughtState"><a class="viewcode-back" href="../../../../community/callbacks/langchain_community.callbacks.streamlit.streamlit_callback_handler.LLMThoughtState.html#langchain_community.callbacks.streamlit.streamlit_callback_handler.LLMThoughtState">[docs]</a><span class="k">class</span> <span class="nc">LLMThoughtState</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Enumerator of the LLMThought state."""</span>
+
+    <span class="c1"># The LLM is thinking about what to do next. We don't know which tool we'll run.</span>
+    <span class="n">THINKING</span> <span class="o">=</span> <span class="s2">"THINKING"</span>
+    <span class="c1"># The LLM has decided to run a tool. We don't have results from the tool yet.</span>
+    <span class="n">RUNNING_TOOL</span> <span class="o">=</span> <span class="s2">"RUNNING_TOOL"</span>
+    <span class="c1"># We have results from the tool.</span>
+    <span class="n">COMPLETE</span> <span class="o">=</span> <span class="s2">"COMPLETE"</span></div>
+
+
+<div class="viewcode-block" id="ToolRecord"><a class="viewcode-back" href="../../../../community/callbacks/langchain_community.callbacks.streamlit.streamlit_callback_handler.ToolRecord.html#langchain_community.callbacks.streamlit.streamlit_callback_handler.ToolRecord">[docs]</a><span class="k">class</span> <span class="nc">ToolRecord</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Tool record as a NamedTuple."""</span>
+
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">input_str</span><span class="p">:</span> <span class="nb">str</span></div>
+
+
+<div class="viewcode-block" id="LLMThoughtLabeler"><a class="viewcode-back" href="../../../../community/callbacks/langchain_community.callbacks.streamlit.streamlit_callback_handler.LLMThoughtLabeler.html#langchain_community.callbacks.streamlit.streamlit_callback_handler.LLMThoughtLabeler">[docs]</a><span class="k">class</span> <span class="nc">LLMThoughtLabeler</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Generates markdown labels for LLMThought containers. Pass a custom</span>
+<span class="sd">    subclass of this to StreamlitCallbackHandler to override its default</span>
+<span class="sd">    labeling logic.</span>
+<span class="sd">    """</span>
+
+<div class="viewcode-block" id="LLMThoughtLabeler.get_initial_label"><a class="viewcode-back" href="../../../../community/callbacks/langchain_community.callbacks.streamlit.streamlit_callback_handler.LLMThoughtLabeler.html#langchain_community.callbacks.streamlit.streamlit_callback_handler.LLMThoughtLabeler.get_initial_label">[docs]</a>    <span class="k">def</span> <span class="nf">get_initial_label</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Return the markdown label for a new LLMThought that doesn't have</span>
+<span class="sd">        an associated tool yet.</span>
+<span class="sd">        """</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">THINKING_EMOJI</span><span class="si">}</span><span class="s2"> **Thinking...**"</span></div>
+
+<div class="viewcode-block" id="LLMThoughtLabeler.get_tool_label"><a class="viewcode-back" href="../../../../community/callbacks/langchain_community.callbacks.streamlit.streamlit_callback_handler.LLMThoughtLabeler.html#langchain_community.callbacks.streamlit.streamlit_callback_handler.LLMThoughtLabeler.get_tool_label">[docs]</a>    <span class="k">def</span> <span class="nf">get_tool_label</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tool</span><span class="p">:</span> <span class="n">ToolRecord</span><span class="p">,</span> <span class="n">is_complete</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Return the label for an LLMThought that has an associated</span>
+<span class="sd">        tool.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        tool</span>
+<span class="sd">            The tool's ToolRecord</span>
+
+<span class="sd">        is_complete</span>
+<span class="sd">            True if the thought is complete; False if the thought</span>
+<span class="sd">            is still receiving input.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        The markdown label for the thought's container.</span>
+
+<span class="sd">        """</span>
+        <span class="nb">input</span> <span class="o">=</span> <span class="n">tool</span><span class="o">.</span><span class="n">input_str</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="n">tool</span><span class="o">.</span><span class="n">name</span>
+        <span class="n">emoji</span> <span class="o">=</span> <span class="n">CHECKMARK_EMOJI</span> <span class="k">if</span> <span class="n">is_complete</span> <span class="k">else</span> <span class="n">THINKING_EMOJI</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">"_Exception"</span><span class="p">:</span>
+            <span class="n">emoji</span> <span class="o">=</span> <span class="n">EXCEPTION_EMOJI</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="s2">"Parsing error"</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="nb">min</span><span class="p">([</span><span class="mi">60</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="nb">input</span><span class="p">)])</span>
+        <span class="nb">input</span> <span class="o">=</span> <span class="nb">input</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">idx</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">tool</span><span class="o">.</span><span class="n">input_str</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">idx</span><span class="p">:</span>
+            <span class="nb">input</span> <span class="o">=</span> <span class="nb">input</span> <span class="o">+</span> <span class="s2">"..."</span>
+        <span class="nb">input</span> <span class="o">=</span> <span class="nb">input</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="s2">" "</span><span class="p">)</span>
+        <span class="n">label</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">emoji</span><span class="si">}</span><span class="s2"> **</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">:** </span><span class="si">{</span><span class="nb">input</span><span class="si">}</span><span class="s2">"</span>
+        <span class="k">return</span> <span class="n">label</span></div>
+
+<div class="viewcode-block" id="LLMThoughtLabeler.get_history_label"><a class="viewcode-back" href="../../../../community/callbacks/langchain_community.callbacks.streamlit.streamlit_callback_handler.LLMThoughtLabeler.html#langchain_community.callbacks.streamlit.streamlit_callback_handler.LLMThoughtLabeler.get_history_label">[docs]</a>    <span class="k">def</span> <span class="nf">get_history_label</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Return a markdown label for the special 'history' container</span>
+<span class="sd">        that contains overflow thoughts.</span>
+<span class="sd">        """</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">HISTORY_EMOJI</span><span class="si">}</span><span class="s2"> **History**"</span></div>
+
+<div class="viewcode-block" id="LLMThoughtLabeler.get_final_agent_thought_label"><a class="viewcode-back" href="../../../../community/callbacks/langchain_community.callbacks.streamlit.streamlit_callback_handler.LLMThoughtLabeler.html#langchain_community.callbacks.streamlit.streamlit_callback_handler.LLMThoughtLabeler.get_final_agent_thought_label">[docs]</a>    <span class="k">def</span> <span class="nf">get_final_agent_thought_label</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Return the markdown label for the agent's final thought -</span>
+<span class="sd">        the "Now I have the answer" thought, that doesn't involve</span>
+<span class="sd">        a tool.</span>
+<span class="sd">        """</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">CHECKMARK_EMOJI</span><span class="si">}</span><span class="s2"> **Complete!**"</span></div></div>
+
+
+<div class="viewcode-block" id="LLMThought"><a class="viewcode-back" href="../../../../community/callbacks/langchain_community.callbacks.streamlit.streamlit_callback_handler.LLMThought.html#langchain_community.callbacks.streamlit.streamlit_callback_handler.LLMThought">[docs]</a><span class="k">class</span> <span class="nc">LLMThought</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""A thought in the LLM's thought stream."""</span>
+
+<div class="viewcode-block" id="LLMThought.__init__"><a class="viewcode-back" href="../../../../community/callbacks/langchain_community.callbacks.streamlit.streamlit_callback_handler.LLMThought.html#langchain_community.callbacks.streamlit.streamlit_callback_handler.LLMThought.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">parent_container</span><span class="p">:</span> <span class="n">DeltaGenerator</span><span class="p">,</span>
+        <span class="n">labeler</span><span class="p">:</span> <span class="n">LLMThoughtLabeler</span><span class="p">,</span>
+        <span class="n">expanded</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+        <span class="n">collapse_on_complete</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Initialize the LLMThought.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            parent_container: The container we're writing into.</span>
+<span class="sd">            labeler: The labeler to use for this thought.</span>
+<span class="sd">            expanded: Whether the thought should be expanded by default.</span>
+<span class="sd">            collapse_on_complete: Whether the thought should be collapsed.</span>
+<span class="sd">        """</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_container</span> <span class="o">=</span> <span class="n">MutableExpander</span><span class="p">(</span>
+            <span class="n">parent_container</span><span class="o">=</span><span class="n">parent_container</span><span class="p">,</span>
+            <span class="n">label</span><span class="o">=</span><span class="n">labeler</span><span class="o">.</span><span class="n">get_initial_label</span><span class="p">(),</span>
+            <span class="n">expanded</span><span class="o">=</span><span class="n">expanded</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_state</span> <span class="o">=</span> <span class="n">LLMThoughtState</span><span class="o">.</span><span class="n">THINKING</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_llm_token_stream</span> <span class="o">=</span> <span class="s2">""</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_llm_token_writer_idx</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_last_tool</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ToolRecord</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_collapse_on_complete</span> <span class="o">=</span> <span class="n">collapse_on_complete</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_labeler</span> <span class="o">=</span> <span class="n">labeler</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">container</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MutableExpander</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""The container we're writing into."""</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_container</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">last_tool</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ToolRecord</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""The last tool executed by this thought"""</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_last_tool</span>
+
+    <span class="k">def</span> <span class="nf">_reset_llm_token_stream</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_llm_token_stream</span> <span class="o">=</span> <span class="s2">""</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_llm_token_writer_idx</span> <span class="o">=</span> <span class="kc">None</span>
+
+<div class="viewcode-block" id="LLMThought.on_llm_start"><a class="viewcode-back" href="../../../../community/callbacks/langchain_community.callbacks.streamlit.streamlit_callback_handler.LLMThought.html#langchain_community.callbacks.streamlit.streamlit_callback_handler.LLMThought.on_llm_start">[docs]</a>    <span class="k">def</span> <span class="nf">on_llm_start</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">serialized</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">prompts</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_reset_llm_token_stream</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="LLMThought.on_llm_new_token"><a class="viewcode-back" href="../../../../community/callbacks/langchain_community.callbacks.streamlit.streamlit_callback_handler.LLMThought.html#langchain_community.callbacks.streamlit.streamlit_callback_handler.LLMThought.on_llm_new_token">[docs]</a>    <span class="k">def</span> <span class="nf">on_llm_new_token</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">token</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># This is only called when the LLM is initialized with `streaming=True`</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_llm_token_stream</span> <span class="o">+=</span> <span class="n">_convert_newlines</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_llm_token_writer_idx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_container</span><span class="o">.</span><span class="n">markdown</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_llm_token_stream</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_llm_token_writer_idx</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="LLMThought.on_llm_end"><a class="viewcode-back" href="../../../../community/callbacks/langchain_community.callbacks.streamlit.streamlit_callback_handler.LLMThought.html#langchain_community.callbacks.streamlit.streamlit_callback_handler.LLMThought.on_llm_end">[docs]</a>    <span class="k">def</span> <span class="nf">on_llm_end</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">:</span> <span class="n">LLMResult</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># `response` is the concatenation of all the tokens received by the LLM.</span>
+        <span class="c1"># If we're receiving streaming tokens from `on_llm_new_token`, this response</span>
+        <span class="c1"># data is redundant</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_reset_llm_token_stream</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="LLMThought.on_llm_error"><a class="viewcode-back" href="../../../../community/callbacks/langchain_community.callbacks.streamlit.streamlit_callback_handler.LLMThought.html#langchain_community.callbacks.streamlit.streamlit_callback_handler.LLMThought.on_llm_error">[docs]</a>    <span class="k">def</span> <span class="nf">on_llm_error</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">error</span><span class="p">:</span> <span class="ne">BaseException</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_container</span><span class="o">.</span><span class="n">markdown</span><span class="p">(</span><span class="s2">"**LLM encountered an error...**"</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_container</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="n">error</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="LLMThought.on_tool_start"><a class="viewcode-back" href="../../../../community/callbacks/langchain_community.callbacks.streamlit.streamlit_callback_handler.LLMThought.html#langchain_community.callbacks.streamlit.streamlit_callback_handler.LLMThought.on_tool_start">[docs]</a>    <span class="k">def</span> <span class="nf">on_tool_start</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">serialized</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">input_str</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># Called with the name of the tool we're about to run (in `serialized[name]`),</span>
+        <span class="c1"># and its input. We change our container's label to be the tool name.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_state</span> <span class="o">=</span> <span class="n">LLMThoughtState</span><span class="o">.</span><span class="n">RUNNING_TOOL</span>
+        <span class="n">tool_name</span> <span class="o">=</span> <span class="n">serialized</span><span class="p">[</span><span class="s2">"name"</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_last_tool</span> <span class="o">=</span> <span class="n">ToolRecord</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">tool_name</span><span class="p">,</span> <span class="n">input_str</span><span class="o">=</span><span class="n">input_str</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_container</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+            <span class="n">new_label</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_labeler</span><span class="o">.</span><span class="n">get_tool_label</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_last_tool</span><span class="p">,</span> <span class="n">is_complete</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="LLMThought.on_tool_end"><a class="viewcode-back" href="../../../../community/callbacks/langchain_community.callbacks.streamlit.streamlit_callback_handler.LLMThought.html#langchain_community.callbacks.streamlit.streamlit_callback_handler.LLMThought.on_tool_end">[docs]</a>    <span class="k">def</span> <span class="nf">on_tool_end</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">output</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+        <span class="n">color</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">observation_prefix</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">llm_prefix</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_container</span><span class="o">.</span><span class="n">markdown</span><span class="p">(</span><span class="sa">f</span><span class="s2">"**</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">output</span><span class="p">)</span><span class="si">}</span><span class="s2">**"</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="LLMThought.on_tool_error"><a class="viewcode-back" href="../../../../community/callbacks/langchain_community.callbacks.streamlit.streamlit_callback_handler.LLMThought.html#langchain_community.callbacks.streamlit.streamlit_callback_handler.LLMThought.on_tool_error">[docs]</a>    <span class="k">def</span> <span class="nf">on_tool_error</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">error</span><span class="p">:</span> <span class="ne">BaseException</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_container</span><span class="o">.</span><span class="n">markdown</span><span class="p">(</span><span class="s2">"**Tool encountered an error...**"</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_container</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="n">error</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="LLMThought.on_agent_action"><a class="viewcode-back" href="../../../../community/callbacks/langchain_community.callbacks.streamlit.streamlit_callback_handler.LLMThought.html#langchain_community.callbacks.streamlit.streamlit_callback_handler.LLMThought.on_agent_action">[docs]</a>    <span class="k">def</span> <span class="nf">on_agent_action</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">action</span><span class="p">:</span> <span class="n">AgentAction</span><span class="p">,</span> <span class="n">color</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+        <span class="c1"># Called when we're about to kick off a new tool. The `action` data</span>
+        <span class="c1"># tells us the tool we're about to use, and the input we'll give it.</span>
+        <span class="c1"># We don't output anything here, because we'll receive this same data</span>
+        <span class="c1"># when `on_tool_start` is called immediately after.</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="LLMThought.complete"><a class="viewcode-back" href="../../../../community/callbacks/langchain_community.callbacks.streamlit.streamlit_callback_handler.LLMThought.html#langchain_community.callbacks.streamlit.streamlit_callback_handler.LLMThought.complete">[docs]</a>    <span class="k">def</span> <span class="nf">complete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">final_label</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Finish the thought."""</span>
+        <span class="k">if</span> <span class="n">final_label</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_state</span> <span class="o">==</span> <span class="n">LLMThoughtState</span><span class="o">.</span><span class="n">RUNNING_TOOL</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_last_tool</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+            <span class="p">),</span> <span class="s2">"_last_tool should never be null when _state == RUNNING_TOOL"</span>
+            <span class="n">final_label</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_labeler</span><span class="o">.</span><span class="n">get_tool_label</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_last_tool</span><span class="p">,</span> <span class="n">is_complete</span><span class="o">=</span><span class="kc">True</span>
+            <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_state</span> <span class="o">=</span> <span class="n">LLMThoughtState</span><span class="o">.</span><span class="n">COMPLETE</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_collapse_on_complete</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_container</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">new_label</span><span class="o">=</span><span class="n">final_label</span><span class="p">,</span> <span class="n">new_expanded</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_container</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">new_label</span><span class="o">=</span><span class="n">final_label</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="LLMThought.clear"><a class="viewcode-back" href="../../../../community/callbacks/langchain_community.callbacks.streamlit.streamlit_callback_handler.LLMThought.html#langchain_community.callbacks.streamlit.streamlit_callback_handler.LLMThought.clear">[docs]</a>    <span class="k">def</span> <span class="nf">clear</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Remove the thought from the screen. A cleared thought can't be reused."""</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_container</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span></div></div>
+
+
+<div class="viewcode-block" id="StreamlitCallbackHandler"><a class="viewcode-back" href="../../../../community/callbacks/langchain_community.callbacks.streamlit.streamlit_callback_handler.StreamlitCallbackHandler.html#langchain_community.callbacks.streamlit.streamlit_callback_handler.StreamlitCallbackHandler">[docs]</a><span class="k">class</span> <span class="nc">StreamlitCallbackHandler</span><span class="p">(</span><span class="n">BaseCallbackHandler</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Callback handler that writes to a Streamlit app."""</span>
+
+<div class="viewcode-block" id="StreamlitCallbackHandler.__init__"><a class="viewcode-back" href="../../../../community/callbacks/langchain_community.callbacks.streamlit.streamlit_callback_handler.StreamlitCallbackHandler.html#langchain_community.callbacks.streamlit.streamlit_callback_handler.StreamlitCallbackHandler.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">parent_container</span><span class="p">:</span> <span class="n">DeltaGenerator</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">max_thought_containers</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
+        <span class="n">expand_new_thoughts</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">collapse_completed_thoughts</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">thought_labeler</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LLMThoughtLabeler</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Create a StreamlitCallbackHandler instance.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        parent_container</span>
+<span class="sd">            The `st.container` that will contain all the Streamlit elements that the</span>
+<span class="sd">            Handler creates.</span>
+<span class="sd">        max_thought_containers</span>
+<span class="sd">            The max number of completed LLM thought containers to show at once. When</span>
+<span class="sd">            this threshold is reached, a new thought will cause the oldest thoughts to</span>
+<span class="sd">            be collapsed into a "History" expander. Defaults to 4.</span>
+<span class="sd">        expand_new_thoughts</span>
+<span class="sd">            Each LLM "thought" gets its own `st.expander`. This param controls whether</span>
+<span class="sd">            that expander is expanded by default. Defaults to True.</span>
+<span class="sd">        collapse_completed_thoughts</span>
+<span class="sd">            If True, LLM thought expanders will be collapsed when completed.</span>
+<span class="sd">            Defaults to True.</span>
+<span class="sd">        thought_labeler</span>
+<span class="sd">            An optional custom LLMThoughtLabeler instance. If unspecified, the handler</span>
+<span class="sd">            will use the default thought labeling logic. Defaults to None.</span>
+<span class="sd">        """</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_parent_container</span> <span class="o">=</span> <span class="n">parent_container</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_history_parent</span> <span class="o">=</span> <span class="n">parent_container</span><span class="o">.</span><span class="n">container</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_history_container</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">MutableExpander</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_current_thought</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LLMThought</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_completed_thoughts</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">LLMThought</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_max_thought_containers</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">max_thought_containers</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_expand_new_thoughts</span> <span class="o">=</span> <span class="n">expand_new_thoughts</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_collapse_completed_thoughts</span> <span class="o">=</span> <span class="n">collapse_completed_thoughts</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_thought_labeler</span> <span class="o">=</span> <span class="n">thought_labeler</span> <span class="ow">or</span> <span class="n">LLMThoughtLabeler</span><span class="p">()</span></div>
+
+    <span class="k">def</span> <span class="nf">_require_current_thought</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LLMThought</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Return our current LLMThought. Raise an error if we have no current</span>
+<span class="sd">        thought.</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_current_thought</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">"Current LLMThought is unexpectedly None!"</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_current_thought</span>
+
+    <span class="k">def</span> <span class="nf">_get_last_completed_thought</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LLMThought</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Return our most recent completed LLMThought, or None if we don't have one."""</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_completed_thoughts</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_completed_thoughts</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_completed_thoughts</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">_num_thought_containers</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""The number of 'thought containers' we're currently showing: the</span>
+<span class="sd">        number of completed thought containers, the history container (if it exists),</span>
+<span class="sd">        and the current thought container (if it exists).</span>
+<span class="sd">        """</span>
+        <span class="n">count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_completed_thoughts</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_history_container</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_current_thought</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">count</span>
+
+    <span class="k">def</span> <span class="nf">_complete_current_thought</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">final_label</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Complete the current thought, optionally assigning it a new label.</span>
+<span class="sd">        Add it to our _completed_thoughts list.</span>
+<span class="sd">        """</span>
+        <span class="n">thought</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_require_current_thought</span><span class="p">()</span>
+        <span class="n">thought</span><span class="o">.</span><span class="n">complete</span><span class="p">(</span><span class="n">final_label</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_completed_thoughts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">thought</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_current_thought</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">_prune_old_thought_containers</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""If we have too many thoughts onscreen, move older thoughts to the</span>
+<span class="sd">        'history container.'</span>
+<span class="sd">        """</span>
+        <span class="k">while</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_num_thought_containers</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_max_thought_containers</span>
+            <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_completed_thoughts</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span>
+        <span class="p">):</span>
+            <span class="c1"># Create our history container if it doesn't exist, and if</span>
+            <span class="c1"># max_thought_containers is &gt; 1. (if max_thought_containers is 1, we don't</span>
+            <span class="c1"># have room to show history.)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_history_container</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_max_thought_containers</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_history_container</span> <span class="o">=</span> <span class="n">MutableExpander</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_history_parent</span><span class="p">,</span>
+                    <span class="n">label</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_thought_labeler</span><span class="o">.</span><span class="n">get_history_label</span><span class="p">(),</span>
+                    <span class="n">expanded</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="p">)</span>
+
+            <span class="n">oldest_thought</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_completed_thoughts</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_history_container</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_history_container</span><span class="o">.</span><span class="n">markdown</span><span class="p">(</span><span class="n">oldest_thought</span><span class="o">.</span><span class="n">container</span><span class="o">.</span><span class="n">label</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_history_container</span><span class="o">.</span><span class="n">append_copy</span><span class="p">(</span><span class="n">oldest_thought</span><span class="o">.</span><span class="n">container</span><span class="p">)</span>
+            <span class="n">oldest_thought</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+
+<div class="viewcode-block" id="StreamlitCallbackHandler.on_llm_start"><a class="viewcode-back" href="../../../../community/callbacks/langchain_community.callbacks.streamlit.streamlit_callback_handler.StreamlitCallbackHandler.html#langchain_community.callbacks.streamlit.streamlit_callback_handler.StreamlitCallbackHandler.on_llm_start">[docs]</a>    <span class="k">def</span> <span class="nf">on_llm_start</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">serialized</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">prompts</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_current_thought</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_current_thought</span> <span class="o">=</span> <span class="n">LLMThought</span><span class="p">(</span>
+                <span class="n">parent_container</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_parent_container</span><span class="p">,</span>
+                <span class="n">expanded</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_expand_new_thoughts</span><span class="p">,</span>
+                <span class="n">collapse_on_complete</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_collapse_completed_thoughts</span><span class="p">,</span>
+                <span class="n">labeler</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_thought_labeler</span><span class="p">,</span>
+            <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_current_thought</span><span class="o">.</span><span class="n">on_llm_start</span><span class="p">(</span><span class="n">serialized</span><span class="p">,</span> <span class="n">prompts</span><span class="p">)</span></div>
+
+        <span class="c1"># We don't prune_old_thought_containers here, because our container won't</span>
+        <span class="c1"># be visible until it has a child.</span>
+
+<div class="viewcode-block" id="StreamlitCallbackHandler.on_llm_new_token"><a class="viewcode-back" href="../../../../community/callbacks/langchain_community.callbacks.streamlit.streamlit_callback_handler.StreamlitCallbackHandler.html#langchain_community.callbacks.streamlit.streamlit_callback_handler.StreamlitCallbackHandler.on_llm_new_token">[docs]</a>    <span class="k">def</span> <span class="nf">on_llm_new_token</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">token</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_require_current_thought</span><span class="p">()</span><span class="o">.</span><span class="n">on_llm_new_token</span><span class="p">(</span><span class="n">token</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_prune_old_thought_containers</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="StreamlitCallbackHandler.on_llm_end"><a class="viewcode-back" href="../../../../community/callbacks/langchain_community.callbacks.streamlit.streamlit_callback_handler.StreamlitCallbackHandler.html#langchain_community.callbacks.streamlit.streamlit_callback_handler.StreamlitCallbackHandler.on_llm_end">[docs]</a>    <span class="k">def</span> <span class="nf">on_llm_end</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">:</span> <span class="n">LLMResult</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_require_current_thought</span><span class="p">()</span><span class="o">.</span><span class="n">on_llm_end</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_prune_old_thought_containers</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="StreamlitCallbackHandler.on_llm_error"><a class="viewcode-back" href="../../../../community/callbacks/langchain_community.callbacks.streamlit.streamlit_callback_handler.StreamlitCallbackHandler.html#langchain_community.callbacks.streamlit.streamlit_callback_handler.StreamlitCallbackHandler.on_llm_error">[docs]</a>    <span class="k">def</span> <span class="nf">on_llm_error</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">error</span><span class="p">:</span> <span class="ne">BaseException</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_require_current_thought</span><span class="p">()</span><span class="o">.</span><span class="n">on_llm_error</span><span class="p">(</span><span class="n">error</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_prune_old_thought_containers</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="StreamlitCallbackHandler.on_tool_start"><a class="viewcode-back" href="../../../../community/callbacks/langchain_community.callbacks.streamlit.streamlit_callback_handler.StreamlitCallbackHandler.html#langchain_community.callbacks.streamlit.streamlit_callback_handler.StreamlitCallbackHandler.on_tool_start">[docs]</a>    <span class="k">def</span> <span class="nf">on_tool_start</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">serialized</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">input_str</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_require_current_thought</span><span class="p">()</span><span class="o">.</span><span class="n">on_tool_start</span><span class="p">(</span><span class="n">serialized</span><span class="p">,</span> <span class="n">input_str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_prune_old_thought_containers</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="StreamlitCallbackHandler.on_tool_end"><a class="viewcode-back" href="../../../../community/callbacks/langchain_community.callbacks.streamlit.streamlit_callback_handler.StreamlitCallbackHandler.html#langchain_community.callbacks.streamlit.streamlit_callback_handler.StreamlitCallbackHandler.on_tool_end">[docs]</a>    <span class="k">def</span> <span class="nf">on_tool_end</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">output</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+        <span class="n">color</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">observation_prefix</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">llm_prefix</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_require_current_thought</span><span class="p">()</span><span class="o">.</span><span class="n">on_tool_end</span><span class="p">(</span>
+            <span class="n">output</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="n">observation_prefix</span><span class="p">,</span> <span class="n">llm_prefix</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_complete_current_thought</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="StreamlitCallbackHandler.on_tool_error"><a class="viewcode-back" href="../../../../community/callbacks/langchain_community.callbacks.streamlit.streamlit_callback_handler.StreamlitCallbackHandler.html#langchain_community.callbacks.streamlit.streamlit_callback_handler.StreamlitCallbackHandler.on_tool_error">[docs]</a>    <span class="k">def</span> <span class="nf">on_tool_error</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">error</span><span class="p">:</span> <span class="ne">BaseException</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_require_current_thought</span><span class="p">()</span><span class="o">.</span><span class="n">on_tool_error</span><span class="p">(</span><span class="n">error</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_prune_old_thought_containers</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="StreamlitCallbackHandler.on_text"><a class="viewcode-back" href="../../../../community/callbacks/langchain_community.callbacks.streamlit.streamlit_callback_handler.StreamlitCallbackHandler.html#langchain_community.callbacks.streamlit.streamlit_callback_handler.StreamlitCallbackHandler.on_text">[docs]</a>    <span class="k">def</span> <span class="nf">on_text</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">color</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">end</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="StreamlitCallbackHandler.on_chain_start"><a class="viewcode-back" href="../../../../community/callbacks/langchain_community.callbacks.streamlit.streamlit_callback_handler.StreamlitCallbackHandler.html#langchain_community.callbacks.streamlit.streamlit_callback_handler.StreamlitCallbackHandler.on_chain_start">[docs]</a>    <span class="k">def</span> <span class="nf">on_chain_start</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">serialized</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">inputs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="StreamlitCallbackHandler.on_chain_end"><a class="viewcode-back" href="../../../../community/callbacks/langchain_community.callbacks.streamlit.streamlit_callback_handler.StreamlitCallbackHandler.html#langchain_community.callbacks.streamlit.streamlit_callback_handler.StreamlitCallbackHandler.on_chain_end">[docs]</a>    <span class="k">def</span> <span class="nf">on_chain_end</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">outputs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="StreamlitCallbackHandler.on_chain_error"><a class="viewcode-back" href="../../../../community/callbacks/langchain_community.callbacks.streamlit.streamlit_callback_handler.StreamlitCallbackHandler.html#langchain_community.callbacks.streamlit.streamlit_callback_handler.StreamlitCallbackHandler.on_chain_error">[docs]</a>    <span class="k">def</span> <span class="nf">on_chain_error</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">error</span><span class="p">:</span> <span class="ne">BaseException</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="StreamlitCallbackHandler.on_agent_action"><a class="viewcode-back" href="../../../../community/callbacks/langchain_community.callbacks.streamlit.streamlit_callback_handler.StreamlitCallbackHandler.html#langchain_community.callbacks.streamlit.streamlit_callback_handler.StreamlitCallbackHandler.on_agent_action">[docs]</a>    <span class="k">def</span> <span class="nf">on_agent_action</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">action</span><span class="p">:</span> <span class="n">AgentAction</span><span class="p">,</span> <span class="n">color</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_require_current_thought</span><span class="p">()</span><span class="o">.</span><span class="n">on_agent_action</span><span class="p">(</span><span class="n">action</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_prune_old_thought_containers</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="StreamlitCallbackHandler.on_agent_finish"><a class="viewcode-back" href="../../../../community/callbacks/langchain_community.callbacks.streamlit.streamlit_callback_handler.StreamlitCallbackHandler.html#langchain_community.callbacks.streamlit.streamlit_callback_handler.StreamlitCallbackHandler.on_agent_finish">[docs]</a>    <span class="k">def</span> <span class="nf">on_agent_finish</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">finish</span><span class="p">:</span> <span class="n">AgentFinish</span><span class="p">,</span> <span class="n">color</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_current_thought</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_current_thought</span><span class="o">.</span><span class="n">complete</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_thought_labeler</span><span class="o">.</span><span class="n">get_final_agent_thought_label</span><span class="p">()</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_current_thought</span> <span class="o">=</span> <span class="kc">None</span></div></div>
+</pre></div>
+</article>
+</div>
+</div>
+<footer class="bd-footer-content">
+</footer>
+</main>
+</div>
+</div>
+<!-- Scripts loaded after <body> so the DOM is not blocked -->
+<script src="../../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+<footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+<div class="footer-items__start">
+<div class="footer-item">
+<p class="copyright">
+    
+      © Copyright 2023, LangChain Inc.
+      <br/>
+</p>
+</div>
+</div>
+</div>
+</footer>
+</body>
+</html>

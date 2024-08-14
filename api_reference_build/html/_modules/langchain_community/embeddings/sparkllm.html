@@ -1,0 +1,531 @@
+
+<!DOCTYPE html>
+
+<html data-content_root="" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>langchain_community.embeddings.sparkllm — 🦜🔗 LangChain  documentation</title>
+<script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+<!-- Loaded before other Sphinx assets -->
+<link href="../../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet"/>
+<link href="../../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet"/>
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet"/>
+<link href="../../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet"/>
+<link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" rel="preload" type="font/woff2"/>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/autodoc_pydantic.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/sphinx-design.4cbf315f70debaebd550c87a6162cf0f.min.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/css/custom.css" rel="stylesheet" type="text/css"/>
+<!-- Pre-loaded scripts that we'll load fully later -->
+<link as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
+<link as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
+<script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/sphinx_highlight.js"></script>
+<script src="../../../_static/clipboard.min.js"></script>
+<script src="../../../_static/copybutton.js"></script>
+<script src="../../../_static/design-tabs.js"></script>
+<script>DOCUMENTATION_OPTIONS.pagename = '_modules/langchain_community/embeddings/sparkllm';</script>
+<link href="../../../_static/favicon.png" rel="icon"/>
+<link href="../../../search.html" rel="search" title="Search"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="en" name="docsearch:language"/>
+<meta content="Aug 14, 2024" name="docbuild:last-update"/>
+</head>
+<body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
+<div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
+<div id="pst-scroll-pixel-helper"></div>
+<button class="btn rounded-pill" id="pst-back-to-top" type="button">
+<i class="fa-solid fa-arrow-up"></i>Back to top</button>
+<input class="sidebar-toggle" id="pst-primary-sidebar-checkbox" type="checkbox"/>
+<label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+<input class="sidebar-toggle" id="pst-secondary-sidebar-checkbox" type="checkbox"/>
+<label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+<div class="search-button__wrapper">
+<div class="search-button__overlay"></div>
+<div class="search-button__search-container">
+<form action="../../../search.html" class="bd-search d-flex align-items-center" method="get">
+<i class="fa-solid fa-magnifying-glass"></i>
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="form-control" id="search-input" name="q" placeholder="Search" spellcheck="false" type="search"/>
+<span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+</div>
+<div class="pst-async-banner-revealer d-none">
+<aside aria-label="Version warning" class="d-none d-print-none" id="bd-header-version-warning"></aside>
+</div>
+<header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+<button aria-label="Site navigation" class="pst-navbar-icon sidebar-toggle primary-toggle">
+<span class="fa-solid fa-bars"></span>
+</button>
+<div class="navbar-header-items__start">
+<div class="navbar-item">
+<a class="navbar-brand logo" href="../../../index.html">
+<img alt="🦜🔗 LangChain  documentation - Home" class="logo__image only-light" src="../../../_static/wordmark-api.svg"/>
+<script>document.write(`<img src="../../../_static/wordmark-api-dark.svg" class="logo__image only-dark" alt="🦜🔗 LangChain  documentation - Home"/>`);</script>
+</a></div>
+</div>
+<div class="navbar-header-items">
+<div class="me-auto navbar-header-items__center">
+<div class="navbar-item">
+<nav>
+<ul class="bd-navbar-elements navbar-nav">
+<li class="nav-item">
+<a class="nav-link nav-internal" href="../../../reference.html">
+    Reference
+  </a>
+</li>
+<li class="nav-item">
+<a class="nav-link nav-external" href="https://api.python.langchain.com/">
+    Legacy reference
+  </a>
+</li>
+</ul>
+</nav></div>
+</div>
+<div class="navbar-header-items__end">
+<div class="navbar-item navbar-persistent--container">
+<form action="../../../search.html" class="bd-search d-flex align-items-center" method="get">
+<i class="fa-solid fa-magnifying-glass"></i>
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="form-control" id="search-input" name="q" placeholder="Search" spellcheck="false" type="search"/>
+<span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+</div>
+<div class="navbar-item"><!-- This will display a link to LangChain docs -->
+<head>
+<style>
+        .text-link {
+            text-decoration: none; /* Remove underline */
+            color: inherit;        /* Inherit color from parent element */
+        }
+    </style>
+</head>
+<body>
+<a class="text-link" href="https://python.langchain.com/">Docs</a>
+</body></div>
+<div class="navbar-item">
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+<div class="navbar-item"><ul aria-label="Quick Links" class="navbar-icon-links">
+<li class="nav-item">
+<a class="nav-link pst-navbar-icon" data-bs-placement="bottom" data-bs-toggle="tooltip" href="https://github.com/langchain-ai/langchain" rel="noopener" target="_blank" title="GitHub"><i aria-hidden="true" class="fa-brands fa-square-github fa-lg"></i>
+<span class="sr-only">GitHub</span></a>
+</li>
+<li class="nav-item">
+<a class="nav-link pst-navbar-icon" data-bs-placement="bottom" data-bs-toggle="tooltip" href="https://twitter.com/langchainai" rel="noopener" target="_blank" title="X / Twitter"><i aria-hidden="true" class="fab fa-twitter-square fa-lg"></i>
+<span class="sr-only">X / Twitter</span></a>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="navbar-persistent--mobile">
+<form action="../../../search.html" class="bd-search d-flex align-items-center" method="get">
+<i class="fa-solid fa-magnifying-glass"></i>
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="form-control" id="search-input" name="q" placeholder="Search" spellcheck="false" type="search"/>
+<span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+</div>
+</div>
+</header>
+<div class="bd-container">
+<div class="bd-container__inner bd-page-width">
+<div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+<div class="sidebar-header-items sidebar-primary__section">
+<div class="sidebar-header-items__center">
+<div class="navbar-item">
+<nav>
+<ul class="bd-navbar-elements navbar-nav">
+<li class="nav-item">
+<a class="nav-link nav-internal" href="../../../reference.html">
+    Reference
+  </a>
+</li>
+<li class="nav-item">
+<a class="nav-link nav-external" href="https://api.python.langchain.com/">
+    Legacy reference
+  </a>
+</li>
+</ul>
+</nav></div>
+</div>
+<div class="sidebar-header-items__end">
+<div class="navbar-item"><!-- This will display a link to LangChain docs -->
+<head>
+<style>
+        .text-link {
+            text-decoration: none; /* Remove underline */
+            color: inherit;        /* Inherit color from parent element */
+        }
+    </style>
+</head>
+<body>
+<a class="text-link" href="https://python.langchain.com/">Docs</a>
+</body></div>
+<div class="navbar-item">
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+<div class="navbar-item"><ul aria-label="Quick Links" class="navbar-icon-links">
+<li class="nav-item">
+<a class="nav-link pst-navbar-icon" data-bs-placement="bottom" data-bs-toggle="tooltip" href="https://github.com/langchain-ai/langchain" rel="noopener" target="_blank" title="GitHub"><i aria-hidden="true" class="fa-brands fa-square-github fa-lg"></i>
+<span class="sr-only">GitHub</span></a>
+</li>
+<li class="nav-item">
+<a class="nav-link pst-navbar-icon" data-bs-placement="bottom" data-bs-toggle="tooltip" href="https://twitter.com/langchainai" rel="noopener" target="_blank" title="X / Twitter"><i aria-hidden="true" class="fab fa-twitter-square fa-lg"></i>
+<span class="sr-only">X / Twitter</span></a>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sidebar-primary-items__end sidebar-primary__section">
+</div>
+<div id="rtd-footer-container"></div>
+</div>
+<main class="bd-main" id="main-content" role="main">
+<div class="bd-content">
+<div class="bd-article-container">
+<div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+<div class="header-article-items__start">
+<div class="header-article-item">
+<nav aria-label="Breadcrumb" class="d-print-none">
+<ul class="bd-breadcrumbs">
+<li class="breadcrumb-item breadcrumb-home">
+<a aria-label="Home" class="nav-link" href="../../../index.html">
+<i class="fa-solid fa-home"></i>
+</a>
+</li>
+<li class="breadcrumb-item"><a class="nav-link" href="../../index.html">Module code</a></li>
+<li aria-current="page" class="breadcrumb-item active">langchain_co...</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+</div>
+<div id="searchbox"></div>
+<article class="bd-article">
+<h1>Source code for langchain_community.embeddings.sparkllm</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">base64</span>
+<span class="kn">import</span> <span class="nn">hashlib</span>
+<span class="kn">import</span> <span class="nn">hmac</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">mktime</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">from</span> <span class="nn">urllib.parse</span> <span class="kn">import</span> <span class="n">urlencode</span>
+<span class="kn">from</span> <span class="nn">wsgiref.handlers</span> <span class="kn">import</span> <span class="n">format_date_time</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">from</span> <span class="nn">langchain_core.embeddings</span> <span class="kn">import</span> <span class="n">Embeddings</span>
+<span class="kn">from</span> <span class="nn">langchain_core.pydantic_v1</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span><span class="p">,</span> <span class="n">SecretStr</span>
+<span class="kn">from</span> <span class="nn">langchain_core.utils</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">secret_from_env</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">ndarray</span>
+
+<span class="c1"># SparkLLMTextEmbeddings is an embedding model provided by iFLYTEK Co., Ltd.. (https://iflytek.com/en/).</span>
+
+<span class="c1"># Official Website: https://www.xfyun.cn/doc/spark/Embedding_api.html</span>
+<span class="c1"># Developers need to create an application in the console first, use the appid, APIKey,</span>
+<span class="c1"># and APISecret provided in the application for authentication,</span>
+<span class="c1"># and generate an authentication URL for handshake.</span>
+<span class="c1"># You can get one by registering at https://console.xfyun.cn/services/bm3.</span>
+<span class="c1"># SparkLLMTextEmbeddings support 2K token window and preduces vectors with</span>
+<span class="c1"># 2560 dimensions.</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="Url"><a class="viewcode-back" href="../../../community/embeddings/langchain_community.embeddings.sparkllm.Url.html#langchain_community.embeddings.sparkllm.Url">[docs]</a><span class="k">class</span> <span class="nc">Url</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""URL class for parsing the URL."""</span>
+
+<div class="viewcode-block" id="Url.__init__"><a class="viewcode-back" href="../../../community/embeddings/langchain_community.embeddings.sparkllm.Url.html#langchain_community.embeddings.sparkllm.Url.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">host</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">schema</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">host</span> <span class="o">=</span> <span class="n">host</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">path</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">schema</span> <span class="o">=</span> <span class="n">schema</span>
+        <span class="k">pass</span></div></div>
+
+
+<div class="viewcode-block" id="SparkLLMTextEmbeddings"><a class="viewcode-back" href="../../../community/embeddings/langchain_community.embeddings.sparkllm.SparkLLMTextEmbeddings.html#langchain_community.embeddings.sparkllm.SparkLLMTextEmbeddings">[docs]</a><span class="k">class</span> <span class="nc">SparkLLMTextEmbeddings</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">,</span> <span class="n">Embeddings</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""SparkLLM embedding model integration.</span>
+
+<span class="sd">    Setup:</span>
+<span class="sd">        To use, you should have the environment variable "SPARK_APP_ID","SPARK_API_KEY"</span>
+<span class="sd">        and "SPARK_API_SECRET" set your APP_ID, API_KEY and API_SECRET or pass it</span>
+<span class="sd">        as a name parameter to the constructor.</span>
+
+<span class="sd">        .. code-block:: bash</span>
+
+<span class="sd">            export SPARK_APP_ID="your-api-id"</span>
+<span class="sd">            export SPARK_API_KEY="your-api-key"</span>
+<span class="sd">            export SPARK_API_SECRET="your-api-secret"</span>
+
+<span class="sd">    Key init args — completion params:</span>
+<span class="sd">        api_key: Optional[str]</span>
+<span class="sd">            Automatically inferred from env var `SPARK_API_KEY` if not provided.</span>
+<span class="sd">        app_id: Optional[str]</span>
+<span class="sd">            Automatically inferred from env var `SPARK_APP_ID` if not provided.</span>
+<span class="sd">        api_secret: Optional[str]</span>
+<span class="sd">            Automatically inferred from env var `SPARK_API_SECRET` if not provided.</span>
+<span class="sd">        base_url: Optional[str]</span>
+<span class="sd">            Base URL path for API requests.</span>
+
+<span class="sd">    See full list of supported init args and their descriptions in the params section.</span>
+
+<span class="sd">    Instantiate:</span>
+
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            from langchain_community.embeddings import SparkLLMTextEmbeddings</span>
+
+<span class="sd">            embed = SparkLLMTextEmbeddings(</span>
+<span class="sd">                api_key="...",</span>
+<span class="sd">                app_id="...",</span>
+<span class="sd">                api_secret="...",</span>
+<span class="sd">                # other</span>
+<span class="sd">            )</span>
+
+<span class="sd">    Embed single text:</span>
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            input_text = "The meaning of life is 42"</span>
+<span class="sd">            embed.embed_query(input_text)</span>
+
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            [-0.4912109375, 0.60595703125, 0.658203125, 0.3037109375, 0.6591796875, 0.60302734375, ...]</span>
+
+<span class="sd">    Embed multiple text:</span>
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            input_texts = ["This is a test query1.", "This is a test query2."]</span>
+<span class="sd">            embed.embed_documents(input_texts)</span>
+
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            [</span>
+<span class="sd">                [-0.1962890625, 0.94677734375, 0.7998046875, -0.1971435546875, 0.445556640625, 0.54638671875, ...],</span>
+<span class="sd">                [  -0.44970703125, 0.06585693359375, 0.7421875, -0.474609375, 0.62353515625, 1.0478515625, ...],</span>
+<span class="sd">            ]</span>
+<span class="sd">    """</span>  <span class="c1"># noqa: E501</span>
+
+    <span class="n">spark_app_id</span><span class="p">:</span> <span class="n">SecretStr</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">alias</span><span class="o">=</span><span class="s2">"app_id"</span><span class="p">,</span> <span class="n">default_factory</span><span class="o">=</span><span class="n">secret_from_env</span><span class="p">(</span><span class="s2">"SPARK_APP_ID"</span><span class="p">)</span>
+    <span class="p">)</span>
+<span class="w">    </span><span class="sd">"""Automatically inferred from env var `SPARK_APP_ID` if not provided."""</span>
+    <span class="n">spark_api_key</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">SecretStr</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">alias</span><span class="o">=</span><span class="s2">"api_key"</span><span class="p">,</span> <span class="n">default_factory</span><span class="o">=</span><span class="n">secret_from_env</span><span class="p">(</span><span class="s2">"SPARK_API_KEY"</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="p">)</span>
+<span class="w">    </span><span class="sd">"""Automatically inferred from env var `SPARK_API_KEY` if not provided."""</span>
+    <span class="n">spark_api_secret</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">SecretStr</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">alias</span><span class="o">=</span><span class="s2">"api_secret"</span><span class="p">,</span>
+        <span class="n">default_factory</span><span class="o">=</span><span class="n">secret_from_env</span><span class="p">(</span><span class="s2">"SPARK_API_SECRET"</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">),</span>
+    <span class="p">)</span>
+<span class="w">    </span><span class="sd">"""Automatically inferred from env var `SPARK_API_SECRET` if not provided."""</span>
+    <span class="n">base_url</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="s2">"https://emb-cn-huabei-1.xf-yun.com/"</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">"""Base URL path for API requests"""</span>
+    <span class="n">domain</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">"para"</span><span class="p">,</span> <span class="s2">"query"</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="s2">"para"</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">"""This parameter is used for which Embedding this time belongs to.</span>
+<span class="sd">    If "para"(default), it belongs to document Embedding. </span>
+<span class="sd">    If "query", it belongs to query Embedding."""</span>
+
+    <span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
+        <span class="n">allow_population_by_field_name</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">def</span> <span class="nf">_embed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">texts</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">host</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]]]:</span>
+<span class="w">        </span><span class="sd">"""Internal method to call Spark Embedding API and return embeddings.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            texts: A list of texts to embed.</span>
+<span class="sd">            host: Base URL path for API requests</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A list of list of floats representing the embeddings,</span>
+<span class="sd">            or list with value None if an error occurs.</span>
+<span class="sd">        """</span>
+        <span class="n">app_id</span> <span class="o">=</span> <span class="s2">""</span>
+        <span class="n">api_key</span> <span class="o">=</span> <span class="s2">""</span>
+        <span class="n">api_secret</span> <span class="o">=</span> <span class="s2">""</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">spark_app_id</span><span class="p">:</span>
+            <span class="n">app_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">spark_app_id</span><span class="o">.</span><span class="n">get_secret_value</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">spark_api_key</span><span class="p">:</span>
+            <span class="n">api_key</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">spark_api_key</span><span class="o">.</span><span class="n">get_secret_value</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">spark_api_secret</span><span class="p">:</span>
+            <span class="n">api_secret</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">spark_api_secret</span><span class="o">.</span><span class="n">get_secret_value</span><span class="p">()</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_assemble_ws_auth_url</span><span class="p">(</span>
+            <span class="n">request_url</span><span class="o">=</span><span class="n">host</span><span class="p">,</span>
+            <span class="n">method</span><span class="o">=</span><span class="s2">"POST"</span><span class="p">,</span>
+            <span class="n">api_key</span><span class="o">=</span><span class="n">api_key</span><span class="p">,</span>
+            <span class="n">api_secret</span><span class="o">=</span><span class="n">api_secret</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">embed_result</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">texts</span><span class="p">:</span>
+            <span class="n">query_context</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"messages"</span><span class="p">:</span> <span class="p">[{</span><span class="s2">"content"</span><span class="p">:</span> <span class="n">text</span><span class="p">,</span> <span class="s2">"role"</span><span class="p">:</span> <span class="s2">"user"</span><span class="p">}]}</span>
+            <span class="n">content</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_body</span><span class="p">(</span><span class="n">app_id</span><span class="p">,</span> <span class="n">query_context</span><span class="p">)</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+                <span class="n">url</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">content</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s2">"content-type"</span><span class="p">:</span> <span class="s2">"application/json"</span><span class="p">}</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">text</span>
+            <span class="n">res_arr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parser_message</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">res_arr</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">embed_result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">res_arr</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">embed_result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">embed_result</span>
+
+<div class="viewcode-block" id="SparkLLMTextEmbeddings.embed_documents"><a class="viewcode-back" href="../../../community/embeddings/langchain_community.embeddings.sparkllm.SparkLLMTextEmbeddings.html#langchain_community.embeddings.sparkllm.SparkLLMTextEmbeddings.embed_documents">[docs]</a>    <span class="k">def</span> <span class="nf">embed_documents</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">texts</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]]]:</span>  <span class="c1"># type: ignore[override]</span>
+<span class="w">        </span><span class="sd">"""Public method to get embeddings for a list of documents.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            texts: The list of texts to embed.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A list of embeddings, one for each text, or None if an error occurs.</span>
+<span class="sd">        """</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_embed</span><span class="p">(</span><span class="n">texts</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SparkLLMTextEmbeddings.embed_query"><a class="viewcode-back" href="../../../community/embeddings/langchain_community.embeddings.sparkllm.SparkLLMTextEmbeddings.html#langchain_community.embeddings.sparkllm.SparkLLMTextEmbeddings.embed_query">[docs]</a>    <span class="k">def</span> <span class="nf">embed_query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]]:</span>  <span class="c1"># type: ignore[override]</span>
+<span class="w">        </span><span class="sd">"""Public method to get embedding for a single query text.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            text: The text to embed.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Embeddings for the text, or None if an error occurs.</span>
+<span class="sd">        """</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_embed</span><span class="p">([</span><span class="n">text</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">result</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span></div>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_assemble_ws_auth_url</span><span class="p">(</span>
+        <span class="n">request_url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">method</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"GET"</span><span class="p">,</span> <span class="n">api_key</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span> <span class="n">api_secret</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="n">u</span> <span class="o">=</span> <span class="n">SparkLLMTextEmbeddings</span><span class="o">.</span><span class="n">_parse_url</span><span class="p">(</span><span class="n">request_url</span><span class="p">)</span>
+        <span class="n">host</span> <span class="o">=</span> <span class="n">u</span><span class="o">.</span><span class="n">host</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="n">u</span><span class="o">.</span><span class="n">path</span>
+        <span class="n">now</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+        <span class="n">date</span> <span class="o">=</span> <span class="n">format_date_time</span><span class="p">(</span><span class="n">mktime</span><span class="p">(</span><span class="n">now</span><span class="o">.</span><span class="n">timetuple</span><span class="p">()))</span>
+        <span class="n">signature_origin</span> <span class="o">=</span> <span class="s2">"host: </span><span class="si">{}</span><span class="se">\n</span><span class="s2">date: </span><span class="si">{}</span><span class="se">\n</span><span class="si">{}</span><span class="s2"> </span><span class="si">{}</span><span class="s2"> HTTP/1.1"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">host</span><span class="p">,</span> <span class="n">date</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">path</span>
+        <span class="p">)</span>
+        <span class="n">signature_sha</span> <span class="o">=</span> <span class="n">hmac</span><span class="o">.</span><span class="n">new</span><span class="p">(</span>
+            <span class="n">api_secret</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">"utf-8"</span><span class="p">),</span>
+            <span class="n">signature_origin</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">"utf-8"</span><span class="p">),</span>
+            <span class="n">digestmod</span><span class="o">=</span><span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">,</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">digest</span><span class="p">()</span>
+        <span class="n">signature_sha_str</span> <span class="o">=</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64encode</span><span class="p">(</span><span class="n">signature_sha</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">encoding</span><span class="o">=</span><span class="s2">"utf-8"</span><span class="p">)</span>
+        <span class="n">authorization_origin</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="s1">'api_key="</span><span class="si">%s</span><span class="s1">", algorithm="</span><span class="si">%s</span><span class="s1">", headers="</span><span class="si">%s</span><span class="s1">", signature="</span><span class="si">%s</span><span class="s1">"'</span>
+            <span class="o">%</span> <span class="p">(</span><span class="n">api_key</span><span class="p">,</span> <span class="s2">"hmac-sha256"</span><span class="p">,</span> <span class="s2">"host date request-line"</span><span class="p">,</span> <span class="n">signature_sha_str</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">authorization</span> <span class="o">=</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64encode</span><span class="p">(</span><span class="n">authorization_origin</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">"utf-8"</span><span class="p">))</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span>
+            <span class="n">encoding</span><span class="o">=</span><span class="s2">"utf-8"</span>
+        <span class="p">)</span>
+        <span class="n">values</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"host"</span><span class="p">:</span> <span class="n">host</span><span class="p">,</span> <span class="s2">"date"</span><span class="p">:</span> <span class="n">date</span><span class="p">,</span> <span class="s2">"authorization"</span><span class="p">:</span> <span class="n">authorization</span><span class="p">}</span>
+
+        <span class="k">return</span> <span class="n">request_url</span> <span class="o">+</span> <span class="s2">"?"</span> <span class="o">+</span> <span class="n">urlencode</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_parse_url</span><span class="p">(</span><span class="n">request_url</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Url</span><span class="p">:</span>
+        <span class="n">stidx</span> <span class="o">=</span> <span class="n">request_url</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s2">"://"</span><span class="p">)</span>
+        <span class="n">host</span> <span class="o">=</span> <span class="n">request_url</span><span class="p">[</span><span class="n">stidx</span> <span class="o">+</span> <span class="mi">3</span> <span class="p">:]</span>
+        <span class="n">schema</span> <span class="o">=</span> <span class="n">request_url</span><span class="p">[:</span> <span class="n">stidx</span> <span class="o">+</span> <span class="mi">3</span><span class="p">]</span>
+        <span class="n">edidx</span> <span class="o">=</span> <span class="n">host</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s2">"/"</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">edidx</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">AssembleHeaderException</span><span class="p">(</span><span class="s2">"invalid request url:"</span> <span class="o">+</span> <span class="n">request_url</span><span class="p">)</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="n">host</span><span class="p">[</span><span class="n">edidx</span><span class="p">:]</span>
+        <span class="n">host</span> <span class="o">=</span> <span class="n">host</span><span class="p">[:</span><span class="n">edidx</span><span class="p">]</span>
+        <span class="n">u</span> <span class="o">=</span> <span class="n">Url</span><span class="p">(</span><span class="n">host</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">schema</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">u</span>
+
+    <span class="k">def</span> <span class="nf">_get_body</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">appid</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+        <span class="n">body</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">"header"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"app_id"</span><span class="p">:</span> <span class="n">appid</span><span class="p">,</span> <span class="s2">"uid"</span><span class="p">:</span> <span class="s2">"39769795890"</span><span class="p">,</span> <span class="s2">"status"</span><span class="p">:</span> <span class="mi">3</span><span class="p">},</span>
+            <span class="s2">"parameter"</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">"emb"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"domain"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="p">,</span> <span class="s2">"feature"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"encoding"</span><span class="p">:</span> <span class="s2">"utf8"</span><span class="p">}}</span>
+            <span class="p">},</span>
+            <span class="s2">"payload"</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">"messages"</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s2">"text"</span><span class="p">:</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64encode</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">text</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">"utf-8"</span><span class="p">))</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
+                <span class="p">}</span>
+            <span class="p">},</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">body</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_parser_message</span><span class="p">(</span>
+        <span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ndarray</span><span class="p">]:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+        <span class="n">code</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">"header"</span><span class="p">][</span><span class="s2">"code"</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">code</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Request error: </span><span class="si">{</span><span class="n">code</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">data</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">text_base</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">"payload"</span><span class="p">][</span><span class="s2">"feature"</span><span class="p">][</span><span class="s2">"text"</span><span class="p">]</span>
+            <span class="n">text_data</span> <span class="o">=</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64decode</span><span class="p">(</span><span class="n">text_base</span><span class="p">)</span>
+            <span class="n">dt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+            <span class="n">dt</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">newbyteorder</span><span class="p">(</span><span class="s2">"&lt;"</span><span class="p">)</span>
+            <span class="n">text</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">text_data</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dt</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">text</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">2560</span><span class="p">:</span>
+                <span class="n">array</span> <span class="o">=</span> <span class="n">text</span><span class="p">[:</span><span class="mi">2560</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">array</span> <span class="o">=</span> <span class="n">text</span>
+            <span class="k">return</span> <span class="n">array</span></div>
+
+
+<div class="viewcode-block" id="AssembleHeaderException"><a class="viewcode-back" href="../../../community/embeddings/langchain_community.embeddings.sparkllm.AssembleHeaderException.html#langchain_community.embeddings.sparkllm.AssembleHeaderException">[docs]</a><span class="k">class</span> <span class="nc">AssembleHeaderException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Exception raised for errors in the header assembly."""</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="n">msg</span></div>
+</pre></div>
+</article>
+</div>
+</div>
+<footer class="bd-footer-content">
+</footer>
+</main>
+</div>
+</div>
+<!-- Scripts loaded after <body> so the DOM is not blocked -->
+<script src="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+<footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+<div class="footer-items__start">
+<div class="footer-item">
+<p class="copyright">
+    
+      © Copyright 2023, LangChain Inc.
+      <br/>
+</p>
+</div>
+</div>
+</div>
+</footer>
+</body>
+</html>
