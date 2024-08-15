@@ -38,7 +38,7 @@
 <link href="../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Aug 14, 2024" name="docbuild:last-update"/>
+<meta content="Aug 15, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -242,19 +242,60 @@ document.write(`
 <span class="sd">    You can pass in additional unstructured kwargs after mode to apply</span>
 <span class="sd">    different unstructured settings.</span>
 
-<span class="sd">    Examples</span>
-<span class="sd">    --------</span>
-<span class="sd">    from langchain_community.document_loaders import UnstructuredMarkdownLoader</span>
+<span class="sd">    Setup:</span>
+<span class="sd">        Install ``langchain-community``.</span>
 
-<span class="sd">    loader = UnstructuredMarkdownLoader(</span>
-<span class="sd">        "example.md", mode="elements", strategy="fast",</span>
-<span class="sd">    )</span>
-<span class="sd">    docs = loader.load()</span>
+<span class="sd">        .. code-block:: bash</span>
+
+<span class="sd">            pip install -U langchain-community</span>
+
+<span class="sd">    Instantiate:</span>
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            from langchain_community.document_loaders import UnstructuredMarkdownLoader</span>
+
+<span class="sd">            loader = UnstructuredMarkdownLoader(</span>
+<span class="sd">                "./example_data/example.md",</span>
+<span class="sd">                mode="elements",</span>
+<span class="sd">                strategy="fast",</span>
+<span class="sd">            )</span>
+
+<span class="sd">    Lazy load:</span>
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            docs = []</span>
+<span class="sd">            docs_lazy = loader.lazy_load()</span>
+
+<span class="sd">            # async variant:</span>
+<span class="sd">            # docs_lazy = await loader.alazy_load()</span>
+
+<span class="sd">            for doc in docs_lazy:</span>
+<span class="sd">                docs.append(doc)</span>
+<span class="sd">            print(docs[0].page_content[:100])</span>
+<span class="sd">            print(docs[0].metadata)</span>
+
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            Sample Markdown Document</span>
+<span class="sd">            {'source': './example_data/example.md', 'category_depth': 0, 'last_modified': '2024-08-14T15:04:18', 'languages': ['eng'], 'filetype': 'text/markdown', 'file_directory': './example_data', 'filename': 'example.md', 'category': 'Title', 'element_id': '3d0b313864598e704aa26c728ecb61e5'}</span>
+
+
+<span class="sd">    Async load:</span>
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            docs = await loader.aload()</span>
+<span class="sd">            print(docs[0].page_content[:100])</span>
+<span class="sd">            print(docs[0].metadata)</span>
+
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            Sample Markdown Document</span>
+<span class="sd">            {'source': './example_data/example.md', 'category_depth': 0, 'last_modified': '2024-08-14T15:04:18', 'languages': ['eng'], 'filetype': 'text/markdown', 'file_directory': './example_data', 'filename': 'example.md', 'category': 'Title', 'element_id': '3d0b313864598e704aa26c728ecb61e5'}</span>
 
 <span class="sd">    References</span>
 <span class="sd">    ----------</span>
 <span class="sd">    https://unstructured-io.github.io/unstructured/core/partition.html#partition-md</span>
-<span class="sd">    """</span>
+<span class="sd">    """</span>  <span class="c1"># noqa: E501</span>
 
     <span class="k">def</span> <span class="nf">_get_elements</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">:</span>
         <span class="kn">from</span> <span class="nn">unstructured.__version__</span> <span class="kn">import</span> <span class="n">__version__</span> <span class="k">as</span> <span class="n">__unstructured_version__</span>
