@@ -38,7 +38,7 @@
 <link href="../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Aug 15, 2024" name="docbuild:last-update"/>
+<meta content="Aug 16, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -312,13 +312,11 @@ document.write(`
 
     <span class="n">_chat_adapter</span><span class="p">:</span> <span class="n">ChatAdapter</span>
 
-    <span class="nd">@root_validator</span><span class="p">()</span>
+    <span class="nd">@root_validator</span><span class="p">(</span><span class="n">pre</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">skip_on_failure</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">validate_environment</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
-        <span class="n">values</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">validate_environment</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
-        <span class="n">model</span> <span class="o">=</span> <span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"model"</span><span class="p">)</span>
-
-        <span class="n">values</span><span class="p">[</span><span class="s2">"_chat_adapter"</span><span class="p">]</span> <span class="o">=</span> <span class="n">create_chat_adapter</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
-
+<span class="w">        </span><span class="sd">"""Validate the environment."""</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="s2">"model"</span><span class="p">]</span>
+        <span class="n">values</span><span class="p">[</span><span class="s2">"_chat_adapter"</span><span class="p">]</span> <span class="o">=</span> <span class="n">create_chat_adapter</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">values</span>
 
     <span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>

@@ -38,7 +38,7 @@
 <link href="../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Aug 15, 2024" name="docbuild:last-update"/>
+<meta content="Aug 16, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -252,10 +252,13 @@ document.write(`
 <span class="kn">from</span> <span class="nn">langchain_core.prompt_values</span> <span class="kn">import</span> <span class="n">PromptValue</span>
 <span class="kn">from</span> <span class="nn">langchain_core.pydantic_v1</span> <span class="kn">import</span> <span class="n">Field</span><span class="p">,</span> <span class="n">SecretStr</span><span class="p">,</span> <span class="n">root_validator</span>
 <span class="kn">from</span> <span class="nn">langchain_core.utils</span> <span class="kn">import</span> <span class="p">(</span>
-    <span class="n">get_from_dict_or_env</span><span class="p">,</span>
     <span class="n">get_pydantic_field_names</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">langchain_core.utils.utils</span> <span class="kn">import</span> <span class="n">build_extra_kwargs</span><span class="p">,</span> <span class="n">convert_to_secret_str</span>
+<span class="kn">from</span> <span class="nn">langchain_core.utils.utils</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">build_extra_kwargs</span><span class="p">,</span>
+    <span class="n">from_env</span><span class="p">,</span>
+    <span class="n">secret_from_env</span><span class="p">,</span>
+<span class="p">)</span>
 
 
 <span class="k">class</span> <span class="nc">_AnthropicCommon</span><span class="p">(</span><span class="n">BaseLanguageModel</span><span class="p">):</span>
@@ -285,9 +288,25 @@ document.write(`
     <span class="n">max_retries</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span>
 <span class="w">    </span><span class="sd">"""Number of retries allowed for requests sent to the Anthropic Completion API."""</span>
 
-    <span class="n">anthropic_api_url</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">anthropic_api_url</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">alias</span><span class="o">=</span><span class="s2">"base_url"</span><span class="p">,</span>
+        <span class="n">default_factory</span><span class="o">=</span><span class="n">from_env</span><span class="p">(</span>
+            <span class="s2">"ANTHROPIC_API_URL"</span><span class="p">,</span>
+            <span class="n">default</span><span class="o">=</span><span class="s2">"https://api.anthropic.com"</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+<span class="w">    </span><span class="sd">"""Base URL for API requests. Only specify if using a proxy or service emulator.</span>
 
-    <span class="n">anthropic_api_key</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">SecretStr</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="sd">    If a value isn't passed in, will attempt to read the value from</span>
+<span class="sd">    ANTHROPIC_API_URL. If not set, the default value of 'https://api.anthropic.com' will</span>
+<span class="sd">    be used.</span>
+<span class="sd">    """</span>
+
+    <span class="n">anthropic_api_key</span><span class="p">:</span> <span class="n">SecretStr</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">alias</span><span class="o">=</span><span class="s2">"api_key"</span><span class="p">,</span>
+        <span class="n">default_factory</span><span class="o">=</span><span class="n">secret_from_env</span><span class="p">(</span><span class="s2">"ANTHROPIC_API_KEY"</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">""</span><span class="p">),</span>
+    <span class="p">)</span>
+<span class="w">    </span><span class="sd">"""Automatically read from env var `ANTHROPIC_API_KEY` if not provided."""</span>
 
     <span class="n">HUMAN_PROMPT</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">AI_PROMPT</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
@@ -303,20 +322,9 @@ document.write(`
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">values</span>
 
-    <span class="nd">@root_validator</span><span class="p">()</span>
+    <span class="nd">@root_validator</span><span class="p">(</span><span class="n">pre</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">skip_on_failure</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">validate_environment</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Validate that api key and python package exists in environment."""</span>
-        <span class="n">values</span><span class="p">[</span><span class="s2">"anthropic_api_key"</span><span class="p">]</span> <span class="o">=</span> <span class="n">convert_to_secret_str</span><span class="p">(</span>
-            <span class="n">get_from_dict_or_env</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="s2">"anthropic_api_key"</span><span class="p">,</span> <span class="s2">"ANTHROPIC_API_KEY"</span><span class="p">)</span>
-        <span class="p">)</span>
-        <span class="c1"># Get custom api url from environment.</span>
-        <span class="n">values</span><span class="p">[</span><span class="s2">"anthropic_api_url"</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_from_dict_or_env</span><span class="p">(</span>
-            <span class="n">values</span><span class="p">,</span>
-            <span class="s2">"anthropic_api_url"</span><span class="p">,</span>
-            <span class="s2">"ANTHROPIC_API_URL"</span><span class="p">,</span>
-            <span class="n">default</span><span class="o">=</span><span class="s2">"https://api.anthropic.com"</span><span class="p">,</span>
-        <span class="p">)</span>
-
         <span class="n">values</span><span class="p">[</span><span class="s2">"client"</span><span class="p">]</span> <span class="o">=</span> <span class="n">anthropic</span><span class="o">.</span><span class="n">Anthropic</span><span class="p">(</span>
             <span class="n">base_url</span><span class="o">=</span><span class="n">values</span><span class="p">[</span><span class="s2">"anthropic_api_url"</span><span class="p">],</span>
             <span class="n">api_key</span><span class="o">=</span><span class="n">values</span><span class="p">[</span><span class="s2">"anthropic_api_key"</span><span class="p">]</span><span class="o">.</span><span class="n">get_secret_value</span><span class="p">(),</span>
@@ -387,7 +395,7 @@ document.write(`
         <span class="n">allow_population_by_field_name</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="n">arbitrary_types_allowed</span> <span class="o">=</span> <span class="kc">True</span>
 
-    <span class="nd">@root_validator</span><span class="p">()</span>
+    <span class="nd">@root_validator</span><span class="p">(</span><span class="n">pre</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">raise_warning</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Raise warning that this class is deprecated."""</span>
         <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>

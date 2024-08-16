@@ -38,7 +38,7 @@
 <link href="../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Aug 15, 2024" name="docbuild:last-update"/>
+<meta content="Aug 16, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -228,7 +228,6 @@ document.write(`
 <article class="bd-article">
 <h1>Source code for langchain_voyageai.embeddings</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
 
 <span class="kn">import</span> <span class="nn">voyageai</span>  <span class="c1"># type: ignore</span>
@@ -239,7 +238,7 @@ document.write(`
     <span class="n">SecretStr</span><span class="p">,</span>
     <span class="n">root_validator</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">langchain_core.utils</span> <span class="kn">import</span> <span class="n">convert_to_secret_str</span>
+<span class="kn">from</span> <span class="nn">langchain_core.utils</span> <span class="kn">import</span> <span class="n">secret_from_env</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
@@ -261,34 +260,32 @@ document.write(`
     <span class="n">batch_size</span><span class="p">:</span> <span class="nb">int</span>
     <span class="n">show_progress_bar</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">truncation</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">voyage_api_key</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">SecretStr</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">voyage_api_key</span><span class="p">:</span> <span class="n">SecretStr</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">alias</span><span class="o">=</span><span class="s2">"api_key"</span><span class="p">,</span>
+        <span class="n">default_factory</span><span class="o">=</span><span class="n">secret_from_env</span><span class="p">(</span>
+            <span class="s2">"VOYAGE_API_KEY"</span><span class="p">,</span>
+            <span class="n">error_message</span><span class="o">=</span><span class="s2">"Must set `VOYAGE_API_KEY` environment variable or "</span>
+            <span class="s2">"pass `api_key` to VoyageAIEmbeddings constructor."</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
 
     <span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
         <span class="n">extra</span> <span class="o">=</span> <span class="s2">"forbid"</span>
+        <span class="n">allow_population_by_field_name</span> <span class="o">=</span> <span class="kc">True</span>
 
     <span class="nd">@root_validator</span><span class="p">(</span><span class="n">pre</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">default_values</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Set default batch size based on model"""</span>
-
         <span class="n">model</span> <span class="o">=</span> <span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"model"</span><span class="p">)</span>
         <span class="n">batch_size</span> <span class="o">=</span> <span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"batch_size"</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">batch_size</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">values</span><span class="p">[</span><span class="s2">"batch_size"</span><span class="p">]</span> <span class="o">=</span> <span class="mi">72</span> <span class="k">if</span> <span class="n">model</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">"voyage-2"</span><span class="p">,</span> <span class="s2">"voyage-02"</span><span class="p">]</span> <span class="k">else</span> <span class="mi">7</span>
         <span class="k">return</span> <span class="n">values</span>
 
-    <span class="nd">@root_validator</span><span class="p">()</span>
+    <span class="nd">@root_validator</span><span class="p">(</span><span class="n">pre</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">skip_on_failure</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">validate_environment</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Validate that VoyageAI credentials exist in environment."""</span>
-        <span class="n">voyage_api_key</span> <span class="o">=</span> <span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"voyage_api_key"</span><span class="p">)</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span>
-            <span class="s2">"VOYAGE_API_KEY"</span><span class="p">,</span> <span class="kc">None</span>
-        <span class="p">)</span>
-        <span class="k">if</span> <span class="n">voyage_api_key</span><span class="p">:</span>
-            <span class="n">api_key_secretstr</span> <span class="o">=</span> <span class="n">convert_to_secret_str</span><span class="p">(</span><span class="n">voyage_api_key</span><span class="p">)</span>
-            <span class="n">values</span><span class="p">[</span><span class="s2">"voyage_api_key"</span><span class="p">]</span> <span class="o">=</span> <span class="n">api_key_secretstr</span>
-
-            <span class="n">api_key_str</span> <span class="o">=</span> <span class="n">api_key_secretstr</span><span class="o">.</span><span class="n">get_secret_value</span><span class="p">()</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">api_key_str</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">api_key_str</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="s2">"voyage_api_key"</span><span class="p">]</span><span class="o">.</span><span class="n">get_secret_value</span><span class="p">()</span>
         <span class="n">values</span><span class="p">[</span><span class="s2">"_client"</span><span class="p">]</span> <span class="o">=</span> <span class="n">voyageai</span><span class="o">.</span><span class="n">Client</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="n">api_key_str</span><span class="p">)</span>
         <span class="n">values</span><span class="p">[</span><span class="s2">"_aclient"</span><span class="p">]</span> <span class="o">=</span> <span class="n">voyageai</span><span class="o">.</span><span class="n">client_async</span><span class="o">.</span><span class="n">AsyncClient</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="n">api_key_str</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">values</span>

@@ -38,7 +38,7 @@
 <link href="../../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Aug 15, 2024" name="docbuild:last-update"/>
+<meta content="Aug 16, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -231,6 +231,7 @@ document.write(`
 
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
 
+<span class="kn">from</span> <span class="nn">langchain_core._api</span> <span class="kn">import</span> <span class="n">deprecated</span>
 <span class="kn">from</span> <span class="nn">langchain_core.callbacks</span> <span class="kn">import</span> <span class="n">CallbackManagerForChainRun</span>
 <span class="kn">from</span> <span class="nn">langchain_core.language_models</span> <span class="kn">import</span> <span class="n">BaseLanguageModel</span>
 <span class="kn">from</span> <span class="nn">langchain_core.prompts</span> <span class="kn">import</span> <span class="n">BasePromptTemplate</span>
@@ -242,8 +243,150 @@ document.write(`
 <span class="kn">from</span> <span class="nn">langchain.chains.llm</span> <span class="kn">import</span> <span class="n">LLMChain</span>
 
 
-<div class="viewcode-block" id="ConstitutionalChain"><a class="viewcode-back" href="../../../../langchain/chains/langchain.chains.constitutional_ai.base.ConstitutionalChain.html#langchain.chains.constitutional_ai.base.ConstitutionalChain">[docs]</a><span class="k">class</span> <span class="nc">ConstitutionalChain</span><span class="p">(</span><span class="n">Chain</span><span class="p">):</span>
+<div class="viewcode-block" id="ConstitutionalChain"><a class="viewcode-back" href="../../../../langchain/chains/langchain.chains.constitutional_ai.base.ConstitutionalChain.html#langchain.chains.constitutional_ai.base.ConstitutionalChain">[docs]</a><span class="nd">@deprecated</span><span class="p">(</span>
+    <span class="n">since</span><span class="o">=</span><span class="s2">"0.2.13"</span><span class="p">,</span>
+    <span class="n">message</span><span class="o">=</span><span class="p">(</span>
+        <span class="s2">"This class is deprecated and will be removed in langchain 1.0. "</span>
+        <span class="s2">"See API reference for replacement: "</span>
+        <span class="s2">"https://api.python.langchain.com/en/latest/chains/langchain.chains.constitutional_ai.base.ConstitutionalChain.html"</span>  <span class="c1"># noqa: E501</span>
+    <span class="p">),</span>
+    <span class="n">removal</span><span class="o">=</span><span class="s2">"1.0"</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="k">class</span> <span class="nc">ConstitutionalChain</span><span class="p">(</span><span class="n">Chain</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Chain for applying constitutional principles.</span>
+
+<span class="sd">    Note: this class is deprecated. See below for a replacement implementation</span>
+<span class="sd">        using LangGraph. The benefits of this implementation are:</span>
+
+<span class="sd">        - Uses LLM tool calling features instead of parsing string responses;</span>
+<span class="sd">        - Support for both token-by-token and step-by-step streaming;</span>
+<span class="sd">        - Support for checkpointing and memory of chat history;</span>
+<span class="sd">        - Easier to modify or extend (e.g., with additional tools, structured responses, etc.)</span>
+
+<span class="sd">        Install LangGraph with:</span>
+
+<span class="sd">        .. code-block:: bash</span>
+
+<span class="sd">            pip install -U langgraph</span>
+
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            from typing import List, Optional, Tuple</span>
+
+<span class="sd">            from langchain.chains.constitutional_ai.prompts import (</span>
+<span class="sd">                CRITIQUE_PROMPT,</span>
+<span class="sd">                REVISION_PROMPT,</span>
+<span class="sd">            )</span>
+<span class="sd">            from langchain.chains.constitutional_ai.models import ConstitutionalPrinciple</span>
+<span class="sd">            from langchain_core.output_parsers import StrOutputParser</span>
+<span class="sd">            from langchain_core.prompts import ChatPromptTemplate</span>
+<span class="sd">            from langchain_openai import ChatOpenAI</span>
+<span class="sd">            from langgraph.graph import END, START, StateGraph</span>
+<span class="sd">            from typing_extensions import Annotated, TypedDict</span>
+
+<span class="sd">            llm = ChatOpenAI(model="gpt-4o-mini")</span>
+
+<span class="sd">            class Critique(TypedDict):</span>
+<span class="sd">                \"\"\"Generate a critique, if needed.\"\"\"</span>
+<span class="sd">                critique_needed: Annotated[bool, ..., "Whether or not a critique is needed."]</span>
+<span class="sd">                critique: Annotated[str, ..., "If needed, the critique."]</span>
+
+<span class="sd">            critique_prompt = ChatPromptTemplate.from_template(</span>
+<span class="sd">                "Critique this response according to the critique request. "</span>
+<span class="sd">                "If no critique is needed, specify that.\\n\\n"</span>
+<span class="sd">                "Query: {query}\\n\\n"</span>
+<span class="sd">                "Response: {response}\\n\\n"</span>
+<span class="sd">                "Critique request: {critique_request}"</span>
+<span class="sd">            )</span>
+
+<span class="sd">            revision_prompt = ChatPromptTemplate.from_template(</span>
+<span class="sd">                "Revise this response according to the critique and reivsion request.\\n\\n"</span>
+<span class="sd">                "Query: {query}\\n\\n"</span>
+<span class="sd">                "Response: {response}\\n\\n"</span>
+<span class="sd">                "Critique request: {critique_request}\\n\\n"</span>
+<span class="sd">                "Critique: {critique}\\n\\n"</span>
+<span class="sd">                "If the critique does not identify anything worth changing, ignore the "</span>
+<span class="sd">                "revision request and return 'No revisions needed'. If the critique "</span>
+<span class="sd">                "does identify something worth changing, revise the response based on "</span>
+<span class="sd">                "the revision request.\\n\\n"</span>
+<span class="sd">                "Revision Request: {revision_request}"</span>
+<span class="sd">            )</span>
+
+<span class="sd">            chain = llm | StrOutputParser()</span>
+<span class="sd">            critique_chain = critique_prompt | llm.with_structured_output(Critique)</span>
+<span class="sd">            revision_chain = revision_prompt | llm | StrOutputParser()</span>
+
+
+<span class="sd">            class State(TypedDict):</span>
+<span class="sd">                query: str</span>
+<span class="sd">                constitutional_principles: List[ConstitutionalPrinciple]</span>
+<span class="sd">                initial_response: str</span>
+<span class="sd">                critiques_and_revisions: List[Tuple[str, str]]</span>
+<span class="sd">                response: str</span>
+
+
+<span class="sd">            async def generate_response(state: State):</span>
+<span class="sd">                \"\"\"Generate initial response.\"\"\"</span>
+<span class="sd">                response = await chain.ainvoke(state["query"])</span>
+<span class="sd">                return {"response": response, "initial_response": response}</span>
+
+<span class="sd">            async def critique_and_revise(state: State):</span>
+<span class="sd">                \"\"\"Critique and revise response according to principles.\"\"\"</span>
+<span class="sd">                critiques_and_revisions = []</span>
+<span class="sd">                response = state["initial_response"]</span>
+<span class="sd">                for principle in state["constitutional_principles"]:</span>
+<span class="sd">                    critique = await critique_chain.ainvoke(</span>
+<span class="sd">                        {</span>
+<span class="sd">                            "query": state["query"],</span>
+<span class="sd">                            "response": response,</span>
+<span class="sd">                            "critique_request": principle.critique_request,</span>
+<span class="sd">                        }</span>
+<span class="sd">                    )</span>
+<span class="sd">                    if critique["critique_needed"]:</span>
+<span class="sd">                        revision = await revision_chain.ainvoke(</span>
+<span class="sd">                            {</span>
+<span class="sd">                                "query": state["query"],</span>
+<span class="sd">                                "response": response,</span>
+<span class="sd">                                "critique_request": principle.critique_request,</span>
+<span class="sd">                                "critique": critique["critique"],</span>
+<span class="sd">                                "revision_request": principle.revision_request,</span>
+<span class="sd">                            }</span>
+<span class="sd">                        )</span>
+<span class="sd">                        response = revision</span>
+<span class="sd">                        critiques_and_revisions.append((critique["critique"], revision))</span>
+<span class="sd">                    else:</span>
+<span class="sd">                        critiques_and_revisions.append((critique["critique"], ""))</span>
+<span class="sd">                return {</span>
+<span class="sd">                    "critiques_and_revisions": critiques_and_revisions,</span>
+<span class="sd">                    "response": response,</span>
+<span class="sd">                }</span>
+
+<span class="sd">            graph = StateGraph(State)</span>
+<span class="sd">            graph.add_node("generate_response", generate_response)</span>
+<span class="sd">            graph.add_node("critique_and_revise", critique_and_revise)</span>
+
+<span class="sd">            graph.add_edge(START, "generate_response")</span>
+<span class="sd">            graph.add_edge("generate_response", "critique_and_revise")</span>
+<span class="sd">            graph.add_edge("critique_and_revise", END)</span>
+<span class="sd">            app = graph.compile()</span>
+
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            constitutional_principles=[</span>
+<span class="sd">                ConstitutionalPrinciple(</span>
+<span class="sd">                    critique_request="Tell if this answer is good.",</span>
+<span class="sd">                    revision_request="Give a better answer.",</span>
+<span class="sd">                )</span>
+<span class="sd">            ]</span>
+
+<span class="sd">            query = "What is the meaning of life? Answer in 10 words or fewer."</span>
+
+<span class="sd">            async for step in app.astream(</span>
+<span class="sd">                {"query": query, "constitutional_principles": constitutional_principles},</span>
+<span class="sd">                stream_mode="values",</span>
+<span class="sd">            ):</span>
+<span class="sd">                subset = ["initial_response", "critiques_and_revisions", "response"]</span>
+<span class="sd">                print({k: v for k, v in step.items() if k in subset})</span>
 
 <span class="sd">    Example:</span>
 <span class="sd">        .. code-block:: python</span>
@@ -273,7 +416,7 @@ document.write(`
 <span class="sd">            )</span>
 
 <span class="sd">            constitutional_chain.run(question="What is the meaning of life?")</span>
-<span class="sd">    """</span>
+<span class="sd">    """</span>  <span class="c1"># noqa: E501</span>
 
     <span class="n">chain</span><span class="p">:</span> <span class="n">LLMChain</span>
     <span class="n">constitutional_principles</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">ConstitutionalPrinciple</span><span class="p">]</span>

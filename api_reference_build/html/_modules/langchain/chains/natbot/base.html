@@ -38,7 +38,7 @@
 <link href="../../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Aug 15, 2024" name="docbuild:last-update"/>
+<meta content="Aug 16, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -234,16 +234,28 @@ document.write(`
 <span class="kn">import</span> <span class="nn">warnings</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
 
+<span class="kn">from</span> <span class="nn">langchain_core._api</span> <span class="kn">import</span> <span class="n">deprecated</span>
 <span class="kn">from</span> <span class="nn">langchain_core.callbacks</span> <span class="kn">import</span> <span class="n">CallbackManagerForChainRun</span>
 <span class="kn">from</span> <span class="nn">langchain_core.language_models</span> <span class="kn">import</span> <span class="n">BaseLanguageModel</span>
+<span class="kn">from</span> <span class="nn">langchain_core.output_parsers</span> <span class="kn">import</span> <span class="n">StrOutputParser</span>
 <span class="kn">from</span> <span class="nn">langchain_core.pydantic_v1</span> <span class="kn">import</span> <span class="n">root_validator</span>
+<span class="kn">from</span> <span class="nn">langchain_core.runnables</span> <span class="kn">import</span> <span class="n">Runnable</span>
 
 <span class="kn">from</span> <span class="nn">langchain.chains.base</span> <span class="kn">import</span> <span class="n">Chain</span>
-<span class="kn">from</span> <span class="nn">langchain.chains.llm</span> <span class="kn">import</span> <span class="n">LLMChain</span>
 <span class="kn">from</span> <span class="nn">langchain.chains.natbot.prompt</span> <span class="kn">import</span> <span class="n">PROMPT</span>
 
 
-<div class="viewcode-block" id="NatBotChain"><a class="viewcode-back" href="../../../../langchain/chains/langchain.chains.natbot.base.NatBotChain.html#langchain.chains.natbot.base.NatBotChain">[docs]</a><span class="k">class</span> <span class="nc">NatBotChain</span><span class="p">(</span><span class="n">Chain</span><span class="p">):</span>
+<div class="viewcode-block" id="NatBotChain"><a class="viewcode-back" href="../../../../langchain/chains/langchain.chains.natbot.base.NatBotChain.html#langchain.chains.natbot.base.NatBotChain">[docs]</a><span class="nd">@deprecated</span><span class="p">(</span>
+    <span class="n">since</span><span class="o">=</span><span class="s2">"0.2.13"</span><span class="p">,</span>
+    <span class="n">message</span><span class="o">=</span><span class="p">(</span>
+        <span class="s2">"Importing NatBotChain from langchain is deprecated and will be removed in "</span>
+        <span class="s2">"langchain 1.0. Please import from langchain_community instead: "</span>
+        <span class="s2">"from langchain_community.chains.natbot import NatBotChain. "</span>
+        <span class="s2">"You may need to pip install -U langchain-community."</span>
+    <span class="p">),</span>
+    <span class="n">removal</span><span class="o">=</span><span class="s2">"1.0"</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="k">class</span> <span class="nc">NatBotChain</span><span class="p">(</span><span class="n">Chain</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Implement an LLM driven browser.</span>
 
 <span class="sd">    **Security Note**: This toolkit provides code to control a web-browser.</span>
@@ -266,7 +278,7 @@ document.write(`
 <span class="sd">            natbot = NatBotChain.from_default("Buy me a new hat.")</span>
 <span class="sd">    """</span>
 
-    <span class="n">llm_chain</span><span class="p">:</span> <span class="n">LLMChain</span>
+    <span class="n">llm_chain</span><span class="p">:</span> <span class="n">Runnable</span>
     <span class="n">objective</span><span class="p">:</span> <span class="nb">str</span>
 <span class="w">    </span><span class="sd">"""Objective that NatBot is tasked with completing."""</span>
     <span class="n">llm</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">BaseLanguageModel</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
@@ -289,7 +301,7 @@ document.write(`
                 <span class="s2">"class method."</span>
             <span class="p">)</span>
             <span class="k">if</span> <span class="s2">"llm_chain"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">values</span> <span class="ow">and</span> <span class="n">values</span><span class="p">[</span><span class="s2">"llm"</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">values</span><span class="p">[</span><span class="s2">"llm_chain"</span><span class="p">]</span> <span class="o">=</span> <span class="n">LLMChain</span><span class="p">(</span><span class="n">llm</span><span class="o">=</span><span class="n">values</span><span class="p">[</span><span class="s2">"llm"</span><span class="p">],</span> <span class="n">prompt</span><span class="o">=</span><span class="n">PROMPT</span><span class="p">)</span>
+                <span class="n">values</span><span class="p">[</span><span class="s2">"llm_chain"</span><span class="p">]</span> <span class="o">=</span> <span class="n">PROMPT</span> <span class="o">|</span> <span class="n">values</span><span class="p">[</span><span class="s2">"llm"</span><span class="p">]</span> <span class="o">|</span> <span class="n">StrOutputParser</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">values</span>
 
 <div class="viewcode-block" id="NatBotChain.from_default"><a class="viewcode-back" href="../../../../langchain/chains/langchain.chains.natbot.base.NatBotChain.html#langchain.chains.natbot.base.NatBotChain.from_default">[docs]</a>    <span class="nd">@classmethod</span>
@@ -306,7 +318,7 @@ document.write(`
         <span class="bp">cls</span><span class="p">,</span> <span class="n">llm</span><span class="p">:</span> <span class="n">BaseLanguageModel</span><span class="p">,</span> <span class="n">objective</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NatBotChain</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Load from LLM."""</span>
-        <span class="n">llm_chain</span> <span class="o">=</span> <span class="n">LLMChain</span><span class="p">(</span><span class="n">llm</span><span class="o">=</span><span class="n">llm</span><span class="p">,</span> <span class="n">prompt</span><span class="o">=</span><span class="n">PROMPT</span><span class="p">)</span>
+        <span class="n">llm_chain</span> <span class="o">=</span> <span class="n">PROMPT</span> <span class="o">|</span> <span class="n">llm</span> <span class="o">|</span> <span class="n">StrOutputParser</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">llm_chain</span><span class="o">=</span><span class="n">llm_chain</span><span class="p">,</span> <span class="n">objective</span><span class="o">=</span><span class="n">objective</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
     <span class="nd">@property</span>
@@ -333,12 +345,14 @@ document.write(`
         <span class="n">_run_manager</span> <span class="o">=</span> <span class="n">run_manager</span> <span class="ow">or</span> <span class="n">CallbackManagerForChainRun</span><span class="o">.</span><span class="n">get_noop_manager</span><span class="p">()</span>
         <span class="n">url</span> <span class="o">=</span> <span class="n">inputs</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">input_url_key</span><span class="p">]</span>
         <span class="n">browser_content</span> <span class="o">=</span> <span class="n">inputs</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">input_browser_content_key</span><span class="p">]</span>
-        <span class="n">llm_cmd</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">llm_chain</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span>
-            <span class="n">objective</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">objective</span><span class="p">,</span>
-            <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">[:</span><span class="mi">100</span><span class="p">],</span>
-            <span class="n">previous_command</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">previous_command</span><span class="p">,</span>
-            <span class="n">browser_content</span><span class="o">=</span><span class="n">browser_content</span><span class="p">[:</span><span class="mi">4500</span><span class="p">],</span>
-            <span class="n">callbacks</span><span class="o">=</span><span class="n">_run_manager</span><span class="o">.</span><span class="n">get_child</span><span class="p">(),</span>
+        <span class="n">llm_cmd</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">llm_chain</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span>
+            <span class="p">{</span>
+                <span class="s2">"objective"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">objective</span><span class="p">,</span>
+                <span class="s2">"url"</span><span class="p">:</span> <span class="n">url</span><span class="p">[:</span><span class="mi">100</span><span class="p">],</span>
+                <span class="s2">"previous_command"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">previous_command</span><span class="p">,</span>
+                <span class="s2">"browser_content"</span><span class="p">:</span> <span class="n">browser_content</span><span class="p">[:</span><span class="mi">4500</span><span class="p">],</span>
+            <span class="p">},</span>
+            <span class="n">config</span><span class="o">=</span><span class="p">{</span><span class="s2">"callbacks"</span><span class="p">:</span> <span class="n">_run_manager</span><span class="o">.</span><span class="n">get_child</span><span class="p">()},</span>
         <span class="p">)</span>
         <span class="n">llm_cmd</span> <span class="o">=</span> <span class="n">llm_cmd</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">previous_command</span> <span class="o">=</span> <span class="n">llm_cmd</span>

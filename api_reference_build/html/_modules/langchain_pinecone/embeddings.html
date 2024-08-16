@@ -38,7 +38,7 @@
 <link href="../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Aug 15, 2024" name="docbuild:last-update"/>
+<meta content="Aug 16, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -228,7 +228,6 @@ document.write(`
 <article class="bd-article">
 <h1>Source code for langchain_pinecone.embeddings</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
 
 <span class="kn">import</span> <span class="nn">aiohttp</span>
@@ -239,7 +238,7 @@ document.write(`
     <span class="n">SecretStr</span><span class="p">,</span>
     <span class="n">root_validator</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">langchain_core.utils</span> <span class="kn">import</span> <span class="n">convert_to_secret_str</span>
+<span class="kn">from</span> <span class="nn">langchain_core.utils</span> <span class="kn">import</span> <span class="n">secret_from_env</span>
 <span class="kn">from</span> <span class="nn">pinecone</span> <span class="kn">import</span> <span class="n">Pinecone</span> <span class="k">as</span> <span class="n">PineconeClient</span>  <span class="c1"># type: ignore</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
@@ -274,10 +273,21 @@ document.write(`
     <span class="n">dimension</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="c1">#</span>
     <span class="n">show_progress_bar</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
-    <span class="n">pinecone_api_key</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">SecretStr</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">pinecone_api_key</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">SecretStr</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">default_factory</span><span class="o">=</span><span class="n">secret_from_env</span><span class="p">(</span>
+            <span class="s2">"PINECONE_API_KEY"</span><span class="p">,</span>
+            <span class="n">error_message</span><span class="o">=</span><span class="s2">"Pinecone API key not found. Please set the PINECONE_API_KEY "</span>
+            <span class="s2">"environment variable or pass it via `pinecone_api_key`."</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">alias</span><span class="o">=</span><span class="s2">"api_key"</span><span class="p">,</span>
+    <span class="p">)</span>
+<span class="w">    </span><span class="sd">"""Pinecone API key. </span>
+<span class="sd">    </span>
+<span class="sd">    If not provided, will look for the PINECONE_API_KEY environment variable."""</span>
 
     <span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
         <span class="n">extra</span> <span class="o">=</span> <span class="s2">"forbid"</span>
+        <span class="n">allow_population_by_field_name</span> <span class="o">=</span> <span class="kc">True</span>
 
     <span class="nd">@root_validator</span><span class="p">(</span><span class="n">pre</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">set_default_config</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
@@ -298,25 +308,10 @@ document.write(`
                     <span class="n">values</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
         <span class="k">return</span> <span class="n">values</span>
 
-    <span class="nd">@root_validator</span><span class="p">()</span>
+    <span class="nd">@root_validator</span><span class="p">(</span><span class="n">pre</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">skip_on_failure</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">validate_environment</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Validate that Pinecone version and credentials exist in environment."""</span>
-
-        <span class="n">pinecone_api_key</span> <span class="o">=</span> <span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"pinecone_api_key"</span><span class="p">)</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span>
-            <span class="s2">"PINECONE_API_KEY"</span><span class="p">,</span> <span class="kc">None</span>
-        <span class="p">)</span>
-        <span class="k">if</span> <span class="n">pinecone_api_key</span><span class="p">:</span>
-            <span class="n">api_key_secretstr</span> <span class="o">=</span> <span class="n">convert_to_secret_str</span><span class="p">(</span><span class="n">pinecone_api_key</span><span class="p">)</span>
-            <span class="n">values</span><span class="p">[</span><span class="s2">"pinecone_api_key"</span><span class="p">]</span> <span class="o">=</span> <span class="n">api_key_secretstr</span>
-
-            <span class="n">api_key_str</span> <span class="o">=</span> <span class="n">api_key_secretstr</span><span class="o">.</span><span class="n">get_secret_value</span><span class="p">()</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">api_key_str</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="k">if</span> <span class="n">api_key_str</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">"Pinecone API key not found. Please set the PINECONE_API_KEY "</span>
-                <span class="s2">"environment variable or pass it via `pinecone_api_key`."</span>
-            <span class="p">)</span>
+        <span class="n">api_key_str</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="s2">"pinecone_api_key"</span><span class="p">]</span><span class="o">.</span><span class="n">get_secret_value</span><span class="p">()</span>
         <span class="n">client</span> <span class="o">=</span> <span class="n">PineconeClient</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="n">api_key_str</span><span class="p">,</span> <span class="n">source_tag</span><span class="o">=</span><span class="s2">"langchain"</span><span class="p">)</span>
         <span class="n">values</span><span class="p">[</span><span class="s2">"_client"</span><span class="p">]</span> <span class="o">=</span> <span class="n">client</span>
 

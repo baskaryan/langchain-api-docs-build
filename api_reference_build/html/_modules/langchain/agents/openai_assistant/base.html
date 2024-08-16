@@ -38,7 +38,7 @@
 <link href="../../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Aug 15, 2024" name="docbuild:last-update"/>
+<meta content="Aug 16, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -501,7 +501,6 @@ document.write(`
             <span class="n">instructions</span><span class="o">=</span><span class="n">instructions</span><span class="p">,</span>
             <span class="n">tools</span><span class="o">=</span><span class="p">[</span><span class="n">_get_assistants_tool</span><span class="p">(</span><span class="n">tool</span><span class="p">)</span> <span class="k">for</span> <span class="n">tool</span> <span class="ow">in</span> <span class="n">tools</span><span class="p">],</span>  <span class="c1"># type: ignore</span>
             <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>
-            <span class="n">file_ids</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"file_ids"</span><span class="p">),</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">assistant_id</span><span class="o">=</span><span class="n">assistant</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">client</span><span class="o">=</span><span class="n">client</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
@@ -516,7 +515,6 @@ document.write(`
 <span class="sd">                thread_id: Existing thread to use.</span>
 <span class="sd">                run_id: Existing run to use. Should only be supplied when providing</span>
 <span class="sd">                    the tool output for a required action after an initial invocation.</span>
-<span class="sd">                file_ids: File ids to include in new run. Used for retrieval.</span>
 <span class="sd">                message_metadata: Metadata to associate with new message.</span>
 <span class="sd">                thread_metadata: Metadata to associate with new thread. Only relevant</span>
 <span class="sd">                    when new thread being created.</span>
@@ -556,7 +554,6 @@ document.write(`
                         <span class="p">{</span>
                             <span class="s2">"role"</span><span class="p">:</span> <span class="s2">"user"</span><span class="p">,</span>
                             <span class="s2">"content"</span><span class="p">:</span> <span class="nb">input</span><span class="p">[</span><span class="s2">"content"</span><span class="p">],</span>
-                            <span class="s2">"file_ids"</span><span class="p">:</span> <span class="nb">input</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"file_ids"</span><span class="p">,</span> <span class="p">[]),</span>
                             <span class="s2">"metadata"</span><span class="p">:</span> <span class="nb">input</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"message_metadata"</span><span class="p">),</span>
                         <span class="p">}</span>
                     <span class="p">],</span>
@@ -569,7 +566,6 @@ document.write(`
                     <span class="nb">input</span><span class="p">[</span><span class="s2">"thread_id"</span><span class="p">],</span>
                     <span class="n">content</span><span class="o">=</span><span class="nb">input</span><span class="p">[</span><span class="s2">"content"</span><span class="p">],</span>
                     <span class="n">role</span><span class="o">=</span><span class="s2">"user"</span><span class="p">,</span>
-                    <span class="n">file_ids</span><span class="o">=</span><span class="nb">input</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"file_ids"</span><span class="p">,</span> <span class="p">[]),</span>
                     <span class="n">metadata</span><span class="o">=</span><span class="nb">input</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"message_metadata"</span><span class="p">),</span>
                 <span class="p">)</span>
                 <span class="n">run</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_run</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
@@ -623,7 +619,6 @@ document.write(`
             <span class="n">instructions</span><span class="o">=</span><span class="n">instructions</span><span class="p">,</span>
             <span class="n">tools</span><span class="o">=</span><span class="n">openai_tools</span><span class="p">,</span>  <span class="c1"># type: ignore</span>
             <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>
-            <span class="n">file_ids</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"file_ids"</span><span class="p">),</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">assistant_id</span><span class="o">=</span><span class="n">assistant</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">async_client</span><span class="o">=</span><span class="n">async_client</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
@@ -638,7 +633,6 @@ document.write(`
 <span class="sd">                thread_id: Existing thread to use.</span>
 <span class="sd">                run_id: Existing run to use. Should only be supplied when providing</span>
 <span class="sd">                    the tool output for a required action after an initial invocation.</span>
-<span class="sd">                file_ids: File ids to include in new run. Used for retrieval.</span>
 <span class="sd">                message_metadata: Metadata to associate with a new message.</span>
 <span class="sd">                thread_metadata: Metadata to associate with new thread. Only relevant</span>
 <span class="sd">                    when a new thread is created.</span>
@@ -668,7 +662,7 @@ document.write(`
         <span class="k">try</span><span class="p">:</span>
             <span class="c1"># Being run within AgentExecutor and there are tool outputs to submit.</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">as_agent</span> <span class="ow">and</span> <span class="nb">input</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"intermediate_steps"</span><span class="p">):</span>
-                <span class="n">tool_outputs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_intermediate_steps</span><span class="p">(</span>
+                <span class="n">tool_outputs</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_aparse_intermediate_steps</span><span class="p">(</span>
                     <span class="nb">input</span><span class="p">[</span><span class="s2">"intermediate_steps"</span><span class="p">]</span>
                 <span class="p">)</span>
                 <span class="n">run</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">async_client</span><span class="o">.</span><span class="n">beta</span><span class="o">.</span><span class="n">threads</span><span class="o">.</span><span class="n">runs</span><span class="o">.</span><span class="n">submit_tool_outputs</span><span class="p">(</span>
@@ -681,7 +675,6 @@ document.write(`
                         <span class="p">{</span>
                             <span class="s2">"role"</span><span class="p">:</span> <span class="s2">"user"</span><span class="p">,</span>
                             <span class="s2">"content"</span><span class="p">:</span> <span class="nb">input</span><span class="p">[</span><span class="s2">"content"</span><span class="p">],</span>
-                            <span class="s2">"file_ids"</span><span class="p">:</span> <span class="nb">input</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"file_ids"</span><span class="p">,</span> <span class="p">[]),</span>
                             <span class="s2">"metadata"</span><span class="p">:</span> <span class="nb">input</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"message_metadata"</span><span class="p">),</span>
                         <span class="p">}</span>
                     <span class="p">],</span>
@@ -694,7 +687,6 @@ document.write(`
                     <span class="nb">input</span><span class="p">[</span><span class="s2">"thread_id"</span><span class="p">],</span>
                     <span class="n">content</span><span class="o">=</span><span class="nb">input</span><span class="p">[</span><span class="s2">"content"</span><span class="p">],</span>
                     <span class="n">role</span><span class="o">=</span><span class="s2">"user"</span><span class="p">,</span>
-                    <span class="n">file_ids</span><span class="o">=</span><span class="nb">input</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"file_ids"</span><span class="p">,</span> <span class="p">[]),</span>
                     <span class="n">metadata</span><span class="o">=</span><span class="nb">input</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"message_metadata"</span><span class="p">),</span>
                 <span class="p">)</span>
                 <span class="n">run</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_acreate_run</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
@@ -722,9 +714,11 @@ document.write(`
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
         <span class="n">last_action</span><span class="p">,</span> <span class="n">last_output</span> <span class="o">=</span> <span class="n">intermediate_steps</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
         <span class="n">run</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wait_for_run</span><span class="p">(</span><span class="n">last_action</span><span class="o">.</span><span class="n">run_id</span><span class="p">,</span> <span class="n">last_action</span><span class="o">.</span><span class="n">thread_id</span><span class="p">)</span>
-        <span class="n">required_tool_call_ids</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="n">tc</span><span class="o">.</span><span class="n">id</span> <span class="k">for</span> <span class="n">tc</span> <span class="ow">in</span> <span class="n">run</span><span class="o">.</span><span class="n">required_action</span><span class="o">.</span><span class="n">submit_tool_outputs</span><span class="o">.</span><span class="n">tool_calls</span>
-        <span class="p">}</span>
+        <span class="n">required_tool_call_ids</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">run</span><span class="o">.</span><span class="n">required_action</span><span class="p">:</span>
+            <span class="n">required_tool_call_ids</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="n">tc</span><span class="o">.</span><span class="n">id</span> <span class="k">for</span> <span class="n">tc</span> <span class="ow">in</span> <span class="n">run</span><span class="o">.</span><span class="n">required_action</span><span class="o">.</span><span class="n">submit_tool_outputs</span><span class="o">.</span><span class="n">tool_calls</span>
+            <span class="p">}</span>
         <span class="n">tool_outputs</span> <span class="o">=</span> <span class="p">[</span>
             <span class="p">{</span><span class="s2">"output"</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">output</span><span class="p">),</span> <span class="s2">"tool_call_id"</span><span class="p">:</span> <span class="n">action</span><span class="o">.</span><span class="n">tool_call_id</span><span class="p">}</span>
             <span class="k">for</span> <span class="n">action</span><span class="p">,</span> <span class="n">output</span> <span class="ow">in</span> <span class="n">intermediate_steps</span>
@@ -850,9 +844,11 @@ document.write(`
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
         <span class="n">last_action</span><span class="p">,</span> <span class="n">last_output</span> <span class="o">=</span> <span class="n">intermediate_steps</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
         <span class="n">run</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wait_for_run</span><span class="p">(</span><span class="n">last_action</span><span class="o">.</span><span class="n">run_id</span><span class="p">,</span> <span class="n">last_action</span><span class="o">.</span><span class="n">thread_id</span><span class="p">)</span>
-        <span class="n">required_tool_call_ids</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="n">tc</span><span class="o">.</span><span class="n">id</span> <span class="k">for</span> <span class="n">tc</span> <span class="ow">in</span> <span class="n">run</span><span class="o">.</span><span class="n">required_action</span><span class="o">.</span><span class="n">submit_tool_outputs</span><span class="o">.</span><span class="n">tool_calls</span>
-        <span class="p">}</span>
+        <span class="n">required_tool_call_ids</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">run</span><span class="o">.</span><span class="n">required_action</span><span class="p">:</span>
+            <span class="n">required_tool_call_ids</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="n">tc</span><span class="o">.</span><span class="n">id</span> <span class="k">for</span> <span class="n">tc</span> <span class="ow">in</span> <span class="n">run</span><span class="o">.</span><span class="n">required_action</span><span class="o">.</span><span class="n">submit_tool_outputs</span><span class="o">.</span><span class="n">tool_calls</span>
+            <span class="p">}</span>
         <span class="n">tool_outputs</span> <span class="o">=</span> <span class="p">[</span>
             <span class="p">{</span><span class="s2">"output"</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">output</span><span class="p">),</span> <span class="s2">"tool_call_id"</span><span class="p">:</span> <span class="n">action</span><span class="o">.</span><span class="n">tool_call_id</span><span class="p">}</span>
             <span class="k">for</span> <span class="n">action</span><span class="p">,</span> <span class="n">output</span> <span class="ow">in</span> <span class="n">intermediate_steps</span>

@@ -38,7 +38,7 @@
 <link href="../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Aug 15, 2024" name="docbuild:last-update"/>
+<meta content="Aug 16, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -236,11 +236,11 @@ document.write(`
 <span class="p">)</span>
 <span class="kn">from</span> <span class="nn">langchain_core.documents</span> <span class="kn">import</span> <span class="n">Document</span>
 <span class="kn">from</span> <span class="nn">langchain_core.language_models</span> <span class="kn">import</span> <span class="n">BaseLLM</span>
+<span class="kn">from</span> <span class="nn">langchain_core.output_parsers</span> <span class="kn">import</span> <span class="n">StrOutputParser</span>
 <span class="kn">from</span> <span class="nn">langchain_core.prompts</span> <span class="kn">import</span> <span class="n">BasePromptTemplate</span>
 <span class="kn">from</span> <span class="nn">langchain_core.prompts.prompt</span> <span class="kn">import</span> <span class="n">PromptTemplate</span>
 <span class="kn">from</span> <span class="nn">langchain_core.retrievers</span> <span class="kn">import</span> <span class="n">BaseRetriever</span>
-
-<span class="kn">from</span> <span class="nn">langchain.chains.llm</span> <span class="kn">import</span> <span class="n">LLMChain</span>
+<span class="kn">from</span> <span class="nn">langchain_core.runnables</span> <span class="kn">import</span> <span class="n">Runnable</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
@@ -259,7 +259,7 @@ document.write(`
 <span class="sd">    Then, retrieve docs for the re-phrased query."""</span>
 
     <span class="n">retriever</span><span class="p">:</span> <span class="n">BaseRetriever</span>
-    <span class="n">llm_chain</span><span class="p">:</span> <span class="n">LLMChain</span>
+    <span class="n">llm_chain</span><span class="p">:</span> <span class="n">Runnable</span>
 
 <div class="viewcode-block" id="RePhraseQueryRetriever.from_llm"><a class="viewcode-back" href="../../../langchain/retrievers/langchain.retrievers.re_phraser.RePhraseQueryRetriever.html#langchain.retrievers.re_phraser.RePhraseQueryRetriever.from_llm">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_llm</span><span class="p">(</span>
@@ -280,8 +280,7 @@ document.write(`
 <span class="sd">        Returns:</span>
 <span class="sd">            RePhraseQueryRetriever</span>
 <span class="sd">        """</span>
-
-        <span class="n">llm_chain</span> <span class="o">=</span> <span class="n">LLMChain</span><span class="p">(</span><span class="n">llm</span><span class="o">=</span><span class="n">llm</span><span class="p">,</span> <span class="n">prompt</span><span class="o">=</span><span class="n">prompt</span><span class="p">)</span>
+        <span class="n">llm_chain</span> <span class="o">=</span> <span class="n">prompt</span> <span class="o">|</span> <span class="n">llm</span> <span class="o">|</span> <span class="n">StrOutputParser</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
             <span class="n">retriever</span><span class="o">=</span><span class="n">retriever</span><span class="p">,</span>
             <span class="n">llm_chain</span><span class="o">=</span><span class="n">llm_chain</span><span class="p">,</span>
@@ -301,8 +300,9 @@ document.write(`
 <span class="sd">        Returns:</span>
 <span class="sd">            Relevant documents for re-phrased question</span>
 <span class="sd">        """</span>
-        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">llm_chain</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">callbacks</span><span class="o">=</span><span class="n">run_manager</span><span class="o">.</span><span class="n">get_child</span><span class="p">())</span>
-        <span class="n">re_phrased_question</span> <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="s2">"text"</span><span class="p">]</span>
+        <span class="n">re_phrased_question</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">llm_chain</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span>
+            <span class="n">query</span><span class="p">,</span> <span class="p">{</span><span class="s2">"callbacks"</span><span class="p">:</span> <span class="n">run_manager</span><span class="o">.</span><span class="n">get_child</span><span class="p">()}</span>
+        <span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Re-phrased question: </span><span class="si">{</span><span class="n">re_phrased_question</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
         <span class="n">docs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">retriever</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span>
             <span class="n">re_phrased_question</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="p">{</span><span class="s2">"callbacks"</span><span class="p">:</span> <span class="n">run_manager</span><span class="o">.</span><span class="n">get_child</span><span class="p">()}</span>

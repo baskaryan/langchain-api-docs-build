@@ -38,7 +38,7 @@
 <link href="../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Aug 15, 2024" name="docbuild:last-update"/>
+<meta content="Aug 16, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -261,8 +261,10 @@ document.write(`
 <span class="kn">import</span> <span class="nn">proto</span>  <span class="c1"># type: ignore[import]</span>
 <span class="kn">import</span> <span class="nn">requests</span>
 <span class="kn">from</span> <span class="nn">google.ai.generativelanguage_v1beta.types</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Blob</span><span class="p">,</span>
     <span class="n">Candidate</span><span class="p">,</span>
     <span class="n">Content</span><span class="p">,</span>
+    <span class="n">FileData</span><span class="p">,</span>
     <span class="n">FunctionCall</span><span class="p">,</span>
     <span class="n">FunctionResponse</span><span class="p">,</span>
     <span class="n">GenerateContentRequest</span><span class="p">,</span>
@@ -271,6 +273,7 @@ document.write(`
     <span class="n">Part</span><span class="p">,</span>
     <span class="n">SafetySetting</span><span class="p">,</span>
     <span class="n">ToolConfig</span><span class="p">,</span>
+    <span class="n">VideoMetadata</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="kn">from</span> <span class="nn">google.generativeai.types</span> <span class="kn">import</span> <span class="n">Tool</span> <span class="k">as</span> <span class="n">GoogleTool</span>  <span class="c1"># type: ignore[import]</span>
 <span class="kn">from</span> <span class="nn">google.generativeai.types.content_types</span> <span class="kn">import</span> <span class="p">(</span>  <span class="c1"># type: ignore[import]</span>
@@ -554,8 +557,35 @@ document.write(`
                             <span class="p">)</span>
                         <span class="n">img_url</span> <span class="o">=</span> <span class="n">img_url</span><span class="p">[</span><span class="s2">"url"</span><span class="p">]</span>
                     <span class="n">parts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">image_loader</span><span class="o">.</span><span class="n">load_part</span><span class="p">(</span><span class="n">img_url</span><span class="p">))</span>
+                <span class="c1"># Handle media type like LangChain.js</span>
+                <span class="c1"># https://github.com/langchain-ai/langchainjs/blob/e536593e2585f1dd7b0afc187de4d07cb40689ba/libs/langchain-google-common/src/utils/gemini.ts#L93-L106</span>
+                <span class="k">elif</span> <span class="n">part</span><span class="p">[</span><span class="s2">"type"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"media"</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="s2">"mime_type"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">part</span><span class="p">:</span>
+                        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Missing mime_type in media part: </span><span class="si">{</span><span class="n">part</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+                    <span class="n">mime_type</span> <span class="o">=</span> <span class="n">part</span><span class="p">[</span><span class="s2">"mime_type"</span><span class="p">]</span>
+                    <span class="n">media_part</span> <span class="o">=</span> <span class="n">Part</span><span class="p">()</span>
+
+                    <span class="k">if</span> <span class="s2">"data"</span> <span class="ow">in</span> <span class="n">part</span><span class="p">:</span>
+                        <span class="n">media_part</span><span class="o">.</span><span class="n">inline_data</span> <span class="o">=</span> <span class="n">Blob</span><span class="p">(</span>
+                            <span class="n">data</span><span class="o">=</span><span class="n">part</span><span class="p">[</span><span class="s2">"data"</span><span class="p">],</span> <span class="n">mime_type</span><span class="o">=</span><span class="n">mime_type</span>
+                        <span class="p">)</span>
+                    <span class="k">elif</span> <span class="s2">"file_uri"</span> <span class="ow">in</span> <span class="n">part</span><span class="p">:</span>
+                        <span class="n">media_part</span><span class="o">.</span><span class="n">file_data</span> <span class="o">=</span> <span class="n">FileData</span><span class="p">(</span>
+                            <span class="n">file_uri</span><span class="o">=</span><span class="n">part</span><span class="p">[</span><span class="s2">"file_uri"</span><span class="p">],</span> <span class="n">mime_type</span><span class="o">=</span><span class="n">mime_type</span>
+                        <span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                            <span class="sa">f</span><span class="s2">"Media part must have either data or file_uri: </span><span class="si">{</span><span class="n">part</span><span class="si">}</span><span class="s2">"</span>
+                        <span class="p">)</span>
+                    <span class="k">if</span> <span class="s2">"video_metadata"</span> <span class="ow">in</span> <span class="n">part</span><span class="p">:</span>
+                        <span class="n">metadata</span> <span class="o">=</span> <span class="n">VideoMetadata</span><span class="p">(</span><span class="n">part</span><span class="p">[</span><span class="s2">"video_metadata"</span><span class="p">])</span>
+                        <span class="n">media_part</span><span class="o">.</span><span class="n">video_metadata</span> <span class="o">=</span> <span class="n">metadata</span>
+                    <span class="n">parts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">media_part</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Unrecognized message part type: </span><span class="si">{</span><span class="n">part</span><span class="p">[</span><span class="s1">'type'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                        <span class="sa">f</span><span class="s2">"Unrecognized message part type: </span><span class="si">{</span><span class="n">part</span><span class="p">[</span><span class="s1">'type'</span><span class="p">]</span><span class="si">}</span><span class="s2">. Only text, "</span>
+                        <span class="sa">f</span><span class="s2">"image_url, and media types are supported."</span>
+                    <span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="c1"># Yolo</span>
                 <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
@@ -1014,8 +1044,8 @@ document.write(`
 
 <span class="sd">    """</span>  <span class="c1"># noqa: E501</span>
 
-    <span class="n">client</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1">#: :meta private:</span>
-    <span class="n">async_client</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1">#: :meta private:</span>
+    <span class="n">client</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">exclude</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1">#: :meta private:</span>
+    <span class="n">async_client</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">exclude</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1">#: :meta private:</span>
     <span class="n">google_api_key</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">SecretStr</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">alias</span><span class="o">=</span><span class="s2">"api_key"</span><span class="p">)</span>
 <span class="w">    </span><span class="sd">"""Google AI API key. </span>
 <span class="sd">        </span>

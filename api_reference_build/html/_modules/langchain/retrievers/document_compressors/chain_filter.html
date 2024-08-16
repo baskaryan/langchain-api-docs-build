@@ -38,7 +38,7 @@
 <link href="../../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Aug 15, 2024" name="docbuild:last-update"/>
+<meta content="Aug 16, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -234,7 +234,9 @@ document.write(`
 <span class="kn">from</span> <span class="nn">langchain_core.callbacks.manager</span> <span class="kn">import</span> <span class="n">Callbacks</span>
 <span class="kn">from</span> <span class="nn">langchain_core.documents</span> <span class="kn">import</span> <span class="n">Document</span>
 <span class="kn">from</span> <span class="nn">langchain_core.language_models</span> <span class="kn">import</span> <span class="n">BaseLanguageModel</span>
+<span class="kn">from</span> <span class="nn">langchain_core.output_parsers</span> <span class="kn">import</span> <span class="n">StrOutputParser</span>
 <span class="kn">from</span> <span class="nn">langchain_core.prompts</span> <span class="kn">import</span> <span class="n">BasePromptTemplate</span><span class="p">,</span> <span class="n">PromptTemplate</span>
+<span class="kn">from</span> <span class="nn">langchain_core.runnables</span> <span class="kn">import</span> <span class="n">Runnable</span>
 <span class="kn">from</span> <span class="nn">langchain_core.runnables.config</span> <span class="kn">import</span> <span class="n">RunnableConfig</span>
 
 <span class="kn">from</span> <span class="nn">langchain.chains</span> <span class="kn">import</span> <span class="n">LLMChain</span>
@@ -261,12 +263,15 @@ document.write(`
 <div class="viewcode-block" id="LLMChainFilter"><a class="viewcode-back" href="../../../../langchain/retrievers/langchain.retrievers.document_compressors.chain_filter.LLMChainFilter.html#langchain.retrievers.document_compressors.chain_filter.LLMChainFilter">[docs]</a><span class="k">class</span> <span class="nc">LLMChainFilter</span><span class="p">(</span><span class="n">BaseDocumentCompressor</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Filter that drops documents that aren't relevant to the query."""</span>
 
-    <span class="n">llm_chain</span><span class="p">:</span> <span class="n">LLMChain</span>
+    <span class="n">llm_chain</span><span class="p">:</span> <span class="n">Runnable</span>
 <span class="w">    </span><span class="sd">"""LLM wrapper to use for filtering documents. </span>
 <span class="sd">    The chain prompt is expected to have a BooleanOutputParser."""</span>
 
     <span class="n">get_input</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Document</span><span class="p">],</span> <span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="n">default_get_input</span>
 <span class="w">    </span><span class="sd">"""Callable for constructing the chain input from the query and a Document."""</span>
+
+    <span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
+        <span class="n">arbitrary_types_allowed</span> <span class="o">=</span> <span class="kc">True</span>
 
 <div class="viewcode-block" id="LLMChainFilter.compress_documents"><a class="viewcode-back" href="../../../../langchain/retrievers/langchain.retrievers.document_compressors.chain_filter.LLMChainFilter.html#langchain.retrievers.document_compressors.chain_filter.LLMChainFilter.compress_documents">[docs]</a>    <span class="k">def</span> <span class="nf">compress_documents</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -285,11 +290,15 @@ document.write(`
             <span class="n">documents</span><span class="p">,</span>
         <span class="p">)</span>
 
-        <span class="k">for</span> <span class="n">output_dict</span><span class="p">,</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">outputs</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">output_</span><span class="p">,</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">outputs</span><span class="p">:</span>
             <span class="n">include_doc</span> <span class="o">=</span> <span class="kc">None</span>
-            <span class="n">output</span> <span class="o">=</span> <span class="n">output_dict</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">llm_chain</span><span class="o">.</span><span class="n">output_key</span><span class="p">]</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">llm_chain</span><span class="o">.</span><span class="n">prompt</span><span class="o">.</span><span class="n">output_parser</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">include_doc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">llm_chain</span><span class="o">.</span><span class="n">prompt</span><span class="o">.</span><span class="n">output_parser</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">llm_chain</span><span class="p">,</span> <span class="n">LLMChain</span><span class="p">):</span>
+                <span class="n">output</span> <span class="o">=</span> <span class="n">output_</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">llm_chain</span><span class="o">.</span><span class="n">output_key</span><span class="p">]</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">llm_chain</span><span class="o">.</span><span class="n">prompt</span><span class="o">.</span><span class="n">output_parser</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">include_doc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">llm_chain</span><span class="o">.</span><span class="n">prompt</span><span class="o">.</span><span class="n">output_parser</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">output_</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+                    <span class="n">include_doc</span> <span class="o">=</span> <span class="n">output_</span>
             <span class="k">if</span> <span class="n">include_doc</span><span class="p">:</span>
                 <span class="n">filtered_docs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
 
@@ -311,11 +320,15 @@ document.write(`
             <span class="p">),</span>
             <span class="n">documents</span><span class="p">,</span>
         <span class="p">)</span>
-        <span class="k">for</span> <span class="n">output_dict</span><span class="p">,</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">outputs</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">output_</span><span class="p">,</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">outputs</span><span class="p">:</span>
             <span class="n">include_doc</span> <span class="o">=</span> <span class="kc">None</span>
-            <span class="n">output</span> <span class="o">=</span> <span class="n">output_dict</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">llm_chain</span><span class="o">.</span><span class="n">output_key</span><span class="p">]</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">llm_chain</span><span class="o">.</span><span class="n">prompt</span><span class="o">.</span><span class="n">output_parser</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">include_doc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">llm_chain</span><span class="o">.</span><span class="n">prompt</span><span class="o">.</span><span class="n">output_parser</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">llm_chain</span><span class="p">,</span> <span class="n">LLMChain</span><span class="p">):</span>
+                <span class="n">output</span> <span class="o">=</span> <span class="n">output_</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">llm_chain</span><span class="o">.</span><span class="n">output_key</span><span class="p">]</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">llm_chain</span><span class="o">.</span><span class="n">prompt</span><span class="o">.</span><span class="n">output_parser</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">include_doc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">llm_chain</span><span class="o">.</span><span class="n">prompt</span><span class="o">.</span><span class="n">output_parser</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">output_</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+                    <span class="n">include_doc</span> <span class="o">=</span> <span class="n">output_</span>
             <span class="k">if</span> <span class="n">include_doc</span><span class="p">:</span>
                 <span class="n">filtered_docs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
 
@@ -339,7 +352,11 @@ document.write(`
 <span class="sd">            A LLMChainFilter that uses the given language model.</span>
 <span class="sd">        """</span>
         <span class="n">_prompt</span> <span class="o">=</span> <span class="n">prompt</span> <span class="k">if</span> <span class="n">prompt</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">_get_default_chain_prompt</span><span class="p">()</span>
-        <span class="n">llm_chain</span> <span class="o">=</span> <span class="n">LLMChain</span><span class="p">(</span><span class="n">llm</span><span class="o">=</span><span class="n">llm</span><span class="p">,</span> <span class="n">prompt</span><span class="o">=</span><span class="n">_prompt</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">_prompt</span><span class="o">.</span><span class="n">output_parser</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">parser</span> <span class="o">=</span> <span class="n">_prompt</span><span class="o">.</span><span class="n">output_parser</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">parser</span> <span class="o">=</span> <span class="n">StrOutputParser</span><span class="p">()</span>
+        <span class="n">llm_chain</span> <span class="o">=</span> <span class="n">_prompt</span> <span class="o">|</span> <span class="n">llm</span> <span class="o">|</span> <span class="n">parser</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">llm_chain</span><span class="o">=</span><span class="n">llm_chain</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div></div>
 </pre></div>
 </article>

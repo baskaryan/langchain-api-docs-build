@@ -38,7 +38,7 @@
 <link href="../../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Aug 15, 2024" name="docbuild:last-update"/>
+<meta content="Aug 16, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -236,6 +236,7 @@ document.write(`
 <span class="kn">import</span> <span class="nn">warnings</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
 
+<span class="kn">from</span> <span class="nn">langchain_core._api</span> <span class="kn">import</span> <span class="n">deprecated</span>
 <span class="kn">from</span> <span class="nn">langchain_core.callbacks</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">AsyncCallbackManagerForChainRun</span><span class="p">,</span>
     <span class="n">CallbackManagerForChainRun</span><span class="p">,</span>
@@ -249,8 +250,124 @@ document.write(`
 <span class="kn">from</span> <span class="nn">langchain.chains.llm_math.prompt</span> <span class="kn">import</span> <span class="n">PROMPT</span>
 
 
-<div class="viewcode-block" id="LLMMathChain"><a class="viewcode-back" href="../../../../langchain/chains/langchain.chains.llm_math.base.LLMMathChain.html#langchain.chains.llm_math.base.LLMMathChain">[docs]</a><span class="k">class</span> <span class="nc">LLMMathChain</span><span class="p">(</span><span class="n">Chain</span><span class="p">):</span>
+<div class="viewcode-block" id="LLMMathChain"><a class="viewcode-back" href="../../../../langchain/chains/langchain.chains.llm_math.base.LLMMathChain.html#langchain.chains.llm_math.base.LLMMathChain">[docs]</a><span class="nd">@deprecated</span><span class="p">(</span>
+    <span class="n">since</span><span class="o">=</span><span class="s2">"0.2.13"</span><span class="p">,</span>
+    <span class="n">message</span><span class="o">=</span><span class="p">(</span>
+        <span class="s2">"This class is deprecated and will be removed in langchain 1.0. "</span>
+        <span class="s2">"See API reference for replacement: "</span>
+        <span class="s2">"https://api.python.langchain.com/en/latest/chains/langchain.chains.llm_math.base.LLMMathChain.html"</span>  <span class="c1"># noqa: E501</span>
+    <span class="p">),</span>
+    <span class="n">removal</span><span class="o">=</span><span class="s2">"1.0"</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="k">class</span> <span class="nc">LLMMathChain</span><span class="p">(</span><span class="n">Chain</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Chain that interprets a prompt and executes python code to do math.</span>
+
+<span class="sd">    Note: this class is deprecated. See below for a replacement implementation</span>
+<span class="sd">        using LangGraph. The benefits of this implementation are:</span>
+
+<span class="sd">        - Uses LLM tool calling features;</span>
+<span class="sd">        - Support for both token-by-token and step-by-step streaming;</span>
+<span class="sd">        - Support for checkpointing and memory of chat history;</span>
+<span class="sd">        - Easier to modify or extend (e.g., with additional tools, structured responses, etc.)</span>
+
+<span class="sd">        Install LangGraph with:</span>
+
+<span class="sd">        .. code-block:: bash</span>
+
+<span class="sd">            pip install -U langgraph</span>
+
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            import math</span>
+<span class="sd">            from typing import Annotated, Sequence</span>
+
+<span class="sd">            from langchain_core.messages import BaseMessage</span>
+<span class="sd">            from langchain_core.runnables import RunnableConfig</span>
+<span class="sd">            from langchain_core.tools import tool</span>
+<span class="sd">            from langchain_openai import ChatOpenAI</span>
+<span class="sd">            from langgraph.graph import END, StateGraph</span>
+<span class="sd">            from langgraph.graph.message import add_messages</span>
+<span class="sd">            from langgraph.prebuilt.tool_node import ToolNode</span>
+<span class="sd">            import numexpr</span>
+<span class="sd">            from typing_extensions import TypedDict</span>
+
+<span class="sd">            @tool</span>
+<span class="sd">            def calculator(expression: str) -&gt; str:</span>
+<span class="sd">                \"\"\"Calculate expression using Python's numexpr library.</span>
+
+<span class="sd">                Expression should be a single line mathematical expression</span>
+<span class="sd">                that solves the problem.</span>
+
+<span class="sd">                Examples:</span>
+<span class="sd">                    "37593 * 67" for "37593 times 67"</span>
+<span class="sd">                    "37593**(1/5)" for "37593^(1/5)"</span>
+<span class="sd">                \"\"\"</span>
+<span class="sd">                local_dict = {"pi": math.pi, "e": math.e}</span>
+<span class="sd">                return str(</span>
+<span class="sd">                    numexpr.evaluate(</span>
+<span class="sd">                        expression.strip(),</span>
+<span class="sd">                        global_dict={},  # restrict access to globals</span>
+<span class="sd">                        local_dict=local_dict,  # add common mathematical functions</span>
+<span class="sd">                    )</span>
+<span class="sd">                )</span>
+
+<span class="sd">            llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)</span>
+<span class="sd">            tools = [calculator]</span>
+<span class="sd">            llm_with_tools = llm.bind_tools(tools, tool_choice="any")</span>
+
+<span class="sd">            class ChainState(TypedDict):</span>
+<span class="sd">                \"\"\"LangGraph state.\"\"\"</span>
+
+<span class="sd">                messages: Annotated[Sequence[BaseMessage], add_messages]</span>
+
+<span class="sd">            async def acall_chain(state: ChainState, config: RunnableConfig):</span>
+<span class="sd">                last_message = state["messages"][-1]</span>
+<span class="sd">                response = await llm_with_tools.ainvoke(state["messages"], config)</span>
+<span class="sd">                return {"messages": [response]}</span>
+
+<span class="sd">            async def acall_model(state: ChainState, config: RunnableConfig):</span>
+<span class="sd">                response = await llm.ainvoke(state["messages"], config)</span>
+<span class="sd">                return {"messages": [response]}</span>
+
+<span class="sd">            graph_builder = StateGraph(ChainState)</span>
+<span class="sd">            graph_builder.add_node("call_tool", acall_chain)</span>
+<span class="sd">            graph_builder.add_node("execute_tool", ToolNode(tools))</span>
+<span class="sd">            graph_builder.add_node("call_model", acall_model)</span>
+<span class="sd">            graph_builder.set_entry_point("call_tool")</span>
+<span class="sd">            graph_builder.add_edge("call_tool", "execute_tool")</span>
+<span class="sd">            graph_builder.add_edge("execute_tool", "call_model")</span>
+<span class="sd">            graph_builder.add_edge("call_model", END)</span>
+<span class="sd">            chain = graph_builder.compile()</span>
+
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            example_query = "What is 551368 divided by 82"</span>
+
+<span class="sd">            events = chain.astream(</span>
+<span class="sd">                {"messages": [("user", example_query)]},</span>
+<span class="sd">                stream_mode="values",</span>
+<span class="sd">            )</span>
+<span class="sd">            async for event in events:</span>
+<span class="sd">                event["messages"][-1].pretty_print()</span>
+
+<span class="sd">        .. code-block:: none</span>
+
+<span class="sd">            ================================ Human Message =================================</span>
+
+<span class="sd">            What is 551368 divided by 82</span>
+<span class="sd">            ================================== Ai Message ==================================</span>
+<span class="sd">            Tool Calls:</span>
+<span class="sd">            calculator (call_MEiGXuJjJ7wGU4aOT86QuGJS)</span>
+<span class="sd">            Call ID: call_MEiGXuJjJ7wGU4aOT86QuGJS</span>
+<span class="sd">            Args:</span>
+<span class="sd">                expression: 551368 / 82</span>
+<span class="sd">            ================================= Tool Message =================================</span>
+<span class="sd">            Name: calculator</span>
+
+<span class="sd">            6724.0</span>
+<span class="sd">            ================================== Ai Message ==================================</span>
+
+<span class="sd">            551368 divided by 82 equals 6724.</span>
 
 <span class="sd">    Example:</span>
 <span class="sd">        .. code-block:: python</span>
@@ -258,7 +375,7 @@ document.write(`
 <span class="sd">            from langchain.chains import LLMMathChain</span>
 <span class="sd">            from langchain_community.llms import OpenAI</span>
 <span class="sd">            llm_math = LLMMathChain.from_llm(OpenAI())</span>
-<span class="sd">    """</span>
+<span class="sd">    """</span>  <span class="c1"># noqa: E501</span>
 
     <span class="n">llm_chain</span><span class="p">:</span> <span class="n">LLMChain</span>
     <span class="n">llm</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">BaseLanguageModel</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>

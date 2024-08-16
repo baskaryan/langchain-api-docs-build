@@ -38,7 +38,7 @@
 <link href="../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Aug 15, 2024" name="docbuild:last-update"/>
+<meta content="Aug 16, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -240,8 +240,10 @@ document.write(`
     <span class="n">CallbackManagerForLLMRun</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="kn">from</span> <span class="nn">langchain_core.language_models.llms</span> <span class="kn">import</span> <span class="n">LLM</span>
-<span class="kn">from</span> <span class="nn">langchain_core.pydantic_v1</span> <span class="kn">import</span> <span class="n">SecretStr</span><span class="p">,</span> <span class="n">root_validator</span>
-<span class="kn">from</span> <span class="nn">langchain_core.utils</span> <span class="kn">import</span> <span class="n">convert_to_secret_str</span><span class="p">,</span> <span class="n">get_from_dict_or_env</span>
+<span class="kn">from</span> <span class="nn">langchain_core.pydantic_v1</span> <span class="kn">import</span> <span class="n">Field</span><span class="p">,</span> <span class="n">SecretStr</span><span class="p">,</span> <span class="n">root_validator</span>
+<span class="kn">from</span> <span class="nn">langchain_core.utils</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">secret_from_env</span><span class="p">,</span>
+<span class="p">)</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
@@ -265,8 +267,14 @@ document.write(`
 
     <span class="n">base_url</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"https://api.together.ai/v1/completions"</span>
 <span class="w">    </span><span class="sd">"""Base completions API URL."""</span>
-    <span class="n">together_api_key</span><span class="p">:</span> <span class="n">SecretStr</span>
-<span class="w">    </span><span class="sd">"""Together AI API key. Get it here: https://api.together.ai/settings/api-keys"""</span>
+    <span class="n">together_api_key</span><span class="p">:</span> <span class="n">SecretStr</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">alias</span><span class="o">=</span><span class="s2">"api_key"</span><span class="p">,</span>
+        <span class="n">default_factory</span><span class="o">=</span><span class="n">secret_from_env</span><span class="p">(</span><span class="s2">"TOGETHER_API_KEY"</span><span class="p">),</span>
+    <span class="p">)</span>
+<span class="w">    </span><span class="sd">"""Together AI API key.</span>
+<span class="sd">    </span>
+<span class="sd">    Automatically read from env variable `TOGETHER_API_KEY` if not provided.</span>
+<span class="sd">    """</span>
     <span class="n">model</span><span class="p">:</span> <span class="nb">str</span>
 <span class="w">    </span><span class="sd">"""Model name. Available models listed here:</span>
 <span class="sd">        Base Models: https://docs.together.ai/docs/inference-models#language-models</span>
@@ -303,21 +311,11 @@ document.write(`
 <span class="w">        </span><span class="sd">"""Configuration for this pydantic object."""</span>
 
         <span class="n">extra</span> <span class="o">=</span> <span class="s2">"forbid"</span>
+        <span class="n">allow_population_by_field_name</span> <span class="o">=</span> <span class="kc">True</span>
 
     <span class="nd">@root_validator</span><span class="p">(</span><span class="n">pre</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">validate_environment</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Validate that api key exists in environment."""</span>
-        <span class="n">values</span><span class="p">[</span><span class="s2">"together_api_key"</span><span class="p">]</span> <span class="o">=</span> <span class="n">convert_to_secret_str</span><span class="p">(</span>
-            <span class="n">get_from_dict_or_env</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="s2">"together_api_key"</span><span class="p">,</span> <span class="s2">"TOGETHER_API_KEY"</span><span class="p">)</span>
-        <span class="p">)</span>
-        <span class="k">return</span> <span class="n">values</span>
-
-    <span class="nd">@root_validator</span><span class="p">()</span>
-    <span class="k">def</span> <span class="nf">validate_max_tokens</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""The v1 completions endpoint, has max_tokens as required parameter.</span>
-
-<span class="sd">        Set a default value and warn if the parameter is missing.</span>
-<span class="sd">        """</span>
         <span class="k">if</span> <span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"max_tokens"</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
                 <span class="s2">"The completions endpoint, has 'max_tokens' as required argument. "</span>
