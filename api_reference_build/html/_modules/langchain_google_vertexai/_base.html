@@ -38,7 +38,7 @@
 <link href="../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Aug 19, 2024" name="docbuild:last-update"/>
+<meta content="Aug 20, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -296,7 +296,6 @@ document.write(`
     <span class="s2">"Optional list of stop words to use when generating."</span>
     <span class="n">model_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">alias</span><span class="o">=</span><span class="s2">"model"</span><span class="p">)</span>
     <span class="s2">"Underlying model name."</span>
-    <span class="n">model_family</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">GoogleModelFamily</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1">#: :meta private:</span>
     <span class="n">full_model_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1">#: :meta private:</span>
     <span class="s2">"The full name of the model's endpoint."</span>
     <span class="n">client_options</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="s2">"ClientOptions"</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
@@ -385,6 +384,12 @@ document.write(`
         <span class="n">_</span><span class="p">,</span> <span class="n">user_agent</span> <span class="o">=</span> <span class="n">get_user_agent</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">model_name</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">user_agent</span>
 
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">_library_version</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Gets the library version for headers."""</span>
+        <span class="n">library_version</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">get_user_agent</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">model_name</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">library_version</span>
+
 
 <span class="k">class</span> <span class="nc">_VertexAICommon</span><span class="p">(</span><span class="n">_VertexAIBase</span><span class="p">):</span>
     <span class="n">client_preview</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1">#: :meta private:</span>
@@ -404,6 +409,7 @@ document.write(`
 <span class="w">    </span><span class="sd">"""How many completions to generate for each prompt."""</span>
     <span class="n">streaming</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
 <span class="w">    </span><span class="sd">"""Whether to stream the results or not."""</span>
+    <span class="n">model_family</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">GoogleModelFamily</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1">#: :meta private:</span>
     <span class="n">safety_settings</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="s2">"SafetySettingsType"</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">    </span><span class="sd">"""The default safety settings to use for all generations. </span>
 <span class="sd">    </span>
