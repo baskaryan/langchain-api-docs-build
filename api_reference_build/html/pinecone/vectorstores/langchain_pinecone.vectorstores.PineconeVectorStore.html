@@ -40,7 +40,7 @@
 <link href="../vectorstores.html" rel="prev" title="vectorstores"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Aug 20, 2024" name="docbuild:last-update"/>
+<meta content="Aug 21, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -223,6 +223,7 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="../../astradb/index.html">AstraDB</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../aws/index.html">AWS</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../azure_dynamic_sessions/index.html">Azure Dynamic Sessions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../box/index.html">Box</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../chroma/index.html">Chroma</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../cohere/index.html">Cohere</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../couchbase/index.html">Couchbase</a></li>
@@ -647,6 +648,7 @@ embedding_chunk_size&gt;1000 and batch_size~64 for best performance.
 :param namespace: Optional pinecone namespace to add the texts to.
 :param batch_size: Batch size to use when adding the texts to the vectorstore.
 :param embedding_chunk_size: Chunk size to use when embedding the texts.
+:param async_req: Whether runs asynchronously.
 :param id_prefix: Optional string to use as an ID prefix when upserting vectors.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -1004,7 +1006,9 @@ score_threshold: Optional, a floating point value between 0 to 1 to</p>
 <span class="sig-name descname"><span class="pre">delete</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ids</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delete_all</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">namespace</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../../_modules/langchain_pinecone/vectorstores.html#PineconeVectorStore.delete"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#langchain_pinecone.vectorstores.PineconeVectorStore.delete" title="Permalink to this definition">#</a></dt>
 <dd><p>Delete by vector IDs or filter.
 :param ids: List of ids to delete.
-:param filter: Dictionary of conditions to filter vectors to delete.</p>
+:param delete_all: Whether delete all vectors in the index.
+:param filter: Dictionary of conditions to filter vectors to delete.
+:param namespace: Namespace to search in. Default will search in ‘’ namespace.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1064,7 +1068,7 @@ score_threshold: Optional, a floating point value between 0 to 1 to</p>
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_texts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">texts</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">embedding</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../../core/embeddings/langchain_core.embeddings.embeddings.Embeddings.html#langchain_core.embeddings.embeddings.Embeddings" title="langchain_core.embeddings.embeddings.Embeddings"><span class="pre">Embeddings</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadatas</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ids</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">32</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text_key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'text'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">namespace</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">upsert_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pool_threads</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">embeddings_chunk_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">async_req</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id_prefix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><a class="reference internal" href="#langchain_pinecone.vectorstores.PineconeVectorStore" title="langchain_pinecone.vectorstores.PineconeVectorStore"><span class="pre">PineconeVectorStore</span></a></span></span><a class="reference internal" href="../../_modules/langchain_pinecone/vectorstores.html#PineconeVectorStore.from_texts"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#langchain_pinecone.vectorstores.PineconeVectorStore.from_texts" title="Permalink to this definition">#</a></dt>
 <dd><p>Construct Pinecone wrapper from raw documents.</p>
 <dl class="simple">
-<dt>This is a user friendly interface that:</dt><dd><ol class="arabic simple">
+<dt>This is a user-friendly interface that:</dt><dd><ol class="arabic simple">
 <li><p>Embeds documents.</p></li>
 <li><p>Adds the documents to a provided Pinecone index</p></li>
 </ol>
@@ -1148,7 +1152,7 @@ some IDs.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>index_name</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – Name of the index to use.</p></li>
 <li><p><strong>pool_threads</strong> (<em>int</em>) – Number of threads to use for index upsert.</p></li>
-<li><p><strong>pinecone_api_key</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – </p></li>
+<li><p><strong>pinecone_api_key</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – The api_key of Pinecone.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -1175,8 +1179,8 @@ among selected documents.</p>
 of diversity among the results with 0 corresponding
 to maximum diversity and 1 to minimum diversity.
 Defaults to 0.5.</p></li>
-<li><p><strong>filter</strong> (<em>dict</em><em> | </em><em>None</em>) – </p></li>
-<li><p><strong>namespace</strong> (<em>str</em><em> | </em><em>None</em>) – </p></li>
+<li><p><strong>filter</strong> (<em>dict</em><em> | </em><em>None</em>) – Dictionary of argument(s) to filter on metadata</p></li>
+<li><p><strong>namespace</strong> (<em>str</em><em> | </em><em>None</em>) – Namespace to search in. Default will search in ‘’ namespace.</p></li>
 <li><p><strong>kwargs</strong> (<em>Any</em>) – </p></li>
 </ul>
 </dd>
@@ -1204,8 +1208,8 @@ among selected documents.</p>
 of diversity among the results with 0 corresponding
 to maximum diversity and 1 to minimum diversity.
 Defaults to 0.5.</p></li>
-<li><p><strong>filter</strong> (<em>dict</em><em> | </em><em>None</em>) – </p></li>
-<li><p><strong>namespace</strong> (<em>str</em><em> | </em><em>None</em>) – </p></li>
+<li><p><strong>filter</strong> (<em>dict</em><em> | </em><em>None</em>) – Dictionary of argument(s) to filter on metadata</p></li>
+<li><p><strong>namespace</strong> (<em>str</em><em> | </em><em>None</em>) – Namespace to search in. Default will search in ‘’ namespace.</p></li>
 <li><p><strong>kwargs</strong> (<em>Any</em>) – </p></li>
 </ul>
 </dd>

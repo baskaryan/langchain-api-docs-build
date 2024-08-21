@@ -38,7 +38,7 @@
 <link href="../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Aug 20, 2024" name="docbuild:last-update"/>
+<meta content="Aug 21, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -851,7 +851,7 @@ document.write(`
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">HumanMessage</span><span class="p">):</span>
             <span class="c1"># If there's a human, tool, human message sequence, the</span>
             <span class="c1"># tool message will be merged with the first human message, so the second</span>
-            <span class="c1"># human message will now be preceeded by a human message and should also</span>
+            <span class="c1"># human message will now be preceded by a human message and should also</span>
             <span class="c1"># be merged with it.</span>
             <span class="k">if</span> <span class="n">bedrock_messages</span> <span class="ow">and</span> <span class="n">bedrock_messages</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s2">"role"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"user"</span><span class="p">:</span>
                 <span class="n">bedrock_messages</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s2">"content"</span><span class="p">]</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
@@ -976,7 +976,7 @@ document.write(`
         <span class="k">elif</span> <span class="n">block</span><span class="p">[</span><span class="s2">"type"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"image"</span><span class="p">:</span>
             <span class="c1"># Assume block is already in bedrock format.</span>
             <span class="k">if</span> <span class="s2">"image"</span> <span class="ow">in</span> <span class="n">block</span><span class="p">:</span>
-                <span class="n">bedrock_content</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">block</span><span class="p">)</span>
+                <span class="n">bedrock_content</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">"image"</span><span class="p">:</span> <span class="n">block</span><span class="p">[</span><span class="s2">"image"</span><span class="p">]})</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">bedrock_content</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
                     <span class="p">{</span>
@@ -993,6 +993,9 @@ document.write(`
             <span class="n">bedrock_content</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
                 <span class="p">{</span><span class="s2">"image"</span><span class="p">:</span> <span class="n">_format_openai_image_url</span><span class="p">(</span><span class="n">block</span><span class="p">[</span><span class="s2">"imageUrl"</span><span class="p">][</span><span class="s2">"url"</span><span class="p">])}</span>
             <span class="p">)</span>
+        <span class="k">elif</span> <span class="n">block</span><span class="p">[</span><span class="s2">"type"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"document"</span><span class="p">:</span>
+            <span class="c1"># Assume block in bedrock document format</span>
+            <span class="n">bedrock_content</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">"document"</span><span class="p">:</span> <span class="n">block</span><span class="p">[</span><span class="s2">"document"</span><span class="p">]})</span>
         <span class="k">elif</span> <span class="n">block</span><span class="p">[</span><span class="s2">"type"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"tool_use"</span><span class="p">:</span>
             <span class="n">bedrock_content</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
                 <span class="p">{</span>

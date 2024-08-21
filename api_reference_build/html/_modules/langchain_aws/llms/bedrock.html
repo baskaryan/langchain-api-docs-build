@@ -38,7 +38,7 @@
 <link href="../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Aug 20, 2024" name="docbuild:last-update"/>
+<meta content="Aug 21, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -250,7 +250,7 @@ document.write(`
     <span class="n">AsyncCallbackManagerForLLMRun</span><span class="p">,</span>
     <span class="n">CallbackManagerForLLMRun</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">langchain_core.language_models</span> <span class="kn">import</span> <span class="n">LLM</span><span class="p">,</span> <span class="n">BaseLanguageModel</span>
+<span class="kn">from</span> <span class="nn">langchain_core.language_models</span> <span class="kn">import</span> <span class="n">LLM</span><span class="p">,</span> <span class="n">BaseLanguageModel</span><span class="p">,</span> <span class="n">LangSmithParams</span>
 <span class="kn">from</span> <span class="nn">langchain_core.messages</span> <span class="kn">import</span> <span class="n">AIMessageChunk</span><span class="p">,</span> <span class="n">ToolCall</span>
 <span class="kn">from</span> <span class="nn">langchain_core.messages.ai</span> <span class="kn">import</span> <span class="n">UsageMetadata</span>
 <span class="kn">from</span> <span class="nn">langchain_core.messages.tool</span> <span class="kn">import</span> <span class="n">tool_call</span><span class="p">,</span> <span class="n">tool_call_chunk</span>
@@ -1223,6 +1223,15 @@ document.write(`
             <span class="n">attributes</span><span class="p">[</span><span class="s2">"region_name"</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">region_name</span>
 
         <span class="k">return</span> <span class="n">attributes</span>
+
+    <span class="k">def</span> <span class="nf">_get_ls_params</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">stop</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LangSmithParams</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Get standard params for tracing."""</span>
+        <span class="n">ls_params</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">_get_ls_params</span><span class="p">(</span><span class="n">stop</span><span class="o">=</span><span class="n">stop</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">ls_params</span><span class="p">[</span><span class="s2">"ls_provider"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"amazon_bedrock"</span>
+        <span class="n">ls_params</span><span class="p">[</span><span class="s2">"ls_model_name"</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_id</span>
+        <span class="k">return</span> <span class="n">ls_params</span>
 
     <span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Configuration for this pydantic object."""</span>
