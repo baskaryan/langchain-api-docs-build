@@ -252,7 +252,6 @@ document.write(`
 <span class="p">)</span>
 <span class="kn">from</span> <span class="nn">langchain_core.language_models</span> <span class="kn">import</span> <span class="n">LLM</span><span class="p">,</span> <span class="n">BaseLanguageModel</span><span class="p">,</span> <span class="n">LangSmithParams</span>
 <span class="kn">from</span> <span class="nn">langchain_core.messages</span> <span class="kn">import</span> <span class="n">AIMessageChunk</span><span class="p">,</span> <span class="n">ToolCall</span>
-<span class="kn">from</span> <span class="nn">langchain_core.messages.ai</span> <span class="kn">import</span> <span class="n">UsageMetadata</span>
 <span class="kn">from</span> <span class="nn">langchain_core.messages.tool</span> <span class="kn">import</span> <span class="n">tool_call</span><span class="p">,</span> <span class="n">tool_call_chunk</span>
 <span class="kn">from</span> <span class="nn">langchain_core.outputs</span> <span class="kn">import</span> <span class="n">Generation</span><span class="p">,</span> <span class="n">GenerationChunk</span><span class="p">,</span> <span class="n">LLMResult</span>
 <span class="kn">from</span> <span class="nn">langchain_core.pydantic_v1</span> <span class="kn">import</span> <span class="n">Extra</span><span class="p">,</span> <span class="n">Field</span><span class="p">,</span> <span class="n">root_validator</span>
@@ -325,14 +324,8 @@ document.write(`
     <span class="k">if</span> <span class="n">messages_api</span><span class="p">:</span>
         <span class="n">msg_type</span> <span class="o">=</span> <span class="n">stream_response</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"type"</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">msg_type</span> <span class="o">==</span> <span class="s2">"message_start"</span><span class="p">:</span>
-            <span class="n">input_tokens</span> <span class="o">=</span> <span class="n">stream_response</span><span class="p">[</span><span class="s2">"message"</span><span class="p">][</span><span class="s2">"usage"</span><span class="p">][</span><span class="s2">"input_tokens"</span><span class="p">]</span>
             <span class="k">return</span> <span class="n">AIMessageChunk</span><span class="p">(</span>
                 <span class="n">content</span><span class="o">=</span><span class="s2">""</span> <span class="k">if</span> <span class="n">coerce_content_to_string</span> <span class="k">else</span> <span class="p">[],</span>
-                <span class="n">usage_metadata</span><span class="o">=</span><span class="n">UsageMetadata</span><span class="p">(</span>
-                    <span class="n">input_tokens</span><span class="o">=</span><span class="n">input_tokens</span><span class="p">,</span>
-                    <span class="n">output_tokens</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-                    <span class="n">total_tokens</span><span class="o">=</span><span class="n">input_tokens</span><span class="p">,</span>
-                <span class="p">),</span>
             <span class="p">)</span>
         <span class="k">elif</span> <span class="p">(</span>
             <span class="n">msg_type</span> <span class="o">==</span> <span class="s2">"content_block_start"</span>
@@ -377,14 +370,8 @@ document.write(`
                     <span class="n">tool_call_chunks</span><span class="o">=</span><span class="p">[</span><span class="n">tc_chunk</span><span class="p">],</span>  <span class="c1"># type: ignore</span>
                 <span class="p">)</span>
         <span class="k">elif</span> <span class="n">msg_type</span> <span class="o">==</span> <span class="s2">"message_delta"</span><span class="p">:</span>
-            <span class="n">output_tokens</span> <span class="o">=</span> <span class="n">stream_response</span><span class="p">[</span><span class="s2">"usage"</span><span class="p">][</span><span class="s2">"output_tokens"</span><span class="p">]</span>
             <span class="k">return</span> <span class="n">AIMessageChunk</span><span class="p">(</span>
                 <span class="n">content</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span>
-                <span class="n">usage_metadata</span><span class="o">=</span><span class="n">UsageMetadata</span><span class="p">(</span>
-                    <span class="n">input_tokens</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-                    <span class="n">output_tokens</span><span class="o">=</span><span class="n">output_tokens</span><span class="p">,</span>
-                    <span class="n">total_tokens</span><span class="o">=</span><span class="n">output_tokens</span><span class="p">,</span>
-                <span class="p">),</span>
                 <span class="n">response_metadata</span><span class="o">=</span><span class="p">{</span>
                     <span class="s2">"stop_reason"</span><span class="p">:</span> <span class="n">stream_response</span><span class="p">[</span><span class="s2">"delta"</span><span class="p">][</span><span class="s2">"stop_reason"</span><span class="p">],</span>
                     <span class="s2">"stop_sequence"</span><span class="p">:</span> <span class="n">stream_response</span><span class="p">[</span><span class="s2">"delta"</span><span class="p">][</span><span class="s2">"stop_sequence"</span><span class="p">],</span>

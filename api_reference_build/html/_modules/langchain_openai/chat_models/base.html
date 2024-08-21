@@ -1349,7 +1349,6 @@ document.write(`
 <span class="sd">        Args:</span>
 <span class="sd">            schema:</span>
 <span class="sd">                The output schema. Can be passed in as:</span>
-
 <span class="sd">                    - an OpenAI function/tool schema,</span>
 <span class="sd">                    - a JSON Schema,</span>
 <span class="sd">                    - a TypedDict class (support added in 0.1.20),</span>
@@ -1367,7 +1366,6 @@ document.write(`
 
 <span class="sd">            method:</span>
 <span class="sd">                The method for steering model generation, one of:</span>
-
 <span class="sd">                    - "function_calling":</span>
 <span class="sd">                        Uses OpenAI's tool-calling (formerly called function calling)</span>
 <span class="sd">                        API: https://platform.openai.com/docs/guides/function-calling</span>
@@ -1385,8 +1383,8 @@ document.write(`
 <span class="sd">                Learn more about the differences between the methods and which models</span>
 <span class="sd">                support which methods here:</span>
 
-<span class="sd">                    - https://platform.openai.com/docs/guides/structured-outputs/structured-outputs-vs-json-mode</span>
-<span class="sd">                    - https://platform.openai.com/docs/guides/structured-outputs/function-calling-vs-response-format</span>
+<span class="sd">                - https://platform.openai.com/docs/guides/structured-outputs/structured-outputs-vs-json-mode</span>
+<span class="sd">                - https://platform.openai.com/docs/guides/structured-outputs/function-calling-vs-response-format</span>
 
 <span class="sd">                .. versionchanged:: 0.1.21</span>
 
@@ -1429,26 +1427,22 @@ document.write(`
 <span class="sd">        Returns:</span>
 <span class="sd">            A Runnable that takes same inputs as a :class:`langchain_core.language_models.chat.BaseChatModel`.</span>
 
-<span class="sd">            If ``include_raw`` is False and ``schema`` is a Pydantic class, Runnable outputs</span>
-<span class="sd">            an instance of ``schema`` (i.e., a Pydantic object).</span>
+<span class="sd">            | If ``include_raw`` is False and ``schema`` is a Pydantic class, Runnable outputs an instance of ``schema`` (i.e., a Pydantic object). Otherwise, if ``include_raw`` is False then Runnable outputs a dict.</span>
 
-<span class="sd">            Otherwise, if ``include_raw`` is False then Runnable outputs a dict.</span>
+<span class="sd">            | If ``include_raw`` is True, then Runnable outputs a dict with keys:</span>
 
-<span class="sd">            If ``include_raw`` is True, then Runnable outputs a dict with keys:</span>
+<span class="sd">            - "raw": BaseMessage</span>
+<span class="sd">            - "parsed": None if there was a parsing error, otherwise the type depends on the ``schema`` as described above.</span>
+<span class="sd">            - "parsing_error": Optional[BaseException]</span>
 
-<span class="sd">                - "raw": BaseMessage</span>
-<span class="sd">                - "parsed": None if there was a parsing error, otherwise the type depends on the ``schema`` as described above.</span>
-<span class="sd">                - "parsing_error": Optional[BaseException]</span>
+<span class="sd">        .. dropdown:: Example: schema=Pydantic class, method="function_calling", include_raw=False, strict=True</span>
 
-<span class="sd">        Example: schema=Pydantic class, method="function_calling", include_raw=False, strict=True:</span>
-<span class="sd">            .. note:: Valid schemas when using ``strict`` = True</span>
+<span class="sd">            Note, OpenAI has a number of restrictions on what types of schemas can be</span>
+<span class="sd">            provided if ``strict`` = True. When using Pydantic, our model cannot</span>
+<span class="sd">            specify any Field metadata (like min/max constraints) and fields cannot</span>
+<span class="sd">            have default values.</span>
 
-<span class="sd">                OpenAI has a number of restrictions on what types of schemas can be</span>
-<span class="sd">                provided if ``strict`` = True. When using Pydantic, our model cannot</span>
-<span class="sd">                specify any Field metadata (like min/max constraints) and fields cannot</span>
-<span class="sd">                have default values.</span>
-
-<span class="sd">                See all constraints here: https://platform.openai.com/docs/guides/structured-outputs/supported-schemas</span>
+<span class="sd">            See all constraints here: https://platform.openai.com/docs/guides/structured-outputs/supported-schemas</span>
 
 <span class="sd">            .. code-block:: python</span>
 
@@ -1481,7 +1475,8 @@ document.write(`
 <span class="sd">                #     justification='Both a pound of bricks and a pound of feathers weigh one pound. The weight is the same, but the volume or density of the objects may differ.'</span>
 <span class="sd">                # )</span>
 
-<span class="sd">        Example: schema=Pydantic class, method="function_calling", include_raw=True:</span>
+<span class="sd">        .. dropdown:: Example: schema=Pydantic class, method="function_calling", include_raw=True</span>
+
 <span class="sd">            .. code-block:: python</span>
 
 <span class="sd">                from langchain_openai import ChatOpenAI</span>
@@ -1509,7 +1504,8 @@ document.write(`
 <span class="sd">                #     'parsing_error': None</span>
 <span class="sd">                # }</span>
 
-<span class="sd">        Example: schema=TypedDict class, method="function_calling", include_raw=False:</span>
+<span class="sd">        .. dropdown:: Example: schema=TypedDict class, method="function_calling", include_raw=False</span>
+
 <span class="sd">            .. code-block:: python</span>
 
 <span class="sd">                # IMPORTANT: If you are using Python &lt;=3.8, you need to import Annotated</span>
@@ -1539,7 +1535,8 @@ document.write(`
 <span class="sd">                #     'justification': 'Both a pound of bricks and a pound of feathers weigh one pound. The weight is the same, but the volume and density of the two substances differ.'</span>
 <span class="sd">                # }</span>
 
-<span class="sd">        Example: schema=OpenAI function schema, method="function_calling", include_raw=False:</span>
+<span class="sd">        .. dropdown:: Example: schema=OpenAI function schema, method="function_calling", include_raw=False</span>
+
 <span class="sd">            .. code-block:: python</span>
 
 <span class="sd">                from langchain_openai import ChatOpenAI</span>
@@ -1568,7 +1565,8 @@ document.write(`
 <span class="sd">                #     'justification': 'Both a pound of bricks and a pound of feathers weigh one pound. The weight is the same, but the volume and density of the two substances differ.'</span>
 <span class="sd">                # }</span>
 
-<span class="sd">        Example: schema=Pydantic class, method="json_mode", include_raw=True:</span>
+<span class="sd">        .. dropdown:: Example: schema=Pydantic class, method="json_mode", include_raw=True</span>
+
 <span class="sd">            .. code-block::</span>
 
 <span class="sd">                from langchain_openai import ChatOpenAI</span>
@@ -1596,7 +1594,8 @@ document.write(`
 <span class="sd">                #     'parsing_error': None</span>
 <span class="sd">                # }</span>
 
-<span class="sd">        Example: schema=None, method="json_mode", include_raw=True:</span>
+<span class="sd">        .. dropdown:: Example: schema=None, method="json_mode", include_raw=True</span>
+
 <span class="sd">            .. code-block::</span>
 
 <span class="sd">                structured_llm = llm.with_structured_output(method="json_mode", include_raw=True)</span>

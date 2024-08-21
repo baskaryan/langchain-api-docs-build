@@ -229,7 +229,6 @@ document.write(`
 <h1>Source code for langchain_google_vertexai.model_garden_maas.mistral</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Optional</span>
 
-<span class="kn">import</span> <span class="nn">httpx</span>  <span class="c1"># type: ignore[unused-ignore, import-not-found]</span>
 <span class="kn">from</span> <span class="nn">langchain_core.callbacks</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">CallbackManagerForLLMRun</span><span class="p">,</span>
 <span class="p">)</span>
@@ -239,7 +238,6 @@ document.write(`
 
 <span class="kn">from</span> <span class="nn">langchain_google_vertexai.model_garden_maas._base</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">_BaseVertexMaasModelGarden</span><span class="p">,</span>
-    <span class="n">_get_token</span><span class="p">,</span>
     <span class="n">acompletion_with_retry</span><span class="p">,</span>
     <span class="n">completion_with_retry</span><span class="p">,</span>
 <span class="p">)</span>
@@ -248,33 +246,6 @@ document.write(`
 
 
 <div class="viewcode-block" id="VertexModelGardenMistral"><a class="viewcode-back" href="../../../google_vertexai/model_garden_maas/langchain_google_vertexai.model_garden_maas.mistral.VertexModelGardenMistral.html#langchain_google_vertexai.model_garden_maas.mistral.VertexModelGardenMistral">[docs]</a><span class="k">class</span> <span class="nc">VertexModelGardenMistral</span><span class="p">(</span><span class="n">_BaseVertexMaasModelGarden</span><span class="p">,</span> <span class="n">chat_models</span><span class="o">.</span><span class="n">ChatMistralAI</span><span class="p">):</span>  <span class="c1"># type: ignore[unused-ignore, misc]</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-        <span class="n">token</span> <span class="o">=</span> <span class="n">_get_token</span><span class="p">(</span><span class="n">credentials</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">credentials</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">endpoint</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_url</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">httpx</span><span class="o">.</span><span class="n">Client</span><span class="p">(</span>
-            <span class="n">base_url</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">endpoint</span><span class="p">,</span>
-            <span class="n">headers</span><span class="o">=</span><span class="p">{</span>
-                <span class="s2">"Content-Type"</span><span class="p">:</span> <span class="s2">"application/json"</span><span class="p">,</span>
-                <span class="s2">"Accept"</span><span class="p">:</span> <span class="s2">"application/json"</span><span class="p">,</span>
-                <span class="s2">"Authorization"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"Bearer </span><span class="si">{</span><span class="n">token</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
-                <span class="s2">"x-goog-api-client"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_library_version</span><span class="p">,</span>
-                <span class="s2">"user_agent"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_user_agent</span><span class="p">,</span>
-            <span class="p">},</span>
-            <span class="n">timeout</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">timeout</span><span class="p">,</span>
-        <span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">async_client</span> <span class="o">=</span> <span class="n">httpx</span><span class="o">.</span><span class="n">AsyncClient</span><span class="p">(</span>
-            <span class="n">base_url</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">endpoint</span><span class="p">,</span>
-            <span class="n">headers</span><span class="o">=</span><span class="p">{</span>
-                <span class="s2">"Content-Type"</span><span class="p">:</span> <span class="s2">"application/json"</span><span class="p">,</span>
-                <span class="s2">"Accept"</span><span class="p">:</span> <span class="s2">"application/json"</span><span class="p">,</span>
-                <span class="s2">"Authorization"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"Bearer </span><span class="si">{</span><span class="n">token</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
-                <span class="s2">"x-goog-api-client"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_library_version</span><span class="p">,</span>
-                <span class="s2">"user_agent"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_user_agent</span><span class="p">,</span>
-            <span class="p">},</span>
-            <span class="n">timeout</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">timeout</span><span class="p">,</span>
-        <span class="p">)</span>
-
 <div class="viewcode-block" id="VertexModelGardenMistral.completion_with_retry"><a class="viewcode-back" href="../../../google_vertexai/model_garden_maas/langchain_google_vertexai.model_garden_maas.mistral.VertexModelGardenMistral.html#langchain_google_vertexai.model_garden_maas.mistral.VertexModelGardenMistral.completion_with_retry">[docs]</a>    <span class="k">def</span> <span class="nf">completion_with_retry</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">run_manager</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">CallbackManagerForLLMRun</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>

@@ -239,6 +239,7 @@ document.write(`
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
 
 <span class="kn">import</span> <span class="nn">inspect</span>
+<span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">TYPE_CHECKING</span><span class="p">,</span>
@@ -442,7 +443,23 @@ document.write(`
     <span class="k">if</span> <span class="nb">id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">kwargs</span><span class="p">[</span><span class="s2">"id"</span><span class="p">]</span> <span class="o">=</span> <span class="nb">id</span>
     <span class="k">if</span> <span class="n">tool_calls</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">kwargs</span><span class="p">[</span><span class="s2">"tool_calls"</span><span class="p">]</span> <span class="o">=</span> <span class="n">tool_calls</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">"tool_calls"</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">tool_call</span> <span class="ow">in</span> <span class="n">tool_calls</span><span class="p">:</span>
+            <span class="c1"># Convert OpenAI-format tool call to LangChain format.</span>
+            <span class="k">if</span> <span class="s2">"function"</span> <span class="ow">in</span> <span class="n">tool_call</span><span class="p">:</span>
+                <span class="n">args</span> <span class="o">=</span> <span class="n">tool_call</span><span class="p">[</span><span class="s2">"function"</span><span class="p">][</span><span class="s2">"arguments"</span><span class="p">]</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+                    <span class="n">args</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                <span class="n">kwargs</span><span class="p">[</span><span class="s2">"tool_calls"</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="p">{</span>
+                        <span class="s2">"name"</span><span class="p">:</span> <span class="n">tool_call</span><span class="p">[</span><span class="s2">"function"</span><span class="p">][</span><span class="s2">"name"</span><span class="p">],</span>
+                        <span class="s2">"args"</span><span class="p">:</span> <span class="n">args</span><span class="p">,</span>
+                        <span class="s2">"id"</span><span class="p">:</span> <span class="n">tool_call</span><span class="p">[</span><span class="s2">"id"</span><span class="p">],</span>
+                        <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"tool_call"</span><span class="p">,</span>
+                    <span class="p">}</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">kwargs</span><span class="p">[</span><span class="s2">"tool_calls"</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tool_call</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">message_type</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"human"</span><span class="p">,</span> <span class="s2">"user"</span><span class="p">):</span>
         <span class="n">message</span><span class="p">:</span> <span class="n">BaseMessage</span> <span class="o">=</span> <span class="n">HumanMessage</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="n">content</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">message_type</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"ai"</span><span class="p">,</span> <span class="s2">"assistant"</span><span class="p">):</span>
@@ -500,7 +517,8 @@ document.write(`
                 <span class="n">msg_type</span> <span class="o">=</span> <span class="n">msg_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"role"</span><span class="p">)</span>
             <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
                 <span class="n">msg_type</span> <span class="o">=</span> <span class="n">msg_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"type"</span><span class="p">)</span>
-            <span class="n">msg_content</span> <span class="o">=</span> <span class="n">msg_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"content"</span><span class="p">)</span>
+            <span class="c1"># None msg content is not allowed</span>
+            <span class="n">msg_content</span> <span class="o">=</span> <span class="n">msg_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"content"</span><span class="p">)</span> <span class="ow">or</span> <span class="s2">""</span>
         <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                 <span class="sa">f</span><span class="s2">"Message dict must contain 'role' and 'content' keys, got </span><span class="si">{</span><span class="n">message</span><span class="si">}</span><span class="s2">"</span>
