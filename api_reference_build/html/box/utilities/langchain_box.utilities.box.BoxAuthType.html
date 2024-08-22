@@ -40,7 +40,7 @@
 <link href="langchain_box.utilities.box.BoxAuth.html" rel="prev" title="BoxAuth"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Aug 21, 2024" name="docbuild:last-update"/>
+<meta content="Aug 22, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -225,8 +225,8 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="../../azure_dynamic_sessions/index.html">Azure Dynamic Sessions</a></li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../index.html">Box</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../document_loaders.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">document_loaders</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../retrievers.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">retrievers</span></code></a></li>
 <li class="toctree-l2 current active has-children"><a class="reference internal" href="../utilities.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">utilities</span></code></a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="langchain_box.utilities.box.BoxAPIWrapper.html">BoxAPIWrapper</a></li>
 <li class="toctree-l3"><a class="reference internal" href="langchain_box.utilities.box.BoxAuth.html">BoxAuth</a></li>
 <li class="toctree-l3 current active"><a class="current reference internal" href="#">BoxAuthType</a></li>
 <li class="toctree-l3"><a class="reference internal" href="langchain_box.utilities.box.DocumentFiles.html">DocumentFiles</a></li>
@@ -238,6 +238,7 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="../../chroma/index.html">Chroma</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../cohere/index.html">Cohere</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../couchbase/index.html">Couchbase</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../databricks/index.html">Databricks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../elasticsearch/index.html">Elasticsearch</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../exa/index.html">Exa</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../fireworks/index.html">Fireworks</a></li>
@@ -301,21 +302,38 @@ document.write(`
 <dl class="py class">
 <dt class="sig sig-object py" id="langchain_box.utilities.box.BoxAuthType">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">langchain_box.utilities.box.</span></span><span class="sig-name descname"><span class="pre">BoxAuthType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qualname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/langchain_box/utilities/box.html#BoxAuthType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#langchain_box.utilities.box.BoxAuthType" title="Permalink to this definition">#</a></dt>
-<dd><p>Use a developer token or a token retrieved from box-sdk-gen</p>
+<dd><p>BoxAuthType(Enum).</p>
+<p>an enum to tell BoxLoader how you wish to autheticate your Box connection.</p>
+<p>Options are:
+TOKEN - Use a developer token generated from the Box Deevloper Token.</p>
+<blockquote>
+<div><p>Only recommended for development.
+Provide <cite>box_developer_token</cite>.</p>
+</div></blockquote>
+<dl class="simple">
+<dt>CCG - Client Credentials Grant.</dt><dd><p>provide <cite>box_client_id</cite>, <cite>box_client_secret</cite>,
+and <cite>box_enterprise_id</cite> or optionally <cite>box_user_id</cite>.</p>
+</dd>
+<dt>JWT - Use JWT for authentication. Config should be stored on the file</dt><dd><p>system accessible to your app.
+provide <cite>box_jwt_path</cite>. Optionally, provide <cite>box_user_id</cite> to
+act as a specific user</p>
+</dd>
+</dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="langchain_box.utilities.box.BoxAuthType.TOKEN">
 <span class="sig-name descname"><span class="pre">TOKEN</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'token'</span></em><a class="headerlink" href="#langchain_box.utilities.box.BoxAuthType.TOKEN" title="Permalink to this definition">#</a></dt>
-<dd><p>Use <cite>client_credentials</cite> type grant</p>
+<dd><p>Use a developer token or a token retrieved from box-sdk-gen</p>
 </dd></dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="langchain_box.utilities.box.BoxAuthType.CCG">
 <span class="sig-name descname"><span class="pre">CCG</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ccg'</span></em><a class="headerlink" href="#langchain_box.utilities.box.BoxAuthType.CCG" title="Permalink to this definition">#</a></dt>
-<dd><p>Use JWT bearer token auth</p>
+<dd><p>Use <cite>client_credentials</cite> type grant</p>
 </dd></dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="langchain_box.utilities.box.BoxAuthType.JWT">
 <span class="sig-name descname"><span class="pre">JWT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'jwt'</span></em><a class="headerlink" href="#langchain_box.utilities.box.BoxAuthType.JWT" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Use JWT bearer token auth</p>
+</dd></dl>
 </dd></dl>
 <ul class="simple">
 </ul>

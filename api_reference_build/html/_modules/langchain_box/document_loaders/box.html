@@ -38,7 +38,7 @@
 <link href="../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Aug 21, 2024" name="docbuild:last-update"/>
+<meta content="Aug 22, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -232,14 +232,14 @@ document.write(`
 <span class="kn">from</span> <span class="nn">box_sdk_gen</span> <span class="kn">import</span> <span class="n">FileBaseTypeField</span>  <span class="c1"># type: ignore</span>
 <span class="kn">from</span> <span class="nn">langchain_core.document_loaders.base</span> <span class="kn">import</span> <span class="n">BaseLoader</span>
 <span class="kn">from</span> <span class="nn">langchain_core.documents</span> <span class="kn">import</span> <span class="n">Document</span>
-<span class="kn">from</span> <span class="nn">langchain_core.pydantic_v1</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">ConfigDict</span><span class="p">,</span> <span class="n">root_validator</span>
+<span class="kn">from</span> <span class="nn">langchain_core.pydantic_v1</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">root_validator</span>
+<span class="kn">from</span> <span class="nn">langchain_core.utils</span> <span class="kn">import</span> <span class="n">get_from_dict_or_env</span>
 
-<span class="kn">from</span> <span class="nn">langchain_box.utilities</span> <span class="kn">import</span> <span class="n">BoxAPIWrapper</span><span class="p">,</span> <span class="n">BoxAuth</span>
+<span class="kn">from</span> <span class="nn">langchain_box.utilities</span> <span class="kn">import</span> <span class="n">BoxAuth</span><span class="p">,</span> <span class="n">_BoxAPIWrapper</span>
 
 
 <div class="viewcode-block" id="BoxLoader"><a class="viewcode-back" href="../../../box/document_loaders/langchain_box.document_loaders.box.BoxLoader.html#langchain_box.document_loaders.box.BoxLoader">[docs]</a><span class="k">class</span> <span class="nc">BoxLoader</span><span class="p">(</span><span class="n">BaseLoader</span><span class="p">,</span> <span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">"""</span>
-<span class="sd">    BoxLoader</span>
+<span class="w">    </span><span class="sd">"""BoxLoader.</span>
 
 <span class="sd">    This class will help you load files from your Box instance. You must have a</span>
 <span class="sd">    Box account. If you need one, you can sign up for a free developer account.</span>
@@ -262,18 +262,18 @@ document.write(`
 <span class="sd">            pip install -U langchain-box</span>
 <span class="sd">            export BOX_DEVELOPER_TOKEN="your-api-key"</span>
 
+
 <span class="sd">    This loader returns ``Document `` objects built from text representations of files</span>
 <span class="sd">    in Box. It will skip any document without a text representation available. You can</span>
 <span class="sd">    provide either a ``List[str]`` containing Box file IDS, or you can provide a</span>
 <span class="sd">    ``str`` contining a Box folder ID. If providing a folder ID, you can also enable</span>
 <span class="sd">    recursive mode to get the full tree under that folder.</span>
 
-<span class="sd">    :::info</span>
+<span class="sd">    .. note::</span>
 <span class="sd">        A Box instance can contain Petabytes of files, and folders can contain millions</span>
 <span class="sd">        of files. Be intentional when choosing what folders you choose to index. And we</span>
 <span class="sd">        recommend never getting all files from folder 0 recursively. Folder ID 0 is your</span>
 <span class="sd">        root folder.</span>
-<span class="sd">    :::</span>
 
 <span class="sd">    Instantiate:</span>
 
@@ -350,32 +350,36 @@ document.write(`
 <span class="sd">            Terrarium: $120\nTotal: $920')</span>
 <span class="sd">    """</span>
 
-    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">use_enum_values</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-
-<span class="w">    </span><span class="sd">"""String containing the Box Developer Token generated in the developer console"""</span>
     <span class="n">box_developer_token</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">"""Configured langchain_box.utilities.BoxAuth object"""</span>
+<span class="w">    </span><span class="sd">"""String containing the Box Developer Token generated in the developer console"""</span>
+
     <span class="n">box_auth</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">BoxAuth</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">"""List[str] containing Box file ids"""</span>
+<span class="w">    </span><span class="sd">"""Configured langchain_box.utilities.BoxAuth object"""</span>
+
     <span class="n">box_file_ids</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">"""String containing box folder id to load files from"""</span>
+<span class="w">    </span><span class="sd">"""List[str] containing Box file ids"""</span>
+
     <span class="n">box_folder_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""String containing box folder id to load files from"""</span>
+
+    <span class="n">recursive</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
 <span class="w">    </span><span class="sd">"""If getting files by folder id, recursive is a bool to determine if you wish </span>
 <span class="sd">       to traverse subfolders to return child documents. Default is False"""</span>
-    <span class="n">recursive</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="n">character_limit</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
 <span class="w">    </span><span class="sd">"""character_limit is an int that caps the number of characters to</span>
 <span class="sd">       return per document."""</span>
-    <span class="n">character_limit</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
 
-    <span class="n">box</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">BoxAPIWrapper</span><span class="p">]</span>
+    <span class="n">_box</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">_BoxAPIWrapper</span><span class="p">]</span>
 
     <span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
         <span class="n">arbitrary_types_allowed</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="n">extra</span> <span class="o">=</span> <span class="s2">"allow"</span>
+        <span class="n">use_enum_values</span> <span class="o">=</span> <span class="kc">True</span>
 
     <span class="nd">@root_validator</span><span class="p">(</span><span class="n">allow_reuse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">validate_box_loader_inputs</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-        <span class="n">box</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">_box</span> <span class="o">=</span> <span class="kc">None</span>
 
 <span class="w">        </span><span class="sd">"""Validate that has either box_file_ids or box_folder_id."""</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"box_file_ids"</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"box_folder_id"</span><span class="p">):</span>
@@ -388,19 +392,30 @@ document.write(`
             <span class="p">)</span>
 
 <span class="w">        </span><span class="sd">"""Validate that we have either a box_developer_token or box_auth."""</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"box_auth"</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"box_developer_token"</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">"you must provide box_developer_token or a box_auth "</span>
-                <span class="s2">"generated with langchain_box.utilities.BoxAuth"</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"box_auth"</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">get_from_dict_or_env</span><span class="p">(</span>
+                <span class="n">values</span><span class="p">,</span> <span class="s2">"box_developer_token"</span><span class="p">,</span> <span class="s2">"BOX_DEVELOPER_TOKEN"</span>
+            <span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">"you must provide box_developer_token or a box_auth "</span>
+                    <span class="s2">"generated with langchain_box.utilities.BoxAuth"</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">token</span> <span class="o">=</span> <span class="n">get_from_dict_or_env</span><span class="p">(</span>
+                    <span class="n">values</span><span class="p">,</span> <span class="s2">"box_developer_token"</span><span class="p">,</span> <span class="s2">"BOX_DEVELOPER_TOKEN"</span>
+                <span class="p">)</span>
+
+                <span class="n">_box</span> <span class="o">=</span> <span class="n">_BoxAPIWrapper</span><span class="p">(</span>  <span class="c1"># type: ignore[call-arg]</span>
+                    <span class="n">box_developer_token</span><span class="o">=</span><span class="n">token</span><span class="p">,</span>
+                    <span class="n">character_limit</span><span class="o">=</span><span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"character_limit"</span><span class="p">),</span>
+                <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">_box</span> <span class="o">=</span> <span class="n">_BoxAPIWrapper</span><span class="p">(</span>  <span class="c1"># type: ignore[call-arg]</span>
+                <span class="n">box_auth</span><span class="o">=</span><span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"box_auth"</span><span class="p">),</span>
+                <span class="n">character_limit</span><span class="o">=</span><span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"character_limit"</span><span class="p">),</span>
             <span class="p">)</span>
 
-        <span class="n">box</span> <span class="o">=</span> <span class="n">BoxAPIWrapper</span><span class="p">(</span>  <span class="c1"># type: ignore[call-arg]</span>
-            <span class="n">box_developer_token</span><span class="o">=</span><span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"box_developer_token"</span><span class="p">),</span>
-            <span class="n">box_auth</span><span class="o">=</span><span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"box_auth"</span><span class="p">),</span>
-            <span class="n">character_limit</span><span class="o">=</span><span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"character_limit"</span><span class="p">),</span>
-        <span class="p">)</span>
-
-        <span class="n">values</span><span class="p">[</span><span class="s2">"box"</span><span class="p">]</span> <span class="o">=</span> <span class="n">box</span>
+        <span class="n">values</span><span class="p">[</span><span class="s2">"_box"</span><span class="p">]</span> <span class="o">=</span> <span class="n">_box</span>
 
         <span class="k">return</span> <span class="n">values</span>
 
@@ -410,7 +425,7 @@ document.write(`
         <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">folder_content</span><span class="p">:</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">file</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">FileBaseTypeField</span><span class="o">.</span><span class="n">FILE</span><span class="p">:</span>
-                    <span class="n">doc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">box</span><span class="o">.</span><span class="n">get_document_by_file_id</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+                    <span class="n">doc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_box</span><span class="o">.</span><span class="n">get_document_by_file_id</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
 
                     <span class="k">if</span> <span class="n">doc</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                         <span class="k">yield</span> <span class="n">doc</span>
@@ -428,7 +443,7 @@ document.write(`
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">box_file_ids</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">file_id</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">box_file_ids</span><span class="p">:</span>
                 <span class="k">try</span><span class="p">:</span>
-                    <span class="n">file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">box</span><span class="o">.</span><span class="n">get_document_by_file_id</span><span class="p">(</span><span class="n">file_id</span><span class="p">)</span>  <span class="c1"># type: ignore[union-attr]</span>
+                    <span class="n">file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_box</span><span class="o">.</span><span class="n">get_document_by_file_id</span><span class="p">(</span><span class="n">file_id</span><span class="p">)</span>  <span class="c1"># type: ignore[union-attr]</span>
 
                     <span class="k">if</span> <span class="n">file</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                         <span class="k">yield</span> <span class="n">file</span>

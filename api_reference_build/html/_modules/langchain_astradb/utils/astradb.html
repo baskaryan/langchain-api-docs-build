@@ -38,7 +38,7 @@
 <link href="../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Aug 21, 2024" name="docbuild:last-update"/>
+<meta content="Aug 22, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -248,7 +248,7 @@ document.write(`
     <span class="kn">from</span> <span class="nn">astrapy.db</span> <span class="kn">import</span> <span class="n">AstraDB</span><span class="p">,</span> <span class="n">AsyncAstraDB</span>
     <span class="kn">from</span> <span class="nn">astrapy.info</span> <span class="kn">import</span> <span class="n">CollectionDescriptor</span><span class="p">,</span> <span class="n">CollectionVectorServiceOptions</span>
 
-<span class="n">TOKEN_ENV_VAR</span> <span class="o">=</span> <span class="s2">"ASTRA_DB_APPLICATION_TOKEN"</span>
+<span class="n">TOKEN_ENV_VAR</span> <span class="o">=</span> <span class="s2">"ASTRA_DB_APPLICATION_TOKEN"</span>  <span class="c1"># noqa: S105</span>
 <span class="n">API_ENDPOINT_ENV_VAR</span> <span class="o">=</span> <span class="s2">"ASTRA_DB_API_ENDPOINT"</span>
 <span class="n">NAMESPACE_ENV_VAR</span> <span class="o">=</span> <span class="s2">"ASTRA_DB_KEYSPACE"</span>
 
@@ -367,8 +367,8 @@ document.write(`
             <span class="c1"># secrets-based initialization</span>
             <span class="k">if</span> <span class="n">token</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-                    <span class="s2">"Attempting to fetch token from environment "</span>
-                    <span class="sa">f</span><span class="s2">"variable '</span><span class="si">{</span><span class="n">TOKEN_ENV_VAR</span><span class="si">}</span><span class="s2">'"</span>
+                    <span class="s2">"Attempting to fetch token from environment "</span> <span class="s2">"variable '</span><span class="si">%s</span><span class="s2">'"</span><span class="p">,</span>
+                    <span class="n">TOKEN_ENV_VAR</span><span class="p">,</span>
                 <span class="p">)</span>
                 <span class="n">_token</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">TOKEN_ENV_VAR</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
@@ -376,7 +376,8 @@ document.write(`
             <span class="k">if</span> <span class="n">api_endpoint</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
                     <span class="s2">"Attempting to fetch API endpoint from environment "</span>
-                    <span class="sa">f</span><span class="s2">"variable '</span><span class="si">{</span><span class="n">API_ENDPOINT_ENV_VAR</span><span class="si">}</span><span class="s2">'"</span>
+                    <span class="s2">"variable '</span><span class="si">%s</span><span class="s2">'"</span><span class="p">,</span>
+                    <span class="n">API_ENDPOINT_ENV_VAR</span><span class="p">,</span>
                 <span class="p">)</span>
                 <span class="n">_api_endpoint</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">API_ENDPOINT_ENV_VAR</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
@@ -499,29 +500,28 @@ document.write(`
                     <span class="s2">"Cannot use an awaitable embedding_dimension with async_setup "</span>
                     <span class="s2">"set to False"</span>
                 <span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="k">try</span><span class="p">:</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">database</span><span class="o">.</span><span class="n">create_collection</span><span class="p">(</span>
-                        <span class="n">name</span><span class="o">=</span><span class="n">collection_name</span><span class="p">,</span>
-                        <span class="n">dimension</span><span class="o">=</span><span class="n">embedding_dimension</span><span class="p">,</span>  <span class="c1"># type: ignore[arg-type]</span>
-                        <span class="n">metric</span><span class="o">=</span><span class="n">metric</span><span class="p">,</span>
-                        <span class="n">indexing</span><span class="o">=</span><span class="n">requested_indexing_policy</span><span class="p">,</span>
-                        <span class="c1"># Used for enabling $vectorize on the collection</span>
-                        <span class="n">service</span><span class="o">=</span><span class="n">collection_vector_service_options</span><span class="p">,</span>
-                        <span class="n">check_exists</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                    <span class="p">)</span>
-                <span class="k">except</span> <span class="n">DataAPIException</span><span class="p">:</span>
-                    <span class="c1"># possibly the collection is preexisting and may have legacy,</span>
-                    <span class="c1"># or custom, indexing settings: verify</span>
-                    <span class="n">collection_descriptors</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">database</span><span class="o">.</span><span class="n">list_collections</span><span class="p">())</span>
-                    <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate_indexing_policy</span><span class="p">(</span>
-                        <span class="n">collection_descriptors</span><span class="o">=</span><span class="n">collection_descriptors</span><span class="p">,</span>
-                        <span class="n">collection_name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">collection_name</span><span class="p">,</span>
-                        <span class="n">requested_indexing_policy</span><span class="o">=</span><span class="n">requested_indexing_policy</span><span class="p">,</span>
-                        <span class="n">default_indexing_policy</span><span class="o">=</span><span class="n">default_indexing_policy</span><span class="p">,</span>
-                    <span class="p">):</span>
-                        <span class="c1"># other reasons for the exception</span>
-                        <span class="k">raise</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">database</span><span class="o">.</span><span class="n">create_collection</span><span class="p">(</span>
+                    <span class="n">name</span><span class="o">=</span><span class="n">collection_name</span><span class="p">,</span>
+                    <span class="n">dimension</span><span class="o">=</span><span class="n">embedding_dimension</span><span class="p">,</span>  <span class="c1"># type: ignore[arg-type]</span>
+                    <span class="n">metric</span><span class="o">=</span><span class="n">metric</span><span class="p">,</span>
+                    <span class="n">indexing</span><span class="o">=</span><span class="n">requested_indexing_policy</span><span class="p">,</span>
+                    <span class="c1"># Used for enabling $vectorize on the collection</span>
+                    <span class="n">service</span><span class="o">=</span><span class="n">collection_vector_service_options</span><span class="p">,</span>
+                    <span class="n">check_exists</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="k">except</span> <span class="n">DataAPIException</span><span class="p">:</span>
+                <span class="c1"># possibly the collection is preexisting and may have legacy,</span>
+                <span class="c1"># or custom, indexing settings: verify</span>
+                <span class="n">collection_descriptors</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">database</span><span class="o">.</span><span class="n">list_collections</span><span class="p">())</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate_indexing_policy</span><span class="p">(</span>
+                    <span class="n">collection_descriptors</span><span class="o">=</span><span class="n">collection_descriptors</span><span class="p">,</span>
+                    <span class="n">collection_name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">collection_name</span><span class="p">,</span>
+                    <span class="n">requested_indexing_policy</span><span class="o">=</span><span class="n">requested_indexing_policy</span><span class="p">,</span>
+                    <span class="n">default_indexing_policy</span><span class="o">=</span><span class="n">default_indexing_policy</span><span class="p">,</span>
+                <span class="p">):</span>
+                    <span class="c1"># other reasons for the exception</span>
+                    <span class="k">raise</span>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_validate_indexing_policy</span><span class="p">(</span>
@@ -572,78 +572,80 @@ document.write(`
             <span class="k">for</span> <span class="n">collection</span> <span class="ow">in</span> <span class="n">collection_descriptors</span>
             <span class="k">if</span> <span class="n">collection</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">collection_name</span>
         <span class="p">]</span>
-        <span class="k">if</span> <span class="n">preexisting</span><span class="p">:</span>
-            <span class="n">pre_collection</span> <span class="o">=</span> <span class="n">preexisting</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-            <span class="c1"># if it has no "indexing", it is a legacy collection</span>
-            <span class="n">pre_col_options</span> <span class="o">=</span> <span class="n">pre_collection</span><span class="o">.</span><span class="n">options</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">pre_col_options</span><span class="o">.</span><span class="n">indexing</span><span class="p">:</span>
-                <span class="c1"># legacy collection on DB</span>
-                <span class="k">if</span> <span class="n">requested_indexing_policy</span> <span class="o">==</span> <span class="n">default_indexing_policy</span><span class="p">:</span>
-                    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-                        <span class="p">(</span>
-                            <span class="sa">f</span><span class="s2">"Astra DB collection '</span><span class="si">{</span><span class="n">collection_name</span><span class="si">}</span><span class="s2">' is "</span>
-                            <span class="s2">"detected as having indexing turned on for all "</span>
-                            <span class="s2">"fields (either created manually or by older "</span>
-                            <span class="s2">"versions of this plugin). This implies stricter "</span>
-                            <span class="s2">"limitations on the amount of text each string in a "</span>
-                            <span class="s2">"document can store. Consider indexing anew on a "</span>
-                            <span class="s2">"fresh collection to be able to store longer texts. "</span>
-                            <span class="s2">"See https://github.com/langchain-ai/langchain-"</span>
-                            <span class="s2">"datastax/blob/main/libs/astradb/README.md#"</span>
-                            <span class="s2">"warnings-about-indexing for more details."</span>
-                        <span class="p">),</span>
-                        <span class="ne">UserWarning</span><span class="p">,</span>
-                        <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
-                    <span class="p">)</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                        <span class="sa">f</span><span class="s2">"Astra DB collection '</span><span class="si">{</span><span class="n">collection_name</span><span class="si">}</span><span class="s2">' is "</span>
-                        <span class="s2">"detected as having indexing turned on for all "</span>
-                        <span class="s2">"fields (either created manually or by older "</span>
-                        <span class="s2">"versions of this plugin). This is incompatible with "</span>
-                        <span class="s2">"the requested indexing policy for this object. "</span>
-                        <span class="s2">"Consider indexing anew on a fresh "</span>
-                        <span class="s2">"collection with the requested indexing "</span>
-                        <span class="s2">"policy, or alternatively leave the indexing "</span>
-                        <span class="s2">"settings for this object to their defaults "</span>
-                        <span class="s2">"to keep using this collection."</span>
-                    <span class="p">)</span>
-            <span class="k">elif</span> <span class="n">pre_col_options</span><span class="o">.</span><span class="n">indexing</span> <span class="o">!=</span> <span class="n">requested_indexing_policy</span><span class="p">:</span>
-                <span class="c1"># collection on DB has indexing settings, but different</span>
-                <span class="n">options_json</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">pre_col_options</span><span class="o">.</span><span class="n">indexing</span><span class="p">)</span>
-                <span class="k">if</span> <span class="n">pre_col_options</span><span class="o">.</span><span class="n">indexing</span> <span class="o">==</span> <span class="n">default_indexing_policy</span><span class="p">:</span>
-                    <span class="n">default_desc</span> <span class="o">=</span> <span class="s2">" (default setting)"</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="n">default_desc</span> <span class="o">=</span> <span class="s2">""</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">"Astra DB collection '</span><span class="si">{</span><span class="n">collection_name</span><span class="si">}</span><span class="s2">' is "</span>
-                    <span class="s2">"detected as having the following indexing policy: "</span>
-                    <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">options_json</span><span class="si">}{</span><span class="n">default_desc</span><span class="si">}</span><span class="s2">. This is incompatible "</span>
-                    <span class="s2">"with the requested indexing policy for this object. "</span>
-                    <span class="s2">"Consider indexing anew on a fresh "</span>
-                    <span class="s2">"collection with the requested indexing "</span>
-                    <span class="s2">"policy, or alternatively align the requested "</span>
-                    <span class="s2">"indexing settings to the collection to keep using it."</span>
-                <span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="c1"># the discrepancies have to do with options other than indexing</span>
-                <span class="k">return</span> <span class="kc">False</span>
-            <span class="c1"># the original exception, related to indexing, was handled here</span>
-            <span class="k">return</span> <span class="kc">True</span>
-        <span class="k">else</span><span class="p">:</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">preexisting</span><span class="p">:</span>
             <span class="c1"># foreign-origin for the original exception</span>
             <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="n">pre_collection</span> <span class="o">=</span> <span class="n">preexisting</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="c1"># if it has no "indexing", it is a legacy collection</span>
+        <span class="n">pre_col_options</span> <span class="o">=</span> <span class="n">pre_collection</span><span class="o">.</span><span class="n">options</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">pre_col_options</span><span class="o">.</span><span class="n">indexing</span><span class="p">:</span>
+            <span class="c1"># legacy collection on DB</span>
+            <span class="k">if</span> <span class="n">requested_indexing_policy</span> <span class="o">!=</span> <span class="n">default_indexing_policy</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">"Astra DB collection '</span><span class="si">{</span><span class="n">collection_name</span><span class="si">}</span><span class="s2">' is "</span>
+                    <span class="s2">"detected as having indexing turned on for all "</span>
+                    <span class="s2">"fields (either created manually or by older "</span>
+                    <span class="s2">"versions of this plugin). This is incompatible with "</span>
+                    <span class="s2">"the requested indexing policy for this object. "</span>
+                    <span class="s2">"Consider indexing anew on a fresh "</span>
+                    <span class="s2">"collection with the requested indexing "</span>
+                    <span class="s2">"policy, or alternatively leave the indexing "</span>
+                    <span class="s2">"settings for this object to their defaults "</span>
+                    <span class="s2">"to keep using this collection."</span>
+                <span class="p">)</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                <span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">"Astra DB collection '</span><span class="si">{</span><span class="n">collection_name</span><span class="si">}</span><span class="s2">' is "</span>
+                    <span class="s2">"detected as having indexing turned on for all "</span>
+                    <span class="s2">"fields (either created manually or by older "</span>
+                    <span class="s2">"versions of this plugin). This implies stricter "</span>
+                    <span class="s2">"limitations on the amount of text each string in a "</span>
+                    <span class="s2">"document can store. Consider indexing anew on a "</span>
+                    <span class="s2">"fresh collection to be able to store longer texts. "</span>
+                    <span class="s2">"See https://github.com/langchain-ai/langchain-"</span>
+                    <span class="s2">"datastax/blob/main/libs/astradb/README.md#"</span>
+                    <span class="s2">"warnings-about-indexing for more details."</span>
+                <span class="p">),</span>
+                <span class="ne">UserWarning</span><span class="p">,</span>
+                <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="c1"># the original exception, related to indexing, was handled here</span>
+            <span class="k">return</span> <span class="kc">True</span>
+
+        <span class="k">if</span> <span class="n">pre_col_options</span><span class="o">.</span><span class="n">indexing</span> <span class="o">!=</span> <span class="n">requested_indexing_policy</span><span class="p">:</span>
+            <span class="c1"># collection on DB has indexing settings, but different</span>
+            <span class="n">options_json</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">pre_col_options</span><span class="o">.</span><span class="n">indexing</span><span class="p">)</span>
+            <span class="n">default_desc</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="s2">" (default setting)"</span>
+                <span class="k">if</span> <span class="n">pre_col_options</span><span class="o">.</span><span class="n">indexing</span> <span class="o">==</span> <span class="n">default_indexing_policy</span>
+                <span class="k">else</span> <span class="s2">""</span>
+            <span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">"Astra DB collection '</span><span class="si">{</span><span class="n">collection_name</span><span class="si">}</span><span class="s2">' is "</span>
+                <span class="s2">"detected as having the following indexing policy: "</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">options_json</span><span class="si">}{</span><span class="n">default_desc</span><span class="si">}</span><span class="s2">. This is incompatible "</span>
+                <span class="s2">"with the requested indexing policy for this object. "</span>
+                <span class="s2">"Consider indexing anew on a fresh "</span>
+                <span class="s2">"collection with the requested indexing "</span>
+                <span class="s2">"policy, or alternatively align the requested "</span>
+                <span class="s2">"indexing settings to the collection to keep using it."</span>
+            <span class="p">)</span>
+
+        <span class="c1"># the discrepancies have to do with options other than indexing</span>
+        <span class="k">return</span> <span class="kc">False</span>
 
     <span class="k">def</span> <span class="nf">ensure_db_setup</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">async_setup_db_task</span><span class="p">:</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">async_setup_db_task</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
-            <span class="k">except</span> <span class="n">InvalidStateError</span><span class="p">:</span>
+            <span class="k">except</span> <span class="n">InvalidStateError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                     <span class="s2">"Asynchronous setup of the DB not finished. "</span>
                     <span class="s2">"NB: Astra DB components sync methods shouldn't be called from the "</span>
                     <span class="s2">"event loop. Consider using their async equivalents."</span>
-                <span class="p">)</span>
+                <span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
 
     <span class="k">async</span> <span class="k">def</span> <span class="nf">aensure_db_setup</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">async_setup_db_task</span><span class="p">:</span>

@@ -38,7 +38,7 @@
 <link href="../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Aug 21, 2024" name="docbuild:last-update"/>
+<meta content="Aug 22, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -603,22 +603,19 @@ document.write(`
         <span class="k">return</span> <span class="n">LLMResult</span><span class="p">(</span><span class="n">generations</span><span class="o">=</span><span class="n">generations</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_parse_prediction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prediction</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">prediction</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-            <span class="k">if</span> <span class="n">prediction</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"Prompt:</span><span class="se">\n</span><span class="s2">"</span><span class="p">):</span>
-                <span class="n">result</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s2">"(?s:.*)\nOutput:\n(.*)"</span><span class="p">,</span> <span class="n">prediction</span><span class="p">)</span>
+        <span class="k">def</span> <span class="nf">_clean_response</span><span class="p">(</span><span class="n">response</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"Prompt:</span><span class="se">\n</span><span class="s2">"</span><span class="p">):</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s2">"(?s:.*)\nOutput:\n((?s:.*))"</span><span class="p">,</span> <span class="n">response</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">result</span><span class="p">:</span>
                     <span class="k">return</span> <span class="n">result</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-            <span class="k">return</span> <span class="n">prediction</span>
+            <span class="k">return</span> <span class="n">response</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">prediction</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">_clean_response</span><span class="p">(</span><span class="n">prediction</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">result_arg</span><span class="p">:</span>
             <span class="k">try</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">prediction</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">result_arg</span><span class="p">]</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"Prompt:</span><span class="se">\n</span><span class="s2">"</span><span class="p">):</span>
-                    <span class="n">result</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span>
-                        <span class="sa">r</span><span class="s2">"(?s:.*)\nOutput:\n(.*)"</span><span class="p">,</span> <span class="n">prediction</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">result_arg</span><span class="p">]</span>
-                    <span class="p">)</span>
-                    <span class="k">if</span> <span class="n">result</span><span class="p">:</span>
-                        <span class="k">return</span> <span class="n">result</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-                <span class="k">return</span> <span class="n">prediction</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">result_arg</span><span class="p">]</span>
+                <span class="k">return</span> <span class="n">_clean_response</span><span class="p">(</span><span class="n">prediction</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">result_arg</span><span class="p">])</span>
             <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
                 <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">prediction</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
                     <span class="n">error_desc</span> <span class="o">=</span> <span class="p">(</span>

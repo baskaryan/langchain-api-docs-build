@@ -38,7 +38,7 @@
 <link href="../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Aug 21, 2024" name="docbuild:last-update"/>
+<meta content="Aug 22, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -232,13 +232,10 @@ document.write(`
 <span class="kn">import</span> <span class="nn">hashlib</span>
 <span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">lru_cache</span><span class="p">,</span> <span class="n">wraps</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Awaitable</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Generator</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Awaitable</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Generator</span>
 
-<span class="kn">from</span> <span class="nn">astrapy.authentication</span> <span class="kn">import</span> <span class="n">TokenProvider</span>
 <span class="kn">from</span> <span class="nn">astrapy.db</span> <span class="kn">import</span> <span class="n">AstraDB</span><span class="p">,</span> <span class="n">AsyncAstraDB</span><span class="p">,</span> <span class="n">logger</span>
 <span class="kn">from</span> <span class="nn">langchain_core.caches</span> <span class="kn">import</span> <span class="n">RETURN_VAL_TYPE</span><span class="p">,</span> <span class="n">BaseCache</span>
-<span class="kn">from</span> <span class="nn">langchain_core.embeddings</span> <span class="kn">import</span> <span class="n">Embeddings</span>
-<span class="kn">from</span> <span class="nn">langchain_core.language_models</span> <span class="kn">import</span> <span class="n">LLM</span>
 <span class="kn">from</span> <span class="nn">langchain_core.language_models.llms</span> <span class="kn">import</span> <span class="n">aget_prompts</span><span class="p">,</span> <span class="n">get_prompts</span>
 <span class="kn">from</span> <span class="nn">langchain_core.load.dump</span> <span class="kn">import</span> <span class="n">dumps</span>
 <span class="kn">from</span> <span class="nn">langchain_core.load.load</span> <span class="kn">import</span> <span class="n">loads</span>
@@ -246,6 +243,11 @@ document.write(`
 <span class="kn">from</span> <span class="nn">typing_extensions</span> <span class="kn">import</span> <span class="n">override</span>
 
 <span class="kn">from</span> <span class="nn">langchain_astradb.utils.astradb</span> <span class="kn">import</span> <span class="n">SetupMode</span><span class="p">,</span> <span class="n">_AstraDBCollectionEnvironment</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">astrapy.authentication</span> <span class="kn">import</span> <span class="n">TokenProvider</span>
+    <span class="kn">from</span> <span class="nn">langchain_core.embeddings</span> <span class="kn">import</span> <span class="n">Embeddings</span>
+    <span class="kn">from</span> <span class="nn">langchain_core.language_models</span> <span class="kn">import</span> <span class="n">LLM</span>
 
 <span class="n">ASTRA_DB_CACHE_DEFAULT_COLLECTION_NAME</span> <span class="o">=</span> <span class="s2">"langchain_astradb_cache"</span>
 <span class="n">ASTRA_DB_SEMANTIC_CACHE_DEFAULT_COLLECTION_NAME</span> <span class="o">=</span> <span class="s2">"langchain_astradb_semantic_cache"</span>
@@ -255,7 +257,7 @@ document.write(`
 
 <span class="k">def</span> <span class="nf">_hash</span><span class="p">(</span><span class="n">_input</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Use a deterministic hashing approach."""</span>
-    <span class="k">return</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">md5</span><span class="p">(</span><span class="n">_input</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">md5</span><span class="p">(</span><span class="n">_input</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>  <span class="c1"># noqa: S324</span>
 
 
 <span class="k">def</span> <span class="nf">_dumps_generations</span><span class="p">(</span><span class="n">generations</span><span class="p">:</span> <span class="n">RETURN_VAL_TYPE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
@@ -304,16 +306,17 @@ document.write(`
     <span class="k">try</span><span class="p">:</span>
         <span class="n">gen_dicts</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">generations_str</span><span class="p">)</span>
         <span class="c1"># not relying on `_load_generations_from_json` (which could disappear):</span>
-        <span class="n">generations</span> <span class="o">=</span> <span class="p">[</span><span class="n">Generation</span><span class="p">(</span><span class="o">**</span><span class="n">generation_dict</span><span class="p">)</span> <span class="k">for</span> <span class="n">generation_dict</span> <span class="ow">in</span> <span class="n">gen_dicts</span><span class="p">]</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">"Legacy 'Generation' cached blob encountered: '</span><span class="si">{</span><span class="n">generations_str</span><span class="si">}</span><span class="s2">'"</span>
-        <span class="p">)</span>
-        <span class="k">return</span> <span class="n">generations</span>
     <span class="k">except</span> <span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">JSONDecodeError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">):</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
             <span class="sa">f</span><span class="s2">"Malformed/unparsable cached blob encountered: '</span><span class="si">{</span><span class="n">generations_str</span><span class="si">}</span><span class="s2">'"</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="kc">None</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">generations</span> <span class="o">=</span> <span class="p">[</span><span class="n">Generation</span><span class="p">(</span><span class="o">**</span><span class="n">generation_dict</span><span class="p">)</span> <span class="k">for</span> <span class="n">generation_dict</span> <span class="ow">in</span> <span class="n">gen_dicts</span><span class="p">]</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">"Legacy 'Generation' cached blob encountered: '</span><span class="si">{</span><span class="n">generations_str</span><span class="si">}</span><span class="s2">'"</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">generations</span>
 
 
 <div class="viewcode-block" id="AstraDBCache"><a class="viewcode-back" href="../../astradb/cache/langchain_astradb.cache.AstraDBCache.html#langchain_astradb.cache.AstraDBCache">[docs]</a><span class="k">class</span> <span class="nc">AstraDBCache</span><span class="p">(</span><span class="n">BaseCache</span><span class="p">):</span>
@@ -453,7 +456,7 @@ document.write(`
 <span class="sd">        In case the llm(prompt) calls have a `stop` param, you should pass it here.</span>
 <span class="sd">        """</span>
         <span class="n">llm_string</span> <span class="o">=</span> <span class="n">get_prompts</span><span class="p">(</span>
-            <span class="p">{</span><span class="o">**</span><span class="n">llm</span><span class="o">.</span><span class="n">dict</span><span class="p">(),</span> <span class="o">**</span><span class="p">{</span><span class="s2">"stop"</span><span class="p">:</span> <span class="n">stop</span><span class="p">}},</span>
+            <span class="p">{</span><span class="o">**</span><span class="n">llm</span><span class="o">.</span><span class="n">dict</span><span class="p">(),</span> <span class="s2">"stop"</span><span class="p">:</span> <span class="n">stop</span><span class="p">},</span>
             <span class="p">[],</span>
         <span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">prompt</span><span class="p">,</span> <span class="n">llm_string</span><span class="o">=</span><span class="n">llm_string</span><span class="p">)</span></div>
@@ -467,7 +470,7 @@ document.write(`
 <span class="sd">        """</span>
         <span class="n">llm_string</span> <span class="o">=</span> <span class="p">(</span>
             <span class="k">await</span> <span class="n">aget_prompts</span><span class="p">(</span>
-                <span class="p">{</span><span class="o">**</span><span class="n">llm</span><span class="o">.</span><span class="n">dict</span><span class="p">(),</span> <span class="o">**</span><span class="p">{</span><span class="s2">"stop"</span><span class="p">:</span> <span class="n">stop</span><span class="p">}},</span>
+                <span class="p">{</span><span class="o">**</span><span class="n">llm</span><span class="o">.</span><span class="n">dict</span><span class="p">(),</span> <span class="s2">"stop"</span><span class="p">:</span> <span class="n">stop</span><span class="p">},</span>
                 <span class="p">[],</span>
             <span class="p">)</span>
         <span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
@@ -661,7 +664,6 @@ document.write(`
         <span class="n">llm_string_hash</span> <span class="o">=</span> <span class="n">_hash</span><span class="p">(</span><span class="n">llm_string</span><span class="p">)</span>
         <span class="n">embedding_vector</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_embedding</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="n">prompt</span><span class="p">)</span>
         <span class="n">body</span> <span class="o">=</span> <span class="n">_dumps_generations</span><span class="p">(</span><span class="n">return_val</span><span class="p">)</span>
-        <span class="c1">#</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">collection</span><span class="o">.</span><span class="n">find_one_and_replace</span><span class="p">(</span>
             <span class="p">{</span><span class="s2">"_id"</span><span class="p">:</span> <span class="n">doc_id</span><span class="p">},</span>
             <span class="p">{</span>
@@ -682,7 +684,6 @@ document.write(`
         <span class="n">llm_string_hash</span> <span class="o">=</span> <span class="n">_hash</span><span class="p">(</span><span class="n">llm_string</span><span class="p">)</span>
         <span class="n">embedding_vector</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_aget_embedding</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="n">prompt</span><span class="p">)</span>
         <span class="n">body</span> <span class="o">=</span> <span class="n">_dumps_generations</span><span class="p">(</span><span class="n">return_val</span><span class="p">)</span>
-        <span class="c1">#</span>
         <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">async_collection</span><span class="o">.</span><span class="n">find_one_and_replace</span><span class="p">(</span>
             <span class="p">{</span><span class="s2">"_id"</span><span class="p">:</span> <span class="n">doc_id</span><span class="p">},</span>
             <span class="p">{</span>
@@ -697,18 +698,12 @@ document.write(`
 <div class="viewcode-block" id="AstraDBSemanticCache.lookup"><a class="viewcode-back" href="../../astradb/cache/langchain_astradb.cache.AstraDBSemanticCache.html#langchain_astradb.cache.AstraDBSemanticCache.lookup">[docs]</a>    <span class="nd">@override</span>
     <span class="k">def</span> <span class="nf">lookup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prompt</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">llm_string</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RETURN_VAL_TYPE</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">hit_with_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lookup_with_id</span><span class="p">(</span><span class="n">prompt</span><span class="p">,</span> <span class="n">llm_string</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">hit_with_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">hit_with_id</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">None</span></div>
+        <span class="k">return</span> <span class="n">hit_with_id</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">if</span> <span class="n">hit_with_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span></div>
 
 <div class="viewcode-block" id="AstraDBSemanticCache.alookup"><a class="viewcode-back" href="../../astradb/cache/langchain_astradb.cache.AstraDBSemanticCache.html#langchain_astradb.cache.AstraDBSemanticCache.alookup">[docs]</a>    <span class="nd">@override</span>
     <span class="k">async</span> <span class="k">def</span> <span class="nf">alookup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prompt</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">llm_string</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RETURN_VAL_TYPE</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">hit_with_id</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">alookup_with_id</span><span class="p">(</span><span class="n">prompt</span><span class="p">,</span> <span class="n">llm_string</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">hit_with_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">hit_with_id</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">None</span></div>
+        <span class="k">return</span> <span class="n">hit_with_id</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">if</span> <span class="n">hit_with_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span></div>
 
 <div class="viewcode-block" id="AstraDBSemanticCache.lookup_with_id"><a class="viewcode-back" href="../../astradb/cache/langchain_astradb.cache.AstraDBSemanticCache.html#langchain_astradb.cache.AstraDBSemanticCache.lookup_with_id">[docs]</a>    <span class="k">def</span> <span class="nf">lookup_with_id</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">prompt</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">llm_string</span><span class="p">:</span> <span class="nb">str</span>
@@ -732,13 +727,13 @@ document.write(`
 
         <span class="k">if</span> <span class="n">hit</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">hit</span><span class="p">[</span><span class="s2">"$similarity"</span><span class="p">]</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">similarity_threshold</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">generations</span> <span class="o">=</span> <span class="n">_loads_generations</span><span class="p">(</span><span class="n">hit</span><span class="p">[</span><span class="s2">"body_blob"</span><span class="p">])</span>
-            <span class="k">if</span> <span class="n">generations</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="c1"># this protects against malformed cached items:</span>
-                <span class="k">return</span> <span class="n">hit</span><span class="p">[</span><span class="s2">"_id"</span><span class="p">],</span> <span class="n">generations</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="k">return</span> <span class="kc">None</span></div>
+
+        <span class="n">generations</span> <span class="o">=</span> <span class="n">_loads_generations</span><span class="p">(</span><span class="n">hit</span><span class="p">[</span><span class="s2">"body_blob"</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">generations</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="c1"># this protects against malformed cached items:</span>
+        <span class="k">return</span> <span class="n">hit</span><span class="p">[</span><span class="s2">"_id"</span><span class="p">],</span> <span class="n">generations</span></div>
 
 <div class="viewcode-block" id="AstraDBSemanticCache.alookup_with_id"><a class="viewcode-back" href="../../astradb/cache/langchain_astradb.cache.AstraDBSemanticCache.html#langchain_astradb.cache.AstraDBSemanticCache.alookup_with_id">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">alookup_with_id</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">prompt</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">llm_string</span><span class="p">:</span> <span class="nb">str</span>
@@ -762,13 +757,13 @@ document.write(`
 
         <span class="k">if</span> <span class="n">hit</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">hit</span><span class="p">[</span><span class="s2">"$similarity"</span><span class="p">]</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">similarity_threshold</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">generations</span> <span class="o">=</span> <span class="n">_loads_generations</span><span class="p">(</span><span class="n">hit</span><span class="p">[</span><span class="s2">"body_blob"</span><span class="p">])</span>
-            <span class="k">if</span> <span class="n">generations</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="c1"># this protects against malformed cached items:</span>
-                <span class="k">return</span> <span class="n">hit</span><span class="p">[</span><span class="s2">"_id"</span><span class="p">],</span> <span class="n">generations</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="k">return</span> <span class="kc">None</span></div>
+
+        <span class="n">generations</span> <span class="o">=</span> <span class="n">_loads_generations</span><span class="p">(</span><span class="n">hit</span><span class="p">[</span><span class="s2">"body_blob"</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">generations</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="c1"># this protects against malformed cached items:</span>
+        <span class="k">return</span> <span class="n">hit</span><span class="p">[</span><span class="s2">"_id"</span><span class="p">],</span> <span class="n">generations</span></div>
 
 <div class="viewcode-block" id="AstraDBSemanticCache.lookup_with_id_through_llm"><a class="viewcode-back" href="../../astradb/cache/langchain_astradb.cache.AstraDBSemanticCache.html#langchain_astradb.cache.AstraDBSemanticCache.lookup_with_id_through_llm">[docs]</a>    <span class="k">def</span> <span class="nf">lookup_with_id_through_llm</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">prompt</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">llm</span><span class="p">:</span> <span class="n">LLM</span><span class="p">,</span> <span class="n">stop</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
@@ -778,7 +773,7 @@ document.write(`
 <span class="sd">        If there are hits, return (document_id, cached_entry) for the top hit</span>
 <span class="sd">        """</span>
         <span class="n">llm_string</span> <span class="o">=</span> <span class="n">get_prompts</span><span class="p">(</span>
-            <span class="p">{</span><span class="o">**</span><span class="n">llm</span><span class="o">.</span><span class="n">dict</span><span class="p">(),</span> <span class="o">**</span><span class="p">{</span><span class="s2">"stop"</span><span class="p">:</span> <span class="n">stop</span><span class="p">}},</span>
+            <span class="p">{</span><span class="o">**</span><span class="n">llm</span><span class="o">.</span><span class="n">dict</span><span class="p">(),</span> <span class="s2">"stop"</span><span class="p">:</span> <span class="n">stop</span><span class="p">},</span>
             <span class="p">[],</span>
         <span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">lookup_with_id</span><span class="p">(</span><span class="n">prompt</span><span class="p">,</span> <span class="n">llm_string</span><span class="o">=</span><span class="n">llm_string</span><span class="p">)</span></div>
@@ -792,7 +787,7 @@ document.write(`
 <span class="sd">        """</span>
         <span class="n">llm_string</span> <span class="o">=</span> <span class="p">(</span>
             <span class="k">await</span> <span class="n">aget_prompts</span><span class="p">(</span>
-                <span class="p">{</span><span class="o">**</span><span class="n">llm</span><span class="o">.</span><span class="n">dict</span><span class="p">(),</span> <span class="o">**</span><span class="p">{</span><span class="s2">"stop"</span><span class="p">:</span> <span class="n">stop</span><span class="p">}},</span>
+                <span class="p">{</span><span class="o">**</span><span class="n">llm</span><span class="o">.</span><span class="n">dict</span><span class="p">(),</span> <span class="s2">"stop"</span><span class="p">:</span> <span class="n">stop</span><span class="p">},</span>
                 <span class="p">[],</span>
             <span class="p">)</span>
         <span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
