@@ -38,7 +38,7 @@
 <link href="../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Aug 22, 2024" name="docbuild:last-update"/>
+<meta content="Aug 23, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -491,14 +491,14 @@ document.write(`
         <span class="n">_metadatas</span> <span class="o">=</span> <span class="n">metadatas</span> <span class="ow">or</span> <span class="p">[{}]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">texts</span><span class="p">)</span>
         <span class="n">documents</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">text</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">texts</span><span class="p">):</span>
-            <span class="n">index</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+            <span class="n">start_index</span> <span class="o">=</span> <span class="mi">0</span>
             <span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">split_text</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
                 <span class="n">metadata</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">_metadatas</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_add_start_index</span><span class="p">:</span>
-                    <span class="n">index</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">chunk</span><span class="p">,</span> <span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
-                    <span class="n">metadata</span><span class="p">[</span><span class="s2">"start_index"</span><span class="p">]</span> <span class="o">=</span> <span class="n">index</span>
+                    <span class="n">metadata</span><span class="p">[</span><span class="s2">"start_index"</span><span class="p">]</span> <span class="o">=</span> <span class="n">start_index</span>
                 <span class="n">new_doc</span> <span class="o">=</span> <span class="n">Document</span><span class="p">(</span><span class="n">page_content</span><span class="o">=</span><span class="n">chunk</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="n">metadata</span><span class="p">)</span>
                 <span class="n">documents</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_doc</span><span class="p">)</span>
+                <span class="n">start_index</span> <span class="o">+=</span> <span class="nb">len</span><span class="p">(</span><span class="n">chunk</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">documents</span></div>
 
 <div class="viewcode-block" id="SemanticChunker.split_documents"><a class="viewcode-back" href="../../experimental/text_splitter/langchain_experimental.text_splitter.SemanticChunker.html#langchain_experimental.text_splitter.SemanticChunker.split_documents">[docs]</a>    <span class="k">def</span> <span class="nf">split_documents</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">documents</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Document</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Document</span><span class="p">]:</span>

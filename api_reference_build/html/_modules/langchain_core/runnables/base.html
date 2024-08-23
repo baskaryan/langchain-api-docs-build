@@ -38,7 +38,7 @@
 <link href="../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Aug 22, 2024" name="docbuild:last-update"/>
+<meta content="Aug 23, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -3437,8 +3437,7 @@ document.write(`
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">final_pipeline</span> <span class="o">=</span> <span class="n">step</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">final_pipeline</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
 
-        <span class="k">for</span> <span class="n">output</span> <span class="ow">in</span> <span class="n">final_pipeline</span><span class="p">:</span>
-            <span class="k">yield</span> <span class="n">output</span>
+        <span class="k">yield from</span> <span class="n">final_pipeline</span>
 
     <span class="k">async</span> <span class="k">def</span> <span class="nf">_atransform</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -4806,13 +4805,12 @@ document.write(`
         <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">],</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Output</span><span class="p">]:</span>
         <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"func"</span><span class="p">):</span>
-            <span class="k">for</span> <span class="n">output</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transform_stream_with_config</span><span class="p">(</span>
+            <span class="k">yield from</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transform_stream_with_config</span><span class="p">(</span>
                 <span class="nb">input</span><span class="p">,</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_transform</span><span class="p">,</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">func</span><span class="p">),</span>
                 <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
-            <span class="p">):</span>
-                <span class="k">yield</span> <span class="n">output</span>
+            <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
                 <span class="s2">"Cannot stream a coroutine function synchronously."</span>

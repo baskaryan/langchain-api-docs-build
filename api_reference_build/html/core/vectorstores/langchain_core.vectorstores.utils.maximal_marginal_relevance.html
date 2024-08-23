@@ -5,7 +5,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="Docutils 0.19: https://docutils.sourceforge.io/" name="generator"/>
-<title>Chains — 🦜🔗 LangChain  documentation</title>
+<title>maximal_marginal_relevance — 🦜🔗 LangChain  documentation</title>
 <script data-cfasync="false">
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
@@ -33,14 +33,14 @@
 <script src="../../_static/clipboard.min.js"></script>
 <script src="../../_static/copybutton.js"></script>
 <script src="../../_static/design-tabs.js"></script>
-<script>DOCUMENTATION_OPTIONS.pagename = 'community/chains/langchain_community.chains.pebblo_retrieval.models.Chains';</script>
+<script>DOCUMENTATION_OPTIONS.pagename = 'core/vectorstores/langchain_core.vectorstores.utils.maximal_marginal_relevance';</script>
 <link href="../../_static/favicon.png" rel="icon"/>
 <link href="../../search.html" rel="search" title="Search"/>
-<link href="langchain_community.chains.pebblo_retrieval.models.Context.html" rel="next" title="Context"/>
-<link href="langchain_community.chains.pebblo_retrieval.models.ChainInput.html" rel="prev" title="ChainInput"/>
+<link href="../../langchain/index.html" rel="next" title="langchain: 0.2.14"/>
+<link href="langchain_core.vectorstores.in_memory.InMemoryVectorStore.html" rel="prev" title="InMemoryVectorStore"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Aug 22, 2024" name="docbuild:last-update"/>
+<meta content="Aug 23, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -209,101 +209,51 @@ document.write(`
 <p aria-level="1" class="bd-links__title" role="heading">Section Navigation</p>
 <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">Base packages</span></p>
 <ul class="current nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../../core/index.html">Core</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../langchain/index.html">Langchain</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../text_splitters/index.html">Text Splitters</a></li>
-<li class="toctree-l1 current active has-children"><a class="reference internal" href="../index.html">Community</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="../adapters.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">adapters</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="../agent_toolkits.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">agent_toolkits</span></code></a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../index.html">Core</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../agents.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">agents</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="../cache.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">cache</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../beta.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">beta</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../caches.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">caches</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../callbacks.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">callbacks</span></code></a></li>
-<li class="toctree-l2 current active has-children"><a class="reference internal" href="../chains.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">chains</span></code></a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="langchain_community.chains.graph_qa.arangodb.ArangoGraphQAChain.html">ArangoGraphQAChain</a></li>
-<li class="toctree-l3"><a class="reference internal" href="langchain_community.chains.graph_qa.base.GraphQAChain.html">GraphQAChain</a></li>
-<li class="toctree-l3"><a class="reference internal" href="langchain_community.chains.graph_qa.cypher.GraphCypherQAChain.html">GraphCypherQAChain</a></li>
-<li class="toctree-l3"><a class="reference internal" href="langchain_community.chains.graph_qa.cypher_utils.CypherQueryCorrector.html">CypherQueryCorrector</a></li>
-<li class="toctree-l3"><a class="reference internal" href="langchain_community.chains.graph_qa.cypher_utils.Schema.html">Schema</a></li>
-<li class="toctree-l3"><a class="reference internal" href="langchain_community.chains.graph_qa.falkordb.FalkorDBQAChain.html">FalkorDBQAChain</a></li>
-<li class="toctree-l3"><a class="reference internal" href="langchain_community.chains.graph_qa.gremlin.GremlinQAChain.html">GremlinQAChain</a></li>
-<li class="toctree-l3"><a class="reference internal" href="langchain_community.chains.graph_qa.hugegraph.HugeGraphQAChain.html">HugeGraphQAChain</a></li>
-<li class="toctree-l3"><a class="reference internal" href="langchain_community.chains.graph_qa.kuzu.KuzuQAChain.html">KuzuQAChain</a></li>
-<li class="toctree-l3"><a class="reference internal" href="langchain_community.chains.graph_qa.nebulagraph.NebulaGraphQAChain.html">NebulaGraphQAChain</a></li>
-<li class="toctree-l3"><a class="reference internal" href="langchain_community.chains.graph_qa.neptune_cypher.NeptuneOpenCypherQAChain.html">NeptuneOpenCypherQAChain</a></li>
-<li class="toctree-l3"><a class="reference internal" href="langchain_community.chains.graph_qa.neptune_sparql.NeptuneSparqlQAChain.html">NeptuneSparqlQAChain</a></li>
-<li class="toctree-l3"><a class="reference internal" href="langchain_community.chains.graph_qa.ontotext_graphdb.OntotextGraphDBQAChain.html">OntotextGraphDBQAChain</a></li>
-<li class="toctree-l3"><a class="reference internal" href="langchain_community.chains.graph_qa.sparql.GraphSparqlQAChain.html">GraphSparqlQAChain</a></li>
-<li class="toctree-l3"><a class="reference internal" href="langchain_community.chains.llm_requests.LLMRequestsChain.html">LLMRequestsChain</a></li>
-<li class="toctree-l3"><a class="reference internal" href="langchain_community.chains.openapi.chain.OpenAPIEndpointChain.html">OpenAPIEndpointChain</a></li>
-<li class="toctree-l3"><a class="reference internal" href="langchain_community.chains.openapi.requests_chain.APIRequesterChain.html">APIRequesterChain</a></li>
-<li class="toctree-l3"><a class="reference internal" href="langchain_community.chains.openapi.requests_chain.APIRequesterOutputParser.html">APIRequesterOutputParser</a></li>
-<li class="toctree-l3"><a class="reference internal" href="langchain_community.chains.openapi.response_chain.APIResponderChain.html">APIResponderChain</a></li>
-<li class="toctree-l3"><a class="reference internal" href="langchain_community.chains.openapi.response_chain.APIResponderOutputParser.html">APIResponderOutputParser</a></li>
-<li class="toctree-l3"><a class="reference internal" href="langchain_community.chains.pebblo_retrieval.base.PebbloRetrievalQA.html">PebbloRetrievalQA</a></li>
-<li class="toctree-l3"><a class="reference internal" href="langchain_community.chains.pebblo_retrieval.models.App.html">App</a></li>
-<li class="toctree-l3"><a class="reference internal" href="langchain_community.chains.pebblo_retrieval.models.AuthContext.html">AuthContext</a></li>
-<li class="toctree-l3"><a class="reference internal" href="langchain_community.chains.pebblo_retrieval.models.ChainInput.html">ChainInput</a></li>
-<li class="toctree-l3 current active"><a class="current reference internal" href="#">Chains</a></li>
-<li class="toctree-l3"><a class="reference internal" href="langchain_community.chains.pebblo_retrieval.models.Context.html">Context</a></li>
-<li class="toctree-l3"><a class="reference internal" href="langchain_community.chains.pebblo_retrieval.models.Framework.html">Framework</a></li>
-<li class="toctree-l3"><a class="reference internal" href="langchain_community.chains.pebblo_retrieval.models.Model.html">Model</a></li>
-<li class="toctree-l3"><a class="reference internal" href="langchain_community.chains.pebblo_retrieval.models.PkgInfo.html">PkgInfo</a></li>
-<li class="toctree-l3"><a class="reference internal" href="langchain_community.chains.pebblo_retrieval.models.Prompt.html">Prompt</a></li>
-<li class="toctree-l3"><a class="reference internal" href="langchain_community.chains.pebblo_retrieval.models.Qa.html">Qa</a></li>
-<li class="toctree-l3"><a class="reference internal" href="langchain_community.chains.pebblo_retrieval.models.Runtime.html">Runtime</a></li>
-<li class="toctree-l3"><a class="reference internal" href="langchain_community.chains.pebblo_retrieval.models.SemanticContext.html">SemanticContext</a></li>
-<li class="toctree-l3"><a class="reference internal" href="langchain_community.chains.pebblo_retrieval.models.SemanticEntities.html">SemanticEntities</a></li>
-<li class="toctree-l3"><a class="reference internal" href="langchain_community.chains.pebblo_retrieval.models.SemanticTopics.html">SemanticTopics</a></li>
-<li class="toctree-l3"><a class="reference internal" href="langchain_community.chains.pebblo_retrieval.models.VectorDB.html">VectorDB</a></li>
-<li class="toctree-l3"><a class="reference internal" href="langchain_community.chains.ernie_functions.base.convert_python_function_to_ernie_function.html">convert_python_function_to_ernie_function</a></li>
-<li class="toctree-l3"><a class="reference internal" href="langchain_community.chains.ernie_functions.base.convert_to_ernie_function.html">convert_to_ernie_function</a></li>
-<li class="toctree-l3"><a class="reference internal" href="langchain_community.chains.ernie_functions.base.create_ernie_fn_chain.html">create_ernie_fn_chain</a></li>
-<li class="toctree-l3"><a class="reference internal" href="langchain_community.chains.ernie_functions.base.create_ernie_fn_runnable.html">create_ernie_fn_runnable</a></li>
-<li class="toctree-l3"><a class="reference internal" href="langchain_community.chains.ernie_functions.base.create_structured_output_chain.html">create_structured_output_chain</a></li>
-<li class="toctree-l3"><a class="reference internal" href="langchain_community.chains.ernie_functions.base.create_structured_output_runnable.html">create_structured_output_runnable</a></li>
-<li class="toctree-l3"><a class="reference internal" href="langchain_community.chains.ernie_functions.base.get_ernie_output_parser.html">get_ernie_output_parser</a></li>
-<li class="toctree-l3"><a class="reference internal" href="langchain_community.chains.graph_qa.cypher.construct_schema.html">construct_schema</a></li>
-<li class="toctree-l3"><a class="reference internal" href="langchain_community.chains.graph_qa.cypher.extract_cypher.html">extract_cypher</a></li>
-<li class="toctree-l3"><a class="reference internal" href="langchain_community.chains.graph_qa.cypher.get_function_response.html">get_function_response</a></li>
-<li class="toctree-l3"><a class="reference internal" href="langchain_community.chains.graph_qa.falkordb.extract_cypher.html">extract_cypher</a></li>
-<li class="toctree-l3"><a class="reference internal" href="langchain_community.chains.graph_qa.gremlin.extract_gremlin.html">extract_gremlin</a></li>
-<li class="toctree-l3"><a class="reference internal" href="langchain_community.chains.graph_qa.kuzu.extract_cypher.html">extract_cypher</a></li>
-<li class="toctree-l3"><a class="reference internal" href="langchain_community.chains.graph_qa.kuzu.remove_prefix.html">remove_prefix</a></li>
-<li class="toctree-l3"><a class="reference internal" href="langchain_community.chains.graph_qa.neptune_cypher.extract_cypher.html">extract_cypher</a></li>
-<li class="toctree-l3"><a class="reference internal" href="langchain_community.chains.graph_qa.neptune_cypher.trim_query.html">trim_query</a></li>
-<li class="toctree-l3"><a class="reference internal" href="langchain_community.chains.graph_qa.neptune_cypher.use_simple_prompt.html">use_simple_prompt</a></li>
-<li class="toctree-l3"><a class="reference internal" href="langchain_community.chains.graph_qa.neptune_sparql.extract_sparql.html">extract_sparql</a></li>
-<li class="toctree-l3"><a class="reference internal" href="langchain_community.chains.pebblo_retrieval.enforcement_filters.clear_enforcement_filters.html">clear_enforcement_filters</a></li>
-<li class="toctree-l3"><a class="reference internal" href="langchain_community.chains.pebblo_retrieval.enforcement_filters.set_enforcement_filters.html">set_enforcement_filters</a></li>
-<li class="toctree-l3"><a class="reference internal" href="langchain_community.chains.pebblo_retrieval.utilities.get_ip.html">get_ip</a></li>
-<li class="toctree-l3"><a class="reference internal" href="langchain_community.chains.pebblo_retrieval.utilities.get_runtime.html">get_runtime</a></li>
-</ul>
-</details></li>
+<li class="toctree-l2"><a class="reference internal" href="../chat_history.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">chat_history</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../chat_loaders.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">chat_loaders</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="../chat_message_histories.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">chat_message_histories</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="../chat_models.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">chat_models</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="../cross_encoders.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">cross_encoders</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="../docstore.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">docstore</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="../document_compressors.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">document_compressors</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chat_sessions.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">chat_sessions</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../document_loaders.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">document_loaders</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="../document_transformers.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">document_transformers</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../documents.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">documents</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../embeddings.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">embeddings</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../example_selectors.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">example_selectors</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../exceptions.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">exceptions</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../globals.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">globals</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../graph_vectorstores.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">graph_vectorstores</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="../graphs.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">graphs</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="../indexes.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">indexes</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="../llms.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">llms</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../indexing.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">indexing</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../language_models.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">language_models</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../load.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">load</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../memory.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">memory</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../messages.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">messages</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../output_parsers.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">output_parsers</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="../query_constructors.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">query_constructors</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../outputs.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">outputs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../prompt_values.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">prompt_values</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../prompts.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">prompts</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rate_limiters.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rate_limiters</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../retrievers.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">retrievers</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="../storage.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">storage</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../runnables.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">runnables</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stores.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">stores</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../structured_query.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">structured_query</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sys_info.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sys_info</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../tools.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">tools</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="../utilities.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">utilities</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tracers.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">tracers</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../utils.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">utils</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="../vectorstores.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">vectorstores</span></code></a></li>
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="../vectorstores.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">vectorstores</span></code></a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="langchain_core.vectorstores.base.VectorStore.html">VectorStore</a></li>
+<li class="toctree-l3"><a class="reference internal" href="langchain_core.vectorstores.base.VectorStoreRetriever.html">VectorStoreRetriever</a></li>
+<li class="toctree-l3"><a class="reference internal" href="langchain_core.vectorstores.in_memory.InMemoryVectorStore.html">InMemoryVectorStore</a></li>
+<li class="toctree-l3 current active"><a class="current reference internal" href="#">maximal_marginal_relevance</a></li>
 </ul>
 </details></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../../langchain/index.html">Langchain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../text_splitters/index.html">Text Splitters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../community/index.html">Community</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../experimental/index.html">Experimental</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Integrations</span></p>
@@ -367,8 +317,8 @@ document.write(`
 </li>
 <li class="breadcrumb-item"><a class="nav-link" href="../../reference.html">LangChain Python API Reference</a></li>
 <li class="breadcrumb-item"><i class="fa-solid fa-ellipsis"></i></li>
-<li class="breadcrumb-item"><a class="nav-link" href="../chains.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">chains</span></code></a></li>
-<li aria-current="page" class="breadcrumb-item active">Chains</li>
+<li class="breadcrumb-item"><a class="nav-link" href="../vectorstores.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">vectorstores</span></code></a></li>
+<li aria-current="page" class="breadcrumb-item active">maximal_marg...</li>
 </ul>
 </nav>
 </div>
@@ -377,26 +327,31 @@ document.write(`
 </div>
 <div id="searchbox"></div>
 <article class="bd-article">
-<section id="chains">
-<h1>Chains<a class="headerlink" href="#chains" title="Permalink to this heading">#</a></h1>
-<dl class="py class pydantic_model">
-<dt class="sig sig-object py" id="langchain_community.chains.pebblo_retrieval.models.Chains">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">langchain_community.chains.pebblo_retrieval.models.</span></span><span class="sig-name descname"><span class="pre">Chains</span></span><a class="reference internal" href="../../_modules/langchain_community/chains/pebblo_retrieval/models.html#Chains"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#langchain_community.chains.pebblo_retrieval.models.Chains" title="Permalink to this definition">#</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
-<p>Create a new model by parsing and validating input data from keyword arguments.</p>
-<p>Raises ValidationError if the input data cannot be parsed to form a valid model.</p>
-<dl class="py attribute pydantic_field">
-<dt class="sig sig-object py" id="langchain_community.chains.pebblo_retrieval.models.Chains.model">
-<em class="property"><span class="pre">param</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">model</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="langchain_community.chains.pebblo_retrieval.models.Model.html#langchain_community.chains.pebblo_retrieval.models.Model" title="langchain_community.chains.pebblo_retrieval.models.Model"><span class="pre">Model</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#langchain_community.chains.pebblo_retrieval.models.Chains.model" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-<dl class="py attribute pydantic_field">
-<dt class="sig sig-object py" id="langchain_community.chains.pebblo_retrieval.models.Chains.name">
-<em class="property"><span class="pre">param</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#langchain_community.chains.pebblo_retrieval.models.Chains.name" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-<dl class="py attribute pydantic_field">
-<dt class="sig sig-object py" id="langchain_community.chains.pebblo_retrieval.models.Chains.vector_dbs">
-<em class="property"><span class="pre">param</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">vector_dbs</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="langchain_community.chains.pebblo_retrieval.models.VectorDB.html#langchain_community.chains.pebblo_retrieval.models.VectorDB" title="langchain_community.chains.pebblo_retrieval.models.VectorDB"><span class="pre">VectorDB</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#langchain_community.chains.pebblo_retrieval.models.Chains.vector_dbs" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<section id="maximal-marginal-relevance">
+<h1>maximal_marginal_relevance<a class="headerlink" href="#maximal-marginal-relevance" title="Permalink to this heading">#</a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="langchain_core.vectorstores.utils.maximal_marginal_relevance">
+<span class="sig-prename descclassname"><span class="pre">langchain_core.vectorstores.utils.</span></span><span class="sig-name descname"><span class="pre">maximal_marginal_relevance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query_embedding</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">np.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">embedding_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lambda_mult</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">4</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/langchain_core/vectorstores/utils.html#maximal_marginal_relevance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#langchain_core.vectorstores.utils.maximal_marginal_relevance" title="Permalink to this definition">#</a></dt>
+<dd><p>Calculate maximal marginal relevance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>query_embedding</strong> (<em>np.ndarray</em>) – The query embedding.</p></li>
+<li><p><strong>embedding_list</strong> (<em>list</em>) – A list of embeddings.</p></li>
+<li><p><strong>lambda_mult</strong> (<em>float</em>) – The lambda parameter for MMR. Default is 0.5.</p></li>
+<li><p><strong>k</strong> (<em>int</em>) – The number of embeddings to return. Default is 4.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of indices of the embeddings to return.</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ImportError</strong> – If numpy is not installed.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>List[int]</p>
+</dd>
+</dl>
 </dd></dl>
 <ul class="simple">
 </ul>
@@ -410,12 +365,7 @@ document.write(`
   </div>
 <nav aria-labelledby="pst-page-navigation-heading-2" class="bd-toc-nav page-toc">
 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#langchain_community.chains.pebblo_retrieval.models.Chains"><code class="docutils literal notranslate"><span class="pre">Chains</span></code></a><ul class="visible nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langchain_community.chains.pebblo_retrieval.models.Chains.model"><code class="docutils literal notranslate"><span class="pre">model</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langchain_community.chains.pebblo_retrieval.models.Chains.name"><code class="docutils literal notranslate"><span class="pre">name</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langchain_community.chains.pebblo_retrieval.models.Chains.vector_dbs"><code class="docutils literal notranslate"><span class="pre">vector_dbs</span></code></a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#langchain_core.vectorstores.utils.maximal_marginal_relevance"><code class="docutils literal notranslate"><span class="pre">maximal_marginal_relevance()</span></code></a></li>
 </ul>
 </nav></div>
 </div></div>

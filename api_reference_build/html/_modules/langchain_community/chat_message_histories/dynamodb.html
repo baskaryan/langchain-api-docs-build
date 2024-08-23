@@ -38,7 +38,7 @@
 <link href="../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Aug 22, 2024" name="docbuild:last-update"/>
+<meta content="Aug 23, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -274,6 +274,8 @@ document.write(`
 <span class="sd">            [AWS DynamoDB documentation](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/time-to-live-ttl-how-to.html)</span>
 <span class="sd">        history_size: Maximum number of messages to store. If None then there is no</span>
 <span class="sd">            limit. If not None then only the latest `history_size` messages are stored.</span>
+<span class="sd">        history_messages_key: Key for the chat history where the messages</span>
+<span class="sd">            are stored and updated</span>
 <span class="sd">    """</span>
 
 <div class="viewcode-block" id="DynamoDBChatMessageHistory.__init__"><a class="viewcode-back" href="../../../community/chat_message_histories/langchain_community.chat_message_histories.dynamodb.DynamoDBChatMessageHistory.html#langchain_community.chat_message_histories.dynamodb.DynamoDBChatMessageHistory.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
@@ -288,6 +290,7 @@ document.write(`
         <span class="n">ttl</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">ttl_key_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"expireAt"</span><span class="p">,</span>
         <span class="n">history_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">history_messages_key</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"History"</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="k">if</span> <span class="n">boto3_session</span><span class="p">:</span>
             <span class="n">client</span> <span class="o">=</span> <span class="n">boto3_session</span><span class="o">.</span><span class="n">resource</span><span class="p">(</span><span class="s2">"dynamodb"</span><span class="p">,</span> <span class="n">endpoint_url</span><span class="o">=</span><span class="n">endpoint_url</span><span class="p">)</span>
@@ -308,6 +311,7 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">ttl</span> <span class="o">=</span> <span class="n">ttl</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ttl_key_name</span> <span class="o">=</span> <span class="n">ttl_key_name</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">history_size</span> <span class="o">=</span> <span class="n">history_size</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">history_messages_key</span> <span class="o">=</span> <span class="n">history_messages_key</span>
 
         <span class="k">if</span> <span class="n">kms_key_id</span><span class="p">:</span>
             <span class="k">try</span><span class="p">:</span>
@@ -325,7 +329,9 @@ document.write(`
 
             <span class="n">actions</span> <span class="o">=</span> <span class="n">AttributeActions</span><span class="p">(</span>
                 <span class="n">default_action</span><span class="o">=</span><span class="n">CryptoAction</span><span class="o">.</span><span class="n">DO_NOTHING</span><span class="p">,</span>
-                <span class="n">attribute_actions</span><span class="o">=</span><span class="p">{</span><span class="s2">"History"</span><span class="p">:</span> <span class="n">CryptoAction</span><span class="o">.</span><span class="n">ENCRYPT_AND_SIGN</span><span class="p">},</span>
+                <span class="n">attribute_actions</span><span class="o">=</span><span class="p">{</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">history_messages_key</span><span class="p">:</span> <span class="n">CryptoAction</span><span class="o">.</span><span class="n">ENCRYPT_AND_SIGN</span>
+                <span class="p">},</span>
             <span class="p">)</span>
             <span class="n">aws_kms_cmp</span> <span class="o">=</span> <span class="n">AwsKmsCryptographicMaterialsProvider</span><span class="p">(</span><span class="n">key_id</span><span class="o">=</span><span class="n">kms_key_id</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">table</span> <span class="o">=</span> <span class="n">EncryptedTable</span><span class="p">(</span>
@@ -355,7 +361,7 @@ document.write(`
                 <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">response</span> <span class="ow">and</span> <span class="s2">"Item"</span> <span class="ow">in</span> <span class="n">response</span><span class="p">:</span>
-            <span class="n">items</span> <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="s2">"Item"</span><span class="p">][</span><span class="s2">"History"</span><span class="p">]</span>
+            <span class="n">items</span> <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="s2">"Item"</span><span class="p">][</span><span class="bp">self</span><span class="o">.</span><span class="n">history_messages_key</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">items</span> <span class="o">=</span> <span class="p">[]</span>
 
@@ -391,10 +397,16 @@ document.write(`
 
                 <span class="n">expireAt</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">())</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">ttl</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">table</span><span class="o">.</span><span class="n">put_item</span><span class="p">(</span>
-                    <span class="n">Item</span><span class="o">=</span><span class="p">{</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="p">,</span> <span class="s2">"History"</span><span class="p">:</span> <span class="n">messages</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ttl_key_name</span><span class="p">:</span> <span class="n">expireAt</span><span class="p">}</span>
+                    <span class="n">Item</span><span class="o">=</span><span class="p">{</span>
+                        <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="p">,</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">history_messages_key</span><span class="p">:</span> <span class="n">messages</span><span class="p">,</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">ttl_key_name</span><span class="p">:</span> <span class="n">expireAt</span><span class="p">,</span>
+                    <span class="p">}</span>
                 <span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">table</span><span class="o">.</span><span class="n">put_item</span><span class="p">(</span><span class="n">Item</span><span class="o">=</span><span class="p">{</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="p">,</span> <span class="s2">"History"</span><span class="p">:</span> <span class="n">messages</span><span class="p">})</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">table</span><span class="o">.</span><span class="n">put_item</span><span class="p">(</span>
+                    <span class="n">Item</span><span class="o">=</span><span class="p">{</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">history_messages_key</span><span class="p">:</span> <span class="n">messages</span><span class="p">}</span>
+                <span class="p">)</span>
         <span class="k">except</span> <span class="n">ClientError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">err</span><span class="p">)</span></div>
 

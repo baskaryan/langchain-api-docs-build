@@ -38,7 +38,7 @@
 <link href="../../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Aug 22, 2024" name="docbuild:last-update"/>
+<meta content="Aug 23, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -227,25 +227,46 @@ document.write(`
 <div id="searchbox"></div>
 <article class="bd-article">
 <h1>Source code for langchain_community.chains.pebblo_retrieval.utilities</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">logging</span>
+<span></span><span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">platform</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span>
+<span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
+<span class="kn">from</span> <span class="nn">http</span> <span class="kn">import</span> <span class="n">HTTPStatus</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
 
+<span class="kn">from</span> <span class="nn">langchain_core.documents</span> <span class="kn">import</span> <span class="n">Document</span>
 <span class="kn">from</span> <span class="nn">langchain_core.env</span> <span class="kn">import</span> <span class="n">get_runtime_environment</span>
+<span class="kn">from</span> <span class="nn">langchain_core.pydantic_v1</span> <span class="kn">import</span> <span class="n">BaseModel</span>
+<span class="kn">from</span> <span class="nn">langchain_core.utils</span> <span class="kn">import</span> <span class="n">get_from_dict_or_env</span>
+<span class="kn">from</span> <span class="nn">langchain_core.vectorstores</span> <span class="kn">import</span> <span class="n">VectorStoreRetriever</span>
+<span class="kn">from</span> <span class="nn">requests</span> <span class="kn">import</span> <span class="n">Response</span><span class="p">,</span> <span class="n">request</span>
+<span class="kn">from</span> <span class="nn">requests.exceptions</span> <span class="kn">import</span> <span class="n">RequestException</span>
 
-<span class="kn">from</span> <span class="nn">langchain_community.chains.pebblo_retrieval.models</span> <span class="kn">import</span> <span class="n">Framework</span><span class="p">,</span> <span class="n">Runtime</span>
+<span class="kn">from</span> <span class="nn">langchain_community.chains.pebblo_retrieval.models</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">App</span><span class="p">,</span>
+    <span class="n">AuthContext</span><span class="p">,</span>
+    <span class="n">Context</span><span class="p">,</span>
+    <span class="n">Framework</span><span class="p">,</span>
+    <span class="n">Prompt</span><span class="p">,</span>
+    <span class="n">Qa</span><span class="p">,</span>
+    <span class="n">Runtime</span><span class="p">,</span>
+<span class="p">)</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 <span class="n">PLUGIN_VERSION</span> <span class="o">=</span> <span class="s2">"0.1.1"</span>
 
-<span class="n">CLASSIFIER_URL</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">"PEBBLO_CLASSIFIER_URL"</span><span class="p">,</span> <span class="s2">"http://localhost:8000"</span><span class="p">)</span>
-<span class="n">PEBBLO_CLOUD_URL</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">"PEBBLO_CLOUD_URL"</span><span class="p">,</span> <span class="s2">"https://api.daxa.ai"</span><span class="p">)</span>
+<span class="n">_DEFAULT_CLASSIFIER_URL</span> <span class="o">=</span> <span class="s2">"http://localhost:8000"</span>
+<span class="n">_DEFAULT_PEBBLO_CLOUD_URL</span> <span class="o">=</span> <span class="s2">"https://api.daxa.ai"</span>
 
-<span class="n">PROMPT_URL</span> <span class="o">=</span> <span class="s2">"/v1/prompt"</span>
-<span class="n">PROMPT_GOV_URL</span> <span class="o">=</span> <span class="s2">"/v1/prompt/governance"</span>
-<span class="n">APP_DISCOVER_URL</span> <span class="o">=</span> <span class="s2">"/v1/app/discover"</span>
+
+<div class="viewcode-block" id="Routes"><a class="viewcode-back" href="../../../../community/chains/langchain_community.chains.pebblo_retrieval.utilities.Routes.html#langchain_community.chains.pebblo_retrieval.utilities.Routes">[docs]</a><span class="k">class</span> <span class="nc">Routes</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">Enum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Routes available for the Pebblo API as enumerator."""</span>
+
+    <span class="n">retrieval_app_discover</span> <span class="o">=</span> <span class="s2">"/v1/app/discover"</span>
+    <span class="n">prompt</span> <span class="o">=</span> <span class="s2">"/v1/prompt"</span>
+    <span class="n">prompt_governance</span> <span class="o">=</span> <span class="s2">"/v1/prompt/governance"</span></div>
 
 
 <div class="viewcode-block" id="get_runtime"><a class="viewcode-back" href="../../../../community/chains/langchain_community.chains.pebblo_retrieval.utilities.get_runtime.html#langchain_community.chains.pebblo_retrieval.utilities.get_runtime">[docs]</a><span class="k">def</span> <span class="nf">get_runtime</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Framework</span><span class="p">,</span> <span class="n">Runtime</span><span class="p">]:</span>
@@ -293,6 +314,311 @@ document.write(`
     <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
         <span class="n">public_ip</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">gethostbyname</span><span class="p">(</span><span class="s2">"localhost"</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">public_ip</span></div>
+
+
+<div class="viewcode-block" id="PebbloRetrievalAPIWrapper"><a class="viewcode-back" href="../../../../community/chains/langchain_community.chains.pebblo_retrieval.utilities.PebbloRetrievalAPIWrapper.html#langchain_community.chains.pebblo_retrieval.utilities.PebbloRetrievalAPIWrapper">[docs]</a><span class="k">class</span> <span class="nc">PebbloRetrievalAPIWrapper</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Wrapper for Pebblo Retrieval API."""</span>
+
+    <span class="n">api_key</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>  <span class="c1"># Use SecretStr</span>
+<span class="w">    </span><span class="sd">"""API key for Pebblo Cloud"""</span>
+    <span class="n">classifier_location</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"local"</span>
+<span class="w">    </span><span class="sd">"""Location of the classifier, local or cloud. Defaults to 'local'"""</span>
+    <span class="n">classifier_url</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+<span class="w">    </span><span class="sd">"""URL of the Pebblo Classifier"""</span>
+    <span class="n">cloud_url</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+<span class="w">    </span><span class="sd">"""URL of the Pebblo Cloud"""</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Validate that api key in environment."""</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">"api_key"</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_from_dict_or_env</span><span class="p">(</span>
+            <span class="n">kwargs</span><span class="p">,</span> <span class="s2">"api_key"</span><span class="p">,</span> <span class="s2">"PEBBLO_API_KEY"</span><span class="p">,</span> <span class="s2">""</span>
+        <span class="p">)</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">"classifier_url"</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_from_dict_or_env</span><span class="p">(</span>
+            <span class="n">kwargs</span><span class="p">,</span> <span class="s2">"classifier_url"</span><span class="p">,</span> <span class="s2">"PEBBLO_CLASSIFIER_URL"</span><span class="p">,</span> <span class="n">_DEFAULT_CLASSIFIER_URL</span>
+        <span class="p">)</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">"cloud_url"</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_from_dict_or_env</span><span class="p">(</span>
+            <span class="n">kwargs</span><span class="p">,</span> <span class="s2">"cloud_url"</span><span class="p">,</span> <span class="s2">"PEBBLO_CLOUD_URL"</span><span class="p">,</span> <span class="n">_DEFAULT_PEBBLO_CLOUD_URL</span>
+        <span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<div class="viewcode-block" id="PebbloRetrievalAPIWrapper.send_app_discover"><a class="viewcode-back" href="../../../../community/chains/langchain_community.chains.pebblo_retrieval.utilities.PebbloRetrievalAPIWrapper.html#langchain_community.chains.pebblo_retrieval.utilities.PebbloRetrievalAPIWrapper.send_app_discover">[docs]</a>    <span class="k">def</span> <span class="nf">send_app_discover</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app</span><span class="p">:</span> <span class="n">App</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Send app discovery request to Pebblo server &amp; cloud.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            app (App): App instance to be discovered.</span>
+<span class="sd">        """</span>
+        <span class="n">pebblo_resp</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">payload</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">dict</span><span class="p">(</span><span class="n">exclude_unset</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">classifier_location</span> <span class="o">==</span> <span class="s2">"local"</span><span class="p">:</span>
+            <span class="c1"># Send app details to local classifier</span>
+            <span class="n">headers</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_headers</span><span class="p">()</span>
+            <span class="n">app_discover_url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">classifier_url</span><span class="si">}{</span><span class="n">Routes</span><span class="o">.</span><span class="n">retrieval_app_discover</span><span class="si">}</span><span class="s2">"</span>
+            <span class="n">pebblo_resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_request</span><span class="p">(</span><span class="s2">"POST"</span><span class="p">,</span> <span class="n">app_discover_url</span><span class="p">,</span> <span class="n">headers</span><span class="p">,</span> <span class="n">payload</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span><span class="p">:</span>
+            <span class="c1"># Send app details to Pebblo cloud if api_key is present</span>
+            <span class="n">headers</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_headers</span><span class="p">(</span><span class="n">cloud_request</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">pebblo_resp</span><span class="p">:</span>
+                <span class="n">pebblo_server_version</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">pebblo_resp</span><span class="o">.</span><span class="n">text</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+                    <span class="s2">"pebblo_server_version"</span>
+                <span class="p">)</span>
+                <span class="n">payload</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">"pebblo_server_version"</span><span class="p">:</span> <span class="n">pebblo_server_version</span><span class="p">})</span>
+
+            <span class="n">payload</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">"pebblo_client_version"</span><span class="p">:</span> <span class="n">PLUGIN_VERSION</span><span class="p">})</span>
+            <span class="n">pebblo_cloud_url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">cloud_url</span><span class="si">}{</span><span class="n">Routes</span><span class="o">.</span><span class="n">retrieval_app_discover</span><span class="si">}</span><span class="s2">"</span>
+            <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_request</span><span class="p">(</span><span class="s2">"POST"</span><span class="p">,</span> <span class="n">pebblo_cloud_url</span><span class="p">,</span> <span class="n">headers</span><span class="p">,</span> <span class="n">payload</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="PebbloRetrievalAPIWrapper.send_prompt"><a class="viewcode-back" href="../../../../community/chains/langchain_community.chains.pebblo_retrieval.utilities.PebbloRetrievalAPIWrapper.html#langchain_community.chains.pebblo_retrieval.utilities.PebbloRetrievalAPIWrapper.send_prompt">[docs]</a>    <span class="k">def</span> <span class="nf">send_prompt</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">app_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">retriever</span><span class="p">:</span> <span class="n">VectorStoreRetriever</span><span class="p">,</span>
+        <span class="n">question</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">answer</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">auth_context</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">AuthContext</span><span class="p">],</span>
+        <span class="n">docs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Document</span><span class="p">],</span>
+        <span class="n">prompt_entities</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
+        <span class="n">prompt_time</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">prompt_gov_enabled</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Send prompt to Pebblo server for classification.</span>
+<span class="sd">        Then send prompt to Daxa cloud(If api_key is present).</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            app_name (str): Name of the app.</span>
+<span class="sd">            retriever (VectorStoreRetriever): Retriever instance.</span>
+<span class="sd">            question (str): Question asked in the prompt.</span>
+<span class="sd">            answer (str): Answer generated by the model.</span>
+<span class="sd">            auth_context (Optional[AuthContext]): Authentication context.</span>
+<span class="sd">            docs (List[Document]): List of documents retrieved.</span>
+<span class="sd">            prompt_entities (Dict[str, Any]): Entities present in the prompt.</span>
+<span class="sd">            prompt_time (str): Time when the prompt was generated.</span>
+<span class="sd">            prompt_gov_enabled (bool): Whether prompt governance is enabled.</span>
+<span class="sd">        """</span>
+        <span class="n">pebblo_resp</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">payload</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">build_prompt_qa_payload</span><span class="p">(</span>
+            <span class="n">app_name</span><span class="p">,</span>
+            <span class="n">retriever</span><span class="p">,</span>
+            <span class="n">question</span><span class="p">,</span>
+            <span class="n">answer</span><span class="p">,</span>
+            <span class="n">auth_context</span><span class="p">,</span>
+            <span class="n">docs</span><span class="p">,</span>
+            <span class="n">prompt_entities</span><span class="p">,</span>
+            <span class="n">prompt_time</span><span class="p">,</span>
+            <span class="n">prompt_gov_enabled</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">classifier_location</span> <span class="o">==</span> <span class="s2">"local"</span><span class="p">:</span>
+            <span class="c1"># Send prompt to local classifier</span>
+            <span class="n">headers</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_headers</span><span class="p">()</span>
+            <span class="n">prompt_url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">classifier_url</span><span class="si">}{</span><span class="n">Routes</span><span class="o">.</span><span class="n">prompt</span><span class="si">}</span><span class="s2">"</span>
+            <span class="n">pebblo_resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_request</span><span class="p">(</span><span class="s2">"POST"</span><span class="p">,</span> <span class="n">prompt_url</span><span class="p">,</span> <span class="n">headers</span><span class="p">,</span> <span class="n">payload</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span><span class="p">:</span>
+            <span class="c1"># Send prompt to Pebblo cloud if api_key is present</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">classifier_location</span> <span class="o">==</span> <span class="s2">"local"</span><span class="p">:</span>
+                <span class="c1"># If classifier location is local, then response, context and prompt</span>
+                <span class="c1"># should be fetched from pebblo_resp and replaced in payload.</span>
+                <span class="n">pebblo_resp</span> <span class="o">=</span> <span class="n">pebblo_resp</span><span class="o">.</span><span class="n">json</span><span class="p">()</span> <span class="k">if</span> <span class="n">pebblo_resp</span> <span class="k">else</span> <span class="kc">None</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">update_cloud_payload</span><span class="p">(</span><span class="n">payload</span><span class="p">,</span> <span class="n">pebblo_resp</span><span class="p">)</span>
+
+            <span class="n">headers</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_headers</span><span class="p">(</span><span class="n">cloud_request</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">pebblo_cloud_prompt_url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">cloud_url</span><span class="si">}{</span><span class="n">Routes</span><span class="o">.</span><span class="n">prompt</span><span class="si">}</span><span class="s2">"</span>
+            <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_request</span><span class="p">(</span><span class="s2">"POST"</span><span class="p">,</span> <span class="n">pebblo_cloud_prompt_url</span><span class="p">,</span> <span class="n">headers</span><span class="p">,</span> <span class="n">payload</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">classifier_location</span> <span class="o">==</span> <span class="s2">"pebblo-cloud"</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">"API key is missing for sending prompt to Pebblo cloud."</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">NameError</span><span class="p">(</span><span class="s2">"API key is missing for sending prompt to Pebblo cloud."</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="PebbloRetrievalAPIWrapper.check_prompt_validity"><a class="viewcode-back" href="../../../../community/chains/langchain_community.chains.pebblo_retrieval.utilities.PebbloRetrievalAPIWrapper.html#langchain_community.chains.pebblo_retrieval.utilities.PebbloRetrievalAPIWrapper.check_prompt_validity">[docs]</a>    <span class="k">def</span> <span class="nf">check_prompt_validity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">question</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Check the validity of the given prompt using a remote classification service.</span>
+
+<span class="sd">        This method sends a prompt to a remote classifier service and return entities</span>
+<span class="sd">        present in prompt or not.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            question (str): The prompt question to be validated.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: True if the prompt is valid (does not contain deny list entities),</span>
+<span class="sd">            False otherwise.</span>
+<span class="sd">            dict: The entities present in the prompt</span>
+<span class="sd">        """</span>
+        <span class="n">prompt_payload</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"prompt"</span><span class="p">:</span> <span class="n">question</span><span class="p">}</span>
+        <span class="n">prompt_entities</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"entities"</span><span class="p">:</span> <span class="p">{},</span> <span class="s2">"entityCount"</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
+        <span class="n">is_valid_prompt</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">classifier_location</span> <span class="o">==</span> <span class="s2">"local"</span><span class="p">:</span>
+            <span class="n">headers</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_headers</span><span class="p">()</span>
+            <span class="n">prompt_gov_api_url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">classifier_url</span><span class="si">}{</span><span class="n">Routes</span><span class="o">.</span><span class="n">prompt_governance</span><span class="si">}</span><span class="s2">"</span>
+            <span class="n">pebblo_resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_request</span><span class="p">(</span>
+                <span class="s2">"POST"</span><span class="p">,</span> <span class="n">prompt_gov_api_url</span><span class="p">,</span> <span class="n">headers</span><span class="p">,</span> <span class="n">prompt_payload</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="n">pebblo_resp</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">"pebblo_resp.json() </span><span class="si">{</span><span class="n">pebblo_resp</span><span class="o">.</span><span class="n">json</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+                <span class="n">prompt_entities</span><span class="p">[</span><span class="s2">"entities"</span><span class="p">]</span> <span class="o">=</span> <span class="n">pebblo_resp</span><span class="o">.</span><span class="n">json</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"entities"</span><span class="p">,</span> <span class="p">{})</span>
+                <span class="n">prompt_entities</span><span class="p">[</span><span class="s2">"entityCount"</span><span class="p">]</span> <span class="o">=</span> <span class="n">pebblo_resp</span><span class="o">.</span><span class="n">json</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+                    <span class="s2">"entityCount"</span><span class="p">,</span> <span class="mi">0</span>
+                <span class="p">)</span>
+        <span class="k">return</span> <span class="n">is_valid_prompt</span><span class="p">,</span> <span class="n">prompt_entities</span></div>
+
+    <span class="k">def</span> <span class="nf">_make_headers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cloud_request</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Generate headers for the request.</span>
+
+<span class="sd">        args:</span>
+<span class="sd">            cloud_request (bool): flag indicating whether the request is for Pebblo</span>
+<span class="sd">            cloud.</span>
+<span class="sd">        returns:</span>
+<span class="sd">            dict: Headers for the request.</span>
+
+<span class="sd">        """</span>
+        <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">"Accept"</span><span class="p">:</span> <span class="s2">"application/json"</span><span class="p">,</span>
+            <span class="s2">"Content-Type"</span><span class="p">:</span> <span class="s2">"application/json"</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="n">cloud_request</span><span class="p">:</span>
+            <span class="c1"># Add API key for Pebblo cloud request</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span><span class="p">:</span>
+                <span class="n">headers</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">"x-api-key"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span><span class="p">})</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">"API key is missing for Pebblo cloud request."</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">headers</span>
+
+<div class="viewcode-block" id="PebbloRetrievalAPIWrapper.make_request"><a class="viewcode-back" href="../../../../community/chains/langchain_community.chains.pebblo_retrieval.utilities.PebbloRetrievalAPIWrapper.html#langchain_community.chains.pebblo_retrieval.utilities.PebbloRetrievalAPIWrapper.make_request">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">make_request</span><span class="p">(</span>
+        <span class="n">method</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">headers</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+        <span class="n">payload</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">timeout</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Response</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Make a request to the Pebblo server/cloud API.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            method (str): HTTP method (GET, POST, PUT, DELETE, etc.).</span>
+<span class="sd">            url (str): URL for the request.</span>
+<span class="sd">            headers (dict): Headers for the request.</span>
+<span class="sd">            payload (Optional[dict]): Payload for the request (for POST, PUT, etc.).</span>
+<span class="sd">            timeout (int): Timeout for the request in seconds.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Optional[Response]: Response object if the request is successful.</span>
+<span class="sd">        """</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">request</span><span class="p">(</span>
+                <span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">payload</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span>
+            <span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+                <span class="s2">"Request: method </span><span class="si">%s</span><span class="s2">, url </span><span class="si">%s</span><span class="s2">, len </span><span class="si">%s</span><span class="s2"> response status </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span>
+                <span class="n">method</span><span class="p">,</span>
+                <span class="n">response</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">url</span><span class="p">,</span>
+                <span class="nb">str</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">body</span> <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">body</span> <span class="k">else</span> <span class="p">[])),</span>
+                <span class="nb">str</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">),</span>
+            <span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">&gt;=</span> <span class="n">HTTPStatus</span><span class="o">.</span><span class="n">INTERNAL_SERVER_ERROR</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Pebblo Server: Error </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">&gt;=</span> <span class="n">HTTPStatus</span><span class="o">.</span><span class="n">BAD_REQUEST</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Pebblo received an invalid payload: </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">!=</span> <span class="n">HTTPStatus</span><span class="o">.</span><span class="n">OK</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">"Pebblo returned an unexpected response code: "</span>
+                    <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">"</span>
+                <span class="p">)</span>
+
+            <span class="k">return</span> <span class="n">response</span>
+        <span class="k">except</span> <span class="n">RequestException</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">"Unable to reach server </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">"An Exception caught in make_request: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="PebbloRetrievalAPIWrapper.update_cloud_payload"><a class="viewcode-back" href="../../../../community/chains/langchain_community.chains.pebblo_retrieval.utilities.PebbloRetrievalAPIWrapper.html#langchain_community.chains.pebblo_retrieval.utilities.PebbloRetrievalAPIWrapper.update_cloud_payload">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">update_cloud_payload</span><span class="p">(</span><span class="n">payload</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">pebblo_resp</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Update the payload with response, prompt and context from Pebblo response.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            payload (dict): Payload to be updated.</span>
+<span class="sd">            pebblo_resp (Optional[dict]): Response from Pebblo server.</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="n">pebblo_resp</span><span class="p">:</span>
+            <span class="c1"># Update response, prompt and context from pebblo response</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">payload</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"response"</span><span class="p">,</span> <span class="p">{})</span>
+            <span class="n">response</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">pebblo_resp</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"retrieval_data"</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"response"</span><span class="p">,</span> <span class="p">{}))</span>
+            <span class="n">response</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"data"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="n">prompt</span> <span class="o">=</span> <span class="n">payload</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"prompt"</span><span class="p">,</span> <span class="p">{})</span>
+            <span class="n">prompt</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">pebblo_resp</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"retrieval_data"</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"prompt"</span><span class="p">,</span> <span class="p">{}))</span>
+            <span class="n">prompt</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"data"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="n">context</span> <span class="o">=</span> <span class="n">payload</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"context"</span><span class="p">,</span> <span class="p">[])</span>
+            <span class="k">for</span> <span class="n">context_data</span> <span class="ow">in</span> <span class="n">context</span><span class="p">:</span>
+                <span class="n">context_data</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"doc"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">payload</span><span class="p">[</span><span class="s2">"response"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="n">payload</span><span class="p">[</span><span class="s2">"prompt"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="n">payload</span><span class="p">[</span><span class="s2">"context"</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span></div>
+
+<div class="viewcode-block" id="PebbloRetrievalAPIWrapper.build_prompt_qa_payload"><a class="viewcode-back" href="../../../../community/chains/langchain_community.chains.pebblo_retrieval.utilities.PebbloRetrievalAPIWrapper.html#langchain_community.chains.pebblo_retrieval.utilities.PebbloRetrievalAPIWrapper.build_prompt_qa_payload">[docs]</a>    <span class="k">def</span> <span class="nf">build_prompt_qa_payload</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">app_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">retriever</span><span class="p">:</span> <span class="n">VectorStoreRetriever</span><span class="p">,</span>
+        <span class="n">question</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">answer</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">auth_context</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">AuthContext</span><span class="p">],</span>
+        <span class="n">docs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Document</span><span class="p">],</span>
+        <span class="n">prompt_entities</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
+        <span class="n">prompt_time</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">prompt_gov_enabled</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Build the QA payload for the prompt.</span>
+
+<span class="sd">         Args:</span>
+<span class="sd">            app_name (str): Name of the app.</span>
+<span class="sd">            retriever (VectorStoreRetriever): Retriever instance.</span>
+<span class="sd">            question (str): Question asked in the prompt.</span>
+<span class="sd">            answer (str): Answer generated by the model.</span>
+<span class="sd">            auth_context (Optional[AuthContext]): Authentication context.</span>
+<span class="sd">            docs (List[Document]): List of documents retrieved.</span>
+<span class="sd">            prompt_entities (Dict[str, Any]): Entities present in the prompt.</span>
+<span class="sd">            prompt_time (str): Time when the prompt was generated.</span>
+<span class="sd">            prompt_gov_enabled (bool): Whether prompt governance is enabled.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: The QA payload for the prompt.</span>
+<span class="sd">        """</span>
+        <span class="n">qa</span> <span class="o">=</span> <span class="n">Qa</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="n">app_name</span><span class="p">,</span>
+            <span class="n">context</span><span class="o">=</span><span class="p">[</span>
+                <span class="n">Context</span><span class="p">(</span>
+                    <span class="n">retrieved_from</span><span class="o">=</span><span class="n">doc</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+                        <span class="s2">"full_path"</span><span class="p">,</span> <span class="n">doc</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"source"</span><span class="p">)</span>
+                    <span class="p">),</span>
+                    <span class="n">doc</span><span class="o">=</span><span class="n">doc</span><span class="o">.</span><span class="n">page_content</span><span class="p">,</span>
+                    <span class="n">vector_db</span><span class="o">=</span><span class="n">retriever</span><span class="o">.</span><span class="n">vectorstore</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
+                    <span class="n">pb_checksum</span><span class="o">=</span><span class="n">doc</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"pb_checksum"</span><span class="p">),</span>
+                <span class="p">)</span>
+                <span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">docs</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">doc</span><span class="p">,</span> <span class="n">Document</span><span class="p">)</span>
+            <span class="p">],</span>
+            <span class="n">prompt</span><span class="o">=</span><span class="n">Prompt</span><span class="p">(</span>
+                <span class="n">data</span><span class="o">=</span><span class="n">question</span><span class="p">,</span>
+                <span class="n">entities</span><span class="o">=</span><span class="n">prompt_entities</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"entities"</span><span class="p">,</span> <span class="p">{}),</span>
+                <span class="n">entityCount</span><span class="o">=</span><span class="n">prompt_entities</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"entityCount"</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+                <span class="n">prompt_gov_enabled</span><span class="o">=</span><span class="n">prompt_gov_enabled</span><span class="p">,</span>
+            <span class="p">),</span>
+            <span class="n">response</span><span class="o">=</span><span class="n">Prompt</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">answer</span><span class="p">),</span>
+            <span class="n">prompt_time</span><span class="o">=</span><span class="n">prompt_time</span><span class="p">,</span>
+            <span class="n">user</span><span class="o">=</span><span class="n">auth_context</span><span class="o">.</span><span class="n">user_id</span> <span class="k">if</span> <span class="n">auth_context</span> <span class="k">else</span> <span class="s2">"unknown"</span><span class="p">,</span>
+            <span class="n">user_identities</span><span class="o">=</span><span class="n">auth_context</span><span class="o">.</span><span class="n">user_auth</span>
+            <span class="k">if</span> <span class="n">auth_context</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">auth_context</span><span class="p">,</span> <span class="s2">"user_auth"</span><span class="p">)</span>
+            <span class="k">else</span> <span class="p">[],</span>
+            <span class="n">classifier_location</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">classifier_location</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">qa</span><span class="o">.</span><span class="n">dict</span><span class="p">(</span><span class="n">exclude_unset</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div></div>
 </pre></div>
 </article>
 </div>

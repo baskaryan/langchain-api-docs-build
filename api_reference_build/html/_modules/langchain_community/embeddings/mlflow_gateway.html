@@ -38,7 +38,7 @@
 <link href="../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Aug 22, 2024" name="docbuild:last-update"/>
+<meta content="Aug 23, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -293,7 +293,12 @@ document.write(`
         <span class="n">embeddings</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">txt</span> <span class="ow">in</span> <span class="n">_chunk</span><span class="p">(</span><span class="n">texts</span><span class="p">,</span> <span class="mi">20</span><span class="p">):</span>
             <span class="n">resp</span> <span class="o">=</span> <span class="n">mlflow</span><span class="o">.</span><span class="n">gateway</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">route</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="p">{</span><span class="s2">"text"</span><span class="p">:</span> <span class="n">txt</span><span class="p">})</span>
-            <span class="n">embeddings</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s2">"embeddings"</span><span class="p">])</span>
+            <span class="c1"># response is List[List[float]]</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s2">"embeddings"</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">List</span><span class="p">):</span>
+                <span class="n">embeddings</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s2">"embeddings"</span><span class="p">])</span>
+            <span class="c1"># response is List[float]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">embeddings</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s2">"embeddings"</span><span class="p">])</span>
         <span class="k">return</span> <span class="n">embeddings</span>
 
 <div class="viewcode-block" id="MlflowAIGatewayEmbeddings.embed_documents"><a class="viewcode-back" href="../../../community/embeddings/langchain_community.embeddings.mlflow_gateway.MlflowAIGatewayEmbeddings.html#langchain_community.embeddings.mlflow_gateway.MlflowAIGatewayEmbeddings.embed_documents">[docs]</a>    <span class="k">def</span> <span class="nf">embed_documents</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">texts</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]]:</span>

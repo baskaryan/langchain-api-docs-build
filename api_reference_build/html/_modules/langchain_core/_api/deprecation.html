@@ -38,7 +38,7 @@
 <link href="../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Aug 22, 2024" name="docbuild:last-update"/>
+<meta content="Aug 23, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -243,7 +243,17 @@ document.write(`
 <span class="kn">import</span> <span class="nn">functools</span>
 <span class="kn">import</span> <span class="nn">inspect</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Generator</span><span class="p">,</span> <span class="n">Type</span><span class="p">,</span> <span class="n">TypeVar</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">cast</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Any</span><span class="p">,</span>
+    <span class="n">Callable</span><span class="p">,</span>
+    <span class="n">Generator</span><span class="p">,</span>
+    <span class="n">Type</span><span class="p">,</span>
+    <span class="n">TypeVar</span><span class="p">,</span>
+    <span class="n">Union</span><span class="p">,</span>
+    <span class="n">cast</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">typing_extensions</span> <span class="kn">import</span> <span class="n">ParamSpec</span>
 
 <span class="kn">from</span> <span class="nn">langchain_core._api.internal</span> <span class="kn">import</span> <span class="n">is_caller_internal</span>
 
@@ -443,7 +453,7 @@ document.write(`
             <span class="k">if</span> <span class="ow">not</span> <span class="n">_obj_type</span><span class="p">:</span>
                 <span class="n">_obj_type</span> <span class="o">=</span> <span class="s2">"attribute"</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">_name</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">()</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Field </span><span class="si">{</span><span class="n">obj</span><span class="si">}</span><span class="s2"> must have a name to be deprecated."</span><span class="p">)</span>
             <span class="n">old_doc</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">description</span>
 
             <span class="k">def</span> <span class="nf">finalize</span><span class="p">(</span><span class="n">wrapper</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">new_doc</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
@@ -677,6 +687,54 @@ document.write(`
         <span class="s2">"default"</span><span class="p">,</span>
         <span class="n">category</span><span class="o">=</span><span class="n">LangChainDeprecationWarning</span><span class="p">,</span>
     <span class="p">)</span>
+
+
+<span class="n">_P</span> <span class="o">=</span> <span class="n">ParamSpec</span><span class="p">(</span><span class="s2">"_P"</span><span class="p">)</span>
+<span class="n">_R</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">"_R"</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">rename_parameter</span><span class="p">(</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">since</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">removal</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">old</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">new</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Callable</span><span class="p">[</span><span class="n">_P</span><span class="p">,</span> <span class="n">_R</span><span class="p">]],</span> <span class="n">Callable</span><span class="p">[</span><span class="n">_P</span><span class="p">,</span> <span class="n">_R</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">"""Decorator indicating that parameter *old* of *func* is renamed to *new*.</span>
+
+<span class="sd">    The actual implementation of *func* should use *new*, not *old*.  If *old*</span>
+<span class="sd">    is passed to *func*, a DeprecationWarning is emitted, and its value is</span>
+<span class="sd">    used, even if *new* is also passed by keyword.</span>
+
+<span class="sd">    Example:</span>
+
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            @_api.rename_parameter("3.1", "bad_name", "good_name")</span>
+<span class="sd">            def func(good_name): ...</span>
+<span class="sd">    """</span>
+
+    <span class="k">def</span> <span class="nf">decorator</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[</span><span class="n">_P</span><span class="p">,</span> <span class="n">_R</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[</span><span class="n">_P</span><span class="p">,</span> <span class="n">_R</span><span class="p">]:</span>
+        <span class="nd">@functools</span><span class="o">.</span><span class="n">wraps</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+        <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">_P</span><span class="o">.</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">_P</span><span class="o">.</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_R</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">new</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="ow">and</span> <span class="n">old</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">f</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">() got multiple values for argument </span><span class="si">{</span><span class="n">new</span><span class="si">!r}</span><span class="s2">"</span>
+                <span class="p">)</span>
+            <span class="k">if</span> <span class="n">old</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+                <span class="n">warn_deprecated</span><span class="p">(</span>
+                    <span class="n">since</span><span class="p">,</span>
+                    <span class="n">removal</span><span class="o">=</span><span class="n">removal</span><span class="p">,</span>
+                    <span class="n">message</span><span class="o">=</span><span class="sa">f</span><span class="s2">"The parameter `</span><span class="si">{</span><span class="n">old</span><span class="si">}</span><span class="s2">` of `</span><span class="si">{</span><span class="n">f</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">` was "</span>
+                    <span class="sa">f</span><span class="s2">"deprecated in </span><span class="si">{</span><span class="n">since</span><span class="si">}</span><span class="s2"> and will be removed "</span>
+                    <span class="sa">f</span><span class="s2">"in </span><span class="si">{</span><span class="n">removal</span><span class="si">}</span><span class="s2"> Use `</span><span class="si">{</span><span class="n">new</span><span class="si">}</span><span class="s2">` instead."</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="n">kwargs</span><span class="p">[</span><span class="n">new</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">old</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">f</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">wrapper</span>
+
+    <span class="k">return</span> <span class="n">decorator</span>
 </pre></div>
 </article>
 </div>

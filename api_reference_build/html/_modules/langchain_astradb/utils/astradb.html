@@ -38,7 +38,7 @@
 <link href="../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Aug 22, 2024" name="docbuild:last-update"/>
+<meta content="Aug 23, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -294,11 +294,12 @@ document.write(`
 
         <span class="k">if</span> <span class="n">astra_db_client</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">async_astra_db_client</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">token</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">api_endpoint</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">environment</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
                     <span class="s2">"You cannot pass 'astra_db_client' or 'async_astra_db_client' "</span>
                     <span class="s2">"to AstraDBEnvironment if passing 'token', 'api_endpoint' or "</span>
                     <span class="s2">"'environment'."</span>
                 <span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
             <span class="n">_astra_db</span> <span class="o">=</span> <span class="n">astra_db_client</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span> <span class="k">if</span> <span class="n">astra_db_client</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span>
             <span class="k">if</span> <span class="n">async_astra_db_client</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">_async_astra_db</span> <span class="o">=</span> <span class="n">async_astra_db_client</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
@@ -341,23 +342,26 @@ document.write(`
                 <span class="p">}</span>
             <span class="p">)</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">_tokens</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
                     <span class="s2">"Conflicting tokens found in the sync and async AstraDB "</span>
                     <span class="s2">"constructor parameters. Please check the tokens and "</span>
                     <span class="s2">"ensure they match."</span>
                 <span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">_api_endpoints</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
                     <span class="s2">"Conflicting API endpoints found in the sync and async "</span>
                     <span class="s2">"AstraDB constructor parameters. Please check the tokens "</span>
                     <span class="s2">"and ensure they match."</span>
                 <span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">_namespaces</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
                     <span class="s2">"Conflicting namespaces found in the sync and async "</span>
                     <span class="s2">"AstraDB constructor parameters. Please check the tokens "</span>
                     <span class="s2">"and ensure they match."</span>
                 <span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
             <span class="c1"># all good: these are 1-element lists here</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">token</span> <span class="o">=</span> <span class="n">_tokens</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">api_endpoint</span> <span class="o">=</span> <span class="n">_api_endpoints</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
@@ -396,11 +400,12 @@ document.write(`
         <span class="c1"># init parameters are normalized to self.{token, api_endpoint, namespace}.</span>
         <span class="c1"># Proceed. Namespace and token can be None (resp. on Astra DB and non-Astra)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">api_endpoint</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
                 <span class="s2">"API endpoint for Data API not provided. "</span>
                 <span class="s2">"Either pass it explicitly to the object constructor "</span>
                 <span class="sa">f</span><span class="s2">"or set the </span><span class="si">{</span><span class="n">API_ENDPOINT_ENV_VAR</span><span class="si">}</span><span class="s2"> environment variable."</span>
             <span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
 
         <span class="c1"># create the clients</span>
         <span class="n">caller_name</span> <span class="o">=</span> <span class="s2">"langchain"</span>
@@ -496,10 +501,11 @@ document.write(`
             <span class="k">if</span> <span class="n">pre_delete_collection</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">database</span><span class="o">.</span><span class="n">drop_collection</span><span class="p">(</span><span class="n">collection_name</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">inspect</span><span class="o">.</span><span class="n">isawaitable</span><span class="p">(</span><span class="n">embedding_dimension</span><span class="p">):</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
                     <span class="s2">"Cannot use an awaitable embedding_dimension with async_setup "</span>
                     <span class="s2">"set to False"</span>
                 <span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">database</span><span class="o">.</span><span class="n">create_collection</span><span class="p">(</span>
                     <span class="n">name</span><span class="o">=</span><span class="n">collection_name</span><span class="p">,</span>
@@ -560,12 +566,13 @@ document.write(`
 <span class="sd">              has to reraise it.</span>
 <span class="sd">        """</span>
         <span class="k">if</span> <span class="n">requested_indexing_policy</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">default_indexing_policy</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
                 <span class="s2">"Cannot specify a default indexing policy "</span>
                 <span class="s2">"when no indexing policy is requested for this collection "</span>
                 <span class="s2">"(requested_indexing_policy is None, "</span>
                 <span class="s2">"default_indexing_policy is not None)."</span>
             <span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
 
         <span class="n">preexisting</span> <span class="o">=</span> <span class="p">[</span>
             <span class="n">collection</span>
@@ -583,7 +590,7 @@ document.write(`
         <span class="k">if</span> <span class="ow">not</span> <span class="n">pre_col_options</span><span class="o">.</span><span class="n">indexing</span><span class="p">:</span>
             <span class="c1"># legacy collection on DB</span>
             <span class="k">if</span> <span class="n">requested_indexing_policy</span> <span class="o">!=</span> <span class="n">default_indexing_policy</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
                     <span class="sa">f</span><span class="s2">"Astra DB collection '</span><span class="si">{</span><span class="n">collection_name</span><span class="si">}</span><span class="s2">' is "</span>
                     <span class="s2">"detected as having indexing turned on for all "</span>
                     <span class="s2">"fields (either created manually or by older "</span>
@@ -595,6 +602,7 @@ document.write(`
                     <span class="s2">"settings for this object to their defaults "</span>
                     <span class="s2">"to keep using this collection."</span>
                 <span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
             <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
                 <span class="p">(</span>
                     <span class="sa">f</span><span class="s2">"Astra DB collection '</span><span class="si">{</span><span class="n">collection_name</span><span class="si">}</span><span class="s2">' is "</span>
@@ -622,7 +630,7 @@ document.write(`
                 <span class="k">if</span> <span class="n">pre_col_options</span><span class="o">.</span><span class="n">indexing</span> <span class="o">==</span> <span class="n">default_indexing_policy</span>
                 <span class="k">else</span> <span class="s2">""</span>
             <span class="p">)</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
                 <span class="sa">f</span><span class="s2">"Astra DB collection '</span><span class="si">{</span><span class="n">collection_name</span><span class="si">}</span><span class="s2">' is "</span>
                 <span class="s2">"detected as having the following indexing policy: "</span>
                 <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">options_json</span><span class="si">}{</span><span class="n">default_desc</span><span class="si">}</span><span class="s2">. This is incompatible "</span>
@@ -632,6 +640,7 @@ document.write(`
                 <span class="s2">"policy, or alternatively align the requested "</span>
                 <span class="s2">"indexing settings to the collection to keep using it."</span>
             <span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
 
         <span class="c1"># the discrepancies have to do with options other than indexing</span>
         <span class="k">return</span> <span class="kc">False</span>
@@ -641,11 +650,12 @@ document.write(`
             <span class="k">try</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">async_setup_db_task</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
             <span class="k">except</span> <span class="n">InvalidStateError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
                     <span class="s2">"Asynchronous setup of the DB not finished. "</span>
                     <span class="s2">"NB: Astra DB components sync methods shouldn't be called from the "</span>
                     <span class="s2">"event loop. Consider using their async equivalents."</span>
-                <span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
+                <span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
 
     <span class="k">async</span> <span class="k">def</span> <span class="nf">aensure_db_setup</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">async_setup_db_task</span><span class="p">:</span>

@@ -40,7 +40,7 @@
 <link href="langchain_community.chat_models.yuan2.ChatYuan2.html" rel="prev" title="ChatYuan2"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Aug 22, 2024" name="docbuild:last-update"/>
+<meta content="Aug 23, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -523,6 +523,63 @@ document.write(`
 </pre></div>
 </div>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">AIMessage</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="s1">'I enjoy programming.'</span><span class="p">,</span> <span class="n">response_metadata</span><span class="o">=</span><span class="p">{</span><span class="s1">'token_usage'</span><span class="p">:</span> <span class="p">{</span><span class="s1">'completion_tokens'</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span> <span class="s1">'prompt_tokens'</span><span class="p">:</span> <span class="mi">23</span><span class="p">,</span> <span class="s1">'total_tokens'</span><span class="p">:</span> <span class="mi">29</span><span class="p">},</span> <span class="s1">'model_name'</span><span class="p">:</span> <span class="s1">'glm-4'</span><span class="p">,</span> <span class="s1">'finish_reason'</span><span class="p">:</span> <span class="s1">'stop'</span><span class="p">},</span> <span class="nb">id</span><span class="o">=</span><span class="s1">'run-ba06af9d-4baa-40b2-9298-be9c62aa0849-0'</span><span class="p">)]</span>
+</pre></div>
+</div>
+</dd>
+<dt>Tool calling:</dt><dd><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">langchain_core.pydantic_v1</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span>
+
+
+<span class="k">class</span> <span class="nc">GetWeather</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">'''Get the current weather in a given location'''</span>
+
+    <span class="n">location</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"The city and state, e.g. San Francisco, CA"</span>
+    <span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">GetPopulation</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">'''Get the current population in a given location'''</span>
+
+    <span class="n">location</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"The city and state, e.g. San Francisco, CA"</span>
+    <span class="p">)</span>
+
+<span class="n">chat_with_tools</span> <span class="o">=</span> <span class="n">zhipuai_chat</span><span class="o">.</span><span class="n">bind_tools</span><span class="p">([</span><span class="n">GetWeather</span><span class="p">,</span> <span class="n">GetPopulation</span><span class="p">])</span>
+<span class="n">ai_msg</span> <span class="o">=</span> <span class="n">chat_with_tools</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span>
+    <span class="s2">"Which city is hotter today and which is bigger: LA or NY?"</span>
+<span class="p">)</span>
+<span class="n">ai_msg</span><span class="o">.</span><span class="n">tool_calls</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">[</span>
+    <span class="p">{</span>
+        <span class="s1">'name'</span><span class="p">:</span> <span class="s1">'GetWeather'</span><span class="p">,</span>
+        <span class="s1">'args'</span><span class="p">:</span> <span class="p">{</span><span class="s1">'location'</span><span class="p">:</span> <span class="s1">'Los Angeles, CA'</span><span class="p">},</span>
+        <span class="s1">'id'</span><span class="p">:</span> <span class="s1">'call_202408222146464ea49ec8731145a9'</span><span class="p">,</span>
+        <span class="s1">'type'</span><span class="p">:</span> <span class="s1">'tool_call'</span>
+    <span class="p">}</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</dd>
+<dt>Structured output:</dt><dd><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
+
+<span class="kn">from</span> <span class="nn">langchain_core.pydantic_v1</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span>
+
+
+<span class="k">class</span> <span class="nc">Joke</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">'''Joke to tell user.'''</span>
+
+    <span class="n">setup</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">"The setup of the joke"</span><span class="p">)</span>
+    <span class="n">punchline</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">"The punchline to the joke"</span><span class="p">)</span>
+    <span class="n">rating</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">"How funny the joke is, from 1 to 10"</span><span class="p">)</span>
+
+
+<span class="n">structured_chat</span> <span class="o">=</span> <span class="n">zhipuai_chat</span><span class="o">.</span><span class="n">with_structured_output</span><span class="p">(</span><span class="n">Joke</span><span class="p">)</span>
+<span class="n">structured_chat</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="s2">"Tell me a joke about cats"</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Joke</span><span class="p">(</span><span class="n">setup</span><span class="o">=</span><span class="s1">'What do cats like to eat for breakfast?'</span><span class="p">,</span> <span class="n">punchline</span><span class="o">=</span><span class="s1">'Mice Krispies!'</span><span class="p">,</span> <span class="n">rating</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd>

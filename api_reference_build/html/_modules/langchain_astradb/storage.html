@@ -38,7 +38,7 @@
 <link href="../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Aug 22, 2024" name="docbuild:last-update"/>
+<meta content="Aug 23, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -267,13 +267,11 @@ document.write(`
 
 <div class="viewcode-block" id="AstraDBBaseStore.__init__"><a class="viewcode-back" href="../../astradb/storage/langchain_astradb.storage.AstraDBBaseStore.html#langchain_astradb.storage.AstraDBBaseStore.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="s2">"requested_indexing_policy"</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">"Do not pass 'requested_indexing_policy' to AstraDBBaseStore init"</span>
-            <span class="p">)</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="s2">"Do not pass 'requested_indexing_policy' to AstraDBBaseStore init"</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
         <span class="k">if</span> <span class="s2">"default_indexing_policy"</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">"Do not pass 'default_indexing_policy' to AstraDBBaseStore init"</span>
-            <span class="p">)</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="s2">"Do not pass 'default_indexing_policy' to AstraDBBaseStore init"</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
         <span class="n">kwargs</span><span class="p">[</span><span class="s2">"requested_indexing_policy"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"allow"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"_id"</span><span class="p">]}</span>
         <span class="n">kwargs</span><span class="p">[</span><span class="s2">"default_indexing_policy"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"allow"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"_id"</span><span class="p">]}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">astra_env</span> <span class="o">=</span> <span class="n">_AstraDBCollectionEnvironment</span><span class="p">(</span>
@@ -364,10 +362,11 @@ document.write(`
             <span class="n">replaced_count</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">r_res</span><span class="o">.</span><span class="n">update_info</span><span class="p">[</span><span class="s2">"n"</span><span class="p">]</span> <span class="k">for</span> <span class="n">r_res</span> <span class="ow">in</span> <span class="n">replace_results</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">replaced_count</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">ids_to_replace</span><span class="p">):</span>
                 <span class="n">missing</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">ids_to_replace</span><span class="p">)</span> <span class="o">-</span> <span class="n">replaced_count</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
                     <span class="s2">"AstraDBBaseStore.mset could not insert all requested "</span>
                     <span class="sa">f</span><span class="s2">"documents (</span><span class="si">{</span><span class="n">missing</span><span class="si">}</span><span class="s2"> failed replace_one calls)"</span>
-                <span class="p">)</span></div>
+                <span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="AstraDBBaseStore.amset"><a class="viewcode-back" href="../../astradb/storage/langchain_astradb.storage.AstraDBBaseStore.html#langchain_astradb.storage.AstraDBBaseStore.amset">[docs]</a>    <span class="nd">@override</span>
     <span class="k">async</span> <span class="k">def</span> <span class="nf">amset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key_value_pairs</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">V</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -420,10 +419,11 @@ document.write(`
             <span class="n">replaced_count</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">r_res</span><span class="o">.</span><span class="n">update_info</span><span class="p">[</span><span class="s2">"n"</span><span class="p">]</span> <span class="k">for</span> <span class="n">r_res</span> <span class="ow">in</span> <span class="n">replace_results</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">replaced_count</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">ids_to_replace</span><span class="p">):</span>
                 <span class="n">missing</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">ids_to_replace</span><span class="p">)</span> <span class="o">-</span> <span class="n">replaced_count</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
                     <span class="s2">"AstraDBBaseStore.mset could not insert all requested "</span>
                     <span class="sa">f</span><span class="s2">"documents (</span><span class="si">{</span><span class="n">missing</span><span class="si">}</span><span class="s2"> failed replace_one calls)"</span>
-                <span class="p">)</span></div>
+                <span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="AstraDBBaseStore.mdelete"><a class="viewcode-back" href="../../astradb/storage/langchain_astradb.storage.AstraDBBaseStore.html#langchain_astradb.storage.AstraDBBaseStore.mdelete">[docs]</a>    <span class="nd">@override</span>
     <span class="k">def</span> <span class="nf">mdelete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">keys</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
