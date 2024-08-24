@@ -38,7 +38,7 @@
 <link href="../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Aug 23, 2024" name="docbuild:last-update"/>
+<meta content="Aug 24, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -250,11 +250,12 @@ document.write(`
 <span class="sd">    Plus plan or above. The free developer account does not have access to Box AI.</span>
 
 <span class="sd">    In addition, using the Box AI API requires a few prerequisite steps:</span>
-<span class="sd">    * Your administrator must enable the Box AI API</span>
-<span class="sd">    * You must enable the `Manage AI` scope in your app in the developer console.</span>
-<span class="sd">    * Your administratormust install and enable your application.</span>
 
-<span class="sd">    Setup:</span>
+<span class="sd">    * Your administrator must enable the Box AI API</span>
+<span class="sd">    * You must enable the ``Manage AI`` scope in your app in the developer console.</span>
+<span class="sd">    * Your administrator must install and enable your application.</span>
+
+<span class="sd">    **Setup**:</span>
 <span class="sd">        Install ``langchain-box`` and set environment variable ``BOX_DEVELOPER_TOKEN``.</span>
 
 <span class="sd">        .. code-block:: bash</span>
@@ -263,7 +264,7 @@ document.write(`
 <span class="sd">            export BOX_DEVELOPER_TOKEN="your-api-key"</span>
 
 
-<span class="sd">    This loader returns ``Document `` objects built from text representations of files</span>
+<span class="sd">    This loader returns ``Document`` objects built from text representations of files</span>
 <span class="sd">    in Box. It will skip any document without a text representation available. You can</span>
 <span class="sd">    provide either a ``List[str]`` containing Box file IDS, or you can provide a</span>
 <span class="sd">    ``str`` contining a Box folder ID. If providing a folder ID, you can also enable</span>
@@ -275,19 +276,44 @@ document.write(`
 <span class="sd">        recommend never getting all files from folder 0 recursively. Folder ID 0 is your</span>
 <span class="sd">        root folder.</span>
 
-<span class="sd">    Instantiate:</span>
+<span class="sd">    **Instantiate**:</span>
 
-<span class="sd">        Initialization variables</span>
-<span class="sd">            variable | description | type | required</span>
-<span class="sd">            ---+---+---</span>
-<span class="sd">            box_developer_token | token to use for auth. | string | no</span>
-<span class="sd">            box_auth | client id for you app. Used for CCG | string | no</span>
-<span class="sd">            box_file_ids | Array of Box file Ids to retrieve | array of strings | no</span>
-<span class="sd">            box_folder_id | Box folder id to retrieve | string | no</span>
-<span class="sd">            recursive | whether to return subfolders, default False | bool | no</span>
+<span class="sd">        .. list-table:: Initialization variables</span>
+<span class="sd">            :widths: 25 50 15 10</span>
+<span class="sd">            :header-rows: 1</span>
 
-<span class="sd">    Get files — this method requires you pass the ``box_file_ids`` parameter. This is a</span>
-<span class="sd">    ``List[str]`` containing the file IDs you wish to index.</span>
+<span class="sd">            * - Variable</span>
+<span class="sd">              - Description</span>
+<span class="sd">              - Type</span>
+<span class="sd">              - Default</span>
+<span class="sd">            * - box_developer_token</span>
+<span class="sd">              - Token to use for auth.</span>
+<span class="sd">              - ``str``</span>
+<span class="sd">              - ``None``</span>
+<span class="sd">            * - box_auth</span>
+<span class="sd">              - client id for you app. Used for CCG</span>
+<span class="sd">              - ``langchain_box.utilities.BoxAuth``</span>
+<span class="sd">              - ``None``</span>
+<span class="sd">            * - box_file_ids</span>
+<span class="sd">              - client id for you app. Used for CCG</span>
+<span class="sd">              - ``List[str]``</span>
+<span class="sd">              - ``None``</span>
+<span class="sd">            * - box_folder_id</span>
+<span class="sd">              - client id for you app. Used for CCG</span>
+<span class="sd">              - ``str``</span>
+<span class="sd">              - ``None``</span>
+<span class="sd">            * - recursive</span>
+<span class="sd">              - client id for you app. Used for CCG</span>
+<span class="sd">              - ``Bool``</span>
+<span class="sd">              - ``False``</span>
+<span class="sd">            * - character_limit</span>
+<span class="sd">              - client id for you app. Used for CCG</span>
+<span class="sd">              - ``int``</span>
+<span class="sd">              - ``-1``</span>
+
+
+<span class="sd">    **Get files** — this method requires you pass the ``box_file_ids`` parameter.</span>
+<span class="sd">    This is a ``List[str]`` containing the file IDs you wish to index.</span>
 
 <span class="sd">        .. code-block:: python</span>
 
@@ -300,7 +326,7 @@ document.write(`
 <span class="sd">                character_limit=10000  # Optional. Defaults to no limit</span>
 <span class="sd">            )</span>
 
-<span class="sd">    Get files in a folder — this method requires you pass the ``box_folder_id``</span>
+<span class="sd">    **Get files in a folder** — this method requires you pass the ``box_folder_id``</span>
 <span class="sd">    parameter. This is a ``str`` containing the folder ID you wish to index.</span>
 
 <span class="sd">        .. code-block:: python</span>
@@ -314,7 +340,7 @@ document.write(`
 <span class="sd">                recursive=False  # Optional. return entire tree, defaults to False</span>
 <span class="sd">            )</span>
 
-<span class="sd">    Load:</span>
+<span class="sd">    **Load**:</span>
 <span class="sd">        .. code-block:: python</span>
 
 <span class="sd">            docs = loader.load()</span>
@@ -325,11 +351,11 @@ document.write(`
 <span class="sd">            Document(metadata={'source': 'https://dl.boxcloud.com/api/2.0/</span>
 <span class="sd">            internal_files/1514555423624/versions/1663171610024/representations</span>
 <span class="sd">            /extracted_text/content/', 'title': 'Invoice-A5555_txt'},</span>
-<span class="sd">            page_content='Vendor: AstroTech Solutions\nInvoice Number: A5555\n\nLine</span>
-<span class="sd">            Items:\n    - Gravitational Wave Detector Kit: $800\n    - Exoplanet</span>
-<span class="sd">            Terrarium: $120\nTotal: $920')</span>
+<span class="sd">            page_content='Vendor: AstroTech Solutions\\nInvoice Number: A5555\\n\\nLine</span>
+<span class="sd">            Items:\\n    - Gravitational Wave Detector Kit: $800\\n    - Exoplanet</span>
+<span class="sd">            Terrarium: $120\\nTotal: $920')</span>
 
-<span class="sd">    Lazy load:</span>
+<span class="sd">    **Lazy load**:</span>
 <span class="sd">        .. code-block:: python</span>
 
 <span class="sd">            docs = []</span>
@@ -345,16 +371,19 @@ document.write(`
 <span class="sd">            Document(metadata={'source': 'https://dl.boxcloud.com/api/2.0/</span>
 <span class="sd">            internal_files/1514555423624/versions/1663171610024/representations</span>
 <span class="sd">            /extracted_text/content/', 'title': 'Invoice-A5555_txt'},</span>
-<span class="sd">            page_content='Vendor: AstroTech Solutions\nInvoice Number: A5555\n\nLine</span>
-<span class="sd">            Items:\n    - Gravitational Wave Detector Kit: $800\n    - Exoplanet</span>
-<span class="sd">            Terrarium: $120\nTotal: $920')</span>
+<span class="sd">            page_content='Vendor: AstroTech Solutions\\nInvoice Number: A5555\\n\\nLine</span>
+<span class="sd">            Items:\\n    - Gravitational Wave Detector Kit: $800\\n    - Exoplanet</span>
+<span class="sd">            Terrarium: $120\\nTotal: $920')</span>
+
 <span class="sd">    """</span>
 
     <span class="n">box_developer_token</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">    </span><span class="sd">"""String containing the Box Developer Token generated in the developer console"""</span>
 
     <span class="n">box_auth</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">BoxAuth</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">"""Configured langchain_box.utilities.BoxAuth object"""</span>
+<span class="w">    </span><span class="sd">"""Configured </span>
+<span class="sd">       `BoxAuth &lt;https://python.langchain.com/v0.2/api_reference/box/utilities/langchain_box.utilities.box.BoxAuth.html&gt;`_ </span>
+<span class="sd">       object"""</span>
 
     <span class="n">box_file_ids</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">    </span><span class="sd">"""List[str] containing Box file ids"""</span>

@@ -38,7 +38,7 @@
 <link href="../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Aug 23, 2024" name="docbuild:last-update"/>
+<meta content="Aug 24, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -229,6 +229,7 @@ document.write(`
 <h1>Source code for langchain_huggingface.llms.huggingface_endpoint</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">json</span>  <span class="c1"># type: ignore[import-not-found]</span>
 <span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">AsyncIterator</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Optional</span>
 
 <span class="kn">from</span> <span class="nn">langchain_core.callbacks</span> <span class="kn">import</span> <span class="p">(</span>
@@ -295,9 +296,10 @@ document.write(`
 <span class="sd">    """</span>  <span class="c1"># noqa: E501</span>
 
     <span class="n">endpoint_url</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">"""Endpoint URL to use."""</span>
+<span class="w">    </span><span class="sd">"""Endpoint URL to use. If repo_id is not specified then this needs to given or </span>
+<span class="sd">    should be pass as env variable in `HF_INFERENCE_ENDPOINT`"""</span>
     <span class="n">repo_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">"""Repo to use."""</span>
+<span class="w">    </span><span class="sd">"""Repo to use. If endpoint_url is not specified then this needs to given"""</span>
     <span class="n">huggingfacehub_api_token</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">max_new_tokens</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">512</span>
 <span class="w">    </span><span class="sd">"""Maximum number of generated tokens"""</span>
@@ -375,19 +377,38 @@ document.write(`
 
         <span class="n">values</span><span class="p">[</span><span class="s2">"model_kwargs"</span><span class="p">]</span> <span class="o">=</span> <span class="n">extra</span>
 
-        <span class="n">values</span><span class="p">[</span><span class="s2">"endpoint_url"</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_from_dict_or_env</span><span class="p">(</span>
-            <span class="n">values</span><span class="p">,</span> <span class="s2">"endpoint_url"</span><span class="p">,</span> <span class="s2">"HF_INFERENCE_ENDPOINT"</span><span class="p">,</span> <span class="kc">None</span>
-        <span class="p">)</span>
+        <span class="c1"># to correctly create the InferenceClient and AsyncInferenceClient</span>
+        <span class="c1"># in validate_environment, we need to populate values["model"].</span>
+        <span class="c1"># from InferenceClient docstring:</span>
+        <span class="c1"># model (`str`, `optional`):</span>
+        <span class="c1">#     The model to run inference with. Can be a model id hosted on the Hugging</span>
+        <span class="c1">#       Face Hub, e.g. `bigcode/starcoder`</span>
+        <span class="c1">#     or a URL to a deployed Inference Endpoint. Defaults to None, in which</span>
+        <span class="c1">#       case a recommended model is</span>
+        <span class="c1">#     automatically selected for the task.</span>
 
-        <span class="k">if</span> <span class="n">values</span><span class="p">[</span><span class="s2">"endpoint_url"</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="s2">"repo_id"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">values</span><span class="p">:</span>
+        <span class="c1"># this string could be in 3 places of descending priority:</span>
+        <span class="c1"># 2. values["model"] or values["endpoint_url"] or values["repo_id"]</span>
+        <span class="c1">#       (equal priority - don't allow both set)</span>
+        <span class="c1"># 3. values["HF_INFERENCE_ENDPOINT"] (if none above set)</span>
+
+        <span class="n">model</span> <span class="o">=</span> <span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"model"</span><span class="p">)</span>
+        <span class="n">endpoint_url</span> <span class="o">=</span> <span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"endpoint_url"</span><span class="p">)</span>
+        <span class="n">repo_id</span> <span class="o">=</span> <span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"repo_id"</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">sum</span><span class="p">([</span><span class="nb">bool</span><span class="p">(</span><span class="n">model</span><span class="p">),</span> <span class="nb">bool</span><span class="p">(</span><span class="n">endpoint_url</span><span class="p">),</span> <span class="nb">bool</span><span class="p">(</span><span class="n">repo_id</span><span class="p">)])</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">"Please specify an `endpoint_url` or `repo_id` for the model."</span>
+                <span class="s2">"Please specify either a `model` OR an `endpoint_url` OR a `repo_id`,"</span>
+                <span class="s2">"not more than one."</span>
             <span class="p">)</span>
-        <span class="k">if</span> <span class="n">values</span><span class="p">[</span><span class="s2">"endpoint_url"</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="s2">"repo_id"</span> <span class="ow">in</span> <span class="n">values</span><span class="p">:</span>
+        <span class="n">values</span><span class="p">[</span><span class="s2">"model"</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">model</span> <span class="ow">or</span> <span class="n">endpoint_url</span> <span class="ow">or</span> <span class="n">repo_id</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"HF_INFERENCE_ENDPOINT"</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">values</span><span class="p">[</span><span class="s2">"model"</span><span class="p">]:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">"Please specify either an `endpoint_url` OR a `repo_id`, not both."</span>
+                <span class="s2">"Please specify a `model` or an `endpoint_url` or a `repo_id` for the "</span>
+                <span class="s2">"model."</span>
             <span class="p">)</span>
-        <span class="n">values</span><span class="p">[</span><span class="s2">"model"</span><span class="p">]</span> <span class="o">=</span> <span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"endpoint_url"</span><span class="p">)</span> <span class="ow">or</span> <span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"repo_id"</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">values</span>
 
     <span class="nd">@root_validator</span><span class="p">(</span><span class="n">pre</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">skip_on_failure</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>

@@ -38,7 +38,7 @@
 <link href="../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Aug 23, 2024" name="docbuild:last-update"/>
+<meta content="Aug 24, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -227,7 +227,9 @@ document.write(`
 <div id="searchbox"></div>
 <article class="bd-article">
 <h1>Source code for langchain_astradb.vectorstores</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+<span></span><span class="sd">"""Astra DB vector store integration."""</span>
+
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
 
 <span class="kn">import</span> <span class="nn">asyncio</span>
 <span class="kn">import</span> <span class="nn">inspect</span>
@@ -241,12 +243,12 @@ document.write(`
     <span class="n">Callable</span><span class="p">,</span>
     <span class="n">Dict</span><span class="p">,</span>
     <span class="n">Iterable</span><span class="p">,</span>
+    <span class="n">Sequence</span><span class="p">,</span>
     <span class="n">TypeVar</span><span class="p">,</span>
 <span class="p">)</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">astrapy.exceptions</span> <span class="kn">import</span> <span class="n">InsertManyException</span>
-<span class="kn">from</span> <span class="nn">langchain_core.documents</span> <span class="kn">import</span> <span class="n">Document</span>
 <span class="kn">from</span> <span class="nn">langchain_core.runnables.utils</span> <span class="kn">import</span> <span class="n">gather_with_concurrency</span>
 <span class="kn">from</span> <span class="nn">langchain_core.vectorstores</span> <span class="kn">import</span> <span class="n">VectorStore</span>
 <span class="kn">from</span> <span class="nn">typing_extensions</span> <span class="kn">import</span> <span class="n">override</span>
@@ -258,6 +260,11 @@ document.write(`
     <span class="n">MAX_CONCURRENT_DOCUMENT_REPLACEMENTS</span><span class="p">,</span>
     <span class="n">SetupMode</span><span class="p">,</span>
     <span class="n">_AstraDBCollectionEnvironment</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">langchain_astradb.utils.encoders</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">DefaultVectorizeVSDocumentEncoder</span><span class="p">,</span>
+    <span class="n">DefaultVSDocumentEncoder</span><span class="p">,</span>
+    <span class="n">VSDocumentEncoder</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="kn">from</span> <span class="nn">langchain_astradb.utils.mmr</span> <span class="kn">import</span> <span class="n">maximal_marginal_relevance</span>
 
@@ -271,6 +278,7 @@ document.write(`
     <span class="p">)</span>
     <span class="kn">from</span> <span class="nn">astrapy.info</span> <span class="kn">import</span> <span class="n">CollectionVectorServiceOptions</span>
     <span class="kn">from</span> <span class="nn">astrapy.results</span> <span class="kn">import</span> <span class="n">UpdateResult</span>
+    <span class="kn">from</span> <span class="nn">langchain_core.documents</span> <span class="kn">import</span> <span class="n">Document</span>
     <span class="kn">from</span> <span class="nn">langchain_core.embeddings</span> <span class="kn">import</span> <span class="n">Embeddings</span>
 
 <span class="n">T</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">"T"</span><span class="p">)</span>
@@ -424,25 +432,11 @@ document.write(`
 
 <span class="sd">    """</span>  <span class="c1"># noqa: E501</span>
 
-    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">_filter_to_metadata</span><span class="p">(</span><span class="n">filter_dict</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">_filter_to_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filter_dict</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
         <span class="k">if</span> <span class="n">filter_dict</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">{}</span>
 
-        <span class="n">metadata_filter</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">filter_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="k">if</span> <span class="n">k</span> <span class="ow">and</span> <span class="n">k</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"$"</span><span class="p">:</span>
-                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
-                    <span class="n">metadata_filter</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
-                        <span class="n">AstraDBVectorStore</span><span class="o">.</span><span class="n">_filter_to_metadata</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">v</span>
-                    <span class="p">]</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="c1"># assume each list item can be fed back to this function</span>
-                    <span class="n">metadata_filter</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">AstraDBVectorStore</span><span class="o">.</span><span class="n">_filter_to_metadata</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>  <span class="c1"># type: ignore[assignment]</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">metadata_filter</span><span class="p">[</span><span class="sa">f</span><span class="s2">"metadata.</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">"</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
-
-        <span class="k">return</span> <span class="n">metadata_filter</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">document_encoder</span><span class="o">.</span><span class="n">encode_filter</span><span class="p">(</span><span class="n">filter_dict</span><span class="p">)</span>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_normalize_metadata_indexing_policy</span><span class="p">(</span>
@@ -635,6 +629,11 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">environment</span> <span class="o">=</span> <span class="n">environment</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">namespace</span> <span class="o">=</span> <span class="n">namespace</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">collection_vector_service_options</span> <span class="o">=</span> <span class="n">collection_vector_service_options</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">document_encoder</span><span class="p">:</span> <span class="n">VSDocumentEncoder</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">collection_vector_service_options</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">document_encoder</span> <span class="o">=</span> <span class="n">DefaultVectorizeVSDocumentEncoder</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">document_encoder</span> <span class="o">=</span> <span class="n">DefaultVSDocumentEncoder</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">collection_embedding_api_key</span> <span class="o">=</span> <span class="n">collection_embedding_api_key</span>
         <span class="c1"># Concurrency settings</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">batch_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">batch_size</span> <span class="ow">or</span> <span class="n">DEFAULT_DOCUMENT_CHUNK_SIZE</span>
@@ -713,10 +712,6 @@ document.write(`
 <span class="sd">        If using server-side embeddings, this will return None.</span>
 <span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">embedding</span>
-
-    <span class="k">def</span> <span class="nf">_using_vectorize</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""Indicates whether server-side embeddings are being used."""</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">collection_vector_service_options</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
 
     <span class="k">def</span> <span class="nf">_select_relevance_score_fn</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">float</span><span class="p">],</span> <span class="nb">float</span><span class="p">]:</span>
         <span class="c1"># The underlying API calls already returns a "score proper",</span>
@@ -860,10 +855,10 @@ document.write(`
         <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">astra_env</span><span class="o">.</span><span class="n">aensure_db_setup</span><span class="p">()</span>
         <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">astra_env</span><span class="o">.</span><span class="n">async_collection</span><span class="o">.</span><span class="n">drop</span><span class="p">()</span></div>
 
-    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_get_documents_to_insert</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
         <span class="n">texts</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
-        <span class="n">embedding_vectors</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]],</span>
+        <span class="n">embedding_vectors</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">],</span>
         <span class="n">metadatas</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">ids</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">DocDict</span><span class="p">]:</span>
@@ -872,43 +867,15 @@ document.write(`
         <span class="k">if</span> <span class="n">metadatas</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">metadatas</span> <span class="o">=</span> <span class="p">[{}</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">texts</span><span class="p">]</span>
         <span class="n">documents_to_insert</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="p">{</span>
-                <span class="s2">"content"</span><span class="p">:</span> <span class="n">b_txt</span><span class="p">,</span>
-                <span class="s2">"_id"</span><span class="p">:</span> <span class="n">b_id</span><span class="p">,</span>
-                <span class="s2">"$vector"</span><span class="p">:</span> <span class="n">b_emb</span><span class="p">,</span>
-                <span class="s2">"metadata"</span><span class="p">:</span> <span class="n">b_md</span><span class="p">,</span>
-            <span class="p">}</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">document_encoder</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
+                <span class="n">content</span><span class="o">=</span><span class="n">b_txt</span><span class="p">,</span>
+                <span class="n">document_id</span><span class="o">=</span><span class="n">b_id</span><span class="p">,</span>
+                <span class="n">vector</span><span class="o">=</span><span class="n">b_emb</span><span class="p">,</span>
+                <span class="n">metadata</span><span class="o">=</span><span class="n">b_md</span><span class="p">,</span>
+            <span class="p">)</span>
             <span class="k">for</span> <span class="n">b_txt</span><span class="p">,</span> <span class="n">b_emb</span><span class="p">,</span> <span class="n">b_id</span><span class="p">,</span> <span class="n">b_md</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span>
                 <span class="n">texts</span><span class="p">,</span>
                 <span class="n">embedding_vectors</span><span class="p">,</span>
-                <span class="n">ids</span><span class="p">,</span>
-                <span class="n">metadatas</span><span class="p">,</span>
-            <span class="p">)</span>
-        <span class="p">]</span>
-        <span class="c1"># make unique by id, keeping the last</span>
-        <span class="k">return</span> <span class="n">_unique_list</span><span class="p">(</span>
-            <span class="n">documents_to_insert</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
-            <span class="k">lambda</span> <span class="n">document</span><span class="p">:</span> <span class="n">document</span><span class="p">[</span><span class="s2">"_id"</span><span class="p">],</span>
-        <span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-
-    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">_get_vectorize_documents_to_insert</span><span class="p">(</span>
-        <span class="n">texts</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
-        <span class="n">metadatas</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">ids</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">DocDict</span><span class="p">]:</span>
-        <span class="k">if</span> <span class="n">ids</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">ids</span> <span class="o">=</span> <span class="p">[</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">()</span><span class="o">.</span><span class="n">hex</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">texts</span><span class="p">]</span>
-        <span class="k">if</span> <span class="n">metadatas</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">metadatas</span> <span class="o">=</span> <span class="p">[{}</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">texts</span><span class="p">]</span>
-        <span class="n">documents_to_insert</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="p">{</span>
-                <span class="s2">"_id"</span><span class="p">:</span> <span class="n">b_id</span><span class="p">,</span>
-                <span class="s2">"$vectorize"</span><span class="p">:</span> <span class="n">b_txt</span><span class="p">,</span>
-                <span class="s2">"metadata"</span><span class="p">:</span> <span class="n">b_md</span><span class="p">,</span>
-            <span class="p">}</span>
-            <span class="k">for</span> <span class="n">b_txt</span><span class="p">,</span> <span class="n">b_id</span><span class="p">,</span> <span class="n">b_md</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span>
-                <span class="n">texts</span><span class="p">,</span>
                 <span class="n">ids</span><span class="p">,</span>
                 <span class="n">metadatas</span><span class="p">,</span>
             <span class="p">)</span>
@@ -998,15 +965,14 @@ document.write(`
             <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">astra_env</span><span class="o">.</span><span class="n">ensure_db_setup</span><span class="p">()</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_using_vectorize</span><span class="p">():</span>
-            <span class="n">documents_to_insert</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_vectorize_documents_to_insert</span><span class="p">(</span>
-                <span class="n">texts</span><span class="p">,</span> <span class="n">metadatas</span><span class="p">,</span> <span class="n">ids</span>
-            <span class="p">)</span>
+        <span class="n">embedding_vectors</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">document_encoder</span><span class="o">.</span><span class="n">server_side_embeddings</span><span class="p">:</span>
+            <span class="n">embedding_vectors</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">texts</span><span class="p">)]</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">embedding_vectors</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_safe_embedding</span><span class="p">()</span><span class="o">.</span><span class="n">embed_documents</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">texts</span><span class="p">))</span>
-            <span class="n">documents_to_insert</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_documents_to_insert</span><span class="p">(</span>
-                <span class="n">texts</span><span class="p">,</span> <span class="n">embedding_vectors</span><span class="p">,</span> <span class="n">metadatas</span><span class="p">,</span> <span class="n">ids</span>
-            <span class="p">)</span>
+        <span class="n">documents_to_insert</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_documents_to_insert</span><span class="p">(</span>
+            <span class="n">texts</span><span class="p">,</span> <span class="n">embedding_vectors</span><span class="p">,</span> <span class="n">metadatas</span><span class="p">,</span> <span class="n">ids</span>
+        <span class="p">)</span>
 
         <span class="c1"># perform an AstraPy insert_many, catching exceptions for overwriting docs</span>
         <span class="n">ids_to_replace</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span>
@@ -1120,18 +1086,16 @@ document.write(`
             <span class="p">)</span>
         <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">astra_env</span><span class="o">.</span><span class="n">aensure_db_setup</span><span class="p">()</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_using_vectorize</span><span class="p">():</span>
-            <span class="c1"># using server-side embeddings</span>
-            <span class="n">documents_to_insert</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_vectorize_documents_to_insert</span><span class="p">(</span>
-                <span class="n">texts</span><span class="p">,</span> <span class="n">metadatas</span><span class="p">,</span> <span class="n">ids</span>
-            <span class="p">)</span>
+        <span class="n">embedding_vectors</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">document_encoder</span><span class="o">.</span><span class="n">server_side_embeddings</span><span class="p">:</span>
+            <span class="n">embedding_vectors</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">texts</span><span class="p">)]</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">embedding_vectors</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_safe_embedding</span><span class="p">()</span><span class="o">.</span><span class="n">aembed_documents</span><span class="p">(</span>
                 <span class="nb">list</span><span class="p">(</span><span class="n">texts</span><span class="p">)</span>
             <span class="p">)</span>
-            <span class="n">documents_to_insert</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_documents_to_insert</span><span class="p">(</span>
-                <span class="n">texts</span><span class="p">,</span> <span class="n">embedding_vectors</span><span class="p">,</span> <span class="n">metadatas</span><span class="p">,</span> <span class="n">ids</span>
-            <span class="p">)</span>
+        <span class="n">documents_to_insert</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_documents_to_insert</span><span class="p">(</span>
+            <span class="n">texts</span><span class="p">,</span> <span class="n">embedding_vectors</span><span class="p">,</span> <span class="n">metadatas</span><span class="p">,</span> <span class="n">ids</span>
+        <span class="p">)</span>
 
         <span class="c1"># perform an AstraPy insert_many, catching exceptions for overwriting docs</span>
         <span class="n">ids_to_replace</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span>
@@ -1217,11 +1181,7 @@ document.write(`
         <span class="n">hits</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">astra_env</span><span class="o">.</span><span class="n">collection</span><span class="o">.</span><span class="n">find</span><span class="p">(</span>
                 <span class="nb">filter</span><span class="o">=</span><span class="n">metadata_parameter</span><span class="p">,</span>
-                <span class="n">projection</span><span class="o">=</span><span class="p">{</span>
-                    <span class="s2">"_id"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
-                    <span class="s2">"content"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
-                    <span class="s2">"metadata"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
-                <span class="p">},</span>
+                <span class="n">projection</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">document_encoder</span><span class="o">.</span><span class="n">base_projection</span><span class="p">,</span>
                 <span class="n">limit</span><span class="o">=</span><span class="n">k</span><span class="p">,</span>
                 <span class="n">include_similarity</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                 <span class="n">sort</span><span class="o">=</span><span class="p">{</span><span class="s2">"$vector"</span><span class="p">:</span> <span class="n">embedding</span><span class="p">},</span>
@@ -1229,10 +1189,7 @@ document.write(`
         <span class="p">)</span>
         <span class="k">return</span> <span class="p">[</span>
             <span class="p">(</span>
-                <span class="n">Document</span><span class="p">(</span>
-                    <span class="n">page_content</span><span class="o">=</span><span class="n">hit</span><span class="p">[</span><span class="s2">"content"</span><span class="p">],</span>
-                    <span class="n">metadata</span><span class="o">=</span><span class="n">hit</span><span class="p">[</span><span class="s2">"metadata"</span><span class="p">],</span>
-                <span class="p">),</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">document_encoder</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">hit</span><span class="p">),</span>
                 <span class="n">hit</span><span class="p">[</span><span class="s2">"$similarity"</span><span class="p">],</span>
                 <span class="n">hit</span><span class="p">[</span><span class="s2">"_id"</span><span class="p">],</span>
             <span class="p">)</span>
@@ -1259,20 +1216,13 @@ document.write(`
         <span class="n">metadata_parameter</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_filter_to_metadata</span><span class="p">(</span><span class="nb">filter</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">[</span>
             <span class="p">(</span>
-                <span class="n">Document</span><span class="p">(</span>
-                    <span class="n">page_content</span><span class="o">=</span><span class="n">hit</span><span class="p">[</span><span class="s2">"content"</span><span class="p">],</span>
-                    <span class="n">metadata</span><span class="o">=</span><span class="n">hit</span><span class="p">[</span><span class="s2">"metadata"</span><span class="p">],</span>
-                <span class="p">),</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">document_encoder</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">hit</span><span class="p">),</span>
                 <span class="n">hit</span><span class="p">[</span><span class="s2">"$similarity"</span><span class="p">],</span>
                 <span class="n">hit</span><span class="p">[</span><span class="s2">"_id"</span><span class="p">],</span>
             <span class="p">)</span>
             <span class="k">async</span> <span class="k">for</span> <span class="n">hit</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">astra_env</span><span class="o">.</span><span class="n">async_collection</span><span class="o">.</span><span class="n">find</span><span class="p">(</span>
                 <span class="nb">filter</span><span class="o">=</span><span class="n">metadata_parameter</span><span class="p">,</span>
-                <span class="n">projection</span><span class="o">=</span><span class="p">{</span>
-                    <span class="s2">"_id"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
-                    <span class="s2">"content"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
-                    <span class="s2">"metadata"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
-                <span class="p">},</span>
+                <span class="n">projection</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">document_encoder</span><span class="o">.</span><span class="n">base_projection</span><span class="p">,</span>
                 <span class="n">limit</span><span class="o">=</span><span class="n">k</span><span class="p">,</span>
                 <span class="n">include_similarity</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                 <span class="n">sort</span><span class="o">=</span><span class="p">{</span><span class="s2">"$vector"</span><span class="p">:</span> <span class="n">embedding</span><span class="p">},</span>
@@ -1294,11 +1244,7 @@ document.write(`
         <span class="n">hits</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">astra_env</span><span class="o">.</span><span class="n">collection</span><span class="o">.</span><span class="n">find</span><span class="p">(</span>
                 <span class="nb">filter</span><span class="o">=</span><span class="n">metadata_parameter</span><span class="p">,</span>
-                <span class="n">projection</span><span class="o">=</span><span class="p">{</span>
-                    <span class="s2">"_id"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
-                    <span class="s2">"$vectorize"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
-                    <span class="s2">"metadata"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
-                <span class="p">},</span>
+                <span class="n">projection</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">document_encoder</span><span class="o">.</span><span class="n">base_projection</span><span class="p">,</span>
                 <span class="n">limit</span><span class="o">=</span><span class="n">k</span><span class="p">,</span>
                 <span class="n">include_similarity</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                 <span class="n">sort</span><span class="o">=</span><span class="p">{</span><span class="s2">"$vectorize"</span><span class="p">:</span> <span class="n">query</span><span class="p">},</span>
@@ -1306,11 +1252,7 @@ document.write(`
         <span class="p">)</span>
         <span class="k">return</span> <span class="p">[</span>
             <span class="p">(</span>
-                <span class="n">Document</span><span class="p">(</span>
-                    <span class="c1"># text content is stored in $vectorize instead of content</span>
-                    <span class="n">page_content</span><span class="o">=</span><span class="n">hit</span><span class="p">[</span><span class="s2">"$vectorize"</span><span class="p">],</span>
-                    <span class="n">metadata</span><span class="o">=</span><span class="n">hit</span><span class="p">[</span><span class="s2">"metadata"</span><span class="p">],</span>
-                <span class="p">),</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">document_encoder</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">hit</span><span class="p">),</span>
                 <span class="n">hit</span><span class="p">[</span><span class="s2">"$similarity"</span><span class="p">],</span>
                 <span class="n">hit</span><span class="p">[</span><span class="s2">"_id"</span><span class="p">],</span>
             <span class="p">)</span>
@@ -1331,21 +1273,13 @@ document.write(`
         <span class="n">metadata_parameter</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_filter_to_metadata</span><span class="p">(</span><span class="nb">filter</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">[</span>
             <span class="p">(</span>
-                <span class="n">Document</span><span class="p">(</span>
-                    <span class="c1"># text content is stored in $vectorize instead of content</span>
-                    <span class="n">page_content</span><span class="o">=</span><span class="n">hit</span><span class="p">[</span><span class="s2">"$vectorize"</span><span class="p">],</span>
-                    <span class="n">metadata</span><span class="o">=</span><span class="n">hit</span><span class="p">[</span><span class="s2">"metadata"</span><span class="p">],</span>
-                <span class="p">),</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">document_encoder</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">hit</span><span class="p">),</span>
                 <span class="n">hit</span><span class="p">[</span><span class="s2">"$similarity"</span><span class="p">],</span>
                 <span class="n">hit</span><span class="p">[</span><span class="s2">"_id"</span><span class="p">],</span>
             <span class="p">)</span>
             <span class="k">async</span> <span class="k">for</span> <span class="n">hit</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">astra_env</span><span class="o">.</span><span class="n">async_collection</span><span class="o">.</span><span class="n">find</span><span class="p">(</span>
                 <span class="nb">filter</span><span class="o">=</span><span class="n">metadata_parameter</span><span class="p">,</span>
-                <span class="n">projection</span><span class="o">=</span><span class="p">{</span>
-                    <span class="s2">"_id"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
-                    <span class="s2">"$vectorize"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
-                    <span class="s2">"metadata"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
-                <span class="p">},</span>
+                <span class="n">projection</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">document_encoder</span><span class="o">.</span><span class="n">base_projection</span><span class="p">,</span>
                 <span class="n">limit</span><span class="o">=</span><span class="n">k</span><span class="p">,</span>
                 <span class="n">include_similarity</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                 <span class="n">sort</span><span class="o">=</span><span class="p">{</span><span class="s2">"$vectorize"</span><span class="p">:</span> <span class="n">query</span><span class="p">},</span>
@@ -1368,7 +1302,7 @@ document.write(`
 <span class="sd">        Returns:</span>
 <span class="sd">            The list of (Document, score, id), the most similar to the query.</span>
 <span class="sd">        """</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_using_vectorize</span><span class="p">():</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">document_encoder</span><span class="o">.</span><span class="n">server_side_embeddings</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_similarity_search_with_score_id_with_vectorize</span><span class="p">(</span>
                 <span class="n">query</span><span class="o">=</span><span class="n">query</span><span class="p">,</span>
                 <span class="n">k</span><span class="o">=</span><span class="n">k</span><span class="p">,</span>
@@ -1398,7 +1332,7 @@ document.write(`
 <span class="sd">        Returns:</span>
 <span class="sd">            The list of (Document, score, id), the most similar to the query.</span>
 <span class="sd">        """</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_using_vectorize</span><span class="p">():</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">document_encoder</span><span class="o">.</span><span class="n">server_side_embeddings</span><span class="p">:</span>
             <span class="k">return</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_asimilarity_search_with_score_id_with_vectorize</span><span class="p">(</span>
                 <span class="n">query</span><span class="o">=</span><span class="n">query</span><span class="p">,</span>
                 <span class="n">k</span><span class="o">=</span><span class="n">k</span><span class="p">,</span>
@@ -1484,7 +1418,7 @@ document.write(`
 <span class="sd">        Returns:</span>
 <span class="sd">            The list of Documents most similar to the query.</span>
 <span class="sd">        """</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_using_vectorize</span><span class="p">():</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">document_encoder</span><span class="o">.</span><span class="n">server_side_embeddings</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">[</span>
                 <span class="n">doc</span>
                 <span class="k">for</span> <span class="p">(</span><span class="n">doc</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_similarity_search_with_score_id_with_vectorize</span><span class="p">(</span>
@@ -1519,7 +1453,7 @@ document.write(`
 <span class="sd">        Returns:</span>
 <span class="sd">            The list of Documents most similar to the query.</span>
 <span class="sd">        """</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_using_vectorize</span><span class="p">():</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">document_encoder</span><span class="o">.</span><span class="n">server_side_embeddings</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">[</span>
                 <span class="n">doc</span>
                 <span class="k">for</span> <span class="p">(</span>
@@ -1611,7 +1545,7 @@ document.write(`
 <span class="sd">        Returns:</span>
 <span class="sd">            The list of (Document, score), the most similar to the query vector.</span>
 <span class="sd">        """</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_using_vectorize</span><span class="p">():</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">document_encoder</span><span class="o">.</span><span class="n">server_side_embeddings</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">[</span>
                 <span class="p">(</span><span class="n">doc</span><span class="p">,</span> <span class="n">score</span><span class="p">)</span>
                 <span class="k">for</span> <span class="p">(</span>
@@ -1649,7 +1583,7 @@ document.write(`
 <span class="sd">        Returns:</span>
 <span class="sd">            The list of (Document, score), the most similar to the query vector.</span>
 <span class="sd">        """</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_using_vectorize</span><span class="p">():</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">document_encoder</span><span class="o">.</span><span class="n">server_side_embeddings</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">[</span>
                 <span class="p">(</span><span class="n">doc</span><span class="p">,</span> <span class="n">score</span><span class="p">)</span>
                 <span class="k">for</span> <span class="p">(</span>
@@ -1680,13 +1614,7 @@ document.write(`
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Document</span><span class="p">]:</span>
         <span class="n">prefetch_cursor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">astra_env</span><span class="o">.</span><span class="n">collection</span><span class="o">.</span><span class="n">find</span><span class="p">(</span>
             <span class="nb">filter</span><span class="o">=</span><span class="n">metadata_parameter</span><span class="p">,</span>
-            <span class="n">projection</span><span class="o">=</span><span class="p">{</span>
-                <span class="s2">"_id"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
-                <span class="s2">"content"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
-                <span class="s2">"metadata"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
-                <span class="s2">"$vector"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
-                <span class="s2">"$vectorize"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
-            <span class="p">},</span>
+            <span class="n">projection</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">document_encoder</span><span class="o">.</span><span class="n">full_projection</span><span class="p">,</span>
             <span class="n">limit</span><span class="o">=</span><span class="n">fetch_k</span><span class="p">,</span>
             <span class="n">include_similarity</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="n">include_sort_vector</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -1699,7 +1627,6 @@ document.write(`
             <span class="n">k</span><span class="o">=</span><span class="n">k</span><span class="p">,</span>
             <span class="n">lambda_mult</span><span class="o">=</span><span class="n">lambda_mult</span><span class="p">,</span>
             <span class="n">prefetch_hits</span><span class="o">=</span><span class="n">prefetch_hits</span><span class="p">,</span>
-            <span class="n">content_field</span><span class="o">=</span><span class="s2">"$vectorize"</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_using_vectorize</span><span class="p">()</span> <span class="k">else</span> <span class="s2">"content"</span><span class="p">,</span>
         <span class="p">)</span>
 
     <span class="k">async</span> <span class="k">def</span> <span class="nf">_arun_mmr_query_by_sort</span><span class="p">(</span>
@@ -1712,13 +1639,7 @@ document.write(`
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Document</span><span class="p">]:</span>
         <span class="n">prefetch_cursor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">astra_env</span><span class="o">.</span><span class="n">async_collection</span><span class="o">.</span><span class="n">find</span><span class="p">(</span>
             <span class="nb">filter</span><span class="o">=</span><span class="n">metadata_parameter</span><span class="p">,</span>
-            <span class="n">projection</span><span class="o">=</span><span class="p">{</span>
-                <span class="s2">"_id"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
-                <span class="s2">"content"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
-                <span class="s2">"metadata"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
-                <span class="s2">"$vector"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
-                <span class="s2">"$vectorize"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
-            <span class="p">},</span>
+            <span class="n">projection</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">document_encoder</span><span class="o">.</span><span class="n">full_projection</span><span class="p">,</span>
             <span class="n">limit</span><span class="o">=</span><span class="n">fetch_k</span><span class="p">,</span>
             <span class="n">include_similarity</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="n">include_sort_vector</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -1731,16 +1652,14 @@ document.write(`
             <span class="n">k</span><span class="o">=</span><span class="n">k</span><span class="p">,</span>
             <span class="n">lambda_mult</span><span class="o">=</span><span class="n">lambda_mult</span><span class="p">,</span>
             <span class="n">prefetch_hits</span><span class="o">=</span><span class="n">prefetch_hits</span><span class="p">,</span>
-            <span class="n">content_field</span><span class="o">=</span><span class="s2">"$vectorize"</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_using_vectorize</span><span class="p">()</span> <span class="k">else</span> <span class="s2">"content"</span><span class="p">,</span>
         <span class="p">)</span>
 
-    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_get_mmr_hits</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
         <span class="n">embedding</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
         <span class="n">k</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
         <span class="n">lambda_mult</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
         <span class="n">prefetch_hits</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">DocDict</span><span class="p">],</span>
-        <span class="n">content_field</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Document</span><span class="p">]:</span>
         <span class="n">mmr_chosen_indices</span> <span class="o">=</span> <span class="n">maximal_marginal_relevance</span><span class="p">(</span>
             <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">embedding</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">),</span>
@@ -1753,13 +1672,7 @@ document.write(`
             <span class="k">for</span> <span class="n">prefetch_index</span><span class="p">,</span> <span class="n">prefetch_hit</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">prefetch_hits</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">prefetch_index</span> <span class="ow">in</span> <span class="n">mmr_chosen_indices</span>
         <span class="p">]</span>
-        <span class="k">return</span> <span class="p">[</span>
-            <span class="n">Document</span><span class="p">(</span>
-                <span class="n">page_content</span><span class="o">=</span><span class="n">hit</span><span class="p">[</span><span class="n">content_field</span><span class="p">],</span>
-                <span class="n">metadata</span><span class="o">=</span><span class="n">hit</span><span class="p">[</span><span class="s2">"metadata"</span><span class="p">],</span>
-            <span class="p">)</span>
-            <span class="k">for</span> <span class="n">hit</span> <span class="ow">in</span> <span class="n">mmr_hits</span>
-        <span class="p">]</span>
+        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">document_encoder</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">hit</span><span class="p">)</span> <span class="k">for</span> <span class="n">hit</span> <span class="ow">in</span> <span class="n">mmr_hits</span><span class="p">]</span>
 
 <div class="viewcode-block" id="AstraDBVectorStore.max_marginal_relevance_search_by_vector"><a class="viewcode-back" href="../../astradb/vectorstores/langchain_astradb.vectorstores.AstraDBVectorStore.html#langchain_astradb.vectorstores.AstraDBVectorStore.max_marginal_relevance_search_by_vector">[docs]</a>    <span class="nd">@override</span>
     <span class="k">def</span> <span class="nf">max_marginal_relevance_search_by_vector</span><span class="p">(</span>
@@ -1864,7 +1777,7 @@ document.write(`
 <span class="sd">        Returns:</span>
 <span class="sd">            The list of Documents selected by maximal marginal relevance.</span>
 <span class="sd">        """</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_using_vectorize</span><span class="p">():</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">document_encoder</span><span class="o">.</span><span class="n">server_side_embeddings</span><span class="p">:</span>
             <span class="c1"># this case goes directly to the "_by_sort" method</span>
             <span class="c1"># (and does its own filter normalization, as it cannot</span>
             <span class="c1">#  use the path for the with-embedding mmr querying)</span>
@@ -1913,7 +1826,7 @@ document.write(`
 <span class="sd">        Returns:</span>
 <span class="sd">            The list of Documents selected by maximal marginal relevance.</span>
 <span class="sd">        """</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_using_vectorize</span><span class="p">():</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">document_encoder</span><span class="o">.</span><span class="n">server_side_embeddings</span><span class="p">:</span>
             <span class="c1"># this case goes directly to the "_by_sort" method</span>
             <span class="c1"># (and does its own filter normalization, as it cannot</span>
             <span class="c1">#  use the path for the with-embedding mmr querying)</span>

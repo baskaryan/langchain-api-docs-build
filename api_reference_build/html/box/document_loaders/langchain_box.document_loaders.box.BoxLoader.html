@@ -40,7 +40,7 @@
 <link href="../document_loaders.html" rel="prev" title="document_loaders"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Aug 23, 2024" name="docbuild:last-update"/>
+<meta content="Aug 24, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -301,28 +301,29 @@ document.write(`
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">langchain_box.document_loaders.box.</span></span><span class="sig-name descname"><span class="pre">BoxLoader</span></span><a class="reference internal" href="../../_modules/langchain_box/document_loaders/box.html#BoxLoader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#langchain_box.document_loaders.box.BoxLoader" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference internal" href="../../core/document_loaders/langchain_core.document_loaders.base.BaseLoader.html#langchain_core.document_loaders.base.BaseLoader" title="langchain_core.document_loaders.base.BaseLoader"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseLoader</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
 <p>BoxLoader.</p>
-<blockquote>
-<div><p>This class will help you load files from your Box instance. You must have a
+<p>This class will help you load files from your Box instance. You must have a
 Box account. If you need one, you can sign up for a free developer account.
 You will also need a Box application created in the developer portal, where
 you can select your authorization type.</p>
 <p>If you wish to use either of the Box AI options, you must be on an Enterprise
 Plus plan or above. The free developer account does not have access to Box AI.</p>
-<p>In addition, using the Box AI API requires a few prerequisite steps:
-* Your administrator must enable the Box AI API
-* You must enable the <cite>Manage AI</cite> scope in your app in the developer console.
-* Your administratormust install and enable your application.</p>
+<p>In addition, using the Box AI API requires a few prerequisite steps:</p>
+<ul class="simple">
+<li><p>Your administrator must enable the Box AI API</p></li>
+<li><p>You must enable the <code class="docutils literal notranslate"><span class="pre">Manage</span> <span class="pre">AI</span></code> scope in your app in the developer console.</p></li>
+<li><p>Your administrator must install and enable your application.</p></li>
+</ul>
 <dl>
-<dt>Setup:</dt><dd><p>Install <code class="docutils literal notranslate"><span class="pre">langchain-box</span></code> and set environment variable <code class="docutils literal notranslate"><span class="pre">BOX_DEVELOPER_TOKEN</span></code>.</p>
+<dt><strong>Setup</strong>:</dt><dd><p>Install <code class="docutils literal notranslate"><span class="pre">langchain-box</span></code> and set environment variable <code class="docutils literal notranslate"><span class="pre">BOX_DEVELOPER_TOKEN</span></code>.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>-U<span class="w"> </span>langchain-box
 <span class="nb">export</span><span class="w"> </span><span class="nv">BOX_DEVELOPER_TOKEN</span><span class="o">=</span><span class="s2">"your-api-key"</span>
 </pre></div>
 </div>
 </dd>
 </dl>
-<p>This loader returns <code class="docutils literal notranslate"><span class="pre">Document</span> <span class="pre">``</span> <span class="pre">objects</span> <span class="pre">built</span> <span class="pre">from</span> <span class="pre">text</span> <span class="pre">representations</span> <span class="pre">of</span> <span class="pre">files</span>
-<span class="pre">in</span> <span class="pre">Box.</span> <span class="pre">It</span> <span class="pre">will</span> <span class="pre">skip</span> <span class="pre">any</span> <span class="pre">document</span> <span class="pre">without</span> <span class="pre">a</span> <span class="pre">text</span> <span class="pre">representation</span> <span class="pre">available.</span> <span class="pre">You</span> <span class="pre">can</span>
-<span class="pre">provide</span> <span class="pre">either</span> <span class="pre">a</span> <span class="pre">``List[str]</span></code> containing Box file IDS, or you can provide a
+<p>This loader returns <code class="docutils literal notranslate"><span class="pre">Document</span></code> objects built from text representations of files
+in Box. It will skip any document without a text representation available. You can
+provide either a <code class="docutils literal notranslate"><span class="pre">List[str]</span></code> containing Box file IDS, or you can provide a
 <code class="docutils literal notranslate"><span class="pre">str</span></code> contining a Box folder ID. If providing a folder ID, you can also enable
 recursive mode to get the full tree under that folder.</p>
 <div class="admonition note">
@@ -332,21 +333,60 @@ of files. Be intentional when choosing what folders you choose to index. And we
 recommend never getting all files from folder 0 recursively. Folder ID 0 is your
 root folder.</p>
 </div>
-<p>Instantiate:</p>
+<p><strong>Instantiate</strong>:</p>
 <blockquote>
-<div><dl class="simple">
-<dt>Initialization variables</dt><dd><p>variable | description | type | required
-—+—+—
-box_developer_token | token to use for auth. | string | no
-box_auth | client id for you app. Used for CCG | string | no
-box_file_ids | Array of Box file Ids to retrieve | array of strings | no
-box_folder_id | Box folder id to retrieve | string | no
-recursive | whether to return subfolders, default False | bool | no</p>
-</dd>
-</dl>
+<div><div class="pst-scrollable-table-container"><table class="table" id="id1">
+<caption><span class="caption-text">Initialization variables</span><a class="headerlink" href="#id1" title="Permalink to this table">#</a></caption>
+<colgroup>
+<col style="width: 25.0%"/>
+<col style="width: 50.0%"/>
+<col style="width: 15.0%"/>
+<col style="width: 10.0%"/>
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Variable</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Default</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>box_developer_token</p></td>
+<td><p>Token to use for auth.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">str</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">None</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>box_auth</p></td>
+<td><p>client id for you app. Used for CCG</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">langchain_box.utilities.BoxAuth</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">None</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>box_file_ids</p></td>
+<td><p>client id for you app. Used for CCG</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">List[str]</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">None</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>box_folder_id</p></td>
+<td><p>client id for you app. Used for CCG</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">str</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">None</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>recursive</p></td>
+<td><p>client id for you app. Used for CCG</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Bool</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">False</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>character_limit</p></td>
+<td><p>client id for you app. Used for CCG</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">int</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">-1</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
 </div></blockquote>
-<p>Get files — this method requires you pass the <code class="docutils literal notranslate"><span class="pre">box_file_ids</span></code> parameter. This is a
-<code class="docutils literal notranslate"><span class="pre">List[str]</span></code> containing the file IDs you wish to index.</p>
+<p><strong>Get files</strong> — this method requires you pass the <code class="docutils literal notranslate"><span class="pre">box_file_ids</span></code> parameter.
+This is a <code class="docutils literal notranslate"><span class="pre">List[str]</span></code> containing the file IDs you wish to index.</p>
 <blockquote>
 <div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">langchain_box.document_loaders</span> <span class="kn">import</span> <span class="n">BoxLoader</span>
 
@@ -359,7 +399,7 @@ recursive | whether to return subfolders, default False | bool | no</p>
 </pre></div>
 </div>
 </div></blockquote>
-<p>Get files in a folder — this method requires you pass the <code class="docutils literal notranslate"><span class="pre">box_folder_id</span></code>
+<p><strong>Get files in a folder</strong> — this method requires you pass the <code class="docutils literal notranslate"><span class="pre">box_folder_id</span></code>
 parameter. This is a <code class="docutils literal notranslate"><span class="pre">str</span></code> containing the folder ID you wish to index.</p>
 <blockquote>
 <div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">langchain_box.document_loaders</span> <span class="kn">import</span> <span class="n">BoxLoader</span>
@@ -374,38 +414,20 @@ parameter. This is a <code class="docutils literal notranslate"><span class="pre
 </div>
 </div></blockquote>
 <dl>
-<dt>Load:</dt><dd><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">docs</span> <span class="o">=</span> <span class="n">loader</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+<dt><strong>Load</strong>:</dt><dd><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">docs</span> <span class="o">=</span> <span class="n">loader</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
 <span class="n">docs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 </pre></div>
 </div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Document</span><span class="p">(</span><span class="n">metadata</span><span class="o">=</span><span class="p">{</span><span class="s1">'source'</span><span class="p">:</span> <span class="s1">'https://dl.boxcloud.com/api/2.0/</span>
-<span class="n">internal_files</span><span class="o">/</span><span class="mi">1514555423624</span><span class="o">/</span><span class="n">versions</span><span class="o">/</span><span class="mi">1663171610024</span><span class="o">/</span><span class="n">representations</span>
-<span class="o">/</span><span class="n">extracted_text</span><span class="o">/</span><span class="n">content</span><span class="o">/</span><span class="s1">', '</span><span class="n">title</span><span class="s1">': '</span><span class="n">Invoice</span><span class="o">-</span><span class="n">A5555_txt</span><span class="s1">'},</span>
-<span class="n">page_content</span><span class="o">=</span><span class="s1">'Vendor: AstroTech Solutions</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>Document(metadata={'source': 'https://dl.boxcloud.com/api/2.0/
+internal_files/1514555423624/versions/1663171610024/representations
+/extracted_text/content/', 'title': 'Invoice-A5555_txt'},
+page_content='Vendor: AstroTech Solutions\nInvoice Number: A5555\n\nLine
+Items:\n    - Gravitational Wave Detector Kit: $800\n    - Exoplanet
+Terrarium: $120\nTotal: $920')
 </pre></div>
 </div>
 </dd>
-</dl>
-</div></blockquote>
-<p>Invoice Number: A5555</p>
-<dl>
-<dt>Line</dt><dd><blockquote>
-<div><p>Items:</p>
-</div></blockquote>
-<ul class="simple">
-<li><p>Gravitational Wave Detector Kit: $800</p></li>
-<li><dl class="simple">
-<dt>Exoplanet</dt><dd><p>Terrarium: $120</p>
-</dd>
-</dl>
-</li>
-</ul>
-</dd>
-</dl>
-<p>Total: $920’)</p>
-<blockquote>
-<div><dl>
-<dt>Lazy load:</dt><dd><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">docs</span> <span class="o">=</span> <span class="p">[]</span>
+<dt><strong>Lazy load</strong>:</dt><dd><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">docs</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="n">docs_lazy</span> <span class="o">=</span> <span class="n">loader</span><span class="o">.</span><span class="n">lazy_load</span><span class="p">()</span>
 
 <span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">docs_lazy</span><span class="p">:</span>
@@ -414,37 +436,24 @@ parameter. This is a <code class="docutils literal notranslate"><span class="pre
 <span class="nb">print</span><span class="p">(</span><span class="n">docs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">metadata</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Document</span><span class="p">(</span><span class="n">metadata</span><span class="o">=</span><span class="p">{</span><span class="s1">'source'</span><span class="p">:</span> <span class="s1">'https://dl.boxcloud.com/api/2.0/</span>
-<span class="n">internal_files</span><span class="o">/</span><span class="mi">1514555423624</span><span class="o">/</span><span class="n">versions</span><span class="o">/</span><span class="mi">1663171610024</span><span class="o">/</span><span class="n">representations</span>
-<span class="o">/</span><span class="n">extracted_text</span><span class="o">/</span><span class="n">content</span><span class="o">/</span><span class="s1">', '</span><span class="n">title</span><span class="s1">': '</span><span class="n">Invoice</span><span class="o">-</span><span class="n">A5555_txt</span><span class="s1">'},</span>
-<span class="n">page_content</span><span class="o">=</span><span class="s1">'Vendor: AstroTech Solutions</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>Document(metadata={'source': 'https://dl.boxcloud.com/api/2.0/
+internal_files/1514555423624/versions/1663171610024/representations
+/extracted_text/content/', 'title': 'Invoice-A5555_txt'},
+page_content='Vendor: AstroTech Solutions\nInvoice Number: A5555\n\nLine
+Items:\n    - Gravitational Wave Detector Kit: $800\n    - Exoplanet
+Terrarium: $120\nTotal: $920')
 </pre></div>
 </div>
 </dd>
 </dl>
-</div></blockquote>
-<p>Invoice Number: A5555</p>
-<dl>
-<dt>Line</dt><dd><blockquote>
-<div><p>Items:</p>
-</div></blockquote>
-<ul class="simple">
-<li><p>Gravitational Wave Detector Kit: $800</p></li>
-<li><dl class="simple">
-<dt>Exoplanet</dt><dd><p>Terrarium: $120</p>
-</dd>
-</dl>
-</li>
-</ul>
-</dd>
-</dl>
-<p>Total: $920’)</p>
 <p>Create a new model by parsing and validating input data from keyword arguments.</p>
 <p>Raises ValidationError if the input data cannot be parsed to form a valid model.</p>
 <dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="langchain_box.document_loaders.box.BoxLoader.box_auth">
 <em class="property"><span class="pre">param</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">box_auth</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="../utilities/langchain_box.utilities.box.BoxAuth.html#langchain_box.utilities.box.BoxAuth" title="langchain_box.utilities.box.BoxAuth"><span class="pre">BoxAuth</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#langchain_box.document_loaders.box.BoxLoader.box_auth" title="Permalink to this definition">#</a></dt>
-<dd><p>Configured langchain_box.utilities.BoxAuth object</p>
+<dd><p>Configured
+<a class="reference external" href="https://python.langchain.com/v0.2/api_reference/box/utilities/langchain_box.utilities.box.BoxAuth.html">BoxAuth</a>
+object</p>
 </dd></dl>
 <dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="langchain_box.document_loaders.box.BoxLoader.box_developer_token">

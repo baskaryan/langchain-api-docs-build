@@ -38,7 +38,7 @@
 <link href="../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Aug 23, 2024" name="docbuild:last-update"/>
+<meta content="Aug 24, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -513,6 +513,57 @@ document.write(`
         <span class="k">return</span> <span class="n">default_class</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="n">content</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">id_</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
 
 
+<span class="k">def</span> <span class="nf">_convert_chunk_to_generation_chunk</span><span class="p">(</span>
+    <span class="n">chunk</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">default_chunk_class</span><span class="p">:</span> <span class="n">Type</span><span class="p">,</span> <span class="n">base_generation_info</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">]</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ChatGenerationChunk</span><span class="p">]:</span>
+    <span class="n">token_usage</span> <span class="o">=</span> <span class="n">chunk</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"usage"</span><span class="p">)</span>
+    <span class="n">choices</span> <span class="o">=</span> <span class="n">chunk</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"choices"</span><span class="p">,</span> <span class="p">[])</span>
+    <span class="n">usage_metadata</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">UsageMetadata</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">UsageMetadata</span><span class="p">(</span>
+            <span class="n">input_tokens</span><span class="o">=</span><span class="n">token_usage</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"prompt_tokens"</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+            <span class="n">output_tokens</span><span class="o">=</span><span class="n">token_usage</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"completion_tokens"</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+            <span class="n">total_tokens</span><span class="o">=</span><span class="n">token_usage</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"total_tokens"</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">token_usage</span>
+        <span class="k">else</span> <span class="kc">None</span>
+    <span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">choices</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="c1"># logprobs is implicitly None</span>
+        <span class="n">generation_chunk</span> <span class="o">=</span> <span class="n">ChatGenerationChunk</span><span class="p">(</span>
+            <span class="n">message</span><span class="o">=</span><span class="n">default_chunk_class</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span> <span class="n">usage_metadata</span><span class="o">=</span><span class="n">usage_metadata</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">generation_chunk</span>
+
+    <span class="n">choice</span> <span class="o">=</span> <span class="n">choices</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">choice</span><span class="p">[</span><span class="s2">"delta"</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="n">message_chunk</span> <span class="o">=</span> <span class="n">_convert_delta_to_message_chunk</span><span class="p">(</span>
+        <span class="n">choice</span><span class="p">[</span><span class="s2">"delta"</span><span class="p">],</span> <span class="n">default_chunk_class</span>
+    <span class="p">)</span>
+    <span class="n">generation_info</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">base_generation_info</span><span class="p">}</span> <span class="k">if</span> <span class="n">base_generation_info</span> <span class="k">else</span> <span class="p">{}</span>
+
+    <span class="k">if</span> <span class="n">finish_reason</span> <span class="o">:=</span> <span class="n">choice</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"finish_reason"</span><span class="p">):</span>
+        <span class="n">generation_info</span><span class="p">[</span><span class="s2">"finish_reason"</span><span class="p">]</span> <span class="o">=</span> <span class="n">finish_reason</span>
+        <span class="k">if</span> <span class="n">model_name</span> <span class="o">:=</span> <span class="n">chunk</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"model"</span><span class="p">):</span>
+            <span class="n">generation_info</span><span class="p">[</span><span class="s2">"model_name"</span><span class="p">]</span> <span class="o">=</span> <span class="n">model_name</span>
+        <span class="k">if</span> <span class="n">system_fingerprint</span> <span class="o">:=</span> <span class="n">chunk</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"system_fingerprint"</span><span class="p">):</span>
+            <span class="n">generation_info</span><span class="p">[</span><span class="s2">"system_fingerprint"</span><span class="p">]</span> <span class="o">=</span> <span class="n">system_fingerprint</span>
+
+    <span class="n">logprobs</span> <span class="o">=</span> <span class="n">choice</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"logprobs"</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">logprobs</span><span class="p">:</span>
+        <span class="n">generation_info</span><span class="p">[</span><span class="s2">"logprobs"</span><span class="p">]</span> <span class="o">=</span> <span class="n">logprobs</span>
+
+    <span class="k">if</span> <span class="n">usage_metadata</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">message_chunk</span><span class="p">,</span> <span class="n">AIMessageChunk</span><span class="p">):</span>
+        <span class="n">message_chunk</span><span class="o">.</span><span class="n">usage_metadata</span> <span class="o">=</span> <span class="n">usage_metadata</span>
+
+    <span class="n">generation_chunk</span> <span class="o">=</span> <span class="n">ChatGenerationChunk</span><span class="p">(</span>
+        <span class="n">message</span><span class="o">=</span><span class="n">message_chunk</span><span class="p">,</span> <span class="n">generation_info</span><span class="o">=</span><span class="n">generation_info</span> <span class="ow">or</span> <span class="kc">None</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">generation_chunk</span>
+
+
 <span class="k">class</span> <span class="nc">_FunctionCall</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
     <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
 
@@ -790,43 +841,15 @@ document.write(`
             <span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="n">response</span><span class="p">:</span>
                 <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">chunk</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
                     <span class="n">chunk</span> <span class="o">=</span> <span class="n">chunk</span><span class="o">.</span><span class="n">model_dump</span><span class="p">()</span>
-                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">chunk</span><span class="p">[</span><span class="s2">"choices"</span><span class="p">])</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                    <span class="k">if</span> <span class="n">token_usage</span> <span class="o">:=</span> <span class="n">chunk</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"usage"</span><span class="p">):</span>
-                        <span class="n">usage_metadata</span> <span class="o">=</span> <span class="n">UsageMetadata</span><span class="p">(</span>
-                            <span class="n">input_tokens</span><span class="o">=</span><span class="n">token_usage</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"prompt_tokens"</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
-                            <span class="n">output_tokens</span><span class="o">=</span><span class="n">token_usage</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"completion_tokens"</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
-                            <span class="n">total_tokens</span><span class="o">=</span><span class="n">token_usage</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"total_tokens"</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
-                        <span class="p">)</span>
-                        <span class="n">generation_chunk</span> <span class="o">=</span> <span class="n">ChatGenerationChunk</span><span class="p">(</span>
-                            <span class="n">message</span><span class="o">=</span><span class="n">default_chunk_class</span><span class="p">(</span>  <span class="c1"># type: ignore[call-arg]</span>
-                                <span class="n">content</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span> <span class="n">usage_metadata</span><span class="o">=</span><span class="n">usage_metadata</span>
-                            <span class="p">)</span>
-                        <span class="p">)</span>
-                        <span class="n">logprobs</span> <span class="o">=</span> <span class="kc">None</span>
-                    <span class="k">else</span><span class="p">:</span>
-                        <span class="k">continue</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="n">choice</span> <span class="o">=</span> <span class="n">chunk</span><span class="p">[</span><span class="s2">"choices"</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
-                    <span class="k">if</span> <span class="n">choice</span><span class="p">[</span><span class="s2">"delta"</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                        <span class="k">continue</span>
-                    <span class="n">message_chunk</span> <span class="o">=</span> <span class="n">_convert_delta_to_message_chunk</span><span class="p">(</span>
-                        <span class="n">choice</span><span class="p">[</span><span class="s2">"delta"</span><span class="p">],</span> <span class="n">default_chunk_class</span>
-                    <span class="p">)</span>
-                    <span class="n">generation_info</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">base_generation_info</span><span class="p">}</span> <span class="k">if</span> <span class="n">is_first_chunk</span> <span class="k">else</span> <span class="p">{}</span>
-                    <span class="k">if</span> <span class="n">finish_reason</span> <span class="o">:=</span> <span class="n">choice</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"finish_reason"</span><span class="p">):</span>
-                        <span class="n">generation_info</span><span class="p">[</span><span class="s2">"finish_reason"</span><span class="p">]</span> <span class="o">=</span> <span class="n">finish_reason</span>
-                        <span class="k">if</span> <span class="n">model_name</span> <span class="o">:=</span> <span class="n">chunk</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"model"</span><span class="p">):</span>
-                            <span class="n">generation_info</span><span class="p">[</span><span class="s2">"model_name"</span><span class="p">]</span> <span class="o">=</span> <span class="n">model_name</span>
-                        <span class="k">if</span> <span class="n">system_fingerprint</span> <span class="o">:=</span> <span class="n">chunk</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"system_fingerprint"</span><span class="p">):</span>
-                            <span class="n">generation_info</span><span class="p">[</span><span class="s2">"system_fingerprint"</span><span class="p">]</span> <span class="o">=</span> <span class="n">system_fingerprint</span>
-
-                    <span class="n">logprobs</span> <span class="o">=</span> <span class="n">choice</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"logprobs"</span><span class="p">)</span>
-                    <span class="k">if</span> <span class="n">logprobs</span><span class="p">:</span>
-                        <span class="n">generation_info</span><span class="p">[</span><span class="s2">"logprobs"</span><span class="p">]</span> <span class="o">=</span> <span class="n">logprobs</span>
-                    <span class="n">default_chunk_class</span> <span class="o">=</span> <span class="n">message_chunk</span><span class="o">.</span><span class="vm">__class__</span>
-                    <span class="n">generation_chunk</span> <span class="o">=</span> <span class="n">ChatGenerationChunk</span><span class="p">(</span>
-                        <span class="n">message</span><span class="o">=</span><span class="n">message_chunk</span><span class="p">,</span> <span class="n">generation_info</span><span class="o">=</span><span class="n">generation_info</span> <span class="ow">or</span> <span class="kc">None</span>
-                    <span class="p">)</span>
+                <span class="n">generation_chunk</span> <span class="o">=</span> <span class="n">_convert_chunk_to_generation_chunk</span><span class="p">(</span>
+                    <span class="n">chunk</span><span class="p">,</span>
+                    <span class="n">default_chunk_class</span><span class="p">,</span>
+                    <span class="n">base_generation_info</span> <span class="k">if</span> <span class="n">is_first_chunk</span> <span class="k">else</span> <span class="p">{},</span>
+                <span class="p">)</span>
+                <span class="k">if</span> <span class="n">generation_chunk</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="n">default_chunk_class</span> <span class="o">=</span> <span class="n">generation_chunk</span><span class="o">.</span><span class="n">message</span><span class="o">.</span><span class="vm">__class__</span>
+                <span class="n">logprobs</span> <span class="o">=</span> <span class="p">(</span><span class="n">generation_chunk</span><span class="o">.</span><span class="n">generation_info</span> <span class="ow">or</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"logprobs"</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">run_manager</span><span class="p">:</span>
                     <span class="n">run_manager</span><span class="o">.</span><span class="n">on_llm_new_token</span><span class="p">(</span>
                         <span class="n">generation_chunk</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="n">chunk</span><span class="o">=</span><span class="n">generation_chunk</span><span class="p">,</span> <span class="n">logprobs</span><span class="o">=</span><span class="n">logprobs</span>
@@ -973,51 +996,18 @@ document.write(`
             <span class="k">async</span> <span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="n">response</span><span class="p">:</span>
                 <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">chunk</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
                     <span class="n">chunk</span> <span class="o">=</span> <span class="n">chunk</span><span class="o">.</span><span class="n">model_dump</span><span class="p">()</span>
-                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">chunk</span><span class="p">[</span><span class="s2">"choices"</span><span class="p">])</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                    <span class="k">if</span> <span class="n">token_usage</span> <span class="o">:=</span> <span class="n">chunk</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"usage"</span><span class="p">):</span>
-                        <span class="n">usage_metadata</span> <span class="o">=</span> <span class="n">UsageMetadata</span><span class="p">(</span>
-                            <span class="n">input_tokens</span><span class="o">=</span><span class="n">token_usage</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"prompt_tokens"</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
-                            <span class="n">output_tokens</span><span class="o">=</span><span class="n">token_usage</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"completion_tokens"</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
-                            <span class="n">total_tokens</span><span class="o">=</span><span class="n">token_usage</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"total_tokens"</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
-                        <span class="p">)</span>
-                        <span class="n">generation_chunk</span> <span class="o">=</span> <span class="n">ChatGenerationChunk</span><span class="p">(</span>
-                            <span class="n">message</span><span class="o">=</span><span class="n">default_chunk_class</span><span class="p">(</span>  <span class="c1"># type: ignore[call-arg]</span>
-                                <span class="n">content</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span> <span class="n">usage_metadata</span><span class="o">=</span><span class="n">usage_metadata</span>
-                            <span class="p">)</span>
-                        <span class="p">)</span>
-                        <span class="n">logprobs</span> <span class="o">=</span> <span class="kc">None</span>
-                    <span class="k">else</span><span class="p">:</span>
-                        <span class="k">continue</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="n">choice</span> <span class="o">=</span> <span class="n">chunk</span><span class="p">[</span><span class="s2">"choices"</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
-                    <span class="k">if</span> <span class="n">choice</span><span class="p">[</span><span class="s2">"delta"</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                        <span class="k">continue</span>
-                    <span class="n">message_chunk</span> <span class="o">=</span> <span class="k">await</span> <span class="n">run_in_executor</span><span class="p">(</span>
-                        <span class="kc">None</span><span class="p">,</span>
-                        <span class="n">_convert_delta_to_message_chunk</span><span class="p">,</span>
-                        <span class="n">choice</span><span class="p">[</span><span class="s2">"delta"</span><span class="p">],</span>
-                        <span class="n">default_chunk_class</span><span class="p">,</span>
-                    <span class="p">)</span>
-                    <span class="n">generation_info</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">base_generation_info</span><span class="p">}</span> <span class="k">if</span> <span class="n">is_first_chunk</span> <span class="k">else</span> <span class="p">{}</span>
-                    <span class="k">if</span> <span class="n">finish_reason</span> <span class="o">:=</span> <span class="n">choice</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"finish_reason"</span><span class="p">):</span>
-                        <span class="n">generation_info</span><span class="p">[</span><span class="s2">"finish_reason"</span><span class="p">]</span> <span class="o">=</span> <span class="n">finish_reason</span>
-                        <span class="k">if</span> <span class="n">model_name</span> <span class="o">:=</span> <span class="n">chunk</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"model"</span><span class="p">):</span>
-                            <span class="n">generation_info</span><span class="p">[</span><span class="s2">"model_name"</span><span class="p">]</span> <span class="o">=</span> <span class="n">model_name</span>
-                        <span class="k">if</span> <span class="n">system_fingerprint</span> <span class="o">:=</span> <span class="n">chunk</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"system_fingerprint"</span><span class="p">):</span>
-                            <span class="n">generation_info</span><span class="p">[</span><span class="s2">"system_fingerprint"</span><span class="p">]</span> <span class="o">=</span> <span class="n">system_fingerprint</span>
-
-                    <span class="n">logprobs</span> <span class="o">=</span> <span class="n">choice</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"logprobs"</span><span class="p">)</span>
-                    <span class="k">if</span> <span class="n">logprobs</span><span class="p">:</span>
-                        <span class="n">generation_info</span><span class="p">[</span><span class="s2">"logprobs"</span><span class="p">]</span> <span class="o">=</span> <span class="n">logprobs</span>
-                    <span class="n">default_chunk_class</span> <span class="o">=</span> <span class="n">message_chunk</span><span class="o">.</span><span class="vm">__class__</span>
-                    <span class="n">generation_chunk</span> <span class="o">=</span> <span class="n">ChatGenerationChunk</span><span class="p">(</span>
-                        <span class="n">message</span><span class="o">=</span><span class="n">message_chunk</span><span class="p">,</span> <span class="n">generation_info</span><span class="o">=</span><span class="n">generation_info</span> <span class="ow">or</span> <span class="kc">None</span>
-                    <span class="p">)</span>
+                <span class="n">generation_chunk</span> <span class="o">=</span> <span class="n">_convert_chunk_to_generation_chunk</span><span class="p">(</span>
+                    <span class="n">chunk</span><span class="p">,</span>
+                    <span class="n">default_chunk_class</span><span class="p">,</span>
+                    <span class="n">base_generation_info</span> <span class="k">if</span> <span class="n">is_first_chunk</span> <span class="k">else</span> <span class="p">{},</span>
+                <span class="p">)</span>
+                <span class="k">if</span> <span class="n">generation_chunk</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="n">default_chunk_class</span> <span class="o">=</span> <span class="n">generation_chunk</span><span class="o">.</span><span class="n">message</span><span class="o">.</span><span class="vm">__class__</span>
+                <span class="n">logprobs</span> <span class="o">=</span> <span class="p">(</span><span class="n">generation_chunk</span><span class="o">.</span><span class="n">generation_info</span> <span class="ow">or</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"logprobs"</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">run_manager</span><span class="p">:</span>
                     <span class="k">await</span> <span class="n">run_manager</span><span class="o">.</span><span class="n">on_llm_new_token</span><span class="p">(</span>
-                        <span class="n">token</span><span class="o">=</span><span class="n">generation_chunk</span><span class="o">.</span><span class="n">text</span><span class="p">,</span>
-                        <span class="n">chunk</span><span class="o">=</span><span class="n">generation_chunk</span><span class="p">,</span>
-                        <span class="n">logprobs</span><span class="o">=</span><span class="n">logprobs</span><span class="p">,</span>
+                        <span class="n">generation_chunk</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="n">chunk</span><span class="o">=</span><span class="n">generation_chunk</span><span class="p">,</span> <span class="n">logprobs</span><span class="o">=</span><span class="n">logprobs</span>
                     <span class="p">)</span>
                 <span class="n">is_first_chunk</span> <span class="o">=</span> <span class="kc">False</span>
                 <span class="k">yield</span> <span class="n">generation_chunk</span>

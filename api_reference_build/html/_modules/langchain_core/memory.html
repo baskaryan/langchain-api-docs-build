@@ -38,7 +38,7 @@
 <link href="../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Aug 23, 2024" name="docbuild:last-update"/>
+<meta content="Aug 24, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -246,7 +246,7 @@ document.write(`
 <span class="kn">from</span> <span class="nn">langchain_core.runnables</span> <span class="kn">import</span> <span class="n">run_in_executor</span>
 
 
-<div class="viewcode-block" id="BaseMemory"><a class="viewcode-back" href="../../core/memory/langchain_core.memory.BaseMemory.html#langchain.memory.entity.BaseMemory">[docs]</a><span class="k">class</span> <span class="nc">BaseMemory</span><span class="p">(</span><span class="n">Serializable</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
+<div class="viewcode-block" id="BaseMemory"><a class="viewcode-back" href="../../core/memory/langchain_core.memory.BaseMemory.html#langchain.memory.buffer_window.BaseMemory">[docs]</a><span class="k">class</span> <span class="nc">BaseMemory</span><span class="p">(</span><span class="n">Serializable</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Abstract base class for memory in Chains.</span>
 
 <span class="sd">    Memory refers to state in Chains. Memory can be used to store information about</span>
@@ -284,7 +284,7 @@ document.write(`
     <span class="k">def</span> <span class="nf">memory_variables</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">"""The string keys this memory class will add to chain inputs."""</span>
 
-<div class="viewcode-block" id="BaseMemory.load_memory_variables"><a class="viewcode-back" href="../../core/memory/langchain_core.memory.BaseMemory.html#langchain.memory.entity.BaseMemory.load_memory_variables">[docs]</a>    <span class="nd">@abstractmethod</span>
+<div class="viewcode-block" id="BaseMemory.load_memory_variables"><a class="viewcode-back" href="../../core/memory/langchain_core.memory.BaseMemory.html#langchain.memory.buffer_window.BaseMemory.load_memory_variables">[docs]</a>    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">load_memory_variables</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">"""Return key-value pairs given the text input to the chain.</span>
 
@@ -295,7 +295,7 @@ document.write(`
 <span class="sd">            A dictionary of key-value pairs.</span>
 <span class="sd">        """</span></div>
 
-<div class="viewcode-block" id="BaseMemory.aload_memory_variables"><a class="viewcode-back" href="../../core/memory/langchain_core.memory.BaseMemory.html#langchain.memory.entity.BaseMemory.aload_memory_variables">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">aload_memory_variables</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<div class="viewcode-block" id="BaseMemory.aload_memory_variables"><a class="viewcode-back" href="../../core/memory/langchain_core.memory.BaseMemory.html#langchain.memory.buffer_window.BaseMemory.aload_memory_variables">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">aload_memory_variables</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">"""Async return key-value pairs given the text input to the chain.</span>
 
 <span class="sd">        Args:</span>
@@ -306,7 +306,7 @@ document.write(`
 <span class="sd">        """</span>
         <span class="k">return</span> <span class="k">await</span> <span class="n">run_in_executor</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">load_memory_variables</span><span class="p">,</span> <span class="n">inputs</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="BaseMemory.save_context"><a class="viewcode-back" href="../../core/memory/langchain_core.memory.BaseMemory.html#langchain.memory.entity.BaseMemory.save_context">[docs]</a>    <span class="nd">@abstractmethod</span>
+<div class="viewcode-block" id="BaseMemory.save_context"><a class="viewcode-back" href="../../core/memory/langchain_core.memory.BaseMemory.html#langchain.memory.buffer_window.BaseMemory.save_context">[docs]</a>    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">save_context</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">outputs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Save the context of this chain run to memory.</span>
 
@@ -315,7 +315,7 @@ document.write(`
 <span class="sd">            outputs: The outputs of the chain.</span>
 <span class="sd">        """</span></div>
 
-<div class="viewcode-block" id="BaseMemory.asave_context"><a class="viewcode-back" href="../../core/memory/langchain_core.memory.BaseMemory.html#langchain.memory.entity.BaseMemory.asave_context">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">asave_context</span><span class="p">(</span>
+<div class="viewcode-block" id="BaseMemory.asave_context"><a class="viewcode-back" href="../../core/memory/langchain_core.memory.BaseMemory.html#langchain.memory.buffer_window.BaseMemory.asave_context">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">asave_context</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">outputs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Async save the context of this chain run to memory.</span>
@@ -326,11 +326,11 @@ document.write(`
 <span class="sd">        """</span>
         <span class="k">await</span> <span class="n">run_in_executor</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">save_context</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="BaseMemory.clear"><a class="viewcode-back" href="../../core/memory/langchain_core.memory.BaseMemory.html#langchain.memory.entity.BaseMemory.clear">[docs]</a>    <span class="nd">@abstractmethod</span>
+<div class="viewcode-block" id="BaseMemory.clear"><a class="viewcode-back" href="../../core/memory/langchain_core.memory.BaseMemory.html#langchain.memory.buffer_window.BaseMemory.clear">[docs]</a>    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">clear</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Clear memory contents."""</span></div>
 
-<div class="viewcode-block" id="BaseMemory.aclear"><a class="viewcode-back" href="../../core/memory/langchain_core.memory.BaseMemory.html#langchain.memory.entity.BaseMemory.aclear">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">aclear</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="BaseMemory.aclear"><a class="viewcode-back" href="../../core/memory/langchain_core.memory.BaseMemory.html#langchain.memory.buffer_window.BaseMemory.aclear">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">aclear</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Async clear memory contents."""</span>
         <span class="k">await</span> <span class="n">run_in_executor</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">clear</span><span class="p">)</span></div></div>
 </pre></div>

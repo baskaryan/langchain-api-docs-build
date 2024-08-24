@@ -38,7 +38,7 @@
 <link href="../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Aug 23, 2024" name="docbuild:last-update"/>
+<meta content="Aug 24, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -363,52 +363,63 @@ document.write(`
 <span class="sd">    an enum to tell BoxLoader how you wish to autheticate your Box connection.</span>
 
 <span class="sd">    Options are:</span>
+
 <span class="sd">    TOKEN - Use a developer token generated from the Box Deevloper Token.</span>
 <span class="sd">            Only recommended for development.</span>
-<span class="sd">            Provide `box_developer_token`.</span>
+<span class="sd">            Provide ``box_developer_token``.</span>
 <span class="sd">    CCG - Client Credentials Grant.</span>
-<span class="sd">          provide `box_client_id`, `box_client_secret`,</span>
-<span class="sd">          and `box_enterprise_id` or optionally `box_user_id`.</span>
+<span class="sd">          provide ``box_client_id`, ``box_client_secret`,</span>
+<span class="sd">          and ``box_enterprise_id`` or optionally `box_user_id`.</span>
 <span class="sd">    JWT - Use JWT for authentication. Config should be stored on the file</span>
 <span class="sd">          system accessible to your app.</span>
-<span class="sd">          provide `box_jwt_path`. Optionally, provide `box_user_id` to</span>
+<span class="sd">          provide ``box_jwt_path``. Optionally, provide ``box_user_id`` to</span>
 <span class="sd">          act as a specific user</span>
 <span class="sd">    """</span>
 
     <span class="n">TOKEN</span> <span class="o">=</span> <span class="s2">"token"</span>
-<span class="w">    </span><span class="sd">"""Use a developer token or a token retrieved from box-sdk-gen"""</span>
+<span class="w">    </span><span class="sd">"""Use a developer token or a token retrieved from ``box-sdk-gen``"""</span>
 
     <span class="n">CCG</span> <span class="o">=</span> <span class="s2">"ccg"</span>
-<span class="w">    </span><span class="sd">"""Use `client_credentials` type grant"""</span>
+<span class="w">    </span><span class="sd">"""Use ``client_credentials`` type grant"""</span>
 
     <span class="n">JWT</span> <span class="o">=</span> <span class="s2">"jwt"</span>
 <span class="w">    </span><span class="sd">"""Use JWT bearer token auth"""</span></div>
 
 
 <div class="viewcode-block" id="BoxAuth"><a class="viewcode-back" href="../../../box/utilities/langchain_box.utilities.box.BoxAuth.html#langchain_box.utilities.box.BoxAuth">[docs]</a><span class="k">class</span> <span class="nc">BoxAuth</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">"""BoxAuth.</span>
+<span class="w">    </span><span class="sd">"""**BoxAuth.**</span>
+
+<span class="sd">    The ``box-langchain`` package offers some flexibility to authentication. The</span>
+<span class="sd">    most basic authentication method is by using a developer token. This can be</span>
+<span class="sd">    found in the `Box developer console &lt;https://account.box.com/developers/console&gt;`_</span>
+<span class="sd">    on the configuration screen. This token is purposely short-lived (1 hour) and is</span>
+<span class="sd">    intended for development. With this token, you can add it to your environment as</span>
+<span class="sd">    ``BOX_DEVELOPER_TOKEN``, you can pass it directly to the loader, or you can use the</span>
+<span class="sd">    ``BoxAuth`` authentication helper class.</span>
 
 <span class="sd">    `BoxAuth` supports the following authentication methods:</span>
 
-<span class="sd">    * Token — either a developer token or any token generated through the Box SDK</span>
-<span class="sd">    * JWT with a service account</span>
-<span class="sd">    * JWT with a specified user</span>
-<span class="sd">    * CCG with a service account</span>
-<span class="sd">    * CCG with a specified user</span>
+<span class="sd">    * **Token** — either a developer token or any token generated through the Box SDK</span>
+<span class="sd">    * **JWT** with a service account</span>
+<span class="sd">    * **JWT** with a specified user</span>
+<span class="sd">    * **CCG** with a service account</span>
+<span class="sd">    * **CCG** with a specified user</span>
 
 <span class="sd">    .. note::</span>
-<span class="sd">    If using JWT authentication, you will need to download the configuration from the</span>
-<span class="sd">    Box developer console after generating your public/private key pair. Place this</span>
-<span class="sd">    file in your application directory structure somewhere. You will use the path to</span>
-<span class="sd">    this file when using the `BoxAuth` helper class.</span>
+<span class="sd">        If using JWT authentication, you will need to download the configuration from</span>
+<span class="sd">        the Box developer console after generating your public/private key pair. Place</span>
+<span class="sd">        this file in your application directory structure somewhere. You will use the</span>
+<span class="sd">        path to this file when using the ``BoxAuth`` helper class. If you wish to use</span>
+<span class="sd">        OAuth2 with the authorization_code flow, please use ``BoxAuthType.TOKEN`` with</span>
+<span class="sd">        the token you have acquired.</span>
 
 <span class="sd">    For more information, learn about how to</span>
-<span class="sd">    [set up a Box application](https://developer.box.com/guides/getting-started/first-application/),</span>
+<span class="sd">    `set up a Box application &lt;https://developer.box.com/guides/getting-started/first-application/&gt;`_,</span>
 <span class="sd">    and check out the</span>
-<span class="sd">    [Box authentication guide](https://developer.box.com/guides/authentication/select/)</span>
+<span class="sd">    `Box authentication guide &lt;https://developer.box.com/guides/authentication/select/&gt;`_</span>
 <span class="sd">    for more about our different authentication options.</span>
 
-<span class="sd">    Simple implementation</span>
+<span class="sd">    Simple implementation:</span>
 
 <span class="sd">        To instantiate, you must provide a ``langchain_box.utilities.BoxAuthType``.</span>
 
@@ -416,18 +427,24 @@ document.write(`
 <span class="sd">        Box connection.</span>
 
 <span class="sd">        Options are:</span>
+
 <span class="sd">        TOKEN - Use a developer token generated from the Box Deevloper Token.</span>
 <span class="sd">                Only recommended for development.</span>
-<span class="sd">                Provide `box_developer_token`.</span>
+<span class="sd">                Provide ``box_developer_token``.</span>
 <span class="sd">        CCG - Client Credentials Grant.</span>
-<span class="sd">            provide `box_client_id`, `box_client_secret`,</span>
-<span class="sd">            and `box_enterprise_id` or optionally `box_user_id`.</span>
+<span class="sd">            provide ``box_client_id``, ``box_client_secret``,</span>
+<span class="sd">            and ``box_enterprise_id`` or optionally ``box_user_id``.</span>
 <span class="sd">        JWT - Use JWT for authentication. Config should be stored on the file</span>
 <span class="sd">            system accessible to your app.</span>
-<span class="sd">            provide `box_jwt_path`. Optionally, provide `box_user_id` to</span>
+<span class="sd">            provide ``box_jwt_path``. Optionally, provide ``box_user_id`` to</span>
 <span class="sd">            act as a specific user</span>
 
+<span class="sd">        **Examples**:</span>
+
+<span class="sd">        **Token**</span>
+
 <span class="sd">        .. code-block:: python</span>
+
 <span class="sd">            from langchain_box.document_loaders import BoxLoader</span>
 <span class="sd">            from langchain_box.utilities import BoxAuth, BoxAuthType</span>
 
@@ -441,37 +458,109 @@ document.write(`
 <span class="sd">                ...</span>
 <span class="sd">            )</span>
 
-<span class="sd">    To see examples for each supported authentication methodology, visit the</span>
-<span class="sd">    [Box providers](/docs/integrations/providers/box) page. If you want to</span>
-<span class="sd">    use OAuth 2.0 `authorization_code` flow, use</span>
-<span class="sd">    [box-sdk-gen](https://github.com/box/box-python-sdk-gen) SDK, get your</span>
-<span class="sd">    token, and use `BoxAuthType.TOKEN` type.</span>
+
+<span class="sd">        **JWT with a service account**</span>
+
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            from langchain_box.document_loaders import BoxLoader</span>
+<span class="sd">            from langchain_box.utilities import BoxAuth, BoxAuthType</span>
+
+<span class="sd">            auth = BoxAuth(</span>
+<span class="sd">                auth_type=BoxAuthType.JWT,</span>
+<span class="sd">                box_jwt_path=box_jwt_path</span>
+<span class="sd">            )</span>
+
+<span class="sd">            loader = BoxLoader(</span>
+<span class="sd">                box_auth=auth,</span>
+<span class="sd">                ...</span>
+<span class="sd">            )</span>
+
+
+<span class="sd">        **JWT with a specified user**</span>
+
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            from langchain_box.document_loaders import BoxLoader</span>
+<span class="sd">            from langchain_box.utilities import BoxAuth, BoxAuthType</span>
+
+<span class="sd">            auth = BoxAuth(</span>
+<span class="sd">                auth_type=BoxAuthType.JWT,</span>
+<span class="sd">                box_jwt_path=box_jwt_path,</span>
+<span class="sd">                box_user_id=box_user_id</span>
+<span class="sd">            )</span>
+
+<span class="sd">            loader = BoxLoader(</span>
+<span class="sd">                box_auth=auth,</span>
+<span class="sd">                ...</span>
+<span class="sd">            )</span>
+
+
+<span class="sd">        **CCG with a service account**</span>
+
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            from langchain_box.document_loaders import BoxLoader</span>
+<span class="sd">            from langchain_box.utilities import BoxAuth, BoxAuthType</span>
+
+<span class="sd">            auth = BoxAuth(</span>
+<span class="sd">                auth_type=BoxAuthType.CCG,</span>
+<span class="sd">                box_client_id=box_client_id,</span>
+<span class="sd">                box_client_secret=box_client_secret,</span>
+<span class="sd">                box_enterprise_id=box_enterprise_id</span>
+<span class="sd">            )</span>
+
+<span class="sd">            loader = BoxLoader(</span>
+<span class="sd">                box_auth=auth,</span>
+<span class="sd">                ...</span>
+<span class="sd">            )</span>
+
+
+<span class="sd">        **CCG with a specified user**</span>
+
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            from langchain_box.document_loaders import BoxLoader</span>
+<span class="sd">            from langchain_box.utilities import BoxAuth, BoxAuthType</span>
+
+<span class="sd">            auth = BoxAuth(</span>
+<span class="sd">                auth_type=BoxAuthType.CCG,</span>
+<span class="sd">                box_client_id=box_client_id,</span>
+<span class="sd">                box_client_secret=box_client_secret,</span>
+<span class="sd">                box_user_id=box_user_id</span>
+<span class="sd">            )</span>
+
+<span class="sd">            loader = BoxLoader(</span>
+<span class="sd">                box_auth=auth,</span>
+<span class="sd">                ...</span>
+<span class="sd">            )</span>
+
 <span class="sd">    """</span>
 
     <span class="n">auth_type</span><span class="p">:</span> <span class="n">BoxAuthType</span>
-<span class="w">    </span><span class="sd">"""langchain_box.utilities.BoxAuthType. Enum describing how to</span>
+<span class="w">    </span><span class="sd">"""``langchain_box.utilities.BoxAuthType``. Enum describing how to</span>
 <span class="sd">       authenticate against Box"""</span>
 
     <span class="n">box_developer_token</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">""" If using BoxAuthType.TOKEN, provide your token here"""</span>
+<span class="w">    </span><span class="sd">""" If using ``BoxAuthType.TOKEN``, provide your token here"""</span>
 
     <span class="n">box_jwt_path</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">"""If using BoxAuthType.JWT, provide local path to your</span>
+<span class="w">    </span><span class="sd">"""If using ``BoxAuthType.JWT``, provide local path to your</span>
 <span class="sd">       JWT configuration file"""</span>
 
     <span class="n">box_client_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">"""If using BoxAuthType.CCG, provide your app's client ID"""</span>
+<span class="w">    </span><span class="sd">"""If using ``BoxAuthType.CCG``, provide your app's client ID"""</span>
 
     <span class="n">box_client_secret</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">"""If using BoxAuthType.CCG, provide your app's client secret"""</span>
+<span class="w">    </span><span class="sd">"""If using ``BoxAuthType.CCG``, provide your app's client secret"""</span>
 
     <span class="n">box_enterprise_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">"""If using BoxAuthType.CCG, provide your enterprise ID.</span>
-<span class="sd">       Only required if you are not sending `box_user_id`"""</span>
+<span class="w">    </span><span class="sd">"""If using ``BoxAuthType.CCG``, provide your enterprise ID.</span>
+<span class="sd">       Only required if you are not sending ``box_user_id``"""</span>
 
     <span class="n">box_user_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">    </span><span class="sd">"""If using BoxAuthType.CCG or BoxAuthType.JWT, providing </span>
-<span class="sd">       `box_user_id` will act on behalf of a specific user"""</span>
+<span class="w">    </span><span class="sd">"""If using ``BoxAuthType.CCG`` or ``BoxAuthType.JWT``, providing </span>
+<span class="sd">       ``box_user_id`` will act on behalf of a specific user"""</span>
 
     <span class="n">_box_client</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">box_sdk_gen</span><span class="o">.</span><span class="n">BoxClient</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">_custom_header</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">({</span><span class="s2">"x-box-ai-library"</span><span class="p">:</span> <span class="s2">"langchain"</span><span class="p">})</span>

@@ -40,7 +40,7 @@
 <link href="../utilities.html" rel="prev" title="utilities"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Aug 23, 2024" name="docbuild:last-update"/>
+<meta content="Aug 24, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -303,90 +303,176 @@ document.write(`
 <dt class="sig sig-object py" id="langchain_box.utilities.box.BoxAuth">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">langchain_box.utilities.box.</span></span><span class="sig-name descname"><span class="pre">BoxAuth</span></span><a class="reference internal" href="../../_modules/langchain_box/utilities/box.html#BoxAuth"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#langchain_box.utilities.box.BoxAuth" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
-<p>BoxAuth.</p>
+<p><strong>BoxAuth.</strong></p>
+<p>The <code class="docutils literal notranslate"><span class="pre">box-langchain</span></code> package offers some flexibility to authentication. The
+most basic authentication method is by using a developer token. This can be
+found in the <a class="reference external" href="https://account.box.com/developers/console">Box developer console</a>
+on the configuration screen. This token is purposely short-lived (1 hour) and is
+intended for development. With this token, you can add it to your environment as
+<code class="docutils literal notranslate"><span class="pre">BOX_DEVELOPER_TOKEN</span></code>, you can pass it directly to the loader, or you can use the
+<code class="docutils literal notranslate"><span class="pre">BoxAuth</span></code> authentication helper class.</p>
 <p><cite>BoxAuth</cite> supports the following authentication methods:</p>
 <ul class="simple">
-<li><p>Token — either a developer token or any token generated through the Box SDK</p></li>
-<li><p>JWT with a service account</p></li>
-<li><p>JWT with a specified user</p></li>
-<li><p>CCG with a service account</p></li>
-<li><p>CCG with a specified user</p></li>
+<li><p><strong>Token</strong> — either a developer token or any token generated through the Box SDK</p></li>
+<li><p><strong>JWT</strong> with a service account</p></li>
+<li><p><strong>JWT</strong> with a specified user</p></li>
+<li><p><strong>CCG</strong> with a service account</p></li>
+<li><p><strong>CCG</strong> with a specified user</p></li>
 </ul>
-<p>If using JWT authentication, you will need to download the configuration from the
-Box developer console after generating your public/private key pair. Place this
-file in your application directory structure somewhere. You will use the path to
-this file when using the <cite>BoxAuth</cite> helper class.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If using JWT authentication, you will need to download the configuration from
+the Box developer console after generating your public/private key pair. Place
+this file in your application directory structure somewhere. You will use the
+path to this file when using the <code class="docutils literal notranslate"><span class="pre">BoxAuth</span></code> helper class. If you wish to use
+OAuth2 with the authorization_code flow, please use <code class="docutils literal notranslate"><span class="pre">BoxAuthType.TOKEN</span></code> with
+the token you have acquired.</p>
+</div>
 <p>For more information, learn about how to
-[set up a Box application](<a class="reference external" href="https://developer.box.com/guides/getting-started/first-application/">https://developer.box.com/guides/getting-started/first-application/</a>),
+<a class="reference external" href="https://developer.box.com/guides/getting-started/first-application/">set up a Box application</a>,
 and check out the
-[Box authentication guide](<a class="reference external" href="https://developer.box.com/guides/authentication/select/">https://developer.box.com/guides/authentication/select/</a>)
+<a class="reference external" href="https://developer.box.com/guides/authentication/select/">Box authentication guide</a>
 for more about our different authentication options.</p>
-<p>Simple implementation</p>
+<p>Simple implementation:</p>
 <blockquote>
 <div><p>To instantiate, you must provide a <code class="docutils literal notranslate"><span class="pre">langchain_box.utilities.BoxAuthType</span></code>.</p>
 <p>BoxAuthType is an enum to tell BoxLoader how you wish to autheticate your
 Box connection.</p>
-<p>Options are:
-TOKEN - Use a developer token generated from the Box Deevloper Token.</p>
-<blockquote>
-<div><p>Only recommended for development.
-Provide <cite>box_developer_token</cite>.</p>
-</div></blockquote>
+<p>Options are:</p>
 <dl class="simple">
-<dt>CCG - Client Credentials Grant.</dt><dd><p>provide <cite>box_client_id</cite>, <cite>box_client_secret</cite>,
-and <cite>box_enterprise_id</cite> or optionally <cite>box_user_id</cite>.</p>
+<dt>TOKEN - Use a developer token generated from the Box Deevloper Token.</dt><dd><p>Only recommended for development.
+Provide <code class="docutils literal notranslate"><span class="pre">box_developer_token</span></code>.</p>
+</dd>
+<dt>CCG - Client Credentials Grant.</dt><dd><p>provide <code class="docutils literal notranslate"><span class="pre">box_client_id</span></code>, <code class="docutils literal notranslate"><span class="pre">box_client_secret</span></code>,
+and <code class="docutils literal notranslate"><span class="pre">box_enterprise_id</span></code> or optionally <code class="docutils literal notranslate"><span class="pre">box_user_id</span></code>.</p>
 </dd>
 <dt>JWT - Use JWT for authentication. Config should be stored on the file</dt><dd><p>system accessible to your app.
-provide <cite>box_jwt_path</cite>. Optionally, provide <cite>box_user_id</cite> to
+provide <code class="docutils literal notranslate"><span class="pre">box_jwt_path</span></code>. Optionally, provide <code class="docutils literal notranslate"><span class="pre">box_user_id</span></code> to
 act as a specific user</p>
 </dd>
 </dl>
+<p><strong>Examples</strong>:</p>
+<p><strong>Token</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">langchain_box.document_loaders</span> <span class="kn">import</span> <span class="n">BoxLoader</span>
+<span class="kn">from</span> <span class="nn">langchain_box.utilities</span> <span class="kn">import</span> <span class="n">BoxAuth</span><span class="p">,</span> <span class="n">BoxAuthType</span>
+
+<span class="n">auth</span> <span class="o">=</span> <span class="n">BoxAuth</span><span class="p">(</span>
+    <span class="n">auth_type</span><span class="o">=</span><span class="n">BoxAuthType</span><span class="o">.</span><span class="n">TOKEN</span><span class="p">,</span>
+    <span class="n">box_developer_token</span><span class="o">=</span><span class="n">box_developer_token</span>
+<span class="p">)</span>
+
+<span class="n">loader</span> <span class="o">=</span> <span class="n">BoxLoader</span><span class="p">(</span>
+    <span class="n">box_auth</span><span class="o">=</span><span class="n">auth</span><span class="p">,</span>
+    <span class="o">...</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>JWT with a service account</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">langchain_box.document_loaders</span> <span class="kn">import</span> <span class="n">BoxLoader</span>
+<span class="kn">from</span> <span class="nn">langchain_box.utilities</span> <span class="kn">import</span> <span class="n">BoxAuth</span><span class="p">,</span> <span class="n">BoxAuthType</span>
+
+<span class="n">auth</span> <span class="o">=</span> <span class="n">BoxAuth</span><span class="p">(</span>
+    <span class="n">auth_type</span><span class="o">=</span><span class="n">BoxAuthType</span><span class="o">.</span><span class="n">JWT</span><span class="p">,</span>
+    <span class="n">box_jwt_path</span><span class="o">=</span><span class="n">box_jwt_path</span>
+<span class="p">)</span>
+
+<span class="n">loader</span> <span class="o">=</span> <span class="n">BoxLoader</span><span class="p">(</span>
+    <span class="n">box_auth</span><span class="o">=</span><span class="n">auth</span><span class="p">,</span>
+    <span class="o">...</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>JWT with a specified user</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">langchain_box.document_loaders</span> <span class="kn">import</span> <span class="n">BoxLoader</span>
+<span class="kn">from</span> <span class="nn">langchain_box.utilities</span> <span class="kn">import</span> <span class="n">BoxAuth</span><span class="p">,</span> <span class="n">BoxAuthType</span>
+
+<span class="n">auth</span> <span class="o">=</span> <span class="n">BoxAuth</span><span class="p">(</span>
+    <span class="n">auth_type</span><span class="o">=</span><span class="n">BoxAuthType</span><span class="o">.</span><span class="n">JWT</span><span class="p">,</span>
+    <span class="n">box_jwt_path</span><span class="o">=</span><span class="n">box_jwt_path</span><span class="p">,</span>
+    <span class="n">box_user_id</span><span class="o">=</span><span class="n">box_user_id</span>
+<span class="p">)</span>
+
+<span class="n">loader</span> <span class="o">=</span> <span class="n">BoxLoader</span><span class="p">(</span>
+    <span class="n">box_auth</span><span class="o">=</span><span class="n">auth</span><span class="p">,</span>
+    <span class="o">...</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>CCG with a service account</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">langchain_box.document_loaders</span> <span class="kn">import</span> <span class="n">BoxLoader</span>
+<span class="kn">from</span> <span class="nn">langchain_box.utilities</span> <span class="kn">import</span> <span class="n">BoxAuth</span><span class="p">,</span> <span class="n">BoxAuthType</span>
+
+<span class="n">auth</span> <span class="o">=</span> <span class="n">BoxAuth</span><span class="p">(</span>
+    <span class="n">auth_type</span><span class="o">=</span><span class="n">BoxAuthType</span><span class="o">.</span><span class="n">CCG</span><span class="p">,</span>
+    <span class="n">box_client_id</span><span class="o">=</span><span class="n">box_client_id</span><span class="p">,</span>
+    <span class="n">box_client_secret</span><span class="o">=</span><span class="n">box_client_secret</span><span class="p">,</span>
+    <span class="n">box_enterprise_id</span><span class="o">=</span><span class="n">box_enterprise_id</span>
+<span class="p">)</span>
+
+<span class="n">loader</span> <span class="o">=</span> <span class="n">BoxLoader</span><span class="p">(</span>
+    <span class="n">box_auth</span><span class="o">=</span><span class="n">auth</span><span class="p">,</span>
+    <span class="o">...</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>CCG with a specified user</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">langchain_box.document_loaders</span> <span class="kn">import</span> <span class="n">BoxLoader</span>
+<span class="kn">from</span> <span class="nn">langchain_box.utilities</span> <span class="kn">import</span> <span class="n">BoxAuth</span><span class="p">,</span> <span class="n">BoxAuthType</span>
+
+<span class="n">auth</span> <span class="o">=</span> <span class="n">BoxAuth</span><span class="p">(</span>
+    <span class="n">auth_type</span><span class="o">=</span><span class="n">BoxAuthType</span><span class="o">.</span><span class="n">CCG</span><span class="p">,</span>
+    <span class="n">box_client_id</span><span class="o">=</span><span class="n">box_client_id</span><span class="p">,</span>
+    <span class="n">box_client_secret</span><span class="o">=</span><span class="n">box_client_secret</span><span class="p">,</span>
+    <span class="n">box_user_id</span><span class="o">=</span><span class="n">box_user_id</span>
+<span class="p">)</span>
+
+<span class="n">loader</span> <span class="o">=</span> <span class="n">BoxLoader</span><span class="p">(</span>
+    <span class="n">box_auth</span><span class="o">=</span><span class="n">auth</span><span class="p">,</span>
+    <span class="o">...</span>
+<span class="p">)</span>
+</pre></div>
+</div>
 </div></blockquote>
-<p>To see examples for each supported authentication methodology, visit the
-[Box providers](/docs/integrations/providers/box) page. If you want to
-use OAuth 2.0 <cite>authorization_code</cite> flow, use
-[box-sdk-gen](<a class="github reference external" href="https://github.com/box/box-python-sdk-gen">box/box-python-sdk-gen</a>) SDK, get your
-token, and use <cite>BoxAuthType.TOKEN</cite> type.</p>
 <p>Create a new model by parsing and validating input data from keyword arguments.</p>
 <p>Raises ValidationError if the input data cannot be parsed to form a valid model.</p>
 <dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="langchain_box.utilities.box.BoxAuth.auth_type">
 <em class="property"><span class="pre">param</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">auth_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="langchain_box.utilities.box.BoxAuthType.html#langchain_box.utilities.box.BoxAuthType" title="langchain_box.utilities.box.BoxAuthType"><span class="pre">BoxAuthType</span></a></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#langchain_box.utilities.box.BoxAuth.auth_type" title="Permalink to this definition">#</a></dt>
-<dd><p>langchain_box.utilities.BoxAuthType. Enum describing how to
+<dd><p><code class="docutils literal notranslate"><span class="pre">langchain_box.utilities.BoxAuthType</span></code>. Enum describing how to
 authenticate against Box</p>
 </dd></dl>
 <dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="langchain_box.utilities.box.BoxAuth.box_client_id">
 <em class="property"><span class="pre">param</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">box_client_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#langchain_box.utilities.box.BoxAuth.box_client_id" title="Permalink to this definition">#</a></dt>
-<dd><p>If using BoxAuthType.CCG, provide your app’s client ID</p>
+<dd><p>If using <code class="docutils literal notranslate"><span class="pre">BoxAuthType.CCG</span></code>, provide your app’s client ID</p>
 </dd></dl>
 <dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="langchain_box.utilities.box.BoxAuth.box_client_secret">
 <em class="property"><span class="pre">param</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">box_client_secret</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#langchain_box.utilities.box.BoxAuth.box_client_secret" title="Permalink to this definition">#</a></dt>
-<dd><p>If using BoxAuthType.CCG, provide your app’s client secret</p>
+<dd><p>If using <code class="docutils literal notranslate"><span class="pre">BoxAuthType.CCG</span></code>, provide your app’s client secret</p>
 </dd></dl>
 <dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="langchain_box.utilities.box.BoxAuth.box_developer_token">
 <em class="property"><span class="pre">param</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">box_developer_token</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#langchain_box.utilities.box.BoxAuth.box_developer_token" title="Permalink to this definition">#</a></dt>
-<dd><p>If using BoxAuthType.TOKEN, provide your token here</p>
+<dd><p>If using <code class="docutils literal notranslate"><span class="pre">BoxAuthType.TOKEN</span></code>, provide your token here</p>
 </dd></dl>
 <dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="langchain_box.utilities.box.BoxAuth.box_enterprise_id">
 <em class="property"><span class="pre">param</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">box_enterprise_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#langchain_box.utilities.box.BoxAuth.box_enterprise_id" title="Permalink to this definition">#</a></dt>
-<dd><p>If using BoxAuthType.CCG, provide your enterprise ID.
-Only required if you are not sending <cite>box_user_id</cite></p>
+<dd><p>If using <code class="docutils literal notranslate"><span class="pre">BoxAuthType.CCG</span></code>, provide your enterprise ID.
+Only required if you are not sending <code class="docutils literal notranslate"><span class="pre">box_user_id</span></code></p>
 </dd></dl>
 <dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="langchain_box.utilities.box.BoxAuth.box_jwt_path">
 <em class="property"><span class="pre">param</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">box_jwt_path</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#langchain_box.utilities.box.BoxAuth.box_jwt_path" title="Permalink to this definition">#</a></dt>
-<dd><p>If using BoxAuthType.JWT, provide local path to your
+<dd><p>If using <code class="docutils literal notranslate"><span class="pre">BoxAuthType.JWT</span></code>, provide local path to your
 JWT configuration file</p>
 </dd></dl>
 <dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="langchain_box.utilities.box.BoxAuth.box_user_id">
 <em class="property"><span class="pre">param</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">box_user_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#langchain_box.utilities.box.BoxAuth.box_user_id" title="Permalink to this definition">#</a></dt>
-<dd><p>If using BoxAuthType.CCG or BoxAuthType.JWT, providing
-<cite>box_user_id</cite> will act on behalf of a specific user</p>
+<dd><p>If using <code class="docutils literal notranslate"><span class="pre">BoxAuthType.CCG</span></code> or <code class="docutils literal notranslate"><span class="pre">BoxAuthType.JWT</span></code>, providing
+<code class="docutils literal notranslate"><span class="pre">box_user_id</span></code> will act on behalf of a specific user</p>
 </dd></dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="langchain_box.utilities.box.BoxAuth.get_client">
