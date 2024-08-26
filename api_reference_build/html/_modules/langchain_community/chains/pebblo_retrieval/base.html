@@ -38,7 +38,7 @@
 <link href="../../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Aug 25, 2024" name="docbuild:last-update"/>
+<meta content="Aug 26, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -235,6 +235,7 @@ document.write(`
 <span class="kn">import</span> <span class="nn">datetime</span>
 <span class="kn">import</span> <span class="nn">inspect</span>
 <span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">from</span> <span class="nn">importlib.metadata</span> <span class="kn">import</span> <span class="n">version</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
 
 <span class="kn">from</span> <span class="nn">langchain.chains.base</span> <span class="kn">import</span> <span class="n">Chain</span>
@@ -256,6 +257,7 @@ document.write(`
     <span class="n">App</span><span class="p">,</span>
     <span class="n">AuthContext</span><span class="p">,</span>
     <span class="n">ChainInfo</span><span class="p">,</span>
+    <span class="n">Framework</span><span class="p">,</span>
     <span class="n">Model</span><span class="p">,</span>
     <span class="n">SemanticContext</span><span class="p">,</span>
     <span class="n">VectorDB</span><span class="p">,</span>
@@ -378,6 +380,7 @@ document.write(`
 <span class="sd">        res = indexqa({'query': 'This is my query'})</span>
 <span class="sd">        answer, docs = res['result'], res['source_documents']</span>
 <span class="sd">        """</span>
+        <span class="n">prompt_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()</span>
         <span class="n">_run_manager</span> <span class="o">=</span> <span class="n">run_manager</span> <span class="ow">or</span> <span class="n">AsyncCallbackManagerForChainRun</span><span class="o">.</span><span class="n">get_noop_manager</span><span class="p">()</span>
         <span class="n">question</span> <span class="o">=</span> <span class="n">inputs</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">input_key</span><span class="p">]</span>
         <span class="n">auth_context</span> <span class="o">=</span> <span class="n">inputs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">auth_context_key</span><span class="p">)</span>
@@ -386,7 +389,7 @@ document.write(`
             <span class="s2">"run_manager"</span> <span class="ow">in</span> <span class="n">inspect</span><span class="o">.</span><span class="n">signature</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_aget_docs</span><span class="p">)</span><span class="o">.</span><span class="n">parameters</span>
         <span class="p">)</span>
 
-        <span class="n">_</span><span class="p">,</span> <span class="n">prompt_entities</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pb_client</span><span class="o">.</span><span class="n">check_prompt_validity</span><span class="p">(</span><span class="n">question</span><span class="p">)</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">prompt_entities</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">pb_client</span><span class="o">.</span><span class="n">acheck_prompt_validity</span><span class="p">(</span><span class="n">question</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">accepts_run_manager</span><span class="p">:</span>
             <span class="n">docs</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_aget_docs</span><span class="p">(</span>
@@ -396,6 +399,18 @@ document.write(`
             <span class="n">docs</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_aget_docs</span><span class="p">(</span><span class="n">question</span><span class="p">,</span> <span class="n">auth_context</span><span class="p">,</span> <span class="n">semantic_context</span><span class="p">)</span>  <span class="c1"># type: ignore[call-arg]</span>
         <span class="n">answer</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">combine_documents_chain</span><span class="o">.</span><span class="n">arun</span><span class="p">(</span>
             <span class="n">input_documents</span><span class="o">=</span><span class="n">docs</span><span class="p">,</span> <span class="n">question</span><span class="o">=</span><span class="n">question</span><span class="p">,</span> <span class="n">callbacks</span><span class="o">=</span><span class="n">_run_manager</span><span class="o">.</span><span class="n">get_child</span><span class="p">()</span>
+        <span class="p">)</span>
+
+        <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">pb_client</span><span class="o">.</span><span class="n">asend_prompt</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">app_name</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">retriever</span><span class="p">,</span>
+            <span class="n">question</span><span class="p">,</span>
+            <span class="n">answer</span><span class="p">,</span>
+            <span class="n">auth_context</span><span class="p">,</span>
+            <span class="n">docs</span><span class="p">,</span>
+            <span class="n">prompt_entities</span><span class="p">,</span>
+            <span class="n">prompt_time</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">enable_prompt_gov</span><span class="p">,</span>
         <span class="p">)</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">return_source_documents</span><span class="p">:</span>
@@ -543,6 +558,10 @@ document.write(`
             <span class="n">framework</span><span class="o">=</span><span class="n">framework</span><span class="p">,</span>
             <span class="n">chains</span><span class="o">=</span><span class="n">chains</span><span class="p">,</span>
             <span class="n">plugin_version</span><span class="o">=</span><span class="n">PLUGIN_VERSION</span><span class="p">,</span>
+            <span class="n">client_version</span><span class="o">=</span><span class="n">Framework</span><span class="p">(</span>
+                <span class="n">name</span><span class="o">=</span><span class="s2">"langchain_community"</span><span class="p">,</span>
+                <span class="n">version</span><span class="o">=</span><span class="n">version</span><span class="p">(</span><span class="s2">"langchain_community"</span><span class="p">),</span>
+            <span class="p">),</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">app</span>
 

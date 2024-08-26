@@ -38,7 +38,7 @@
 <link href="../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Aug 25, 2024" name="docbuild:last-update"/>
+<meta content="Aug 26, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -708,7 +708,7 @@ document.write(`
         <span class="n">nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
             <span class="n">Node</span><span class="p">(</span>
                 <span class="nb">id</span><span class="o">=</span><span class="n">node</span><span class="p">[</span><span class="s2">"id"</span><span class="p">],</span>
-                <span class="nb">type</span><span class="o">=</span><span class="n">node</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"type"</span><span class="p">),</span>
+                <span class="nb">type</span><span class="o">=</span><span class="n">node</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"type"</span><span class="p">,</span> <span class="s2">"Node"</span><span class="p">),</span>
                 <span class="n">properties</span><span class="o">=</span><span class="n">node_properties</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="p">)</span>
@@ -813,9 +813,20 @@ document.write(`
                     <span class="p">]</span>
                 <span class="p">)</span>
             <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>  <span class="c1"># Google type response</span>
-                <span class="n">argument_json</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span>
-                    <span class="n">raw_schema</span><span class="p">[</span><span class="s2">"raw"</span><span class="p">]</span><span class="o">.</span><span class="n">additional_kwargs</span><span class="p">[</span><span class="s2">"function_call"</span><span class="p">][</span><span class="s2">"arguments"</span><span class="p">]</span>
-                <span class="p">)</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">argument_json</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span>
+                        <span class="n">raw_schema</span><span class="p">[</span><span class="s2">"raw"</span><span class="p">]</span><span class="o">.</span><span class="n">additional_kwargs</span><span class="p">[</span><span class="s2">"function_call"</span><span class="p">][</span>
+                            <span class="s2">"arguments"</span>
+                        <span class="p">]</span>
+                    <span class="p">)</span>
+                <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>  <span class="c1"># Ollama type response</span>
+                    <span class="n">argument_json</span> <span class="o">=</span> <span class="n">raw_schema</span><span class="p">[</span><span class="s2">"raw"</span><span class="p">]</span><span class="o">.</span><span class="n">tool_calls</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">"args"</span><span class="p">]</span>
+                    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">argument_json</span><span class="p">[</span><span class="s2">"nodes"</span><span class="p">],</span> <span class="nb">str</span><span class="p">):</span>
+                        <span class="n">argument_json</span><span class="p">[</span><span class="s2">"nodes"</span><span class="p">]</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">argument_json</span><span class="p">[</span><span class="s2">"nodes"</span><span class="p">])</span>
+                    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">argument_json</span><span class="p">[</span><span class="s2">"relationships"</span><span class="p">],</span> <span class="nb">str</span><span class="p">):</span>
+                        <span class="n">argument_json</span><span class="p">[</span><span class="s2">"relationships"</span><span class="p">]</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span>
+                            <span class="n">argument_json</span><span class="p">[</span><span class="s2">"relationships"</span><span class="p">]</span>
+                        <span class="p">)</span>
 
             <span class="n">nodes</span><span class="p">,</span> <span class="n">relationships</span> <span class="o">=</span> <span class="n">_parse_and_clean_json</span><span class="p">(</span><span class="n">argument_json</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>  <span class="c1"># If we can't parse JSON</span>

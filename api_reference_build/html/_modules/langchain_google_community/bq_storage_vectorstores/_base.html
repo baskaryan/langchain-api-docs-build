@@ -38,7 +38,7 @@
 <link href="../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Aug 25, 2024" name="docbuild:last-update"/>
+<meta content="Aug 26, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -247,6 +247,7 @@ document.write(`
 
 <span class="kn">from</span> <span class="nn">langchain_google_community._utils</span> <span class="kn">import</span> <span class="n">get_client_info</span>
 <span class="kn">from</span> <span class="nn">langchain_google_community.bq_storage_vectorstores.utils</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">check_bq_dataset_exists</span><span class="p">,</span>
     <span class="n">validate_column_in_bq_schema</span><span class="p">,</span>
 <span class="p">)</span>
 
@@ -368,13 +369,17 @@ document.write(`
             <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">values</span><span class="p">[</span><span class="s1">'project_id'</span><span class="p">]</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">values</span><span class="p">[</span><span class="s1">'dataset_name'</span><span class="p">]</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">values</span><span class="p">[</span><span class="s1">'table_name'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span>
         <span class="p">)</span>
         <span class="n">values</span><span class="p">[</span><span class="s2">"_full_table_id"</span><span class="p">]</span> <span class="o">=</span> <span class="n">full_table_id</span>
-
-        <span class="n">values</span><span class="p">[</span><span class="s2">"_bq_client"</span><span class="p">]</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span>
-            <span class="n">dataset</span><span class="o">=</span><span class="n">values</span><span class="p">[</span><span class="s2">"dataset_name"</span><span class="p">],</span> <span class="n">exists_ok</span><span class="o">=</span><span class="kc">True</span>
-        <span class="p">)</span>
-        <span class="n">values</span><span class="p">[</span><span class="s2">"_bq_client"</span><span class="p">]</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span>
-            <span class="n">dataset</span><span class="o">=</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">values</span><span class="p">[</span><span class="s1">'dataset_name'</span><span class="p">]</span><span class="si">}</span><span class="s2">_temp"</span><span class="p">,</span> <span class="n">exists_ok</span><span class="o">=</span><span class="kc">True</span>
-        <span class="p">)</span>
+        <span class="n">temp_dataset_id</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">values</span><span class="p">[</span><span class="s1">'dataset_name'</span><span class="p">]</span><span class="si">}</span><span class="s2">_temp"</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">check_bq_dataset_exists</span><span class="p">(</span>
+            <span class="n">client</span><span class="o">=</span><span class="n">values</span><span class="p">[</span><span class="s2">"_bq_client"</span><span class="p">],</span> <span class="n">dataset_id</span><span class="o">=</span><span class="n">values</span><span class="p">[</span><span class="s2">"dataset_name"</span><span class="p">]</span>
+        <span class="p">):</span>
+            <span class="n">values</span><span class="p">[</span><span class="s2">"_bq_client"</span><span class="p">]</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span>
+                <span class="n">dataset</span><span class="o">=</span><span class="n">values</span><span class="p">[</span><span class="s2">"dataset_name"</span><span class="p">],</span> <span class="n">exists_ok</span><span class="o">=</span><span class="kc">True</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">check_bq_dataset_exists</span><span class="p">(</span>
+            <span class="n">client</span><span class="o">=</span><span class="n">values</span><span class="p">[</span><span class="s2">"_bq_client"</span><span class="p">],</span> <span class="n">dataset_id</span><span class="o">=</span><span class="n">temp_dataset_id</span>
+        <span class="p">):</span>
+            <span class="n">values</span><span class="p">[</span><span class="s2">"_bq_client"</span><span class="p">]</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span><span class="n">dataset</span><span class="o">=</span><span class="n">temp_dataset_id</span><span class="p">,</span> <span class="n">exists_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="n">table_ref</span> <span class="o">=</span> <span class="n">bigquery</span><span class="o">.</span><span class="n">TableReference</span><span class="o">.</span><span class="n">from_string</span><span class="p">(</span><span class="n">full_table_id</span><span class="p">)</span>
         <span class="n">values</span><span class="p">[</span><span class="s2">"_bq_client"</span><span class="p">]</span><span class="o">.</span><span class="n">create_table</span><span class="p">(</span><span class="n">table_ref</span><span class="p">,</span> <span class="n">exists_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="n">values</span><span class="p">[</span><span class="s2">"_logger"</span><span class="p">]</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>

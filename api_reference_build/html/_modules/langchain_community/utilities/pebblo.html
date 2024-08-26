@@ -38,7 +38,7 @@
 <link href="../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Aug 25, 2024" name="docbuild:last-update"/>
+<meta content="Aug 26, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -297,10 +297,7 @@ document.write(`
 <span class="w">    </span><span class="sd">"""Routes available for the Pebblo API as enumerator."""</span>
 
     <span class="n">loader_doc</span> <span class="o">=</span> <span class="s2">"/v1/loader/doc"</span>
-    <span class="n">loader_app_discover</span> <span class="o">=</span> <span class="s2">"/v1/app/discover"</span>
-    <span class="n">retrieval_app_discover</span> <span class="o">=</span> <span class="s2">"/v1/app/discover"</span>
-    <span class="n">prompt</span> <span class="o">=</span> <span class="s2">"/v1/prompt"</span>
-    <span class="n">prompt_governance</span> <span class="o">=</span> <span class="s2">"/v1/prompt/governance"</span></div>
+    <span class="n">loader_app_discover</span> <span class="o">=</span> <span class="s2">"/v1/app/discover"</span></div>
 
 
 <div class="viewcode-block" id="IndexedDocument"><a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.pebblo.IndexedDocument.html#langchain_community.utilities.pebblo.IndexedDocument">[docs]</a><span class="k">class</span> <span class="nc">IndexedDocument</span><span class="p">(</span><span class="n">Document</span><span class="p">):</span>
@@ -360,7 +357,9 @@ document.write(`
     <span class="n">framework</span><span class="p">:</span> <span class="n">Framework</span>
 <span class="w">    </span><span class="sd">"""Framework details of the app."""</span>
     <span class="n">plugin_version</span><span class="p">:</span> <span class="nb">str</span>
-<span class="w">    </span><span class="sd">"""Plugin version used for the app."""</span></div>
+<span class="w">    </span><span class="sd">"""Plugin version used for the app."""</span>
+    <span class="n">client_version</span><span class="p">:</span> <span class="n">Framework</span>
+<span class="w">    </span><span class="sd">"""Client version used for the app."""</span></div>
 
 
 <div class="viewcode-block" id="Doc"><a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.pebblo.Doc.html#langchain_community.utilities.pebblo.Doc">[docs]</a><span class="k">class</span> <span class="nc">Doc</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
@@ -681,7 +680,9 @@ document.write(`
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">classifier_location</span> <span class="o">==</span> <span class="s2">"local"</span><span class="p">:</span>
             <span class="c1"># Send app details to local classifier</span>
             <span class="n">headers</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_headers</span><span class="p">()</span>
-            <span class="n">app_discover_url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">classifier_url</span><span class="si">}{</span><span class="n">Routes</span><span class="o">.</span><span class="n">loader_app_discover</span><span class="si">}</span><span class="s2">"</span>
+            <span class="n">app_discover_url</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">classifier_url</span><span class="si">}{</span><span class="n">Routes</span><span class="o">.</span><span class="n">loader_app_discover</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2">"</span>
+            <span class="p">)</span>
             <span class="n">pebblo_resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_request</span><span class="p">(</span><span class="s2">"POST"</span><span class="p">,</span> <span class="n">app_discover_url</span><span class="p">,</span> <span class="n">headers</span><span class="p">,</span> <span class="n">payload</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span><span class="p">:</span>
@@ -694,7 +695,7 @@ document.write(`
                 <span class="n">payload</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">"pebblo_server_version"</span><span class="p">:</span> <span class="n">pebblo_server_version</span><span class="p">})</span>
 
             <span class="n">payload</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">"pebblo_client_version"</span><span class="p">:</span> <span class="n">PLUGIN_VERSION</span><span class="p">})</span>
-            <span class="n">pebblo_cloud_url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">cloud_url</span><span class="si">}{</span><span class="n">Routes</span><span class="o">.</span><span class="n">loader_app_discover</span><span class="si">}</span><span class="s2">"</span>
+            <span class="n">pebblo_cloud_url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">cloud_url</span><span class="si">}{</span><span class="n">Routes</span><span class="o">.</span><span class="n">loader_app_discover</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2">"</span>
             <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_request</span><span class="p">(</span><span class="s2">"POST"</span><span class="p">,</span> <span class="n">pebblo_cloud_url</span><span class="p">,</span> <span class="n">headers</span><span class="p">,</span> <span class="n">payload</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="PebbloLoaderAPIWrapper.classify_documents"><a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.pebblo.PebbloLoaderAPIWrapper.html#langchain_community.utilities.pebblo.PebbloLoaderAPIWrapper.classify_documents">[docs]</a>    <span class="k">def</span> <span class="nf">classify_documents</span><span class="p">(</span>
@@ -718,7 +719,7 @@ document.write(`
         <span class="n">source_owner</span> <span class="o">=</span> <span class="n">get_file_owner_from_path</span><span class="p">(</span><span class="n">source_path</span><span class="p">)</span>
         <span class="c1"># Prepare docs for classification</span>
         <span class="n">docs</span><span class="p">,</span> <span class="n">source_aggregate_size</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">prepare_docs_for_classification</span><span class="p">(</span>
-            <span class="n">docs_with_id</span><span class="p">,</span> <span class="n">source_path</span>
+            <span class="n">docs_with_id</span><span class="p">,</span> <span class="n">source_path</span><span class="p">,</span> <span class="n">loader_details</span>
         <span class="p">)</span>
         <span class="c1"># Build payload for classification</span>
         <span class="n">payload</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">build_classification_payload</span><span class="p">(</span>
@@ -729,7 +730,7 @@ document.write(`
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">classifier_location</span> <span class="o">==</span> <span class="s2">"local"</span><span class="p">:</span>
             <span class="c1"># Send docs to local classifier</span>
             <span class="n">headers</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_headers</span><span class="p">()</span>
-            <span class="n">load_doc_url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">classifier_url</span><span class="si">}{</span><span class="n">Routes</span><span class="o">.</span><span class="n">loader_doc</span><span class="si">}</span><span class="s2">"</span>
+            <span class="n">load_doc_url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">classifier_url</span><span class="si">}{</span><span class="n">Routes</span><span class="o">.</span><span class="n">loader_doc</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2">"</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">pebblo_resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_request</span><span class="p">(</span>
                     <span class="s2">"POST"</span><span class="p">,</span> <span class="n">load_doc_url</span><span class="p">,</span> <span class="n">headers</span><span class="p">,</span> <span class="n">payload</span><span class="p">,</span> <span class="mi">300</span>
@@ -765,7 +766,7 @@ document.write(`
 <span class="sd">            payload (dict): The payload containing documents to be sent.</span>
 <span class="sd">        """</span>
         <span class="n">headers</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_headers</span><span class="p">(</span><span class="n">cloud_request</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="n">pebblo_cloud_url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">cloud_url</span><span class="si">}{</span><span class="n">Routes</span><span class="o">.</span><span class="n">loader_doc</span><span class="si">}</span><span class="s2">"</span>
+        <span class="n">pebblo_cloud_url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">cloud_url</span><span class="si">}{</span><span class="n">Routes</span><span class="o">.</span><span class="n">loader_doc</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2">"</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_request</span><span class="p">(</span><span class="s2">"POST"</span><span class="p">,</span> <span class="n">pebblo_cloud_url</span><span class="p">,</span> <span class="n">headers</span><span class="p">,</span> <span class="n">payload</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
@@ -889,7 +890,9 @@ document.write(`
 
 <div class="viewcode-block" id="PebbloLoaderAPIWrapper.prepare_docs_for_classification"><a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.pebblo.PebbloLoaderAPIWrapper.html#langchain_community.utilities.pebblo.PebbloLoaderAPIWrapper.prepare_docs_for_classification">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">prepare_docs_for_classification</span><span class="p">(</span>
-        <span class="n">docs_with_id</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">IndexedDocument</span><span class="p">],</span> <span class="n">source_path</span><span class="p">:</span> <span class="nb">str</span>
+        <span class="n">docs_with_id</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">IndexedDocument</span><span class="p">],</span>
+        <span class="n">source_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">loader_details</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">],</span> <span class="nb">int</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Prepare documents for classification.</span>
@@ -897,22 +900,30 @@ document.write(`
 <span class="sd">        Args:</span>
 <span class="sd">            docs_with_id (List[IndexedDocument]): List of documents to be classified.</span>
 <span class="sd">            source_path (str): Source path of the documents.</span>
+<span class="sd">            loader_details (dict): Contains loader info.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            Tuple[List[dict], int]: Documents and the aggregate size of the source.</span>
+<span class="sd">            Tuple[List[dict], int]: Documents and the aggregate size</span>
+<span class="sd">            of the source.</span>
 <span class="sd">        """</span>
         <span class="n">docs</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">source_aggregate_size</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="n">doc_content</span> <span class="o">=</span> <span class="p">[</span><span class="n">doc</span><span class="o">.</span><span class="n">dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">docs_with_id</span><span class="p">]</span>
+        <span class="n">source_path_update</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">doc_content</span><span class="p">:</span>
             <span class="n">doc_metadata</span> <span class="o">=</span> <span class="n">doc</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"metadata"</span><span class="p">,</span> <span class="p">{})</span>
             <span class="n">doc_authorized_identities</span> <span class="o">=</span> <span class="n">doc_metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"authorized_identities"</span><span class="p">,</span> <span class="p">[])</span>
-            <span class="n">doc_source_path</span> <span class="o">=</span> <span class="n">get_full_path</span><span class="p">(</span>
-                <span class="n">doc_metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
-                    <span class="s2">"full_path"</span><span class="p">,</span>
-                    <span class="n">doc_metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"source"</span><span class="p">,</span> <span class="n">source_path</span><span class="p">),</span>
+            <span class="k">if</span> <span class="n">loader_details</span><span class="p">[</span><span class="s2">"loader"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"SharePointLoader"</span><span class="p">:</span>
+                <span class="n">doc_source_path</span> <span class="o">=</span> <span class="n">get_full_path</span><span class="p">(</span>
+                    <span class="n">doc_metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"source"</span><span class="p">,</span> <span class="n">loader_details</span><span class="p">[</span><span class="s2">"source_path"</span><span class="p">])</span>
                 <span class="p">)</span>
-            <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">doc_source_path</span> <span class="o">=</span> <span class="n">get_full_path</span><span class="p">(</span>
+                    <span class="n">doc_metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+                        <span class="s2">"full_path"</span><span class="p">,</span>
+                        <span class="n">doc_metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"source"</span><span class="p">,</span> <span class="n">source_path</span><span class="p">),</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
             <span class="n">doc_source_owner</span> <span class="o">=</span> <span class="n">doc_metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
                 <span class="s2">"owner"</span><span class="p">,</span> <span class="n">get_file_owner_from_path</span><span class="p">(</span><span class="n">doc_source_path</span><span class="p">)</span>
             <span class="p">)</span>
@@ -940,6 +951,12 @@ document.write(`
                     <span class="p">),</span>
                 <span class="p">}</span>
             <span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span>
+                <span class="n">loader_details</span><span class="p">[</span><span class="s2">"loader"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"SharePointLoader"</span>
+                <span class="ow">and</span> <span class="ow">not</span> <span class="n">source_path_update</span>
+            <span class="p">):</span>
+                <span class="n">loader_details</span><span class="p">[</span><span class="s2">"source_path"</span><span class="p">]</span> <span class="o">=</span> <span class="n">doc_metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"source_full_url"</span><span class="p">)</span>
+                <span class="n">source_path_update</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="k">return</span> <span class="n">docs</span><span class="p">,</span> <span class="n">source_aggregate_size</span></div>
 
 <div class="viewcode-block" id="PebbloLoaderAPIWrapper.update_doc_data"><a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.pebblo.PebbloLoaderAPIWrapper.html#langchain_community.utilities.pebblo.PebbloLoaderAPIWrapper.update_doc_data">[docs]</a>    <span class="nd">@staticmethod</span>
