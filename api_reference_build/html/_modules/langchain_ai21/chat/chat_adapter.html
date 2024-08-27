@@ -38,7 +38,7 @@
 <link href="../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Aug 26, 2024" name="docbuild:last-update"/>
+<meta content="Aug 27, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -230,11 +230,20 @@ document.write(`
 <span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
 
 <span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractmethod</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">cast</span><span class="p">,</span> <span class="n">overload</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">cast</span><span class="p">,</span> <span class="n">overload</span>
 
 <span class="kn">from</span> <span class="nn">ai21.models</span> <span class="kn">import</span> <span class="n">ChatMessage</span> <span class="k">as</span> <span class="n">J2ChatMessage</span>
 <span class="kn">from</span> <span class="nn">ai21.models</span> <span class="kn">import</span> <span class="n">RoleType</span>
-<span class="kn">from</span> <span class="nn">ai21.models.chat</span> <span class="kn">import</span> <span class="n">ChatCompletionChunk</span><span class="p">,</span> <span class="n">ChatMessage</span>
+<span class="kn">from</span> <span class="nn">ai21.models.chat</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">AssistantMessage</span> <span class="k">as</span> <span class="n">AI21AssistantMessage</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">ai21.models.chat</span> <span class="kn">import</span> <span class="n">ChatCompletionChunk</span><span class="p">,</span> <span class="n">ChatMessageParam</span>
+<span class="kn">from</span> <span class="nn">ai21.models.chat</span> <span class="kn">import</span> <span class="n">ChatMessage</span> <span class="k">as</span> <span class="n">AI21ChatMessage</span>
+<span class="kn">from</span> <span class="nn">ai21.models.chat</span> <span class="kn">import</span> <span class="n">SystemMessage</span> <span class="k">as</span> <span class="n">AI21SystemMessage</span>
+<span class="kn">from</span> <span class="nn">ai21.models.chat</span> <span class="kn">import</span> <span class="n">ToolCall</span> <span class="k">as</span> <span class="n">AI21ToolCall</span>
+<span class="kn">from</span> <span class="nn">ai21.models.chat</span> <span class="kn">import</span> <span class="n">ToolFunction</span> <span class="k">as</span> <span class="n">AI21ToolFunction</span>
+<span class="kn">from</span> <span class="nn">ai21.models.chat</span> <span class="kn">import</span> <span class="n">ToolMessage</span> <span class="k">as</span> <span class="n">AI21ToolMessage</span>
+<span class="kn">from</span> <span class="nn">ai21.models.chat</span> <span class="kn">import</span> <span class="n">UserMessage</span> <span class="k">as</span> <span class="n">AI21UserMessage</span>
 <span class="kn">from</span> <span class="nn">ai21.stream.stream</span> <span class="kn">import</span> <span class="n">Stream</span> <span class="k">as</span> <span class="n">AI21Stream</span>
 <span class="kn">from</span> <span class="nn">langchain_core.messages</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">AIMessage</span><span class="p">,</span>
@@ -242,11 +251,15 @@ document.write(`
     <span class="n">BaseMessage</span><span class="p">,</span>
     <span class="n">BaseMessageChunk</span><span class="p">,</span>
     <span class="n">HumanMessage</span><span class="p">,</span>
+    <span class="n">SystemMessage</span><span class="p">,</span>
+    <span class="n">ToolCall</span><span class="p">,</span>
+    <span class="n">ToolMessage</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="kn">from</span> <span class="nn">langchain_core.messages.ai</span> <span class="kn">import</span> <span class="n">UsageMetadata</span>
+<span class="kn">from</span> <span class="nn">langchain_core.output_parsers.openai_tools</span> <span class="kn">import</span> <span class="n">parse_tool_call</span>
 <span class="kn">from</span> <span class="nn">langchain_core.outputs</span> <span class="kn">import</span> <span class="n">ChatGenerationChunk</span>
 
-<span class="n">_ChatMessageTypes</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">ChatMessage</span><span class="p">,</span> <span class="n">J2ChatMessage</span><span class="p">]</span>
+<span class="n">_ChatMessageTypes</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">AI21ChatMessage</span><span class="p">,</span> <span class="n">J2ChatMessage</span><span class="p">]</span>
 <span class="n">_SYSTEM_ERR_MESSAGE</span> <span class="o">=</span> <span class="s2">"System message must be at beginning of message list."</span>
 <span class="n">_ROLE_TYPE</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">RoleType</span><span class="p">]</span>
 
@@ -269,19 +282,23 @@ document.write(`
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">message</span><span class="p">:</span> <span class="n">BaseMessage</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_ChatMessageTypes</span><span class="p">:</span>
-        <span class="n">content</span> <span class="o">=</span> <span class="n">cast</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">message</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
         <span class="n">role</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_role</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
-
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_chat_message</span><span class="p">(</span><span class="n">role</span><span class="o">=</span><span class="n">role</span><span class="p">,</span> <span class="n">content</span><span class="o">=</span><span class="n">content</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_chat_message</span><span class="p">(</span><span class="n">role</span><span class="o">=</span><span class="n">role</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="n">message</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_parse_role</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="n">BaseMessage</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_ROLE_TYPE</span><span class="p">:</span>
         <span class="n">role</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">SystemMessage</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">RoleType</span><span class="o">.</span><span class="n">SYSTEM</span>
 
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">HumanMessage</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">RoleType</span><span class="o">.</span><span class="n">USER</span>
 
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">AIMessage</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">RoleType</span><span class="o">.</span><span class="n">ASSISTANT</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">ToolMessage</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">RoleType</span><span class="o">.</span><span class="n">TOOL</span>
 
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">J2ChatAdapter</span><span class="p">):</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">role</span><span class="p">:</span>
@@ -297,7 +314,7 @@ document.write(`
     <span class="k">def</span> <span class="nf">_chat_message</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">role</span><span class="p">:</span> <span class="n">_ROLE_TYPE</span><span class="p">,</span>
-        <span class="n">content</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">message</span><span class="p">:</span> <span class="n">BaseMessage</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_ChatMessageTypes</span><span class="p">:</span>
         <span class="k">pass</span>
 
@@ -359,9 +376,9 @@ document.write(`
     <span class="k">def</span> <span class="nf">_chat_message</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">role</span><span class="p">:</span> <span class="n">_ROLE_TYPE</span><span class="p">,</span>
-        <span class="n">content</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">message</span><span class="p">:</span> <span class="n">BaseMessage</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">J2ChatMessage</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">J2ChatMessage</span><span class="p">(</span><span class="n">role</span><span class="o">=</span><span class="n">RoleType</span><span class="p">(</span><span class="n">role</span><span class="p">),</span> <span class="n">text</span><span class="o">=</span><span class="n">content</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">J2ChatMessage</span><span class="p">(</span><span class="n">role</span><span class="o">=</span><span class="n">RoleType</span><span class="p">(</span><span class="n">role</span><span class="p">),</span> <span class="n">text</span><span class="o">=</span><span class="n">cast</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">message</span><span class="o">.</span><span class="n">content</span><span class="p">))</span>
 
     <span class="nd">@overload</span>
     <span class="k">def</span> <span class="nf">call</span><span class="p">(</span>
@@ -403,12 +420,65 @@ document.write(`
             <span class="p">],</span>
         <span class="p">}</span></div>
 
+    <span class="k">def</span> <span class="nf">_convert_lc_tool_calls_to_ai21_tool_calls</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">tool_calls</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">ToolCall</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">AI21ToolCall</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Convert Langchain ToolCalls to AI21 ToolCalls.</span>
+<span class="sd">        """</span>
+        <span class="n">ai21_tool_calls</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">AI21ToolCall</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">lc_tool_call</span> <span class="ow">in</span> <span class="n">tool_calls</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s2">"id"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">lc_tool_call</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">lc_tool_call</span><span class="p">[</span><span class="s2">"id"</span><span class="p">]:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Tool call ID is missing or empty."</span><span class="p">)</span>
+
+            <span class="n">ai21_tool_call</span> <span class="o">=</span> <span class="n">AI21ToolCall</span><span class="p">(</span>
+                <span class="nb">id</span><span class="o">=</span><span class="n">lc_tool_call</span><span class="p">[</span><span class="s2">"id"</span><span class="p">],</span>
+                <span class="nb">type</span><span class="o">=</span><span class="s2">"function"</span><span class="p">,</span>
+                <span class="n">function</span><span class="o">=</span><span class="n">AI21ToolFunction</span><span class="p">(</span>
+                    <span class="n">name</span><span class="o">=</span><span class="n">lc_tool_call</span><span class="p">[</span><span class="s2">"name"</span><span class="p">],</span>
+                    <span class="n">arguments</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">lc_tool_call</span><span class="p">[</span><span class="s2">"args"</span><span class="p">]),</span>
+                <span class="p">),</span>
+            <span class="p">)</span>
+            <span class="n">ai21_tool_calls</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ai21_tool_call</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">ai21_tool_calls</span>
+
+    <span class="k">def</span> <span class="nf">_get_content_as_string</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">base_message</span><span class="p">:</span> <span class="n">BaseMessage</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">base_message</span><span class="o">.</span><span class="n">content</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">base_message</span><span class="o">.</span><span class="n">content</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">base_message</span><span class="o">.</span><span class="n">content</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="k">return</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">base_message</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Unsupported content type"</span><span class="p">)</span>
+
     <span class="k">def</span> <span class="nf">_chat_message</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">role</span><span class="p">:</span> <span class="n">_ROLE_TYPE</span><span class="p">,</span>
-        <span class="n">content</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ChatMessage</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">ChatMessage</span><span class="p">(</span>
+        <span class="n">message</span><span class="p">:</span> <span class="n">BaseMessage</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ChatMessageParam</span><span class="p">:</span>
+        <span class="n">content</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_content_as_string</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">AIMessage</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">AI21AssistantMessage</span><span class="p">(</span>
+                <span class="n">tool_calls</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_convert_lc_tool_calls_to_ai21_tool_calls</span><span class="p">(</span>
+                    <span class="n">message</span><span class="o">.</span><span class="n">tool_calls</span>
+                <span class="p">),</span>
+                <span class="n">content</span><span class="o">=</span><span class="n">content</span> <span class="ow">or</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">ToolMessage</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">AI21ToolMessage</span><span class="p">(</span>
+                <span class="n">tool_call_id</span><span class="o">=</span><span class="n">message</span><span class="o">.</span><span class="n">tool_call_id</span><span class="p">,</span>
+                <span class="n">content</span><span class="o">=</span><span class="n">content</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">HumanMessage</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">AI21UserMessage</span><span class="p">(</span>
+                <span class="n">content</span><span class="o">=</span><span class="n">content</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">SystemMessage</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">AI21SystemMessage</span><span class="p">(</span>
+                <span class="n">content</span><span class="o">=</span><span class="n">content</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">AI21ChatMessage</span><span class="p">(</span>
             <span class="n">role</span><span class="o">=</span><span class="n">role</span><span class="o">.</span><span class="n">value</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">role</span><span class="p">,</span> <span class="n">RoleType</span><span class="p">)</span> <span class="k">else</span> <span class="n">role</span><span class="p">,</span>
             <span class="n">content</span><span class="o">=</span><span class="n">content</span><span class="p">,</span>
         <span class="p">)</span>
@@ -440,7 +510,18 @@ document.write(`
         <span class="k">if</span> <span class="n">stream</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_stream_response</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="p">[</span><span class="n">AIMessage</span><span class="p">(</span><span class="n">choice</span><span class="o">.</span><span class="n">message</span><span class="o">.</span><span class="n">content</span><span class="p">)</span> <span class="k">for</span> <span class="n">choice</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">choices</span><span class="p">]</span></div>
+        <span class="n">ai_messages</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">BaseMessage</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">message</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">choices</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">message</span><span class="o">.</span><span class="n">message</span><span class="o">.</span><span class="n">tool_calls</span><span class="p">:</span>
+                <span class="n">tool_calls</span> <span class="o">=</span> <span class="p">[</span>
+                    <span class="n">parse_tool_call</span><span class="p">(</span><span class="n">tool_call</span><span class="o">.</span><span class="n">model_dump</span><span class="p">(),</span> <span class="n">return_id</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">tool_call</span> <span class="ow">in</span> <span class="n">message</span><span class="o">.</span><span class="n">message</span><span class="o">.</span><span class="n">tool_calls</span>
+                <span class="p">]</span>
+                <span class="n">ai_messages</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">AIMessage</span><span class="p">(</span><span class="s2">""</span><span class="p">,</span> <span class="n">tool_calls</span><span class="o">=</span><span class="n">tool_calls</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">ai_messages</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">AIMessage</span><span class="p">(</span><span class="n">message</span><span class="o">.</span><span class="n">message</span><span class="o">.</span><span class="n">content</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">ai_messages</span></div>
 
     <span class="k">def</span> <span class="nf">_stream_response</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>

@@ -38,7 +38,7 @@
 <link href="../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Aug 26, 2024" name="docbuild:last-update"/>
+<meta content="Aug 27, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -297,7 +297,8 @@ document.write(`
                 <span class="s2">"Please install it with `pip install pysqlite3`"</span>
             <span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
 
-    <span class="k">def</span> <span class="nf">_parse_attributedBody</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attributedBody</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_parse_attributed_body</span><span class="p">(</span><span class="n">attributed_body</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Parse the attributedBody field of the message table</span>
 <span class="sd">        for the text content of the message.</span>
@@ -317,17 +318,18 @@ document.write(`
 <span class="sd">          that byte.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            attributedBody (bytes): attributedBody field of the message table.</span>
+<span class="sd">            attributed_body (bytes): attributedBody field of the message table.</span>
 <span class="sd">        Return:</span>
 <span class="sd">            str: Text content of the message.</span>
 <span class="sd">        """</span>
-        <span class="n">content</span> <span class="o">=</span> <span class="n">attributedBody</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="sa">b</span><span class="s2">"NSString"</span><span class="p">)[</span><span class="mi">1</span><span class="p">][</span><span class="mi">5</span><span class="p">:]</span>
+        <span class="n">content</span> <span class="o">=</span> <span class="n">attributed_body</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="sa">b</span><span class="s2">"NSString"</span><span class="p">)[</span><span class="mi">1</span><span class="p">][</span><span class="mi">5</span><span class="p">:]</span>
         <span class="n">length</span><span class="p">,</span> <span class="n">start</span> <span class="o">=</span> <span class="n">content</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span>
         <span class="k">if</span> <span class="n">content</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">129</span><span class="p">:</span>
             <span class="n">length</span><span class="p">,</span> <span class="n">start</span> <span class="o">=</span> <span class="nb">int</span><span class="o">.</span><span class="n">from_bytes</span><span class="p">(</span><span class="n">content</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">],</span> <span class="s2">"little"</span><span class="p">),</span> <span class="mi">3</span>
         <span class="k">return</span> <span class="n">content</span><span class="p">[</span><span class="n">start</span> <span class="p">:</span> <span class="n">start</span> <span class="o">+</span> <span class="n">length</span><span class="p">]</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">"utf-8"</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s2">"ignore"</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_get_session_query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">use_chat_handle_table</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_get_session_query</span><span class="p">(</span><span class="n">use_chat_handle_table</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="c1"># Messages sent pre OSX 12 require a join through the chat_handle_join table</span>
         <span class="c1"># However, the table doesn't exist if database created with OSX 12 or above.</span>
 
@@ -380,7 +382,7 @@ document.write(`
             <span class="k">if</span> <span class="n">text</span><span class="p">:</span>
                 <span class="n">content</span> <span class="o">=</span> <span class="n">text</span>
             <span class="k">elif</span> <span class="n">attributedBody</span><span class="p">:</span>
-                <span class="n">content</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_attributedBody</span><span class="p">(</span><span class="n">attributedBody</span><span class="p">)</span>
+                <span class="n">content</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_attributed_body</span><span class="p">(</span><span class="n">attributedBody</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>  <span class="c1"># Skip messages with no content</span>
                 <span class="k">continue</span>
 

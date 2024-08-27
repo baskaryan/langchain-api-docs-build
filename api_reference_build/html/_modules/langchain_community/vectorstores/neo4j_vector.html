@@ -38,7 +38,7 @@
 <link href="../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Aug 26, 2024" name="docbuild:last-update"/>
+<meta content="Aug 27, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -244,13 +244,17 @@ document.write(`
     <span class="n">Type</span><span class="p">,</span>
 <span class="p">)</span>
 
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">langchain_core.documents</span> <span class="kn">import</span> <span class="n">Document</span>
 <span class="kn">from</span> <span class="nn">langchain_core.embeddings</span> <span class="kn">import</span> <span class="n">Embeddings</span>
 <span class="kn">from</span> <span class="nn">langchain_core.utils</span> <span class="kn">import</span> <span class="n">get_from_dict_or_env</span>
 <span class="kn">from</span> <span class="nn">langchain_core.vectorstores</span> <span class="kn">import</span> <span class="n">VectorStore</span>
 
 <span class="kn">from</span> <span class="nn">langchain_community.graphs</span> <span class="kn">import</span> <span class="n">Neo4jGraph</span>
-<span class="kn">from</span> <span class="nn">langchain_community.vectorstores.utils</span> <span class="kn">import</span> <span class="n">DistanceStrategy</span>
+<span class="kn">from</span> <span class="nn">langchain_community.vectorstores.utils</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">DistanceStrategy</span><span class="p">,</span>
+    <span class="n">maximal_marginal_relevance</span><span class="p">,</span>
+<span class="p">)</span>
 
 <span class="n">DEFAULT_DISTANCE_STRATEGY</span> <span class="o">=</span> <span class="n">DistanceStrategy</span><span class="o">.</span><span class="n">COSINE</span>
 <span class="n">DISTANCE_MAPPING</span> <span class="o">=</span> <span class="p">{</span>
@@ -1271,17 +1275,35 @@ document.write(`
             <span class="n">filter_params</span> <span class="o">=</span> <span class="p">{}</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_index_type</span> <span class="o">==</span> <span class="n">IndexType</span><span class="o">.</span><span class="n">RELATIONSHIP</span><span class="p">:</span>
-            <span class="n">default_retrieval</span> <span class="o">=</span> <span class="p">(</span>
-                <span class="sa">f</span><span class="s2">"RETURN relationship.`</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">text_node_property</span><span class="si">}</span><span class="s2">` AS text, score, "</span>
-                <span class="sa">f</span><span class="s2">"relationship </span><span class="se">{{</span><span class="s2">.*, `</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">text_node_property</span><span class="si">}</span><span class="s2">`: Null, "</span>
-                <span class="sa">f</span><span class="s2">"`</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">embedding_node_property</span><span class="si">}</span><span class="s2">`: Null, id: Null </span><span class="se">}}</span><span class="s2"> AS metadata"</span>
-            <span class="p">)</span>
+            <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"return_embeddings"</span><span class="p">):</span>
+                <span class="n">default_retrieval</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">"RETURN relationship.`</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">text_node_property</span><span class="si">}</span><span class="s2">` AS text, score, "</span>
+                    <span class="sa">f</span><span class="s2">"relationship </span><span class="se">{{</span><span class="s2">.*, `</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">text_node_property</span><span class="si">}</span><span class="s2">`: Null, "</span>
+                    <span class="sa">f</span><span class="s2">"`</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">embedding_node_property</span><span class="si">}</span><span class="s2">`: Null, id: Null, "</span>
+                    <span class="sa">f</span><span class="s2">"_embedding_: relationship.`</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">embedding_node_property</span><span class="si">}</span><span class="s2">`</span><span class="se">}}</span><span class="s2"> "</span>
+                    <span class="s2">"AS metadata"</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">default_retrieval</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">"RETURN relationship.`</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">text_node_property</span><span class="si">}</span><span class="s2">` AS text, score, "</span>
+                    <span class="sa">f</span><span class="s2">"relationship </span><span class="se">{{</span><span class="s2">.*, `</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">text_node_property</span><span class="si">}</span><span class="s2">`: Null, "</span>
+                    <span class="sa">f</span><span class="s2">"`</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">embedding_node_property</span><span class="si">}</span><span class="s2">`: Null, id: Null </span><span class="se">}}</span><span class="s2"> AS metadata"</span>
+                <span class="p">)</span>
+
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">default_retrieval</span> <span class="o">=</span> <span class="p">(</span>
-                <span class="sa">f</span><span class="s2">"RETURN node.`</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">text_node_property</span><span class="si">}</span><span class="s2">` AS text, score, "</span>
-                <span class="sa">f</span><span class="s2">"node </span><span class="se">{{</span><span class="s2">.*, `</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">text_node_property</span><span class="si">}</span><span class="s2">`: Null, "</span>
-                <span class="sa">f</span><span class="s2">"`</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">embedding_node_property</span><span class="si">}</span><span class="s2">`: Null, id: Null </span><span class="se">}}</span><span class="s2"> AS metadata"</span>
-            <span class="p">)</span>
+            <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"return_embeddings"</span><span class="p">):</span>
+                <span class="n">default_retrieval</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">"RETURN node.`</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">text_node_property</span><span class="si">}</span><span class="s2">` AS text, score, "</span>
+                    <span class="sa">f</span><span class="s2">"node </span><span class="se">{{</span><span class="s2">.*, `</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">text_node_property</span><span class="si">}</span><span class="s2">`: Null, "</span>
+                    <span class="sa">f</span><span class="s2">"`</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">embedding_node_property</span><span class="si">}</span><span class="s2">`: Null, id: Null, "</span>
+                    <span class="sa">f</span><span class="s2">"_embedding_: node.`</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">embedding_node_property</span><span class="si">}</span><span class="s2">`</span><span class="se">}}</span><span class="s2"> AS metadata"</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">default_retrieval</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">"RETURN node.`</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">text_node_property</span><span class="si">}</span><span class="s2">` AS text, score, "</span>
+                    <span class="sa">f</span><span class="s2">"node </span><span class="se">{{</span><span class="s2">.*, `</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">text_node_property</span><span class="si">}</span><span class="s2">`: Null, "</span>
+                    <span class="sa">f</span><span class="s2">"`</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">embedding_node_property</span><span class="si">}</span><span class="s2">`: Null, id: Null </span><span class="se">}}</span><span class="s2"> AS metadata"</span>
+                <span class="p">)</span>
 
         <span class="n">retrieval_query</span> <span class="o">=</span> <span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">retrieval_query</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">retrieval_query</span> <span class="k">else</span> <span class="n">default_retrieval</span>
@@ -1311,6 +1333,20 @@ document.write(`
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                     <span class="s2">"Inspect the `retrieval_query` and ensure it doesn't "</span>
                     <span class="s2">"return None for the `text` column"</span>
+                <span class="p">)</span>
+        <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"return_embeddings"</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">any</span><span class="p">(</span>
+            <span class="n">result</span><span class="p">[</span><span class="s2">"metadata"</span><span class="p">][</span><span class="s2">"_embedding_"</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">results</span>
+        <span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">retrieval_query</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">"Make sure that none of the `</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">embedding_node_property</span><span class="si">}</span><span class="s2">` "</span>
+                    <span class="sa">f</span><span class="s2">"properties on nodes with label `</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">node_label</span><span class="si">}</span><span class="s2">` "</span>
+                    <span class="s2">"are missing or empty"</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">"Inspect the `retrieval_query` and ensure it doesn't "</span>
+                    <span class="s2">"return None for the `_embedding_` metadata column"</span>
                 <span class="p">)</span>
 
         <span class="n">docs</span> <span class="o">=</span> <span class="p">[</span>
@@ -1715,6 +1751,64 @@ document.write(`
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">1000</span><span class="p">:</span>
                 <span class="k">break</span>
         <span class="k">return</span> <span class="n">store</span></div>
+
+<div class="viewcode-block" id="Neo4jVector.max_marginal_relevance_search"><a class="viewcode-back" href="../../../community/vectorstores/langchain_community.vectorstores.neo4j_vector.Neo4jVector.html#langchain_community.vectorstores.neo4j_vector.Neo4jVector.max_marginal_relevance_search">[docs]</a>    <span class="k">def</span> <span class="nf">max_marginal_relevance_search</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">k</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
+        <span class="n">fetch_k</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span>
+        <span class="n">lambda_mult</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span>
+        <span class="nb">filter</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Document</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Return docs selected using the maximal marginal relevance.</span>
+
+<span class="sd">        Maximal marginal relevance optimizes for similarity to query AND diversity</span>
+<span class="sd">        among selected documents.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            query: search query text.</span>
+<span class="sd">            k: Number of Documents to return. Defaults to 4.</span>
+<span class="sd">            fetch_k: Number of Documents to fetch to pass to MMR algorithm.</span>
+<span class="sd">            lambda_mult: Number between 0 and 1 that determines the degree</span>
+<span class="sd">                        of diversity among the results with 0 corresponding</span>
+<span class="sd">                        to maximum diversity and 1 to minimum diversity.</span>
+<span class="sd">                        Defaults to 0.5.</span>
+<span class="sd">            filter: Filter on metadata properties, e.g.</span>
+<span class="sd">                            {</span>
+<span class="sd">                                "str_property": "foo",</span>
+<span class="sd">                                "int_property": 123</span>
+<span class="sd">                            }</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            List of Documents selected by maximal marginal relevance.</span>
+<span class="sd">        """</span>
+        <span class="c1"># Embed the query</span>
+        <span class="n">query_embedding</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">embedding</span><span class="o">.</span><span class="n">embed_query</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+
+        <span class="c1"># Fetch the initial documents</span>
+        <span class="n">got_docs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">similarity_search_with_score_by_vector</span><span class="p">(</span>
+            <span class="n">embedding</span><span class="o">=</span><span class="n">query_embedding</span><span class="p">,</span>
+            <span class="n">query</span><span class="o">=</span><span class="n">query</span><span class="p">,</span>
+            <span class="n">k</span><span class="o">=</span><span class="n">fetch_k</span><span class="p">,</span>
+            <span class="n">return_embeddings</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="nb">filter</span><span class="o">=</span><span class="nb">filter</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Get the embeddings for the fetched documents</span>
+        <span class="n">got_embeddings</span> <span class="o">=</span> <span class="p">[</span><span class="n">doc</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s2">"_embedding_"</span><span class="p">]</span> <span class="k">for</span> <span class="n">doc</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">got_docs</span><span class="p">]</span>
+
+        <span class="c1"># Select documents using maximal marginal relevance</span>
+        <span class="n">selected_indices</span> <span class="o">=</span> <span class="n">maximal_marginal_relevance</span><span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">query_embedding</span><span class="p">),</span> <span class="n">got_embeddings</span><span class="p">,</span> <span class="n">lambda_mult</span><span class="o">=</span><span class="n">lambda_mult</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="n">k</span>
+        <span class="p">)</span>
+        <span class="n">selected_docs</span> <span class="o">=</span> <span class="p">[</span><span class="n">got_docs</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">selected_indices</span><span class="p">]</span>
+
+        <span class="c1"># Remove embedding values from metadata</span>
+        <span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">selected_docs</span><span class="p">:</span>
+            <span class="k">del</span> <span class="n">doc</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s2">"_embedding_"</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">selected_docs</span></div>
 
     <span class="k">def</span> <span class="nf">_select_relevance_score_fn</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">float</span><span class="p">],</span> <span class="nb">float</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">"""</span>
