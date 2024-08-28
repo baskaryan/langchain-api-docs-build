@@ -38,7 +38,7 @@
 <link href="../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Aug 27, 2024" name="docbuild:last-update"/>
+<meta content="Aug 28, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -232,13 +232,17 @@ document.write(`
 <span class="sd">MIT License</span>
 <span class="sd">"""</span>
 
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+
 <span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">from</span> <span class="nn">types</span> <span class="kn">import</span> <span class="n">MappingProxyType</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">Any</span><span class="p">,</span>
     <span class="n">Dict</span><span class="p">,</span>
     <span class="n">Iterator</span><span class="p">,</span>
     <span class="n">List</span><span class="p">,</span>
     <span class="n">Literal</span><span class="p">,</span>
+    <span class="n">Mapping</span><span class="p">,</span>
     <span class="n">Optional</span><span class="p">,</span>
     <span class="n">Sequence</span><span class="p">,</span>
     <span class="n">Tuple</span><span class="p">,</span>
@@ -251,7 +255,7 @@ document.write(`
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
-<span class="n">Scopes</span><span class="p">:</span> <span class="n">TypeAlias</span> <span class="o">=</span> <span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">Literal</span><span class="p">[</span><span class="kc">False</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]]</span>
+<span class="n">Scopes</span><span class="p">:</span> <span class="n">TypeAlias</span> <span class="o">=</span> <span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">Literal</span><span class="p">[</span><span class="kc">False</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]]</span>
 
 
 <span class="c1"># Globals</span>
@@ -381,8 +385,8 @@ document.write(`
     <span class="c1"># Get the tag</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">tag</span><span class="p">,</span> <span class="n">template</span> <span class="o">=</span> <span class="n">template</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">r_del</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">ChevronError</span><span class="p">(</span><span class="s2">"unclosed tag "</span> <span class="sa">f</span><span class="s2">"at line </span><span class="si">{</span><span class="n">_CURRENT_LINE</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">ChevronError</span><span class="p">(</span><span class="s2">"unclosed tag "</span> <span class="sa">f</span><span class="s2">"at line </span><span class="si">{</span><span class="n">_CURRENT_LINE</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
 
     <span class="c1"># Find the type meaning of the first character</span>
     <span class="n">tag_type</span> <span class="o">=</span> <span class="n">tag_types</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">tag</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">"variable"</span><span class="p">)</span>
@@ -508,12 +512,12 @@ document.write(`
             <span class="c1"># is the same as us</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">last_section</span> <span class="o">=</span> <span class="n">open_sections</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
-            <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>
+            <span class="k">except</span> <span class="ne">IndexError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">ChevronError</span><span class="p">(</span>
                     <span class="sa">f</span><span class="s1">'Trying to close tag "</span><span class="si">{</span><span class="n">tag_key</span><span class="si">}</span><span class="s1">"</span><span class="se">\n</span><span class="s1">'</span>
                     <span class="s2">"Looks like it was not opened.</span><span class="se">\n</span><span class="s2">"</span>
                     <span class="sa">f</span><span class="s2">"line </span><span class="si">{</span><span class="n">_CURRENT_LINE</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">"</span>
-                <span class="p">)</span>
+                <span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
             <span class="k">if</span> <span class="n">tag_key</span> <span class="o">!=</span> <span class="n">last_section</span><span class="p">:</span>
                 <span class="c1"># Otherwise we need to complain</span>
                 <span class="k">raise</span> <span class="n">ChevronError</span><span class="p">(</span>
@@ -640,7 +644,7 @@ document.write(`
     <span class="k">return</span> <span class="s2">""</span>
 
 
-<span class="k">def</span> <span class="nf">_get_partial</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">partials_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">_get_partial</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">partials_dict</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Load a partial"""</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="c1"># Maybe the partial is in the dictionary</span>
@@ -654,11 +658,13 @@ document.write(`
 <span class="c1">#</span>
 <span class="n">g_token_cache</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]]</span> <span class="o">=</span> <span class="p">{}</span>
 
+<span class="n">EMPTY_DICT</span><span class="p">:</span> <span class="n">MappingProxyType</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">MappingProxyType</span><span class="p">({})</span>
+
 
 <div class="viewcode-block" id="render"><a class="viewcode-back" href="../../../core/utils/langchain_core.utils.mustache.render.html#langchain_core.utils.mustache.render">[docs]</a><span class="k">def</span> <span class="nf">render</span><span class="p">(</span>
     <span class="n">template</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]]</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
-    <span class="n">data</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{},</span>
-    <span class="n">partials_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">{},</span>
+    <span class="n">data</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="n">EMPTY_DICT</span><span class="p">,</span>
+    <span class="n">partials_dict</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">EMPTY_DICT</span><span class="p">,</span>
     <span class="n">padding</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
     <span class="n">def_ldel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"{{"</span><span class="p">,</span>
     <span class="n">def_rdel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"}}"</span><span class="p">,</span>

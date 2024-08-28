@@ -38,7 +38,7 @@
 <link href="../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Aug 27, 2024" name="docbuild:last-update"/>
+<meta content="Aug 28, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -360,12 +360,12 @@ document.write(`
 <span class="sd">    """</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">module</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">import_module</span><span class="p">(</span><span class="n">module_name</span><span class="p">,</span> <span class="n">package</span><span class="p">)</span>
-    <span class="k">except</span> <span class="p">(</span><span class="ne">ImportError</span><span class="p">,</span> <span class="ne">ModuleNotFoundError</span><span class="p">):</span>
+    <span class="k">except</span> <span class="p">(</span><span class="ne">ImportError</span><span class="p">,</span> <span class="ne">ModuleNotFoundError</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="n">pip_name</span> <span class="o">=</span> <span class="n">pip_name</span> <span class="ow">or</span> <span class="n">module_name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"."</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"_"</span><span class="p">,</span> <span class="s2">"-"</span><span class="p">)</span>
         <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
             <span class="sa">f</span><span class="s2">"Could not import </span><span class="si">{</span><span class="n">module_name</span><span class="si">}</span><span class="s2"> python package. "</span>
             <span class="sa">f</span><span class="s2">"Please install it with `pip install </span><span class="si">{</span><span class="n">pip_name</span><span class="si">}</span><span class="s2">`."</span>
-        <span class="p">)</span>
+        <span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
     <span class="k">return</span> <span class="n">module</span></div>
 
 
@@ -464,7 +464,8 @@ document.write(`
             <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
                 <span class="sa">f</span><span class="s2">"""WARNING! </span><span class="si">{</span><span class="n">field_name</span><span class="si">}</span><span class="s2"> is not default parameter.</span>
 <span class="s2">                </span><span class="si">{</span><span class="n">field_name</span><span class="si">}</span><span class="s2"> was transferred to model_kwargs.</span>
-<span class="s2">                Please confirm that </span><span class="si">{</span><span class="n">field_name</span><span class="si">}</span><span class="s2"> is what you intended."""</span>
+<span class="s2">                Please confirm that </span><span class="si">{</span><span class="n">field_name</span><span class="si">}</span><span class="s2"> is what you intended."""</span><span class="p">,</span>
+                <span class="n">stacklevel</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span>
             <span class="p">)</span>
             <span class="n">extra_kwargs</span><span class="p">[</span><span class="n">field_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">values</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">field_name</span><span class="p">)</span>
 

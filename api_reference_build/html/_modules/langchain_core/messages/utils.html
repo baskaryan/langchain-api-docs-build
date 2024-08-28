@@ -38,7 +38,7 @@
 <link href="../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Aug 27, 2024" name="docbuild:last-update"/>
+<meta content="Aug 28, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -519,10 +519,10 @@ document.write(`
                 <span class="n">msg_type</span> <span class="o">=</span> <span class="n">msg_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"type"</span><span class="p">)</span>
             <span class="c1"># None msg content is not allowed</span>
             <span class="n">msg_content</span> <span class="o">=</span> <span class="n">msg_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"content"</span><span class="p">)</span> <span class="ow">or</span> <span class="s2">""</span>
-        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+        <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                 <span class="sa">f</span><span class="s2">"Message dict must contain 'role' and 'content' keys, got </span><span class="si">{</span><span class="n">message</span><span class="si">}</span><span class="s2">"</span>
-            <span class="p">)</span>
+            <span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
         <span class="n">_message</span> <span class="o">=</span> <span class="n">_create_message_from_message_type</span><span class="p">(</span>
             <span class="n">msg_type</span><span class="p">,</span> <span class="n">msg_content</span><span class="p">,</span> <span class="o">**</span><span class="n">msg_kwargs</span>
         <span class="p">)</span>
@@ -573,9 +573,7 @@ document.write(`
         <span class="k">if</span> <span class="n">messages</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="n">messages</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">RunnableLambda</span><span class="p">(</span>
-                <span class="n">partial</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="nb">getattr</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="s2">"__name__"</span><span class="p">)</span>
-            <span class="p">)</span>
+            <span class="k">return</span> <span class="n">RunnableLambda</span><span class="p">(</span><span class="n">partial</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="n">func</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
 
     <span class="n">wrapped</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="n">func</span><span class="o">.</span><span class="vm">__doc__</span>
     <span class="k">return</span> <span class="n">wrapped</span>
@@ -1020,7 +1018,7 @@ document.write(`
         <span class="k">raise</span> <span class="ne">ValueError</span>
     <span class="n">messages</span> <span class="o">=</span> <span class="n">convert_to_messages</span><span class="p">(</span><span class="n">messages</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">token_counter</span><span class="p">,</span> <span class="s2">"get_num_tokens_from_messages"</span><span class="p">):</span>
-        <span class="n">list_token_counter</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">token_counter</span><span class="p">,</span> <span class="s2">"get_num_tokens_from_messages"</span><span class="p">)</span>
+        <span class="n">list_token_counter</span> <span class="o">=</span> <span class="n">token_counter</span><span class="o">.</span><span class="n">get_num_tokens_from_messages</span>
     <span class="k">elif</span> <span class="nb">callable</span><span class="p">(</span><span class="n">token_counter</span><span class="p">):</span>
         <span class="k">if</span> <span class="p">(</span>
             <span class="nb">list</span><span class="p">(</span><span class="n">inspect</span><span class="o">.</span><span class="n">signature</span><span class="p">(</span><span class="n">token_counter</span><span class="p">)</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">values</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">annotation</span>

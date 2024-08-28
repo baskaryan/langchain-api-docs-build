@@ -38,7 +38,7 @@
 <link href="../../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Aug 27, 2024" name="docbuild:last-update"/>
+<meta content="Aug 28, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -264,6 +264,7 @@ document.write(`
 <span class="s2">    ?value: SIGNED_INT -&gt; int</span>
 <span class="s2">        | SIGNED_FLOAT -&gt; float</span>
 <span class="s2">        | DATE -&gt; date</span>
+<span class="s2">        | DATETIME -&gt; datetime</span>
 <span class="s2">        | list</span>
 <span class="s2">        | string</span>
 <span class="s2">        | ("false" | "False" | "FALSE") -&gt; false</span>
@@ -271,6 +272,7 @@ document.write(`
 
 <span class="s2">    args: expr ("," expr)*</span>
 <span class="s2">    DATE.2: /["']?(\d</span><span class="si">{4}</span><span class="s2">-[01]\d-[0-3]\d)["']?/</span>
+<span class="s2">    DATETIME.2: /["']?\d</span><span class="si">{4}</span><span class="s2">-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d[Zz]?["']?/</span>
 <span class="s2">    string: /'[^']*'/ | ESCAPED_STRING</span>
 <span class="s2">    list: "[" [args] "]"</span>
 
@@ -288,6 +290,13 @@ document.write(`
 
     <span class="n">date</span><span class="p">:</span> <span class="nb">str</span>
     <span class="nb">type</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">"date"</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="ISO8601DateTime"><a class="viewcode-back" href="../../../../langchain/chains/langchain.chains.query_constructor.parser.ISO8601DateTime.html#langchain.chains.query_constructor.parser.ISO8601DateTime">[docs]</a><span class="k">class</span> <span class="nc">ISO8601DateTime</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""A datetime in ISO 8601 format (YYYY-MM-DDTHH:MM:SS)."""</span>
+
+    <span class="n">datetime</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="nb">type</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">"datetime"</span><span class="p">]</span></div>
 
 
 <span class="nd">@v_args</span><span class="p">(</span><span class="n">inline</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -377,6 +386,20 @@ document.write(`
                 <span class="s2">"(YYYY-MM-DD)."</span>
             <span class="p">)</span>
         <span class="k">return</span> <span class="p">{</span><span class="s2">"date"</span><span class="p">:</span> <span class="n">item</span><span class="p">,</span> <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"date"</span><span class="p">}</span>
+
+    <span class="k">def</span> <span class="nf">datetime</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ISO8601DateTime</span><span class="p">:</span>
+        <span class="n">item</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">item</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">"</span><span class="se">\"</span><span class="s2">'"</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Parse full ISO 8601 datetime format</span>
+            <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="s2">"%Y-%m-</span><span class="si">%d</span><span class="s2">T%H:%M:%S%z"</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="s2">"%Y-%m-</span><span class="si">%d</span><span class="s2">T%H:%M:%S"</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">"Datetime values are expected to be in ISO 8601 format."</span>
+                <span class="p">)</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">"datetime"</span><span class="p">:</span> <span class="n">item</span><span class="p">,</span> <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"datetime"</span><span class="p">}</span>
 
     <span class="k">def</span> <span class="nf">string</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="c1"># Remove escaped quotes</span>

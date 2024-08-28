@@ -38,7 +38,7 @@
 <link href="../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Aug 27, 2024" name="docbuild:last-update"/>
+<meta content="Aug 28, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -271,6 +271,7 @@ document.write(`
 <span class="sd">        sparse_encoder: Sparse encoder to use.</span>
 <span class="sd">        ids: List of ids to use for the documents.</span>
 <span class="sd">        metadatas: List of metadata to use for the documents.</span>
+<span class="sd">        namespace: Namespace value for index partition.</span>
 <span class="sd">    """</span>
     <span class="n">batch_size</span> <span class="o">=</span> <span class="mi">32</span>
     <span class="n">_iterator</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">contexts</span><span class="p">),</span> <span class="n">batch_size</span><span class="p">)</span>
@@ -401,9 +402,10 @@ document.write(`
         <span class="n">final_result</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">res</span> <span class="ow">in</span> <span class="n">result</span><span class="p">[</span><span class="s2">"matches"</span><span class="p">]:</span>
             <span class="n">context</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="s2">"metadata"</span><span class="p">]</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"context"</span><span class="p">)</span>
-            <span class="n">final_result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-                <span class="n">Document</span><span class="p">(</span><span class="n">page_content</span><span class="o">=</span><span class="n">context</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="n">res</span><span class="p">[</span><span class="s2">"metadata"</span><span class="p">])</span>
-            <span class="p">)</span>
+            <span class="n">metadata</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="s2">"metadata"</span><span class="p">]</span>
+            <span class="k">if</span> <span class="s2">"score"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">metadata</span> <span class="ow">and</span> <span class="s2">"score"</span> <span class="ow">in</span> <span class="n">res</span><span class="p">:</span>
+                <span class="n">metadata</span><span class="p">[</span><span class="s2">"score"</span><span class="p">]</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="s2">"score"</span><span class="p">]</span>
+            <span class="n">final_result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Document</span><span class="p">(</span><span class="n">page_content</span><span class="o">=</span><span class="n">context</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="n">metadata</span><span class="p">))</span>
         <span class="c1"># return search results as json</span>
         <span class="k">return</span> <span class="n">final_result</span></div>
 </pre></div>

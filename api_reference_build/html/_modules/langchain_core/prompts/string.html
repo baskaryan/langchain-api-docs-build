@@ -38,7 +38,7 @@
 <link href="../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Aug 27, 2024" name="docbuild:last-update"/>
+<meta content="Aug 28, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -269,14 +269,14 @@ document.write(`
 <span class="sd">    """</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="kn">from</span> <span class="nn">jinja2.sandbox</span> <span class="kn">import</span> <span class="n">SandboxedEnvironment</span>
-    <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
             <span class="s2">"jinja2 not installed, which is needed to use the jinja2_formatter. "</span>
             <span class="s2">"Please install it with `pip install jinja2`."</span>
             <span class="s2">"Please be cautious when using jinja2 templates. "</span>
             <span class="s2">"Do not expand jinja2 templates using unverified or user-controlled "</span>
             <span class="s2">"inputs as that can result in arbitrary Python code execution."</span>
-        <span class="p">)</span>
+        <span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
 
     <span class="c1"># This uses a sandboxed environment to prevent arbitrary code execution.</span>
     <span class="c1"># Jinja2 uses an opt-out rather than opt-in approach for sand-boxing.</span>
@@ -310,17 +310,17 @@ document.write(`
         <span class="n">warning_message</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">"Extra variables: </span><span class="si">{</span><span class="n">extra_variables</span><span class="si">}</span><span class="s2">"</span>
 
     <span class="k">if</span> <span class="n">warning_message</span><span class="p">:</span>
-        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">warning_message</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span></div>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">warning_message</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span> <span class="n">stacklevel</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span></div>
 
 
 <span class="k">def</span> <span class="nf">_get_jinja2_variables_from_template</span><span class="p">(</span><span class="n">template</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Set</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="kn">from</span> <span class="nn">jinja2</span> <span class="kn">import</span> <span class="n">Environment</span><span class="p">,</span> <span class="n">meta</span>
-    <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
             <span class="s2">"jinja2 not installed, which is needed to use the jinja2_formatter. "</span>
             <span class="s2">"Please install it with `pip install jinja2`."</span>
-        <span class="p">)</span>
+        <span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
     <span class="n">env</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">()</span>
     <span class="n">ast</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">template</span><span class="p">)</span>
     <span class="n">variables</span> <span class="o">=</span> <span class="n">meta</span><span class="o">.</span><span class="n">find_undeclared_variables</span><span class="p">(</span><span class="n">ast</span><span class="p">)</span>

@@ -38,7 +38,7 @@
 <link href="../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Aug 27, 2024" name="docbuild:last-update"/>
+<meta content="Aug 28, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -271,7 +271,9 @@ document.write(`
         <span class="k">try</span><span class="p">:</span>
             <span class="n">func_call</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">message</span><span class="o">.</span><span class="n">additional_kwargs</span><span class="p">[</span><span class="s2">"function_call"</span><span class="p">])</span>
         <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">OutputParserException</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Could not parse function call: </span><span class="si">{</span><span class="n">exc</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">OutputParserException</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">"Could not parse function call: </span><span class="si">{</span><span class="n">exc</span><span class="si">}</span><span class="s2">"</span>
+            <span class="p">)</span> <span class="kn">from</span> <span class="nn">exc</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">args_only</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">func_call</span><span class="p">[</span><span class="s2">"arguments"</span><span class="p">]</span>
@@ -329,7 +331,9 @@ document.write(`
             <span class="k">if</span> <span class="n">partial</span><span class="p">:</span>
                 <span class="k">return</span> <span class="kc">None</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="n">OutputParserException</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Could not parse function call: </span><span class="si">{</span><span class="n">exc</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="n">OutputParserException</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">"Could not parse function call: </span><span class="si">{</span><span class="n">exc</span><span class="si">}</span><span class="s2">"</span>
+                <span class="p">)</span> <span class="kn">from</span> <span class="nn">exc</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">partial</span><span class="p">:</span>
                 <span class="k">try</span><span class="p">:</span>
@@ -355,7 +359,7 @@ document.write(`
                     <span class="k">except</span> <span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">JSONDecodeError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">)</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
                         <span class="k">raise</span> <span class="n">OutputParserException</span><span class="p">(</span>
                             <span class="sa">f</span><span class="s2">"Could not parse function call data: </span><span class="si">{</span><span class="n">exc</span><span class="si">}</span><span class="s2">"</span>
-                        <span class="p">)</span>
+                        <span class="p">)</span> <span class="kn">from</span> <span class="nn">exc</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="k">try</span><span class="p">:</span>
                         <span class="k">return</span> <span class="p">{</span>
@@ -367,7 +371,7 @@ document.write(`
                     <span class="k">except</span> <span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">JSONDecodeError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">)</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
                         <span class="k">raise</span> <span class="n">OutputParserException</span><span class="p">(</span>
                             <span class="sa">f</span><span class="s2">"Could not parse function call data: </span><span class="si">{</span><span class="n">exc</span><span class="si">}</span><span class="s2">"</span>
-                        <span class="p">)</span>
+                        <span class="p">)</span> <span class="kn">from</span> <span class="nn">exc</span>
         <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span></div>
 

@@ -40,7 +40,7 @@
 <link href="langchain_core.vectorstores.base.VectorStoreRetriever.html" rel="prev" title="VectorStoreRetriever"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Aug 27, 2024" name="docbuild:last-update"/>
+<meta content="Aug 28, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -268,7 +268,6 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="../../chroma/index.html">Chroma</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../cohere/index.html">Cohere</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../couchbase/index.html">Couchbase</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../databricks/index.html">Databricks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../elasticsearch/index.html">Elasticsearch</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../exa/index.html">Exa</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../fireworks/index.html">Fireworks</a></li>
@@ -332,8 +331,106 @@ document.write(`
 <dl class="py class">
 <dt class="sig sig-object py" id="langchain_core.vectorstores.in_memory.InMemoryVectorStore">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">langchain_core.vectorstores.in_memory.</span></span><span class="sig-name descname"><span class="pre">InMemoryVectorStore</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">embedding</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../embeddings/langchain_core.embeddings.embeddings.Embeddings.html#langchain_core.embeddings.embeddings.Embeddings" title="langchain_core.embeddings.embeddings.Embeddings"><span class="pre">Embeddings</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/langchain_core/vectorstores/in_memory.html#InMemoryVectorStore"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#langchain_core.vectorstores.in_memory.InMemoryVectorStore" title="Permalink to this definition">#</a></dt>
-<dd><p>In-memory implementation of VectorStore using a dictionary.</p>
-<p>Uses numpy to compute cosine similarity for search.</p>
+<dd><p>In-memory vector store implementation.</p>
+<p>Uses a dictionary, and computes cosine similarity for search using numpy.</p>
+<dl>
+<dt>Setup:</dt><dd><p>Install <code class="docutils literal notranslate"><span class="pre">langchain-core</span></code>.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>-U<span class="w"> </span>langchain-core
+</pre></div>
+</div>
+</dd>
+<dt>Key init args — indexing params:</dt><dd><dl class="simple">
+<dt>embedding_function: Embeddings</dt><dd><p>Embedding function to use.</p>
+</dd>
+</dl>
+</dd>
+<dt>Instantiate:</dt><dd><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">langchain_core.vectorstores</span> <span class="kn">import</span> <span class="n">InMemoryVectorStore</span>
+<span class="kn">from</span> <span class="nn">langchain_openai</span> <span class="kn">import</span> <span class="n">OpenAIEmbeddings</span>
+
+<span class="n">vector_store</span> <span class="o">=</span> <span class="n">InMemoryVectorStore</span><span class="p">(</span><span class="n">OpenAIEmbeddings</span><span class="p">())</span>
+</pre></div>
+</div>
+</dd>
+<dt>Add Documents:</dt><dd><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">langchain_core.documents</span> <span class="kn">import</span> <span class="n">Document</span>
+
+<span class="n">document_1</span> <span class="o">=</span> <span class="n">Document</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s2">"1"</span><span class="p">,</span> <span class="n">page_content</span><span class="o">=</span><span class="s2">"foo"</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="p">{</span><span class="s2">"baz"</span><span class="p">:</span> <span class="s2">"bar"</span><span class="p">})</span>
+<span class="n">document_2</span> <span class="o">=</span> <span class="n">Document</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s2">"2"</span><span class="p">,</span> <span class="n">page_content</span><span class="o">=</span><span class="s2">"thud"</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="p">{</span><span class="s2">"bar"</span><span class="p">:</span> <span class="s2">"baz"</span><span class="p">})</span>
+<span class="n">document_3</span> <span class="o">=</span> <span class="n">Document</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s2">"3"</span><span class="p">,</span> <span class="n">page_content</span><span class="o">=</span><span class="s2">"i will be deleted :("</span><span class="p">)</span>
+
+<span class="n">documents</span> <span class="o">=</span> <span class="p">[</span><span class="n">document_1</span><span class="p">,</span> <span class="n">document_2</span><span class="p">,</span> <span class="n">document_3</span><span class="p">]</span>
+<span class="n">vector_store</span><span class="o">.</span><span class="n">add_documents</span><span class="p">(</span><span class="n">documents</span><span class="o">=</span><span class="n">documents</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+<dt>Delete Documents:</dt><dd><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">vector_store</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="s2">"3"</span><span class="p">])</span>
+</pre></div>
+</div>
+</dd>
+<dt>Search:</dt><dd><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">results</span> <span class="o">=</span> <span class="n">vector_store</span><span class="o">.</span><span class="n">similarity_search</span><span class="p">(</span><span class="n">query</span><span class="o">=</span><span class="s2">"thud"</span><span class="p">,</span><span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">results</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"* </span><span class="si">{</span><span class="n">doc</span><span class="o">.</span><span class="n">page_content</span><span class="si">}</span><span class="s2"> [</span><span class="si">{</span><span class="n">doc</span><span class="o">.</span><span class="n">metadata</span><span class="si">}</span><span class="s2">]"</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>* thud [{'bar': 'baz'}]
+</pre></div>
+</div>
+</dd>
+<dt>Search with filter:</dt><dd><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">_filter_function</span><span class="p">(</span><span class="n">doc</span><span class="p">:</span> <span class="n">Document</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">doc</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"bar"</span><span class="p">)</span> <span class="o">==</span> <span class="s2">"baz"</span>
+
+<span class="n">results</span> <span class="o">=</span> <span class="n">vector_store</span><span class="o">.</span><span class="n">similarity_search</span><span class="p">(</span>
+    <span class="n">query</span><span class="o">=</span><span class="s2">"thud"</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="nb">filter</span><span class="o">=</span><span class="n">_filter_function</span>
+<span class="p">)</span>
+<span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">results</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"* </span><span class="si">{</span><span class="n">doc</span><span class="o">.</span><span class="n">page_content</span><span class="si">}</span><span class="s2"> [</span><span class="si">{</span><span class="n">doc</span><span class="o">.</span><span class="n">metadata</span><span class="si">}</span><span class="s2">]"</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>* thud [{'bar': 'baz'}]
+</pre></div>
+</div>
+</dd>
+<dt>Search with score:</dt><dd><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">results</span> <span class="o">=</span> <span class="n">vector_store</span><span class="o">.</span><span class="n">similarity_search_with_score</span><span class="p">(</span>
+    <span class="n">query</span><span class="o">=</span><span class="s2">"qux"</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">1</span>
+<span class="p">)</span>
+<span class="k">for</span> <span class="n">doc</span><span class="p">,</span> <span class="n">score</span> <span class="ow">in</span> <span class="n">results</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"* [SIM=</span><span class="si">{</span><span class="n">score</span><span class="si">:</span><span class="s2">3f</span><span class="si">}</span><span class="s2">] </span><span class="si">{</span><span class="n">doc</span><span class="o">.</span><span class="n">page_content</span><span class="si">}</span><span class="s2"> [</span><span class="si">{</span><span class="n">doc</span><span class="o">.</span><span class="n">metadata</span><span class="si">}</span><span class="s2">]"</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>* [SIM=0.832268] foo [{'baz': 'bar'}]
+</pre></div>
+</div>
+</dd>
+<dt>Async:</dt><dd><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># add documents</span>
+<span class="c1"># await vector_store.aadd_documents(documents=documents)</span>
+
+<span class="c1"># delete documents</span>
+<span class="c1"># await vector_store.adelete(ids=["3"])</span>
+
+<span class="c1"># search</span>
+<span class="c1"># results = vector_store.asimilarity_search(query="thud", k=1)</span>
+
+<span class="c1"># search with score</span>
+<span class="n">results</span> <span class="o">=</span> <span class="k">await</span> <span class="n">vector_store</span><span class="o">.</span><span class="n">asimilarity_search_with_score</span><span class="p">(</span><span class="n">query</span><span class="o">=</span><span class="s2">"qux"</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">doc</span><span class="p">,</span><span class="n">score</span> <span class="ow">in</span> <span class="n">results</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"* [SIM=</span><span class="si">{</span><span class="n">score</span><span class="si">:</span><span class="s2">3f</span><span class="si">}</span><span class="s2">] </span><span class="si">{</span><span class="n">doc</span><span class="o">.</span><span class="n">page_content</span><span class="si">}</span><span class="s2"> [</span><span class="si">{</span><span class="n">doc</span><span class="o">.</span><span class="n">metadata</span><span class="si">}</span><span class="s2">]"</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>* [SIM=0.832268] foo [{'baz': 'bar'}]
+</pre></div>
+</div>
+</dd>
+<dt>Use as Retriever:</dt><dd><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">retriever</span> <span class="o">=</span> <span class="n">vector_store</span><span class="o">.</span><span class="n">as_retriever</span><span class="p">(</span>
+    <span class="n">search_type</span><span class="o">=</span><span class="s2">"mmr"</span><span class="p">,</span>
+    <span class="n">search_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">"k"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">"fetch_k"</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">"lambda_mult"</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">},</span>
+<span class="p">)</span>
+<span class="n">retriever</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="s2">"thud"</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>[Document(id='2', metadata={'bar': 'baz'}, page_content='thud')]
+</pre></div>
+</div>
+</dd>
+</dl>
 <p>Initialize with the given embedding function.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
