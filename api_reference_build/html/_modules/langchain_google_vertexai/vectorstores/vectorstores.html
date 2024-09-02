@@ -38,7 +38,7 @@
 <link href="../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Aug 28, 2024" name="docbuild:last-update"/>
+<meta content="Sep 02, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -261,6 +261,7 @@ document.write(`
         <span class="n">embbedings</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Embeddings</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Constructor.</span>
+
 <span class="sd">        Args:</span>
 <span class="sd">            searcher: Object in charge of searching and storing the index.</span>
 <span class="sd">            document_storage: Object in charge of storing and retrieving documents.</span>
@@ -284,6 +285,7 @@ document.write(`
         <span class="n">numeric_filter</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">NumericNamespace</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Document</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
 <span class="w">        </span><span class="sd">"""Return docs most similar to query and their cosine distance from the query.</span>
+
 <span class="sd">        Args:</span>
 <span class="sd">            query: String query look up documents similar to.</span>
 <span class="sd">            k: Number of Documents to return. Defaults to 4.</span>
@@ -299,6 +301,7 @@ document.write(`
 <span class="sd">                the matching results. Please refer to</span>
 <span class="sd">                https://cloud.google.com/vertex-ai/docs/matching-engine/filtering#json</span>
 <span class="sd">                for more detail.</span>
+
 <span class="sd">        Returns:</span>
 <span class="sd">            List[Tuple[Document, float]]: List of documents most similar to</span>
 <span class="sd">            the query text and cosine distance in float for each.</span>
@@ -319,6 +322,7 @@ document.write(`
         <span class="n">numeric_filter</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">NumericNamespace</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Document</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
 <span class="w">        </span><span class="sd">"""Return docs most similar to the embedding and their cosine distance.</span>
+
 <span class="sd">        Args:</span>
 <span class="sd">            embedding: Embedding to look up documents similar to.</span>
 <span class="sd">            k: Number of Documents to return. Defaults to 4.</span>
@@ -334,6 +338,7 @@ document.write(`
 <span class="sd">                the matching results. Please refer to</span>
 <span class="sd">                https://cloud.google.com/vertex-ai/docs/matching-engine/filtering#json</span>
 <span class="sd">                for more detail.</span>
+
 <span class="sd">        Returns:</span>
 <span class="sd">            List[Tuple[Document, float]]: List of documents most similar to</span>
 <span class="sd">            the query text and cosine distance in float for each.</span>
@@ -367,6 +372,7 @@ document.write(`
         <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Document</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">"""Return docs most similar to query.</span>
+
 <span class="sd">        Args:</span>
 <span class="sd">            query: The string that will be used to search for similar documents.</span>
 <span class="sd">            k: The amount of neighbors that will be retrieved.</span>
@@ -381,6 +387,7 @@ document.write(`
 <span class="sd">                the matching results. Please refer to</span>
 <span class="sd">                https://cloud.google.com/vertex-ai/docs/matching-engine/filtering#json</span>
 <span class="sd">                for more detail.</span>
+
 <span class="sd">        Returns:</span>
 <span class="sd">            A list of k matching documents.</span>
 <span class="sd">        """</span>
@@ -395,22 +402,43 @@ document.write(`
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">texts</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
         <span class="n">metadatas</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">],</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">ids</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">is_complete_overwrite</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">"""Run more texts through the embeddings and add to the vectorstore.</span>
+
 <span class="sd">        Args:</span>
 <span class="sd">            texts: Iterable of strings to add to the vectorstore.</span>
 <span class="sd">            metadatas: Optional list of metadatas associated with the texts.</span>
+<span class="sd">            ids: Optional list of ids to be assigned to the texts in the index.</span>
+<span class="sd">                If None, unique ids will be generated.</span>
+<span class="sd">            is_complete_overwrite: Optional, determines whether this is an append or</span>
+<span class="sd">                overwrite operation. Only relevant for BATCH UPDATE indexes.</span>
 <span class="sd">            kwargs: vectorstore specific parameters.</span>
+
 <span class="sd">        Returns:</span>
 <span class="sd">            List of ids from adding the texts into the vectorstore.</span>
 <span class="sd">        """</span>
 
-        <span class="c1"># Makes sure is a list an can get the length, should we support iterables?</span>
+        <span class="c1"># Makes sure is a list and can get the length, should we support iterables?</span>
         <span class="c1"># metadata is a list so probably not?</span>
         <span class="n">texts</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">texts</span><span class="p">)</span>
-        <span class="n">ids</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_generate_unique_ids</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">texts</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="n">ids</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">ids</span><span class="p">))</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">ids</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">"All provided ids should be unique."</span>
+                <span class="sa">f</span><span class="s2">"There are </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">ids</span><span class="p">)</span><span class="o">-</span><span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">ids</span><span class="p">))</span><span class="si">}</span><span class="s2"> duplicates."</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">ids</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">ids</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">texts</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">"The number of `ids` should match the number of `texts` "</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">ids</span><span class="p">)</span><span class="si">}</span><span class="s2"> != </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">texts</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">ids</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">ids</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_generate_unique_ids</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">texts</span><span class="p">))</span>
 
         <span class="k">if</span> <span class="n">metadatas</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">metadatas</span> <span class="o">=</span> <span class="p">[{}]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">texts</span><span class="p">)</span>
@@ -454,6 +482,7 @@ document.write(`
     <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">_get_default_embeddings</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Embeddings</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""This function returns the default embedding.</span>
+
 <span class="sd">        Returns:</span>
 <span class="sd">            Default TensorflowHubEmbeddings to use.</span>
 <span class="sd">        """</span>
@@ -476,8 +505,10 @@ document.write(`
 
     <span class="k">def</span> <span class="nf">_generate_unique_ids</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">number</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">"""Generates a list of unique ids of length `number`</span>
+
 <span class="sd">        Args:</span>
 <span class="sd">            number: Number of ids to generate.</span>
+
 <span class="sd">        Returns:</span>
 <span class="sd">            List of unique ids.</span>
 <span class="sd">        """</span>
@@ -504,6 +535,7 @@ document.write(`
         <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"VectorSearchVectorStore"</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Takes the object creation out of the constructor.</span>
+
 <span class="sd">        Args:</span>
 <span class="sd">            project_id: The GCP project id.</span>
 <span class="sd">            region: The default location making the API calls. It must have</span>
@@ -522,8 +554,9 @@ document.write(`
 <span class="sd">                index must be compatible with stream/batch updates.</span>
 <span class="sd">            kwargs: Additional keyword arguments to pass to</span>
 <span class="sd">                VertexAIVectorSearch.__init__().</span>
+
 <span class="sd">        Returns:</span>
-<span class="sd">            A configured VertexAIVectorSearch with the texts added to the index.</span>
+<span class="sd">            A configured VertexAIVectorSearch.</span>
 <span class="sd">        """</span>
 
         <span class="n">sdk_manager</span> <span class="o">=</span> <span class="n">VectorSearchSDKManager</span><span class="p">(</span>
@@ -578,7 +611,7 @@ document.write(`
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"VectorSearchVectorStoreDatastore"</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Takes the object creation out of the constructor.</span>
 
-<span class="sd">        # Args:</span>
+<span class="sd">        Args:</span>
 <span class="sd">            project_id: The GCP project id.</span>
 <span class="sd">            region: The default location making the API calls. It must have</span>
 <span class="sd">                the same location as the GCS bucket and must be regional.</span>
@@ -595,6 +628,9 @@ document.write(`
 <span class="sd">                index must be compatible with stream/batch updates.</span>
 <span class="sd">            kwargs: Additional keyword arguments to pass to</span>
 <span class="sd">                VertexAIVectorSearch.__init__().</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A configured VectorSearchVectorStoreDatastore.</span>
 <span class="sd">        """</span>
 
         <span class="n">sdk_manager</span> <span class="o">=</span> <span class="n">VectorSearchSDKManager</span><span class="p">(</span>

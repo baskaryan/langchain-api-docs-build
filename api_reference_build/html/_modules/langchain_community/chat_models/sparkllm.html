@@ -38,7 +38,7 @@
 <link href="../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Aug 28, 2024" name="docbuild:last-update"/>
+<meta content="Sep 02, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -237,7 +237,7 @@ document.write(`
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
 <span class="kn">from</span> <span class="nn">queue</span> <span class="kn">import</span> <span class="n">Queue</span>
 <span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">mktime</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Generator</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Type</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Generator</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Type</span><span class="p">,</span> <span class="n">cast</span>
 <span class="kn">from</span> <span class="nn">urllib.parse</span> <span class="kn">import</span> <span class="n">urlencode</span><span class="p">,</span> <span class="n">urlparse</span><span class="p">,</span> <span class="n">urlunparse</span>
 <span class="kn">from</span> <span class="nn">wsgiref.handlers</span> <span class="kn">import</span> <span class="n">format_date_time</span>
 
@@ -255,9 +255,15 @@ document.write(`
     <span class="n">BaseMessageChunk</span><span class="p">,</span>
     <span class="n">ChatMessage</span><span class="p">,</span>
     <span class="n">ChatMessageChunk</span><span class="p">,</span>
+    <span class="n">FunctionMessageChunk</span><span class="p">,</span>
     <span class="n">HumanMessage</span><span class="p">,</span>
     <span class="n">HumanMessageChunk</span><span class="p">,</span>
     <span class="n">SystemMessage</span><span class="p">,</span>
+    <span class="n">ToolMessageChunk</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">langchain_core.output_parsers.openai_tools</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">make_invalid_tool_call</span><span class="p">,</span>
+    <span class="n">parse_tool_call</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="kn">from</span> <span class="nn">langchain_core.outputs</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">ChatGeneration</span><span class="p">,</span>
@@ -277,44 +283,88 @@ document.write(`
 <span class="n">SPARK_LLM_DOMAIN</span> <span class="o">=</span> <span class="s2">"generalv3.5"</span>
 
 
-<span class="k">def</span> <span class="nf">_convert_message_to_dict</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="n">BaseMessage</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<div class="viewcode-block" id="convert_message_to_dict"><a class="viewcode-back" href="../../../community/chat_models/langchain_community.chat_models.sparkllm.convert_message_to_dict.html#langchain_community.chat_models.sparkllm.convert_message_to_dict">[docs]</a><span class="k">def</span> <span class="nf">convert_message_to_dict</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="n">BaseMessage</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+    <span class="n">message_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">ChatMessage</span><span class="p">):</span>
         <span class="n">message_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"role"</span><span class="p">:</span> <span class="s2">"user"</span><span class="p">,</span> <span class="s2">"content"</span><span class="p">:</span> <span class="n">message</span><span class="o">.</span><span class="n">content</span><span class="p">}</span>
     <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">HumanMessage</span><span class="p">):</span>
         <span class="n">message_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"role"</span><span class="p">:</span> <span class="s2">"user"</span><span class="p">,</span> <span class="s2">"content"</span><span class="p">:</span> <span class="n">message</span><span class="o">.</span><span class="n">content</span><span class="p">}</span>
     <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">AIMessage</span><span class="p">):</span>
         <span class="n">message_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"role"</span><span class="p">:</span> <span class="s2">"assistant"</span><span class="p">,</span> <span class="s2">"content"</span><span class="p">:</span> <span class="n">message</span><span class="o">.</span><span class="n">content</span><span class="p">}</span>
+        <span class="k">if</span> <span class="s2">"function_call"</span> <span class="ow">in</span> <span class="n">message</span><span class="o">.</span><span class="n">additional_kwargs</span><span class="p">:</span>
+            <span class="n">message_dict</span><span class="p">[</span><span class="s2">"function_call"</span><span class="p">]</span> <span class="o">=</span> <span class="n">message</span><span class="o">.</span><span class="n">additional_kwargs</span><span class="p">[</span><span class="s2">"function_call"</span><span class="p">]</span>
+            <span class="c1"># If function call only, content is None not empty string</span>
+            <span class="k">if</span> <span class="n">message_dict</span><span class="p">[</span><span class="s2">"content"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">""</span><span class="p">:</span>
+                <span class="n">message_dict</span><span class="p">[</span><span class="s2">"content"</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="s2">"tool_calls"</span> <span class="ow">in</span> <span class="n">message</span><span class="o">.</span><span class="n">additional_kwargs</span><span class="p">:</span>
+            <span class="n">message_dict</span><span class="p">[</span><span class="s2">"tool_calls"</span><span class="p">]</span> <span class="o">=</span> <span class="n">message</span><span class="o">.</span><span class="n">additional_kwargs</span><span class="p">[</span><span class="s2">"tool_calls"</span><span class="p">]</span>
+            <span class="c1"># If tool calls only, content is None not empty string</span>
+            <span class="k">if</span> <span class="n">message_dict</span><span class="p">[</span><span class="s2">"content"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">""</span><span class="p">:</span>
+                <span class="n">message_dict</span><span class="p">[</span><span class="s2">"content"</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">SystemMessage</span><span class="p">):</span>
         <span class="n">message_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"role"</span><span class="p">:</span> <span class="s2">"system"</span><span class="p">,</span> <span class="s2">"content"</span><span class="p">:</span> <span class="n">message</span><span class="o">.</span><span class="n">content</span><span class="p">}</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Got unknown type </span><span class="si">{</span><span class="n">message</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">message_dict</span>
+    <span class="k">return</span> <span class="n">message_dict</span></div>
 
 
-<span class="k">def</span> <span class="nf">_convert_dict_to_message</span><span class="p">(</span><span class="n">_dict</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">BaseMessage</span><span class="p">:</span>
+<div class="viewcode-block" id="convert_dict_to_message"><a class="viewcode-back" href="../../../community/chat_models/langchain_community.chat_models.sparkllm.convert_dict_to_message.html#langchain_community.chat_models.sparkllm.convert_dict_to_message">[docs]</a><span class="k">def</span> <span class="nf">convert_dict_to_message</span><span class="p">(</span><span class="n">_dict</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">BaseMessage</span><span class="p">:</span>
     <span class="n">msg_role</span> <span class="o">=</span> <span class="n">_dict</span><span class="p">[</span><span class="s2">"role"</span><span class="p">]</span>
     <span class="n">msg_content</span> <span class="o">=</span> <span class="n">_dict</span><span class="p">[</span><span class="s2">"content"</span><span class="p">]</span>
     <span class="k">if</span> <span class="n">msg_role</span> <span class="o">==</span> <span class="s2">"user"</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">HumanMessage</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="n">msg_content</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">msg_role</span> <span class="o">==</span> <span class="s2">"assistant"</span><span class="p">:</span>
+        <span class="n">invalid_tool_calls</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">additional_kwargs</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="n">function_call</span> <span class="o">:=</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"function_call"</span><span class="p">):</span>
+            <span class="n">additional_kwargs</span><span class="p">[</span><span class="s2">"function_call"</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">function_call</span><span class="p">)</span>
+        <span class="n">tool_calls</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="n">raw_tool_calls</span> <span class="o">:=</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"tool_calls"</span><span class="p">):</span>
+            <span class="n">additional_kwargs</span><span class="p">[</span><span class="s2">"tool_calls"</span><span class="p">]</span> <span class="o">=</span> <span class="n">raw_tool_calls</span>
+            <span class="k">for</span> <span class="n">raw_tool_call</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">[</span><span class="s2">"tool_calls"</span><span class="p">]:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">tool_calls</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">parse_tool_call</span><span class="p">(</span><span class="n">raw_tool_call</span><span class="p">,</span> <span class="n">return_id</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+                <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                    <span class="n">invalid_tool_calls</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                        <span class="n">make_invalid_tool_call</span><span class="p">(</span><span class="n">raw_tool_call</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+                    <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">additional_kwargs</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">content</span> <span class="o">=</span> <span class="n">msg_content</span> <span class="ow">or</span> <span class="s2">""</span>
-        <span class="k">return</span> <span class="n">AIMessage</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="n">content</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">AIMessage</span><span class="p">(</span>
+            <span class="n">content</span><span class="o">=</span><span class="n">content</span><span class="p">,</span>
+            <span class="n">additional_kwargs</span><span class="o">=</span><span class="n">additional_kwargs</span><span class="p">,</span>
+            <span class="n">tool_calls</span><span class="o">=</span><span class="n">tool_calls</span><span class="p">,</span>
+            <span class="n">invalid_tool_calls</span><span class="o">=</span><span class="n">invalid_tool_calls</span><span class="p">,</span>
+        <span class="p">)</span>
     <span class="k">elif</span> <span class="n">msg_role</span> <span class="o">==</span> <span class="s2">"system"</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">SystemMessage</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="n">msg_content</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">ChatMessage</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="n">msg_content</span><span class="p">,</span> <span class="n">role</span><span class="o">=</span><span class="n">msg_role</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ChatMessage</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="n">msg_content</span><span class="p">,</span> <span class="n">role</span><span class="o">=</span><span class="n">msg_role</span><span class="p">)</span></div>
 
 
 <span class="k">def</span> <span class="nf">_convert_delta_to_message_chunk</span><span class="p">(</span>
     <span class="n">_dict</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">default_class</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">BaseMessageChunk</span><span class="p">]</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BaseMessageChunk</span><span class="p">:</span>
-    <span class="n">msg_role</span> <span class="o">=</span> <span class="n">_dict</span><span class="p">[</span><span class="s2">"role"</span><span class="p">]</span>
-    <span class="n">msg_content</span> <span class="o">=</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"content"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span>
+    <span class="n">msg_role</span> <span class="o">=</span> <span class="n">cast</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"role"</span><span class="p">))</span>
+    <span class="n">msg_content</span> <span class="o">=</span> <span class="n">cast</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"content"</span><span class="p">)</span> <span class="ow">or</span> <span class="s2">""</span><span class="p">)</span>
+    <span class="n">additional_kwargs</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">if</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"function_call"</span><span class="p">):</span>
+        <span class="n">function_call</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">_dict</span><span class="p">[</span><span class="s2">"function_call"</span><span class="p">])</span>
+        <span class="k">if</span> <span class="s2">"name"</span> <span class="ow">in</span> <span class="n">function_call</span> <span class="ow">and</span> <span class="n">function_call</span><span class="p">[</span><span class="s2">"name"</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">function_call</span><span class="p">[</span><span class="s2">"name"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">""</span>
+        <span class="n">additional_kwargs</span><span class="p">[</span><span class="s2">"function_call"</span><span class="p">]</span> <span class="o">=</span> <span class="n">function_call</span>
+    <span class="k">if</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"tool_calls"</span><span class="p">):</span>
+        <span class="n">additional_kwargs</span><span class="p">[</span><span class="s2">"tool_calls"</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="p">[</span><span class="s2">"tool_calls"</span><span class="p">]</span>
     <span class="k">if</span> <span class="n">msg_role</span> <span class="o">==</span> <span class="s2">"user"</span> <span class="ow">or</span> <span class="n">default_class</span> <span class="o">==</span> <span class="n">HumanMessageChunk</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">HumanMessageChunk</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="n">msg_content</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">msg_role</span> <span class="o">==</span> <span class="s2">"assistant"</span> <span class="ow">or</span> <span class="n">default_class</span> <span class="o">==</span> <span class="n">AIMessageChunk</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">AIMessageChunk</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="n">msg_content</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">AIMessageChunk</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="n">msg_content</span><span class="p">,</span> <span class="n">additional_kwargs</span><span class="o">=</span><span class="n">additional_kwargs</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">msg_role</span> <span class="o">==</span> <span class="s2">"function"</span> <span class="ow">or</span> <span class="n">default_class</span> <span class="o">==</span> <span class="n">FunctionMessageChunk</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">FunctionMessageChunk</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="n">msg_content</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">_dict</span><span class="p">[</span><span class="s2">"name"</span><span class="p">])</span>
+    <span class="k">elif</span> <span class="n">msg_role</span> <span class="o">==</span> <span class="s2">"tool"</span> <span class="ow">or</span> <span class="n">default_class</span> <span class="o">==</span> <span class="n">ToolMessageChunk</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">ToolMessageChunk</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="n">msg_content</span><span class="p">,</span> <span class="n">tool_call_id</span><span class="o">=</span><span class="n">_dict</span><span class="p">[</span><span class="s2">"tool_call_id"</span><span class="p">])</span>
     <span class="k">elif</span> <span class="n">msg_role</span> <span class="ow">or</span> <span class="n">default_class</span> <span class="o">==</span> <span class="n">ChatMessageChunk</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">ChatMessageChunk</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="n">msg_content</span><span class="p">,</span> <span class="n">role</span><span class="o">=</span><span class="n">msg_role</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
@@ -564,7 +614,7 @@ document.write(`
         <span class="n">default_chunk_class</span> <span class="o">=</span> <span class="n">AIMessageChunk</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">arun</span><span class="p">(</span>
-            <span class="p">[</span><span class="n">_convert_message_to_dict</span><span class="p">(</span><span class="n">m</span><span class="p">)</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">messages</span><span class="p">],</span>
+            <span class="p">[</span><span class="n">convert_message_to_dict</span><span class="p">(</span><span class="n">m</span><span class="p">)</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">messages</span><span class="p">],</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">spark_user_id</span><span class="p">,</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">model_kwargs</span><span class="p">,</span>
             <span class="n">streaming</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -594,7 +644,7 @@ document.write(`
             <span class="k">return</span> <span class="n">generate_from_stream</span><span class="p">(</span><span class="n">stream_iter</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">arun</span><span class="p">(</span>
-            <span class="p">[</span><span class="n">_convert_message_to_dict</span><span class="p">(</span><span class="n">m</span><span class="p">)</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">messages</span><span class="p">],</span>
+            <span class="p">[</span><span class="n">convert_message_to_dict</span><span class="p">(</span><span class="n">m</span><span class="p">)</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">messages</span><span class="p">],</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">spark_user_id</span><span class="p">,</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">model_kwargs</span><span class="p">,</span>
             <span class="kc">False</span><span class="p">,</span>
@@ -607,7 +657,7 @@ document.write(`
             <span class="k">if</span> <span class="s2">"data"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">content</span><span class="p">:</span>
                 <span class="k">continue</span>
             <span class="n">completion</span> <span class="o">=</span> <span class="n">content</span><span class="p">[</span><span class="s2">"data"</span><span class="p">]</span>
-        <span class="n">message</span> <span class="o">=</span> <span class="n">_convert_dict_to_message</span><span class="p">(</span><span class="n">completion</span><span class="p">)</span>
+        <span class="n">message</span> <span class="o">=</span> <span class="n">convert_dict_to_message</span><span class="p">(</span><span class="n">completion</span><span class="p">)</span>
         <span class="n">generations</span> <span class="o">=</span> <span class="p">[</span><span class="n">ChatGeneration</span><span class="p">(</span><span class="n">message</span><span class="o">=</span><span class="n">message</span><span class="p">)]</span>
         <span class="k">return</span> <span class="n">ChatResult</span><span class="p">(</span><span class="n">generations</span><span class="o">=</span><span class="n">generations</span><span class="p">,</span> <span class="n">llm_output</span><span class="o">=</span><span class="n">llm_output</span><span class="p">)</span>
 

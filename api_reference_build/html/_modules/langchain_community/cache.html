@@ -38,7 +38,7 @@
 <link href="../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Aug 28, 2024" name="docbuild:last-update"/>
+<meta content="Sep 02, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -2508,7 +2508,11 @@ document.write(`
 <span class="w">    </span><span class="sd">"""Cache that uses OpenSearch vector store backend"""</span>
 
 <div class="viewcode-block" id="OpenSearchSemanticCache.__init__"><a class="viewcode-back" href="../../community/cache/langchain_community.cache.OpenSearchSemanticCache.html#langchain_community.cache.OpenSearchSemanticCache.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">opensearch_url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">embedding</span><span class="p">:</span> <span class="n">Embeddings</span><span class="p">,</span> <span class="n">score_threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.2</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">opensearch_url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">embedding</span><span class="p">:</span> <span class="n">Embeddings</span><span class="p">,</span>
+        <span class="n">score_threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.2</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Args:</span>
@@ -2528,7 +2532,8 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">_cache_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">OpenSearchVectorStore</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">opensearch_url</span> <span class="o">=</span> <span class="n">opensearch_url</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">embedding</span> <span class="o">=</span> <span class="n">embedding</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">score_threshold</span> <span class="o">=</span> <span class="n">score_threshold</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">score_threshold</span> <span class="o">=</span> <span class="n">score_threshold</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">connection_kwargs</span> <span class="o">=</span> <span class="n">kwargs</span></div>
 
     <span class="k">def</span> <span class="nf">_index_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">llm_string</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="n">hashed_index</span> <span class="o">=</span> <span class="n">_hash</span><span class="p">(</span><span class="n">llm_string</span><span class="p">)</span>
@@ -2546,6 +2551,7 @@ document.write(`
             <span class="n">opensearch_url</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">opensearch_url</span><span class="p">,</span>
             <span class="n">index_name</span><span class="o">=</span><span class="n">index_name</span><span class="p">,</span>
             <span class="n">embedding_function</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">embedding</span><span class="p">,</span>
+            <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">connection_kwargs</span><span class="p">,</span>
         <span class="p">)</span>
 
         <span class="c1"># create index for the vectorstore</span>

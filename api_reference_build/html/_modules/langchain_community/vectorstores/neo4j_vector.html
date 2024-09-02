@@ -38,7 +38,7 @@
 <link href="../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Aug 28, 2024" name="docbuild:last-update"/>
+<meta content="Sep 02, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -921,9 +921,10 @@ document.write(`
             <span class="bp">self</span><span class="o">.</span><span class="n">node_label</span> <span class="o">=</span> <span class="n">index_information</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">"labelsOrTypes"</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">embedding_node_property</span> <span class="o">=</span> <span class="n">index_information</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">"properties"</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_index_type</span> <span class="o">=</span> <span class="n">index_information</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">"entityType"</span><span class="p">]</span>
-            <span class="n">embedding_dimension</span> <span class="o">=</span> <span class="n">index_information</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">"options"</span><span class="p">][</span><span class="s2">"indexConfig"</span><span class="p">][</span>
-                <span class="s2">"vector.dimensions"</span>
-            <span class="p">]</span>
+            <span class="n">embedding_dimension</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">index_config</span> <span class="o">=</span> <span class="n">index_information</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">"options"</span><span class="p">][</span><span class="s2">"indexConfig"</span><span class="p">]</span>
+            <span class="k">if</span> <span class="s2">"vector.dimensions"</span> <span class="ow">in</span> <span class="n">index_config</span><span class="p">:</span>
+                <span class="n">embedding_dimension</span> <span class="o">=</span> <span class="n">index_config</span><span class="p">[</span><span class="s2">"vector.dimensions"</span><span class="p">]</span>
 
             <span class="k">return</span> <span class="n">embedding_dimension</span><span class="p">,</span> <span class="n">index_information</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">"entityType"</span><span class="p">]</span>
         <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>
@@ -1037,10 +1038,12 @@ document.write(`
             <span class="p">)</span>
 
         <span class="c1"># If the vector index doesn't exist yet</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">embedding_dimension</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">index_type</span><span class="p">:</span>
             <span class="n">store</span><span class="o">.</span><span class="n">create_new_index</span><span class="p">()</span>
         <span class="c1"># If the index already exists, check if embedding dimensions match</span>
-        <span class="k">elif</span> <span class="ow">not</span> <span class="n">store</span><span class="o">.</span><span class="n">embedding_dimension</span> <span class="o">==</span> <span class="n">embedding_dimension</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="p">(</span>
+            <span class="n">embedding_dimension</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">store</span><span class="o">.</span><span class="n">embedding_dimension</span> <span class="o">==</span> <span class="n">embedding_dimension</span>
+        <span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                 <span class="sa">f</span><span class="s2">"Index with name </span><span class="si">{</span><span class="n">store</span><span class="o">.</span><span class="n">index_name</span><span class="si">}</span><span class="s2"> already exists."</span>
                 <span class="s2">"The provided embedding function and vector index "</span>
@@ -1504,14 +1507,14 @@ document.write(`
                 <span class="s2">"`from_existing_relationship_index` method."</span>
             <span class="p">)</span>
 
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">embedding_dimension</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">index_type</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                 <span class="s2">"The specified vector index name does not exist. "</span>
                 <span class="s2">"Make sure to check if you spelled it correctly"</span>
             <span class="p">)</span>
 
         <span class="c1"># Check if embedding function and vector index dimensions match</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">store</span><span class="o">.</span><span class="n">embedding_dimension</span> <span class="o">==</span> <span class="n">embedding_dimension</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">embedding_dimension</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">store</span><span class="o">.</span><span class="n">embedding_dimension</span> <span class="o">==</span> <span class="n">embedding_dimension</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                 <span class="s2">"The provided embedding function and vector index "</span>
                 <span class="s2">"dimensions do not match.</span><span class="se">\n</span><span class="s2">"</span>
@@ -1566,7 +1569,7 @@ document.write(`
 
         <span class="n">embedding_dimension</span><span class="p">,</span> <span class="n">index_type</span> <span class="o">=</span> <span class="n">store</span><span class="o">.</span><span class="n">retrieve_existing_index</span><span class="p">()</span>
 
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">embedding_dimension</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">index_type</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                 <span class="s2">"The specified vector index name does not exist. "</span>
                 <span class="s2">"Make sure to check if you spelled it correctly"</span>
@@ -1580,7 +1583,7 @@ document.write(`
             <span class="p">)</span>
 
         <span class="c1"># Check if embedding function and vector index dimensions match</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">store</span><span class="o">.</span><span class="n">embedding_dimension</span> <span class="o">==</span> <span class="n">embedding_dimension</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">embedding_dimension</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">store</span><span class="o">.</span><span class="n">embedding_dimension</span> <span class="o">==</span> <span class="n">embedding_dimension</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                 <span class="s2">"The provided embedding function and vector index "</span>
                 <span class="s2">"dimensions do not match.</span><span class="se">\n</span><span class="s2">"</span>
@@ -1693,10 +1696,12 @@ document.write(`
             <span class="p">)</span>
 
         <span class="c1"># If the vector index doesn't exist yet</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">embedding_dimension</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">index_type</span><span class="p">:</span>
             <span class="n">store</span><span class="o">.</span><span class="n">create_new_index</span><span class="p">()</span>
         <span class="c1"># If the index already exists, check if embedding dimensions match</span>
-        <span class="k">elif</span> <span class="ow">not</span> <span class="n">store</span><span class="o">.</span><span class="n">embedding_dimension</span> <span class="o">==</span> <span class="n">embedding_dimension</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="p">(</span>
+            <span class="n">embedding_dimension</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">store</span><span class="o">.</span><span class="n">embedding_dimension</span> <span class="o">==</span> <span class="n">embedding_dimension</span>
+        <span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                 <span class="sa">f</span><span class="s2">"Index with name </span><span class="si">{</span><span class="n">store</span><span class="o">.</span><span class="n">index_name</span><span class="si">}</span><span class="s2"> already exists."</span>
                 <span class="s2">"The provided embedding function and vector index "</span>

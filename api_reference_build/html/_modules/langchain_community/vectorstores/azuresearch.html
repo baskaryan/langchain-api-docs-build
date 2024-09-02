@@ -38,7 +38,7 @@
 <link href="../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Aug 28, 2024" name="docbuild:last-update"/>
+<meta content="Sep 02, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -494,7 +494,6 @@ document.write(`
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">azure_search_endpoint</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">azure_search_key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-        <span class="n">azure_ad_access_token</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
         <span class="n">index_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">embedding_function</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Callable</span><span class="p">,</span> <span class="n">Embeddings</span><span class="p">],</span>
         <span class="n">search_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"hybrid"</span><span class="p">,</span>
@@ -510,6 +509,7 @@ document.write(`
         <span class="o">*</span><span class="p">,</span>
         <span class="n">vector_search_dimensions</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">additional_search_client_options</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">azure_ad_access_token</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="k">try</span><span class="p">:</span>
@@ -1513,6 +1513,11 @@ document.write(`
                     <span class="n">page_content</span><span class="o">=</span><span class="n">result</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">FIELDS_CONTENT</span><span class="p">),</span>
                     <span class="n">metadata</span><span class="o">=</span><span class="p">{</span>
                         <span class="o">**</span><span class="p">(</span>
+                            <span class="p">{</span><span class="n">FIELDS_ID</span><span class="p">:</span> <span class="n">result</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">FIELDS_ID</span><span class="p">)}</span>
+                            <span class="k">if</span> <span class="n">FIELDS_ID</span> <span class="ow">in</span> <span class="n">result</span>
+                            <span class="k">else</span> <span class="p">{}</span>
+                        <span class="p">),</span>
+                        <span class="o">**</span><span class="p">(</span>
                             <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="n">FIELDS_METADATA</span><span class="p">])</span>
                             <span class="k">if</span> <span class="n">FIELDS_METADATA</span> <span class="ow">in</span> <span class="n">result</span>
                             <span class="k">else</span> <span class="p">{</span>
@@ -1522,14 +1527,18 @@ document.write(`
                             <span class="p">}</span>
                         <span class="p">),</span>
                         <span class="o">**</span><span class="p">{</span>
-                            <span class="s2">"captions"</span><span class="p">:</span> <span class="p">{</span>
-                                <span class="s2">"text"</span><span class="p">:</span> <span class="n">result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"@search.captions"</span><span class="p">,</span> <span class="p">[{}])[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">,</span>
-                                <span class="s2">"highlights"</span><span class="p">:</span> <span class="n">result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"@search.captions"</span><span class="p">,</span> <span class="p">[{}])[</span>
-                                    <span class="mi">0</span>
-                                <span class="p">]</span><span class="o">.</span><span class="n">highlights</span><span class="p">,</span>
-                            <span class="p">}</span>
-                            <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"@search.captions"</span><span class="p">)</span>
-                            <span class="k">else</span> <span class="p">{},</span>
+                            <span class="s2">"captions"</span><span class="p">:</span> <span class="p">(</span>
+                                <span class="p">{</span>
+                                    <span class="s2">"text"</span><span class="p">:</span> <span class="n">result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"@search.captions"</span><span class="p">,</span> <span class="p">[{}])[</span>
+                                        <span class="mi">0</span>
+                                    <span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">,</span>
+                                    <span class="s2">"highlights"</span><span class="p">:</span> <span class="n">result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"@search.captions"</span><span class="p">,</span> <span class="p">[{}])[</span>
+                                        <span class="mi">0</span>
+                                    <span class="p">]</span><span class="o">.</span><span class="n">highlights</span><span class="p">,</span>
+                                <span class="p">}</span>
+                                <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"@search.captions"</span><span class="p">)</span>
+                                <span class="k">else</span> <span class="p">{}</span>
+                            <span class="p">),</span>
                             <span class="s2">"answers"</span><span class="p">:</span> <span class="n">semantic_answers_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
                                 <span class="n">result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">FIELDS_ID</span><span class="p">,</span> <span class="s2">""</span><span class="p">),</span>
                                 <span class="s2">""</span><span class="p">,</span>
@@ -1592,6 +1601,11 @@ document.write(`
                     <span class="n">page_content</span><span class="o">=</span><span class="n">result</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">FIELDS_CONTENT</span><span class="p">),</span>
                     <span class="n">metadata</span><span class="o">=</span><span class="p">{</span>
                         <span class="o">**</span><span class="p">(</span>
+                            <span class="p">{</span><span class="n">FIELDS_ID</span><span class="p">:</span> <span class="n">result</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">FIELDS_ID</span><span class="p">)}</span>
+                            <span class="k">if</span> <span class="n">FIELDS_ID</span> <span class="ow">in</span> <span class="n">result</span>
+                            <span class="k">else</span> <span class="p">{}</span>
+                        <span class="p">),</span>
+                        <span class="o">**</span><span class="p">(</span>
                             <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="n">FIELDS_METADATA</span><span class="p">])</span>
                             <span class="k">if</span> <span class="n">FIELDS_METADATA</span> <span class="ow">in</span> <span class="n">result</span>
                             <span class="k">else</span> <span class="p">{</span>
@@ -1601,14 +1615,18 @@ document.write(`
                             <span class="p">}</span>
                         <span class="p">),</span>
                         <span class="o">**</span><span class="p">{</span>
-                            <span class="s2">"captions"</span><span class="p">:</span> <span class="p">{</span>
-                                <span class="s2">"text"</span><span class="p">:</span> <span class="n">result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"@search.captions"</span><span class="p">,</span> <span class="p">[{}])[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">,</span>
-                                <span class="s2">"highlights"</span><span class="p">:</span> <span class="n">result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"@search.captions"</span><span class="p">,</span> <span class="p">[{}])[</span>
-                                    <span class="mi">0</span>
-                                <span class="p">]</span><span class="o">.</span><span class="n">highlights</span><span class="p">,</span>
-                            <span class="p">}</span>
-                            <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"@search.captions"</span><span class="p">)</span>
-                            <span class="k">else</span> <span class="p">{},</span>
+                            <span class="s2">"captions"</span><span class="p">:</span> <span class="p">(</span>
+                                <span class="p">{</span>
+                                    <span class="s2">"text"</span><span class="p">:</span> <span class="n">result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"@search.captions"</span><span class="p">,</span> <span class="p">[{}])[</span>
+                                        <span class="mi">0</span>
+                                    <span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">,</span>
+                                    <span class="s2">"highlights"</span><span class="p">:</span> <span class="n">result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"@search.captions"</span><span class="p">,</span> <span class="p">[{}])[</span>
+                                        <span class="mi">0</span>
+                                    <span class="p">]</span><span class="o">.</span><span class="n">highlights</span><span class="p">,</span>
+                                <span class="p">}</span>
+                                <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"@search.captions"</span><span class="p">)</span>
+                                <span class="k">else</span> <span class="p">{}</span>
+                            <span class="p">),</span>
                             <span class="s2">"answers"</span><span class="p">:</span> <span class="n">semantic_answers_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
                                 <span class="n">result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">FIELDS_ID</span><span class="p">,</span> <span class="s2">""</span><span class="p">),</span>
                                 <span class="s2">""</span><span class="p">,</span>
@@ -1640,10 +1658,10 @@ document.write(`
         <span class="n">azure_search</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span>
             <span class="n">azure_search_endpoint</span><span class="p">,</span>
             <span class="n">azure_search_key</span><span class="p">,</span>
-            <span class="n">azure_ad_access_token</span><span class="p">,</span>
             <span class="n">index_name</span><span class="p">,</span>
             <span class="n">embedding</span><span class="p">,</span>
             <span class="n">fields</span><span class="o">=</span><span class="n">fields</span><span class="p">,</span>
+            <span class="n">azure_ad_access_token</span><span class="o">=</span><span class="n">azure_ad_access_token</span><span class="p">,</span>
             <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="n">azure_search</span><span class="o">.</span><span class="n">add_texts</span><span class="p">(</span><span class="n">texts</span><span class="p">,</span> <span class="n">metadatas</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
@@ -1666,10 +1684,10 @@ document.write(`
         <span class="n">azure_search</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span>
             <span class="n">azure_search_endpoint</span><span class="p">,</span>
             <span class="n">azure_search_key</span><span class="p">,</span>
-            <span class="n">azure_ad_access_token</span><span class="p">,</span>
             <span class="n">index_name</span><span class="p">,</span>
             <span class="n">embedding</span><span class="p">,</span>
             <span class="n">fields</span><span class="o">=</span><span class="n">fields</span><span class="p">,</span>
+            <span class="n">azure_ad_access_token</span><span class="o">=</span><span class="n">azure_ad_access_token</span><span class="p">,</span>
             <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="k">await</span> <span class="n">azure_search</span><span class="o">.</span><span class="n">aadd_texts</span><span class="p">(</span><span class="n">texts</span><span class="p">,</span> <span class="n">metadatas</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
@@ -1981,16 +1999,26 @@ document.write(`
 
 
 <span class="k">def</span> <span class="nf">_result_to_document</span><span class="p">(</span><span class="n">result</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Document</span><span class="p">:</span>
+    <span class="c1"># Fields metadata</span>
+    <span class="k">if</span> <span class="n">FIELDS_METADATA</span> <span class="ow">in</span> <span class="n">result</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="n">FIELDS_METADATA</span><span class="p">],</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="n">fields_metadata</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="n">FIELDS_METADATA</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">fields_metadata</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="n">FIELDS_METADATA</span><span class="p">])</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">fields_metadata</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">key</span><span class="p">:</span> <span class="n">value</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">result</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">key</span> <span class="o">!=</span> <span class="n">FIELDS_CONTENT_VECTOR</span>
+        <span class="p">}</span>
+    <span class="c1"># IDs</span>
+    <span class="k">if</span> <span class="n">FIELDS_ID</span> <span class="ow">in</span> <span class="n">result</span><span class="p">:</span>
+        <span class="n">fields_id</span> <span class="o">=</span> <span class="p">{</span><span class="n">FIELDS_ID</span><span class="p">:</span> <span class="n">result</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">FIELDS_ID</span><span class="p">)}</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">fields_id</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">return</span> <span class="n">Document</span><span class="p">(</span>
         <span class="n">page_content</span><span class="o">=</span><span class="n">result</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">FIELDS_CONTENT</span><span class="p">),</span>
-        <span class="n">metadata</span><span class="o">=</span><span class="p">(</span>
-            <span class="n">result</span><span class="p">[</span><span class="n">FIELDS_METADATA</span><span class="p">]</span>
-            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="n">FIELDS_METADATA</span><span class="p">],</span> <span class="nb">dict</span><span class="p">)</span>
-            <span class="k">else</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="n">FIELDS_METADATA</span><span class="p">])</span>
-        <span class="p">)</span>
-        <span class="k">if</span> <span class="n">FIELDS_METADATA</span> <span class="ow">in</span> <span class="n">result</span>
-        <span class="k">else</span> <span class="p">{</span>
-            <span class="n">key</span><span class="p">:</span> <span class="n">value</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">result</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">key</span> <span class="o">!=</span> <span class="n">FIELDS_CONTENT_VECTOR</span>
+        <span class="n">metadata</span><span class="o">=</span><span class="p">{</span>
+            <span class="o">**</span><span class="n">fields_id</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">fields_metadata</span><span class="p">,</span>
         <span class="p">},</span>
     <span class="p">)</span>
 

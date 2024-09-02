@@ -38,7 +38,7 @@
 <link href="../../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Aug 28, 2024" name="docbuild:last-update"/>
+<meta content="Sep 02, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -227,7 +227,7 @@ document.write(`
 <div id="searchbox"></div>
 <article class="bd-article">
 <h1>Source code for langchain.agents.openai_tools.base</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Sequence</span>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sequence</span>
 
 <span class="kn">from</span> <span class="nn">langchain_core.language_models</span> <span class="kn">import</span> <span class="n">BaseLanguageModel</span>
 <span class="kn">from</span> <span class="nn">langchain_core.prompts.chat</span> <span class="kn">import</span> <span class="n">ChatPromptTemplate</span>
@@ -242,7 +242,10 @@ document.write(`
 
 
 <div class="viewcode-block" id="create_openai_tools_agent"><a class="viewcode-back" href="../../../../langchain/agents/langchain.agents.openai_tools.base.create_openai_tools_agent.html#langchain.agents.openai_tools.base.create_openai_tools_agent">[docs]</a><span class="k">def</span> <span class="nf">create_openai_tools_agent</span><span class="p">(</span>
-    <span class="n">llm</span><span class="p">:</span> <span class="n">BaseLanguageModel</span><span class="p">,</span> <span class="n">tools</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">BaseTool</span><span class="p">],</span> <span class="n">prompt</span><span class="p">:</span> <span class="n">ChatPromptTemplate</span>
+    <span class="n">llm</span><span class="p">:</span> <span class="n">BaseLanguageModel</span><span class="p">,</span>
+    <span class="n">tools</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">BaseTool</span><span class="p">],</span>
+    <span class="n">prompt</span><span class="p">:</span> <span class="n">ChatPromptTemplate</span><span class="p">,</span>
+    <span class="n">strict</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Runnable</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Create an agent that uses OpenAI tools.</span>
 
@@ -316,7 +319,9 @@ document.write(`
     <span class="k">if</span> <span class="n">missing_vars</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Prompt missing required variables: </span><span class="si">{</span><span class="n">missing_vars</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
-    <span class="n">llm_with_tools</span> <span class="o">=</span> <span class="n">llm</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="n">tools</span><span class="o">=</span><span class="p">[</span><span class="n">convert_to_openai_tool</span><span class="p">(</span><span class="n">tool</span><span class="p">)</span> <span class="k">for</span> <span class="n">tool</span> <span class="ow">in</span> <span class="n">tools</span><span class="p">])</span>
+    <span class="n">llm_with_tools</span> <span class="o">=</span> <span class="n">llm</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span>
+        <span class="n">tools</span><span class="o">=</span><span class="p">[</span><span class="n">convert_to_openai_tool</span><span class="p">(</span><span class="n">tool</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="n">strict</span><span class="p">)</span> <span class="k">for</span> <span class="n">tool</span> <span class="ow">in</span> <span class="n">tools</span><span class="p">]</span>
+    <span class="p">)</span>
 
     <span class="n">agent</span> <span class="o">=</span> <span class="p">(</span>
         <span class="n">RunnablePassthrough</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span>

@@ -38,7 +38,7 @@
 <link href="../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Aug 28, 2024" name="docbuild:last-update"/>
+<meta content="Sep 02, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -298,7 +298,7 @@ document.write(`
     <span class="n">disable_request_logging</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
 <span class="w">    </span><span class="sd">"""YandexGPT API logs all request data by default. </span>
 <span class="sd">    If you provide personal data, confidential information, disable logging."""</span>
-    <span class="n">_grpc_metadata</span><span class="p">:</span> <span class="n">Sequence</span>
+    <span class="n">grpc_metadata</span><span class="p">:</span> <span class="n">Sequence</span>
 
     <span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
         <span class="n">allow_population_by_field_name</span> <span class="o">=</span> <span class="kc">True</span>
@@ -320,15 +320,15 @@ document.write(`
         <span class="k">if</span> <span class="n">api_key</span><span class="o">.</span><span class="n">get_secret_value</span><span class="p">()</span> <span class="o">==</span> <span class="s2">""</span> <span class="ow">and</span> <span class="n">iam_token</span><span class="o">.</span><span class="n">get_secret_value</span><span class="p">()</span> <span class="o">==</span> <span class="s2">""</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Either 'YC_API_KEY' or 'YC_IAM_TOKEN' must be provided."</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">values</span><span class="p">[</span><span class="s2">"iam_token"</span><span class="p">]:</span>
-            <span class="n">values</span><span class="p">[</span><span class="s2">"_grpc_metadata"</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">values</span><span class="p">[</span><span class="s2">"grpc_metadata"</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
                 <span class="p">(</span><span class="s2">"authorization"</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"Bearer </span><span class="si">{</span><span class="n">values</span><span class="p">[</span><span class="s1">'iam_token'</span><span class="p">]</span><span class="o">.</span><span class="n">get_secret_value</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
             <span class="p">]</span>
             <span class="k">if</span> <span class="n">values</span><span class="p">[</span><span class="s2">"folder_id"</span><span class="p">]:</span>
-                <span class="n">values</span><span class="p">[</span><span class="s2">"_grpc_metadata"</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s2">"x-folder-id"</span><span class="p">,</span> <span class="n">values</span><span class="p">[</span><span class="s2">"folder_id"</span><span class="p">]))</span>
+                <span class="n">values</span><span class="p">[</span><span class="s2">"grpc_metadata"</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s2">"x-folder-id"</span><span class="p">,</span> <span class="n">values</span><span class="p">[</span><span class="s2">"folder_id"</span><span class="p">]))</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">values</span><span class="p">[</span><span class="s2">"_grpc_metadata"</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">values</span><span class="p">[</span><span class="s2">"grpc_metadata"</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
                 <span class="p">(</span><span class="s2">"authorization"</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"Api-Key </span><span class="si">{</span><span class="n">values</span><span class="p">[</span><span class="s1">'api_key'</span><span class="p">]</span><span class="o">.</span><span class="n">get_secret_value</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">),</span>
-            <span class="p">)</span>
+            <span class="p">]</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"doc_model_uri"</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">values</span><span class="p">[</span><span class="s2">"folder_id"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">""</span><span class="p">:</span>
@@ -343,7 +343,7 @@ document.write(`
                 <span class="sa">f</span><span class="s2">"emb://</span><span class="si">{</span><span class="n">values</span><span class="p">[</span><span class="s1">'folder_id'</span><span class="p">]</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">values</span><span class="p">[</span><span class="s1">'model_name'</span><span class="p">]</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">values</span><span class="p">[</span><span class="s1">'model_version'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span>
             <span class="p">)</span>
         <span class="k">if</span> <span class="n">values</span><span class="p">[</span><span class="s2">"disable_request_logging"</span><span class="p">]:</span>
-            <span class="n">values</span><span class="p">[</span><span class="s2">"_grpc_metadata"</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="n">values</span><span class="p">[</span><span class="s2">"grpc_metadata"</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
                 <span class="p">(</span>
                     <span class="s2">"x-data-logging-enabled"</span><span class="p">,</span>
                     <span class="s2">"false"</span><span class="p">,</span>
@@ -435,7 +435,7 @@ document.write(`
     <span class="k">for</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">texts</span><span class="p">:</span>
         <span class="n">request</span> <span class="o">=</span> <span class="n">TextEmbeddingRequest</span><span class="p">(</span><span class="n">model_uri</span><span class="o">=</span><span class="n">model_uri</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">text</span><span class="p">)</span>
         <span class="n">stub</span> <span class="o">=</span> <span class="n">EmbeddingsServiceStub</span><span class="p">(</span><span class="n">channel</span><span class="p">)</span>
-        <span class="n">res</span> <span class="o">=</span> <span class="n">stub</span><span class="o">.</span><span class="n">TextEmbedding</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_grpc_metadata</span><span class="p">)</span>  <span class="c1"># type: ignore[attr-defined]</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">stub</span><span class="o">.</span><span class="n">TextEmbedding</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">grpc_metadata</span><span class="p">)</span>  <span class="c1"># type: ignore[attr-defined]</span>
         <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">embedding</span><span class="p">))</span>
         <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sleep_interval</span><span class="p">)</span>
 

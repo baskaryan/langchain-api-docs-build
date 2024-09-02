@@ -38,7 +38,7 @@
 <link href="../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Aug 28, 2024" name="docbuild:last-update"/>
+<meta content="Sep 02, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -622,7 +622,9 @@ document.write(`
         <span class="n">visitor</span> <span class="o">=</span> <span class="n">FunctionNonLocals</span><span class="p">()</span>
         <span class="n">visitor</span><span class="o">.</span><span class="n">visit</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span>
         <span class="n">values</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getclosurevars</span><span class="p">(</span><span class="n">func</span><span class="p">)</span><span class="o">.</span><span class="n">nonlocals</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">closure</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getclosurevars</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+        <span class="n">candidates</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">closure</span><span class="o">.</span><span class="n">globals</span><span class="p">,</span> <span class="o">**</span><span class="n">closure</span><span class="o">.</span><span class="n">nonlocals</span><span class="p">}</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">candidates</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">visitor</span><span class="o">.</span><span class="n">nonlocals</span><span class="p">:</span>
                 <span class="n">values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">kk</span> <span class="ow">in</span> <span class="n">visitor</span><span class="o">.</span><span class="n">nonlocals</span><span class="p">:</span>

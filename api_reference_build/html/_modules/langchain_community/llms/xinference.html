@@ -38,7 +38,7 @@
 <link href="../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Aug 28, 2024" name="docbuild:last-update"/>
+<meta content="Sep 02, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -246,6 +246,12 @@ document.write(`
 
 <span class="sd">       pip install "xinference[all]"</span>
 
+<span class="sd">    If you're simply using the services provided by Xinference, you can utilize the xinference_client package:</span>
+
+<span class="sd">    .. code-block:: bash</span>
+
+<span class="sd">        pip install xinference_client</span>
+
 <span class="sd">    Check out: https://github.com/xorbitsai/inference</span>
 <span class="sd">    To run, you need to start a Xinference supervisor on one server and Xinference workers on the other servers</span>
 
@@ -320,11 +326,14 @@ document.write(`
     <span class="p">):</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="kn">from</span> <span class="nn">xinference.client</span> <span class="kn">import</span> <span class="n">RESTfulClient</span>
-        <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
-                <span class="s2">"Could not import RESTfulClient from xinference. Please install it"</span>
-                <span class="s2">" with `pip install xinference`."</span>
-            <span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
+        <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="kn">from</span> <span class="nn">xinference_client</span> <span class="kn">import</span> <span class="n">RESTfulClient</span>
+            <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
+                    <span class="s2">"Could not import RESTfulClient from xinference. Please install it"</span>
+                    <span class="s2">" with `pip install xinference` or `pip install xinference_client`."</span>
+                <span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
 
         <span class="n">model_kwargs</span> <span class="o">=</span> <span class="n">model_kwargs</span> <span class="ow">or</span> <span class="p">{}</span>
 

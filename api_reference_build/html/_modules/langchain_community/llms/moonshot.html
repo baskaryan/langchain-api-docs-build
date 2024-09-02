@@ -38,7 +38,7 @@
 <link href="../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Aug 28, 2024" name="docbuild:last-update"/>
+<meta content="Sep 02, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -262,7 +262,7 @@ document.write(`
 <div class="viewcode-block" id="MoonshotCommon"><a class="viewcode-back" href="../../../community/llms/langchain_community.llms.moonshot.MoonshotCommon.html#langchain_community.llms.moonshot.MoonshotCommon">[docs]</a><span class="k">class</span> <span class="nc">MoonshotCommon</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Common parameters for Moonshot LLMs."""</span>
 
-    <span class="n">_client</span><span class="p">:</span> <span class="n">_MoonshotClient</span>
+    <span class="n">client</span><span class="p">:</span> <span class="n">_MoonshotClient</span>
     <span class="n">base_url</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">MOONSHOT_SERVICE_URL_BASE</span>
     <span class="n">moonshot_api_key</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">SecretStr</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">alias</span><span class="o">=</span><span class="s2">"api_key"</span><span class="p">)</span>
 <span class="w">    </span><span class="sd">"""Moonshot API key. Get it here: https://platform.moonshot.cn/console/api-keys"""</span>
@@ -313,7 +313,7 @@ document.write(`
             <span class="n">get_from_dict_or_env</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="s2">"moonshot_api_key"</span><span class="p">,</span> <span class="s2">"MOONSHOT_API_KEY"</span><span class="p">)</span>
         <span class="p">)</span>
 
-        <span class="n">values</span><span class="p">[</span><span class="s2">"_client"</span><span class="p">]</span> <span class="o">=</span> <span class="n">_MoonshotClient</span><span class="p">(</span>
+        <span class="n">values</span><span class="p">[</span><span class="s2">"client"</span><span class="p">]</span> <span class="o">=</span> <span class="n">_MoonshotClient</span><span class="p">(</span>
             <span class="n">api_key</span><span class="o">=</span><span class="n">values</span><span class="p">[</span><span class="s2">"moonshot_api_key"</span><span class="p">],</span>
             <span class="n">base_url</span><span class="o">=</span><span class="n">values</span><span class="p">[</span><span class="s2">"base_url"</span><span class="p">]</span>
             <span class="k">if</span> <span class="s2">"base_url"</span> <span class="ow">in</span> <span class="n">values</span>
@@ -354,7 +354,7 @@ document.write(`
         <span class="n">request</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_invocation_params</span>
         <span class="n">request</span><span class="p">[</span><span class="s2">"messages"</span><span class="p">]</span> <span class="o">=</span> <span class="p">[{</span><span class="s2">"role"</span><span class="p">:</span> <span class="s2">"user"</span><span class="p">,</span> <span class="s2">"content"</span><span class="p">:</span> <span class="n">prompt</span><span class="p">}]</span>
         <span class="n">request</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
-        <span class="n">text</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">completion</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">completion</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">stop</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="c1"># This is required since the stop tokens</span>
             <span class="c1"># are not enforced by the model parameters</span>

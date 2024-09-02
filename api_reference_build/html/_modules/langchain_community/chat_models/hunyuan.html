@@ -38,7 +38,7 @@
 <link href="../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Aug 28, 2024" name="docbuild:last-update"/>
+<meta content="Sep 02, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -245,6 +245,7 @@ document.write(`
     <span class="n">ChatMessageChunk</span><span class="p">,</span>
     <span class="n">HumanMessage</span><span class="p">,</span>
     <span class="n">HumanMessageChunk</span><span class="p">,</span>
+    <span class="n">SystemMessage</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="kn">from</span> <span class="nn">langchain_core.outputs</span> <span class="kn">import</span> <span class="n">ChatGeneration</span><span class="p">,</span> <span class="n">ChatGenerationChunk</span><span class="p">,</span> <span class="n">ChatResult</span>
 <span class="kn">from</span> <span class="nn">langchain_core.pydantic_v1</span> <span class="kn">import</span> <span class="n">Field</span><span class="p">,</span> <span class="n">SecretStr</span><span class="p">,</span> <span class="n">root_validator</span>
@@ -262,6 +263,8 @@ document.write(`
     <span class="n">message_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">ChatMessage</span><span class="p">):</span>
         <span class="n">message_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"Role"</span><span class="p">:</span> <span class="n">message</span><span class="o">.</span><span class="n">role</span><span class="p">,</span> <span class="s2">"Content"</span><span class="p">:</span> <span class="n">message</span><span class="o">.</span><span class="n">content</span><span class="p">}</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">SystemMessage</span><span class="p">):</span>
+        <span class="n">message_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"Role"</span><span class="p">:</span> <span class="s2">"system"</span><span class="p">,</span> <span class="s2">"Content"</span><span class="p">:</span> <span class="n">message</span><span class="o">.</span><span class="n">content</span><span class="p">}</span>
     <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">HumanMessage</span><span class="p">):</span>
         <span class="n">message_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"Role"</span><span class="p">:</span> <span class="s2">"user"</span><span class="p">,</span> <span class="s2">"Content"</span><span class="p">:</span> <span class="n">message</span><span class="o">.</span><span class="n">content</span><span class="p">}</span>
     <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">AIMessage</span><span class="p">):</span>
@@ -274,7 +277,9 @@ document.write(`
 
 <span class="k">def</span> <span class="nf">_convert_dict_to_message</span><span class="p">(</span><span class="n">_dict</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">BaseMessage</span><span class="p">:</span>
     <span class="n">role</span> <span class="o">=</span> <span class="n">_dict</span><span class="p">[</span><span class="s2">"Role"</span><span class="p">]</span>
-    <span class="k">if</span> <span class="n">role</span> <span class="o">==</span> <span class="s2">"user"</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">role</span> <span class="o">==</span> <span class="s2">"system"</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">SystemMessage</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"Content"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span> <span class="ow">or</span> <span class="s2">""</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">role</span> <span class="o">==</span> <span class="s2">"user"</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">HumanMessage</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="n">_dict</span><span class="p">[</span><span class="s2">"Content"</span><span class="p">])</span>
     <span class="k">elif</span> <span class="n">role</span> <span class="o">==</span> <span class="s2">"assistant"</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">AIMessage</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"Content"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span> <span class="ow">or</span> <span class="s2">""</span><span class="p">)</span>
@@ -302,6 +307,7 @@ document.write(`
     <span class="n">generations</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">choice</span> <span class="ow">in</span> <span class="n">response</span><span class="p">[</span><span class="s2">"Choices"</span><span class="p">]:</span>
         <span class="n">message</span> <span class="o">=</span> <span class="n">_convert_dict_to_message</span><span class="p">(</span><span class="n">choice</span><span class="p">[</span><span class="s2">"Message"</span><span class="p">])</span>
+        <span class="n">message</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"Id"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span>
         <span class="n">generations</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ChatGeneration</span><span class="p">(</span><span class="n">message</span><span class="o">=</span><span class="n">message</span><span class="p">))</span>
 
     <span class="n">token_usage</span> <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="s2">"Usage"</span><span class="p">]</span>
@@ -344,7 +350,7 @@ document.write(`
     <span class="n">model</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"hunyuan-lite"</span>
 <span class="w">    </span><span class="sd">"""What Model to use.</span>
 <span class="sd">     Optional model:</span>
-<span class="sd">    - hunyuan-lite、</span>
+<span class="sd">    - hunyuan-lite</span>
 <span class="sd">    - hunyuan-standard</span>
 <span class="sd">    - hunyuan-standard-256K</span>
 <span class="sd">    - hunyuan-pro</span>
@@ -462,6 +468,7 @@ document.write(`
                 <span class="n">chunk</span> <span class="o">=</span> <span class="n">_convert_delta_to_message_chunk</span><span class="p">(</span>
                     <span class="n">choice</span><span class="p">[</span><span class="s2">"Delta"</span><span class="p">],</span> <span class="n">default_chunk_class</span>
                 <span class="p">)</span>
+                <span class="n">chunk</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"Id"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span>
                 <span class="n">default_chunk_class</span> <span class="o">=</span> <span class="n">chunk</span><span class="o">.</span><span class="vm">__class__</span>
                 <span class="n">cg_chunk</span> <span class="o">=</span> <span class="n">ChatGenerationChunk</span><span class="p">(</span><span class="n">message</span><span class="o">=</span><span class="n">chunk</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">run_manager</span><span class="p">:</span>

@@ -38,7 +38,7 @@
 <link href="../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Aug 28, 2024" name="docbuild:last-update"/>
+<meta content="Sep 02, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -308,7 +308,60 @@ document.write(`
 <span class="sd">        API Key:</span>
 <span class="sd">        - The recommended way to provide the API key is through the `NVIDIA_API_KEY`</span>
 <span class="sd">            environment variable.</span>
+
+<span class="sd">        Base URL:</span>
+<span class="sd">        - Connect to a self-hosted model with NVIDIA NIM using the `base_url` arg to</span>
+<span class="sd">            link to the local host at localhost:8000:</span>
+<span class="sd">            ranker = NVIDIARerank(base_url="http://localhost:8000/v1")</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">        &gt;&gt;&gt; from langchain_nvidia_ai_endpoints import NVIDIARerank</span>
+<span class="sd">        &gt;&gt;&gt; from langchain_core.documents import Document</span>
+
+<span class="sd">        &gt;&gt;&gt; query = "What is the GPU memory bandwidth of H100 SXM?"</span>
+<span class="sd">        &gt;&gt;&gt; passages = [</span>
+<span class="sd">                "The Hopper GPU is paired with the Grace CPU using NVIDIA's ultra-fast</span>
+<span class="sd">                chip-to-chip interconnect, delivering 900GB/s of bandwidth, 7X faster</span>
+<span class="sd">                than PCIe Gen5. This innovative design will deliver up to 30X higher</span>
+<span class="sd">                aggregate system memory bandwidth to the GPU compared to today's fastest</span>
+<span class="sd">                servers and up to 10X higher performance for applications running</span>
+<span class="sd">                terabytes of data.",</span>
+
+<span class="sd">                "A100 provides up to 20X higher performance over the prior generation</span>
+<span class="sd">                and can be partitioned into seven GPU instances to dynamically adjust to</span>
+<span class="sd">                shifting demands. The A100 80GB debuts the world's fastest memory</span>
+<span class="sd">                bandwidth at over 2 terabytes per second (TB/s) to run the largest</span>
+<span class="sd">                models and datasets.",</span>
+
+<span class="sd">                "Accelerated servers with H100 deliver the compute power—along with 3</span>
+<span class="sd">                terabytes per second (TB/s) of memory bandwidth per GPU and scalability</span>
+<span class="sd">                with NVLink and NVSwitch™.",</span>
+<span class="sd">            ]</span>
+
+<span class="sd">        &gt;&gt;&gt; client = NVIDIARerank(</span>
+<span class="sd">                model="nvidia/nv-rerankqa-mistral-4b-v3",</span>
+<span class="sd">                api_key="$API_KEY_REQUIRED_IF_EXECUTING_OUTSIDE_NGC"</span>
+<span class="sd">            )</span>
+
+<span class="sd">        &gt;&gt;&gt; response = client.compress_documents(</span>
+<span class="sd">                query=query,</span>
+<span class="sd">                documents=[Document(page_content=passage) for passage in passages]</span>
+<span class="sd">            )</span>
+
+<span class="sd">        &gt;&gt;&gt; print(f"Most relevant: {response[0].page_content}\n"</span>
+<span class="sd">                  f"Least relevant: {response[-1].page_content}"</span>
+<span class="sd">            )</span>
+
+<span class="sd">        Most relevant: Accelerated servers with H100 deliver the compute power—along</span>
+<span class="sd">        with 3 terabytes per second (TB/s) of memory bandwidth per GPU and scalability</span>
+<span class="sd">        with NVLink and NVSwitch™.</span>
+<span class="sd">        Least relevant: A100 provides up to 20X higher performance over the prior</span>
+<span class="sd">        generation and can be partitioned into seven GPU instances to dynamically</span>
+<span class="sd">        adjust to shifting demands. The A100 80GB debuts the world's fastest memory</span>
+<span class="sd">        bandwidth at over 2 terabytes per second (TB/s) to run the largest models</span>
+<span class="sd">        and datasets.</span>
 <span class="sd">        """</span>
+
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_client</span> <span class="o">=</span> <span class="n">_NVIDIAClient</span><span class="p">(</span>
             <span class="n">base_url</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="p">,</span>
