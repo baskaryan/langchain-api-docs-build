@@ -38,7 +38,7 @@
 <link href="../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Sep 02, 2024" name="docbuild:last-update"/>
+<meta content="Sep 03, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -249,6 +249,8 @@ document.write(`
         <span class="n">separator</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"</span><span class="se">\n\n</span><span class="s2">"</span><span class="p">,</span>
         <span class="n">pipeline</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"en_core_web_sm"</span><span class="p">,</span>
         <span class="n">max_length</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1_000_000</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">strip_whitespace</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Initialize the spacy text splitter."""</span>
@@ -256,11 +258,15 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">_tokenizer</span> <span class="o">=</span> <span class="n">_make_spacy_pipeline_for_splitting</span><span class="p">(</span>
             <span class="n">pipeline</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="n">max_length</span>
         <span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_separator</span> <span class="o">=</span> <span class="n">separator</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_separator</span> <span class="o">=</span> <span class="n">separator</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_strip_whitespace</span> <span class="o">=</span> <span class="n">strip_whitespace</span></div>
 
 <div class="viewcode-block" id="SpacyTextSplitter.split_text"><a class="viewcode-back" href="../../text_splitters/spacy/langchain_text_splitters.spacy.SpacyTextSplitter.html#langchain_text_splitters.spacy.SpacyTextSplitter.split_text">[docs]</a>    <span class="k">def</span> <span class="nf">split_text</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">"""Split incoming text and return chunks."""</span>
-        <span class="n">splits</span> <span class="o">=</span> <span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">text</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tokenizer</span><span class="p">(</span><span class="n">text</span><span class="p">)</span><span class="o">.</span><span class="n">sents</span><span class="p">)</span>
+        <span class="n">splits</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">s</span><span class="o">.</span><span class="n">text</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_strip_whitespace</span> <span class="k">else</span> <span class="n">s</span><span class="o">.</span><span class="n">text_with_ws</span>
+            <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tokenizer</span><span class="p">(</span><span class="n">text</span><span class="p">)</span><span class="o">.</span><span class="n">sents</span>
+        <span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_merge_splits</span><span class="p">(</span><span class="n">splits</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_separator</span><span class="p">)</span></div></div>
 
 

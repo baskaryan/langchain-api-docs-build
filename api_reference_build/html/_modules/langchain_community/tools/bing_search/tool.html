@@ -38,7 +38,7 @@
 <link href="../../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Sep 02, 2024" name="docbuild:last-update"/>
+<meta content="Sep 03, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -229,7 +229,7 @@ document.write(`
 <h1>Source code for langchain_community.tools.bing_search.tool</h1><div class="highlight"><pre>
 <span></span><span class="sd">"""Tool for the Bing search API."""</span>
 
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
 
 <span class="kn">from</span> <span class="nn">langchain_core.callbacks</span> <span class="kn">import</span> <span class="n">CallbackManagerForToolRun</span>
 <span class="kn">from</span> <span class="nn">langchain_core.tools</span> <span class="kn">import</span> <span class="n">BaseTool</span>
@@ -280,7 +280,7 @@ document.write(`
 <span class="sd">    Invocation with args:</span>
 <span class="sd">        .. code-block:: python</span>
 
-<span class="sd">            tool.invoke("what is the weather in SF?")</span>
+<span class="sd">            tool.invoke({"query": "what is the weather in SF?"})</span>
 
 <span class="sd">        .. code-block:: python</span>
 
@@ -294,7 +294,12 @@ document.write(`
 
 <span class="sd">        .. code-block:: python</span>
 
-<span class="sd">            ToolMessage(content="[{'snippet': 'Get the latest &lt;b&gt;weather&lt;/b&gt; forecast for &lt;b&gt;San Francisco, CA&lt;/b&gt;, including temperature, RealFeel, and chance of precipitation. Find out how the &lt;b&gt;weather&lt;/b&gt; will affect your plans and activities in the city of ...', 'title': 'San Francisco, CA Weather Forecast | AccuWeather', 'link': 'https://www.accuweather.com/en/us/san-francisco/94103/weather-forecast/347629'}, {'snippet': 'Radar. Be prepared with the most accurate 10-day forecast for &lt;b&gt;San Francisco, CA&lt;/b&gt; with highs, lows, chance of precipitation from The &lt;b&gt;Weather&lt;/b&gt; Channel and &lt;b&gt;Weather&lt;/b&gt;.com.', 'title': '10-Day Weather Forecast for San Francisco, CA - The Weather Channel', 'link': 'https://weather.com/weather/tenday/l/San+Francisco+CA+USCA0987:1:US'}, {'snippet': 'Tropical Storm Ernesto Forms; Fire &lt;b&gt;Weather&lt;/b&gt; Concerns in the Great Basin: Hot Temperatures Return to the South-Central U.S. ... &lt;b&gt;San Francisco CA&lt;/b&gt; 37.77°N 122.41°W (Elev. 131 ft) Last Update: 2:21 pm PDT Aug 12, 2024. Forecast Valid: 6pm PDT Aug 12, 2024-6pm PDT Aug 19, 2024 .', 'title': 'National Weather Service', 'link': 'https://forecast.weather.gov/zipcity.php?inputstring=San+Francisco,CA'}, {'snippet': 'Current &lt;b&gt;weather&lt;/b&gt; &lt;b&gt;in San Francisco, CA&lt;/b&gt;. Check current conditions &lt;b&gt;in San Francisco, CA&lt;/b&gt; with radar, hourly, and more.', 'title': 'San Francisco, CA Current Weather | AccuWeather', 'link': 'https://www.accuweather.com/en/us/san-francisco/94103/current-weather/347629'}]", name='bing_search_results_json', tool_call_id='1')</span>
+<span class="sd">            ToolMessage(</span>
+<span class="sd">                content="[{'snippet': 'Get the latest &lt;b&gt;weather&lt;/b&gt; forecast for &lt;b&gt;San Francisco, CA&lt;/b&gt;, including temperature, RealFeel, and chance of precipitation. Find out how the &lt;b&gt;weather&lt;/b&gt; will affect your plans and activities in the city of ...', 'title': 'San Francisco, CA Weather Forecast | AccuWeather', 'link': 'https://www.accuweather.com/en/us/san-francisco/94103/weather-forecast/347629'}, {'snippet': 'Radar. Be prepared with the most accurate 10-day forecast for &lt;b&gt;San Francisco, CA&lt;/b&gt; with highs, lows, chance of precipitation from The &lt;b&gt;Weather&lt;/b&gt; Channel and &lt;b&gt;Weather&lt;/b&gt;.com.', 'title': '10-Day Weather Forecast for San Francisco, CA - The Weather Channel', 'link': 'https://weather.com/weather/tenday/l/San+Francisco+CA+USCA0987:1:US'}, {'snippet': 'Tropical Storm Ernesto Forms; Fire &lt;b&gt;Weather&lt;/b&gt; Concerns in the Great Basin: Hot Temperatures Return to the South-Central U.S. ... &lt;b&gt;San Francisco CA&lt;/b&gt; 37.77°N 122.41°W (Elev. 131 ft) Last Update: 2:21 pm PDT Aug 12, 2024. Forecast Valid: 6pm PDT Aug 12, 2024-6pm PDT Aug 19, 2024 .', 'title': 'National Weather Service', 'link': 'https://forecast.weather.gov/zipcity.php?inputstring=San+Francisco,CA'}, {'snippet': 'Current &lt;b&gt;weather&lt;/b&gt; &lt;b&gt;in San Francisco, CA&lt;/b&gt;. Check current conditions &lt;b&gt;in San Francisco, CA&lt;/b&gt; with radar, hourly, and more.', 'title': 'San Francisco, CA Current Weather | AccuWeather', 'link': 'https://www.accuweather.com/en/us/san-francisco/94103/current-weather/347629'}]",</span>
+<span class="sd">                artifact=[{'snippet': 'Get the latest &lt;b&gt;weather&lt;/b&gt; forecast for &lt;b&gt;San Francisco, CA&lt;/b&gt;, including temperature, RealFeel, and chance of precipitation. Find out how the &lt;b&gt;weather&lt;/b&gt; will affect your plans and activities in the city of ...', 'title': 'San Francisco, CA Weather Forecast | AccuWeather', 'link': 'https://www.accuweather.com/en/us/san-francisco/94103/weather-forecast/347629'}, {'snippet': 'Radar. Be prepared with the most accurate 10-day forecast for &lt;b&gt;San Francisco, CA&lt;/b&gt; with highs, lows, chance of precipitation from The &lt;b&gt;Weather&lt;/b&gt; Channel and &lt;b&gt;Weather&lt;/b&gt;.com.', 'title': '10-Day Weather Forecast for San Francisco, CA - The Weather Channel', 'link': 'https://weather.com/weather/tenday/l/San+Francisco+CA+USCA0987:1:US'}, {'snippet': 'Tropical Storm Ernesto Forms; Fire &lt;b&gt;Weather&lt;/b&gt; Concerns in the Great Basin: Hot Temperatures Return to the South-Central U.S. ... &lt;b&gt;San Francisco CA&lt;/b&gt; 37.77°N 122.41°W (Elev. 131 ft) Last Update: 2:21 pm PDT Aug 12, 2024. Forecast Valid: 6pm PDT Aug 12, 2024-6pm PDT Aug 19, 2024 .', 'title': 'National Weather Service', 'link': 'https://forecast.weather.gov/zipcity.php?inputstring=San+Francisco,CA'}, {'snippet': 'Current &lt;b&gt;weather&lt;/b&gt; &lt;b&gt;in San Francisco, CA&lt;/b&gt;. Check current conditions &lt;b&gt;in San Francisco, CA&lt;/b&gt; with radar, hourly, and more.', 'title': 'San Francisco, CA Current Weather | AccuWeather', 'link': 'https://www.accuweather.com/en/us/san-francisco/94103/current-weather/347629'}],</span>
+<span class="sd">                name='bing_search_results_json',</span>
+<span class="sd">                tool_call_id='1'</span>
+<span class="sd">            )</span>
 
 <span class="sd">    """</span>  <span class="c1"># noqa: E501</span>
 
@@ -302,18 +307,24 @@ document.write(`
     <span class="n">description</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="p">(</span>
         <span class="s2">"A wrapper around Bing Search. "</span>
         <span class="s2">"Useful for when you need to answer questions about current events. "</span>
-        <span class="s2">"Input should be a search query. Output is a JSON array of the query results"</span>
+        <span class="s2">"Input should be a search query. Output is an array of the query results."</span>
     <span class="p">)</span>
     <span class="n">num_results</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="w">    </span><span class="sd">"""Max search results to return, default is 4."""</span>
     <span class="n">api_wrapper</span><span class="p">:</span> <span class="n">BingSearchAPIWrapper</span>
+    <span class="n">response_format</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">"content_and_artifact"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"content_and_artifact"</span>
 
     <span class="k">def</span> <span class="nf">_run</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">run_manager</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">CallbackManagerForToolRun</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">]]:</span>
 <span class="w">        </span><span class="sd">"""Use the tool."""</span>
-        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">api_wrapper</span><span class="o">.</span><span class="n">results</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_results</span><span class="p">))</span></div>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">api_wrapper</span><span class="o">.</span><span class="n">results</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_results</span><span class="p">)</span>
+            <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">results</span><span class="p">),</span> <span class="n">results</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">repr</span><span class="p">(</span><span class="n">e</span><span class="p">),</span> <span class="p">[]</span></div>
 </pre></div>
 </article>
 </div>
