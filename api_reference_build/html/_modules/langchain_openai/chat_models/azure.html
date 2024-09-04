@@ -38,7 +38,7 @@
 <link href="../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Sep 03, 2024" name="docbuild:last-update"/>
+<meta content="Sep 04, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -263,7 +263,7 @@ document.write(`
 <span class="kn">from</span> <span class="nn">langchain_core.pydantic_v1</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span><span class="p">,</span> <span class="n">SecretStr</span><span class="p">,</span> <span class="n">root_validator</span>
 <span class="kn">from</span> <span class="nn">langchain_core.runnables</span> <span class="kn">import</span> <span class="n">Runnable</span><span class="p">,</span> <span class="n">RunnableMap</span><span class="p">,</span> <span class="n">RunnablePassthrough</span>
 <span class="kn">from</span> <span class="nn">langchain_core.tools</span> <span class="kn">import</span> <span class="n">BaseTool</span>
-<span class="kn">from</span> <span class="nn">langchain_core.utils</span> <span class="kn">import</span> <span class="n">convert_to_secret_str</span><span class="p">,</span> <span class="n">get_from_dict_or_env</span>
+<span class="kn">from</span> <span class="nn">langchain_core.utils</span> <span class="kn">import</span> <span class="n">from_env</span><span class="p">,</span> <span class="n">secret_from_env</span>
 <span class="kn">from</span> <span class="nn">langchain_core.utils.function_calling</span> <span class="kn">import</span> <span class="n">convert_to_openai_tool</span>
 <span class="kn">from</span> <span class="nn">langchain_core.utils.pydantic</span> <span class="kn">import</span> <span class="n">is_basemodel_subclass</span>
 
@@ -703,10 +703,13 @@ document.write(`
 <span class="sd">            }</span>
 <span class="sd">    """</span>  <span class="c1"># noqa: E501</span>
 
-    <span class="n">azure_endpoint</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">azure_endpoint</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">default_factory</span><span class="o">=</span><span class="n">from_env</span><span class="p">(</span><span class="s2">"AZURE_OPENAI_ENDPOINT"</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="p">)</span>
 <span class="w">    </span><span class="sd">"""Your Azure endpoint, including the resource.</span>
-<span class="sd">    </span>
+
 <span class="sd">        Automatically inferred from env var `AZURE_OPENAI_ENDPOINT` if not provided.</span>
+
 <span class="sd">        Example: `https://example-resource.azure.openai.com/`</span>
 <span class="sd">    """</span>
     <span class="n">deployment_name</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">alias</span><span class="o">=</span><span class="s2">"azure_deployment"</span><span class="p">)</span>
@@ -715,15 +718,29 @@ document.write(`
 <span class="sd">        If given sets the base client URL to include `/deployments/{azure_deployment}`.</span>
 <span class="sd">        Note: this means you won't be able to use non-deployment endpoints.</span>
 <span class="sd">    """</span>
-    <span class="n">openai_api_version</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span> <span class="n">alias</span><span class="o">=</span><span class="s2">"api_version"</span><span class="p">)</span>
+    <span class="n">openai_api_version</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">alias</span><span class="o">=</span><span class="s2">"api_version"</span><span class="p">,</span>
+        <span class="n">default_factory</span><span class="o">=</span><span class="n">from_env</span><span class="p">(</span><span class="s2">"OPENAI_API_VERSION"</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">),</span>
+    <span class="p">)</span>
 <span class="w">    </span><span class="sd">"""Automatically inferred from env var `OPENAI_API_VERSION` if not provided."""</span>
-    <span class="n">openai_api_key</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">SecretStr</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">alias</span><span class="o">=</span><span class="s2">"api_key"</span><span class="p">)</span>
+    <span class="c1"># Check OPENAI_KEY for backwards compatibility.</span>
+    <span class="c1"># TODO: Remove OPENAI_API_KEY support to avoid possible conflict when using</span>
+    <span class="c1"># other forms of azure credentials.</span>
+    <span class="n">openai_api_key</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">SecretStr</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">alias</span><span class="o">=</span><span class="s2">"api_key"</span><span class="p">,</span>
+        <span class="n">default_factory</span><span class="o">=</span><span class="n">secret_from_env</span><span class="p">(</span>
+            <span class="p">[</span><span class="s2">"AZURE_OPENAI_API_KEY"</span><span class="p">,</span> <span class="s2">"OPENAI_API_KEY"</span><span class="p">],</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
 <span class="w">    </span><span class="sd">"""Automatically inferred from env var `AZURE_OPENAI_API_KEY` if not provided."""</span>
-    <span class="n">azure_ad_token</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">SecretStr</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">azure_ad_token</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">SecretStr</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">default_factory</span><span class="o">=</span><span class="n">secret_from_env</span><span class="p">(</span><span class="s2">"AZURE_OPENAI_AD_TOKEN"</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="p">)</span>
 <span class="w">    </span><span class="sd">"""Your Azure Active Directory token.</span>
-<span class="sd">    </span>
+
 <span class="sd">        Automatically inferred from env var `AZURE_OPENAI_AD_TOKEN` if not provided.</span>
-<span class="sd">        For more: </span>
+
+<span class="sd">        For more:</span>
 <span class="sd">        https://www.microsoft.com/en-us/security/business/identity-access/microsoft-entra-id.</span>
 <span class="sd">    """</span>
     <span class="n">azure_ad_token_provider</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[],</span> <span class="nb">str</span><span class="p">],</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
@@ -745,7 +762,9 @@ document.write(`
 <span class="sd">    correct cost.</span>
 <span class="sd">    """</span>
 
-    <span class="n">openai_api_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span>
+    <span class="n">openai_api_type</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">default_factory</span><span class="o">=</span><span class="n">from_env</span><span class="p">(</span><span class="s2">"OPENAI_API_TYPE"</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">"azure"</span><span class="p">)</span>
+    <span class="p">)</span>
 <span class="w">    </span><span class="sd">"""Legacy, for openai&lt;1.0.0 support."""</span>
     <span class="n">validate_base_url</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
 <span class="w">    </span><span class="sd">"""If legacy arg openai_api_base is passed in, try to infer if it is a base_url or </span>
@@ -775,7 +794,7 @@ document.write(`
     <span class="k">def</span> <span class="nf">is_lc_serializable</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">True</span>
 
-    <span class="nd">@root_validator</span><span class="p">()</span>
+    <span class="nd">@root_validator</span><span class="p">(</span><span class="n">pre</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">skip_on_failure</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">validate_environment</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Validate that api key and python package exists in environment."""</span>
         <span class="k">if</span> <span class="n">values</span><span class="p">[</span><span class="s2">"n"</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
@@ -783,44 +802,11 @@ document.write(`
         <span class="k">if</span> <span class="n">values</span><span class="p">[</span><span class="s2">"n"</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">values</span><span class="p">[</span><span class="s2">"streaming"</span><span class="p">]:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"n must be 1 when streaming."</span><span class="p">)</span>
 
-        <span class="c1"># Check OPENAI_KEY for backwards compatibility.</span>
-        <span class="c1"># TODO: Remove OPENAI_API_KEY support to avoid possible conflict when using</span>
-        <span class="c1"># other forms of azure credentials.</span>
-        <span class="n">openai_api_key</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="n">values</span><span class="p">[</span><span class="s2">"openai_api_key"</span><span class="p">]</span>
-            <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">"AZURE_OPENAI_API_KEY"</span><span class="p">)</span>
-            <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">"OPENAI_API_KEY"</span><span class="p">)</span>
-        <span class="p">)</span>
-        <span class="n">values</span><span class="p">[</span><span class="s2">"openai_api_key"</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="n">convert_to_secret_str</span><span class="p">(</span><span class="n">openai_api_key</span><span class="p">)</span> <span class="k">if</span> <span class="n">openai_api_key</span> <span class="k">else</span> <span class="kc">None</span>
-        <span class="p">)</span>
-        <span class="n">values</span><span class="p">[</span><span class="s2">"openai_api_base"</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="n">values</span><span class="p">[</span><span class="s2">"openai_api_base"</span><span class="p">]</span>
-            <span class="k">if</span> <span class="s2">"openai_api_base"</span> <span class="ow">in</span> <span class="n">values</span>
-            <span class="k">else</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">"OPENAI_API_BASE"</span><span class="p">)</span>
-        <span class="p">)</span>
-        <span class="n">values</span><span class="p">[</span><span class="s2">"openai_api_version"</span><span class="p">]</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="s2">"openai_api_version"</span><span class="p">]</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span>
-            <span class="s2">"OPENAI_API_VERSION"</span>
-        <span class="p">)</span>
         <span class="c1"># Check OPENAI_ORGANIZATION for backwards compatibility.</span>
         <span class="n">values</span><span class="p">[</span><span class="s2">"openai_organization"</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
             <span class="n">values</span><span class="p">[</span><span class="s2">"openai_organization"</span><span class="p">]</span>
             <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">"OPENAI_ORG_ID"</span><span class="p">)</span>
             <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">"OPENAI_ORGANIZATION"</span><span class="p">)</span>
-        <span class="p">)</span>
-        <span class="n">values</span><span class="p">[</span><span class="s2">"azure_endpoint"</span><span class="p">]</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="s2">"azure_endpoint"</span><span class="p">]</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span>
-            <span class="s2">"AZURE_OPENAI_ENDPOINT"</span>
-        <span class="p">)</span>
-        <span class="n">azure_ad_token</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="s2">"azure_ad_token"</span><span class="p">]</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">"AZURE_OPENAI_AD_TOKEN"</span><span class="p">)</span>
-        <span class="n">values</span><span class="p">[</span><span class="s2">"azure_ad_token"</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="n">convert_to_secret_str</span><span class="p">(</span><span class="n">azure_ad_token</span><span class="p">)</span> <span class="k">if</span> <span class="n">azure_ad_token</span> <span class="k">else</span> <span class="kc">None</span>
-        <span class="p">)</span>
-
-        <span class="n">values</span><span class="p">[</span><span class="s2">"openai_api_type"</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_from_dict_or_env</span><span class="p">(</span>
-            <span class="n">values</span><span class="p">,</span> <span class="s2">"openai_api_type"</span><span class="p">,</span> <span class="s2">"OPENAI_API_TYPE"</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">"azure"</span>
-        <span class="p">)</span>
-        <span class="n">values</span><span class="p">[</span><span class="s2">"openai_proxy"</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_from_dict_or_env</span><span class="p">(</span>
-            <span class="n">values</span><span class="p">,</span> <span class="s2">"openai_proxy"</span><span class="p">,</span> <span class="s2">"OPENAI_PROXY"</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">""</span>
         <span class="p">)</span>
         <span class="c1"># For backwards compatibility. Before openai v1, no distinction was made</span>
         <span class="c1"># between azure_endpoint and base_url (openai_api_base).</span>

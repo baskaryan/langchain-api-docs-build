@@ -38,7 +38,7 @@
 <link href="../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Sep 03, 2024" name="docbuild:last-update"/>
+<meta content="Sep 04, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -242,7 +242,7 @@ document.write(`
 <span class="kn">from</span> <span class="nn">langchain_core.language_models.llms</span> <span class="kn">import</span> <span class="n">BaseLLM</span><span class="p">,</span> <span class="n">create_base_retry_decorator</span>
 <span class="kn">from</span> <span class="nn">langchain_core.outputs</span> <span class="kn">import</span> <span class="n">Generation</span><span class="p">,</span> <span class="n">GenerationChunk</span><span class="p">,</span> <span class="n">LLMResult</span>
 <span class="kn">from</span> <span class="nn">langchain_core.pydantic_v1</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span><span class="p">,</span> <span class="n">SecretStr</span><span class="p">,</span> <span class="n">root_validator</span>
-<span class="kn">from</span> <span class="nn">langchain_core.utils</span> <span class="kn">import</span> <span class="n">get_from_dict_or_env</span>
+<span class="kn">from</span> <span class="nn">langchain_core.utils</span> <span class="kn">import</span> <span class="n">secret_from_env</span>
 
 <span class="kn">from</span> <span class="nn">langchain_google_genai._enums</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">HarmBlockThreshold</span><span class="p">,</span>
@@ -351,7 +351,9 @@ document.write(`
 <span class="s2">    - models/text-bison-001"""</span><span class="p">,</span>
     <span class="p">)</span>
 <span class="w">    </span><span class="sd">"""Model name to use."""</span>
-    <span class="n">google_api_key</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">SecretStr</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">google_api_key</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">SecretStr</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">alias</span><span class="o">=</span><span class="s2">"api_key"</span><span class="p">,</span> <span class="n">default_factory</span><span class="o">=</span><span class="n">secret_from_env</span><span class="p">(</span><span class="s2">"GOOGLE_API_KEY"</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="p">)</span>
     <span class="n">credentials</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="s2">"The default custom credentials (google.auth.credentials.Credentials) to use "</span>
     <span class="s2">"when making API calls. If not provided, credentials will be ascertained from "</span>
@@ -443,7 +445,7 @@ document.write(`
 
     <span class="n">client</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1">#: :meta private:</span>
 
-    <span class="nd">@root_validator</span><span class="p">()</span>
+    <span class="nd">@root_validator</span><span class="p">(</span><span class="n">pre</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">skip_on_failure</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">validate_environment</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Validates params and passes them to google-generativeai package."""</span>
         <span class="k">if</span> <span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"credentials"</span><span class="p">):</span>
@@ -453,9 +455,7 @@ document.write(`
                 <span class="n">client_options</span><span class="o">=</span><span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"client_options"</span><span class="p">),</span>
             <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">google_api_key</span> <span class="o">=</span> <span class="n">get_from_dict_or_env</span><span class="p">(</span>
-                <span class="n">values</span><span class="p">,</span> <span class="s2">"google_api_key"</span><span class="p">,</span> <span class="s2">"GOOGLE_API_KEY"</span>
-            <span class="p">)</span>
+            <span class="n">google_api_key</span> <span class="o">=</span> <span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"google_api_key"</span><span class="p">)</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">google_api_key</span><span class="p">,</span> <span class="n">SecretStr</span><span class="p">):</span>
                 <span class="n">google_api_key</span> <span class="o">=</span> <span class="n">google_api_key</span><span class="o">.</span><span class="n">get_secret_value</span><span class="p">()</span>
             <span class="n">genai</span><span class="o">.</span><span class="n">configure</span><span class="p">(</span>

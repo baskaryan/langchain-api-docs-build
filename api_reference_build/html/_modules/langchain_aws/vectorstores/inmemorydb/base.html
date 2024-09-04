@@ -38,7 +38,7 @@
 <link href="../../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Sep 03, 2024" name="docbuild:last-update"/>
+<meta content="Sep 04, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -258,7 +258,6 @@ document.write(`
 <span class="p">)</span>
 <span class="kn">from</span> <span class="nn">langchain_core.documents</span> <span class="kn">import</span> <span class="n">Document</span>
 <span class="kn">from</span> <span class="nn">langchain_core.embeddings</span> <span class="kn">import</span> <span class="n">Embeddings</span>
-<span class="kn">from</span> <span class="nn">langchain_core.utils</span> <span class="kn">import</span> <span class="n">get_from_dict_or_env</span>
 <span class="kn">from</span> <span class="nn">langchain_core.vectorstores</span> <span class="kn">import</span> <span class="n">VectorStore</span><span class="p">,</span> <span class="n">VectorStoreRetriever</span>
 
 <span class="kn">from</span> <span class="nn">langchain_aws.utilities.redis</span> <span class="kn">import</span> <span class="p">(</span>
@@ -565,7 +564,7 @@ document.write(`
                 <span class="s2">"Please install it with `pip install redis`."</span>
             <span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
 
-        <span class="n">redis_url</span> <span class="o">=</span> <span class="n">get_from_dict_or_env</span><span class="p">(</span><span class="n">kwargs</span><span class="p">,</span> <span class="s2">"redis_url"</span><span class="p">,</span> <span class="s2">"REDIS_URL"</span><span class="p">)</span>
+        <span class="n">redis_url</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"redis_url"</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">"REDIS_URL"</span><span class="p">))</span>
 
         <span class="k">if</span> <span class="s2">"redis_url"</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
             <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"redis_url"</span><span class="p">)</span>
@@ -742,7 +741,7 @@ document.write(`
 <span class="sd">            ValueError: If the index does not exist.</span>
 <span class="sd">            ImportError: If the redis python package is not installed.</span>
 <span class="sd">        """</span>
-        <span class="n">redis_url</span> <span class="o">=</span> <span class="n">get_from_dict_or_env</span><span class="p">(</span><span class="n">kwargs</span><span class="p">,</span> <span class="s2">"redis_url"</span><span class="p">,</span> <span class="s2">"REDIS_URL"</span><span class="p">)</span>
+        <span class="n">redis_url</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"redis_url"</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">"REDIS_URL"</span><span class="p">))</span>
         <span class="c1"># We need to first remove redis_url from kwargs,</span>
         <span class="c1"># otherwise passing it to Redis will result in an error.</span>
         <span class="k">if</span> <span class="s2">"redis_url"</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
@@ -801,7 +800,7 @@ document.write(`
 <span class="sd">            ValueError: If the redis python package is not installed.</span>
 <span class="sd">            ValueError: If the ids (keys in redis) are not provided</span>
 <span class="sd">        """</span>
-        <span class="n">redis_url</span> <span class="o">=</span> <span class="n">get_from_dict_or_env</span><span class="p">(</span><span class="n">kwargs</span><span class="p">,</span> <span class="s2">"redis_url"</span><span class="p">,</span> <span class="s2">"REDIS_URL"</span><span class="p">)</span>
+        <span class="n">redis_url</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"redis_url"</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">"REDIS_URL"</span><span class="p">))</span>
 
         <span class="k">if</span> <span class="n">ids</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"'ids' (keys)() were not provided."</span><span class="p">)</span>
@@ -846,7 +845,7 @@ document.write(`
 <span class="sd">        Returns:</span>
 <span class="sd">            bool: Whether or not the drop was successful.</span>
 <span class="sd">        """</span>
-        <span class="n">redis_url</span> <span class="o">=</span> <span class="n">get_from_dict_or_env</span><span class="p">(</span><span class="n">kwargs</span><span class="p">,</span> <span class="s2">"redis_url"</span><span class="p">,</span> <span class="s2">"REDIS_URL"</span><span class="p">)</span>
+        <span class="n">redis_url</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"redis_url"</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">"REDIS_URL"</span><span class="p">))</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="kn">import</span> <span class="nn">redis</span>  <span class="c1"># noqa: F401</span>
         <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>

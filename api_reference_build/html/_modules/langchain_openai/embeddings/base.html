@@ -38,7 +38,7 @@
 <link href="../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Sep 03, 2024" name="docbuild:last-update"/>
+<meta content="Sep 04, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -230,7 +230,6 @@ document.write(`
 <span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
 
 <span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">Any</span><span class="p">,</span>
@@ -251,11 +250,7 @@ document.write(`
 <span class="kn">import</span> <span class="nn">tiktoken</span>
 <span class="kn">from</span> <span class="nn">langchain_core.embeddings</span> <span class="kn">import</span> <span class="n">Embeddings</span>
 <span class="kn">from</span> <span class="nn">langchain_core.pydantic_v1</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span><span class="p">,</span> <span class="n">SecretStr</span><span class="p">,</span> <span class="n">root_validator</span>
-<span class="kn">from</span> <span class="nn">langchain_core.utils</span> <span class="kn">import</span> <span class="p">(</span>
-    <span class="n">convert_to_secret_str</span><span class="p">,</span>
-    <span class="n">get_from_dict_or_env</span><span class="p">,</span>
-    <span class="n">get_pydantic_field_names</span><span class="p">,</span>
-<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">langchain_core.utils</span> <span class="kn">import</span> <span class="n">from_env</span><span class="p">,</span> <span class="n">get_pydantic_field_names</span><span class="p">,</span> <span class="n">secret_from_env</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
@@ -414,21 +409,37 @@ document.write(`
     <span class="c1"># to support Azure OpenAI Service custom deployment names</span>
     <span class="n">deployment</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">model</span>
     <span class="c1"># TODO: Move to AzureOpenAIEmbeddings.</span>
-    <span class="n">openai_api_version</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">alias</span><span class="o">=</span><span class="s2">"api_version"</span><span class="p">)</span>
+    <span class="n">openai_api_version</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">default_factory</span><span class="o">=</span><span class="n">from_env</span><span class="p">(</span><span class="s2">"OPENAI_API_VERSION"</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">),</span>
+        <span class="n">alias</span><span class="o">=</span><span class="s2">"api_version"</span><span class="p">,</span>
+    <span class="p">)</span>
 <span class="w">    </span><span class="sd">"""Automatically inferred from env var `OPENAI_API_VERSION` if not provided."""</span>
     <span class="c1"># to support Azure OpenAI Service custom endpoints</span>
-    <span class="n">openai_api_base</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">alias</span><span class="o">=</span><span class="s2">"base_url"</span><span class="p">)</span>
+    <span class="n">openai_api_base</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">alias</span><span class="o">=</span><span class="s2">"base_url"</span><span class="p">,</span> <span class="n">default_factory</span><span class="o">=</span><span class="n">from_env</span><span class="p">(</span><span class="s2">"OPENAI_API_BASE"</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="p">)</span>
 <span class="w">    </span><span class="sd">"""Base URL path for API requests, leave blank if not using a proxy or service</span>
 <span class="sd">        emulator."""</span>
     <span class="c1"># to support Azure OpenAI Service custom endpoints</span>
-    <span class="n">openai_api_type</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">openai_api_type</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">default_factory</span><span class="o">=</span><span class="n">from_env</span><span class="p">(</span><span class="s2">"OPENAI_API_TYPE"</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="p">)</span>
     <span class="c1"># to support explicit proxy for OpenAI</span>
-    <span class="n">openai_proxy</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">openai_proxy</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">default_factory</span><span class="o">=</span><span class="n">from_env</span><span class="p">(</span><span class="s2">"OPENAI_PROXY"</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="p">)</span>
     <span class="n">embedding_ctx_length</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">8191</span>
 <span class="w">    </span><span class="sd">"""The maximum number of tokens to embed at once."""</span>
-    <span class="n">openai_api_key</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">SecretStr</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">alias</span><span class="o">=</span><span class="s2">"api_key"</span><span class="p">)</span>
+    <span class="n">openai_api_key</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">SecretStr</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">alias</span><span class="o">=</span><span class="s2">"api_key"</span><span class="p">,</span> <span class="n">default_factory</span><span class="o">=</span><span class="n">secret_from_env</span><span class="p">(</span><span class="s2">"OPENAI_API_KEY"</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="p">)</span>
 <span class="w">    </span><span class="sd">"""Automatically inferred from env var `OPENAI_API_KEY` if not provided."""</span>
-    <span class="n">openai_organization</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">alias</span><span class="o">=</span><span class="s2">"organization"</span><span class="p">)</span>
+    <span class="n">openai_organization</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">alias</span><span class="o">=</span><span class="s2">"organization"</span><span class="p">,</span>
+        <span class="n">default_factory</span><span class="o">=</span><span class="n">from_env</span><span class="p">(</span>
+            <span class="p">[</span><span class="s2">"OPENAI_ORG_ID"</span><span class="p">,</span> <span class="s2">"OPENAI_ORGANIZATION"</span><span class="p">],</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
 <span class="w">    </span><span class="sd">"""Automatically inferred from env var `OPENAI_ORG_ID` if not provided."""</span>
     <span class="n">allowed_special</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Literal</span><span class="p">[</span><span class="s2">"all"</span><span class="p">],</span> <span class="n">Set</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">disallowed_special</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Literal</span><span class="p">[</span><span class="s2">"all"</span><span class="p">],</span> <span class="n">Set</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
@@ -513,33 +524,9 @@ document.write(`
         <span class="n">values</span><span class="p">[</span><span class="s2">"model_kwargs"</span><span class="p">]</span> <span class="o">=</span> <span class="n">extra</span>
         <span class="k">return</span> <span class="n">values</span>
 
-    <span class="nd">@root_validator</span><span class="p">()</span>
+    <span class="nd">@root_validator</span><span class="p">(</span><span class="n">pre</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">skip_on_failure</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">allow_reuse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">validate_environment</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Validate that api key and python package exists in environment."""</span>
-        <span class="n">openai_api_key</span> <span class="o">=</span> <span class="n">get_from_dict_or_env</span><span class="p">(</span>
-            <span class="n">values</span><span class="p">,</span> <span class="s2">"openai_api_key"</span><span class="p">,</span> <span class="s2">"OPENAI_API_KEY"</span>
-        <span class="p">)</span>
-        <span class="n">values</span><span class="p">[</span><span class="s2">"openai_api_key"</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="n">convert_to_secret_str</span><span class="p">(</span><span class="n">openai_api_key</span><span class="p">)</span> <span class="k">if</span> <span class="n">openai_api_key</span> <span class="k">else</span> <span class="kc">None</span>
-        <span class="p">)</span>
-        <span class="n">values</span><span class="p">[</span><span class="s2">"openai_api_base"</span><span class="p">]</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="s2">"openai_api_base"</span><span class="p">]</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span>
-            <span class="s2">"OPENAI_API_BASE"</span>
-        <span class="p">)</span>
-        <span class="n">values</span><span class="p">[</span><span class="s2">"openai_api_type"</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_from_dict_or_env</span><span class="p">(</span>
-            <span class="n">values</span><span class="p">,</span> <span class="s2">"openai_api_type"</span><span class="p">,</span> <span class="s2">"OPENAI_API_TYPE"</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">""</span>
-        <span class="p">)</span>
-        <span class="n">values</span><span class="p">[</span><span class="s2">"openai_proxy"</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_from_dict_or_env</span><span class="p">(</span>
-            <span class="n">values</span><span class="p">,</span> <span class="s2">"openai_proxy"</span><span class="p">,</span> <span class="s2">"OPENAI_PROXY"</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">""</span>
-        <span class="p">)</span>
-        <span class="n">values</span><span class="p">[</span><span class="s2">"openai_api_version"</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_from_dict_or_env</span><span class="p">(</span>
-            <span class="n">values</span><span class="p">,</span> <span class="s2">"openai_api_version"</span><span class="p">,</span> <span class="s2">"OPENAI_API_VERSION"</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">""</span>
-        <span class="p">)</span>
-        <span class="c1"># Check OPENAI_ORGANIZATION for backwards compatibility.</span>
-        <span class="n">values</span><span class="p">[</span><span class="s2">"openai_organization"</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="n">values</span><span class="p">[</span><span class="s2">"openai_organization"</span><span class="p">]</span>
-            <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">"OPENAI_ORG_ID"</span><span class="p">)</span>
-            <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">"OPENAI_ORGANIZATION"</span><span class="p">)</span>
-        <span class="p">)</span>
         <span class="k">if</span> <span class="n">values</span><span class="p">[</span><span class="s2">"openai_api_type"</span><span class="p">]</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"azure"</span><span class="p">,</span> <span class="s2">"azure_ad"</span><span class="p">,</span> <span class="s2">"azuread"</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                 <span class="s2">"If you are using Azure, "</span>

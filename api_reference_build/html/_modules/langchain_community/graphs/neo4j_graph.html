@@ -38,7 +38,7 @@
 <link href="../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Sep 03, 2024" name="docbuild:last-update"/>
+<meta content="Sep 04, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -575,18 +575,27 @@ document.write(`
             <span class="p">)</span>
 
         <span class="n">url</span> <span class="o">=</span> <span class="n">get_from_dict_or_env</span><span class="p">({</span><span class="s2">"url"</span><span class="p">:</span> <span class="n">url</span><span class="p">},</span> <span class="s2">"url"</span><span class="p">,</span> <span class="s2">"NEO4J_URI"</span><span class="p">)</span>
-        <span class="n">username</span> <span class="o">=</span> <span class="n">get_from_dict_or_env</span><span class="p">(</span>
-            <span class="p">{</span><span class="s2">"username"</span><span class="p">:</span> <span class="n">username</span><span class="p">},</span> <span class="s2">"username"</span><span class="p">,</span> <span class="s2">"NEO4J_USERNAME"</span>
-        <span class="p">)</span>
-        <span class="n">password</span> <span class="o">=</span> <span class="n">get_from_dict_or_env</span><span class="p">(</span>
-            <span class="p">{</span><span class="s2">"password"</span><span class="p">:</span> <span class="n">password</span><span class="p">},</span> <span class="s2">"password"</span><span class="p">,</span> <span class="s2">"NEO4J_PASSWORD"</span>
-        <span class="p">)</span>
+        <span class="c1"># if username and password are "", assume Neo4j auth is disabled</span>
+        <span class="k">if</span> <span class="n">username</span> <span class="o">==</span> <span class="s2">""</span> <span class="ow">and</span> <span class="n">password</span> <span class="o">==</span> <span class="s2">""</span><span class="p">:</span>
+            <span class="n">auth</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">username</span> <span class="o">=</span> <span class="n">get_from_dict_or_env</span><span class="p">(</span>
+                <span class="p">{</span><span class="s2">"username"</span><span class="p">:</span> <span class="n">username</span><span class="p">},</span>
+                <span class="s2">"username"</span><span class="p">,</span>
+                <span class="s2">"NEO4J_USERNAME"</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">password</span> <span class="o">=</span> <span class="n">get_from_dict_or_env</span><span class="p">(</span>
+                <span class="p">{</span><span class="s2">"password"</span><span class="p">:</span> <span class="n">password</span><span class="p">},</span>
+                <span class="s2">"password"</span><span class="p">,</span>
+                <span class="s2">"NEO4J_PASSWORD"</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">auth</span> <span class="o">=</span> <span class="p">(</span><span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="p">)</span>
         <span class="n">database</span> <span class="o">=</span> <span class="n">get_from_dict_or_env</span><span class="p">(</span>
             <span class="p">{</span><span class="s2">"database"</span><span class="p">:</span> <span class="n">database</span><span class="p">},</span> <span class="s2">"database"</span><span class="p">,</span> <span class="s2">"NEO4J_DATABASE"</span><span class="p">,</span> <span class="s2">"neo4j"</span>
         <span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_driver</span> <span class="o">=</span> <span class="n">neo4j</span><span class="o">.</span><span class="n">GraphDatabase</span><span class="o">.</span><span class="n">driver</span><span class="p">(</span>
-            <span class="n">url</span><span class="p">,</span> <span class="n">auth</span><span class="o">=</span><span class="p">(</span><span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="p">),</span> <span class="o">**</span><span class="p">(</span><span class="n">driver_config</span> <span class="ow">or</span> <span class="p">{})</span>
+            <span class="n">url</span><span class="p">,</span> <span class="n">auth</span><span class="o">=</span><span class="n">auth</span><span class="p">,</span> <span class="o">**</span><span class="p">(</span><span class="n">driver_config</span> <span class="ow">or</span> <span class="p">{})</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_database</span> <span class="o">=</span> <span class="n">database</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">timeout</span> <span class="o">=</span> <span class="n">timeout</span>

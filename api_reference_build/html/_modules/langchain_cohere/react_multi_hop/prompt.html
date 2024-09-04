@@ -38,7 +38,7 @@
 <link href="../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Sep 03, 2024" name="docbuild:last-update"/>
+<meta content="Sep 04, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -315,8 +315,44 @@ document.write(`
     <span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="render_tool"><a class="viewcode-back" href="../../../cohere/react_multi_hop/langchain_cohere.react_multi_hop.prompt.render_tool.html#langchain_cohere.react_multi_hop.prompt.render_tool">[docs]</a><span class="k">def</span> <span class="nf">render_tool</span><span class="p">(</span><span class="n">tool</span><span class="p">:</span> <span class="n">BaseTool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""Renders a tool into prompt content"""</span>
+<div class="viewcode-block" id="render_tool"><a class="viewcode-back" href="../../../cohere/react_multi_hop/langchain_cohere.react_multi_hop.prompt.render_tool.html#langchain_cohere.react_multi_hop.prompt.render_tool">[docs]</a><span class="k">def</span> <span class="nf">render_tool</span><span class="p">(</span>
+    <span class="n">tool</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">BaseTool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">json_schema</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Renders a tool into prompt content. Either a BaseTool instance, or, a JSON</span>
+<span class="sd">     schema must be provided.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        tool: An instance of a BaseTool.</span>
+<span class="sd">        json_schema: A dictionary containing the JSON schema representation of a tool.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        A string of prompt content.</span>
+
+<span class="sd">    Example:</span>
+
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">        from langchain_cohere.react_multi_hop.prompt import render_tool</span>
+
+<span class="sd">        json_schema = {</span>
+<span class="sd">            "name": "example_tool",</span>
+<span class="sd">            "description": "A description of example_tool",</span>
+<span class="sd">            "parameters": {</span>
+<span class="sd">                "type": "object",</span>
+<span class="sd">                "properties": {</span>
+<span class="sd">                    "foo": {"type": "string", "description": "A description of foo"},</span>
+<span class="sd">                    "bar": {"type": "integer", "description": "A description of bar"},</span>
+<span class="sd">                },</span>
+<span class="sd">                "required": ["foo"],</span>
+<span class="sd">            },</span>
+<span class="sd">        }</span>
+<span class="sd">        print(render_tool(json_schema=json_schema))</span>
+
+<span class="sd">        tool = MyTool()</span>
+<span class="sd">        print(render_tool(tool=tool))</span>
+
+<span class="sd">    """</span>
 
     <span class="n">template</span> <span class="o">=</span> <span class="s2">"""```python</span>
 <span class="si">{tool_signature}</span>
@@ -324,12 +360,38 @@ document.write(`
 <span class="s2">    </span><span class="se">\"\"\"</span>
 <span class="s2">    pass</span>
 <span class="s2">```"""</span>
+    <span class="k">assert</span> <span class="p">(</span>
+        <span class="n">tool</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">json_schema</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+    <span class="p">),</span> <span class="s2">"Either a BaseTool instance or JSON schema must be provided."</span>
+
+    <span class="k">if</span> <span class="n">tool</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">assert</span> <span class="n">tool</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>  <span class="c1"># for type checkers</span>
+        <span class="n">tool_name</span> <span class="o">=</span> <span class="n">tool</span><span class="o">.</span><span class="n">name</span>
+        <span class="n">tool_description</span> <span class="o">=</span> <span class="n">tool</span><span class="o">.</span><span class="n">description</span>
+        <span class="n">tool_args</span> <span class="o">=</span> <span class="n">tool</span><span class="o">.</span><span class="n">args</span>
+        <span class="n">required_parameters</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">parameter_name</span><span class="p">,</span> <span class="n">parameter_definition</span> <span class="ow">in</span> <span class="n">tool_args</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="s2">"default"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">parameter_definition</span><span class="p">:</span>
+                <span class="n">required_parameters</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">parameter_name</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">assert</span> <span class="n">json_schema</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>  <span class="c1"># for type checkers</span>
+        <span class="n">tool_name</span> <span class="o">=</span> <span class="n">json_schema</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"name"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span>
+        <span class="n">tool_description</span> <span class="o">=</span> <span class="n">json_schema</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"description"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span>
+        <span class="n">tool_args</span> <span class="o">=</span> <span class="n">json_schema</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"parameters"</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"properties"</span><span class="p">,</span> <span class="p">{})</span>
+        <span class="n">required_parameters</span> <span class="o">=</span> <span class="n">json_schema</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"parameters"</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"required"</span><span class="p">,</span> <span class="p">[])</span>
+
     <span class="k">return</span> <span class="n">template</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-        <span class="n">tool_signature</span><span class="o">=</span><span class="n">render_tool_signature</span><span class="p">(</span><span class="n">tool</span><span class="p">),</span>
-        <span class="n">tool_description</span><span class="o">=</span><span class="n">_remove_signature_from_tool_description</span><span class="p">(</span>
-            <span class="n">tool</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">tool</span><span class="o">.</span><span class="n">description</span>
+        <span class="n">tool_signature</span><span class="o">=</span><span class="n">_render_tool_signature</span><span class="p">(</span>
+            <span class="n">tool_name</span><span class="o">=</span><span class="n">tool_name</span><span class="p">,</span>
+            <span class="n">tool_args</span><span class="o">=</span><span class="n">tool_args</span><span class="p">,</span>
+            <span class="n">required_parameters</span><span class="o">=</span><span class="n">required_parameters</span><span class="p">,</span>
         <span class="p">),</span>
-        <span class="n">tool_args</span><span class="o">=</span><span class="n">render_tool_args</span><span class="p">(</span><span class="n">tool</span><span class="p">),</span>
+        <span class="n">tool_description</span><span class="o">=</span><span class="n">_remove_signature_from_tool_description</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="n">tool_name</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="n">tool_description</span>
+        <span class="p">),</span>
+        <span class="n">tool_args</span><span class="o">=</span><span class="n">_render_tool_args</span><span class="p">(</span>
+            <span class="n">tool_args</span><span class="o">=</span><span class="n">tool_args</span><span class="p">,</span> <span class="n">required_parameters</span><span class="o">=</span><span class="n">required_parameters</span>
+        <span class="p">),</span>
     <span class="p">)</span></div>
 
 
@@ -442,7 +504,7 @@ document.write(`
     <span class="k">return</span> <span class="n">inner</span></div>
 
 
-<div class="viewcode-block" id="render_type"><a class="viewcode-back" href="../../../cohere/react_multi_hop/langchain_cohere.react_multi_hop.prompt.render_type.html#langchain_cohere.react_multi_hop.prompt.render_type">[docs]</a><span class="k">def</span> <span class="nf">render_type</span><span class="p">(</span><span class="n">type_</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">is_optional</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">_render_type</span><span class="p">(</span><span class="n">type_</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">is_optional</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Renders a tool's type into prompt content. Types should be Python types, but JSON</span>
 <span class="sd">    schema is allowed and converted.</span>
@@ -451,39 +513,43 @@ document.write(`
     <span class="k">if</span> <span class="n">is_optional</span><span class="p">:</span>
         <span class="k">return</span> <span class="sa">f</span><span class="s2">"Optional[</span><span class="si">{</span><span class="n">python_type</span><span class="si">}</span><span class="s2">]"</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">python_type</span></div>
+        <span class="k">return</span> <span class="n">python_type</span>
 
 
-<div class="viewcode-block" id="render_tool_signature"><a class="viewcode-back" href="../../../cohere/react_multi_hop/langchain_cohere.react_multi_hop.prompt.render_tool_signature.html#langchain_cohere.react_multi_hop.prompt.render_tool_signature">[docs]</a><span class="k">def</span> <span class="nf">render_tool_signature</span><span class="p">(</span><span class="n">tool</span><span class="p">:</span> <span class="n">BaseTool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">_render_tool_signature</span><span class="p">(</span>
+    <span class="n">tool_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">tool_args</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">required_parameters</span><span class="p">:</span> <span class="n">List</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Renders the signature of a tool into prompt content."""</span>
     <span class="n">args</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">parameter_name</span><span class="p">,</span> <span class="n">parameter_definition</span> <span class="ow">in</span> <span class="n">tool</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-        <span class="n">type_</span> <span class="o">=</span> <span class="n">render_type</span><span class="p">(</span>
-            <span class="n">parameter_definition</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"type"</span><span class="p">),</span> <span class="s2">"default"</span> <span class="ow">in</span> <span class="n">parameter_definition</span>
+    <span class="k">for</span> <span class="n">parameter_name</span><span class="p">,</span> <span class="n">parameter_definition</span> <span class="ow">in</span> <span class="n">tool_args</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">type_</span> <span class="o">=</span> <span class="n">_render_type</span><span class="p">(</span>
+            <span class="n">type_</span><span class="o">=</span><span class="n">parameter_definition</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"type"</span><span class="p">),</span>
+            <span class="n">is_optional</span><span class="o">=</span><span class="n">parameter_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">required_parameters</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="n">args</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">parameter_name</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">type_</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
     <span class="n">signature</span> <span class="o">=</span> <span class="s2">", "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
-    <span class="k">return</span> <span class="sa">f</span><span class="s2">"def </span><span class="si">{</span><span class="n">tool</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">(</span><span class="si">{</span><span class="n">signature</span><span class="si">}</span><span class="s2">) -&gt; List[Dict]:"</span></div>
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">"def </span><span class="si">{</span><span class="n">tool_name</span><span class="si">}</span><span class="s2">(</span><span class="si">{</span><span class="n">signature</span><span class="si">}</span><span class="s2">) -&gt; List[Dict]:"</span>
 
 
-<div class="viewcode-block" id="render_tool_args"><a class="viewcode-back" href="../../../cohere/react_multi_hop/langchain_cohere.react_multi_hop.prompt.render_tool_args.html#langchain_cohere.react_multi_hop.prompt.render_tool_args">[docs]</a><span class="k">def</span> <span class="nf">render_tool_args</span><span class="p">(</span><span class="n">tool</span><span class="p">:</span> <span class="n">BaseTool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">_render_tool_args</span><span class="p">(</span><span class="n">tool_args</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">required_parameters</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Renders the 'Args' section of a tool's prompt content."""</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">tool</span><span class="o">.</span><span class="n">args</span><span class="p">:</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">tool_args</span><span class="p">:</span>
         <span class="k">return</span> <span class="s2">""</span>
     <span class="n">indent</span> <span class="o">=</span> <span class="s2">" "</span>
 
     <span class="n">prompt_content</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="se">\n\n</span><span class="si">{</span><span class="n">indent</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">4</span><span class="si">}</span><span class="s2">Args:</span><span class="se">\n</span><span class="si">{</span><span class="n">indent</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">8</span><span class="si">}</span><span class="s2">"</span>
 
     <span class="n">rendered_args</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">parameter_name</span><span class="p">,</span> <span class="n">parameter_definition</span> <span class="ow">in</span> <span class="n">tool</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-        <span class="n">type_</span> <span class="o">=</span> <span class="n">render_type</span><span class="p">(</span>
-            <span class="n">parameter_definition</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"type"</span><span class="p">),</span> <span class="s2">"default"</span> <span class="ow">in</span> <span class="n">parameter_definition</span>
+    <span class="k">for</span> <span class="n">parameter_name</span><span class="p">,</span> <span class="n">parameter_definition</span> <span class="ow">in</span> <span class="n">tool_args</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">type_</span> <span class="o">=</span> <span class="n">_render_type</span><span class="p">(</span>
+            <span class="n">type_</span><span class="o">=</span><span class="n">parameter_definition</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"type"</span><span class="p">),</span>
+            <span class="n">is_optional</span><span class="o">=</span><span class="n">parameter_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">required_parameters</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="n">description</span> <span class="o">=</span> <span class="n">parameter_definition</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"description"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span>
         <span class="n">rendered_args</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">parameter_name</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">type_</span><span class="si">}</span><span class="s2">): </span><span class="si">{</span><span class="n">description</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
     <span class="n">prompt_content</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="si">{</span><span class="n">indent</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">8</span><span class="si">}</span><span class="s2">"</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">rendered_args</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">prompt_content</span></div>
+    <span class="k">return</span> <span class="n">prompt_content</span>
 
 
 <div class="viewcode-block" id="create_directly_answer_tool"><a class="viewcode-back" href="../../../cohere/react_multi_hop/langchain_cohere.react_multi_hop.prompt.create_directly_answer_tool.html#langchain_cohere.react_multi_hop.prompt.create_directly_answer_tool">[docs]</a><span class="k">def</span> <span class="nf">create_directly_answer_tool</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">BaseTool</span><span class="p">:</span>
