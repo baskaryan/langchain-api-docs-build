@@ -38,7 +38,7 @@
 <link href="../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Sep 05, 2024" name="docbuild:last-update"/>
+<meta content="Sep 06, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -292,7 +292,7 @@ document.write(`
 <div class="viewcode-block" id="BigQueryVectorStore.get_documents"><a class="viewcode-back" href="../../../google_community/bq_storage_vectorstores/langchain_google_community.bq_storage_vectorstores.bigquery.BigQueryVectorStore.html#langchain_google_community.bq_storage_vectorstores.bigquery.BigQueryVectorStore.get_documents">[docs]</a>    <span class="k">def</span> <span class="nf">get_documents</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">ids</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="nb">filter</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="nb">filter</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Document</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">"""Search documents by their ids or metadata values.</span>
@@ -319,22 +319,13 @@ document.write(`
         <span class="k">else</span><span class="p">:</span>
             <span class="n">job_config</span> <span class="o">=</span> <span class="kc">None</span>
             <span class="n">id_expr</span> <span class="o">=</span> <span class="s2">"TRUE"</span>
-        <span class="k">if</span> <span class="nb">filter</span><span class="p">:</span>
-            <span class="c1"># Pull BQ Vector Store information if not already done.</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">table_schema</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_validate_bq_table</span><span class="p">()</span>
-            <span class="n">filter_expressions</span> <span class="o">=</span> <span class="p">[]</span>
-            <span class="k">for</span> <span class="n">column</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="nb">filter</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-                <span class="n">filter_expressions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">column</span><span class="si">}</span><span class="s2"> = '</span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">'"</span><span class="p">)</span>
-            <span class="n">filter_expression_str</span> <span class="o">=</span> <span class="s2">" AND "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">filter_expressions</span><span class="p">)</span>
-            <span class="n">where_filter_expr</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">" AND (</span><span class="si">{</span><span class="n">filter_expression_str</span><span class="si">}</span><span class="s2">)"</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">where_filter_expr</span> <span class="o">=</span> <span class="s2">""</span>
+
+        <span class="n">where_filter_expr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_filters</span><span class="p">(</span><span class="nb">filter</span><span class="p">)</span>
 
         <span class="n">job</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bq_client</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>  <span class="c1"># type: ignore[union-attr]</span>
             <span class="sa">f</span><span class="s2">"""</span>
-<span class="s2">                    SELECT * FROM `</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">full_table_id</span><span class="si">}</span><span class="s2">` WHERE </span><span class="si">{</span><span class="n">id_expr</span><span class="si">}</span>
-<span class="s2">                    </span><span class="si">{</span><span class="n">where_filter_expr</span><span class="si">}</span>
+<span class="s2">                    SELECT * FROM `</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">full_table_id</span><span class="si">}</span><span class="s2">`</span>
+<span class="s2">                    WHERE </span><span class="si">{</span><span class="n">id_expr</span><span class="si">}</span><span class="s2"> AND </span><span class="si">{</span><span class="n">where_filter_expr</span><span class="si">}</span>
 <span class="s2">                    """</span><span class="p">,</span>
             <span class="n">job_config</span><span class="o">=</span><span class="n">job_config</span><span class="p">,</span>
         <span class="p">)</span>
@@ -417,7 +408,7 @@ document.write(`
     <span class="k">def</span> <span class="nf">_similarity_search_by_vectors_with_scores_and_embeddings</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">embeddings</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]],</span>
-        <span class="nb">filter</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="nb">filter</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">k</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span>
         <span class="n">batch_size</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]]]:</span>
@@ -430,12 +421,21 @@ document.write(`
 <span class="sd">        Args:</span>
 <span class="sd">            embeddings: A list of lists, where each inner list represents a</span>
 <span class="sd">                query embedding.</span>
-<span class="sd">            filter: (Optional) A dictionary specifying filter criteria for document</span>
-<span class="sd">                on metadata properties, e.g.</span>
-<span class="sd">                            {</span>
-<span class="sd">                                "str_property": "foo",</span>
-<span class="sd">                                "int_property": 123</span>
-<span class="sd">                            }</span>
+<span class="sd">            filter: (Optional) A dictionary or a string specifying filter criteria.</span>
+<span class="sd">                - If a dictionary is provided, it should map column names to their</span>
+<span class="sd">                corresponding</span>
+<span class="sd">                values. The method will generate SQL expressions based on the data</span>
+<span class="sd">                types defined</span>
+<span class="sd">                in `self.table_schema`:</span>
+<span class="sd">                    - For columns of type "INTEGER" or "FLOAT", the value is used</span>
+<span class="sd">                    directly.</span>
+<span class="sd">                    - For other data types, the value is enclosed in single quotes.</span>
+<span class="sd">                Example:</span>
+<span class="sd">                        {</span>
+<span class="sd">                            "str_property": "foo",</span>
+<span class="sd">                            "int_property": 123</span>
+<span class="sd">                        }</span>
+<span class="sd">                - If a string is provided, it is assumed to be a valid SQL WHERE clause.</span>
 <span class="sd">            k: The number of top results to return for each query.</span>
 <span class="sd">            batch_size: The size of batches to process embeddings.</span>
 
@@ -464,24 +464,66 @@ document.write(`
             <span class="n">with_embeddings</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="p">)</span>
 
+    <span class="k">def</span> <span class="nf">_create_filters</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="nb">filter</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Creates a SQL WHERE clause based on the provided filter criteria.</span>
+
+<span class="sd">        This function generates a SQL WHERE clause from a given filter, which can either</span>
+<span class="sd">        be a dictionary of column-value pairs or a pre-formatted SQL string.</span>
+<span class="sd">        If no filter is provided, it returns a default clause that</span>
+<span class="sd">        evaluates to TRUE.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            filter: (Optional) A dictionary or a string specifying filter criteria.</span>
+<span class="sd">                - If a dictionary is provided, it should map column names to</span>
+<span class="sd">                their corresponding</span>
+<span class="sd">                values. The method will generate SQL expressions based on the</span>
+<span class="sd">                data types defined in `self.table_schema`:</span>
+<span class="sd">                    - For columns of type "INTEGER" or "FLOAT", the value is</span>
+<span class="sd">                    used directly.</span>
+<span class="sd">                    - For other data types, the value is enclosed in single quotes.</span>
+<span class="sd">                Example:</span>
+<span class="sd">                    {</span>
+<span class="sd">                        "str_property": "foo",</span>
+<span class="sd">                        "int_property": 123</span>
+<span class="sd">                    }</span>
+<span class="sd">                - If a string is provided, it is assumed to be a valid SQL WHERE clause.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A string representing the SQL WHERE clause. This clause can be directly</span>
+<span class="sd">            used in SQL queries to filter results. If no filter is provided, it returns</span>
+<span class="sd">            the string "TRUE" to indicate that no filtering should be applied.</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="nb">filter</span><span class="p">:</span>
+            <span class="c1"># Pull BQ Vector Store information if not already done.</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">table_schema</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_validate_bq_table</span><span class="p">()</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">filter</span><span class="p">,</span> <span class="n">Dict</span><span class="p">):</span>  <span class="c1"># If Dict filters is passed</span>
+                <span class="n">filter_expressions</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">for</span> <span class="n">column</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="nb">filter</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">table_schema</span><span class="p">[</span><span class="n">column</span><span class="p">]</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">"INTEGER"</span><span class="p">,</span> <span class="s2">"FLOAT"</span><span class="p">]:</span>  <span class="c1"># type: ignore[index]</span>
+                        <span class="n">filter_expressions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">column</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">filter_expressions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">column</span><span class="si">}</span><span class="s2"> = '</span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">'"</span><span class="p">)</span>
+                <span class="n">where_filter_expr</span> <span class="o">=</span> <span class="s2">" AND "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">filter_expressions</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>  <span class="c1"># If SQL clauses filters is passed</span>
+                <span class="n">where_filter_expr</span> <span class="o">=</span> <span class="nb">filter</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">where_filter_expr</span> <span class="o">=</span> <span class="s2">"TRUE"</span>
+        <span class="k">return</span> <span class="n">where_filter_expr</span>
+
     <span class="k">def</span> <span class="nf">_create_search_query</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">num_embeddings</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-        <span class="nb">filter</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="nb">filter</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">k</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span>
         <span class="n">table_to_query</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">fields_to_exclude</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="k">if</span> <span class="nb">filter</span><span class="p">:</span>
-            <span class="n">filter_expressions</span> <span class="o">=</span> <span class="p">[]</span>
-            <span class="k">for</span> <span class="n">column</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="nb">filter</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">table_schema</span><span class="p">[</span><span class="n">column</span><span class="p">]</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">"INTEGER"</span><span class="p">,</span> <span class="s2">"FLOAT"</span><span class="p">]:</span>  <span class="c1"># type: ignore[index]</span>
-                    <span class="n">filter_expressions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">"base.</span><span class="si">{</span><span class="n">column</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="n">filter_expressions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">"base.</span><span class="si">{</span><span class="n">column</span><span class="si">}</span><span class="s2"> = '</span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">'"</span><span class="p">)</span>
-            <span class="n">where_filter_expr</span> <span class="o">=</span> <span class="s2">" AND "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">filter_expressions</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">where_filter_expr</span> <span class="o">=</span> <span class="s2">"TRUE"</span>
+        <span class="c1"># Get where filter</span>
+        <span class="n">where_filter_expr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_filters</span><span class="p">(</span><span class="nb">filter</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">table_to_query</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">embeddings_query</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"""</span>
@@ -524,15 +566,22 @@ document.write(`
 <span class="s2">            distance_type =&gt; "</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">distance_type</span><span class="si">}</span><span class="s2">",</span>
 <span class="s2">            top_k =&gt; </span><span class="si">{</span><span class="n">k</span><span class="si">}</span>
 <span class="s2">        )</span>
+<span class="s2">        """</span>
+        <span class="c1"># Wrap the Inner Query with an Outer SELECT to eliminate "base." column prefix</span>
+        <span class="n">full_query_wrapper</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"""</span>
+<span class="s2">        SELECT *</span>
+<span class="s2">        FROM (</span>
+<span class="s2">            </span><span class="si">{</span><span class="n">full_query</span><span class="si">}</span>
+<span class="s2">        ) AS result</span>
 <span class="s2">        WHERE </span><span class="si">{</span><span class="n">where_filter_expr</span><span class="si">}</span>
 <span class="s2">        ORDER BY row_num, score</span>
 <span class="s2">        """</span>
-        <span class="k">return</span> <span class="n">full_query</span>
+        <span class="k">return</span> <span class="n">full_query_wrapper</span>
 
     <span class="k">def</span> <span class="nf">_search_embeddings</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">embeddings</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]],</span>
-        <span class="nb">filter</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="nb">filter</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">k</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
         <span class="kn">from</span> <span class="nn">google.cloud</span> <span class="kn">import</span> <span class="n">bigquery</span>  <span class="c1"># type: ignore[attr-defined]</span>
@@ -629,7 +678,7 @@ document.write(`
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">embeddings</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">queries</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="nb">filter</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="nb">filter</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">k</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span>
         <span class="n">expire_hours_temp_table</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">12</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]]]:</span>
