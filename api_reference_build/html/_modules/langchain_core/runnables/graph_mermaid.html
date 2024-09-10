@@ -38,7 +38,7 @@
 <link href="../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Sep 09, 2024" name="docbuild:last-update"/>
+<meta content="Sep 10, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -240,6 +240,8 @@ document.write(`
     <span class="n">NodeStyles</span><span class="p">,</span>
 <span class="p">)</span>
 
+<span class="n">MARKDOWN_SPECIAL_CHARS</span> <span class="o">=</span> <span class="s2">"*_`"</span>
+
 
 <div class="viewcode-block" id="draw_mermaid"><a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.graph_mermaid.draw_mermaid.html#langchain_core.runnables.graph_mermaid.draw_mermaid">[docs]</a><span class="k">def</span> <span class="nf">draw_mermaid</span><span class="p">(</span>
     <span class="n">nodes</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Node</span><span class="p">],</span>
@@ -287,13 +289,19 @@ document.write(`
         <span class="n">default_class_label</span> <span class="o">=</span> <span class="s2">"default"</span>
         <span class="n">format_dict</span> <span class="o">=</span> <span class="p">{</span><span class="n">default_class_label</span><span class="p">:</span> <span class="s2">"</span><span class="si">{0}</span><span class="s2">(</span><span class="si">{1}</span><span class="s2">)"</span><span class="p">}</span>
         <span class="k">if</span> <span class="n">first_node</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">format_dict</span><span class="p">[</span><span class="n">first_node</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"</span><span class="si">{0}</span><span class="s2">([</span><span class="si">{0}</span><span class="s2">]):::first"</span>
+            <span class="n">format_dict</span><span class="p">[</span><span class="n">first_node</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"</span><span class="si">{0}</span><span class="s2">([</span><span class="si">{1}</span><span class="s2">]):::first"</span>
         <span class="k">if</span> <span class="n">last_node</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">format_dict</span><span class="p">[</span><span class="n">last_node</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"</span><span class="si">{0}</span><span class="s2">([</span><span class="si">{0}</span><span class="s2">]):::last"</span>
+            <span class="n">format_dict</span><span class="p">[</span><span class="n">last_node</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"</span><span class="si">{0}</span><span class="s2">([</span><span class="si">{1}</span><span class="s2">]):::last"</span>
 
         <span class="c1"># Add nodes to the graph</span>
         <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">nodes</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="n">label</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">":"</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">node_name</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">":"</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">label</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="sa">f</span><span class="s2">"&lt;p&gt;</span><span class="si">{</span><span class="n">node_name</span><span class="si">}</span><span class="s2">&lt;/p&gt;"</span>
+                <span class="k">if</span> <span class="n">node_name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">MARKDOWN_SPECIAL_CHARS</span><span class="p">))</span>
+                <span class="ow">and</span> <span class="n">node_name</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">MARKDOWN_SPECIAL_CHARS</span><span class="p">))</span>
+                <span class="k">else</span> <span class="n">node_name</span>
+            <span class="p">)</span>
             <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">metadata</span><span class="p">:</span>
                 <span class="n">label</span> <span class="o">=</span> <span class="p">(</span>
                     <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="s2">&lt;hr/&gt;&lt;small&gt;&lt;em&gt;"</span>
