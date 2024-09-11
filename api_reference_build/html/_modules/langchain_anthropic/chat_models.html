@@ -1,7 +1,7 @@
 
 <!DOCTYPE html>
 
-<html data-content_root="" lang="en">
+<html data-content_root="../../" lang="en">
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
@@ -18,21 +18,21 @@
 <link as="font" crossorigin="" href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" rel="preload" type="font/woff2"/>
 <link as="font" crossorigin="" href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" rel="preload" type="font/woff2"/>
 <link as="font" crossorigin="" href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" rel="preload" type="font/woff2"/>
-<link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/pygments.css?v=a746c00c" rel="stylesheet" type="text/css"/>
 <link href="../../_static/autodoc_pydantic.css" rel="stylesheet" type="text/css"/>
-<link href="../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
-<link href="../../_static/sphinx-design.4cbf315f70debaebd550c87a6162cf0f.min.css" rel="stylesheet" type="text/css"/>
-<link href="../../_static/css/custom.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/copybutton.css?v=76b2166b" rel="stylesheet" type="text/css"/>
+<link href="../../_static/sphinx-design.min.css?v=95c83b7e" rel="stylesheet" type="text/css"/>
+<link href="../../_static/css/custom.css?v=b95e2228" rel="stylesheet" type="text/css"/>
 <!-- Pre-loaded scripts that we'll load fully later -->
 <link as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
 <link as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
 <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-<script src="../../_static/doctools.js"></script>
-<script src="../../_static/sphinx_highlight.js"></script>
-<script src="../../_static/clipboard.min.js"></script>
-<script src="../../_static/copybutton.js"></script>
-<script src="../../_static/design-tabs.js"></script>
+<script src="../../_static/documentation_options.js?v=3b5cce75"></script>
+<script src="../../_static/doctools.js?v=9a2dae69"></script>
+<script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+<script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+<script src="../../_static/copybutton.js?v=f281be69"></script>
+<script src="../../_static/design-tabs.js?v=f930bc37"></script>
 <script>DOCUMENTATION_OPTIONS.pagename = '_modules/langchain_anthropic/chat_models';</script>
 <link href="../../_static/favicon.png" rel="icon"/>
 <link href="../../search.html" rel="search" title="Search"/>
@@ -278,12 +278,6 @@ document.write(`
 <span class="p">)</span>
 <span class="kn">from</span> <span class="nn">langchain_core.output_parsers.base</span> <span class="kn">import</span> <span class="n">OutputParserLike</span>
 <span class="kn">from</span> <span class="nn">langchain_core.outputs</span> <span class="kn">import</span> <span class="n">ChatGeneration</span><span class="p">,</span> <span class="n">ChatGenerationChunk</span><span class="p">,</span> <span class="n">ChatResult</span>
-<span class="kn">from</span> <span class="nn">langchain_core.pydantic_v1</span> <span class="kn">import</span> <span class="p">(</span>
-    <span class="n">BaseModel</span><span class="p">,</span>
-    <span class="n">Field</span><span class="p">,</span>
-    <span class="n">SecretStr</span><span class="p">,</span>
-    <span class="n">root_validator</span><span class="p">,</span>
-<span class="p">)</span>
 <span class="kn">from</span> <span class="nn">langchain_core.runnables</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">Runnable</span><span class="p">,</span>
     <span class="n">RunnableMap</span><span class="p">,</span>
@@ -298,7 +292,15 @@ document.write(`
 <span class="p">)</span>
 <span class="kn">from</span> <span class="nn">langchain_core.utils.function_calling</span> <span class="kn">import</span> <span class="n">convert_to_openai_tool</span>
 <span class="kn">from</span> <span class="nn">langchain_core.utils.pydantic</span> <span class="kn">import</span> <span class="n">is_basemodel_subclass</span>
-<span class="kn">from</span> <span class="nn">typing_extensions</span> <span class="kn">import</span> <span class="n">NotRequired</span>
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">BaseModel</span><span class="p">,</span>
+    <span class="n">ConfigDict</span><span class="p">,</span>
+    <span class="n">Field</span><span class="p">,</span>
+    <span class="n">PrivateAttr</span><span class="p">,</span>
+    <span class="n">SecretStr</span><span class="p">,</span>
+    <span class="n">model_validator</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">typing_extensions</span> <span class="kn">import</span> <span class="n">NotRequired</span><span class="p">,</span> <span class="n">Self</span>
 
 <span class="kn">from</span> <span class="nn">langchain_anthropic.output_parsers</span> <span class="kn">import</span> <span class="n">extract_tool_calls</span>
 
@@ -343,7 +345,7 @@ document.write(`
 <span class="w">    </span><span class="sd">"""Merge runs of human/tool messages into single human messages with content blocks."""</span>  <span class="c1"># noqa: E501</span>
     <span class="n">merged</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">curr</span> <span class="ow">in</span> <span class="n">messages</span><span class="p">:</span>
-        <span class="n">curr</span> <span class="o">=</span> <span class="n">curr</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">deep</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">curr</span> <span class="o">=</span> <span class="n">curr</span><span class="o">.</span><span class="n">model_copy</span><span class="p">(</span><span class="n">deep</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">curr</span><span class="p">,</span> <span class="n">ToolMessage</span><span class="p">):</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">curr</span><span class="o">.</span><span class="n">content</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">all</span><span class="p">(</span>
                 <span class="nb">isinstance</span><span class="p">(</span><span class="n">block</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">and</span> <span class="n">block</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"type"</span><span class="p">)</span> <span class="o">==</span> <span class="s2">"tool_result"</span>
@@ -484,7 +486,9 @@ document.write(`
     <span class="k">return</span> <span class="n">system</span><span class="p">,</span> <span class="n">formatted_messages</span>
 
 
-<div class="viewcode-block" id="ChatAnthropic"><a class="viewcode-back" href="../../anthropic/chat_models/langchain_anthropic.chat_models.ChatAnthropic.html#langchain_anthropic.chat_models.ChatAnthropic">[docs]</a><span class="k">class</span> <span class="nc">ChatAnthropic</span><span class="p">(</span><span class="n">BaseChatModel</span><span class="p">):</span>
+<div class="viewcode-block" id="ChatAnthropic">
+<a class="viewcode-back" href="../../anthropic/chat_models/langchain_anthropic.chat_models.ChatAnthropic.html#langchain_anthropic.chat_models.ChatAnthropic">[docs]</a>
+<span class="k">class</span> <span class="nc">ChatAnthropic</span><span class="p">(</span><span class="n">BaseChatModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Anthropic chat models.</span>
 
 <span class="sd">    See https://docs.anthropic.com/en/docs/models-overview for a list of the latest models.</span>
@@ -612,7 +616,7 @@ document.write(`
 <span class="sd">    Tool calling:</span>
 <span class="sd">        .. code-block:: python</span>
 
-<span class="sd">            from langchain_core.pydantic_v1 import BaseModel, Field</span>
+<span class="sd">            from pydantic import BaseModel, Field</span>
 
 <span class="sd">            class GetWeather(BaseModel):</span>
 <span class="sd">                '''Get the current weather in a given location'''</span>
@@ -650,7 +654,7 @@ document.write(`
 
 <span class="sd">            from typing import Optional</span>
 
-<span class="sd">            from langchain_core.pydantic_v1 import BaseModel, Field</span>
+<span class="sd">            from pydantic import BaseModel, Field</span>
 
 <span class="sd">            class Joke(BaseModel):</span>
 <span class="sd">                '''Joke to tell user.'''</span>
@@ -737,13 +741,12 @@ document.write(`
 
 <span class="sd">    """</span>  <span class="c1"># noqa: E501</span>
 
-    <span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""Configuration for this pydantic object."""</span>
+    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span>
+        <span class="n">populate_by_name</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span>
 
-        <span class="n">allow_population_by_field_name</span> <span class="o">=</span> <span class="kc">True</span>
-
-    <span class="n">_client</span><span class="p">:</span> <span class="n">anthropic</span><span class="o">.</span><span class="n">Client</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
-    <span class="n">_async_client</span><span class="p">:</span> <span class="n">anthropic</span><span class="o">.</span><span class="n">AsyncClient</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="n">_client</span><span class="p">:</span> <span class="n">anthropic</span><span class="o">.</span><span class="n">Client</span> <span class="o">=</span> <span class="n">PrivateAttr</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="n">_async_client</span><span class="p">:</span> <span class="n">anthropic</span><span class="o">.</span><span class="n">AsyncClient</span> <span class="o">=</span> <span class="n">PrivateAttr</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 
     <span class="n">model</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">alias</span><span class="o">=</span><span class="s2">"model_name"</span><span class="p">)</span>
 <span class="w">    </span><span class="sd">"""Model name to use."""</span>
@@ -855,8 +858,9 @@ document.write(`
             <span class="n">ls_params</span><span class="p">[</span><span class="s2">"ls_stop"</span><span class="p">]</span> <span class="o">=</span> <span class="n">ls_stop</span>
         <span class="k">return</span> <span class="n">ls_params</span>
 
-    <span class="nd">@root_validator</span><span class="p">(</span><span class="n">pre</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">build_extra</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+    <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">"before"</span><span class="p">)</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">build_extra</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
         <span class="n">extra</span> <span class="o">=</span> <span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"model_kwargs"</span><span class="p">,</span> <span class="p">{})</span>
         <span class="n">all_required_field_names</span> <span class="o">=</span> <span class="n">get_pydantic_field_names</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
         <span class="n">values</span><span class="p">[</span><span class="s2">"model_kwargs"</span><span class="p">]</span> <span class="o">=</span> <span class="n">build_extra_kwargs</span><span class="p">(</span>
@@ -864,28 +868,25 @@ document.write(`
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">values</span>
 
-    <span class="nd">@root_validator</span><span class="p">(</span><span class="n">pre</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">skip_on_failure</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">post_init</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
-        <span class="n">api_key</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="s2">"anthropic_api_key"</span><span class="p">]</span><span class="o">.</span><span class="n">get_secret_value</span><span class="p">()</span>
-        <span class="n">api_url</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="s2">"anthropic_api_url"</span><span class="p">]</span>
-        <span class="n">client_params</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">"after"</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">post_init</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+        <span class="n">api_key</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">anthropic_api_key</span><span class="o">.</span><span class="n">get_secret_value</span><span class="p">()</span>
+        <span class="n">api_url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">anthropic_api_url</span>
+        <span class="n">client_params</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">"api_key"</span><span class="p">:</span> <span class="n">api_key</span><span class="p">,</span>
             <span class="s2">"base_url"</span><span class="p">:</span> <span class="n">api_url</span><span class="p">,</span>
-            <span class="s2">"max_retries"</span><span class="p">:</span> <span class="n">values</span><span class="p">[</span><span class="s2">"max_retries"</span><span class="p">],</span>
-            <span class="s2">"default_headers"</span><span class="p">:</span> <span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"default_headers"</span><span class="p">),</span>
+            <span class="s2">"max_retries"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_retries</span><span class="p">,</span>
+            <span class="s2">"default_headers"</span><span class="p">:</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">default_headers</span> <span class="ow">or</span> <span class="kc">None</span><span class="p">),</span>
         <span class="p">}</span>
         <span class="c1"># value &lt;= 0 indicates the param should be ignored. None is a meaningful value</span>
         <span class="c1"># for Anthropic client and treated differently than not specifying the param at</span>
         <span class="c1"># all.</span>
-        <span class="k">if</span> <span class="p">(</span>
-            <span class="n">values</span><span class="p">[</span><span class="s2">"default_request_timeout"</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span>
-            <span class="ow">or</span> <span class="n">values</span><span class="p">[</span><span class="s2">"default_request_timeout"</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span>
-        <span class="p">):</span>
-            <span class="n">client_params</span><span class="p">[</span><span class="s2">"timeout"</span><span class="p">]</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="s2">"default_request_timeout"</span><span class="p">]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_request_timeout</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_request_timeout</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">client_params</span><span class="p">[</span><span class="s2">"timeout"</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_request_timeout</span>
 
-        <span class="n">values</span><span class="p">[</span><span class="s2">"_client"</span><span class="p">]</span> <span class="o">=</span> <span class="n">anthropic</span><span class="o">.</span><span class="n">Client</span><span class="p">(</span><span class="o">**</span><span class="n">client_params</span><span class="p">)</span>
-        <span class="n">values</span><span class="p">[</span><span class="s2">"_async_client"</span><span class="p">]</span> <span class="o">=</span> <span class="n">anthropic</span><span class="o">.</span><span class="n">AsyncClient</span><span class="p">(</span><span class="o">**</span><span class="n">client_params</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">values</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_client</span> <span class="o">=</span> <span class="n">anthropic</span><span class="o">.</span><span class="n">Client</span><span class="p">(</span><span class="o">**</span><span class="n">client_params</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_async_client</span> <span class="o">=</span> <span class="n">anthropic</span><span class="o">.</span><span class="n">AsyncClient</span><span class="p">(</span><span class="o">**</span><span class="n">client_params</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span>
 
     <span class="k">def</span> <span class="nf">_get_request_payload</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -1023,7 +1024,9 @@ document.write(`
         <span class="n">data</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_async_client</span><span class="o">.</span><span class="n">messages</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="o">**</span><span class="n">payload</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format_output</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-<div class="viewcode-block" id="ChatAnthropic.bind_tools"><a class="viewcode-back" href="../../anthropic/chat_models/langchain_anthropic.chat_models.ChatAnthropic.html#langchain_anthropic.chat_models.ChatAnthropic.bind_tools">[docs]</a>    <span class="k">def</span> <span class="nf">bind_tools</span><span class="p">(</span>
+<div class="viewcode-block" id="ChatAnthropic.bind_tools">
+<a class="viewcode-back" href="../../anthropic/chat_models/langchain_anthropic.chat_models.ChatAnthropic.html#langchain_anthropic.chat_models.ChatAnthropic.bind_tools">[docs]</a>
+    <span class="k">def</span> <span class="nf">bind_tools</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">tools</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">Type</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">BaseTool</span><span class="p">]],</span>
         <span class="o">*</span><span class="p">,</span>
@@ -1054,7 +1057,7 @@ document.write(`
 <span class="sd">            .. code-block:: python</span>
 
 <span class="sd">                from langchain_anthropic import ChatAnthropic</span>
-<span class="sd">                from langchain_core.pydantic_v1 import BaseModel, Field</span>
+<span class="sd">                from pydantic import BaseModel, Field</span>
 
 <span class="sd">                class GetWeather(BaseModel):</span>
 <span class="sd">                    '''Get the current weather in a given location'''</span>
@@ -1083,7 +1086,7 @@ document.write(`
 <span class="sd">            .. code-block:: python</span>
 
 <span class="sd">                from langchain_anthropic import ChatAnthropic</span>
-<span class="sd">                from langchain_core.pydantic_v1 import BaseModel, Field</span>
+<span class="sd">                from pydantic import BaseModel, Field</span>
 
 <span class="sd">                class GetWeather(BaseModel):</span>
 <span class="sd">                    '''Get the current weather in a given location'''</span>
@@ -1105,7 +1108,7 @@ document.write(`
 <span class="sd">            .. code-block:: python</span>
 
 <span class="sd">                from langchain_anthropic import ChatAnthropic</span>
-<span class="sd">                from langchain_core.pydantic_v1 import BaseModel, Field</span>
+<span class="sd">                from pydantic import BaseModel, Field</span>
 
 <span class="sd">                class GetWeather(BaseModel):</span>
 <span class="sd">                    '''Get the current weather in a given location'''</span>
@@ -1126,7 +1129,7 @@ document.write(`
 <span class="sd">            .. code-block:: python</span>
 
 <span class="sd">                from langchain_anthropic import ChatAnthropic, convert_to_anthropic_tool</span>
-<span class="sd">                from langchain_core.pydantic_v1 import BaseModel, Field</span>
+<span class="sd">                from pydantic import BaseModel, Field</span>
 
 <span class="sd">                class GetWeather(BaseModel):</span>
 <span class="sd">                    '''Get the current weather in a given location'''</span>
@@ -1183,7 +1186,10 @@ document.write(`
             <span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="n">tools</span><span class="o">=</span><span class="n">formatted_tools</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ChatAnthropic.with_structured_output"><a class="viewcode-back" href="../../anthropic/chat_models/langchain_anthropic.chat_models.ChatAnthropic.html#langchain_anthropic.chat_models.ChatAnthropic.with_structured_output">[docs]</a>    <span class="k">def</span> <span class="nf">with_structured_output</span><span class="p">(</span>
+
+<div class="viewcode-block" id="ChatAnthropic.with_structured_output">
+<a class="viewcode-back" href="../../anthropic/chat_models/langchain_anthropic.chat_models.ChatAnthropic.html#langchain_anthropic.chat_models.ChatAnthropic.with_structured_output">[docs]</a>
+    <span class="k">def</span> <span class="nf">with_structured_output</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">schema</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Dict</span><span class="p">,</span> <span class="n">Type</span><span class="p">[</span><span class="n">BaseModel</span><span class="p">]],</span>
         <span class="o">*</span><span class="p">,</span>
@@ -1236,7 +1242,7 @@ document.write(`
 <span class="sd">            .. code-block:: python</span>
 
 <span class="sd">                from langchain_anthropic import ChatAnthropic</span>
-<span class="sd">                from langchain_core.pydantic_v1 import BaseModel</span>
+<span class="sd">                from pydantic import BaseModel</span>
 
 <span class="sd">                class AnswerWithJustification(BaseModel):</span>
 <span class="sd">                    '''An answer to the user question along with justification for the answer.'''</span>
@@ -1257,7 +1263,7 @@ document.write(`
 <span class="sd">            .. code-block:: python</span>
 
 <span class="sd">                from langchain_anthropic import ChatAnthropic</span>
-<span class="sd">                from langchain_core.pydantic_v1 import BaseModel</span>
+<span class="sd">                from pydantic import BaseModel</span>
 
 <span class="sd">                class AnswerWithJustification(BaseModel):</span>
 <span class="sd">                    '''An answer to the user question along with justification for the answer.'''</span>
@@ -1323,10 +1329,14 @@ document.write(`
             <span class="p">)</span>
             <span class="k">return</span> <span class="n">RunnableMap</span><span class="p">(</span><span class="n">raw</span><span class="o">=</span><span class="n">llm</span><span class="p">)</span> <span class="o">|</span> <span class="n">parser_with_fallback</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">llm</span> <span class="o">|</span> <span class="n">output_parser</span></div></div>
+            <span class="k">return</span> <span class="n">llm</span> <span class="o">|</span> <span class="n">output_parser</span></div>
+</div>
 
 
-<div class="viewcode-block" id="AnthropicTool"><a class="viewcode-back" href="../../anthropic/chat_models/langchain_anthropic.chat_models.AnthropicTool.html#langchain_anthropic.chat_models.AnthropicTool">[docs]</a><span class="k">class</span> <span class="nc">AnthropicTool</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
+
+<div class="viewcode-block" id="AnthropicTool">
+<a class="viewcode-back" href="../../anthropic/chat_models/langchain_anthropic.chat_models.AnthropicTool.html#langchain_anthropic.chat_models.AnthropicTool">[docs]</a>
+<span class="k">class</span> <span class="nc">AnthropicTool</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Anthropic tool definition."""</span>
 
     <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
@@ -1335,7 +1345,10 @@ document.write(`
     <span class="n">cache_control</span><span class="p">:</span> <span class="n">NotRequired</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span></div>
 
 
-<div class="viewcode-block" id="convert_to_anthropic_tool"><a class="viewcode-back" href="../../anthropic/chat_models/langchain_anthropic.chat_models.convert_to_anthropic_tool.html#langchain_anthropic.chat_models.convert_to_anthropic_tool">[docs]</a><span class="k">def</span> <span class="nf">convert_to_anthropic_tool</span><span class="p">(</span>
+
+<div class="viewcode-block" id="convert_to_anthropic_tool">
+<a class="viewcode-back" href="../../anthropic/chat_models/langchain_anthropic.chat_models.convert_to_anthropic_tool.html#langchain_anthropic.chat_models.convert_to_anthropic_tool">[docs]</a>
+<span class="k">def</span> <span class="nf">convert_to_anthropic_tool</span><span class="p">(</span>
     <span class="n">tool</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">Type</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">BaseTool</span><span class="p">],</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AnthropicTool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Convert a tool-like object to an Anthropic tool definition."""</span>
@@ -1352,6 +1365,7 @@ document.write(`
             <span class="n">input_schema</span><span class="o">=</span><span class="n">oai_formatted</span><span class="p">[</span><span class="s2">"parameters"</span><span class="p">],</span>
         <span class="p">)</span>
     <span class="k">return</span> <span class="n">anthropic_formatted</span></div>
+
 
 
 <span class="k">def</span> <span class="nf">_tools_in_params</span><span class="p">(</span><span class="n">params</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
@@ -1469,9 +1483,12 @@ document.write(`
     <span class="k">return</span> <span class="n">message_chunk</span>
 
 
-<div class="viewcode-block" id="ChatAnthropicMessages"><a class="viewcode-back" href="../../anthropic/chat_models/langchain_anthropic.chat_models.ChatAnthropicMessages.html#langchain_anthropic.chat_models.ChatAnthropicMessages">[docs]</a><span class="nd">@deprecated</span><span class="p">(</span><span class="n">since</span><span class="o">=</span><span class="s2">"0.1.0"</span><span class="p">,</span> <span class="n">removal</span><span class="o">=</span><span class="s2">"0.3.0"</span><span class="p">,</span> <span class="n">alternative</span><span class="o">=</span><span class="s2">"ChatAnthropic"</span><span class="p">)</span>
+<div class="viewcode-block" id="ChatAnthropicMessages">
+<a class="viewcode-back" href="../../anthropic/chat_models/langchain_anthropic.chat_models.ChatAnthropicMessages.html#langchain_anthropic.chat_models.ChatAnthropicMessages">[docs]</a>
+<span class="nd">@deprecated</span><span class="p">(</span><span class="n">since</span><span class="o">=</span><span class="s2">"0.1.0"</span><span class="p">,</span> <span class="n">removal</span><span class="o">=</span><span class="s2">"0.3.0"</span><span class="p">,</span> <span class="n">alternative</span><span class="o">=</span><span class="s2">"ChatAnthropic"</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">ChatAnthropicMessages</span><span class="p">(</span><span class="n">ChatAnthropic</span><span class="p">):</span>
     <span class="k">pass</span></div>
+
 </pre></div>
 </article>
 </div>

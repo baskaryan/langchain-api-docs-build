@@ -1,7 +1,7 @@
 
 <!DOCTYPE html>
 
-<html data-content_root="" lang="en">
+<html data-content_root="../../../" lang="en">
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
@@ -18,21 +18,21 @@
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" rel="preload" type="font/woff2"/>
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" rel="preload" type="font/woff2"/>
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" rel="preload" type="font/woff2"/>
-<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css?v=a746c00c" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/autodoc_pydantic.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/sphinx-design.4cbf315f70debaebd550c87a6162cf0f.min.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/css/custom.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/copybutton.css?v=76b2166b" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/sphinx-design.min.css?v=95c83b7e" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/css/custom.css?v=b95e2228" rel="stylesheet" type="text/css"/>
 <!-- Pre-loaded scripts that we'll load fully later -->
 <link as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
 <link as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
 <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-<script src="../../../_static/doctools.js"></script>
-<script src="../../../_static/sphinx_highlight.js"></script>
-<script src="../../../_static/clipboard.min.js"></script>
-<script src="../../../_static/copybutton.js"></script>
-<script src="../../../_static/design-tabs.js"></script>
+<script src="../../../_static/documentation_options.js?v=3b5cce75"></script>
+<script src="../../../_static/doctools.js?v=9a2dae69"></script>
+<script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+<script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+<script src="../../../_static/copybutton.js?v=f281be69"></script>
+<script src="../../../_static/design-tabs.js?v=f930bc37"></script>
 <script>DOCUMENTATION_OPTIONS.pagename = '_modules/langchain_community/llms/databricks';</script>
 <link href="../../../_static/favicon.png" rel="icon"/>
 <link href="../../../search.html" rel="search" title="Search"/>
@@ -236,12 +236,12 @@ document.write(`
 <span class="kn">import</span> <span class="nn">requests</span>
 <span class="kn">from</span> <span class="nn">langchain_core.callbacks</span> <span class="kn">import</span> <span class="n">CallbackManagerForLLMRun</span>
 <span class="kn">from</span> <span class="nn">langchain_core.language_models</span> <span class="kn">import</span> <span class="n">LLM</span>
-<span class="kn">from</span> <span class="nn">langchain_core.pydantic_v1</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">BaseModel</span><span class="p">,</span>
+    <span class="n">ConfigDict</span><span class="p">,</span>
     <span class="n">Field</span><span class="p">,</span>
     <span class="n">PrivateAttr</span><span class="p">,</span>
-    <span class="n">root_validator</span><span class="p">,</span>
-    <span class="n">validator</span><span class="p">,</span>
+    <span class="n">model_validator</span><span class="p">,</span>
 <span class="p">)</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"Databricks"</span><span class="p">]</span>
@@ -326,8 +326,9 @@ document.write(`
     <span class="k">def</span> <span class="nf">llm</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">task</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"llm/v1/chat"</span><span class="p">,</span> <span class="s2">"llm/v1/completions"</span><span class="p">,</span> <span class="s2">"llama2/chat"</span><span class="p">)</span>
 
-    <span class="nd">@root_validator</span><span class="p">(</span><span class="n">pre</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">set_api_url</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+    <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">"before"</span><span class="p">)</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">set_api_url</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
         <span class="k">if</span> <span class="s2">"api_url"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">values</span><span class="p">:</span>
             <span class="n">host</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="s2">"host"</span><span class="p">]</span>
             <span class="n">endpoint_name</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="s2">"endpoint_name"</span><span class="p">]</span>
@@ -370,8 +371,9 @@ document.write(`
     <span class="n">cluster_id</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">cluster_driver_port</span><span class="p">:</span> <span class="nb">str</span>
 
-    <span class="nd">@root_validator</span><span class="p">(</span><span class="n">pre</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">set_api_url</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+    <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">"before"</span><span class="p">)</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">set_api_url</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
         <span class="k">if</span> <span class="s2">"api_url"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">values</span><span class="p">:</span>
             <span class="n">host</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="s2">"host"</span><span class="p">]</span>
             <span class="n">cluster_id</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="s2">"cluster_id"</span><span class="p">]</span>
@@ -387,7 +389,9 @@ document.write(`
         <span class="k">return</span> <span class="n">transform_output_fn</span><span class="p">(</span><span class="n">resp</span><span class="p">)</span> <span class="k">if</span> <span class="n">transform_output_fn</span> <span class="k">else</span> <span class="n">resp</span>
 
 
-<div class="viewcode-block" id="get_repl_context"><a class="viewcode-back" href="../../../community/llms/langchain_community.llms.databricks.get_repl_context.html#langchain_community.llms.databricks.get_repl_context">[docs]</a><span class="k">def</span> <span class="nf">get_repl_context</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<div class="viewcode-block" id="get_repl_context">
+<a class="viewcode-back" href="../../../community/llms/langchain_community.llms.databricks.get_repl_context.html#langchain_community.llms.databricks.get_repl_context">[docs]</a>
+<span class="k">def</span> <span class="nf">get_repl_context</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Get the notebook REPL context if running inside a Databricks notebook.</span>
 <span class="sd">    Returns None otherwise.</span>
 <span class="sd">    """</span>
@@ -401,7 +405,10 @@ document.write(`
         <span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="get_default_host"><a class="viewcode-back" href="../../../community/llms/langchain_community.llms.databricks.get_default_host.html#langchain_community.llms.databricks.get_default_host">[docs]</a><span class="k">def</span> <span class="nf">get_default_host</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+
+<div class="viewcode-block" id="get_default_host">
+<a class="viewcode-back" href="../../../community/llms/langchain_community.llms.databricks.get_default_host.html#langchain_community.llms.databricks.get_default_host">[docs]</a>
+<span class="k">def</span> <span class="nf">get_default_host</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Get the default Databricks workspace hostname.</span>
 <span class="sd">    Raises an error if the hostname cannot be automatically determined.</span>
 <span class="sd">    """</span>
@@ -421,7 +428,10 @@ document.write(`
     <span class="k">return</span> <span class="n">host</span></div>
 
 
-<div class="viewcode-block" id="get_default_api_token"><a class="viewcode-back" href="../../../community/llms/langchain_community.llms.databricks.get_default_api_token.html#langchain_community.llms.databricks.get_default_api_token">[docs]</a><span class="k">def</span> <span class="nf">get_default_api_token</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+
+<div class="viewcode-block" id="get_default_api_token">
+<a class="viewcode-back" href="../../../community/llms/langchain_community.llms.databricks.get_default_api_token.html#langchain_community.llms.databricks.get_default_api_token">[docs]</a>
+<span class="k">def</span> <span class="nf">get_default_api_token</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Get the default Databricks personal access token.</span>
 <span class="sd">    Raises an error if the token cannot be automatically determined.</span>
 <span class="sd">    """</span>
@@ -438,6 +448,7 @@ document.write(`
         <span class="p">)</span>
     <span class="c1"># TODO: support Databricks CLI profile</span>
     <span class="k">return</span> <span class="n">api_token</span></div>
+
 
 
 <span class="k">def</span> <span class="nf">_is_hex_string</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
@@ -489,7 +500,9 @@ document.write(`
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Failed to pickle the function: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="Databricks"><a class="viewcode-back" href="../../../community/llms/langchain_community.llms.databricks.Databricks.html#langchain_community.llms.databricks.Databricks">[docs]</a><span class="k">class</span> <span class="nc">Databricks</span><span class="p">(</span><span class="n">LLM</span><span class="p">):</span>
+<div class="viewcode-block" id="Databricks">
+<a class="viewcode-back" href="../../../community/llms/langchain_community.llms.databricks.Databricks.html#langchain_community.llms.databricks.Databricks">[docs]</a>
+<span class="k">class</span> <span class="nc">Databricks</span><span class="p">(</span><span class="n">LLM</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Databricks serving endpoint or a cluster driver proxy app for LLM.</span>
 
 <span class="sd">    It supports two endpoint types:</span>
@@ -624,9 +637,9 @@ document.write(`
 
     <span class="n">_client</span><span class="p">:</span> <span class="n">_DatabricksClientBase</span> <span class="o">=</span> <span class="n">PrivateAttr</span><span class="p">()</span>
 
-    <span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
-        <span class="n">extra</span> <span class="o">=</span> <span class="s2">"forbid"</span>
-        <span class="n">underscore_attrs_are_private</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span>
+        <span class="n">extra</span><span class="o">=</span><span class="s2">"forbid"</span><span class="p">,</span>
+    <span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">_llm_params</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
@@ -640,18 +653,21 @@ document.write(`
             <span class="n">params</span><span class="p">[</span><span class="s2">"max_tokens"</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_tokens</span>
         <span class="k">return</span> <span class="n">params</span>
 
-    <span class="nd">@validator</span><span class="p">(</span><span class="s2">"cluster_id"</span><span class="p">,</span> <span class="n">always</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">set_cluster_id</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-        <span class="k">if</span> <span class="n">v</span> <span class="ow">and</span> <span class="n">values</span><span class="p">[</span><span class="s2">"endpoint_name"</span><span class="p">]:</span>
+    <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">"before"</span><span class="p">)</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">set_cluster_id</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="n">cluster_id</span> <span class="o">=</span> <span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"cluster_id"</span><span class="p">)</span>
+        <span class="n">endpoint_name</span> <span class="o">=</span> <span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"endpoint_name"</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">cluster_id</span> <span class="ow">and</span> <span class="n">endpoint_name</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Cannot set both endpoint_name and cluster_id."</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="n">values</span><span class="p">[</span><span class="s2">"endpoint_name"</span><span class="p">]:</span>
-            <span class="k">return</span> <span class="kc">None</span>
-        <span class="k">elif</span> <span class="n">v</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">v</span>
+        <span class="k">elif</span> <span class="n">endpoint_name</span><span class="p">:</span>
+            <span class="n">values</span><span class="p">[</span><span class="s2">"cluster_id"</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">elif</span> <span class="n">cluster_id</span><span class="p">:</span>
+            <span class="k">pass</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">try</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">v</span> <span class="o">:=</span> <span class="n">get_repl_context</span><span class="p">()</span><span class="o">.</span><span class="n">clusterId</span><span class="p">:</span>
-                    <span class="k">return</span> <span class="n">v</span>
+                <span class="k">if</span> <span class="n">context_cluster_id</span> <span class="o">:=</span> <span class="n">get_repl_context</span><span class="p">()</span><span class="o">.</span><span class="n">clusterId</span><span class="p">:</span>
+                    <span class="n">values</span><span class="p">[</span><span class="s2">"cluster_id"</span><span class="p">]</span> <span class="o">=</span> <span class="n">context_cluster_id</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Context doesn't contain clusterId."</span><span class="p">)</span>
             <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
@@ -660,27 +676,28 @@ document.write(`
                     <span class="sa">f</span><span class="s2">" error: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span>
                 <span class="p">)</span>
 
-    <span class="nd">@validator</span><span class="p">(</span><span class="s2">"cluster_driver_port"</span><span class="p">,</span> <span class="n">always</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">set_cluster_driver_port</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-        <span class="k">if</span> <span class="n">v</span> <span class="ow">and</span> <span class="n">values</span><span class="p">[</span><span class="s2">"endpoint_name"</span><span class="p">]:</span>
+        <span class="n">cluster_driver_port</span> <span class="o">=</span> <span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"cluster_driver_port"</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">cluster_driver_port</span> <span class="ow">and</span> <span class="n">endpoint_name</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Cannot set both endpoint_name and cluster_driver_port."</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="n">values</span><span class="p">[</span><span class="s2">"endpoint_name"</span><span class="p">]:</span>
-            <span class="k">return</span> <span class="kc">None</span>
-        <span class="k">elif</span> <span class="n">v</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">endpoint_name</span><span class="p">:</span>
+            <span class="n">values</span><span class="p">[</span><span class="s2">"cluster_driver_port"</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">elif</span> <span class="n">cluster_driver_port</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                 <span class="s2">"Must set cluster_driver_port to connect to a cluster driver."</span>
             <span class="p">)</span>
-        <span class="k">elif</span> <span class="nb">int</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Invalid cluster_driver_port: </span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">int</span><span class="p">(</span><span class="n">cluster_driver_port</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Invalid cluster_driver_port: </span><span class="si">{</span><span class="n">cluster_driver_port</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">v</span>
+            <span class="k">pass</span>
 
-    <span class="nd">@validator</span><span class="p">(</span><span class="s2">"model_kwargs"</span><span class="p">,</span> <span class="n">always</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">set_model_kwargs</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
-        <span class="k">if</span> <span class="n">v</span><span class="p">:</span>
-            <span class="k">assert</span> <span class="s2">"prompt"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">v</span><span class="p">,</span> <span class="s2">"model_kwargs must not contain key 'prompt'"</span>
-            <span class="k">assert</span> <span class="s2">"stop"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">v</span><span class="p">,</span> <span class="s2">"model_kwargs must not contain key 'stop'"</span>
-        <span class="k">return</span> <span class="n">v</span>
+        <span class="k">if</span> <span class="n">model_kwargs</span> <span class="o">:=</span> <span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"model_kwargs"</span><span class="p">):</span>
+            <span class="k">assert</span> <span class="p">(</span>
+                <span class="s2">"prompt"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">model_kwargs</span>
+            <span class="p">),</span> <span class="s2">"model_kwargs must not contain key 'prompt'"</span>
+            <span class="k">assert</span> <span class="p">(</span>
+                <span class="s2">"stop"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">model_kwargs</span>
+            <span class="p">),</span> <span class="s2">"model_kwargs must not contain key 'stop'"</span>
+        <span class="k">return</span> <span class="n">values</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">data</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
         <span class="k">if</span> <span class="s2">"transform_input_fn"</span> <span class="ow">in</span> <span class="n">data</span> <span class="ow">and</span> <span class="n">_is_hex_string</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">"transform_input_fn"</span><span class="p">]):</span>
@@ -785,6 +802,7 @@ document.write(`
             <span class="n">request</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform_input_fn</span><span class="p">(</span><span class="o">**</span><span class="n">request</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">transform_output_fn</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">transform_output_fn</span><span class="p">)</span></div>
+
 </pre></div>
 </article>
 </div>

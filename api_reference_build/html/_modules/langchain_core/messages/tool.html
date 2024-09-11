@@ -1,7 +1,7 @@
 
 <!DOCTYPE html>
 
-<html data-content_root="" lang="en">
+<html data-content_root="../../../" lang="en">
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
@@ -18,21 +18,21 @@
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" rel="preload" type="font/woff2"/>
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" rel="preload" type="font/woff2"/>
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" rel="preload" type="font/woff2"/>
-<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css?v=a746c00c" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/autodoc_pydantic.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/sphinx-design.4cbf315f70debaebd550c87a6162cf0f.min.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/css/custom.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/copybutton.css?v=76b2166b" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/sphinx-design.min.css?v=95c83b7e" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/css/custom.css?v=b95e2228" rel="stylesheet" type="text/css"/>
 <!-- Pre-loaded scripts that we'll load fully later -->
 <link as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
 <link as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
 <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-<script src="../../../_static/doctools.js"></script>
-<script src="../../../_static/sphinx_highlight.js"></script>
-<script src="../../../_static/clipboard.min.js"></script>
-<script src="../../../_static/copybutton.js"></script>
-<script src="../../../_static/design-tabs.js"></script>
+<script src="../../../_static/documentation_options.js?v=3b5cce75"></script>
+<script src="../../../_static/doctools.js?v=9a2dae69"></script>
+<script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+<script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+<script src="../../../_static/copybutton.js?v=f281be69"></script>
+<script src="../../../_static/design-tabs.js?v=f930bc37"></script>
 <script>DOCUMENTATION_OPTIONS.pagename = '_modules/langchain_core/messages/tool';</script>
 <link href="../../../_static/favicon.png" rel="icon"/>
 <link href="../../../search.html" rel="search" title="Search"/>
@@ -229,14 +229,18 @@ document.write(`
 <h1>Source code for langchain_core.messages.tool</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">uuid</span> <span class="kn">import</span> <span class="n">UUID</span>
 
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">Field</span><span class="p">,</span> <span class="n">model_validator</span>
 <span class="kn">from</span> <span class="nn">typing_extensions</span> <span class="kn">import</span> <span class="n">NotRequired</span><span class="p">,</span> <span class="n">TypedDict</span>
 
 <span class="kn">from</span> <span class="nn">langchain_core.messages.base</span> <span class="kn">import</span> <span class="n">BaseMessage</span><span class="p">,</span> <span class="n">BaseMessageChunk</span><span class="p">,</span> <span class="n">merge_content</span>
 <span class="kn">from</span> <span class="nn">langchain_core.utils._merge</span> <span class="kn">import</span> <span class="n">merge_dicts</span><span class="p">,</span> <span class="n">merge_obj</span>
 
 
-<div class="viewcode-block" id="ToolMessage"><a class="viewcode-back" href="../../../core/messages/langchain_core.messages.tool.ToolMessage.html#langchain_core.messages.tool.ToolMessage">[docs]</a><span class="k">class</span> <span class="nc">ToolMessage</span><span class="p">(</span><span class="n">BaseMessage</span><span class="p">):</span>
+<div class="viewcode-block" id="ToolMessage">
+<a class="viewcode-back" href="../../../core/messages/langchain_core.messages.tool.ToolMessage.html#langchain_core.messages.tool.ToolMessage">[docs]</a>
+<span class="k">class</span> <span class="nc">ToolMessage</span><span class="p">(</span><span class="n">BaseMessage</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Message for passing the result of executing a tool back to a model.</span>
 
 <span class="sd">    ToolMessages contain the result of a tool invocation. Typically, the result</span>
@@ -299,28 +303,69 @@ document.write(`
 <span class="sd">    .. versionadded:: 0.2.24</span>
 <span class="sd">    """</span>
 
+    <span class="n">additional_kwargs</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">,</span> <span class="nb">repr</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">"""Currently inherited from BaseMessage, but not used."""</span>
+    <span class="n">response_metadata</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">,</span> <span class="nb">repr</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">"""Currently inherited from BaseMessage, but not used."""</span>
+
     <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">get_lc_namespace</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">"""Get the namespace of the langchain object.</span>
 <span class="sd">        Default is ["langchain", "schema", "messages"]."""</span>
         <span class="k">return</span> <span class="p">[</span><span class="s2">"langchain"</span><span class="p">,</span> <span class="s2">"schema"</span><span class="p">,</span> <span class="s2">"messages"</span><span class="p">]</span>
 
+    <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">"before"</span><span class="p">)</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">coerce_args</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="n">content</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="s2">"content"</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
+            <span class="n">content</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">)):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">values</span><span class="p">[</span><span class="s2">"content"</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">"ToolMessage content should be a string or a list of string/dicts. "</span>
+                    <span class="sa">f</span><span class="s2">"Received:</span><span class="se">\n\n</span><span class="si">{</span><span class="n">content</span><span class="si">=}</span><span class="se">\n\n</span><span class="s2"> which could not be coerced into a "</span>
+                    <span class="s2">"string."</span>
+                <span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="n">values</span><span class="p">[</span><span class="s2">"content"</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">content</span><span class="p">):</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)):</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="n">values</span><span class="p">[</span><span class="s2">"content"</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+                    <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                            <span class="s2">"ToolMessage content should be a string or a list of "</span>
+                            <span class="s2">"string/dicts. Received a list but "</span>
+                            <span class="sa">f</span><span class="s2">"element ToolMessage.content[</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">] is not a dict and could "</span>
+                            <span class="sa">f</span><span class="s2">"not be coerced to a string.:</span><span class="se">\n\n</span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s2">"</span>
+                        <span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">values</span><span class="p">[</span><span class="s2">"content"</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">pass</span>
+
+        <span class="n">tool_call_id</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="s2">"tool_call_id"</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tool_call_id</span><span class="p">,</span> <span class="n">UUID</span><span class="p">):</span>
+            <span class="n">values</span><span class="p">[</span><span class="s2">"tool_call_id"</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">tool_call_id</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">values</span>
+
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Dict</span><span class="p">]]],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""Pass in content as positional arg.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            content: The string contents of the message.</span>
-<span class="sd">            kwargs: Additional fields to pass to the message</span>
-<span class="sd">        """</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="n">content</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 
-<span class="n">ToolMessage</span><span class="o">.</span><span class="n">update_forward_refs</span><span class="p">()</span>
+
+<span class="n">ToolMessage</span><span class="o">.</span><span class="n">model_rebuild</span><span class="p">()</span>
 
 
-<div class="viewcode-block" id="ToolMessageChunk"><a class="viewcode-back" href="../../../core/messages/langchain_core.messages.tool.ToolMessageChunk.html#langchain_core.messages.tool.ToolMessageChunk">[docs]</a><span class="k">class</span> <span class="nc">ToolMessageChunk</span><span class="p">(</span><span class="n">ToolMessage</span><span class="p">,</span> <span class="n">BaseMessageChunk</span><span class="p">):</span>
+<div class="viewcode-block" id="ToolMessageChunk">
+<a class="viewcode-back" href="../../../core/messages/langchain_core.messages.tool.ToolMessageChunk.html#langchain_core.messages.tool.ToolMessageChunk">[docs]</a>
+<span class="k">class</span> <span class="nc">ToolMessageChunk</span><span class="p">(</span><span class="n">ToolMessage</span><span class="p">,</span> <span class="n">BaseMessageChunk</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Tool Message chunk."""</span>
 
     <span class="c1"># Ignoring mypy re-assignment here since we're overriding the value</span>
@@ -357,7 +402,10 @@ document.write(`
         <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__add__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="ToolCall"><a class="viewcode-back" href="../../../core/messages/langchain_core.messages.tool.ToolCall.html#langchain_core.messages.tool.ToolCall">[docs]</a><span class="k">class</span> <span class="nc">ToolCall</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ToolCall">
+<a class="viewcode-back" href="../../../core/messages/langchain_core.messages.tool.ToolCall.html#langchain_core.messages.tool.ToolCall">[docs]</a>
+<span class="k">class</span> <span class="nc">ToolCall</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Represents a request to call a tool.</span>
 
 <span class="sd">    Example:</span>
@@ -387,11 +435,17 @@ document.write(`
     <span class="nb">type</span><span class="p">:</span> <span class="n">NotRequired</span><span class="p">[</span><span class="n">Literal</span><span class="p">[</span><span class="s2">"tool_call"</span><span class="p">]]</span></div>
 
 
-<div class="viewcode-block" id="tool_call"><a class="viewcode-back" href="../../../core/messages/langchain_core.messages.tool.tool_call.html#langchain_core.messages.tool.tool_call">[docs]</a><span class="k">def</span> <span class="nf">tool_call</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">args</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="nb">id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">ToolCall</span><span class="p">:</span>
+
+<div class="viewcode-block" id="tool_call">
+<a class="viewcode-back" href="../../../core/messages/langchain_core.messages.tool.tool_call.html#langchain_core.messages.tool.tool_call">[docs]</a>
+<span class="k">def</span> <span class="nf">tool_call</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">args</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="nb">id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">ToolCall</span><span class="p">:</span>
     <span class="k">return</span> <span class="n">ToolCall</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="nb">id</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s2">"tool_call"</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="ToolCallChunk"><a class="viewcode-back" href="../../../core/messages/langchain_core.messages.tool.ToolCallChunk.html#langchain_core.messages.tool.ToolCallChunk">[docs]</a><span class="k">class</span> <span class="nc">ToolCallChunk</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ToolCallChunk">
+<a class="viewcode-back" href="../../../core/messages/langchain_core.messages.tool.ToolCallChunk.html#langchain_core.messages.tool.ToolCallChunk">[docs]</a>
+<span class="k">class</span> <span class="nc">ToolCallChunk</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""A chunk of a tool call (e.g., as part of a stream).</span>
 
 <span class="sd">    When merging ToolCallChunks (e.g., via AIMessageChunk.__add__),</span>
@@ -422,7 +476,10 @@ document.write(`
     <span class="nb">type</span><span class="p">:</span> <span class="n">NotRequired</span><span class="p">[</span><span class="n">Literal</span><span class="p">[</span><span class="s2">"tool_call_chunk"</span><span class="p">]]</span></div>
 
 
-<div class="viewcode-block" id="tool_call_chunk"><a class="viewcode-back" href="../../../core/messages/langchain_core.messages.tool.tool_call_chunk.html#langchain_core.messages.tool.tool_call_chunk">[docs]</a><span class="k">def</span> <span class="nf">tool_call_chunk</span><span class="p">(</span>
+
+<div class="viewcode-block" id="tool_call_chunk">
+<a class="viewcode-back" href="../../../core/messages/langchain_core.messages.tool.tool_call_chunk.html#langchain_core.messages.tool.tool_call_chunk">[docs]</a>
+<span class="k">def</span> <span class="nf">tool_call_chunk</span><span class="p">(</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">args</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -434,7 +491,10 @@ document.write(`
     <span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="InvalidToolCall"><a class="viewcode-back" href="../../../core/messages/langchain_core.messages.tool.InvalidToolCall.html#langchain_core.messages.tool.InvalidToolCall">[docs]</a><span class="k">class</span> <span class="nc">InvalidToolCall</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
+
+<div class="viewcode-block" id="InvalidToolCall">
+<a class="viewcode-back" href="../../../core/messages/langchain_core.messages.tool.InvalidToolCall.html#langchain_core.messages.tool.InvalidToolCall">[docs]</a>
+<span class="k">class</span> <span class="nc">InvalidToolCall</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Allowance for errors made by LLM.</span>
 
 <span class="sd">    Here we add an `error` key to surface errors made during generation</span>
@@ -452,7 +512,10 @@ document.write(`
     <span class="nb">type</span><span class="p">:</span> <span class="n">NotRequired</span><span class="p">[</span><span class="n">Literal</span><span class="p">[</span><span class="s2">"invalid_tool_call"</span><span class="p">]]</span></div>
 
 
-<div class="viewcode-block" id="invalid_tool_call"><a class="viewcode-back" href="../../../core/messages/langchain_core.messages.tool.invalid_tool_call.html#langchain_core.messages.tool.invalid_tool_call">[docs]</a><span class="k">def</span> <span class="nf">invalid_tool_call</span><span class="p">(</span>
+
+<div class="viewcode-block" id="invalid_tool_call">
+<a class="viewcode-back" href="../../../core/messages/langchain_core.messages.tool.invalid_tool_call.html#langchain_core.messages.tool.invalid_tool_call">[docs]</a>
+<span class="k">def</span> <span class="nf">invalid_tool_call</span><span class="p">(</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">args</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -464,7 +527,10 @@ document.write(`
     <span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="default_tool_parser"><a class="viewcode-back" href="../../../core/messages/langchain_core.messages.tool.default_tool_parser.html#langchain_core.messages.tool.default_tool_parser">[docs]</a><span class="k">def</span> <span class="nf">default_tool_parser</span><span class="p">(</span>
+
+<div class="viewcode-block" id="default_tool_parser">
+<a class="viewcode-back" href="../../../core/messages/langchain_core.messages.tool.default_tool_parser.html#langchain_core.messages.tool.default_tool_parser">[docs]</a>
+<span class="k">def</span> <span class="nf">default_tool_parser</span><span class="p">(</span>
     <span class="n">raw_tool_calls</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">],</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">ToolCall</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">InvalidToolCall</span><span class="p">]]:</span>
 <span class="w">    </span><span class="sd">"""Best-effort parsing of tools."""</span>
@@ -495,7 +561,10 @@ document.write(`
     <span class="k">return</span> <span class="n">tool_calls</span><span class="p">,</span> <span class="n">invalid_tool_calls</span></div>
 
 
-<div class="viewcode-block" id="default_tool_chunk_parser"><a class="viewcode-back" href="../../../core/messages/langchain_core.messages.tool.default_tool_chunk_parser.html#langchain_core.messages.tool.default_tool_chunk_parser">[docs]</a><span class="k">def</span> <span class="nf">default_tool_chunk_parser</span><span class="p">(</span><span class="n">raw_tool_calls</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">ToolCallChunk</span><span class="p">]:</span>
+
+<div class="viewcode-block" id="default_tool_chunk_parser">
+<a class="viewcode-back" href="../../../core/messages/langchain_core.messages.tool.default_tool_chunk_parser.html#langchain_core.messages.tool.default_tool_chunk_parser">[docs]</a>
+<span class="k">def</span> <span class="nf">default_tool_chunk_parser</span><span class="p">(</span><span class="n">raw_tool_calls</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">ToolCallChunk</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">"""Best-effort parsing of tool chunks."""</span>
     <span class="n">tool_call_chunks</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">tool_call</span> <span class="ow">in</span> <span class="n">raw_tool_calls</span><span class="p">:</span>
@@ -513,6 +582,7 @@ document.write(`
         <span class="p">)</span>
         <span class="n">tool_call_chunks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">parsed</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">tool_call_chunks</span></div>
+
 
 
 <span class="k">def</span> <span class="nf">_merge_status</span><span class="p">(</span>

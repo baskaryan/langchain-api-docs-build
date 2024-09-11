@@ -1,7 +1,7 @@
 
 <!DOCTYPE html>
 
-<html data-content_root="" lang="en">
+<html data-content_root="../../../" lang="en">
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
@@ -18,21 +18,21 @@
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" rel="preload" type="font/woff2"/>
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" rel="preload" type="font/woff2"/>
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" rel="preload" type="font/woff2"/>
-<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css?v=a746c00c" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/autodoc_pydantic.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/sphinx-design.4cbf315f70debaebd550c87a6162cf0f.min.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/css/custom.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/copybutton.css?v=76b2166b" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/sphinx-design.min.css?v=95c83b7e" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/css/custom.css?v=b95e2228" rel="stylesheet" type="text/css"/>
 <!-- Pre-loaded scripts that we'll load fully later -->
 <link as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
 <link as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
 <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-<script src="../../../_static/doctools.js"></script>
-<script src="../../../_static/sphinx_highlight.js"></script>
-<script src="../../../_static/clipboard.min.js"></script>
-<script src="../../../_static/copybutton.js"></script>
-<script src="../../../_static/design-tabs.js"></script>
+<script src="../../../_static/documentation_options.js?v=3b5cce75"></script>
+<script src="../../../_static/doctools.js?v=9a2dae69"></script>
+<script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+<script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+<script src="../../../_static/copybutton.js?v=f281be69"></script>
+<script src="../../../_static/design-tabs.js?v=f930bc37"></script>
 <script>DOCUMENTATION_OPTIONS.pagename = '_modules/langchain/chains/base';</script>
 <link href="../../../_static/favicon.png" rel="icon"/>
 <link href="../../../search.html" rel="search" title="Search"/>
@@ -247,9 +247,9 @@ document.write(`
     <span class="n">CallbackManagerForChainRun</span><span class="p">,</span>
     <span class="n">Callbacks</span><span class="p">,</span>
 <span class="p">)</span>
+<span class="kn">from</span> <span class="nn">langchain_core.load.dump</span> <span class="kn">import</span> <span class="n">dumpd</span>
 <span class="kn">from</span> <span class="nn">langchain_core.memory</span> <span class="kn">import</span> <span class="n">BaseMemory</span>
 <span class="kn">from</span> <span class="nn">langchain_core.outputs</span> <span class="kn">import</span> <span class="n">RunInfo</span>
-<span class="kn">from</span> <span class="nn">langchain_core.pydantic_v1</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span><span class="p">,</span> <span class="n">root_validator</span><span class="p">,</span> <span class="n">validator</span>
 <span class="kn">from</span> <span class="nn">langchain_core.runnables</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">RunnableConfig</span><span class="p">,</span>
     <span class="n">RunnableSerializable</span><span class="p">,</span>
@@ -257,6 +257,13 @@ document.write(`
     <span class="n">run_in_executor</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="kn">from</span> <span class="nn">langchain_core.runnables.utils</span> <span class="kn">import</span> <span class="n">create_model</span>
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">BaseModel</span><span class="p">,</span>
+    <span class="n">ConfigDict</span><span class="p">,</span>
+    <span class="n">Field</span><span class="p">,</span>
+    <span class="n">field_validator</span><span class="p">,</span>
+    <span class="n">model_validator</span><span class="p">,</span>
+<span class="p">)</span>
 
 <span class="kn">from</span> <span class="nn">langchain.schema</span> <span class="kn">import</span> <span class="n">RUN_KEY</span>
 
@@ -269,7 +276,9 @@ document.write(`
     <span class="k">return</span> <span class="n">get_verbose</span><span class="p">()</span>
 
 
-<div class="viewcode-block" id="Chain"><a class="viewcode-back" href="../../../langchain/chains/langchain.chains.base.Chain.html#langchain.smith.evaluation.string_run_evaluator.Chain">[docs]</a><span class="k">class</span> <span class="nc">Chain</span><span class="p">(</span><span class="n">RunnableSerializable</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]],</span> <span class="n">ABC</span><span class="p">):</span>
+<div class="viewcode-block" id="Chain">
+<a class="viewcode-back" href="../../../langchain/chains/langchain.chains.base.Chain.html#langchain_community.chains.graph_qa.arangodb.Chain">[docs]</a>
+<span class="k">class</span> <span class="nc">Chain</span><span class="p">(</span><span class="n">RunnableSerializable</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]],</span> <span class="n">ABC</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Abstract base class for creating structured sequences of calls to components.</span>
 
 <span class="sd">    Chains should be used to encode a sequence of calls to components like</span>
@@ -324,8 +333,9 @@ document.write(`
     <span class="n">callback_manager</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">BaseCallbackManager</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">exclude</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="w">    </span><span class="sd">"""[DEPRECATED] Use `callbacks` instead."""</span>
 
-    <span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
-        <span class="n">arbitrary_types_allowed</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span>
+        <span class="n">arbitrary_types_allowed</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">get_input_schema</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">RunnableConfig</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
@@ -343,7 +353,9 @@ document.write(`
             <span class="s2">"ChainOutput"</span><span class="p">,</span> <span class="o">**</span><span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="p">(</span><span class="n">Any</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_keys</span><span class="p">}</span>
         <span class="p">)</span>
 
-<div class="viewcode-block" id="Chain.invoke"><a class="viewcode-back" href="../../../langchain/chains/langchain.chains.base.Chain.html#langchain.smith.evaluation.string_run_evaluator.Chain.invoke">[docs]</a>    <span class="k">def</span> <span class="nf">invoke</span><span class="p">(</span>
+<div class="viewcode-block" id="Chain.invoke">
+<a class="viewcode-back" href="../../../langchain/chains/langchain.chains.base.Chain.html#langchain_community.chains.graph_qa.arangodb.Chain.invoke">[docs]</a>
+    <span class="k">def</span> <span class="nf">invoke</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="nb">input</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
         <span class="n">config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">RunnableConfig</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -371,7 +383,7 @@ document.write(`
         <span class="n">new_arg_supported</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">signature</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_call</span><span class="p">)</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"run_manager"</span><span class="p">)</span>
 
         <span class="n">run_manager</span> <span class="o">=</span> <span class="n">callback_manager</span><span class="o">.</span><span class="n">on_chain_start</span><span class="p">(</span>
-            <span class="kc">None</span><span class="p">,</span>
+            <span class="n">dumpd</span><span class="p">(</span><span class="bp">self</span><span class="p">),</span>
             <span class="n">inputs</span><span class="p">,</span>
             <span class="n">run_id</span><span class="p">,</span>
             <span class="n">name</span><span class="o">=</span><span class="n">run_name</span><span class="p">,</span>
@@ -396,7 +408,10 @@ document.write(`
             <span class="n">final_outputs</span><span class="p">[</span><span class="n">RUN_KEY</span><span class="p">]</span> <span class="o">=</span> <span class="n">RunInfo</span><span class="p">(</span><span class="n">run_id</span><span class="o">=</span><span class="n">run_manager</span><span class="o">.</span><span class="n">run_id</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">final_outputs</span></div>
 
-<div class="viewcode-block" id="Chain.ainvoke"><a class="viewcode-back" href="../../../langchain/chains/langchain.chains.base.Chain.html#langchain.smith.evaluation.string_run_evaluator.Chain.ainvoke">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">ainvoke</span><span class="p">(</span>
+
+<div class="viewcode-block" id="Chain.ainvoke">
+<a class="viewcode-back" href="../../../langchain/chains/langchain.chains.base.Chain.html#langchain_community.chains.graph_qa.arangodb.Chain.ainvoke">[docs]</a>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">ainvoke</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="nb">input</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
         <span class="n">config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">RunnableConfig</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -423,7 +438,7 @@ document.write(`
         <span class="p">)</span>
         <span class="n">new_arg_supported</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">signature</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_acall</span><span class="p">)</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"run_manager"</span><span class="p">)</span>
         <span class="n">run_manager</span> <span class="o">=</span> <span class="k">await</span> <span class="n">callback_manager</span><span class="o">.</span><span class="n">on_chain_start</span><span class="p">(</span>
-            <span class="kc">None</span><span class="p">,</span>
+            <span class="n">dumpd</span><span class="p">(</span><span class="bp">self</span><span class="p">),</span>
             <span class="n">inputs</span><span class="p">,</span>
             <span class="n">run_id</span><span class="p">,</span>
             <span class="n">name</span><span class="o">=</span><span class="n">run_name</span><span class="p">,</span>
@@ -447,12 +462,14 @@ document.write(`
             <span class="n">final_outputs</span><span class="p">[</span><span class="n">RUN_KEY</span><span class="p">]</span> <span class="o">=</span> <span class="n">RunInfo</span><span class="p">(</span><span class="n">run_id</span><span class="o">=</span><span class="n">run_manager</span><span class="o">.</span><span class="n">run_id</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">final_outputs</span></div>
 
+
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">_chain_type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">"Saving not supported for this chain type."</span><span class="p">)</span>
 
-    <span class="nd">@root_validator</span><span class="p">(</span><span class="n">pre</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">raise_callback_manager_deprecation</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+    <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">"before"</span><span class="p">)</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">raise_callback_manager_deprecation</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Raise deprecation warning if callback_manager is used."""</span>
         <span class="k">if</span> <span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"callback_manager"</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"callbacks"</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -468,7 +485,8 @@ document.write(`
             <span class="n">values</span><span class="p">[</span><span class="s2">"callbacks"</span><span class="p">]</span> <span class="o">=</span> <span class="n">values</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"callback_manager"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">values</span>
 
-    <span class="nd">@validator</span><span class="p">(</span><span class="s2">"verbose"</span><span class="p">,</span> <span class="n">pre</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">always</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="nd">@field_validator</span><span class="p">(</span><span class="s2">"verbose"</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">"before"</span><span class="p">)</span>
+    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">set_verbose</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">verbose</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Set the chain verbosity.</span>
 
@@ -562,7 +580,9 @@ document.write(`
             <span class="kc">None</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_call</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">run_manager</span><span class="o">.</span><span class="n">get_sync</span><span class="p">()</span> <span class="k">if</span> <span class="n">run_manager</span> <span class="k">else</span> <span class="kc">None</span>
         <span class="p">)</span>
 
-<div class="viewcode-block" id="Chain.__call__"><a class="viewcode-back" href="../../../langchain/chains/langchain.chains.base.Chain.html#langchain.smith.evaluation.string_run_evaluator.Chain.__call__">[docs]</a>    <span class="nd">@deprecated</span><span class="p">(</span><span class="s2">"0.1.0"</span><span class="p">,</span> <span class="n">alternative</span><span class="o">=</span><span class="s2">"invoke"</span><span class="p">,</span> <span class="n">removal</span><span class="o">=</span><span class="s2">"1.0"</span><span class="p">)</span>
+<div class="viewcode-block" id="Chain.__call__">
+<a class="viewcode-back" href="../../../langchain/chains/langchain.chains.base.Chain.html#langchain_community.chains.graph_qa.arangodb.Chain.__call__">[docs]</a>
+    <span class="nd">@deprecated</span><span class="p">(</span><span class="s2">"0.1.0"</span><span class="p">,</span> <span class="n">alternative</span><span class="o">=</span><span class="s2">"invoke"</span><span class="p">,</span> <span class="n">removal</span><span class="o">=</span><span class="s2">"1.0"</span><span class="p">)</span>
     <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">inputs</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">Any</span><span class="p">],</span>
@@ -613,7 +633,10 @@ document.write(`
             <span class="n">include_run_info</span><span class="o">=</span><span class="n">include_run_info</span><span class="p">,</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="Chain.acall"><a class="viewcode-back" href="../../../langchain/chains/langchain.chains.base.Chain.html#langchain.smith.evaluation.string_run_evaluator.Chain.acall">[docs]</a>    <span class="nd">@deprecated</span><span class="p">(</span><span class="s2">"0.1.0"</span><span class="p">,</span> <span class="n">alternative</span><span class="o">=</span><span class="s2">"ainvoke"</span><span class="p">,</span> <span class="n">removal</span><span class="o">=</span><span class="s2">"1.0"</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Chain.acall">
+<a class="viewcode-back" href="../../../langchain/chains/langchain.chains.base.Chain.html#langchain_community.chains.graph_qa.arangodb.Chain.acall">[docs]</a>
+    <span class="nd">@deprecated</span><span class="p">(</span><span class="s2">"0.1.0"</span><span class="p">,</span> <span class="n">alternative</span><span class="o">=</span><span class="s2">"ainvoke"</span><span class="p">,</span> <span class="n">removal</span><span class="o">=</span><span class="s2">"1.0"</span><span class="p">)</span>
     <span class="k">async</span> <span class="k">def</span> <span class="nf">acall</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">inputs</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">Any</span><span class="p">],</span>
@@ -663,7 +686,10 @@ document.write(`
             <span class="n">include_run_info</span><span class="o">=</span><span class="n">include_run_info</span><span class="p">,</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="Chain.prep_outputs"><a class="viewcode-back" href="../../../langchain/chains/langchain.chains.base.Chain.html#langchain.smith.evaluation.string_run_evaluator.Chain.prep_outputs">[docs]</a>    <span class="k">def</span> <span class="nf">prep_outputs</span><span class="p">(</span>
+
+<div class="viewcode-block" id="Chain.prep_outputs">
+<a class="viewcode-back" href="../../../langchain/chains/langchain.chains.base.Chain.html#langchain_community.chains.graph_qa.arangodb.Chain.prep_outputs">[docs]</a>
+    <span class="k">def</span> <span class="nf">prep_outputs</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">inputs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
         <span class="n">outputs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
@@ -689,7 +715,10 @@ document.write(`
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">{</span><span class="o">**</span><span class="n">inputs</span><span class="p">,</span> <span class="o">**</span><span class="n">outputs</span><span class="p">}</span></div>
 
-<div class="viewcode-block" id="Chain.aprep_outputs"><a class="viewcode-back" href="../../../langchain/chains/langchain.chains.base.Chain.html#langchain.smith.evaluation.string_run_evaluator.Chain.aprep_outputs">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">aprep_outputs</span><span class="p">(</span>
+
+<div class="viewcode-block" id="Chain.aprep_outputs">
+<a class="viewcode-back" href="../../../langchain/chains/langchain.chains.base.Chain.html#langchain_community.chains.graph_qa.arangodb.Chain.aprep_outputs">[docs]</a>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">aprep_outputs</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">inputs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
         <span class="n">outputs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
@@ -715,7 +744,10 @@ document.write(`
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">{</span><span class="o">**</span><span class="n">inputs</span><span class="p">,</span> <span class="o">**</span><span class="n">outputs</span><span class="p">}</span></div>
 
-<div class="viewcode-block" id="Chain.prep_inputs"><a class="viewcode-back" href="../../../langchain/chains/langchain.chains.base.Chain.html#langchain.smith.evaluation.string_run_evaluator.Chain.prep_inputs">[docs]</a>    <span class="k">def</span> <span class="nf">prep_inputs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+
+<div class="viewcode-block" id="Chain.prep_inputs">
+<a class="viewcode-back" href="../../../langchain/chains/langchain.chains.base.Chain.html#langchain_community.chains.graph_qa.arangodb.Chain.prep_inputs">[docs]</a>
+    <span class="k">def</span> <span class="nf">prep_inputs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">"""Prepare chain inputs, including adding inputs from memory.</span>
 
 <span class="sd">        Args:</span>
@@ -739,7 +771,10 @@ document.write(`
             <span class="n">inputs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="o">**</span><span class="n">external_context</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">inputs</span></div>
 
-<div class="viewcode-block" id="Chain.aprep_inputs"><a class="viewcode-back" href="../../../langchain/chains/langchain.chains.base.Chain.html#langchain.smith.evaluation.string_run_evaluator.Chain.aprep_inputs">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">aprep_inputs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+
+<div class="viewcode-block" id="Chain.aprep_inputs">
+<a class="viewcode-back" href="../../../langchain/chains/langchain.chains.base.Chain.html#langchain_community.chains.graph_qa.arangodb.Chain.aprep_inputs">[docs]</a>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">aprep_inputs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">"""Prepare chain inputs, including adding inputs from memory.</span>
 
 <span class="sd">        Args:</span>
@@ -763,6 +798,7 @@ document.write(`
             <span class="n">inputs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="o">**</span><span class="n">external_context</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">inputs</span></div>
 
+
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">_run_output_key</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">output_keys</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
@@ -772,7 +808,9 @@ document.write(`
             <span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_keys</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
-<div class="viewcode-block" id="Chain.run"><a class="viewcode-back" href="../../../langchain/chains/langchain.chains.base.Chain.html#langchain.smith.evaluation.string_run_evaluator.Chain.run">[docs]</a>    <span class="nd">@deprecated</span><span class="p">(</span><span class="s2">"0.1.0"</span><span class="p">,</span> <span class="n">alternative</span><span class="o">=</span><span class="s2">"invoke"</span><span class="p">,</span> <span class="n">removal</span><span class="o">=</span><span class="s2">"1.0"</span><span class="p">)</span>
+<div class="viewcode-block" id="Chain.run">
+<a class="viewcode-back" href="../../../langchain/chains/langchain.chains.base.Chain.html#langchain_community.chains.graph_qa.arangodb.Chain.run">[docs]</a>
+    <span class="nd">@deprecated</span><span class="p">(</span><span class="s2">"0.1.0"</span><span class="p">,</span> <span class="n">alternative</span><span class="o">=</span><span class="s2">"invoke"</span><span class="p">,</span> <span class="n">removal</span><span class="o">=</span><span class="s2">"1.0"</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">run</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
@@ -843,7 +881,10 @@ document.write(`
                 <span class="sa">f</span><span class="s2">" but not both. Got args: </span><span class="si">{</span><span class="n">args</span><span class="si">}</span><span class="s2"> and kwargs: </span><span class="si">{</span><span class="n">kwargs</span><span class="si">}</span><span class="s2">."</span>
             <span class="p">)</span></div>
 
-<div class="viewcode-block" id="Chain.arun"><a class="viewcode-back" href="../../../langchain/chains/langchain.chains.base.Chain.html#langchain.smith.evaluation.string_run_evaluator.Chain.arun">[docs]</a>    <span class="nd">@deprecated</span><span class="p">(</span><span class="s2">"0.1.0"</span><span class="p">,</span> <span class="n">alternative</span><span class="o">=</span><span class="s2">"ainvoke"</span><span class="p">,</span> <span class="n">removal</span><span class="o">=</span><span class="s2">"1.0"</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Chain.arun">
+<a class="viewcode-back" href="../../../langchain/chains/langchain.chains.base.Chain.html#langchain_community.chains.graph_qa.arangodb.Chain.arun">[docs]</a>
+    <span class="nd">@deprecated</span><span class="p">(</span><span class="s2">"0.1.0"</span><span class="p">,</span> <span class="n">alternative</span><span class="o">=</span><span class="s2">"ainvoke"</span><span class="p">,</span> <span class="n">removal</span><span class="o">=</span><span class="s2">"1.0"</span><span class="p">)</span>
     <span class="k">async</span> <span class="k">def</span> <span class="nf">arun</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
@@ -915,6 +956,7 @@ document.write(`
             <span class="sa">f</span><span class="s2">" but not both. Got args: </span><span class="si">{</span><span class="n">args</span><span class="si">}</span><span class="s2"> and kwargs: </span><span class="si">{</span><span class="n">kwargs</span><span class="si">}</span><span class="s2">."</span>
         <span class="p">)</span></div>
 
+
     <span class="k">def</span> <span class="nf">dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Dictionary representation of chain.</span>
 
@@ -941,7 +983,9 @@ document.write(`
             <span class="k">pass</span>
         <span class="k">return</span> <span class="n">_dict</span>
 
-<div class="viewcode-block" id="Chain.save"><a class="viewcode-back" href="../../../langchain/chains/langchain.chains.base.Chain.html#langchain.smith.evaluation.string_run_evaluator.Chain.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Path</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="Chain.save">
+<a class="viewcode-back" href="../../../langchain/chains/langchain.chains.base.Chain.html#langchain_community.chains.graph_qa.arangodb.Chain.save">[docs]</a>
+    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Path</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Save the chain.</span>
 
 <span class="sd">        Expects `Chain._chain_type` property to be implemented and for memory to be</span>
@@ -981,12 +1025,17 @@ document.write(`
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">save_path</span><span class="si">}</span><span class="s2"> must be json or yaml"</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Chain.apply"><a class="viewcode-back" href="../../../langchain/chains/langchain.chains.base.Chain.html#langchain.smith.evaluation.string_run_evaluator.Chain.apply">[docs]</a>    <span class="nd">@deprecated</span><span class="p">(</span><span class="s2">"0.1.0"</span><span class="p">,</span> <span class="n">alternative</span><span class="o">=</span><span class="s2">"batch"</span><span class="p">,</span> <span class="n">removal</span><span class="o">=</span><span class="s2">"1.0"</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Chain.apply">
+<a class="viewcode-back" href="../../../langchain/chains/langchain.chains.base.Chain.html#langchain_community.chains.graph_qa.arangodb.Chain.apply">[docs]</a>
+    <span class="nd">@deprecated</span><span class="p">(</span><span class="s2">"0.1.0"</span><span class="p">,</span> <span class="n">alternative</span><span class="o">=</span><span class="s2">"batch"</span><span class="p">,</span> <span class="n">removal</span><span class="o">=</span><span class="s2">"1.0"</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">apply</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">input_list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]],</span> <span class="n">callbacks</span><span class="p">:</span> <span class="n">Callbacks</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]:</span>
 <span class="w">        </span><span class="sd">"""Call the chain on all inputs in the list."""</span>
-        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">callbacks</span><span class="o">=</span><span class="n">callbacks</span><span class="p">)</span> <span class="k">for</span> <span class="n">inputs</span> <span class="ow">in</span> <span class="n">input_list</span><span class="p">]</span></div></div>
+        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">callbacks</span><span class="o">=</span><span class="n">callbacks</span><span class="p">)</span> <span class="k">for</span> <span class="n">inputs</span> <span class="ow">in</span> <span class="n">input_list</span><span class="p">]</span></div>
+</div>
+
 </pre></div>
 </article>
 </div>

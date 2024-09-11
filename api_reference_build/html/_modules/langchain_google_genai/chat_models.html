@@ -1,7 +1,7 @@
 
 <!DOCTYPE html>
 
-<html data-content_root="" lang="en">
+<html data-content_root="../../" lang="en">
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
@@ -18,21 +18,21 @@
 <link as="font" crossorigin="" href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" rel="preload" type="font/woff2"/>
 <link as="font" crossorigin="" href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" rel="preload" type="font/woff2"/>
 <link as="font" crossorigin="" href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" rel="preload" type="font/woff2"/>
-<link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/pygments.css?v=a746c00c" rel="stylesheet" type="text/css"/>
 <link href="../../_static/autodoc_pydantic.css" rel="stylesheet" type="text/css"/>
-<link href="../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
-<link href="../../_static/sphinx-design.4cbf315f70debaebd550c87a6162cf0f.min.css" rel="stylesheet" type="text/css"/>
-<link href="../../_static/css/custom.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/copybutton.css?v=76b2166b" rel="stylesheet" type="text/css"/>
+<link href="../../_static/sphinx-design.min.css?v=95c83b7e" rel="stylesheet" type="text/css"/>
+<link href="../../_static/css/custom.css?v=b95e2228" rel="stylesheet" type="text/css"/>
 <!-- Pre-loaded scripts that we'll load fully later -->
 <link as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
 <link as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
 <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-<script src="../../_static/doctools.js"></script>
-<script src="../../_static/sphinx_highlight.js"></script>
-<script src="../../_static/clipboard.min.js"></script>
-<script src="../../_static/copybutton.js"></script>
-<script src="../../_static/design-tabs.js"></script>
+<script src="../../_static/documentation_options.js?v=3b5cce75"></script>
+<script src="../../_static/doctools.js?v=9a2dae69"></script>
+<script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+<script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+<script src="../../_static/copybutton.js?v=f281be69"></script>
+<script src="../../_static/design-tabs.js?v=f930bc37"></script>
 <script>DOCUMENTATION_OPTIONS.pagename = '_modules/langchain_google_genai/chat_models';</script>
 <link href="../../_static/favicon.png" rel="icon"/>
 <link href="../../search.html" rel="search" title="Search"/>
@@ -304,10 +304,16 @@ document.write(`
     <span class="n">parse_tool_calls</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="kn">from</span> <span class="nn">langchain_core.outputs</span> <span class="kn">import</span> <span class="n">ChatGeneration</span><span class="p">,</span> <span class="n">ChatGenerationChunk</span><span class="p">,</span> <span class="n">ChatResult</span>
-<span class="kn">from</span> <span class="nn">langchain_core.pydantic_v1</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span><span class="p">,</span> <span class="n">SecretStr</span><span class="p">,</span> <span class="n">root_validator</span>
 <span class="kn">from</span> <span class="nn">langchain_core.runnables</span> <span class="kn">import</span> <span class="n">Runnable</span><span class="p">,</span> <span class="n">RunnablePassthrough</span>
 <span class="kn">from</span> <span class="nn">langchain_core.utils</span> <span class="kn">import</span> <span class="n">secret_from_env</span>
 <span class="kn">from</span> <span class="nn">langchain_core.utils.pydantic</span> <span class="kn">import</span> <span class="n">is_basemodel_subclass</span>
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">BaseModel</span><span class="p">,</span>
+    <span class="n">ConfigDict</span><span class="p">,</span>
+    <span class="n">Field</span><span class="p">,</span>
+    <span class="n">SecretStr</span><span class="p">,</span>
+    <span class="n">model_validator</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="kn">from</span> <span class="nn">tenacity</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">before_sleep_log</span><span class="p">,</span>
     <span class="n">retry</span><span class="p">,</span>
@@ -315,6 +321,7 @@ document.write(`
     <span class="n">stop_after_attempt</span><span class="p">,</span>
     <span class="n">wait_exponential</span><span class="p">,</span>
 <span class="p">)</span>
+<span class="kn">from</span> <span class="nn">typing_extensions</span> <span class="kn">import</span> <span class="n">Self</span>
 
 <span class="kn">from</span> <span class="nn">langchain_google_genai._common</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">GoogleGenerativeAIError</span><span class="p">,</span>
@@ -346,7 +353,9 @@ document.write(`
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="ChatGoogleGenerativeAIError"><a class="viewcode-back" href="../../google_genai/chat_models/langchain_google_genai.chat_models.ChatGoogleGenerativeAIError.html#langchain_google_genai.chat_models.ChatGoogleGenerativeAIError">[docs]</a><span class="k">class</span> <span class="nc">ChatGoogleGenerativeAIError</span><span class="p">(</span><span class="n">GoogleGenerativeAIError</span><span class="p">):</span>
+<div class="viewcode-block" id="ChatGoogleGenerativeAIError">
+<a class="viewcode-back" href="../../google_genai/chat_models/langchain_google_genai.chat_models.ChatGoogleGenerativeAIError.html#langchain_google_genai.chat_models.ChatGoogleGenerativeAIError">[docs]</a>
+<span class="k">class</span> <span class="nc">ChatGoogleGenerativeAIError</span><span class="p">(</span><span class="n">GoogleGenerativeAIError</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Custom exception class for errors associated with the `Google GenAI` API.</span>
 
@@ -354,6 +363,7 @@ document.write(`
 <span class="sd">    Google genai API usage in the ChatGoogleGenerativeAI class, such as unsupported</span>
 <span class="sd">    message types or roles.</span>
 <span class="sd">    """</span></div>
+
 
 
 <span class="k">def</span> <span class="nf">_create_retry_decorator</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Any</span><span class="p">],</span> <span class="n">Any</span><span class="p">]:</span>
@@ -848,7 +858,9 @@ document.write(`
         <span class="k">return</span> <span class="kc">False</span>
 
 
-<div class="viewcode-block" id="ChatGoogleGenerativeAI"><a class="viewcode-back" href="../../google_genai/chat_models/langchain_google_genai.chat_models.ChatGoogleGenerativeAI.html#langchain_google_genai.chat_models.ChatGoogleGenerativeAI">[docs]</a><span class="k">class</span> <span class="nc">ChatGoogleGenerativeAI</span><span class="p">(</span><span class="n">_BaseGoogleGenerativeAI</span><span class="p">,</span> <span class="n">BaseChatModel</span><span class="p">):</span>
+<div class="viewcode-block" id="ChatGoogleGenerativeAI">
+<a class="viewcode-back" href="../../google_genai/chat_models/langchain_google_genai.chat_models.ChatGoogleGenerativeAI.html#langchain_google_genai.chat_models.ChatGoogleGenerativeAI">[docs]</a>
+<span class="k">class</span> <span class="nc">ChatGoogleGenerativeAI</span><span class="p">(</span><span class="n">_BaseGoogleGenerativeAI</span><span class="p">,</span> <span class="n">BaseChatModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""`Google AI` chat models integration.</span>
 
 <span class="sd">    Instantiation:</span>
@@ -925,7 +937,7 @@ document.write(`
 <span class="sd">    Tool calling:</span>
 <span class="sd">        .. code-block:: python</span>
 
-<span class="sd">            from langchain_core.pydantic_v1 import BaseModel, Field</span>
+<span class="sd">            from pydantic import BaseModel, Field</span>
 
 
 <span class="sd">            class GetWeather(BaseModel):</span>
@@ -970,7 +982,7 @@ document.write(`
 
 <span class="sd">            from typing import Optional</span>
 
-<span class="sd">            from langchain_core.pydantic_v1 import BaseModel, Field</span>
+<span class="sd">            from pydantic import BaseModel, Field</span>
 
 
 <span class="sd">            class Joke(BaseModel):</span>
@@ -1061,8 +1073,9 @@ document.write(`
 <span class="sd">    Gemini does not support system messages; any unsupported messages will</span>
 <span class="sd">    raise an error."""</span>
 
-    <span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
-        <span class="n">allow_population_by_field_name</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span>
+        <span class="n">populate_by_name</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">lc_secrets</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
@@ -1076,38 +1089,36 @@ document.write(`
     <span class="k">def</span> <span class="nf">is_lc_serializable</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">True</span>
 
-    <span class="nd">@root_validator</span><span class="p">(</span><span class="n">pre</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">skip_on_failure</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">validate_environment</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+    <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">"after"</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">validate_environment</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Validates params and passes them to google-generativeai package."""</span>
-        <span class="k">if</span> <span class="p">(</span>
-            <span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"temperature"</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
-            <span class="ow">and</span> <span class="ow">not</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">values</span><span class="p">[</span><span class="s2">"temperature"</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">1</span>
-        <span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">temperature</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">temperature</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"temperature must be in the range [0.0, 1.0]"</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"top_p"</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">values</span><span class="p">[</span><span class="s2">"top_p"</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">top_p</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">top_p</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"top_p must be in the range [0.0, 1.0]"</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"top_k"</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">values</span><span class="p">[</span><span class="s2">"top_k"</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">top_k</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">top_k</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"top_k must be positive"</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">values</span><span class="p">[</span><span class="s2">"model"</span><span class="p">]</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"models/"</span><span class="p">):</span>
-            <span class="n">values</span><span class="p">[</span><span class="s2">"model"</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"models/</span><span class="si">{</span><span class="n">values</span><span class="p">[</span><span class="s1">'model'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"models/"</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"models/</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="si">}</span><span class="s2">"</span>
 
-        <span class="n">additional_headers</span> <span class="o">=</span> <span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"additional_headers"</span><span class="p">)</span> <span class="ow">or</span> <span class="p">{}</span>
-        <span class="n">values</span><span class="p">[</span><span class="s2">"default_metadata"</span><span class="p">]</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">additional_headers</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
+        <span class="n">additional_headers</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">additional_headers</span> <span class="ow">or</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">default_metadata</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">additional_headers</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
         <span class="n">client_info</span> <span class="o">=</span> <span class="n">get_client_info</span><span class="p">(</span><span class="s2">"ChatGoogleGenerativeAI"</span><span class="p">)</span>
         <span class="n">google_api_key</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"credentials"</span><span class="p">):</span>
-            <span class="n">google_api_key</span> <span class="o">=</span> <span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"google_api_key"</span><span class="p">)</span>
-            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">google_api_key</span><span class="p">,</span> <span class="n">SecretStr</span><span class="p">):</span>
-                <span class="n">google_api_key</span> <span class="o">=</span> <span class="n">google_api_key</span><span class="o">.</span><span class="n">get_secret_value</span><span class="p">()</span>
-        <span class="n">transport</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"transport"</span><span class="p">)</span>
-        <span class="n">values</span><span class="p">[</span><span class="s2">"client"</span><span class="p">]</span> <span class="o">=</span> <span class="n">genaix</span><span class="o">.</span><span class="n">build_generative_service</span><span class="p">(</span>
-            <span class="n">credentials</span><span class="o">=</span><span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"credentials"</span><span class="p">),</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">credentials</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">google_api_key</span><span class="p">,</span> <span class="n">SecretStr</span><span class="p">):</span>
+                <span class="n">google_api_key</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">google_api_key</span><span class="o">.</span><span class="n">get_secret_value</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">google_api_key</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">google_api_key</span>
+        <span class="n">transport</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transport</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">genaix</span><span class="o">.</span><span class="n">build_generative_service</span><span class="p">(</span>
+            <span class="n">credentials</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">credentials</span><span class="p">,</span>
             <span class="n">api_key</span><span class="o">=</span><span class="n">google_api_key</span><span class="p">,</span>
             <span class="n">client_info</span><span class="o">=</span><span class="n">client_info</span><span class="p">,</span>
-            <span class="n">client_options</span><span class="o">=</span><span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"client_options"</span><span class="p">),</span>
+            <span class="n">client_options</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">client_options</span><span class="p">,</span>
             <span class="n">transport</span><span class="o">=</span><span class="n">transport</span><span class="p">,</span>
         <span class="p">)</span>
 
@@ -1117,17 +1128,17 @@ document.write(`
         <span class="c1"># this check ensures that async client is only initialized</span>
         <span class="c1"># within an asyncio event loop to avoid the error</span>
         <span class="k">if</span> <span class="n">_is_event_loop_running</span><span class="p">():</span>
-            <span class="n">values</span><span class="p">[</span><span class="s2">"async_client"</span><span class="p">]</span> <span class="o">=</span> <span class="n">genaix</span><span class="o">.</span><span class="n">build_generative_async_service</span><span class="p">(</span>
-                <span class="n">credentials</span><span class="o">=</span><span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"credentials"</span><span class="p">),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">async_client</span> <span class="o">=</span> <span class="n">genaix</span><span class="o">.</span><span class="n">build_generative_async_service</span><span class="p">(</span>
+                <span class="n">credentials</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">credentials</span><span class="p">,</span>
                 <span class="n">api_key</span><span class="o">=</span><span class="n">google_api_key</span><span class="p">,</span>
                 <span class="n">client_info</span><span class="o">=</span><span class="n">client_info</span><span class="p">,</span>
-                <span class="n">client_options</span><span class="o">=</span><span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"client_options"</span><span class="p">),</span>
+                <span class="n">client_options</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">client_options</span><span class="p">,</span>
                 <span class="n">transport</span><span class="o">=</span><span class="n">transport</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">values</span><span class="p">[</span><span class="s2">"async_client"</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">async_client</span> <span class="o">=</span> <span class="kc">None</span>
 
-        <span class="k">return</span> <span class="n">values</span>
+        <span class="k">return</span> <span class="bp">self</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">_identifying_params</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
@@ -1387,7 +1398,9 @@ document.write(`
 
         <span class="k">return</span> <span class="n">request</span>
 
-<div class="viewcode-block" id="ChatGoogleGenerativeAI.get_num_tokens"><a class="viewcode-back" href="../../google_genai/chat_models/langchain_google_genai.chat_models.ChatGoogleGenerativeAI.html#langchain_google_genai.chat_models.ChatGoogleGenerativeAI.get_num_tokens">[docs]</a>    <span class="k">def</span> <span class="nf">get_num_tokens</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<div class="viewcode-block" id="ChatGoogleGenerativeAI.get_num_tokens">
+<a class="viewcode-back" href="../../google_genai/chat_models/langchain_google_genai.chat_models.ChatGoogleGenerativeAI.html#langchain_google_genai.chat_models.ChatGoogleGenerativeAI.get_num_tokens">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_num_tokens</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Get the number of tokens present in the text.</span>
 
 <span class="sd">        Useful for checking if an input will fit in a model's context window.</span>
@@ -1403,7 +1416,10 @@ document.write(`
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">result</span><span class="o">.</span><span class="n">total_tokens</span></div>
 
-<div class="viewcode-block" id="ChatGoogleGenerativeAI.with_structured_output"><a class="viewcode-back" href="../../google_genai/chat_models/langchain_google_genai.chat_models.ChatGoogleGenerativeAI.html#langchain_google_genai.chat_models.ChatGoogleGenerativeAI.with_structured_output">[docs]</a>    <span class="k">def</span> <span class="nf">with_structured_output</span><span class="p">(</span>
+
+<div class="viewcode-block" id="ChatGoogleGenerativeAI.with_structured_output">
+<a class="viewcode-back" href="../../google_genai/chat_models/langchain_google_genai.chat_models.ChatGoogleGenerativeAI.html#langchain_google_genai.chat_models.ChatGoogleGenerativeAI.with_structured_output">[docs]</a>
+    <span class="k">def</span> <span class="nf">with_structured_output</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">schema</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Dict</span><span class="p">,</span> <span class="n">Type</span><span class="p">[</span><span class="n">BaseModel</span><span class="p">]],</span>
         <span class="o">*</span><span class="p">,</span>
@@ -1431,7 +1447,10 @@ document.write(`
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">llm</span> <span class="o">|</span> <span class="n">parser</span></div>
 
-<div class="viewcode-block" id="ChatGoogleGenerativeAI.bind_tools"><a class="viewcode-back" href="../../google_genai/chat_models/langchain_google_genai.chat_models.ChatGoogleGenerativeAI.html#langchain_google_genai.chat_models.ChatGoogleGenerativeAI.bind_tools">[docs]</a>    <span class="k">def</span> <span class="nf">bind_tools</span><span class="p">(</span>
+
+<div class="viewcode-block" id="ChatGoogleGenerativeAI.bind_tools">
+<a class="viewcode-back" href="../../google_genai/chat_models/langchain_google_genai.chat_models.ChatGoogleGenerativeAI.html#langchain_google_genai.chat_models.ChatGoogleGenerativeAI.bind_tools">[docs]</a>
+    <span class="k">def</span> <span class="nf">bind_tools</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">tools</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">ToolDict</span><span class="p">,</span> <span class="n">GoogleTool</span><span class="p">]],</span>
         <span class="n">tool_config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">Dict</span><span class="p">,</span> <span class="n">_ToolConfigDict</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -1467,9 +1486,11 @@ document.write(`
             <span class="n">tool_config</span> <span class="o">=</span> <span class="n">_tool_choice_to_tool_config</span><span class="p">(</span><span class="n">tool_choice</span><span class="p">,</span> <span class="n">all_names</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="n">tools</span><span class="o">=</span><span class="n">genai_tools</span><span class="p">,</span> <span class="n">tool_config</span><span class="o">=</span><span class="n">tool_config</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
+
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">_supports_tool_choice</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="k">return</span> <span class="s2">"gemini-1.5-pro"</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span></div>
+
 
 
 <span class="k">def</span> <span class="nf">_get_tool_name</span><span class="p">(</span>

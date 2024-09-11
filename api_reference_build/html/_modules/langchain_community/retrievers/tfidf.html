@@ -1,7 +1,7 @@
 
 <!DOCTYPE html>
 
-<html data-content_root="" lang="en">
+<html data-content_root="../../../" lang="en">
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
@@ -18,21 +18,21 @@
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" rel="preload" type="font/woff2"/>
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" rel="preload" type="font/woff2"/>
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" rel="preload" type="font/woff2"/>
-<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css?v=a746c00c" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/autodoc_pydantic.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/sphinx-design.4cbf315f70debaebd550c87a6162cf0f.min.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/css/custom.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/copybutton.css?v=76b2166b" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/sphinx-design.min.css?v=95c83b7e" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/css/custom.css?v=b95e2228" rel="stylesheet" type="text/css"/>
 <!-- Pre-loaded scripts that we'll load fully later -->
 <link as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
 <link as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
 <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-<script src="../../../_static/doctools.js"></script>
-<script src="../../../_static/sphinx_highlight.js"></script>
-<script src="../../../_static/clipboard.min.js"></script>
-<script src="../../../_static/copybutton.js"></script>
-<script src="../../../_static/design-tabs.js"></script>
+<script src="../../../_static/documentation_options.js?v=3b5cce75"></script>
+<script src="../../../_static/doctools.js?v=9a2dae69"></script>
+<script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+<script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+<script src="../../../_static/copybutton.js?v=f281be69"></script>
+<script src="../../../_static/design-tabs.js?v=f930bc37"></script>
 <script>DOCUMENTATION_OPTIONS.pagename = '_modules/langchain_community/retrievers/tfidf';</script>
 <link href="../../../_static/favicon.png" rel="icon"/>
 <link href="../../../search.html" rel="search" title="Search"/>
@@ -236,28 +236,34 @@ document.write(`
 <span class="kn">from</span> <span class="nn">langchain_core.callbacks</span> <span class="kn">import</span> <span class="n">CallbackManagerForRetrieverRun</span>
 <span class="kn">from</span> <span class="nn">langchain_core.documents</span> <span class="kn">import</span> <span class="n">Document</span>
 <span class="kn">from</span> <span class="nn">langchain_core.retrievers</span> <span class="kn">import</span> <span class="n">BaseRetriever</span>
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">ConfigDict</span>
 
 
-<div class="viewcode-block" id="TFIDFRetriever"><a class="viewcode-back" href="../../../community/retrievers/langchain_community.retrievers.tfidf.TFIDFRetriever.html#langchain_community.retrievers.tfidf.TFIDFRetriever">[docs]</a><span class="k">class</span> <span class="nc">TFIDFRetriever</span><span class="p">(</span><span class="n">BaseRetriever</span><span class="p">):</span>
+<div class="viewcode-block" id="TFIDFRetriever">
+<a class="viewcode-back" href="../../../community/retrievers/langchain_community.retrievers.tfidf.TFIDFRetriever.html#langchain_community.retrievers.tfidf.TFIDFRetriever">[docs]</a>
+<span class="k">class</span> <span class="nc">TFIDFRetriever</span><span class="p">(</span><span class="n">BaseRetriever</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""`TF-IDF` retriever.</span>
 
 <span class="sd">    Largely based on</span>
 <span class="sd">    https://github.com/asvskartheek/Text-Retrieval/blob/master/TF-IDF%20Search%20Engine%20(SKLEARN).ipynb</span>
 <span class="sd">    """</span>
 
-    <span class="n">vectorizer</span><span class="p">:</span> <span class="n">Any</span>
+    <span class="n">vectorizer</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">    </span><span class="sd">"""TF-IDF vectorizer."""</span>
     <span class="n">docs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Document</span><span class="p">]</span>
 <span class="w">    </span><span class="sd">"""Documents."""</span>
-    <span class="n">tfidf_array</span><span class="p">:</span> <span class="n">Any</span>
+    <span class="n">tfidf_array</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">    </span><span class="sd">"""TF-IDF array."""</span>
     <span class="n">k</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span>
 <span class="w">    </span><span class="sd">"""Number of documents to return."""</span>
 
-    <span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
-        <span class="n">arbitrary_types_allowed</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span>
+        <span class="n">arbitrary_types_allowed</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span>
 
-<div class="viewcode-block" id="TFIDFRetriever.from_texts"><a class="viewcode-back" href="../../../community/retrievers/langchain_community.retrievers.tfidf.TFIDFRetriever.html#langchain_community.retrievers.tfidf.TFIDFRetriever.from_texts">[docs]</a>    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="TFIDFRetriever.from_texts">
+<a class="viewcode-back" href="../../../community/retrievers/langchain_community.retrievers.tfidf.TFIDFRetriever.html#langchain_community.retrievers.tfidf.TFIDFRetriever.from_texts">[docs]</a>
+    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_texts</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span>
         <span class="n">texts</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
@@ -280,7 +286,10 @@ document.write(`
         <span class="n">docs</span> <span class="o">=</span> <span class="p">[</span><span class="n">Document</span><span class="p">(</span><span class="n">page_content</span><span class="o">=</span><span class="n">t</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="n">m</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span><span class="p">,</span> <span class="n">m</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">texts</span><span class="p">,</span> <span class="n">metadatas</span><span class="p">)]</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">vectorizer</span><span class="o">=</span><span class="n">vectorizer</span><span class="p">,</span> <span class="n">docs</span><span class="o">=</span><span class="n">docs</span><span class="p">,</span> <span class="n">tfidf_array</span><span class="o">=</span><span class="n">tfidf_array</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="TFIDFRetriever.from_documents"><a class="viewcode-back" href="../../../community/retrievers/langchain_community.retrievers.tfidf.TFIDFRetriever.html#langchain_community.retrievers.tfidf.TFIDFRetriever.from_documents">[docs]</a>    <span class="nd">@classmethod</span>
+
+<div class="viewcode-block" id="TFIDFRetriever.from_documents">
+<a class="viewcode-back" href="../../../community/retrievers/langchain_community.retrievers.tfidf.TFIDFRetriever.html#langchain_community.retrievers.tfidf.TFIDFRetriever.from_documents">[docs]</a>
+    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_documents</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span>
         <span class="n">documents</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Document</span><span class="p">],</span>
@@ -292,6 +301,7 @@ document.write(`
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_texts</span><span class="p">(</span>
             <span class="n">texts</span><span class="o">=</span><span class="n">texts</span><span class="p">,</span> <span class="n">tfidf_params</span><span class="o">=</span><span class="n">tfidf_params</span><span class="p">,</span> <span class="n">metadatas</span><span class="o">=</span><span class="n">metadatas</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
         <span class="p">)</span></div>
+
 
     <span class="k">def</span> <span class="nf">_get_relevant_documents</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">run_manager</span><span class="p">:</span> <span class="n">CallbackManagerForRetrieverRun</span>
@@ -307,7 +317,9 @@ document.write(`
         <span class="n">return_docs</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">docs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">results</span><span class="o">.</span><span class="n">argsort</span><span class="p">()[</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">k</span> <span class="p">:][::</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span>
         <span class="k">return</span> <span class="n">return_docs</span>
 
-<div class="viewcode-block" id="TFIDFRetriever.save_local"><a class="viewcode-back" href="../../../community/retrievers/langchain_community.retrievers.tfidf.TFIDFRetriever.html#langchain_community.retrievers.tfidf.TFIDFRetriever.save_local">[docs]</a>    <span class="k">def</span> <span class="nf">save_local</span><span class="p">(</span>
+<div class="viewcode-block" id="TFIDFRetriever.save_local">
+<a class="viewcode-back" href="../../../community/retrievers/langchain_community.retrievers.tfidf.TFIDFRetriever.html#langchain_community.retrievers.tfidf.TFIDFRetriever.save_local">[docs]</a>
+    <span class="k">def</span> <span class="nf">save_local</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">folder_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">file_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"tfidf_vectorizer"</span><span class="p">,</span>
@@ -329,7 +341,10 @@ document.write(`
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">file_name</span><span class="si">}</span><span class="s2">.pkl"</span><span class="p">,</span> <span class="s2">"wb"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
             <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">docs</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">tfidf_array</span><span class="p">),</span> <span class="n">f</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="TFIDFRetriever.load_local"><a class="viewcode-back" href="../../../community/retrievers/langchain_community.retrievers.tfidf.TFIDFRetriever.html#langchain_community.retrievers.tfidf.TFIDFRetriever.load_local">[docs]</a>    <span class="nd">@classmethod</span>
+
+<div class="viewcode-block" id="TFIDFRetriever.load_local">
+<a class="viewcode-back" href="../../../community/retrievers/langchain_community.retrievers.tfidf.TFIDFRetriever.html#langchain_community.retrievers.tfidf.TFIDFRetriever.load_local">[docs]</a>
+    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">load_local</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span>
         <span class="n">folder_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -383,7 +398,9 @@ document.write(`
             <span class="c1"># passed allow_dangerous_deserialization=True</span>
             <span class="n">docs</span><span class="p">,</span> <span class="n">tfidf_array</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>  <span class="c1"># ignore[pickle]: explicit-opt-in</span>
 
-        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">vectorizer</span><span class="o">=</span><span class="n">vectorizer</span><span class="p">,</span> <span class="n">docs</span><span class="o">=</span><span class="n">docs</span><span class="p">,</span> <span class="n">tfidf_array</span><span class="o">=</span><span class="n">tfidf_array</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">vectorizer</span><span class="o">=</span><span class="n">vectorizer</span><span class="p">,</span> <span class="n">docs</span><span class="o">=</span><span class="n">docs</span><span class="p">,</span> <span class="n">tfidf_array</span><span class="o">=</span><span class="n">tfidf_array</span><span class="p">)</span></div>
+</div>
+
 </pre></div>
 </article>
 </div>

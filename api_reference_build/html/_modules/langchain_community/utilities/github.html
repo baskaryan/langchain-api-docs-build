@@ -1,7 +1,7 @@
 
 <!DOCTYPE html>
 
-<html data-content_root="" lang="en">
+<html data-content_root="../../../" lang="en">
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
@@ -18,21 +18,21 @@
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" rel="preload" type="font/woff2"/>
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" rel="preload" type="font/woff2"/>
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" rel="preload" type="font/woff2"/>
-<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css?v=a746c00c" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/autodoc_pydantic.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/sphinx-design.4cbf315f70debaebd550c87a6162cf0f.min.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/css/custom.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/copybutton.css?v=76b2166b" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/sphinx-design.min.css?v=95c83b7e" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/css/custom.css?v=b95e2228" rel="stylesheet" type="text/css"/>
 <!-- Pre-loaded scripts that we'll load fully later -->
 <link as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
 <link as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
 <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-<script src="../../../_static/doctools.js"></script>
-<script src="../../../_static/sphinx_highlight.js"></script>
-<script src="../../../_static/clipboard.min.js"></script>
-<script src="../../../_static/copybutton.js"></script>
-<script src="../../../_static/design-tabs.js"></script>
+<script src="../../../_static/documentation_options.js?v=3b5cce75"></script>
+<script src="../../../_static/doctools.js?v=9a2dae69"></script>
+<script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+<script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+<script src="../../../_static/copybutton.js?v=f281be69"></script>
+<script src="../../../_static/design-tabs.js?v=f930bc37"></script>
 <script>DOCUMENTATION_OPTIONS.pagename = '_modules/langchain_community/utilities/github';</script>
 <link href="../../../_static/favicon.png" rel="icon"/>
 <link href="../../../search.html" rel="search" title="Search"/>
@@ -235,8 +235,8 @@ document.write(`
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
 
 <span class="kn">import</span> <span class="nn">requests</span>
-<span class="kn">from</span> <span class="nn">langchain_core.pydantic_v1</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">root_validator</span>
 <span class="kn">from</span> <span class="nn">langchain_core.utils</span> <span class="kn">import</span> <span class="n">get_from_dict_or_env</span>
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">ConfigDict</span><span class="p">,</span> <span class="n">model_validator</span>
 
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
     <span class="kn">from</span> <span class="nn">github.Issue</span> <span class="kn">import</span> <span class="n">Issue</span>
@@ -255,22 +255,26 @@ document.write(`
     <span class="k">return</span> <span class="n">tiktoken</span>
 
 
-<div class="viewcode-block" id="GitHubAPIWrapper"><a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.github.GitHubAPIWrapper.html#langchain_community.utilities.github.GitHubAPIWrapper">[docs]</a><span class="k">class</span> <span class="nc">GitHubAPIWrapper</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<div class="viewcode-block" id="GitHubAPIWrapper">
+<a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.github.GitHubAPIWrapper.html#langchain_community.utilities.github.GitHubAPIWrapper">[docs]</a>
+<span class="k">class</span> <span class="nc">GitHubAPIWrapper</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Wrapper for GitHub API."""</span>
 
-    <span class="n">github</span><span class="p">:</span> <span class="n">Any</span>  <span class="c1">#: :meta private:</span>
-    <span class="n">github_repo_instance</span><span class="p">:</span> <span class="n">Any</span>  <span class="c1">#: :meta private:</span>
+    <span class="n">github</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1">#: :meta private:</span>
+    <span class="n">github_repo_instance</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1">#: :meta private:</span>
     <span class="n">github_repository</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">github_app_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">github_app_private_key</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">active_branch</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">github_base_branch</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 
-    <span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
-        <span class="n">extra</span> <span class="o">=</span> <span class="s2">"forbid"</span>
+    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span>
+        <span class="n">extra</span><span class="o">=</span><span class="s2">"forbid"</span><span class="p">,</span>
+    <span class="p">)</span>
 
-    <span class="nd">@root_validator</span><span class="p">(</span><span class="n">pre</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">validate_environment</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+    <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">"before"</span><span class="p">)</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">validate_environment</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Validate that api key and python package exists in environment."""</span>
         <span class="n">github_repository</span> <span class="o">=</span> <span class="n">get_from_dict_or_env</span><span class="p">(</span>
             <span class="n">values</span><span class="p">,</span> <span class="s2">"github_repository"</span><span class="p">,</span> <span class="s2">"GITHUB_REPOSITORY"</span>
@@ -348,7 +352,9 @@ document.write(`
 
         <span class="k">return</span> <span class="n">values</span>
 
-<div class="viewcode-block" id="GitHubAPIWrapper.parse_issues"><a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.github.GitHubAPIWrapper.html#langchain_community.utilities.github.GitHubAPIWrapper.parse_issues">[docs]</a>    <span class="k">def</span> <span class="nf">parse_issues</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">issues</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Issue</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
+<div class="viewcode-block" id="GitHubAPIWrapper.parse_issues">
+<a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.github.GitHubAPIWrapper.html#langchain_community.utilities.github.GitHubAPIWrapper.parse_issues">[docs]</a>
+    <span class="k">def</span> <span class="nf">parse_issues</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">issues</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Issue</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Extracts title and number from each Issue and puts them in a dictionary</span>
 <span class="sd">        Parameters:</span>
@@ -367,7 +373,10 @@ document.write(`
             <span class="n">parsed</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">issue_dict</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">parsed</span></div>
 
-<div class="viewcode-block" id="GitHubAPIWrapper.parse_pull_requests"><a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.github.GitHubAPIWrapper.html#langchain_community.utilities.github.GitHubAPIWrapper.parse_pull_requests">[docs]</a>    <span class="k">def</span> <span class="nf">parse_pull_requests</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pull_requests</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PullRequest</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
+
+<div class="viewcode-block" id="GitHubAPIWrapper.parse_pull_requests">
+<a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.github.GitHubAPIWrapper.html#langchain_community.utilities.github.GitHubAPIWrapper.parse_pull_requests">[docs]</a>
+    <span class="k">def</span> <span class="nf">parse_pull_requests</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pull_requests</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PullRequest</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Extracts title and number from each Issue and puts them in a dictionary</span>
 <span class="sd">        Parameters:</span>
@@ -387,7 +396,10 @@ document.write(`
             <span class="p">)</span>
         <span class="k">return</span> <span class="n">parsed</span></div>
 
-<div class="viewcode-block" id="GitHubAPIWrapper.get_issues"><a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.github.GitHubAPIWrapper.html#langchain_community.utilities.github.GitHubAPIWrapper.get_issues">[docs]</a>    <span class="k">def</span> <span class="nf">get_issues</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+
+<div class="viewcode-block" id="GitHubAPIWrapper.get_issues">
+<a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.github.GitHubAPIWrapper.html#langchain_community.utilities.github.GitHubAPIWrapper.get_issues">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_issues</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Fetches all open issues from the repo excluding pull requests</span>
 
@@ -407,7 +419,10 @@ document.write(`
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="s2">"No open issues available"</span></div>
 
-<div class="viewcode-block" id="GitHubAPIWrapper.list_open_pull_requests"><a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.github.GitHubAPIWrapper.html#langchain_community.utilities.github.GitHubAPIWrapper.list_open_pull_requests">[docs]</a>    <span class="k">def</span> <span class="nf">list_open_pull_requests</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+
+<div class="viewcode-block" id="GitHubAPIWrapper.list_open_pull_requests">
+<a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.github.GitHubAPIWrapper.html#langchain_community.utilities.github.GitHubAPIWrapper.list_open_pull_requests">[docs]</a>
+    <span class="k">def</span> <span class="nf">list_open_pull_requests</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Fetches all open PRs from the repo</span>
 
@@ -426,7 +441,10 @@ document.write(`
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="s2">"No open pull requests available"</span></div>
 
-<div class="viewcode-block" id="GitHubAPIWrapper.list_files_in_main_branch"><a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.github.GitHubAPIWrapper.html#langchain_community.utilities.github.GitHubAPIWrapper.list_files_in_main_branch">[docs]</a>    <span class="k">def</span> <span class="nf">list_files_in_main_branch</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+
+<div class="viewcode-block" id="GitHubAPIWrapper.list_files_in_main_branch">
+<a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.github.GitHubAPIWrapper.html#langchain_community.utilities.github.GitHubAPIWrapper.list_files_in_main_branch">[docs]</a>
+    <span class="k">def</span> <span class="nf">list_files_in_main_branch</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Fetches all files in the main branch of the repo.</span>
 
@@ -452,7 +470,10 @@ document.write(`
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="GitHubAPIWrapper.set_active_branch"><a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.github.GitHubAPIWrapper.html#langchain_community.utilities.github.GitHubAPIWrapper.set_active_branch">[docs]</a>    <span class="k">def</span> <span class="nf">set_active_branch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">branch_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+
+<div class="viewcode-block" id="GitHubAPIWrapper.set_active_branch">
+<a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.github.GitHubAPIWrapper.html#langchain_community.utilities.github.GitHubAPIWrapper.set_active_branch">[docs]</a>
+    <span class="k">def</span> <span class="nf">set_active_branch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">branch_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Equivalent to `git checkout branch_name` for this Agent.</span>
 <span class="sd">        Clones formatting from Github.</span>
 
@@ -470,7 +491,10 @@ document.write(`
                 <span class="sa">f</span><span class="s2">"in repo with current branches: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">curr_branches</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span>
             <span class="p">)</span></div>
 
-<div class="viewcode-block" id="GitHubAPIWrapper.list_branches_in_repo"><a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.github.GitHubAPIWrapper.html#langchain_community.utilities.github.GitHubAPIWrapper.list_branches_in_repo">[docs]</a>    <span class="k">def</span> <span class="nf">list_branches_in_repo</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+
+<div class="viewcode-block" id="GitHubAPIWrapper.list_branches_in_repo">
+<a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.github.GitHubAPIWrapper.html#langchain_community.utilities.github.GitHubAPIWrapper.list_branches_in_repo">[docs]</a>
+    <span class="k">def</span> <span class="nf">list_branches_in_repo</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Fetches a list of all branches in the repository.</span>
 
@@ -492,7 +516,10 @@ document.write(`
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="GitHubAPIWrapper.create_branch"><a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.github.GitHubAPIWrapper.html#langchain_community.utilities.github.GitHubAPIWrapper.create_branch">[docs]</a>    <span class="k">def</span> <span class="nf">create_branch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">proposed_branch_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+
+<div class="viewcode-block" id="GitHubAPIWrapper.create_branch">
+<a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.github.GitHubAPIWrapper.html#langchain_community.utilities.github.GitHubAPIWrapper.create_branch">[docs]</a>
+    <span class="k">def</span> <span class="nf">create_branch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">proposed_branch_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Create a new branch, and set it as the active bot branch.</span>
 <span class="sd">        Equivalent to `git switch -c proposed_branch_name`</span>
@@ -536,7 +563,10 @@ document.write(`
             <span class="sa">f</span><span class="s2">"proposed_branch_name: `</span><span class="si">{</span><span class="n">proposed_branch_name</span><span class="si">}</span><span class="s2">`"</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="GitHubAPIWrapper.list_files_in_bot_branch"><a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.github.GitHubAPIWrapper.html#langchain_community.utilities.github.GitHubAPIWrapper.list_files_in_bot_branch">[docs]</a>    <span class="k">def</span> <span class="nf">list_files_in_bot_branch</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+
+<div class="viewcode-block" id="GitHubAPIWrapper.list_files_in_bot_branch">
+<a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.github.GitHubAPIWrapper.html#langchain_community.utilities.github.GitHubAPIWrapper.list_files_in_bot_branch">[docs]</a>
+    <span class="k">def</span> <span class="nf">list_files_in_bot_branch</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Fetches all files in the active branch of the repo,</span>
 <span class="sd">        the branch the bot uses to make changes.</span>
@@ -566,7 +596,10 @@ document.write(`
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="k">return</span> <span class="sa">f</span><span class="s2">"Error: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span></div>
 
-<div class="viewcode-block" id="GitHubAPIWrapper.get_files_from_directory"><a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.github.GitHubAPIWrapper.html#langchain_community.utilities.github.GitHubAPIWrapper.get_files_from_directory">[docs]</a>    <span class="k">def</span> <span class="nf">get_files_from_directory</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">directory_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+
+<div class="viewcode-block" id="GitHubAPIWrapper.get_files_from_directory">
+<a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.github.GitHubAPIWrapper.html#langchain_community.utilities.github.GitHubAPIWrapper.get_files_from_directory">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_files_from_directory</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">directory_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Recursively fetches files from a directory in the repo.</span>
 
@@ -593,7 +626,10 @@ document.write(`
                 <span class="n">files</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">content</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
         <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">files</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="GitHubAPIWrapper.get_issue"><a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.github.GitHubAPIWrapper.html#langchain_community.utilities.github.GitHubAPIWrapper.get_issue">[docs]</a>    <span class="k">def</span> <span class="nf">get_issue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">issue_number</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+
+<div class="viewcode-block" id="GitHubAPIWrapper.get_issue">
+<a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.github.GitHubAPIWrapper.html#langchain_community.utilities.github.GitHubAPIWrapper.get_issue">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_issue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">issue_number</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Fetches a specific issue and its first 10 comments</span>
 <span class="sd">        Parameters:</span>
@@ -626,7 +662,10 @@ document.write(`
             <span class="s2">"opened_by"</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">opened_by</span><span class="p">),</span>
         <span class="p">}</span></div>
 
-<div class="viewcode-block" id="GitHubAPIWrapper.list_pull_request_files"><a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.github.GitHubAPIWrapper.html#langchain_community.utilities.github.GitHubAPIWrapper.list_pull_request_files">[docs]</a>    <span class="k">def</span> <span class="nf">list_pull_request_files</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pr_number</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
+
+<div class="viewcode-block" id="GitHubAPIWrapper.list_pull_request_files">
+<a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.github.GitHubAPIWrapper.html#langchain_community.utilities.github.GitHubAPIWrapper.list_pull_request_files">[docs]</a>
+    <span class="k">def</span> <span class="nf">list_pull_request_files</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pr_number</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
 <span class="w">        </span><span class="sd">"""Fetches the full text of all files in a PR. Truncates after first 3k tokens.</span>
 <span class="sd">        # TODO: Enhancement to summarize files with ctags if they're getting long.</span>
 
@@ -689,7 +728,10 @@ document.write(`
             <span class="n">page</span> <span class="o">+=</span> <span class="mi">1</span>
         <span class="k">return</span> <span class="n">pr_files</span></div>
 
-<div class="viewcode-block" id="GitHubAPIWrapper.get_pull_request"><a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.github.GitHubAPIWrapper.html#langchain_community.utilities.github.GitHubAPIWrapper.get_pull_request">[docs]</a>    <span class="k">def</span> <span class="nf">get_pull_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pr_number</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+
+<div class="viewcode-block" id="GitHubAPIWrapper.get_pull_request">
+<a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.github.GitHubAPIWrapper.html#langchain_community.utilities.github.GitHubAPIWrapper.get_pull_request">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_pull_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pr_number</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Fetches a specific pull request and its first 10 comments,</span>
 <span class="sd">        limited by max_tokens.</span>
@@ -752,7 +794,10 @@ document.write(`
         <span class="n">add_to_dict</span><span class="p">(</span><span class="n">response_dict</span><span class="p">,</span> <span class="s2">"commits"</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">commits</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">response_dict</span></div>
 
-<div class="viewcode-block" id="GitHubAPIWrapper.create_pull_request"><a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.github.GitHubAPIWrapper.html#langchain_community.utilities.github.GitHubAPIWrapper.create_pull_request">[docs]</a>    <span class="k">def</span> <span class="nf">create_pull_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pr_query</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+
+<div class="viewcode-block" id="GitHubAPIWrapper.create_pull_request">
+<a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.github.GitHubAPIWrapper.html#langchain_community.utilities.github.GitHubAPIWrapper.create_pull_request">[docs]</a>
+    <span class="k">def</span> <span class="nf">create_pull_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pr_query</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Makes a pull request from the bot's branch to the base branch</span>
 <span class="sd">        Parameters:</span>
@@ -780,7 +825,10 @@ document.write(`
             <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
                 <span class="k">return</span> <span class="s2">"Unable to make pull request due to error:</span><span class="se">\n</span><span class="s2">"</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="GitHubAPIWrapper.comment_on_issue"><a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.github.GitHubAPIWrapper.html#langchain_community.utilities.github.GitHubAPIWrapper.comment_on_issue">[docs]</a>    <span class="k">def</span> <span class="nf">comment_on_issue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">comment_query</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+
+<div class="viewcode-block" id="GitHubAPIWrapper.comment_on_issue">
+<a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.github.GitHubAPIWrapper.html#langchain_community.utilities.github.GitHubAPIWrapper.comment_on_issue">[docs]</a>
+    <span class="k">def</span> <span class="nf">comment_on_issue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">comment_query</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Adds a comment to a github issue</span>
 <span class="sd">        Parameters:</span>
@@ -800,7 +848,10 @@ document.write(`
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="k">return</span> <span class="s2">"Unable to make comment due to error:</span><span class="se">\n</span><span class="s2">"</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="GitHubAPIWrapper.create_file"><a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.github.GitHubAPIWrapper.html#langchain_community.utilities.github.GitHubAPIWrapper.create_file">[docs]</a>    <span class="k">def</span> <span class="nf">create_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_query</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+
+<div class="viewcode-block" id="GitHubAPIWrapper.create_file">
+<a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.github.GitHubAPIWrapper.html#langchain_community.utilities.github.GitHubAPIWrapper.create_file">[docs]</a>
+    <span class="k">def</span> <span class="nf">create_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_query</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Creates a new file on the Github repo</span>
 <span class="sd">        Parameters:</span>
@@ -846,7 +897,10 @@ document.write(`
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="k">return</span> <span class="s2">"Unable to make file due to error:</span><span class="se">\n</span><span class="s2">"</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="GitHubAPIWrapper.read_file"><a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.github.GitHubAPIWrapper.html#langchain_community.utilities.github.GitHubAPIWrapper.read_file">[docs]</a>    <span class="k">def</span> <span class="nf">read_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+
+<div class="viewcode-block" id="GitHubAPIWrapper.read_file">
+<a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.github.GitHubAPIWrapper.html#langchain_community.utilities.github.GitHubAPIWrapper.read_file">[docs]</a>
+    <span class="k">def</span> <span class="nf">read_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Read a file from this agent's branch, defined by self.active_branch,</span>
 <span class="sd">        which supports PR branches.</span>
@@ -866,7 +920,10 @@ document.write(`
                 <span class="sa">f</span><span class="s2">"`</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">active_branch</span><span class="si">}</span><span class="s2">`. Error: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span>
             <span class="p">)</span></div>
 
-<div class="viewcode-block" id="GitHubAPIWrapper.update_file"><a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.github.GitHubAPIWrapper.html#langchain_community.utilities.github.GitHubAPIWrapper.update_file">[docs]</a>    <span class="k">def</span> <span class="nf">update_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_query</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+
+<div class="viewcode-block" id="GitHubAPIWrapper.update_file">
+<a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.github.GitHubAPIWrapper.html#langchain_community.utilities.github.GitHubAPIWrapper.update_file">[docs]</a>
+    <span class="k">def</span> <span class="nf">update_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_query</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Updates a file with new content.</span>
 <span class="sd">        Parameters:</span>
@@ -924,7 +981,10 @@ document.write(`
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="k">return</span> <span class="s2">"Unable to update file due to error:</span><span class="se">\n</span><span class="s2">"</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="GitHubAPIWrapper.delete_file"><a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.github.GitHubAPIWrapper.html#langchain_community.utilities.github.GitHubAPIWrapper.delete_file">[docs]</a>    <span class="k">def</span> <span class="nf">delete_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+
+<div class="viewcode-block" id="GitHubAPIWrapper.delete_file">
+<a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.github.GitHubAPIWrapper.html#langchain_community.utilities.github.GitHubAPIWrapper.delete_file">[docs]</a>
+    <span class="k">def</span> <span class="nf">delete_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Deletes a file from the repo</span>
 <span class="sd">        Parameters:</span>
@@ -951,7 +1011,10 @@ document.write(`
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="k">return</span> <span class="s2">"Unable to delete file due to error:</span><span class="se">\n</span><span class="s2">"</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="GitHubAPIWrapper.search_issues_and_prs"><a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.github.GitHubAPIWrapper.html#langchain_community.utilities.github.GitHubAPIWrapper.search_issues_and_prs">[docs]</a>    <span class="k">def</span> <span class="nf">search_issues_and_prs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+
+<div class="viewcode-block" id="GitHubAPIWrapper.search_issues_and_prs">
+<a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.github.GitHubAPIWrapper.html#langchain_community.utilities.github.GitHubAPIWrapper.search_issues_and_prs">[docs]</a>
+    <span class="k">def</span> <span class="nf">search_issues_and_prs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Searches issues and pull requests in the repository.</span>
 
@@ -970,7 +1033,10 @@ document.write(`
             <span class="p">)</span>
         <span class="k">return</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">results</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="GitHubAPIWrapper.search_code"><a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.github.GitHubAPIWrapper.html#langchain_community.utilities.github.GitHubAPIWrapper.search_code">[docs]</a>    <span class="k">def</span> <span class="nf">search_code</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+
+<div class="viewcode-block" id="GitHubAPIWrapper.search_code">
+<a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.github.GitHubAPIWrapper.html#langchain_community.utilities.github.GitHubAPIWrapper.search_code">[docs]</a>
+    <span class="k">def</span> <span class="nf">search_code</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Searches code in the repository.</span>
 <span class="sd">        # Todo: limit total tokens returned...</span>
@@ -1003,7 +1069,10 @@ document.write(`
             <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
         <span class="k">return</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">results</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="GitHubAPIWrapper.create_review_request"><a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.github.GitHubAPIWrapper.html#langchain_community.utilities.github.GitHubAPIWrapper.create_review_request">[docs]</a>    <span class="k">def</span> <span class="nf">create_review_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reviewer_username</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+
+<div class="viewcode-block" id="GitHubAPIWrapper.create_review_request">
+<a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.github.GitHubAPIWrapper.html#langchain_community.utilities.github.GitHubAPIWrapper.create_review_request">[docs]</a>
+    <span class="k">def</span> <span class="nf">create_review_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reviewer_username</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Creates a review request on *THE* open pull request</span>
 <span class="sd">        that matches the current active_branch.</span>
@@ -1036,7 +1105,10 @@ document.write(`
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="k">return</span> <span class="sa">f</span><span class="s2">"Failed to create a review request with error </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span></div>
 
-<div class="viewcode-block" id="GitHubAPIWrapper.run"><a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.github.GitHubAPIWrapper.html#langchain_community.utilities.github.GitHubAPIWrapper.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+
+<div class="viewcode-block" id="GitHubAPIWrapper.run">
+<a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.github.GitHubAPIWrapper.html#langchain_community.utilities.github.GitHubAPIWrapper.run">[docs]</a>
+    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s2">"get_issue"</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_issue</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">query</span><span class="p">)))</span>
         <span class="k">elif</span> <span class="n">mode</span> <span class="o">==</span> <span class="s2">"get_pull_request"</span><span class="p">:</span>
@@ -1078,7 +1150,9 @@ document.write(`
         <span class="k">elif</span> <span class="n">mode</span> <span class="o">==</span> <span class="s2">"create_review_request"</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_review_request</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Invalid mode"</span> <span class="o">+</span> <span class="n">mode</span><span class="p">)</span></div></div>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Invalid mode"</span> <span class="o">+</span> <span class="n">mode</span><span class="p">)</span></div>
+</div>
+
 </pre></div>
 </article>
 </div>

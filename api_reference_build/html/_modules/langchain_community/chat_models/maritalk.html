@@ -1,7 +1,7 @@
 
 <!DOCTYPE html>
 
-<html data-content_root="" lang="en">
+<html data-content_root="../../../" lang="en">
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
@@ -18,21 +18,21 @@
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" rel="preload" type="font/woff2"/>
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" rel="preload" type="font/woff2"/>
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" rel="preload" type="font/woff2"/>
-<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css?v=a746c00c" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/autodoc_pydantic.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/sphinx-design.4cbf315f70debaebd550c87a6162cf0f.min.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/css/custom.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/copybutton.css?v=76b2166b" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/sphinx-design.min.css?v=95c83b7e" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/css/custom.css?v=b95e2228" rel="stylesheet" type="text/css"/>
 <!-- Pre-loaded scripts that we'll load fully later -->
 <link as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
 <link as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
 <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-<script src="../../../_static/doctools.js"></script>
-<script src="../../../_static/sphinx_highlight.js"></script>
-<script src="../../../_static/clipboard.min.js"></script>
-<script src="../../../_static/copybutton.js"></script>
-<script src="../../../_static/design-tabs.js"></script>
+<script src="../../../_static/documentation_options.js?v=3b5cce75"></script>
+<script src="../../../_static/doctools.js?v=9a2dae69"></script>
+<script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+<script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+<script src="../../../_static/copybutton.js?v=f281be69"></script>
+<script src="../../../_static/design-tabs.js?v=f930bc37"></script>
 <script>DOCUMENTATION_OPTIONS.pagename = '_modules/langchain_community/chat_models/maritalk';</script>
 <link href="../../../_static/favicon.png" rel="icon"/>
 <link href="../../../search.html" rel="search" title="Search"/>
@@ -245,12 +245,14 @@ document.write(`
     <span class="n">SystemMessage</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="kn">from</span> <span class="nn">langchain_core.outputs</span> <span class="kn">import</span> <span class="n">ChatGeneration</span><span class="p">,</span> <span class="n">ChatGenerationChunk</span><span class="p">,</span> <span class="n">ChatResult</span>
-<span class="kn">from</span> <span class="nn">langchain_core.pydantic_v1</span> <span class="kn">import</span> <span class="n">Field</span>
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">Field</span>
 <span class="kn">from</span> <span class="nn">requests</span> <span class="kn">import</span> <span class="n">Response</span>
 <span class="kn">from</span> <span class="nn">requests.exceptions</span> <span class="kn">import</span> <span class="n">HTTPError</span>
 
 
-<div class="viewcode-block" id="MaritalkHTTPError"><a class="viewcode-back" href="../../../community/chat_models/langchain_community.chat_models.maritalk.MaritalkHTTPError.html#langchain_community.chat_models.maritalk.MaritalkHTTPError">[docs]</a><span class="k">class</span> <span class="nc">MaritalkHTTPError</span><span class="p">(</span><span class="n">HTTPError</span><span class="p">):</span>
+<div class="viewcode-block" id="MaritalkHTTPError">
+<a class="viewcode-back" href="../../../community/chat_models/langchain_community.chat_models.maritalk.MaritalkHTTPError.html#langchain_community.chat_models.maritalk.MaritalkHTTPError">[docs]</a>
+<span class="k">class</span> <span class="nc">MaritalkHTTPError</span><span class="p">(</span><span class="n">HTTPError</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request_obj</span><span class="p">:</span> <span class="n">Response</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">request_obj</span> <span class="o">=</span> <span class="n">request_obj</span>
         <span class="k">try</span><span class="p">:</span>
@@ -274,7 +276,10 @@ document.write(`
         <span class="k">return</span> <span class="n">formatted_message</span></div>
 
 
-<div class="viewcode-block" id="ChatMaritalk"><a class="viewcode-back" href="../../../community/chat_models/langchain_community.chat_models.maritalk.ChatMaritalk.html#langchain_community.chat_models.maritalk.ChatMaritalk">[docs]</a><span class="k">class</span> <span class="nc">ChatMaritalk</span><span class="p">(</span><span class="n">BaseChatModel</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ChatMaritalk">
+<a class="viewcode-back" href="../../../community/chat_models/langchain_community.chat_models.maritalk.ChatMaritalk.html#langchain_community.chat_models.maritalk.ChatMaritalk">[docs]</a>
+<span class="k">class</span> <span class="nc">ChatMaritalk</span><span class="p">(</span><span class="n">BaseChatModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""`MariTalk` Chat models API.</span>
 
 <span class="sd">    This class allows interacting with the MariTalk chatbot API.</span>
@@ -317,7 +322,9 @@ document.write(`
 <span class="w">        </span><span class="sd">"""Identifies the LLM type as 'maritalk'."""</span>
         <span class="k">return</span> <span class="s2">"maritalk"</span>
 
-<div class="viewcode-block" id="ChatMaritalk.parse_messages_for_model"><a class="viewcode-back" href="../../../community/chat_models/langchain_community.chat_models.maritalk.ChatMaritalk.html#langchain_community.chat_models.maritalk.ChatMaritalk.parse_messages_for_model">[docs]</a>    <span class="k">def</span> <span class="nf">parse_messages_for_model</span><span class="p">(</span>
+<div class="viewcode-block" id="ChatMaritalk.parse_messages_for_model">
+<a class="viewcode-back" href="../../../community/chat_models/langchain_community.chat_models.maritalk.ChatMaritalk.html#langchain_community.chat_models.maritalk.ChatMaritalk.parse_messages_for_model">[docs]</a>
+    <span class="k">def</span> <span class="nf">parse_messages_for_model</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">messages</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">BaseMessage</span><span class="p">]</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]]]]]:</span>
 <span class="w">        </span><span class="sd">"""</span>
@@ -343,6 +350,7 @@ document.write(`
 
             <span class="n">parsed_messages</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">"role"</span><span class="p">:</span> <span class="n">role</span><span class="p">,</span> <span class="s2">"content"</span><span class="p">:</span> <span class="n">message</span><span class="o">.</span><span class="n">content</span><span class="p">})</span>
         <span class="k">return</span> <span class="n">parsed_messages</span></div>
+
 
     <span class="k">def</span> <span class="nf">_call</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -601,6 +609,7 @@ document.write(`
             <span class="s2">"top_p"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">top_p</span><span class="p">,</span>
             <span class="s2">"max_tokens"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_tokens</span><span class="p">,</span>
         <span class="p">}</span></div>
+
 </pre></div>
 </article>
 </div>

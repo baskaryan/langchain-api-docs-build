@@ -1,7 +1,7 @@
 
 <!DOCTYPE html>
 
-<html data-content_root="" lang="en">
+<html data-content_root="../../../" lang="en">
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
@@ -18,21 +18,21 @@
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" rel="preload" type="font/woff2"/>
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" rel="preload" type="font/woff2"/>
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" rel="preload" type="font/woff2"/>
-<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css?v=a746c00c" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/autodoc_pydantic.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/sphinx-design.4cbf315f70debaebd550c87a6162cf0f.min.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/css/custom.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/copybutton.css?v=76b2166b" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/sphinx-design.min.css?v=95c83b7e" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/css/custom.css?v=b95e2228" rel="stylesheet" type="text/css"/>
 <!-- Pre-loaded scripts that we'll load fully later -->
 <link as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
 <link as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
 <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-<script src="../../../_static/doctools.js"></script>
-<script src="../../../_static/sphinx_highlight.js"></script>
-<script src="../../../_static/clipboard.min.js"></script>
-<script src="../../../_static/copybutton.js"></script>
-<script src="../../../_static/design-tabs.js"></script>
+<script src="../../../_static/documentation_options.js?v=3b5cce75"></script>
+<script src="../../../_static/doctools.js?v=9a2dae69"></script>
+<script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+<script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+<script src="../../../_static/copybutton.js?v=f281be69"></script>
+<script src="../../../_static/design-tabs.js?v=f930bc37"></script>
 <script>DOCUMENTATION_OPTIONS.pagename = '_modules/langchain_core/runnables/fallbacks';</script>
 <link href="../../../_static/favicon.png" rel="icon"/>
 <link href="../../../search.html" rel="search" title="Search"/>
@@ -247,7 +247,9 @@ document.write(`
     <span class="n">cast</span><span class="p">,</span>
 <span class="p">)</span>
 
-<span class="kn">from</span> <span class="nn">langchain_core.pydantic_v1</span> <span class="kn">import</span> <span class="n">BaseModel</span>
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">ConfigDict</span>
+
+<span class="kn">from</span> <span class="nn">langchain_core.load.dump</span> <span class="kn">import</span> <span class="n">dumpd</span>
 <span class="kn">from</span> <span class="nn">langchain_core.runnables.base</span> <span class="kn">import</span> <span class="n">Runnable</span><span class="p">,</span> <span class="n">RunnableSerializable</span>
 <span class="kn">from</span> <span class="nn">langchain_core.runnables.config</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">RunnableConfig</span><span class="p">,</span>
@@ -271,7 +273,9 @@ document.write(`
     <span class="kn">from</span> <span class="nn">langchain_core.callbacks.manager</span> <span class="kn">import</span> <span class="n">AsyncCallbackManagerForChainRun</span>
 
 
-<div class="viewcode-block" id="RunnableWithFallbacks"><a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.fallbacks.RunnableWithFallbacks.html#langchain_core.runnables.fallbacks.RunnableWithFallbacks">[docs]</a><span class="k">class</span> <span class="nc">RunnableWithFallbacks</span><span class="p">(</span><span class="n">RunnableSerializable</span><span class="p">[</span><span class="n">Input</span><span class="p">,</span> <span class="n">Output</span><span class="p">]):</span>
+<div class="viewcode-block" id="RunnableWithFallbacks">
+<a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.fallbacks.RunnableWithFallbacks.html#langchain_core.runnables.fallbacks.RunnableWithFallbacks">[docs]</a>
+<span class="k">class</span> <span class="nc">RunnableWithFallbacks</span><span class="p">(</span><span class="n">RunnableSerializable</span><span class="p">[</span><span class="n">Input</span><span class="p">,</span> <span class="n">Output</span><span class="p">]):</span>
 <span class="w">    </span><span class="sd">"""Runnable that can fallback to other Runnables if it fails.</span>
 
 <span class="sd">    External APIs (e.g., APIs for a language model) may at times experience</span>
@@ -335,8 +339,9 @@ document.write(`
 <span class="sd">        will not be passed to fallbacks. If used, the base Runnable and its fallbacks </span>
 <span class="sd">        must accept a dictionary as input."""</span>
 
-    <span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
-        <span class="n">arbitrary_types_allowed</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span>
+        <span class="n">arbitrary_types_allowed</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">InputType</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Type</span><span class="p">[</span><span class="n">Input</span><span class="p">]:</span>
@@ -378,7 +383,9 @@ document.write(`
         <span class="k">yield</span> <span class="bp">self</span><span class="o">.</span><span class="n">runnable</span>
         <span class="k">yield from</span> <span class="bp">self</span><span class="o">.</span><span class="n">fallbacks</span>
 
-<div class="viewcode-block" id="RunnableWithFallbacks.invoke"><a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.fallbacks.RunnableWithFallbacks.html#langchain_core.runnables.fallbacks.RunnableWithFallbacks.invoke">[docs]</a>    <span class="k">def</span> <span class="nf">invoke</span><span class="p">(</span>
+<div class="viewcode-block" id="RunnableWithFallbacks.invoke">
+<a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.fallbacks.RunnableWithFallbacks.html#langchain_core.runnables.fallbacks.RunnableWithFallbacks.invoke">[docs]</a>
+    <span class="k">def</span> <span class="nf">invoke</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="nb">input</span><span class="p">:</span> <span class="n">Input</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">RunnableConfig</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Output</span><span class="p">:</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">exception_key</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
@@ -391,9 +398,9 @@ document.write(`
         <span class="n">callback_manager</span> <span class="o">=</span> <span class="n">get_callback_manager_for_config</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
         <span class="c1"># start the root run</span>
         <span class="n">run_manager</span> <span class="o">=</span> <span class="n">callback_manager</span><span class="o">.</span><span class="n">on_chain_start</span><span class="p">(</span>
-            <span class="kc">None</span><span class="p">,</span>
+            <span class="n">dumpd</span><span class="p">(</span><span class="bp">self</span><span class="p">),</span>
             <span class="nb">input</span><span class="p">,</span>
-            <span class="n">name</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"run_name"</span><span class="p">)</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_name</span><span class="p">(),</span>
+            <span class="n">name</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"run_name"</span><span class="p">),</span>
             <span class="n">run_id</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"run_id"</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
         <span class="p">)</span>
         <span class="n">first_error</span> <span class="o">=</span> <span class="kc">None</span>
@@ -426,7 +433,10 @@ document.write(`
         <span class="n">run_manager</span><span class="o">.</span><span class="n">on_chain_error</span><span class="p">(</span><span class="n">first_error</span><span class="p">)</span>
         <span class="k">raise</span> <span class="n">first_error</span></div>
 
-<div class="viewcode-block" id="RunnableWithFallbacks.ainvoke"><a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.fallbacks.RunnableWithFallbacks.html#langchain_core.runnables.fallbacks.RunnableWithFallbacks.ainvoke">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">ainvoke</span><span class="p">(</span>
+
+<div class="viewcode-block" id="RunnableWithFallbacks.ainvoke">
+<a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.fallbacks.RunnableWithFallbacks.html#langchain_core.runnables.fallbacks.RunnableWithFallbacks.ainvoke">[docs]</a>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">ainvoke</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="nb">input</span><span class="p">:</span> <span class="n">Input</span><span class="p">,</span>
         <span class="n">config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">RunnableConfig</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -442,9 +452,9 @@ document.write(`
         <span class="n">callback_manager</span> <span class="o">=</span> <span class="n">get_async_callback_manager_for_config</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
         <span class="c1"># start the root run</span>
         <span class="n">run_manager</span> <span class="o">=</span> <span class="k">await</span> <span class="n">callback_manager</span><span class="o">.</span><span class="n">on_chain_start</span><span class="p">(</span>
-            <span class="kc">None</span><span class="p">,</span>
+            <span class="n">dumpd</span><span class="p">(</span><span class="bp">self</span><span class="p">),</span>
             <span class="nb">input</span><span class="p">,</span>
-            <span class="n">name</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"run_name"</span><span class="p">)</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_name</span><span class="p">(),</span>
+            <span class="n">name</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"run_name"</span><span class="p">),</span>
             <span class="n">run_id</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"run_id"</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
         <span class="p">)</span>
 
@@ -477,7 +487,10 @@ document.write(`
         <span class="k">await</span> <span class="n">run_manager</span><span class="o">.</span><span class="n">on_chain_error</span><span class="p">(</span><span class="n">first_error</span><span class="p">)</span>
         <span class="k">raise</span> <span class="n">first_error</span></div>
 
-<div class="viewcode-block" id="RunnableWithFallbacks.batch"><a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.fallbacks.RunnableWithFallbacks.html#langchain_core.runnables.fallbacks.RunnableWithFallbacks.batch">[docs]</a>    <span class="k">def</span> <span class="nf">batch</span><span class="p">(</span>
+
+<div class="viewcode-block" id="RunnableWithFallbacks.batch">
+<a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.fallbacks.RunnableWithFallbacks.html#langchain_core.runnables.fallbacks.RunnableWithFallbacks.batch">[docs]</a>
+    <span class="k">def</span> <span class="nf">batch</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">inputs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Input</span><span class="p">],</span>
         <span class="n">config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">RunnableConfig</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">RunnableConfig</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -515,9 +528,9 @@ document.write(`
         <span class="c1"># start the root runs, one per input</span>
         <span class="n">run_managers</span> <span class="o">=</span> <span class="p">[</span>
             <span class="n">cm</span><span class="o">.</span><span class="n">on_chain_start</span><span class="p">(</span>
-                <span class="kc">None</span><span class="p">,</span>
+                <span class="n">dumpd</span><span class="p">(</span><span class="bp">self</span><span class="p">),</span>
                 <span class="nb">input</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="k">else</span> <span class="p">{</span><span class="s2">"input"</span><span class="p">:</span> <span class="nb">input</span><span class="p">},</span>
-                <span class="n">name</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"run_name"</span><span class="p">)</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_name</span><span class="p">(),</span>
+                <span class="n">name</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"run_name"</span><span class="p">),</span>
                 <span class="n">run_id</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"run_id"</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
             <span class="p">)</span>
             <span class="k">for</span> <span class="n">cm</span><span class="p">,</span> <span class="nb">input</span><span class="p">,</span> <span class="n">config</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">callback_managers</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">configs</span><span class="p">)</span>
@@ -569,7 +582,10 @@ document.write(`
         <span class="n">to_return</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">handled_exceptions</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">output</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">output</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">to_return</span><span class="o">.</span><span class="n">items</span><span class="p">())]</span></div>
 
-<div class="viewcode-block" id="RunnableWithFallbacks.abatch"><a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.fallbacks.RunnableWithFallbacks.html#langchain_core.runnables.fallbacks.RunnableWithFallbacks.abatch">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">abatch</span><span class="p">(</span>
+
+<div class="viewcode-block" id="RunnableWithFallbacks.abatch">
+<a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.fallbacks.RunnableWithFallbacks.html#langchain_core.runnables.fallbacks.RunnableWithFallbacks.abatch">[docs]</a>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">abatch</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">inputs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Input</span><span class="p">],</span>
         <span class="n">config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">RunnableConfig</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">RunnableConfig</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -608,9 +624,9 @@ document.write(`
         <span class="n">run_managers</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">AsyncCallbackManagerForChainRun</span><span class="p">]</span> <span class="o">=</span> <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span>
             <span class="o">*</span><span class="p">(</span>
                 <span class="n">cm</span><span class="o">.</span><span class="n">on_chain_start</span><span class="p">(</span>
-                    <span class="kc">None</span><span class="p">,</span>
+                    <span class="n">dumpd</span><span class="p">(</span><span class="bp">self</span><span class="p">),</span>
                     <span class="nb">input</span><span class="p">,</span>
-                    <span class="n">name</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"run_name"</span><span class="p">)</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_name</span><span class="p">(),</span>
+                    <span class="n">name</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"run_name"</span><span class="p">),</span>
                     <span class="n">run_id</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"run_id"</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
                 <span class="p">)</span>
                 <span class="k">for</span> <span class="n">cm</span><span class="p">,</span> <span class="nb">input</span><span class="p">,</span> <span class="n">config</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">callback_managers</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">configs</span><span class="p">)</span>
@@ -669,7 +685,10 @@ document.write(`
         <span class="n">to_return</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">handled_exceptions</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">output</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">output</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">to_return</span><span class="o">.</span><span class="n">items</span><span class="p">())]</span>  <span class="c1"># type: ignore</span></div>
 
-<div class="viewcode-block" id="RunnableWithFallbacks.stream"><a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.fallbacks.RunnableWithFallbacks.html#langchain_core.runnables.fallbacks.RunnableWithFallbacks.stream">[docs]</a>    <span class="k">def</span> <span class="nf">stream</span><span class="p">(</span>
+
+<div class="viewcode-block" id="RunnableWithFallbacks.stream">
+<a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.fallbacks.RunnableWithFallbacks.html#langchain_core.runnables.fallbacks.RunnableWithFallbacks.stream">[docs]</a>
+    <span class="k">def</span> <span class="nf">stream</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="nb">input</span><span class="p">:</span> <span class="n">Input</span><span class="p">,</span>
         <span class="n">config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">RunnableConfig</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -686,9 +705,9 @@ document.write(`
         <span class="n">callback_manager</span> <span class="o">=</span> <span class="n">get_callback_manager_for_config</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
         <span class="c1"># start the root run</span>
         <span class="n">run_manager</span> <span class="o">=</span> <span class="n">callback_manager</span><span class="o">.</span><span class="n">on_chain_start</span><span class="p">(</span>
-            <span class="kc">None</span><span class="p">,</span>
+            <span class="n">dumpd</span><span class="p">(</span><span class="bp">self</span><span class="p">),</span>
             <span class="nb">input</span><span class="p">,</span>
-            <span class="n">name</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"run_name"</span><span class="p">)</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_name</span><span class="p">(),</span>
+            <span class="n">name</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"run_name"</span><span class="p">),</span>
             <span class="n">run_id</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"run_id"</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
         <span class="p">)</span>
         <span class="n">first_error</span> <span class="o">=</span> <span class="kc">None</span>
@@ -733,7 +752,10 @@ document.write(`
             <span class="k">raise</span> <span class="n">e</span>
         <span class="n">run_manager</span><span class="o">.</span><span class="n">on_chain_end</span><span class="p">(</span><span class="n">output</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="RunnableWithFallbacks.astream"><a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.fallbacks.RunnableWithFallbacks.html#langchain_core.runnables.fallbacks.RunnableWithFallbacks.astream">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">astream</span><span class="p">(</span>
+
+<div class="viewcode-block" id="RunnableWithFallbacks.astream">
+<a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.fallbacks.RunnableWithFallbacks.html#langchain_core.runnables.fallbacks.RunnableWithFallbacks.astream">[docs]</a>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">astream</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="nb">input</span><span class="p">:</span> <span class="n">Input</span><span class="p">,</span>
         <span class="n">config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">RunnableConfig</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -749,9 +771,9 @@ document.write(`
         <span class="n">callback_manager</span> <span class="o">=</span> <span class="n">get_async_callback_manager_for_config</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
         <span class="c1"># start the root run</span>
         <span class="n">run_manager</span> <span class="o">=</span> <span class="k">await</span> <span class="n">callback_manager</span><span class="o">.</span><span class="n">on_chain_start</span><span class="p">(</span>
-            <span class="kc">None</span><span class="p">,</span>
+            <span class="n">dumpd</span><span class="p">(</span><span class="bp">self</span><span class="p">),</span>
             <span class="nb">input</span><span class="p">,</span>
-            <span class="n">name</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"run_name"</span><span class="p">)</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_name</span><span class="p">(),</span>
+            <span class="n">name</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"run_name"</span><span class="p">),</span>
             <span class="n">run_id</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"run_id"</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
         <span class="p">)</span>
         <span class="n">first_error</span> <span class="o">=</span> <span class="kc">None</span>
@@ -802,6 +824,7 @@ document.write(`
             <span class="k">raise</span> <span class="n">e</span>
         <span class="k">await</span> <span class="n">run_manager</span><span class="o">.</span><span class="n">on_chain_end</span><span class="p">(</span><span class="n">output</span><span class="p">)</span></div>
 
+
     <span class="k">def</span> <span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Get an attribute from the wrapped Runnable and its fallbacks.</span>
 
@@ -848,7 +871,7 @@ document.write(`
 
                 <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span>
                     <span class="o">**</span><span class="p">{</span>
-                        <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">dict</span><span class="p">(),</span>
+                        <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">model_dump</span><span class="p">(),</span>
                         <span class="o">**</span><span class="p">{</span><span class="s2">"runnable"</span><span class="p">:</span> <span class="n">new_runnable</span><span class="p">,</span> <span class="s2">"fallbacks"</span><span class="p">:</span> <span class="n">new_fallbacks</span><span class="p">},</span>
                     <span class="p">}</span>
                 <span class="p">)</span>
@@ -856,6 +879,7 @@ document.write(`
             <span class="k">return</span> <span class="n">wrapped</span>
 
         <span class="k">return</span> <span class="n">attr</span></div>
+
 
 
 <span class="k">def</span> <span class="nf">_returns_runnable</span><span class="p">(</span><span class="n">attr</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>

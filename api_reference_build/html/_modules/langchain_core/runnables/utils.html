@@ -1,7 +1,7 @@
 
 <!DOCTYPE html>
 
-<html data-content_root="" lang="en">
+<html data-content_root="../../../" lang="en">
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
@@ -18,21 +18,21 @@
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" rel="preload" type="font/woff2"/>
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" rel="preload" type="font/woff2"/>
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" rel="preload" type="font/woff2"/>
-<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css?v=a746c00c" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/autodoc_pydantic.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/sphinx-design.4cbf315f70debaebd550c87a6162cf0f.min.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/css/custom.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/copybutton.css?v=76b2166b" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/sphinx-design.min.css?v=95c83b7e" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/css/custom.css?v=b95e2228" rel="stylesheet" type="text/css"/>
 <!-- Pre-loaded scripts that we'll load fully later -->
 <link as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
 <link as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
 <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-<script src="../../../_static/doctools.js"></script>
-<script src="../../../_static/sphinx_highlight.js"></script>
-<script src="../../../_static/clipboard.min.js"></script>
-<script src="../../../_static/copybutton.js"></script>
-<script src="../../../_static/design-tabs.js"></script>
+<script src="../../../_static/documentation_options.js?v=3b5cce75"></script>
+<script src="../../../_static/doctools.js?v=9a2dae69"></script>
+<script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+<script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+<script src="../../../_static/copybutton.js?v=f281be69"></script>
+<script src="../../../_static/design-tabs.js?v=f930bc37"></script>
 <script>DOCUMENTATION_OPTIONS.pagename = '_modules/langchain_core/runnables/utils';</script>
 <link href="../../../_static/favicon.png" rel="icon"/>
 <link href="../../../search.html" rel="search" title="Search"/>
@@ -235,6 +235,7 @@ document.write(`
 <span class="kn">import</span> <span class="nn">asyncio</span>
 <span class="kn">import</span> <span class="nn">inspect</span>
 <span class="kn">import</span> <span class="nn">textwrap</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
 <span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">lru_cache</span>
 <span class="kn">from</span> <span class="nn">inspect</span> <span class="kn">import</span> <span class="n">signature</span>
 <span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">groupby</span>
@@ -257,12 +258,19 @@ document.write(`
     <span class="n">Type</span><span class="p">,</span>
     <span class="n">TypeVar</span><span class="p">,</span>
     <span class="n">Union</span><span class="p">,</span>
+    <span class="n">cast</span><span class="p">,</span>
 <span class="p">)</span>
 
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">ConfigDict</span><span class="p">,</span> <span class="n">PydanticDeprecationWarning</span><span class="p">,</span> <span class="n">RootModel</span>
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">create_model</span> <span class="k">as</span> <span class="n">_create_model_base</span>  <span class="c1"># pydantic :ignore</span>
+<span class="kn">from</span> <span class="nn">pydantic.json_schema</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">DEFAULT_REF_TEMPLATE</span><span class="p">,</span>
+    <span class="n">GenerateJsonSchema</span><span class="p">,</span>
+    <span class="n">JsonSchemaMode</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">pydantic.v1</span> <span class="kn">import</span> <span class="n">BaseModel</span> <span class="k">as</span> <span class="n">BaseModelV1</span>
 <span class="kn">from</span> <span class="nn">typing_extensions</span> <span class="kn">import</span> <span class="n">TypeGuard</span>
 
-<span class="kn">from</span> <span class="nn">langchain_core.pydantic_v1</span> <span class="kn">import</span> <span class="n">BaseConfig</span><span class="p">,</span> <span class="n">BaseModel</span>
-<span class="kn">from</span> <span class="nn">langchain_core.pydantic_v1</span> <span class="kn">import</span> <span class="n">create_model</span> <span class="k">as</span> <span class="n">_create_model_base</span>
 <span class="kn">from</span> <span class="nn">langchain_core.runnables.schema</span> <span class="kn">import</span> <span class="n">StreamEvent</span>
 
 <span class="n">Input</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">"Input"</span><span class="p">,</span> <span class="n">contravariant</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -270,7 +278,9 @@ document.write(`
 <span class="n">Output</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">"Output"</span><span class="p">,</span> <span class="n">covariant</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="gated_coro"><a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.utils.gated_coro.html#langchain_core.runnables.utils.gated_coro">[docs]</a><span class="k">async</span> <span class="k">def</span> <span class="nf">gated_coro</span><span class="p">(</span><span class="n">semaphore</span><span class="p">:</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">Semaphore</span><span class="p">,</span> <span class="n">coro</span><span class="p">:</span> <span class="n">Coroutine</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<div class="viewcode-block" id="gated_coro">
+<a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.utils.gated_coro.html#langchain_core.runnables.utils.gated_coro">[docs]</a>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">gated_coro</span><span class="p">(</span><span class="n">semaphore</span><span class="p">:</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">Semaphore</span><span class="p">,</span> <span class="n">coro</span><span class="p">:</span> <span class="n">Coroutine</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Run a coroutine with a semaphore.</span>
 
 <span class="sd">    Args:</span>
@@ -284,7 +294,10 @@ document.write(`
         <span class="k">return</span> <span class="k">await</span> <span class="n">coro</span></div>
 
 
-<div class="viewcode-block" id="gather_with_concurrency"><a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.utils.gather_with_concurrency.html#langchain_core.runnables.utils.gather_with_concurrency">[docs]</a><span class="k">async</span> <span class="k">def</span> <span class="nf">gather_with_concurrency</span><span class="p">(</span><span class="n">n</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="kc">None</span><span class="p">],</span> <span class="o">*</span><span class="n">coros</span><span class="p">:</span> <span class="n">Coroutine</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+
+<div class="viewcode-block" id="gather_with_concurrency">
+<a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.utils.gather_with_concurrency.html#langchain_core.runnables.utils.gather_with_concurrency">[docs]</a>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">gather_with_concurrency</span><span class="p">(</span><span class="n">n</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="kc">None</span><span class="p">],</span> <span class="o">*</span><span class="n">coros</span><span class="p">:</span> <span class="n">Coroutine</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Gather coroutines with a limit on the number of concurrent coroutines.</span>
 
 <span class="sd">    Args:</span>
@@ -302,7 +315,10 @@ document.write(`
     <span class="k">return</span> <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="n">gated_coro</span><span class="p">(</span><span class="n">semaphore</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">coros</span><span class="p">))</span></div>
 
 
-<div class="viewcode-block" id="accepts_run_manager"><a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.utils.accepts_run_manager.html#langchain_core.runnables.utils.accepts_run_manager">[docs]</a><span class="k">def</span> <span class="nf">accepts_run_manager</span><span class="p">(</span><span class="nb">callable</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+
+<div class="viewcode-block" id="accepts_run_manager">
+<a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.utils.accepts_run_manager.html#langchain_core.runnables.utils.accepts_run_manager">[docs]</a>
+<span class="k">def</span> <span class="nf">accepts_run_manager</span><span class="p">(</span><span class="nb">callable</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Check if a callable accepts a run_manager argument.</span>
 
 <span class="sd">    Args:</span>
@@ -317,7 +333,10 @@ document.write(`
         <span class="k">return</span> <span class="kc">False</span></div>
 
 
-<div class="viewcode-block" id="accepts_config"><a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.utils.accepts_config.html#langchain_core.runnables.utils.accepts_config">[docs]</a><span class="k">def</span> <span class="nf">accepts_config</span><span class="p">(</span><span class="nb">callable</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+
+<div class="viewcode-block" id="accepts_config">
+<a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.utils.accepts_config.html#langchain_core.runnables.utils.accepts_config">[docs]</a>
+<span class="k">def</span> <span class="nf">accepts_config</span><span class="p">(</span><span class="nb">callable</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Check if a callable accepts a config argument.</span>
 
 <span class="sd">    Args:</span>
@@ -332,7 +351,10 @@ document.write(`
         <span class="k">return</span> <span class="kc">False</span></div>
 
 
-<div class="viewcode-block" id="accepts_context"><a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.utils.accepts_context.html#langchain_core.runnables.utils.accepts_context">[docs]</a><span class="k">def</span> <span class="nf">accepts_context</span><span class="p">(</span><span class="nb">callable</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+
+<div class="viewcode-block" id="accepts_context">
+<a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.utils.accepts_context.html#langchain_core.runnables.utils.accepts_context">[docs]</a>
+<span class="k">def</span> <span class="nf">accepts_context</span><span class="p">(</span><span class="nb">callable</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Check if a callable accepts a context argument.</span>
 
 <span class="sd">    Args:</span>
@@ -347,15 +369,20 @@ document.write(`
         <span class="k">return</span> <span class="kc">False</span></div>
 
 
+
 <span class="nd">@lru_cache</span><span class="p">(</span><span class="n">maxsize</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">asyncio_accepts_context</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
     <span class="k">return</span> <span class="n">accepts_context</span><span class="p">(</span><span class="n">asyncio</span><span class="o">.</span><span class="n">create_task</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="IsLocalDict"><a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.utils.IsLocalDict.html#langchain_core.runnables.utils.IsLocalDict">[docs]</a><span class="k">class</span> <span class="nc">IsLocalDict</span><span class="p">(</span><span class="n">ast</span><span class="o">.</span><span class="n">NodeVisitor</span><span class="p">):</span>
+<div class="viewcode-block" id="IsLocalDict">
+<a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.utils.IsLocalDict.html#langchain_core.runnables.utils.IsLocalDict">[docs]</a>
+<span class="k">class</span> <span class="nc">IsLocalDict</span><span class="p">(</span><span class="n">ast</span><span class="o">.</span><span class="n">NodeVisitor</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Check if a name is a local dict."""</span>
 
-<div class="viewcode-block" id="IsLocalDict.__init__"><a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.utils.IsLocalDict.html#langchain_core.runnables.utils.IsLocalDict.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">keys</span><span class="p">:</span> <span class="n">Set</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="IsLocalDict.__init__">
+<a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.utils.IsLocalDict.html#langchain_core.runnables.utils.IsLocalDict.__init__">[docs]</a>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">keys</span><span class="p">:</span> <span class="n">Set</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Initialize the visitor.</span>
 
 <span class="sd">        Args:</span>
@@ -365,7 +392,10 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">keys</span> <span class="o">=</span> <span class="n">keys</span></div>
 
-<div class="viewcode-block" id="IsLocalDict.visit_Subscript"><a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.utils.IsLocalDict.html#langchain_core.runnables.utils.IsLocalDict.visit_Subscript">[docs]</a>    <span class="k">def</span> <span class="nf">visit_Subscript</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">ast</span><span class="o">.</span><span class="n">Subscript</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+
+<div class="viewcode-block" id="IsLocalDict.visit_Subscript">
+<a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.utils.IsLocalDict.html#langchain_core.runnables.utils.IsLocalDict.visit_Subscript">[docs]</a>
+    <span class="k">def</span> <span class="nf">visit_Subscript</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">ast</span><span class="o">.</span><span class="n">Subscript</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Visit a subscript node.</span>
 
 <span class="sd">        Args:</span>
@@ -384,7 +414,10 @@ document.write(`
             <span class="c1"># we've found a subscript access on the name we're looking for</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">slice</span><span class="o">.</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="IsLocalDict.visit_Call"><a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.utils.IsLocalDict.html#langchain_core.runnables.utils.IsLocalDict.visit_Call">[docs]</a>    <span class="k">def</span> <span class="nf">visit_Call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">ast</span><span class="o">.</span><span class="n">Call</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+
+<div class="viewcode-block" id="IsLocalDict.visit_Call">
+<a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.utils.IsLocalDict.html#langchain_core.runnables.utils.IsLocalDict.visit_Call">[docs]</a>
+    <span class="k">def</span> <span class="nf">visit_Call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">ast</span><span class="o">.</span><span class="n">Call</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Visit a call node.</span>
 
 <span class="sd">        Args:</span>
@@ -403,16 +436,25 @@ document.write(`
             <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
         <span class="p">):</span>
             <span class="c1"># we've found a .get() call on the name we're looking for</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">)</span></div></div>
+            <span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">)</span></div>
+</div>
 
 
-<div class="viewcode-block" id="IsFunctionArgDict"><a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.utils.IsFunctionArgDict.html#langchain_core.runnables.utils.IsFunctionArgDict">[docs]</a><span class="k">class</span> <span class="nc">IsFunctionArgDict</span><span class="p">(</span><span class="n">ast</span><span class="o">.</span><span class="n">NodeVisitor</span><span class="p">):</span>
+
+<div class="viewcode-block" id="IsFunctionArgDict">
+<a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.utils.IsFunctionArgDict.html#langchain_core.runnables.utils.IsFunctionArgDict">[docs]</a>
+<span class="k">class</span> <span class="nc">IsFunctionArgDict</span><span class="p">(</span><span class="n">ast</span><span class="o">.</span><span class="n">NodeVisitor</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Check if the first argument of a function is a dict."""</span>
 
-<div class="viewcode-block" id="IsFunctionArgDict.__init__"><a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.utils.IsFunctionArgDict.html#langchain_core.runnables.utils.IsFunctionArgDict.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="IsFunctionArgDict.__init__">
+<a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.utils.IsFunctionArgDict.html#langchain_core.runnables.utils.IsFunctionArgDict.__init__">[docs]</a>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">:</span> <span class="n">Set</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="IsFunctionArgDict.visit_Lambda"><a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.utils.IsFunctionArgDict.html#langchain_core.runnables.utils.IsFunctionArgDict.visit_Lambda">[docs]</a>    <span class="k">def</span> <span class="nf">visit_Lambda</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">ast</span><span class="o">.</span><span class="n">Lambda</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+
+<div class="viewcode-block" id="IsFunctionArgDict.visit_Lambda">
+<a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.utils.IsFunctionArgDict.html#langchain_core.runnables.utils.IsFunctionArgDict.visit_Lambda">[docs]</a>
+    <span class="k">def</span> <span class="nf">visit_Lambda</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">ast</span><span class="o">.</span><span class="n">Lambda</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Visit a lambda function.</span>
 
 <span class="sd">        Args:</span>
@@ -426,7 +468,10 @@ document.write(`
         <span class="n">input_arg_name</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">arg</span>
         <span class="n">IsLocalDict</span><span class="p">(</span><span class="n">input_arg_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">)</span><span class="o">.</span><span class="n">visit</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">body</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="IsFunctionArgDict.visit_FunctionDef"><a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.utils.IsFunctionArgDict.html#langchain_core.runnables.utils.IsFunctionArgDict.visit_FunctionDef">[docs]</a>    <span class="k">def</span> <span class="nf">visit_FunctionDef</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">ast</span><span class="o">.</span><span class="n">FunctionDef</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+
+<div class="viewcode-block" id="IsFunctionArgDict.visit_FunctionDef">
+<a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.utils.IsFunctionArgDict.html#langchain_core.runnables.utils.IsFunctionArgDict.visit_FunctionDef">[docs]</a>
+    <span class="k">def</span> <span class="nf">visit_FunctionDef</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">ast</span><span class="o">.</span><span class="n">FunctionDef</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Visit a function definition.</span>
 
 <span class="sd">        Args:</span>
@@ -440,7 +485,10 @@ document.write(`
         <span class="n">input_arg_name</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">arg</span>
         <span class="n">IsLocalDict</span><span class="p">(</span><span class="n">input_arg_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">)</span><span class="o">.</span><span class="n">visit</span><span class="p">(</span><span class="n">node</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="IsFunctionArgDict.visit_AsyncFunctionDef"><a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.utils.IsFunctionArgDict.html#langchain_core.runnables.utils.IsFunctionArgDict.visit_AsyncFunctionDef">[docs]</a>    <span class="k">def</span> <span class="nf">visit_AsyncFunctionDef</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">ast</span><span class="o">.</span><span class="n">AsyncFunctionDef</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+
+<div class="viewcode-block" id="IsFunctionArgDict.visit_AsyncFunctionDef">
+<a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.utils.IsFunctionArgDict.html#langchain_core.runnables.utils.IsFunctionArgDict.visit_AsyncFunctionDef">[docs]</a>
+    <span class="k">def</span> <span class="nf">visit_AsyncFunctionDef</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">ast</span><span class="o">.</span><span class="n">AsyncFunctionDef</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Visit an async function definition.</span>
 
 <span class="sd">        Args:</span>
@@ -452,17 +500,26 @@ document.write(`
         <span class="k">if</span> <span class="ow">not</span> <span class="n">node</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">args</span><span class="p">:</span>
             <span class="k">return</span>
         <span class="n">input_arg_name</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">arg</span>
-        <span class="n">IsLocalDict</span><span class="p">(</span><span class="n">input_arg_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">)</span><span class="o">.</span><span class="n">visit</span><span class="p">(</span><span class="n">node</span><span class="p">)</span></div></div>
+        <span class="n">IsLocalDict</span><span class="p">(</span><span class="n">input_arg_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">)</span><span class="o">.</span><span class="n">visit</span><span class="p">(</span><span class="n">node</span><span class="p">)</span></div>
+</div>
 
 
-<div class="viewcode-block" id="NonLocals"><a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.utils.NonLocals.html#langchain_core.runnables.utils.NonLocals">[docs]</a><span class="k">class</span> <span class="nc">NonLocals</span><span class="p">(</span><span class="n">ast</span><span class="o">.</span><span class="n">NodeVisitor</span><span class="p">):</span>
+
+<div class="viewcode-block" id="NonLocals">
+<a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.utils.NonLocals.html#langchain_core.runnables.utils.NonLocals">[docs]</a>
+<span class="k">class</span> <span class="nc">NonLocals</span><span class="p">(</span><span class="n">ast</span><span class="o">.</span><span class="n">NodeVisitor</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Get nonlocal variables accessed."""</span>
 
-<div class="viewcode-block" id="NonLocals.__init__"><a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.utils.NonLocals.html#langchain_core.runnables.utils.NonLocals.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="NonLocals.__init__">
+<a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.utils.NonLocals.html#langchain_core.runnables.utils.NonLocals.__init__">[docs]</a>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">loads</span><span class="p">:</span> <span class="n">Set</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">stores</span><span class="p">:</span> <span class="n">Set</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="NonLocals.visit_Name"><a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.utils.NonLocals.html#langchain_core.runnables.utils.NonLocals.visit_Name">[docs]</a>    <span class="k">def</span> <span class="nf">visit_Name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">ast</span><span class="o">.</span><span class="n">Name</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+
+<div class="viewcode-block" id="NonLocals.visit_Name">
+<a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.utils.NonLocals.html#langchain_core.runnables.utils.NonLocals.visit_Name">[docs]</a>
+    <span class="k">def</span> <span class="nf">visit_Name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">ast</span><span class="o">.</span><span class="n">Name</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Visit a name node.</span>
 
 <span class="sd">        Args:</span>
@@ -476,7 +533,10 @@ document.write(`
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">ctx</span><span class="p">,</span> <span class="n">ast</span><span class="o">.</span><span class="n">Store</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">stores</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">id</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="NonLocals.visit_Attribute"><a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.utils.NonLocals.html#langchain_core.runnables.utils.NonLocals.visit_Attribute">[docs]</a>    <span class="k">def</span> <span class="nf">visit_Attribute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">ast</span><span class="o">.</span><span class="n">Attribute</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+
+<div class="viewcode-block" id="NonLocals.visit_Attribute">
+<a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.utils.NonLocals.html#langchain_core.runnables.utils.NonLocals.visit_Attribute">[docs]</a>
+    <span class="k">def</span> <span class="nf">visit_Attribute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">ast</span><span class="o">.</span><span class="n">Attribute</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Visit an attribute node.</span>
 
 <span class="sd">        Args:</span>
@@ -493,16 +553,25 @@ document.write(`
                 <span class="n">parent</span> <span class="o">=</span> <span class="n">parent</span><span class="o">.</span><span class="n">value</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="n">ast</span><span class="o">.</span><span class="n">Name</span><span class="p">):</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">loads</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">parent</span><span class="o">.</span><span class="n">id</span> <span class="o">+</span> <span class="s2">"."</span> <span class="o">+</span> <span class="n">attr_expr</span><span class="p">)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">loads</span><span class="o">.</span><span class="n">discard</span><span class="p">(</span><span class="n">parent</span><span class="o">.</span><span class="n">id</span><span class="p">)</span></div></div>
+                <span class="bp">self</span><span class="o">.</span><span class="n">loads</span><span class="o">.</span><span class="n">discard</span><span class="p">(</span><span class="n">parent</span><span class="o">.</span><span class="n">id</span><span class="p">)</span></div>
+</div>
 
 
-<div class="viewcode-block" id="FunctionNonLocals"><a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.utils.FunctionNonLocals.html#langchain_core.runnables.utils.FunctionNonLocals">[docs]</a><span class="k">class</span> <span class="nc">FunctionNonLocals</span><span class="p">(</span><span class="n">ast</span><span class="o">.</span><span class="n">NodeVisitor</span><span class="p">):</span>
+
+<div class="viewcode-block" id="FunctionNonLocals">
+<a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.utils.FunctionNonLocals.html#langchain_core.runnables.utils.FunctionNonLocals">[docs]</a>
+<span class="k">class</span> <span class="nc">FunctionNonLocals</span><span class="p">(</span><span class="n">ast</span><span class="o">.</span><span class="n">NodeVisitor</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Get the nonlocal variables accessed of a function."""</span>
 
-<div class="viewcode-block" id="FunctionNonLocals.__init__"><a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.utils.FunctionNonLocals.html#langchain_core.runnables.utils.FunctionNonLocals.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="FunctionNonLocals.__init__">
+<a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.utils.FunctionNonLocals.html#langchain_core.runnables.utils.FunctionNonLocals.__init__">[docs]</a>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">nonlocals</span><span class="p">:</span> <span class="n">Set</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="FunctionNonLocals.visit_FunctionDef"><a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.utils.FunctionNonLocals.html#langchain_core.runnables.utils.FunctionNonLocals.visit_FunctionDef">[docs]</a>    <span class="k">def</span> <span class="nf">visit_FunctionDef</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">ast</span><span class="o">.</span><span class="n">FunctionDef</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+
+<div class="viewcode-block" id="FunctionNonLocals.visit_FunctionDef">
+<a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.utils.FunctionNonLocals.html#langchain_core.runnables.utils.FunctionNonLocals.visit_FunctionDef">[docs]</a>
+    <span class="k">def</span> <span class="nf">visit_FunctionDef</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">ast</span><span class="o">.</span><span class="n">FunctionDef</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Visit a function definition.</span>
 
 <span class="sd">        Args:</span>
@@ -515,7 +584,10 @@ document.write(`
         <span class="n">visitor</span><span class="o">.</span><span class="n">visit</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">nonlocals</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">visitor</span><span class="o">.</span><span class="n">loads</span> <span class="o">-</span> <span class="n">visitor</span><span class="o">.</span><span class="n">stores</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="FunctionNonLocals.visit_AsyncFunctionDef"><a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.utils.FunctionNonLocals.html#langchain_core.runnables.utils.FunctionNonLocals.visit_AsyncFunctionDef">[docs]</a>    <span class="k">def</span> <span class="nf">visit_AsyncFunctionDef</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">ast</span><span class="o">.</span><span class="n">AsyncFunctionDef</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+
+<div class="viewcode-block" id="FunctionNonLocals.visit_AsyncFunctionDef">
+<a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.utils.FunctionNonLocals.html#langchain_core.runnables.utils.FunctionNonLocals.visit_AsyncFunctionDef">[docs]</a>
+    <span class="k">def</span> <span class="nf">visit_AsyncFunctionDef</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">ast</span><span class="o">.</span><span class="n">AsyncFunctionDef</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Visit an async function definition.</span>
 
 <span class="sd">        Args:</span>
@@ -528,7 +600,10 @@ document.write(`
         <span class="n">visitor</span><span class="o">.</span><span class="n">visit</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">nonlocals</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">visitor</span><span class="o">.</span><span class="n">loads</span> <span class="o">-</span> <span class="n">visitor</span><span class="o">.</span><span class="n">stores</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="FunctionNonLocals.visit_Lambda"><a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.utils.FunctionNonLocals.html#langchain_core.runnables.utils.FunctionNonLocals.visit_Lambda">[docs]</a>    <span class="k">def</span> <span class="nf">visit_Lambda</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">ast</span><span class="o">.</span><span class="n">Lambda</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+
+<div class="viewcode-block" id="FunctionNonLocals.visit_Lambda">
+<a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.utils.FunctionNonLocals.html#langchain_core.runnables.utils.FunctionNonLocals.visit_Lambda">[docs]</a>
+    <span class="k">def</span> <span class="nf">visit_Lambda</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">ast</span><span class="o">.</span><span class="n">Lambda</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Visit a lambda function.</span>
 
 <span class="sd">        Args:</span>
@@ -539,18 +614,27 @@ document.write(`
 <span class="sd">        """</span>
         <span class="n">visitor</span> <span class="o">=</span> <span class="n">NonLocals</span><span class="p">()</span>
         <span class="n">visitor</span><span class="o">.</span><span class="n">visit</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">nonlocals</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">visitor</span><span class="o">.</span><span class="n">loads</span> <span class="o">-</span> <span class="n">visitor</span><span class="o">.</span><span class="n">stores</span><span class="p">)</span></div></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nonlocals</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">visitor</span><span class="o">.</span><span class="n">loads</span> <span class="o">-</span> <span class="n">visitor</span><span class="o">.</span><span class="n">stores</span><span class="p">)</span></div>
+</div>
 
 
-<div class="viewcode-block" id="GetLambdaSource"><a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.utils.GetLambdaSource.html#langchain_core.runnables.utils.GetLambdaSource">[docs]</a><span class="k">class</span> <span class="nc">GetLambdaSource</span><span class="p">(</span><span class="n">ast</span><span class="o">.</span><span class="n">NodeVisitor</span><span class="p">):</span>
+
+<div class="viewcode-block" id="GetLambdaSource">
+<a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.utils.GetLambdaSource.html#langchain_core.runnables.utils.GetLambdaSource">[docs]</a>
+<span class="k">class</span> <span class="nc">GetLambdaSource</span><span class="p">(</span><span class="n">ast</span><span class="o">.</span><span class="n">NodeVisitor</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Get the source code of a lambda function."""</span>
 
-<div class="viewcode-block" id="GetLambdaSource.__init__"><a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.utils.GetLambdaSource.html#langchain_core.runnables.utils.GetLambdaSource.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="GetLambdaSource.__init__">
+<a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.utils.GetLambdaSource.html#langchain_core.runnables.utils.GetLambdaSource.__init__">[docs]</a>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Initialize the visitor."""</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">count</span> <span class="o">=</span> <span class="mi">0</span></div>
 
-<div class="viewcode-block" id="GetLambdaSource.visit_Lambda"><a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.utils.GetLambdaSource.html#langchain_core.runnables.utils.GetLambdaSource.visit_Lambda">[docs]</a>    <span class="k">def</span> <span class="nf">visit_Lambda</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">ast</span><span class="o">.</span><span class="n">Lambda</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+
+<div class="viewcode-block" id="GetLambdaSource.visit_Lambda">
+<a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.utils.GetLambdaSource.html#langchain_core.runnables.utils.GetLambdaSource.visit_Lambda">[docs]</a>
+    <span class="k">def</span> <span class="nf">visit_Lambda</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">ast</span><span class="o">.</span><span class="n">Lambda</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Visit a lambda function.</span>
 
 <span class="sd">        Args:</span>
@@ -561,10 +645,14 @@ document.write(`
 <span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
         <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">ast</span><span class="p">,</span> <span class="s2">"unparse"</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">source</span> <span class="o">=</span> <span class="n">ast</span><span class="o">.</span><span class="n">unparse</span><span class="p">(</span><span class="n">node</span><span class="p">)</span></div></div>
+            <span class="bp">self</span><span class="o">.</span><span class="n">source</span> <span class="o">=</span> <span class="n">ast</span><span class="o">.</span><span class="n">unparse</span><span class="p">(</span><span class="n">node</span><span class="p">)</span></div>
+</div>
 
 
-<div class="viewcode-block" id="get_function_first_arg_dict_keys"><a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.utils.get_function_first_arg_dict_keys.html#langchain_core.runnables.utils.get_function_first_arg_dict_keys">[docs]</a><span class="k">def</span> <span class="nf">get_function_first_arg_dict_keys</span><span class="p">(</span><span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
+
+<div class="viewcode-block" id="get_function_first_arg_dict_keys">
+<a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.utils.get_function_first_arg_dict_keys.html#langchain_core.runnables.utils.get_function_first_arg_dict_keys">[docs]</a>
+<span class="k">def</span> <span class="nf">get_function_first_arg_dict_keys</span><span class="p">(</span><span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
 <span class="w">    </span><span class="sd">"""Get the keys of the first argument of a function if it is a dict.</span>
 
 <span class="sd">    Args:</span>
@@ -579,12 +667,15 @@ document.write(`
         <span class="n">tree</span> <span class="o">=</span> <span class="n">ast</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span><span class="n">code</span><span class="p">))</span>
         <span class="n">visitor</span> <span class="o">=</span> <span class="n">IsFunctionArgDict</span><span class="p">()</span>
         <span class="n">visitor</span><span class="o">.</span><span class="n">visit</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span>
-        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">visitor</span><span class="o">.</span><span class="n">keys</span><span class="p">)</span> <span class="k">if</span> <span class="n">visitor</span><span class="o">.</span><span class="n">keys</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">visitor</span><span class="o">.</span><span class="n">keys</span><span class="p">)</span> <span class="k">if</span> <span class="n">visitor</span><span class="o">.</span><span class="n">keys</span> <span class="k">else</span> <span class="kc">None</span>
     <span class="k">except</span> <span class="p">(</span><span class="ne">SyntaxError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">,</span> <span class="ne">OSError</span><span class="p">,</span> <span class="ne">SystemError</span><span class="p">):</span>
         <span class="k">return</span> <span class="kc">None</span></div>
 
 
-<div class="viewcode-block" id="get_lambda_source"><a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.utils.get_lambda_source.html#langchain_core.runnables.utils.get_lambda_source">[docs]</a><span class="k">def</span> <span class="nf">get_lambda_source</span><span class="p">(</span><span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+
+<div class="viewcode-block" id="get_lambda_source">
+<a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.utils.get_lambda_source.html#langchain_core.runnables.utils.get_lambda_source">[docs]</a>
+<span class="k">def</span> <span class="nf">get_lambda_source</span><span class="p">(</span><span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">"""Get the source code of a lambda function.</span>
 
 <span class="sd">    Args:</span>
@@ -607,7 +698,10 @@ document.write(`
         <span class="k">return</span> <span class="n">name</span></div>
 
 
-<div class="viewcode-block" id="get_function_nonlocals"><a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.utils.get_function_nonlocals.html#langchain_core.runnables.utils.get_function_nonlocals">[docs]</a><span class="k">def</span> <span class="nf">get_function_nonlocals</span><span class="p">(</span><span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]:</span>
+
+<div class="viewcode-block" id="get_function_nonlocals">
+<a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.utils.get_function_nonlocals.html#langchain_core.runnables.utils.get_function_nonlocals">[docs]</a>
+<span class="k">def</span> <span class="nf">get_function_nonlocals</span><span class="p">(</span><span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">"""Get the nonlocal variables accessed by a function.</span>
 
 <span class="sd">    Args:</span>
@@ -645,7 +739,10 @@ document.write(`
         <span class="k">return</span> <span class="p">[]</span></div>
 
 
-<div class="viewcode-block" id="indent_lines_after_first"><a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.utils.indent_lines_after_first.html#langchain_core.runnables.utils.indent_lines_after_first">[docs]</a><span class="k">def</span> <span class="nf">indent_lines_after_first</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">prefix</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+
+<div class="viewcode-block" id="indent_lines_after_first">
+<a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.utils.indent_lines_after_first.html#langchain_core.runnables.utils.indent_lines_after_first">[docs]</a>
+<span class="k">def</span> <span class="nf">indent_lines_after_first</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">prefix</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Indent all lines of text after the first line.</span>
 
 <span class="sd">    Args:</span>
@@ -661,7 +758,10 @@ document.write(`
     <span class="k">return</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">lines</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">+</span> <span class="p">[</span><span class="n">spaces</span> <span class="o">+</span> <span class="n">line</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">[</span><span class="mi">1</span><span class="p">:]])</span></div>
 
 
-<div class="viewcode-block" id="AddableDict"><a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.utils.AddableDict.html#langchain_core.runnables.utils.AddableDict">[docs]</a><span class="k">class</span> <span class="nc">AddableDict</span><span class="p">(</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]):</span>
+
+<div class="viewcode-block" id="AddableDict">
+<a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.utils.AddableDict.html#langchain_core.runnables.utils.AddableDict">[docs]</a>
+<span class="k">class</span> <span class="nc">AddableDict</span><span class="p">(</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]):</span>
 <span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Dictionary that can be added to another dictionary.</span>
 <span class="sd">    """</span>
@@ -693,20 +793,26 @@ document.write(`
         <span class="k">return</span> <span class="n">chunk</span></div>
 
 
+
 <span class="n">_T_co</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">"_T_co"</span><span class="p">,</span> <span class="n">covariant</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">_T_contra</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">"_T_contra"</span><span class="p">,</span> <span class="n">contravariant</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="SupportsAdd"><a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.utils.SupportsAdd.html#langchain_core.runnables.utils.SupportsAdd">[docs]</a><span class="k">class</span> <span class="nc">SupportsAdd</span><span class="p">(</span><span class="n">Protocol</span><span class="p">[</span><span class="n">_T_contra</span><span class="p">,</span> <span class="n">_T_co</span><span class="p">]):</span>
+<div class="viewcode-block" id="SupportsAdd">
+<a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.utils.SupportsAdd.html#langchain_core.runnables.utils.SupportsAdd">[docs]</a>
+<span class="k">class</span> <span class="nc">SupportsAdd</span><span class="p">(</span><span class="n">Protocol</span><span class="p">[</span><span class="n">_T_contra</span><span class="p">,</span> <span class="n">_T_co</span><span class="p">]):</span>
 <span class="w">    </span><span class="sd">"""Protocol for objects that support addition."""</span>
 
     <span class="k">def</span> <span class="fm">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">__x</span><span class="p">:</span> <span class="n">_T_contra</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_T_co</span><span class="p">:</span> <span class="o">...</span></div>
 
 
+
 <span class="n">Addable</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">"Addable"</span><span class="p">,</span> <span class="n">bound</span><span class="o">=</span><span class="n">SupportsAdd</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span>
 
 
-<div class="viewcode-block" id="add"><a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.utils.add.html#langchain_core.runnables.utils.add">[docs]</a><span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="n">addables</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Addable</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Addable</span><span class="p">]:</span>
+<div class="viewcode-block" id="add">
+<a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.utils.add.html#langchain_core.runnables.utils.add">[docs]</a>
+<span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="n">addables</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Addable</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Addable</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">"""Add a sequence of addable objects together.</span>
 
 <span class="sd">    Args:</span>
@@ -724,7 +830,10 @@ document.write(`
     <span class="k">return</span> <span class="n">final</span></div>
 
 
-<div class="viewcode-block" id="aadd"><a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.utils.aadd.html#langchain_core.runnables.utils.aadd">[docs]</a><span class="k">async</span> <span class="k">def</span> <span class="nf">aadd</span><span class="p">(</span><span class="n">addables</span><span class="p">:</span> <span class="n">AsyncIterable</span><span class="p">[</span><span class="n">Addable</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Addable</span><span class="p">]:</span>
+
+<div class="viewcode-block" id="aadd">
+<a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.utils.aadd.html#langchain_core.runnables.utils.aadd">[docs]</a>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">aadd</span><span class="p">(</span><span class="n">addables</span><span class="p">:</span> <span class="n">AsyncIterable</span><span class="p">[</span><span class="n">Addable</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Addable</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">"""Asynchronously add a sequence of addable objects together.</span>
 
 <span class="sd">    Args:</span>
@@ -742,7 +851,10 @@ document.write(`
     <span class="k">return</span> <span class="n">final</span></div>
 
 
-<div class="viewcode-block" id="ConfigurableField"><a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.utils.ConfigurableField.html#langchain_core.runnables.utils.ConfigurableField">[docs]</a><span class="k">class</span> <span class="nc">ConfigurableField</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ConfigurableField">
+<a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.utils.ConfigurableField.html#langchain_core.runnables.utils.ConfigurableField">[docs]</a>
+<span class="k">class</span> <span class="nc">ConfigurableField</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Field that can be configured by the user.</span>
 
 <span class="sd">    Parameters:</span>
@@ -764,7 +876,10 @@ document.write(`
         <span class="k">return</span> <span class="nb">hash</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">annotation</span><span class="p">))</span></div>
 
 
-<div class="viewcode-block" id="ConfigurableFieldSingleOption"><a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.utils.ConfigurableFieldSingleOption.html#langchain_core.runnables.utils.ConfigurableFieldSingleOption">[docs]</a><span class="k">class</span> <span class="nc">ConfigurableFieldSingleOption</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ConfigurableFieldSingleOption">
+<a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.utils.ConfigurableFieldSingleOption.html#langchain_core.runnables.utils.ConfigurableFieldSingleOption">[docs]</a>
+<span class="k">class</span> <span class="nc">ConfigurableFieldSingleOption</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Field that can be configured by the user with a default value.</span>
 
 <span class="sd">    Parameters:</span>
@@ -788,7 +903,10 @@ document.write(`
         <span class="k">return</span> <span class="nb">hash</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">keys</span><span class="p">()),</span> <span class="bp">self</span><span class="o">.</span><span class="n">default</span><span class="p">))</span></div>
 
 
-<div class="viewcode-block" id="ConfigurableFieldMultiOption"><a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.utils.ConfigurableFieldMultiOption.html#langchain_core.runnables.utils.ConfigurableFieldMultiOption">[docs]</a><span class="k">class</span> <span class="nc">ConfigurableFieldMultiOption</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ConfigurableFieldMultiOption">
+<a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.utils.ConfigurableFieldMultiOption.html#langchain_core.runnables.utils.ConfigurableFieldMultiOption">[docs]</a>
+<span class="k">class</span> <span class="nc">ConfigurableFieldMultiOption</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Field that can be configured by the user with multiple default values.</span>
 
 <span class="sd">    Parameters:</span>
@@ -812,12 +930,15 @@ document.write(`
         <span class="k">return</span> <span class="nb">hash</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">keys</span><span class="p">()),</span> <span class="nb">tuple</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">default</span><span class="p">)))</span></div>
 
 
+
 <span class="n">AnyConfigurableField</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span>
     <span class="n">ConfigurableField</span><span class="p">,</span> <span class="n">ConfigurableFieldSingleOption</span><span class="p">,</span> <span class="n">ConfigurableFieldMultiOption</span>
 <span class="p">]</span>
 
 
-<div class="viewcode-block" id="ConfigurableFieldSpec"><a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.utils.ConfigurableFieldSpec.html#langchain_core.runnables.utils.ConfigurableFieldSpec">[docs]</a><span class="k">class</span> <span class="nc">ConfigurableFieldSpec</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
+<div class="viewcode-block" id="ConfigurableFieldSpec">
+<a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.utils.ConfigurableFieldSpec.html#langchain_core.runnables.utils.ConfigurableFieldSpec">[docs]</a>
+<span class="k">class</span> <span class="nc">ConfigurableFieldSpec</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Field that can be configured by the user. It is a specification of a field.</span>
 
 <span class="sd">    Parameters:</span>
@@ -840,7 +961,10 @@ document.write(`
     <span class="n">dependencies</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span></div>
 
 
-<div class="viewcode-block" id="get_unique_config_specs"><a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.utils.get_unique_config_specs.html#langchain_core.runnables.utils.get_unique_config_specs">[docs]</a><span class="k">def</span> <span class="nf">get_unique_config_specs</span><span class="p">(</span>
+
+<div class="viewcode-block" id="get_unique_config_specs">
+<a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.utils.get_unique_config_specs.html#langchain_core.runnables.utils.get_unique_config_specs">[docs]</a>
+<span class="k">def</span> <span class="nf">get_unique_config_specs</span><span class="p">(</span>
     <span class="n">specs</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">ConfigurableFieldSpec</span><span class="p">],</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">ConfigurableFieldSpec</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">"""Get the unique config specs from a sequence of config specs.</span>
@@ -871,6 +995,7 @@ document.write(`
                 <span class="sa">f</span><span class="s2">"for </span><span class="si">{</span><span class="nb">id</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="p">[</span><span class="n">first</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">others</span><span class="si">}</span><span class="s2">"</span>
             <span class="p">)</span>
     <span class="k">return</span> <span class="n">unique</span></div>
+
 
 
 <span class="k">class</span> <span class="nc">_RootEventFilter</span><span class="p">:</span>
@@ -928,24 +1053,124 @@ document.write(`
         <span class="k">return</span> <span class="n">include</span>
 
 
-<span class="k">class</span> <span class="nc">_SchemaConfig</span><span class="p">(</span><span class="n">BaseConfig</span><span class="p">):</span>
-    <span class="n">arbitrary_types_allowed</span> <span class="o">=</span> <span class="kc">True</span>
-    <span class="n">frozen</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">_SchemaConfig</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">arbitrary_types_allowed</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">NO_DEFAULT</span> <span class="o">=</span> <span class="nb">object</span><span class="p">()</span>
 
 
-<div class="viewcode-block" id="create_model"><a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.utils.create_model.html#langchain_core.runnables.utils.create_model">[docs]</a><span class="k">def</span> <span class="nf">create_model</span><span class="p">(</span>
+<span class="k">def</span> <span class="nf">_create_root_model</span><span class="p">(</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">type_</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="n">module_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">default_</span><span class="p">:</span> <span class="nb">object</span> <span class="o">=</span> <span class="n">NO_DEFAULT</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Type</span><span class="p">[</span><span class="n">BaseModel</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""Create a base class."""</span>
+
+    <span class="k">def</span> <span class="nf">schema</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">BaseModel</span><span class="p">],</span>
+        <span class="n">by_alias</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">ref_template</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">DEFAULT_REF_TEMPLATE</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+        <span class="c1"># Complains about schema not being defined in superclass</span>
+        <span class="n">schema_</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="bp">cls</span><span class="p">)</span><span class="o">.</span><span class="n">schema</span><span class="p">(</span>  <span class="c1"># type: ignore[misc]</span>
+            <span class="n">by_alias</span><span class="o">=</span><span class="n">by_alias</span><span class="p">,</span> <span class="n">ref_template</span><span class="o">=</span><span class="n">ref_template</span>
+        <span class="p">)</span>
+        <span class="n">schema_</span><span class="p">[</span><span class="s2">"title"</span><span class="p">]</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="k">return</span> <span class="n">schema_</span>
+
+    <span class="k">def</span> <span class="nf">model_json_schema</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">BaseModel</span><span class="p">],</span>
+        <span class="n">by_alias</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">ref_template</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">DEFAULT_REF_TEMPLATE</span><span class="p">,</span>
+        <span class="n">schema_generator</span><span class="p">:</span> <span class="nb">type</span><span class="p">[</span><span class="n">GenerateJsonSchema</span><span class="p">]</span> <span class="o">=</span> <span class="n">GenerateJsonSchema</span><span class="p">,</span>
+        <span class="n">mode</span><span class="p">:</span> <span class="n">JsonSchemaMode</span> <span class="o">=</span> <span class="s2">"validation"</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+        <span class="c1"># Complains about model_json_schema not being defined in superclass</span>
+        <span class="n">schema_</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="bp">cls</span><span class="p">)</span><span class="o">.</span><span class="n">model_json_schema</span><span class="p">(</span>  <span class="c1"># type: ignore[misc]</span>
+            <span class="n">by_alias</span><span class="o">=</span><span class="n">by_alias</span><span class="p">,</span>
+            <span class="n">ref_template</span><span class="o">=</span><span class="n">ref_template</span><span class="p">,</span>
+            <span class="n">schema_generator</span><span class="o">=</span><span class="n">schema_generator</span><span class="p">,</span>
+            <span class="n">mode</span><span class="o">=</span><span class="n">mode</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">schema_</span><span class="p">[</span><span class="s2">"title"</span><span class="p">]</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="k">return</span> <span class="n">schema_</span>
+
+    <span class="n">base_class_attributes</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">"__annotations__"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"root"</span><span class="p">:</span> <span class="n">type_</span><span class="p">},</span>
+        <span class="s2">"model_config"</span><span class="p">:</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">arbitrary_types_allowed</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+        <span class="s2">"schema"</span><span class="p">:</span> <span class="nb">classmethod</span><span class="p">(</span><span class="n">schema</span><span class="p">),</span>
+        <span class="s2">"model_json_schema"</span><span class="p">:</span> <span class="nb">classmethod</span><span class="p">(</span><span class="n">model_json_schema</span><span class="p">),</span>
+        <span class="s2">"__module__"</span><span class="p">:</span> <span class="n">module_name</span> <span class="ow">or</span> <span class="s2">"langchain_core.runnables.utils"</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span> <span class="n">default_</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">NO_DEFAULT</span><span class="p">:</span>
+        <span class="n">base_class_attributes</span><span class="p">[</span><span class="s2">"root"</span><span class="p">]</span> <span class="o">=</span> <span class="n">default_</span>
+    <span class="k">with</span> <span class="n">warnings</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">():</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">type_</span><span class="p">,</span> <span class="nb">type</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">type_</span><span class="p">,</span> <span class="n">BaseModelV1</span><span class="p">):</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span>
+                <span class="n">action</span><span class="o">=</span><span class="s2">"ignore"</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="n">PydanticDeprecationWarning</span>
+            <span class="p">)</span>
+        <span class="n">custom_root_type</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="p">(</span><span class="n">RootModel</span><span class="p">,),</span> <span class="n">base_class_attributes</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">cast</span><span class="p">(</span><span class="n">Type</span><span class="p">[</span><span class="n">BaseModel</span><span class="p">],</span> <span class="n">custom_root_type</span><span class="p">)</span>
+
+
+<span class="nd">@lru_cache</span><span class="p">(</span><span class="n">maxsize</span><span class="o">=</span><span class="mi">256</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">_create_root_model_cached</span><span class="p">(</span>
     <span class="n">__model_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">type_</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="n">default_</span><span class="p">:</span> <span class="nb">object</span> <span class="o">=</span> <span class="n">NO_DEFAULT</span><span class="p">,</span>
+    <span class="n">module_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Type</span><span class="p">[</span><span class="n">BaseModel</span><span class="p">]:</span>
+    <span class="k">return</span> <span class="n">_create_root_model</span><span class="p">(</span>
+        <span class="n">__model_name</span><span class="p">,</span> <span class="n">type_</span><span class="p">,</span> <span class="n">default_</span><span class="o">=</span><span class="n">default_</span><span class="p">,</span> <span class="n">module_name</span><span class="o">=</span><span class="n">module_name</span>
+    <span class="p">)</span>
+
+
+<div class="viewcode-block" id="create_model">
+<a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.utils.create_model.html#langchain_core.runnables.utils.create_model">[docs]</a>
+<span class="k">def</span> <span class="nf">create_model</span><span class="p">(</span>
+    <span class="n">__model_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">__module_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="o">**</span><span class="n">field_definitions</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Type</span><span class="p">[</span><span class="n">BaseModel</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">"""Create a pydantic model with the given field definitions.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        __model_name: The name of the model.</span>
+<span class="sd">        __module_name: The name of the module where the model is defined.</span>
+<span class="sd">            This is used by Pydantic to resolve any forward references.</span>
 <span class="sd">        **field_definitions: The field definitions for the model.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        Type[BaseModel]: The created model.</span>
 <span class="sd">    """</span>
+
+    <span class="c1"># Move this to caching path</span>
+    <span class="k">if</span> <span class="s2">"__root__"</span> <span class="ow">in</span> <span class="n">field_definitions</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">field_definitions</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+                <span class="s2">"When specifying __root__ no other "</span>
+                <span class="sa">f</span><span class="s2">"fields should be provided. Got </span><span class="si">{</span><span class="n">field_definitions</span><span class="si">}</span><span class="s2">"</span>
+            <span class="p">)</span>
+
+        <span class="n">arg</span> <span class="o">=</span> <span class="n">field_definitions</span><span class="p">[</span><span class="s2">"__root__"</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
+            <span class="n">kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"type_"</span><span class="p">:</span> <span class="n">arg</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">"default_"</span><span class="p">:</span> <span class="n">arg</span><span class="p">[</span><span class="mi">1</span><span class="p">]}</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"type_"</span><span class="p">:</span> <span class="n">arg</span><span class="p">}</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">named_root_model</span> <span class="o">=</span> <span class="n">_create_root_model_cached</span><span class="p">(</span>
+                <span class="n">__model_name</span><span class="p">,</span> <span class="n">module_name</span><span class="o">=</span><span class="n">__module_name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+            <span class="p">)</span>
+        <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+            <span class="c1"># something in the arguments into _create_root_model_cached is not hashable</span>
+            <span class="n">named_root_model</span> <span class="o">=</span> <span class="n">_create_root_model</span><span class="p">(</span>
+                <span class="n">__model_name</span><span class="p">,</span>
+                <span class="n">module_name</span><span class="o">=</span><span class="n">__module_name</span><span class="p">,</span>
+                <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">named_root_model</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">_create_model_cached</span><span class="p">(</span><span class="n">__model_name</span><span class="p">,</span> <span class="o">**</span><span class="n">field_definitions</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
@@ -953,6 +1178,7 @@ document.write(`
         <span class="k">return</span> <span class="n">_create_model_base</span><span class="p">(</span>
             <span class="n">__model_name</span><span class="p">,</span> <span class="n">__config__</span><span class="o">=</span><span class="n">_SchemaConfig</span><span class="p">,</span> <span class="o">**</span><span class="n">field_definitions</span>
         <span class="p">)</span></div>
+
 
 
 <span class="nd">@lru_cache</span><span class="p">(</span><span class="n">maxsize</span><span class="o">=</span><span class="mi">256</span><span class="p">)</span>
@@ -965,7 +1191,9 @@ document.write(`
     <span class="p">)</span>
 
 
-<div class="viewcode-block" id="is_async_generator"><a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.utils.is_async_generator.html#langchain_core.runnables.utils.is_async_generator">[docs]</a><span class="k">def</span> <span class="nf">is_async_generator</span><span class="p">(</span>
+<div class="viewcode-block" id="is_async_generator">
+<a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.utils.is_async_generator.html#langchain_core.runnables.utils.is_async_generator">[docs]</a>
+<span class="k">def</span> <span class="nf">is_async_generator</span><span class="p">(</span>
     <span class="n">func</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TypeGuard</span><span class="p">[</span><span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">AsyncIterator</span><span class="p">]]:</span>
 <span class="w">    </span><span class="sd">"""Check if a function is an async generator.</span>
@@ -984,7 +1212,10 @@ document.write(`
     <span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="is_async_callable"><a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.utils.is_async_callable.html#langchain_core.runnables.utils.is_async_callable">[docs]</a><span class="k">def</span> <span class="nf">is_async_callable</span><span class="p">(</span>
+
+<div class="viewcode-block" id="is_async_callable">
+<a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.utils.is_async_callable.html#langchain_core.runnables.utils.is_async_callable">[docs]</a>
+<span class="k">def</span> <span class="nf">is_async_callable</span><span class="p">(</span>
     <span class="n">func</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TypeGuard</span><span class="p">[</span><span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">Awaitable</span><span class="p">]]:</span>
 <span class="w">    </span><span class="sd">"""Check if a function is async.</span>
@@ -1001,6 +1232,7 @@ document.write(`
         <span class="ow">or</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="s2">"__call__"</span><span class="p">)</span>  <span class="c1"># noqa: B004</span>
         <span class="ow">and</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">iscoroutinefunction</span><span class="p">(</span><span class="n">func</span><span class="o">.</span><span class="fm">__call__</span><span class="p">)</span>
     <span class="p">)</span></div>
+
 </pre></div>
 </article>
 </div>

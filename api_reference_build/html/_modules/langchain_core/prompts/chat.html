@@ -1,7 +1,7 @@
 
 <!DOCTYPE html>
 
-<html data-content_root="" lang="en">
+<html data-content_root="../../../" lang="en">
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
@@ -18,21 +18,21 @@
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" rel="preload" type="font/woff2"/>
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" rel="preload" type="font/woff2"/>
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" rel="preload" type="font/woff2"/>
-<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css?v=a746c00c" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/autodoc_pydantic.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/sphinx-design.4cbf315f70debaebd550c87a6162cf0f.min.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/css/custom.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/copybutton.css?v=76b2166b" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/sphinx-design.min.css?v=95c83b7e" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/css/custom.css?v=b95e2228" rel="stylesheet" type="text/css"/>
 <!-- Pre-loaded scripts that we'll load fully later -->
 <link as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
 <link as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
 <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-<script src="../../../_static/doctools.js"></script>
-<script src="../../../_static/sphinx_highlight.js"></script>
-<script src="../../../_static/clipboard.min.js"></script>
-<script src="../../../_static/copybutton.js"></script>
-<script src="../../../_static/design-tabs.js"></script>
+<script src="../../../_static/documentation_options.js?v=3b5cce75"></script>
+<script src="../../../_static/doctools.js?v=9a2dae69"></script>
+<script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+<script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+<script src="../../../_static/copybutton.js?v=f281be69"></script>
+<script src="../../../_static/design-tabs.js?v=f930bc37"></script>
 <script>DOCUMENTATION_OPTIONS.pagename = '_modules/langchain_core/prompts/chat';</script>
 <link href="../../../_static/favicon.png" rel="icon"/>
 <link href="../../../search.html" rel="search" title="Search"/>
@@ -250,6 +250,14 @@ document.write(`
     <span class="n">overload</span><span class="p">,</span>
 <span class="p">)</span>
 
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Field</span><span class="p">,</span>
+    <span class="n">PositiveInt</span><span class="p">,</span>
+    <span class="n">SkipValidation</span><span class="p">,</span>
+    <span class="n">model_validator</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">typing_extensions</span> <span class="kn">import</span> <span class="n">Annotated</span>
+
 <span class="kn">from</span> <span class="nn">langchain_core._api</span> <span class="kn">import</span> <span class="n">deprecated</span>
 <span class="kn">from</span> <span class="nn">langchain_core.load</span> <span class="kn">import</span> <span class="n">Serializable</span>
 <span class="kn">from</span> <span class="nn">langchain_core.messages</span> <span class="kn">import</span> <span class="p">(</span>
@@ -267,12 +275,13 @@ document.write(`
 <span class="kn">from</span> <span class="nn">langchain_core.prompts.image</span> <span class="kn">import</span> <span class="n">ImagePromptTemplate</span>
 <span class="kn">from</span> <span class="nn">langchain_core.prompts.prompt</span> <span class="kn">import</span> <span class="n">PromptTemplate</span>
 <span class="kn">from</span> <span class="nn">langchain_core.prompts.string</span> <span class="kn">import</span> <span class="n">StringPromptTemplate</span><span class="p">,</span> <span class="n">get_template_variables</span>
-<span class="kn">from</span> <span class="nn">langchain_core.pydantic_v1</span> <span class="kn">import</span> <span class="n">Field</span><span class="p">,</span> <span class="n">PositiveInt</span><span class="p">,</span> <span class="n">root_validator</span>
 <span class="kn">from</span> <span class="nn">langchain_core.utils</span> <span class="kn">import</span> <span class="n">get_colored_text</span>
 <span class="kn">from</span> <span class="nn">langchain_core.utils.interactive_env</span> <span class="kn">import</span> <span class="n">is_interactive_env</span>
 
 
-<div class="viewcode-block" id="BaseMessagePromptTemplate"><a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.chat.BaseMessagePromptTemplate.html#langchain.agents.schema.BaseMessagePromptTemplate">[docs]</a><span class="k">class</span> <span class="nc">BaseMessagePromptTemplate</span><span class="p">(</span><span class="n">Serializable</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
+<div class="viewcode-block" id="BaseMessagePromptTemplate">
+<a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.chat.BaseMessagePromptTemplate.html#langchain.agents.schema.BaseMessagePromptTemplate">[docs]</a>
+<span class="k">class</span> <span class="nc">BaseMessagePromptTemplate</span><span class="p">(</span><span class="n">Serializable</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Base class for message prompt templates."""</span>
 
     <span class="nd">@classmethod</span>
@@ -286,7 +295,9 @@ document.write(`
 <span class="w">        </span><span class="sd">"""Get the namespace of the langchain object."""</span>
         <span class="k">return</span> <span class="p">[</span><span class="s2">"langchain"</span><span class="p">,</span> <span class="s2">"prompts"</span><span class="p">,</span> <span class="s2">"chat"</span><span class="p">]</span>
 
-<div class="viewcode-block" id="BaseMessagePromptTemplate.format_messages"><a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.chat.BaseMessagePromptTemplate.html#langchain.agents.schema.BaseMessagePromptTemplate.format_messages">[docs]</a>    <span class="nd">@abstractmethod</span>
+<div class="viewcode-block" id="BaseMessagePromptTemplate.format_messages">
+<a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.chat.BaseMessagePromptTemplate.html#langchain.agents.schema.BaseMessagePromptTemplate.format_messages">[docs]</a>
+    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">format_messages</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">BaseMessage</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">"""Format messages from kwargs. Should return a list of BaseMessages.</span>
 
@@ -297,7 +308,10 @@ document.write(`
 <span class="sd">            List of BaseMessages.</span>
 <span class="sd">        """</span></div>
 
-<div class="viewcode-block" id="BaseMessagePromptTemplate.aformat_messages"><a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.chat.BaseMessagePromptTemplate.html#langchain.agents.schema.BaseMessagePromptTemplate.aformat_messages">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">aformat_messages</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">BaseMessage</span><span class="p">]:</span>
+
+<div class="viewcode-block" id="BaseMessagePromptTemplate.aformat_messages">
+<a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.chat.BaseMessagePromptTemplate.html#langchain.agents.schema.BaseMessagePromptTemplate.aformat_messages">[docs]</a>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">aformat_messages</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">BaseMessage</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">"""Async format messages from kwargs.</span>
 <span class="sd">        Should return a list of BaseMessages.</span>
 
@@ -309,6 +323,7 @@ document.write(`
 <span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">format_messages</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
+
     <span class="nd">@property</span>
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">input_variables</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
@@ -318,7 +333,9 @@ document.write(`
 <span class="sd">            List of input variables.</span>
 <span class="sd">        """</span>
 
-<div class="viewcode-block" id="BaseMessagePromptTemplate.pretty_repr"><a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.chat.BaseMessagePromptTemplate.html#langchain.agents.schema.BaseMessagePromptTemplate.pretty_repr">[docs]</a>    <span class="k">def</span> <span class="nf">pretty_repr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">html</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<div class="viewcode-block" id="BaseMessagePromptTemplate.pretty_repr">
+<a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.chat.BaseMessagePromptTemplate.html#langchain.agents.schema.BaseMessagePromptTemplate.pretty_repr">[docs]</a>
+    <span class="k">def</span> <span class="nf">pretty_repr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">html</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Human-readable representation.</span>
 
 <span class="sd">        Args:</span>
@@ -329,9 +346,13 @@ document.write(`
 <span class="sd">        """</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
-<div class="viewcode-block" id="BaseMessagePromptTemplate.pretty_print"><a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.chat.BaseMessagePromptTemplate.html#langchain.agents.schema.BaseMessagePromptTemplate.pretty_print">[docs]</a>    <span class="k">def</span> <span class="nf">pretty_print</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+
+<div class="viewcode-block" id="BaseMessagePromptTemplate.pretty_print">
+<a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.chat.BaseMessagePromptTemplate.html#langchain.agents.schema.BaseMessagePromptTemplate.pretty_print">[docs]</a>
+    <span class="k">def</span> <span class="nf">pretty_print</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Print a human-readable representation."""</span>
         <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pretty_repr</span><span class="p">(</span><span class="n">html</span><span class="o">=</span><span class="n">is_interactive_env</span><span class="p">()))</span>  <span class="c1"># noqa: T201</span></div>
+
 
     <span class="k">def</span> <span class="fm">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ChatPromptTemplate</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Combine two prompt templates.</span>
@@ -346,7 +367,10 @@ document.write(`
         <span class="k">return</span> <span class="n">prompt</span> <span class="o">+</span> <span class="n">other</span></div>
 
 
-<div class="viewcode-block" id="MessagesPlaceholder"><a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.chat.MessagesPlaceholder.html#langchain.agents.schema.MessagesPlaceholder">[docs]</a><span class="k">class</span> <span class="nc">MessagesPlaceholder</span><span class="p">(</span><span class="n">BaseMessagePromptTemplate</span><span class="p">):</span>
+
+<div class="viewcode-block" id="MessagesPlaceholder">
+<a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.chat.MessagesPlaceholder.html#langchain.agents.schema.MessagesPlaceholder">[docs]</a>
+<span class="k">class</span> <span class="nc">MessagesPlaceholder</span><span class="p">(</span><span class="n">BaseMessagePromptTemplate</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Prompt template that assumes variable is already list of messages.</span>
 
 <span class="sd">    A placeholder which can be used to pass in a list of messages.</span>
@@ -436,10 +460,18 @@ document.write(`
 <span class="w">        </span><span class="sd">"""Get the namespace of the langchain object."""</span>
         <span class="k">return</span> <span class="p">[</span><span class="s2">"langchain"</span><span class="p">,</span> <span class="s2">"prompts"</span><span class="p">,</span> <span class="s2">"chat"</span><span class="p">]</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variable_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">optional</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">variable_name</span><span class="o">=</span><span class="n">variable_name</span><span class="p">,</span> <span class="n">optional</span><span class="o">=</span><span class="n">optional</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">variable_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">optional</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># mypy can't detect the init which is defined in the parent class</span>
+        <span class="c1"># b/c these are BaseModel classes.</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>  <span class="c1"># type: ignore</span>
+            <span class="n">variable_name</span><span class="o">=</span><span class="n">variable_name</span><span class="p">,</span> <span class="n">optional</span><span class="o">=</span><span class="n">optional</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+        <span class="p">)</span>
 
-<div class="viewcode-block" id="MessagesPlaceholder.format_messages"><a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.chat.MessagesPlaceholder.html#langchain.agents.schema.MessagesPlaceholder.format_messages">[docs]</a>    <span class="k">def</span> <span class="nf">format_messages</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">BaseMessage</span><span class="p">]:</span>
+<div class="viewcode-block" id="MessagesPlaceholder.format_messages">
+<a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.chat.MessagesPlaceholder.html#langchain.agents.schema.MessagesPlaceholder.format_messages">[docs]</a>
+    <span class="k">def</span> <span class="nf">format_messages</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">BaseMessage</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">"""Format messages from kwargs.</span>
 
 <span class="sd">        Args:</span>
@@ -466,6 +498,7 @@ document.write(`
             <span class="n">value</span> <span class="o">=</span> <span class="n">value</span><span class="p">[</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">n_messages</span> <span class="p">:]</span>
         <span class="k">return</span> <span class="n">value</span></div>
 
+
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">input_variables</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">"""Input variables for this prompt template.</span>
@@ -475,7 +508,9 @@ document.write(`
 <span class="sd">        """</span>
         <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">variable_name</span><span class="p">]</span> <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">optional</span> <span class="k">else</span> <span class="p">[]</span>
 
-<div class="viewcode-block" id="MessagesPlaceholder.pretty_repr"><a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.chat.MessagesPlaceholder.html#langchain.agents.schema.MessagesPlaceholder.pretty_repr">[docs]</a>    <span class="k">def</span> <span class="nf">pretty_repr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">html</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<div class="viewcode-block" id="MessagesPlaceholder.pretty_repr">
+<a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.chat.MessagesPlaceholder.html#langchain.agents.schema.MessagesPlaceholder.pretty_repr">[docs]</a>
+    <span class="k">def</span> <span class="nf">pretty_repr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">html</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Human-readable representation.</span>
 
 <span class="sd">        Args:</span>
@@ -490,7 +525,9 @@ document.write(`
             <span class="n">var</span> <span class="o">=</span> <span class="n">get_colored_text</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="s2">"yellow"</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">title</span> <span class="o">=</span> <span class="n">get_msg_title_repr</span><span class="p">(</span><span class="s2">"Messages Placeholder"</span><span class="p">)</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">title</span><span class="si">}</span><span class="se">\n\n</span><span class="si">{</span><span class="n">var</span><span class="si">}</span><span class="s2">"</span></div></div>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">title</span><span class="si">}</span><span class="se">\n\n</span><span class="si">{</span><span class="n">var</span><span class="si">}</span><span class="s2">"</span></div>
+</div>
+
 
 
 <span class="n">MessagePromptTemplateT</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span>
@@ -499,7 +536,9 @@ document.write(`
 <span class="sd">"""Type variable for message prompt templates."""</span>
 
 
-<div class="viewcode-block" id="BaseStringMessagePromptTemplate"><a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.chat.BaseStringMessagePromptTemplate.html#langchain.agents.schema.BaseStringMessagePromptTemplate">[docs]</a><span class="k">class</span> <span class="nc">BaseStringMessagePromptTemplate</span><span class="p">(</span><span class="n">BaseMessagePromptTemplate</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
+<div class="viewcode-block" id="BaseStringMessagePromptTemplate">
+<a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.chat.BaseStringMessagePromptTemplate.html#langchain.agents.schema.BaseStringMessagePromptTemplate">[docs]</a>
+<span class="k">class</span> <span class="nc">BaseStringMessagePromptTemplate</span><span class="p">(</span><span class="n">BaseMessagePromptTemplate</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Base class for message prompt templates that use a string prompt template."""</span>
 
     <span class="n">prompt</span><span class="p">:</span> <span class="n">StringPromptTemplate</span>
@@ -512,7 +551,9 @@ document.write(`
 <span class="w">        </span><span class="sd">"""Get the namespace of the langchain object."""</span>
         <span class="k">return</span> <span class="p">[</span><span class="s2">"langchain"</span><span class="p">,</span> <span class="s2">"prompts"</span><span class="p">,</span> <span class="s2">"chat"</span><span class="p">]</span>
 
-<div class="viewcode-block" id="BaseStringMessagePromptTemplate.from_template"><a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.chat.BaseStringMessagePromptTemplate.html#langchain.agents.schema.BaseStringMessagePromptTemplate.from_template">[docs]</a>    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="BaseStringMessagePromptTemplate.from_template">
+<a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.chat.BaseStringMessagePromptTemplate.html#langchain.agents.schema.BaseStringMessagePromptTemplate.from_template">[docs]</a>
+    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_template</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">MessagePromptTemplateT</span><span class="p">],</span>
         <span class="n">template</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -543,7 +584,10 @@ document.write(`
         <span class="p">)</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">prompt</span><span class="o">=</span><span class="n">prompt</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="BaseStringMessagePromptTemplate.from_template_file"><a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.chat.BaseStringMessagePromptTemplate.html#langchain.agents.schema.BaseStringMessagePromptTemplate.from_template_file">[docs]</a>    <span class="nd">@classmethod</span>
+
+<div class="viewcode-block" id="BaseStringMessagePromptTemplate.from_template_file">
+<a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.chat.BaseStringMessagePromptTemplate.html#langchain.agents.schema.BaseStringMessagePromptTemplate.from_template_file">[docs]</a>
+    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_template_file</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">MessagePromptTemplateT</span><span class="p">],</span>
         <span class="n">template_file</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">],</span>
@@ -563,7 +607,10 @@ document.write(`
         <span class="n">prompt</span> <span class="o">=</span> <span class="n">PromptTemplate</span><span class="o">.</span><span class="n">from_file</span><span class="p">(</span><span class="n">template_file</span><span class="p">,</span> <span class="n">input_variables</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">prompt</span><span class="o">=</span><span class="n">prompt</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="BaseStringMessagePromptTemplate.format"><a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.chat.BaseStringMessagePromptTemplate.html#langchain.agents.schema.BaseStringMessagePromptTemplate.format">[docs]</a>    <span class="nd">@abstractmethod</span>
+
+<div class="viewcode-block" id="BaseStringMessagePromptTemplate.format">
+<a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.chat.BaseStringMessagePromptTemplate.html#langchain.agents.schema.BaseStringMessagePromptTemplate.format">[docs]</a>
+    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">format</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BaseMessage</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Format the prompt template.</span>
 
@@ -574,7 +621,10 @@ document.write(`
 <span class="sd">            Formatted message.</span>
 <span class="sd">        """</span></div>
 
-<div class="viewcode-block" id="BaseStringMessagePromptTemplate.aformat"><a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.chat.BaseStringMessagePromptTemplate.html#langchain.agents.schema.BaseStringMessagePromptTemplate.aformat">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">aformat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BaseMessage</span><span class="p">:</span>
+
+<div class="viewcode-block" id="BaseStringMessagePromptTemplate.aformat">
+<a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.chat.BaseStringMessagePromptTemplate.html#langchain.agents.schema.BaseStringMessagePromptTemplate.aformat">[docs]</a>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">aformat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BaseMessage</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Async format the prompt template.</span>
 
 <span class="sd">        Args:</span>
@@ -585,7 +635,10 @@ document.write(`
 <span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="BaseStringMessagePromptTemplate.format_messages"><a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.chat.BaseStringMessagePromptTemplate.html#langchain.agents.schema.BaseStringMessagePromptTemplate.format_messages">[docs]</a>    <span class="k">def</span> <span class="nf">format_messages</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">BaseMessage</span><span class="p">]:</span>
+
+<div class="viewcode-block" id="BaseStringMessagePromptTemplate.format_messages">
+<a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.chat.BaseStringMessagePromptTemplate.html#langchain.agents.schema.BaseStringMessagePromptTemplate.format_messages">[docs]</a>
+    <span class="k">def</span> <span class="nf">format_messages</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">BaseMessage</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">"""Format messages from kwargs.</span>
 
 <span class="sd">        Args:</span>
@@ -596,7 +649,10 @@ document.write(`
 <span class="sd">        """</span>
         <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)]</span></div>
 
-<div class="viewcode-block" id="BaseStringMessagePromptTemplate.aformat_messages"><a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.chat.BaseStringMessagePromptTemplate.html#langchain.agents.schema.BaseStringMessagePromptTemplate.aformat_messages">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">aformat_messages</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">BaseMessage</span><span class="p">]:</span>
+
+<div class="viewcode-block" id="BaseStringMessagePromptTemplate.aformat_messages">
+<a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.chat.BaseStringMessagePromptTemplate.html#langchain.agents.schema.BaseStringMessagePromptTemplate.aformat_messages">[docs]</a>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">aformat_messages</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">BaseMessage</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">"""Async format messages from kwargs.</span>
 
 <span class="sd">        Args:</span>
@@ -606,6 +662,7 @@ document.write(`
 <span class="sd">            List of BaseMessages.</span>
 <span class="sd">        """</span>
         <span class="k">return</span> <span class="p">[</span><span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">aformat</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)]</span></div>
+
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">input_variables</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
@@ -617,7 +674,9 @@ document.write(`
 <span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">prompt</span><span class="o">.</span><span class="n">input_variables</span>
 
-<div class="viewcode-block" id="BaseStringMessagePromptTemplate.pretty_repr"><a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.chat.BaseStringMessagePromptTemplate.html#langchain.agents.schema.BaseStringMessagePromptTemplate.pretty_repr">[docs]</a>    <span class="k">def</span> <span class="nf">pretty_repr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">html</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<div class="viewcode-block" id="BaseStringMessagePromptTemplate.pretty_repr">
+<a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.chat.BaseStringMessagePromptTemplate.html#langchain.agents.schema.BaseStringMessagePromptTemplate.pretty_repr">[docs]</a>
+    <span class="k">def</span> <span class="nf">pretty_repr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">html</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Human-readable representation.</span>
 
 <span class="sd">        Args:</span>
@@ -629,10 +688,14 @@ document.write(`
         <span class="c1"># TODO: Handle partials</span>
         <span class="n">title</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"MessagePromptTemplate"</span><span class="p">,</span> <span class="s2">" Message"</span><span class="p">)</span>
         <span class="n">title</span> <span class="o">=</span> <span class="n">get_msg_title_repr</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">bold</span><span class="o">=</span><span class="n">html</span><span class="p">)</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">title</span><span class="si">}</span><span class="se">\n\n</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">prompt</span><span class="o">.</span><span class="n">pretty_repr</span><span class="p">(</span><span class="n">html</span><span class="o">=</span><span class="n">html</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span></div></div>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">title</span><span class="si">}</span><span class="se">\n\n</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">prompt</span><span class="o">.</span><span class="n">pretty_repr</span><span class="p">(</span><span class="n">html</span><span class="o">=</span><span class="n">html</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span></div>
+</div>
 
 
-<div class="viewcode-block" id="ChatMessagePromptTemplate"><a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.chat.ChatMessagePromptTemplate.html#langchain.agents.schema.ChatMessagePromptTemplate">[docs]</a><span class="k">class</span> <span class="nc">ChatMessagePromptTemplate</span><span class="p">(</span><span class="n">BaseStringMessagePromptTemplate</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ChatMessagePromptTemplate">
+<a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.chat.ChatMessagePromptTemplate.html#langchain.agents.schema.ChatMessagePromptTemplate">[docs]</a>
+<span class="k">class</span> <span class="nc">ChatMessagePromptTemplate</span><span class="p">(</span><span class="n">BaseStringMessagePromptTemplate</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Chat message prompt template."""</span>
 
     <span class="n">role</span><span class="p">:</span> <span class="nb">str</span>
@@ -643,7 +706,9 @@ document.write(`
 <span class="w">        </span><span class="sd">"""Get the namespace of the langchain object."""</span>
         <span class="k">return</span> <span class="p">[</span><span class="s2">"langchain"</span><span class="p">,</span> <span class="s2">"prompts"</span><span class="p">,</span> <span class="s2">"chat"</span><span class="p">]</span>
 
-<div class="viewcode-block" id="ChatMessagePromptTemplate.format"><a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.chat.ChatMessagePromptTemplate.html#langchain.agents.schema.ChatMessagePromptTemplate.format">[docs]</a>    <span class="k">def</span> <span class="nf">format</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BaseMessage</span><span class="p">:</span>
+<div class="viewcode-block" id="ChatMessagePromptTemplate.format">
+<a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.chat.ChatMessagePromptTemplate.html#langchain.agents.schema.ChatMessagePromptTemplate.format">[docs]</a>
+    <span class="k">def</span> <span class="nf">format</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BaseMessage</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Format the prompt template.</span>
 
 <span class="sd">        Args:</span>
@@ -657,7 +722,10 @@ document.write(`
             <span class="n">content</span><span class="o">=</span><span class="n">text</span><span class="p">,</span> <span class="n">role</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">role</span><span class="p">,</span> <span class="n">additional_kwargs</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">additional_kwargs</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="ChatMessagePromptTemplate.aformat"><a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.chat.ChatMessagePromptTemplate.html#langchain.agents.schema.ChatMessagePromptTemplate.aformat">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">aformat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BaseMessage</span><span class="p">:</span>
+
+<div class="viewcode-block" id="ChatMessagePromptTemplate.aformat">
+<a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.chat.ChatMessagePromptTemplate.html#langchain.agents.schema.ChatMessagePromptTemplate.aformat">[docs]</a>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">aformat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BaseMessage</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Async format the prompt template.</span>
 
 <span class="sd">        Args:</span>
@@ -669,7 +737,9 @@ document.write(`
         <span class="n">text</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">prompt</span><span class="o">.</span><span class="n">aformat</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">ChatMessage</span><span class="p">(</span>
             <span class="n">content</span><span class="o">=</span><span class="n">text</span><span class="p">,</span> <span class="n">role</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">role</span><span class="p">,</span> <span class="n">additional_kwargs</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">additional_kwargs</span>
-        <span class="p">)</span></div></div>
+        <span class="p">)</span></div>
+</div>
+
 
 
 <span class="n">_StringImageMessagePromptTemplateT</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span>
@@ -916,13 +986,18 @@ document.write(`
         <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">title</span><span class="si">}</span><span class="se">\n\n</span><span class="si">{</span><span class="n">prompt_reprs</span><span class="si">}</span><span class="s2">"</span>
 
 
-<div class="viewcode-block" id="HumanMessagePromptTemplate"><a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.chat.HumanMessagePromptTemplate.html#langchain.agents.schema.HumanMessagePromptTemplate">[docs]</a><span class="k">class</span> <span class="nc">HumanMessagePromptTemplate</span><span class="p">(</span><span class="n">_StringImageMessagePromptTemplate</span><span class="p">):</span>
+<div class="viewcode-block" id="HumanMessagePromptTemplate">
+<a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.chat.HumanMessagePromptTemplate.html#langchain.agents.schema.HumanMessagePromptTemplate">[docs]</a>
+<span class="k">class</span> <span class="nc">HumanMessagePromptTemplate</span><span class="p">(</span><span class="n">_StringImageMessagePromptTemplate</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Human message prompt template. This is a message sent from the user."""</span>
 
     <span class="n">_msg_class</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">BaseMessage</span><span class="p">]</span> <span class="o">=</span> <span class="n">HumanMessage</span></div>
 
 
-<div class="viewcode-block" id="AIMessagePromptTemplate"><a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.chat.AIMessagePromptTemplate.html#langchain.agents.schema.AIMessagePromptTemplate">[docs]</a><span class="k">class</span> <span class="nc">AIMessagePromptTemplate</span><span class="p">(</span><span class="n">_StringImageMessagePromptTemplate</span><span class="p">):</span>
+
+<div class="viewcode-block" id="AIMessagePromptTemplate">
+<a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.chat.AIMessagePromptTemplate.html#langchain.agents.schema.AIMessagePromptTemplate">[docs]</a>
+<span class="k">class</span> <span class="nc">AIMessagePromptTemplate</span><span class="p">(</span><span class="n">_StringImageMessagePromptTemplate</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""AI message prompt template. This is a message sent from the AI."""</span>
 
     <span class="n">_msg_class</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">BaseMessage</span><span class="p">]</span> <span class="o">=</span> <span class="n">AIMessage</span>
@@ -933,7 +1008,10 @@ document.write(`
         <span class="k">return</span> <span class="p">[</span><span class="s2">"langchain"</span><span class="p">,</span> <span class="s2">"prompts"</span><span class="p">,</span> <span class="s2">"chat"</span><span class="p">]</span></div>
 
 
-<div class="viewcode-block" id="SystemMessagePromptTemplate"><a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.chat.SystemMessagePromptTemplate.html#langchain.agents.schema.SystemMessagePromptTemplate">[docs]</a><span class="k">class</span> <span class="nc">SystemMessagePromptTemplate</span><span class="p">(</span><span class="n">_StringImageMessagePromptTemplate</span><span class="p">):</span>
+
+<div class="viewcode-block" id="SystemMessagePromptTemplate">
+<a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.chat.SystemMessagePromptTemplate.html#langchain.agents.schema.SystemMessagePromptTemplate">[docs]</a>
+<span class="k">class</span> <span class="nc">SystemMessagePromptTemplate</span><span class="p">(</span><span class="n">_StringImageMessagePromptTemplate</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""System message prompt template.</span>
 <span class="sd">    This is a message that is not sent to the user.</span>
 <span class="sd">    """</span>
@@ -946,7 +1024,10 @@ document.write(`
         <span class="k">return</span> <span class="p">[</span><span class="s2">"langchain"</span><span class="p">,</span> <span class="s2">"prompts"</span><span class="p">,</span> <span class="s2">"chat"</span><span class="p">]</span></div>
 
 
-<div class="viewcode-block" id="BaseChatPromptTemplate"><a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.chat.BaseChatPromptTemplate.html#langchain.agents.schema.BaseChatPromptTemplate">[docs]</a><span class="k">class</span> <span class="nc">BaseChatPromptTemplate</span><span class="p">(</span><span class="n">BasePromptTemplate</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
+
+<div class="viewcode-block" id="BaseChatPromptTemplate">
+<a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.chat.BaseChatPromptTemplate.html#langchain.agents.schema.BaseChatPromptTemplate">[docs]</a>
+<span class="k">class</span> <span class="nc">BaseChatPromptTemplate</span><span class="p">(</span><span class="n">BasePromptTemplate</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Base class for chat prompt templates."""</span>
 
     <span class="nd">@property</span>
@@ -958,7 +1039,9 @@ document.write(`
 <span class="sd">        """</span>
         <span class="k">return</span> <span class="p">{</span><span class="s2">"input_variables"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_variables</span><span class="p">}</span>
 
-<div class="viewcode-block" id="BaseChatPromptTemplate.format"><a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.chat.BaseChatPromptTemplate.html#langchain.agents.schema.BaseChatPromptTemplate.format">[docs]</a>    <span class="k">def</span> <span class="nf">format</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<div class="viewcode-block" id="BaseChatPromptTemplate.format">
+<a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.chat.BaseChatPromptTemplate.html#langchain.agents.schema.BaseChatPromptTemplate.format">[docs]</a>
+    <span class="k">def</span> <span class="nf">format</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Format the chat template into a string.</span>
 
 <span class="sd">        Args:</span>
@@ -970,7 +1053,10 @@ document.write(`
 <span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">format_prompt</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span><span class="o">.</span><span class="n">to_string</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="BaseChatPromptTemplate.aformat"><a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.chat.BaseChatPromptTemplate.html#langchain.agents.schema.BaseChatPromptTemplate.aformat">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">aformat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+
+<div class="viewcode-block" id="BaseChatPromptTemplate.aformat">
+<a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.chat.BaseChatPromptTemplate.html#langchain.agents.schema.BaseChatPromptTemplate.aformat">[docs]</a>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">aformat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Async format the chat template into a string.</span>
 
 <span class="sd">        Args:</span>
@@ -982,7 +1068,10 @@ document.write(`
 <span class="sd">        """</span>
         <span class="k">return</span> <span class="p">(</span><span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">aformat_prompt</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">))</span><span class="o">.</span><span class="n">to_string</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="BaseChatPromptTemplate.format_prompt"><a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.chat.BaseChatPromptTemplate.html#langchain.agents.schema.BaseChatPromptTemplate.format_prompt">[docs]</a>    <span class="k">def</span> <span class="nf">format_prompt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PromptValue</span><span class="p">:</span>
+
+<div class="viewcode-block" id="BaseChatPromptTemplate.format_prompt">
+<a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.chat.BaseChatPromptTemplate.html#langchain.agents.schema.BaseChatPromptTemplate.format_prompt">[docs]</a>
+    <span class="k">def</span> <span class="nf">format_prompt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PromptValue</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Format prompt. Should return a PromptValue.</span>
 
 <span class="sd">        Args:</span>
@@ -994,7 +1083,10 @@ document.write(`
         <span class="n">messages</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">format_messages</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">ChatPromptValue</span><span class="p">(</span><span class="n">messages</span><span class="o">=</span><span class="n">messages</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="BaseChatPromptTemplate.aformat_prompt"><a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.chat.BaseChatPromptTemplate.html#langchain.agents.schema.BaseChatPromptTemplate.aformat_prompt">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">aformat_prompt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PromptValue</span><span class="p">:</span>
+
+<div class="viewcode-block" id="BaseChatPromptTemplate.aformat_prompt">
+<a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.chat.BaseChatPromptTemplate.html#langchain.agents.schema.BaseChatPromptTemplate.aformat_prompt">[docs]</a>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">aformat_prompt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PromptValue</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Async format prompt. Should return a PromptValue.</span>
 
 <span class="sd">        Args:</span>
@@ -1006,15 +1098,24 @@ document.write(`
         <span class="n">messages</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">aformat_messages</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">ChatPromptValue</span><span class="p">(</span><span class="n">messages</span><span class="o">=</span><span class="n">messages</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="BaseChatPromptTemplate.format_messages"><a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.chat.BaseChatPromptTemplate.html#langchain.agents.schema.BaseChatPromptTemplate.format_messages">[docs]</a>    <span class="nd">@abstractmethod</span>
+
+<div class="viewcode-block" id="BaseChatPromptTemplate.format_messages">
+<a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.chat.BaseChatPromptTemplate.html#langchain.agents.schema.BaseChatPromptTemplate.format_messages">[docs]</a>
+    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">format_messages</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">BaseMessage</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">"""Format kwargs into a list of messages."""</span></div>
 
-<div class="viewcode-block" id="BaseChatPromptTemplate.aformat_messages"><a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.chat.BaseChatPromptTemplate.html#langchain.agents.schema.BaseChatPromptTemplate.aformat_messages">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">aformat_messages</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">BaseMessage</span><span class="p">]:</span>
+
+<div class="viewcode-block" id="BaseChatPromptTemplate.aformat_messages">
+<a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.chat.BaseChatPromptTemplate.html#langchain.agents.schema.BaseChatPromptTemplate.aformat_messages">[docs]</a>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">aformat_messages</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">BaseMessage</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">"""Async format kwargs into a list of messages."""</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">format_messages</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="BaseChatPromptTemplate.pretty_repr"><a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.chat.BaseChatPromptTemplate.html#langchain.agents.schema.BaseChatPromptTemplate.pretty_repr">[docs]</a>    <span class="k">def</span> <span class="nf">pretty_repr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">html</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+
+<div class="viewcode-block" id="BaseChatPromptTemplate.pretty_repr">
+<a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.chat.BaseChatPromptTemplate.html#langchain.agents.schema.BaseChatPromptTemplate.pretty_repr">[docs]</a>
+    <span class="k">def</span> <span class="nf">pretty_repr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">html</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Human-readable representation.</span>
 
 <span class="sd">        Args:</span>
@@ -1025,9 +1126,14 @@ document.write(`
 <span class="sd">        """</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
-<div class="viewcode-block" id="BaseChatPromptTemplate.pretty_print"><a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.chat.BaseChatPromptTemplate.html#langchain.agents.schema.BaseChatPromptTemplate.pretty_print">[docs]</a>    <span class="k">def</span> <span class="nf">pretty_print</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+
+<div class="viewcode-block" id="BaseChatPromptTemplate.pretty_print">
+<a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.chat.BaseChatPromptTemplate.html#langchain.agents.schema.BaseChatPromptTemplate.pretty_print">[docs]</a>
+    <span class="k">def</span> <span class="nf">pretty_print</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Print a human-readable representation."""</span>
-        <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pretty_repr</span><span class="p">(</span><span class="n">html</span><span class="o">=</span><span class="n">is_interactive_env</span><span class="p">()))</span>  <span class="c1"># noqa: T201</span></div></div>
+        <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pretty_repr</span><span class="p">(</span><span class="n">html</span><span class="o">=</span><span class="n">is_interactive_env</span><span class="p">()))</span>  <span class="c1"># noqa: T201</span></div>
+</div>
+
 
 
 <span class="n">MessageLike</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">BaseMessagePromptTemplate</span><span class="p">,</span> <span class="n">BaseMessage</span><span class="p">,</span> <span class="n">BaseChatPromptTemplate</span><span class="p">]</span>
@@ -1042,7 +1148,9 @@ document.write(`
 <span class="p">]</span>
 
 
-<div class="viewcode-block" id="ChatPromptTemplate"><a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.chat.ChatPromptTemplate.html#langchain.agents.schema.ChatPromptTemplate">[docs]</a><span class="k">class</span> <span class="nc">ChatPromptTemplate</span><span class="p">(</span><span class="n">BaseChatPromptTemplate</span><span class="p">):</span>
+<div class="viewcode-block" id="ChatPromptTemplate">
+<a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.chat.ChatPromptTemplate.html#langchain.agents.schema.ChatPromptTemplate">[docs]</a>
+<span class="k">class</span> <span class="nc">ChatPromptTemplate</span><span class="p">(</span><span class="n">BaseChatPromptTemplate</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Prompt template for chat models.</span>
 
 <span class="sd">    Use to create flexible templated prompts for chat models.</span>
@@ -1151,7 +1259,7 @@ document.write(`
 
 <span class="sd">    """</span>  <span class="c1"># noqa: E501</span>
 
-    <span class="n">messages</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">MessageLike</span><span class="p">]</span>
+    <span class="n">messages</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">MessageLike</span><span class="p">],</span> <span class="n">SkipValidation</span><span class="p">()]</span>
 <span class="w">    </span><span class="sd">"""List of messages consisting of either message prompt templates or messages."""</span>
     <span class="n">validate_template</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
 <span class="w">    </span><span class="sd">"""Whether or not to try validating the template."""</span>
@@ -1267,8 +1375,9 @@ document.write(`
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Unsupported operand type for +: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">other</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
-    <span class="nd">@root_validator</span><span class="p">(</span><span class="n">pre</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">validate_input_variables</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+    <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">"before"</span><span class="p">)</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">validate_input_variables</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Validate input variables.</span>
 
 <span class="sd">        If input_variables is not set, it will be set to the union of</span>
@@ -1319,7 +1428,9 @@ document.write(`
         <span class="n">values</span><span class="p">[</span><span class="s2">"input_types"</span><span class="p">]</span> <span class="o">=</span> <span class="n">input_types</span>
         <span class="k">return</span> <span class="n">values</span>
 
-<div class="viewcode-block" id="ChatPromptTemplate.from_template"><a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.chat.ChatPromptTemplate.html#langchain.agents.schema.ChatPromptTemplate.from_template">[docs]</a>    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="ChatPromptTemplate.from_template">
+<a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.chat.ChatPromptTemplate.html#langchain.agents.schema.ChatPromptTemplate.from_template">[docs]</a>
+    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_template</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">template</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ChatPromptTemplate</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Create a chat prompt template from a template string.</span>
 
@@ -1337,7 +1448,10 @@ document.write(`
         <span class="n">message</span> <span class="o">=</span> <span class="n">HumanMessagePromptTemplate</span><span class="p">(</span><span class="n">prompt</span><span class="o">=</span><span class="n">prompt_template</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_messages</span><span class="p">([</span><span class="n">message</span><span class="p">])</span></div>
 
-<div class="viewcode-block" id="ChatPromptTemplate.from_role_strings"><a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.chat.ChatPromptTemplate.html#langchain.agents.schema.ChatPromptTemplate.from_role_strings">[docs]</a>    <span class="nd">@classmethod</span>
+
+<div class="viewcode-block" id="ChatPromptTemplate.from_role_strings">
+<a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.chat.ChatPromptTemplate.html#langchain.agents.schema.ChatPromptTemplate.from_role_strings">[docs]</a>
+    <span class="nd">@classmethod</span>
     <span class="nd">@deprecated</span><span class="p">(</span><span class="s2">"0.0.1"</span><span class="p">,</span> <span class="n">alternative</span><span class="o">=</span><span class="s2">"from_messages classmethod"</span><span class="p">,</span> <span class="n">pending</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">from_role_strings</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span> <span class="n">string_messages</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span>
@@ -1357,7 +1471,10 @@ document.write(`
             <span class="p">]</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="ChatPromptTemplate.from_strings"><a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.chat.ChatPromptTemplate.html#langchain.agents.schema.ChatPromptTemplate.from_strings">[docs]</a>    <span class="nd">@classmethod</span>
+
+<div class="viewcode-block" id="ChatPromptTemplate.from_strings">
+<a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.chat.ChatPromptTemplate.html#langchain.agents.schema.ChatPromptTemplate.from_strings">[docs]</a>
+    <span class="nd">@classmethod</span>
     <span class="nd">@deprecated</span><span class="p">(</span><span class="s2">"0.0.1"</span><span class="p">,</span> <span class="n">alternative</span><span class="o">=</span><span class="s2">"from_messages classmethod"</span><span class="p">,</span> <span class="n">pending</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">from_strings</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span> <span class="n">string_messages</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Type</span><span class="p">[</span><span class="n">BaseMessagePromptTemplate</span><span class="p">],</span> <span class="nb">str</span><span class="p">]]</span>
@@ -1372,7 +1489,10 @@ document.write(`
 <span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_messages</span><span class="p">(</span><span class="n">string_messages</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ChatPromptTemplate.from_messages"><a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.chat.ChatPromptTemplate.html#langchain.agents.schema.ChatPromptTemplate.from_messages">[docs]</a>    <span class="nd">@classmethod</span>
+
+<div class="viewcode-block" id="ChatPromptTemplate.from_messages">
+<a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.chat.ChatPromptTemplate.html#langchain.agents.schema.ChatPromptTemplate.from_messages">[docs]</a>
+    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_messages</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span>
         <span class="n">messages</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">MessageLikeRepresentation</span><span class="p">],</span>
@@ -1415,7 +1535,10 @@ document.write(`
 <span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">messages</span><span class="p">,</span> <span class="n">template_format</span><span class="o">=</span><span class="n">template_format</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ChatPromptTemplate.format_messages"><a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.chat.ChatPromptTemplate.html#langchain.agents.schema.ChatPromptTemplate.format_messages">[docs]</a>    <span class="k">def</span> <span class="nf">format_messages</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">BaseMessage</span><span class="p">]:</span>
+
+<div class="viewcode-block" id="ChatPromptTemplate.format_messages">
+<a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.chat.ChatPromptTemplate.html#langchain.agents.schema.ChatPromptTemplate.format_messages">[docs]</a>
+    <span class="k">def</span> <span class="nf">format_messages</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">BaseMessage</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">"""Format the chat template into a list of finalized messages.</span>
 
 <span class="sd">        Args:</span>
@@ -1439,7 +1562,10 @@ document.write(`
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Unexpected input: </span><span class="si">{</span><span class="n">message_template</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">result</span></div>
 
-<div class="viewcode-block" id="ChatPromptTemplate.aformat_messages"><a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.chat.ChatPromptTemplate.html#langchain.agents.schema.ChatPromptTemplate.aformat_messages">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">aformat_messages</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">BaseMessage</span><span class="p">]:</span>
+
+<div class="viewcode-block" id="ChatPromptTemplate.aformat_messages">
+<a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.chat.ChatPromptTemplate.html#langchain.agents.schema.ChatPromptTemplate.aformat_messages">[docs]</a>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">aformat_messages</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">BaseMessage</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">"""Async format the chat template into a list of finalized messages.</span>
 
 <span class="sd">        Args:</span>
@@ -1466,7 +1592,10 @@ document.write(`
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Unexpected input: </span><span class="si">{</span><span class="n">message_template</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">result</span></div>
 
-<div class="viewcode-block" id="ChatPromptTemplate.partial"><a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.chat.ChatPromptTemplate.html#langchain.agents.schema.ChatPromptTemplate.partial">[docs]</a>    <span class="k">def</span> <span class="nf">partial</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ChatPromptTemplate</span><span class="p">:</span>
+
+<div class="viewcode-block" id="ChatPromptTemplate.partial">
+<a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.chat.ChatPromptTemplate.html#langchain.agents.schema.ChatPromptTemplate.partial">[docs]</a>
+    <span class="k">def</span> <span class="nf">partial</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ChatPromptTemplate</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Get a new ChatPromptTemplate with some input variables already filled in.</span>
 
 <span class="sd">        Args:</span>
@@ -1502,7 +1631,10 @@ document.write(`
         <span class="n">prompt_dict</span><span class="p">[</span><span class="s2">"partial_variables"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">partial_variables</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">}</span>
         <span class="k">return</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)(</span><span class="o">**</span><span class="n">prompt_dict</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ChatPromptTemplate.append"><a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.chat.ChatPromptTemplate.html#langchain.agents.schema.ChatPromptTemplate.append">[docs]</a>    <span class="k">def</span> <span class="nf">append</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="n">MessageLikeRepresentation</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+
+<div class="viewcode-block" id="ChatPromptTemplate.append">
+<a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.chat.ChatPromptTemplate.html#langchain.agents.schema.ChatPromptTemplate.append">[docs]</a>
+    <span class="k">def</span> <span class="nf">append</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="n">MessageLikeRepresentation</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Append a message to the end of the chat template.</span>
 
 <span class="sd">        Args:</span>
@@ -1510,13 +1642,17 @@ document.write(`
 <span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">messages</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_convert_to_message</span><span class="p">(</span><span class="n">message</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="ChatPromptTemplate.extend"><a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.chat.ChatPromptTemplate.html#langchain.agents.schema.ChatPromptTemplate.extend">[docs]</a>    <span class="k">def</span> <span class="nf">extend</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">messages</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">MessageLikeRepresentation</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+
+<div class="viewcode-block" id="ChatPromptTemplate.extend">
+<a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.chat.ChatPromptTemplate.html#langchain.agents.schema.ChatPromptTemplate.extend">[docs]</a>
+    <span class="k">def</span> <span class="nf">extend</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">messages</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">MessageLikeRepresentation</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Extend the chat template with a sequence of messages.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            messages: sequence of message representations to append.</span>
 <span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">messages</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">_convert_to_message</span><span class="p">(</span><span class="n">message</span><span class="p">)</span> <span class="k">for</span> <span class="n">message</span> <span class="ow">in</span> <span class="n">messages</span><span class="p">])</span></div>
+
 
     <span class="nd">@overload</span>
     <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MessageLike</span><span class="p">:</span> <span class="o">...</span>
@@ -1544,7 +1680,9 @@ document.write(`
 <span class="w">        </span><span class="sd">"""Name of prompt type. Used for serialization."""</span>
         <span class="k">return</span> <span class="s2">"chat"</span>
 
-<div class="viewcode-block" id="ChatPromptTemplate.save"><a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.chat.ChatPromptTemplate.html#langchain.agents.schema.ChatPromptTemplate.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Path</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="ChatPromptTemplate.save">
+<a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.chat.ChatPromptTemplate.html#langchain.agents.schema.ChatPromptTemplate.save">[docs]</a>
+    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Path</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Save prompt to file.</span>
 
 <span class="sd">        Args:</span>
@@ -1552,7 +1690,10 @@ document.write(`
 <span class="sd">        """</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="ChatPromptTemplate.pretty_repr"><a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.chat.ChatPromptTemplate.html#langchain.agents.schema.ChatPromptTemplate.pretty_repr">[docs]</a>    <span class="k">def</span> <span class="nf">pretty_repr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">html</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+
+<div class="viewcode-block" id="ChatPromptTemplate.pretty_repr">
+<a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.chat.ChatPromptTemplate.html#langchain.agents.schema.ChatPromptTemplate.pretty_repr">[docs]</a>
+    <span class="k">def</span> <span class="nf">pretty_repr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">html</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Human-readable representation.</span>
 
 <span class="sd">        Args:</span>
@@ -1562,7 +1703,9 @@ document.write(`
 <span class="sd">            Human-readable representation.</span>
 <span class="sd">        """</span>
         <span class="c1"># TODO: handle partials</span>
-        <span class="k">return</span> <span class="s2">"</span><span class="se">\n\n</span><span class="s2">"</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">pretty_repr</span><span class="p">(</span><span class="n">html</span><span class="o">=</span><span class="n">html</span><span class="p">)</span> <span class="k">for</span> <span class="n">msg</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">messages</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="s2">"</span><span class="se">\n\n</span><span class="s2">"</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">pretty_repr</span><span class="p">(</span><span class="n">html</span><span class="o">=</span><span class="n">html</span><span class="p">)</span> <span class="k">for</span> <span class="n">msg</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">messages</span><span class="p">)</span></div>
+</div>
+
 
 
 <span class="k">def</span> <span class="nf">_create_template_from_message_type</span><span class="p">(</span>

@@ -1,7 +1,7 @@
 
 <!DOCTYPE html>
 
-<html data-content_root="" lang="en">
+<html data-content_root="../../" lang="en">
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
@@ -18,21 +18,21 @@
 <link as="font" crossorigin="" href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" rel="preload" type="font/woff2"/>
 <link as="font" crossorigin="" href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" rel="preload" type="font/woff2"/>
 <link as="font" crossorigin="" href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" rel="preload" type="font/woff2"/>
-<link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/pygments.css?v=a746c00c" rel="stylesheet" type="text/css"/>
 <link href="../../_static/autodoc_pydantic.css" rel="stylesheet" type="text/css"/>
-<link href="../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
-<link href="../../_static/sphinx-design.4cbf315f70debaebd550c87a6162cf0f.min.css" rel="stylesheet" type="text/css"/>
-<link href="../../_static/css/custom.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/copybutton.css?v=76b2166b" rel="stylesheet" type="text/css"/>
+<link href="../../_static/sphinx-design.min.css?v=95c83b7e" rel="stylesheet" type="text/css"/>
+<link href="../../_static/css/custom.css?v=b95e2228" rel="stylesheet" type="text/css"/>
 <!-- Pre-loaded scripts that we'll load fully later -->
 <link as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
 <link as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
 <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-<script src="../../_static/doctools.js"></script>
-<script src="../../_static/sphinx_highlight.js"></script>
-<script src="../../_static/clipboard.min.js"></script>
-<script src="../../_static/copybutton.js"></script>
-<script src="../../_static/design-tabs.js"></script>
+<script src="../../_static/documentation_options.js?v=3b5cce75"></script>
+<script src="../../_static/doctools.js?v=9a2dae69"></script>
+<script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+<script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+<script src="../../_static/copybutton.js?v=f281be69"></script>
+<script src="../../_static/design-tabs.js?v=f930bc37"></script>
 <script>DOCUMENTATION_OPTIONS.pagename = '_modules/langchain_google_vertexai/chat_models';</script>
 <link href="../../_static/favicon.png" rel="icon"/>
 <link href="../../search.html" rel="search" title="Search"/>
@@ -291,7 +291,7 @@ document.write(`
 <span class="p">)</span>
 <span class="kn">from</span> <span class="nn">langchain_core.output_parsers.openai_tools</span> <span class="kn">import</span> <span class="n">parse_tool_calls</span>
 <span class="kn">from</span> <span class="nn">langchain_core.outputs</span> <span class="kn">import</span> <span class="n">ChatGeneration</span><span class="p">,</span> <span class="n">ChatGenerationChunk</span><span class="p">,</span> <span class="n">ChatResult</span>
-<span class="kn">from</span> <span class="nn">langchain_core.pydantic_v1</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">root_validator</span><span class="p">,</span> <span class="n">Field</span>
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span><span class="p">,</span> <span class="n">model_validator</span>
 <span class="kn">from</span> <span class="nn">langchain_core.runnables</span> <span class="kn">import</span> <span class="n">Runnable</span><span class="p">,</span> <span class="n">RunnablePassthrough</span><span class="p">,</span> <span class="n">RunnableGenerator</span>
 <span class="kn">from</span> <span class="nn">langchain_core.utils.function_calling</span> <span class="kn">import</span> <span class="n">convert_to_openai_tool</span>
 <span class="kn">from</span> <span class="nn">langchain_core.utils.pydantic</span> <span class="kn">import</span> <span class="n">is_basemodel_subclass</span>
@@ -353,6 +353,9 @@ document.write(`
     <span class="n">_format_to_gapic_tool</span><span class="p">,</span>
     <span class="n">_ToolType</span><span class="p">,</span>
 <span class="p">)</span>
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">ConfigDict</span>
+<span class="kn">from</span> <span class="nn">typing_extensions</span> <span class="kn">import</span> <span class="n">Self</span>
+
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
@@ -871,7 +874,9 @@ document.write(`
     <span class="p">)</span>
 
 
-<div class="viewcode-block" id="ChatVertexAI"><a class="viewcode-back" href="../../google_vertexai/chat_models/langchain_google_vertexai.chat_models.ChatVertexAI.html#langchain_google_vertexai.chat_models.ChatVertexAI">[docs]</a><span class="k">class</span> <span class="nc">ChatVertexAI</span><span class="p">(</span><span class="n">_VertexAICommon</span><span class="p">,</span> <span class="n">BaseChatModel</span><span class="p">):</span>
+<div class="viewcode-block" id="ChatVertexAI">
+<a class="viewcode-back" href="../../google_vertexai/chat_models/langchain_google_vertexai.chat_models.ChatVertexAI.html#langchain_google_vertexai.chat_models.ChatVertexAI">[docs]</a>
+<span class="k">class</span> <span class="nc">ChatVertexAI</span><span class="p">(</span><span class="n">_VertexAICommon</span><span class="p">,</span> <span class="n">BaseChatModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Google Cloud Vertex AI chat model integration.</span>
 
 <span class="sd">    Setup:</span>
@@ -991,7 +996,7 @@ document.write(`
 <span class="sd">    Tool calling:</span>
 <span class="sd">        .. code-block:: python</span>
 
-<span class="sd">            from langchain_core.pydantic_v1 import BaseModel, Field</span>
+<span class="sd">            from pydantic import BaseModel, Field</span>
 
 <span class="sd">            class GetWeather(BaseModel):</span>
 <span class="sd">                '''Get the current weather in a given location'''</span>
@@ -1029,7 +1034,7 @@ document.write(`
 
 <span class="sd">            from typing import Optional</span>
 
-<span class="sd">            from langchain_core.pydantic_v1 import BaseModel, Field</span>
+<span class="sd">            from pydantic import BaseModel, Field</span>
 
 <span class="sd">            class Joke(BaseModel):</span>
 <span class="sd">                '''Joke to tell user.'''</span>
@@ -1253,11 +1258,10 @@ document.write(`
             <span class="n">kwargs</span><span class="p">[</span><span class="s2">"model_name"</span><span class="p">]</span> <span class="o">=</span> <span class="n">model_name</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-    <span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""Configuration for this pydantic object."""</span>
-
-        <span class="n">allow_population_by_field_name</span> <span class="o">=</span> <span class="kc">True</span>
-        <span class="n">arbitrary_types_allowed</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span>
+        <span class="n">populate_by_name</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">arbitrary_types_allowed</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span>
 
     <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">is_lc_serializable</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
@@ -1268,57 +1272,65 @@ document.write(`
 <span class="w">        </span><span class="sd">"""Get the namespace of the langchain object."""</span>
         <span class="k">return</span> <span class="p">[</span><span class="s2">"langchain"</span><span class="p">,</span> <span class="s2">"chat_models"</span><span class="p">,</span> <span class="s2">"vertexai"</span><span class="p">]</span>
 
-    <span class="nd">@root_validator</span><span class="p">(</span><span class="n">pre</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">skip_on_failure</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">validate_environment</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+    <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">"after"</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">validate_environment</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Validate that the python package exists in environment."""</span>
-        <span class="n">safety_settings</span> <span class="o">=</span> <span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"safety_settings"</span><span class="p">)</span>
-        <span class="n">tuned_model_name</span> <span class="o">=</span> <span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"tuned_model_name"</span><span class="p">)</span>
-        <span class="n">values</span><span class="p">[</span><span class="s2">"model_family"</span><span class="p">]</span> <span class="o">=</span> <span class="n">GoogleModelFamily</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="s2">"model_name"</span><span class="p">])</span>
+        <span class="n">safety_settings</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">safety_settings</span>
+        <span class="n">tuned_model_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tuned_model_name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model_family</span> <span class="o">=</span> <span class="n">GoogleModelFamily</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model_name</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">values</span><span class="p">[</span><span class="s2">"model_name"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"chat-bison-default"</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_name</span> <span class="o">==</span> <span class="s2">"chat-bison-default"</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
                 <span class="s2">"Model_name will become a required arg for VertexAIEmbeddings "</span>
                 <span class="s2">"starting from Sep-01-2024. Currently the default is set to "</span>
                 <span class="s2">"chat-bison"</span>
             <span class="p">)</span>
-            <span class="n">values</span><span class="p">[</span><span class="s2">"model_name"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"chat-bison"</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">model_name</span> <span class="o">=</span> <span class="s2">"chat-bison"</span>
 
-        <span class="k">if</span> <span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"full_model_name"</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">full_model_name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">pass</span>
-        <span class="k">elif</span> <span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"tuned_model_name"</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">values</span><span class="p">[</span><span class="s2">"full_model_name"</span><span class="p">]</span> <span class="o">=</span> <span class="n">_format_model_name</span><span class="p">(</span>
-                <span class="n">values</span><span class="p">[</span><span class="s2">"tuned_model_name"</span><span class="p">],</span>
-                <span class="n">location</span><span class="o">=</span><span class="n">values</span><span class="p">[</span><span class="s2">"location"</span><span class="p">],</span>
-                <span class="n">project</span><span class="o">=</span><span class="n">values</span><span class="p">[</span><span class="s2">"project"</span><span class="p">],</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">tuned_model_name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">full_model_name</span> <span class="o">=</span> <span class="n">_format_model_name</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">tuned_model_name</span><span class="p">,</span>
+                <span class="n">location</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">location</span><span class="p">,</span>
+                <span class="n">project</span><span class="o">=</span><span class="n">cast</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">project</span><span class="p">),</span>
             <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">values</span><span class="p">[</span><span class="s2">"full_model_name"</span><span class="p">]</span> <span class="o">=</span> <span class="n">_format_model_name</span><span class="p">(</span>
-                <span class="n">values</span><span class="p">[</span><span class="s2">"model_name"</span><span class="p">],</span>
-                <span class="n">location</span><span class="o">=</span><span class="n">values</span><span class="p">[</span><span class="s2">"location"</span><span class="p">],</span>
-                <span class="n">project</span><span class="o">=</span><span class="n">values</span><span class="p">[</span><span class="s2">"project"</span><span class="p">],</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">full_model_name</span> <span class="o">=</span> <span class="n">_format_model_name</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">model_name</span><span class="p">,</span>
+                <span class="n">location</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">location</span><span class="p">,</span>
+                <span class="n">project</span><span class="o">=</span><span class="n">cast</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">project</span><span class="p">),</span>
             <span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">safety_settings</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">is_gemini_model</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="s2">"model_family"</span><span class="p">]):</span>
+        <span class="k">if</span> <span class="n">safety_settings</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">is_gemini_model</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model_family</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Safety settings are only supported for Gemini models"</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">tuned_model_name</span><span class="p">:</span>
-            <span class="n">generative_model_name</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="s2">"tuned_model_name"</span><span class="p">]</span>
+            <span class="n">generative_model_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tuned_model_name</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">generative_model_name</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="s2">"model_name"</span><span class="p">]</span>
+            <span class="n">generative_model_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_name</span>
 
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">is_gemini_model</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="s2">"model_family"</span><span class="p">]):</span>
-            <span class="bp">cls</span><span class="o">.</span><span class="n">_init_vertexai</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">values</span><span class="p">[</span><span class="s2">"model_family"</span><span class="p">]</span> <span class="o">==</span> <span class="n">GoogleModelFamily</span><span class="o">.</span><span class="n">CODEY</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">is_gemini_model</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model_family</span><span class="p">):</span>
+            <span class="n">values</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">"project"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">project</span><span class="p">,</span>
+                <span class="s2">"location"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">location</span><span class="p">,</span>
+                <span class="s2">"credentials"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">credentials</span><span class="p">,</span>
+                <span class="s2">"api_transport"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">api_transport</span><span class="p">,</span>
+                <span class="s2">"api_endpoint"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">api_endpoint</span><span class="p">,</span>
+                <span class="s2">"default_metadata"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_metadata</span><span class="p">,</span>
+            <span class="p">}</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_init_vertexai</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_family</span> <span class="o">==</span> <span class="n">GoogleModelFamily</span><span class="o">.</span><span class="n">CODEY</span><span class="p">:</span>
                 <span class="n">model_cls</span> <span class="o">=</span> <span class="n">CodeChatModel</span>
                 <span class="n">model_cls_preview</span> <span class="o">=</span> <span class="n">PreviewCodeChatModel</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">model_cls</span> <span class="o">=</span> <span class="n">ChatModel</span>
                 <span class="n">model_cls_preview</span> <span class="o">=</span> <span class="n">PreviewChatModel</span>
-            <span class="n">values</span><span class="p">[</span><span class="s2">"client"</span><span class="p">]</span> <span class="o">=</span> <span class="n">model_cls</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">generative_model_name</span><span class="p">)</span>
-            <span class="n">values</span><span class="p">[</span><span class="s2">"client_preview"</span><span class="p">]</span> <span class="o">=</span> <span class="n">model_cls_preview</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">model_cls</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">generative_model_name</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">client_preview</span> <span class="o">=</span> <span class="n">model_cls_preview</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span>
                 <span class="n">generative_model_name</span>
             <span class="p">)</span>
-        <span class="k">return</span> <span class="n">values</span>
+        <span class="k">return</span> <span class="bp">self</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">_is_gemini_advanced</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
@@ -1576,7 +1588,9 @@ document.write(`
         <span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gemini_response_to_chat_result</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
 
-<div class="viewcode-block" id="ChatVertexAI.get_num_tokens"><a class="viewcode-back" href="../../google_vertexai/chat_models/langchain_google_vertexai.chat_models.ChatVertexAI.html#langchain_google_vertexai.chat_models.ChatVertexAI.get_num_tokens">[docs]</a>    <span class="k">def</span> <span class="nf">get_num_tokens</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<div class="viewcode-block" id="ChatVertexAI.get_num_tokens">
+<a class="viewcode-back" href="../../google_vertexai/chat_models/langchain_google_vertexai.chat_models.ChatVertexAI.html#langchain_google_vertexai.chat_models.ChatVertexAI.get_num_tokens">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_num_tokens</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Get the number of tokens present in the text."""</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_gemini_model</span><span class="p">:</span>
             <span class="c1"># https://cloud.google.com/vertex-ai/docs/reference/rpc/google.cloud.aiplatform.v1beta1#counttokensrequest</span>
@@ -1591,6 +1605,7 @@ document.write(`
             <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">total_tokens</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">get_num_tokens</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="n">text</span><span class="p">)</span></div>
+
 
     <span class="k">def</span> <span class="nf">_tools_gemini</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -1833,7 +1848,9 @@ document.write(`
                 <span class="k">await</span> <span class="n">run_manager</span><span class="o">.</span><span class="n">on_llm_new_token</span><span class="p">(</span><span class="n">chunk</span><span class="o">.</span><span class="n">message</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
             <span class="k">yield</span> <span class="n">chunk</span>
 
-<div class="viewcode-block" id="ChatVertexAI.with_structured_output"><a class="viewcode-back" href="../../google_vertexai/chat_models/langchain_google_vertexai.chat_models.ChatVertexAI.html#langchain_google_vertexai.chat_models.ChatVertexAI.with_structured_output">[docs]</a>    <span class="k">def</span> <span class="nf">with_structured_output</span><span class="p">(</span>
+<div class="viewcode-block" id="ChatVertexAI.with_structured_output">
+<a class="viewcode-back" href="../../google_vertexai/chat_models/langchain_google_vertexai.chat_models.ChatVertexAI.html#langchain_google_vertexai.chat_models.ChatVertexAI.with_structured_output">[docs]</a>
+    <span class="k">def</span> <span class="nf">with_structured_output</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">schema</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Dict</span><span class="p">,</span> <span class="n">Type</span><span class="p">[</span><span class="n">BaseModel</span><span class="p">]],</span>
         <span class="o">*</span><span class="p">,</span>
@@ -1876,7 +1893,7 @@ document.write(`
 <span class="sd">        Example: Pydantic schema, exclude raw:</span>
 <span class="sd">            .. code-block:: python</span>
 
-<span class="sd">                from langchain_core.pydantic_v1 import BaseModel</span>
+<span class="sd">                from pydantic import BaseModel</span>
 <span class="sd">                from langchain_google_vertexai import ChatVertexAI</span>
 
 <span class="sd">                class AnswerWithJustification(BaseModel):</span>
@@ -1895,7 +1912,7 @@ document.write(`
 <span class="sd">        Example: Pydantic schema, include raw:</span>
 <span class="sd">            .. code-block:: python</span>
 
-<span class="sd">                from langchain_core.pydantic_v1 import BaseModel</span>
+<span class="sd">                from pydantic import BaseModel</span>
 <span class="sd">                from langchain_google_vertexai import ChatVertexAI</span>
 
 <span class="sd">                class AnswerWithJustification(BaseModel):</span>
@@ -1916,7 +1933,7 @@ document.write(`
 <span class="sd">        Example: Dict schema, exclude raw:</span>
 <span class="sd">            .. code-block:: python</span>
 
-<span class="sd">                from langchain_core.pydantic_v1 import BaseModel</span>
+<span class="sd">                from pydantic import BaseModel</span>
 <span class="sd">                from langchain_core.utils.function_calling import convert_to_openai_function</span>
 <span class="sd">                from langchain_google_vertexai import ChatVertexAI</span>
 
@@ -1959,7 +1976,10 @@ document.write(`
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">llm</span> <span class="o">|</span> <span class="n">parser</span></div>
 
-<div class="viewcode-block" id="ChatVertexAI.bind_tools"><a class="viewcode-back" href="../../google_vertexai/chat_models/langchain_google_vertexai.chat_models.ChatVertexAI.html#langchain_google_vertexai.chat_models.ChatVertexAI.bind_tools">[docs]</a>    <span class="k">def</span> <span class="nf">bind_tools</span><span class="p">(</span>
+
+<div class="viewcode-block" id="ChatVertexAI.bind_tools">
+<a class="viewcode-back" href="../../google_vertexai/chat_models/langchain_google_vertexai.chat_models.ChatVertexAI.html#langchain_google_vertexai.chat_models.ChatVertexAI.bind_tools">[docs]</a>
+    <span class="k">def</span> <span class="nf">bind_tools</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">tools</span><span class="p">:</span> <span class="n">_ToolsType</span><span class="p">,</span>
         <span class="n">tool_config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">_ToolConfigDict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -1995,6 +2015,7 @@ document.write(`
         <span class="k">else</span><span class="p">:</span>
             <span class="k">pass</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="n">tools</span><span class="o">=</span><span class="n">formatted_tools</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
 
     <span class="k">def</span> <span class="nf">_start_chat</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">history</span><span class="p">:</span> <span class="n">_ChatHistory</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span>
@@ -2074,6 +2095,7 @@ document.write(`
             <span class="n">message</span><span class="o">=</span><span class="n">message</span><span class="p">,</span>
             <span class="n">generation_info</span><span class="o">=</span><span class="n">generation_info</span><span class="p">,</span>
         <span class="p">),</span> <span class="n">total_lc_usage</span></div>
+
 
 
 <span class="k">def</span> <span class="nf">_yield_args</span><span class="p">(</span><span class="n">tool_call_chunks</span><span class="p">:</span> <span class="n">Iterator</span><span class="p">[</span><span class="nb">dict</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>

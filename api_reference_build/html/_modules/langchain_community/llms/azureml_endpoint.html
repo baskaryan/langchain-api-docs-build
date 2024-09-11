@@ -1,7 +1,7 @@
 
 <!DOCTYPE html>
 
-<html data-content_root="" lang="en">
+<html data-content_root="../../../" lang="en">
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
@@ -18,21 +18,21 @@
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" rel="preload" type="font/woff2"/>
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" rel="preload" type="font/woff2"/>
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" rel="preload" type="font/woff2"/>
-<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css?v=a746c00c" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/autodoc_pydantic.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/sphinx-design.4cbf315f70debaebd550c87a6162cf0f.min.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/css/custom.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/copybutton.css?v=76b2166b" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/sphinx-design.min.css?v=95c83b7e" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/css/custom.css?v=b95e2228" rel="stylesheet" type="text/css"/>
 <!-- Pre-loaded scripts that we'll load fully later -->
 <link as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
 <link as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
 <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-<script src="../../../_static/doctools.js"></script>
-<script src="../../../_static/sphinx_highlight.js"></script>
-<script src="../../../_static/clipboard.min.js"></script>
-<script src="../../../_static/copybutton.js"></script>
-<script src="../../../_static/design-tabs.js"></script>
+<script src="../../../_static/documentation_options.js?v=3b5cce75"></script>
+<script src="../../../_static/doctools.js?v=9a2dae69"></script>
+<script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+<script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+<script src="../../../_static/copybutton.js?v=f281be69"></script>
+<script src="../../../_static/design-tabs.js?v=f930bc37"></script>
 <script>DOCUMENTATION_OPTIONS.pagename = '_modules/langchain_community/llms/azureml_endpoint';</script>
 <link href="../../../_static/favicon.png" rel="icon"/>
 <link href="../../../search.html" rel="search" title="Search"/>
@@ -237,16 +237,20 @@ document.write(`
 <span class="kn">from</span> <span class="nn">langchain_core.callbacks.manager</span> <span class="kn">import</span> <span class="n">CallbackManagerForLLMRun</span>
 <span class="kn">from</span> <span class="nn">langchain_core.language_models.llms</span> <span class="kn">import</span> <span class="n">BaseLLM</span>
 <span class="kn">from</span> <span class="nn">langchain_core.outputs</span> <span class="kn">import</span> <span class="n">Generation</span><span class="p">,</span> <span class="n">LLMResult</span>
-<span class="kn">from</span> <span class="nn">langchain_core.pydantic_v1</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">SecretStr</span><span class="p">,</span> <span class="n">root_validator</span><span class="p">,</span> <span class="n">validator</span>
 <span class="kn">from</span> <span class="nn">langchain_core.utils</span> <span class="kn">import</span> <span class="n">convert_to_secret_str</span><span class="p">,</span> <span class="n">get_from_dict_or_env</span>
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">SecretStr</span><span class="p">,</span> <span class="n">model_validator</span><span class="p">,</span> <span class="n">validator</span>
 
 <span class="n">DEFAULT_TIMEOUT</span> <span class="o">=</span> <span class="mi">50</span>
 
 
-<div class="viewcode-block" id="AzureMLEndpointClient"><a class="viewcode-back" href="../../../community/llms/langchain_community.llms.azureml_endpoint.AzureMLEndpointClient.html#langchain_community.llms.azureml_endpoint.AzureMLEndpointClient">[docs]</a><span class="k">class</span> <span class="nc">AzureMLEndpointClient</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="AzureMLEndpointClient">
+<a class="viewcode-back" href="../../../community/llms/langchain_community.llms.azureml_endpoint.AzureMLEndpointClient.html#langchain_community.llms.azureml_endpoint.AzureMLEndpointClient">[docs]</a>
+<span class="k">class</span> <span class="nc">AzureMLEndpointClient</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""AzureML Managed Endpoint client."""</span>
 
-<div class="viewcode-block" id="AzureMLEndpointClient.__init__"><a class="viewcode-back" href="../../../community/llms/langchain_community.llms.azureml_endpoint.AzureMLEndpointClient.html#langchain_community.llms.azureml_endpoint.AzureMLEndpointClient.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+<div class="viewcode-block" id="AzureMLEndpointClient.__init__">
+<a class="viewcode-back" href="../../../community/llms/langchain_community.llms.azureml_endpoint.AzureMLEndpointClient.html#langchain_community.llms.azureml_endpoint.AzureMLEndpointClient.__init__">[docs]</a>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">endpoint_url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">endpoint_api_key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -264,7 +268,10 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">deployment_name</span> <span class="o">=</span> <span class="n">deployment_name</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">timeout</span> <span class="o">=</span> <span class="n">timeout</span></div>
 
-<div class="viewcode-block" id="AzureMLEndpointClient.call"><a class="viewcode-back" href="../../../community/llms/langchain_community.llms.azureml_endpoint.AzureMLEndpointClient.html#langchain_community.llms.azureml_endpoint.AzureMLEndpointClient.call">[docs]</a>    <span class="k">def</span> <span class="nf">call</span><span class="p">(</span>
+
+<div class="viewcode-block" id="AzureMLEndpointClient.call">
+<a class="viewcode-back" href="../../../community/llms/langchain_community.llms.azureml_endpoint.AzureMLEndpointClient.html#langchain_community.llms.azureml_endpoint.AzureMLEndpointClient.call">[docs]</a>
+    <span class="k">def</span> <span class="nf">call</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">body</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">,</span>
         <span class="n">run_manager</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">CallbackManagerForLLMRun</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -287,10 +294,14 @@ document.write(`
             <span class="n">req</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"timeout"</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">timeout</span><span class="p">)</span>
         <span class="p">)</span>
         <span class="n">result</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
-        <span class="k">return</span> <span class="n">result</span></div></div>
+        <span class="k">return</span> <span class="n">result</span></div>
+</div>
 
 
-<div class="viewcode-block" id="AzureMLEndpointApiType"><a class="viewcode-back" href="../../../community/llms/langchain_community.llms.azureml_endpoint.AzureMLEndpointApiType.html#langchain_community.llms.azureml_endpoint.AzureMLEndpointApiType">[docs]</a><span class="k">class</span> <span class="nc">AzureMLEndpointApiType</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">Enum</span><span class="p">):</span>
+
+<div class="viewcode-block" id="AzureMLEndpointApiType">
+<a class="viewcode-back" href="../../../community/llms/langchain_community.llms.azureml_endpoint.AzureMLEndpointApiType.html#langchain_community.llms.azureml_endpoint.AzureMLEndpointApiType">[docs]</a>
+<span class="k">class</span> <span class="nc">AzureMLEndpointApiType</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">Enum</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Azure ML endpoints API types. Use `dedicated` for models deployed in hosted</span>
 <span class="sd">    infrastructure (also known as Online Endpoints in Azure Machine Learning),</span>
 <span class="sd">    or `serverless` for models deployed as a service with a</span>
@@ -302,7 +313,10 @@ document.write(`
     <span class="n">serverless</span> <span class="o">=</span> <span class="s2">"serverless"</span></div>
 
 
-<div class="viewcode-block" id="ContentFormatterBase"><a class="viewcode-back" href="../../../community/llms/langchain_community.llms.azureml_endpoint.ContentFormatterBase.html#langchain_community.llms.azureml_endpoint.ContentFormatterBase">[docs]</a><span class="k">class</span> <span class="nc">ContentFormatterBase</span><span class="p">:</span>
+
+<div class="viewcode-block" id="ContentFormatterBase">
+<a class="viewcode-back" href="../../../community/llms/langchain_community.llms.azureml_endpoint.ContentFormatterBase.html#langchain_community.llms.azureml_endpoint.ContentFormatterBase">[docs]</a>
+<span class="k">class</span> <span class="nc">ContentFormatterBase</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Transform request and response of AzureML endpoint to match with</span>
 <span class="sd">    required schema.</span>
 <span class="sd">    """</span>
@@ -347,7 +361,9 @@ document.write(`
         <span class="s2">" model and endpoint type?"</span>
     <span class="p">)</span>
 
-<div class="viewcode-block" id="ContentFormatterBase.escape_special_characters"><a class="viewcode-back" href="../../../community/llms/langchain_community.llms.azureml_endpoint.ContentFormatterBase.html#langchain_community.llms.azureml_endpoint.ContentFormatterBase.escape_special_characters">[docs]</a>    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="ContentFormatterBase.escape_special_characters">
+<a class="viewcode-back" href="../../../community/llms/langchain_community.llms.azureml_endpoint.ContentFormatterBase.html#langchain_community.llms.azureml_endpoint.ContentFormatterBase.escape_special_characters">[docs]</a>
+    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">escape_special_characters</span><span class="p">(</span><span class="n">prompt</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Escapes any special characters in `prompt`"""</span>
         <span class="n">escape_map</span> <span class="o">=</span> <span class="p">{</span>
@@ -366,6 +382,7 @@ document.write(`
 
         <span class="k">return</span> <span class="n">prompt</span></div>
 
+
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">supported_api_types</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">AzureMLEndpointApiType</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">"""Supported APIs for the given formatter. Azure ML supports</span>
@@ -374,7 +391,9 @@ document.write(`
 
         <span class="k">return</span> <span class="p">[</span><span class="n">AzureMLEndpointApiType</span><span class="o">.</span><span class="n">dedicated</span><span class="p">]</span>
 
-<div class="viewcode-block" id="ContentFormatterBase.format_request_payload"><a class="viewcode-back" href="../../../community/llms/langchain_community.llms.azureml_endpoint.ContentFormatterBase.html#langchain_community.llms.azureml_endpoint.ContentFormatterBase.format_request_payload">[docs]</a>    <span class="k">def</span> <span class="nf">format_request_payload</span><span class="p">(</span>
+<div class="viewcode-block" id="ContentFormatterBase.format_request_payload">
+<a class="viewcode-back" href="../../../community/llms/langchain_community.llms.azureml_endpoint.ContentFormatterBase.html#langchain_community.llms.azureml_endpoint.ContentFormatterBase.format_request_payload">[docs]</a>
+    <span class="k">def</span> <span class="nf">format_request_payload</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">prompt</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">model_kwargs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>
@@ -386,7 +405,10 @@ document.write(`
 <span class="sd">        """</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="ContentFormatterBase.format_response_payload"><a class="viewcode-back" href="../../../community/llms/langchain_community.llms.azureml_endpoint.ContentFormatterBase.html#langchain_community.llms.azureml_endpoint.ContentFormatterBase.format_response_payload">[docs]</a>    <span class="nd">@abstractmethod</span>
+
+<div class="viewcode-block" id="ContentFormatterBase.format_response_payload">
+<a class="viewcode-back" href="../../../community/llms/langchain_community.llms.azureml_endpoint.ContentFormatterBase.html#langchain_community.llms.azureml_endpoint.ContentFormatterBase.format_response_payload">[docs]</a>
+    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">format_response_payload</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">output</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">,</span>
@@ -395,17 +417,23 @@ document.write(`
 <span class="w">        </span><span class="sd">"""Formats the response body according to the output</span>
 <span class="sd">        schema of the model. Returns the data type that is</span>
 <span class="sd">        received from the response.</span>
-<span class="sd">        """</span></div></div>
+<span class="sd">        """</span></div>
+</div>
 
 
-<div class="viewcode-block" id="GPT2ContentFormatter"><a class="viewcode-back" href="../../../community/llms/langchain_community.llms.azureml_endpoint.GPT2ContentFormatter.html#langchain_community.llms.azureml_endpoint.GPT2ContentFormatter">[docs]</a><span class="k">class</span> <span class="nc">GPT2ContentFormatter</span><span class="p">(</span><span class="n">ContentFormatterBase</span><span class="p">):</span>
+
+<div class="viewcode-block" id="GPT2ContentFormatter">
+<a class="viewcode-back" href="../../../community/llms/langchain_community.llms.azureml_endpoint.GPT2ContentFormatter.html#langchain_community.llms.azureml_endpoint.GPT2ContentFormatter">[docs]</a>
+<span class="k">class</span> <span class="nc">GPT2ContentFormatter</span><span class="p">(</span><span class="n">ContentFormatterBase</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Content handler for GPT2"""</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">supported_api_types</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">AzureMLEndpointApiType</span><span class="p">]:</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">AzureMLEndpointApiType</span><span class="o">.</span><span class="n">dedicated</span><span class="p">]</span>
 
-<div class="viewcode-block" id="GPT2ContentFormatter.format_request_payload"><a class="viewcode-back" href="../../../community/llms/langchain_community.llms.azureml_endpoint.GPT2ContentFormatter.html#langchain_community.llms.azureml_endpoint.GPT2ContentFormatter.format_request_payload">[docs]</a>    <span class="k">def</span> <span class="nf">format_request_payload</span><span class="p">(</span>  <span class="c1"># type: ignore[override]</span>
+<div class="viewcode-block" id="GPT2ContentFormatter.format_request_payload">
+<a class="viewcode-back" href="../../../community/llms/langchain_community.llms.azureml_endpoint.GPT2ContentFormatter.html#langchain_community.llms.azureml_endpoint.GPT2ContentFormatter.format_request_payload">[docs]</a>
+    <span class="k">def</span> <span class="nf">format_request_payload</span><span class="p">(</span>  <span class="c1"># type: ignore[override]</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">prompt</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">model_kwargs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">api_type</span><span class="p">:</span> <span class="n">AzureMLEndpointApiType</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
         <span class="n">prompt</span> <span class="o">=</span> <span class="n">ContentFormatterBase</span><span class="o">.</span><span class="n">escape_special_characters</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span>
@@ -414,40 +442,55 @@ document.write(`
         <span class="p">)</span>
         <span class="k">return</span> <span class="nb">str</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">request_payload</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="GPT2ContentFormatter.format_response_payload"><a class="viewcode-back" href="../../../community/llms/langchain_community.llms.azureml_endpoint.GPT2ContentFormatter.html#langchain_community.llms.azureml_endpoint.GPT2ContentFormatter.format_response_payload">[docs]</a>    <span class="k">def</span> <span class="nf">format_response_payload</span><span class="p">(</span>  <span class="c1"># type: ignore[override]</span>
+
+<div class="viewcode-block" id="GPT2ContentFormatter.format_response_payload">
+<a class="viewcode-back" href="../../../community/llms/langchain_community.llms.azureml_endpoint.GPT2ContentFormatter.html#langchain_community.llms.azureml_endpoint.GPT2ContentFormatter.format_response_payload">[docs]</a>
+    <span class="k">def</span> <span class="nf">format_response_payload</span><span class="p">(</span>  <span class="c1"># type: ignore[override]</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">output</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">,</span> <span class="n">api_type</span><span class="p">:</span> <span class="n">AzureMLEndpointApiType</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Generation</span><span class="p">:</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">choice</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">output</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="s2">"0"</span><span class="p">]</span>
         <span class="k">except</span> <span class="p">(</span><span class="ne">KeyError</span><span class="p">,</span> <span class="ne">IndexError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">format_error_msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">api_type</span><span class="o">=</span><span class="n">api_type</span><span class="p">))</span> <span class="kn">from</span> <span class="nn">e</span>  <span class="c1"># type: ignore[union-attr]</span>
-        <span class="k">return</span> <span class="n">Generation</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="n">choice</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="n">Generation</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="n">choice</span><span class="p">)</span></div>
+</div>
 
 
-<div class="viewcode-block" id="OSSContentFormatter"><a class="viewcode-back" href="../../../community/llms/langchain_community.llms.azureml_endpoint.OSSContentFormatter.html#langchain_community.llms.azureml_endpoint.OSSContentFormatter">[docs]</a><span class="k">class</span> <span class="nc">OSSContentFormatter</span><span class="p">(</span><span class="n">GPT2ContentFormatter</span><span class="p">):</span>
+
+<div class="viewcode-block" id="OSSContentFormatter">
+<a class="viewcode-back" href="../../../community/llms/langchain_community.llms.azureml_endpoint.OSSContentFormatter.html#langchain_community.llms.azureml_endpoint.OSSContentFormatter">[docs]</a>
+<span class="k">class</span> <span class="nc">OSSContentFormatter</span><span class="p">(</span><span class="n">GPT2ContentFormatter</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Deprecated: Kept for backwards compatibility</span>
 
 <span class="sd">    Content handler for LLMs from the OSS catalog."""</span>
 
     <span class="n">content_formatter</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span>
 
-<div class="viewcode-block" id="OSSContentFormatter.__init__"><a class="viewcode-back" href="../../../community/llms/langchain_community.llms.azureml_endpoint.OSSContentFormatter.html#langchain_community.llms.azureml_endpoint.OSSContentFormatter.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="OSSContentFormatter.__init__">
+<a class="viewcode-back" href="../../../community/llms/langchain_community.llms.azureml_endpoint.OSSContentFormatter.html#langchain_community.llms.azureml_endpoint.OSSContentFormatter.__init__">[docs]</a>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
 <span class="w">            </span><span class="sd">"""`OSSContentFormatter` will be deprecated in the future. </span>
 <span class="sd">                      Please use `GPT2ContentFormatter` instead.  </span>
 <span class="sd">                      """</span>
-        <span class="p">)</span></div></div>
+        <span class="p">)</span></div>
+</div>
 
 
-<div class="viewcode-block" id="HFContentFormatter"><a class="viewcode-back" href="../../../community/llms/langchain_community.llms.azureml_endpoint.HFContentFormatter.html#langchain_community.llms.azureml_endpoint.HFContentFormatter">[docs]</a><span class="k">class</span> <span class="nc">HFContentFormatter</span><span class="p">(</span><span class="n">ContentFormatterBase</span><span class="p">):</span>
+
+<div class="viewcode-block" id="HFContentFormatter">
+<a class="viewcode-back" href="../../../community/llms/langchain_community.llms.azureml_endpoint.HFContentFormatter.html#langchain_community.llms.azureml_endpoint.HFContentFormatter">[docs]</a>
+<span class="k">class</span> <span class="nc">HFContentFormatter</span><span class="p">(</span><span class="n">ContentFormatterBase</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Content handler for LLMs from the HuggingFace catalog."""</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">supported_api_types</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">AzureMLEndpointApiType</span><span class="p">]:</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">AzureMLEndpointApiType</span><span class="o">.</span><span class="n">dedicated</span><span class="p">]</span>
 
-<div class="viewcode-block" id="HFContentFormatter.format_request_payload"><a class="viewcode-back" href="../../../community/llms/langchain_community.llms.azureml_endpoint.HFContentFormatter.html#langchain_community.llms.azureml_endpoint.HFContentFormatter.format_request_payload">[docs]</a>    <span class="k">def</span> <span class="nf">format_request_payload</span><span class="p">(</span>  <span class="c1"># type: ignore[override]</span>
+<div class="viewcode-block" id="HFContentFormatter.format_request_payload">
+<a class="viewcode-back" href="../../../community/llms/langchain_community.llms.azureml_endpoint.HFContentFormatter.html#langchain_community.llms.azureml_endpoint.HFContentFormatter.format_request_payload">[docs]</a>
+    <span class="k">def</span> <span class="nf">format_request_payload</span><span class="p">(</span>  <span class="c1"># type: ignore[override]</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">prompt</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">model_kwargs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">api_type</span><span class="p">:</span> <span class="n">AzureMLEndpointApiType</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
         <span class="n">ContentFormatterBase</span><span class="o">.</span><span class="n">escape_special_characters</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span>
@@ -456,24 +499,33 @@ document.write(`
         <span class="p">)</span>
         <span class="k">return</span> <span class="nb">str</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">request_payload</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="HFContentFormatter.format_response_payload"><a class="viewcode-back" href="../../../community/llms/langchain_community.llms.azureml_endpoint.HFContentFormatter.html#langchain_community.llms.azureml_endpoint.HFContentFormatter.format_response_payload">[docs]</a>    <span class="k">def</span> <span class="nf">format_response_payload</span><span class="p">(</span>  <span class="c1"># type: ignore[override]</span>
+
+<div class="viewcode-block" id="HFContentFormatter.format_response_payload">
+<a class="viewcode-back" href="../../../community/llms/langchain_community.llms.azureml_endpoint.HFContentFormatter.html#langchain_community.llms.azureml_endpoint.HFContentFormatter.format_response_payload">[docs]</a>
+    <span class="k">def</span> <span class="nf">format_response_payload</span><span class="p">(</span>  <span class="c1"># type: ignore[override]</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">output</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">,</span> <span class="n">api_type</span><span class="p">:</span> <span class="n">AzureMLEndpointApiType</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Generation</span><span class="p">:</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">choice</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">output</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="s2">"0"</span><span class="p">][</span><span class="s2">"generated_text"</span><span class="p">]</span>
         <span class="k">except</span> <span class="p">(</span><span class="ne">KeyError</span><span class="p">,</span> <span class="ne">IndexError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">format_error_msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">api_type</span><span class="o">=</span><span class="n">api_type</span><span class="p">))</span> <span class="kn">from</span> <span class="nn">e</span>  <span class="c1"># type: ignore[union-attr]</span>
-        <span class="k">return</span> <span class="n">Generation</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="n">choice</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="n">Generation</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="n">choice</span><span class="p">)</span></div>
+</div>
 
 
-<div class="viewcode-block" id="DollyContentFormatter"><a class="viewcode-back" href="../../../community/llms/langchain_community.llms.azureml_endpoint.DollyContentFormatter.html#langchain_community.llms.azureml_endpoint.DollyContentFormatter">[docs]</a><span class="k">class</span> <span class="nc">DollyContentFormatter</span><span class="p">(</span><span class="n">ContentFormatterBase</span><span class="p">):</span>
+
+<div class="viewcode-block" id="DollyContentFormatter">
+<a class="viewcode-back" href="../../../community/llms/langchain_community.llms.azureml_endpoint.DollyContentFormatter.html#langchain_community.llms.azureml_endpoint.DollyContentFormatter">[docs]</a>
+<span class="k">class</span> <span class="nc">DollyContentFormatter</span><span class="p">(</span><span class="n">ContentFormatterBase</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Content handler for the Dolly-v2-12b model"""</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">supported_api_types</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">AzureMLEndpointApiType</span><span class="p">]:</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">AzureMLEndpointApiType</span><span class="o">.</span><span class="n">dedicated</span><span class="p">]</span>
 
-<div class="viewcode-block" id="DollyContentFormatter.format_request_payload"><a class="viewcode-back" href="../../../community/llms/langchain_community.llms.azureml_endpoint.DollyContentFormatter.html#langchain_community.llms.azureml_endpoint.DollyContentFormatter.format_request_payload">[docs]</a>    <span class="k">def</span> <span class="nf">format_request_payload</span><span class="p">(</span>  <span class="c1"># type: ignore[override]</span>
+<div class="viewcode-block" id="DollyContentFormatter.format_request_payload">
+<a class="viewcode-back" href="../../../community/llms/langchain_community.llms.azureml_endpoint.DollyContentFormatter.html#langchain_community.llms.azureml_endpoint.DollyContentFormatter.format_request_payload">[docs]</a>
+    <span class="k">def</span> <span class="nf">format_request_payload</span><span class="p">(</span>  <span class="c1"># type: ignore[override]</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">prompt</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">model_kwargs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">api_type</span><span class="p">:</span> <span class="n">AzureMLEndpointApiType</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
         <span class="n">prompt</span> <span class="o">=</span> <span class="n">ContentFormatterBase</span><span class="o">.</span><span class="n">escape_special_characters</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span>
@@ -485,24 +537,33 @@ document.write(`
         <span class="p">)</span>
         <span class="k">return</span> <span class="nb">str</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">request_payload</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="DollyContentFormatter.format_response_payload"><a class="viewcode-back" href="../../../community/llms/langchain_community.llms.azureml_endpoint.DollyContentFormatter.html#langchain_community.llms.azureml_endpoint.DollyContentFormatter.format_response_payload">[docs]</a>    <span class="k">def</span> <span class="nf">format_response_payload</span><span class="p">(</span>  <span class="c1"># type: ignore[override]</span>
+
+<div class="viewcode-block" id="DollyContentFormatter.format_response_payload">
+<a class="viewcode-back" href="../../../community/llms/langchain_community.llms.azureml_endpoint.DollyContentFormatter.html#langchain_community.llms.azureml_endpoint.DollyContentFormatter.format_response_payload">[docs]</a>
+    <span class="k">def</span> <span class="nf">format_response_payload</span><span class="p">(</span>  <span class="c1"># type: ignore[override]</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">output</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">,</span> <span class="n">api_type</span><span class="p">:</span> <span class="n">AzureMLEndpointApiType</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Generation</span><span class="p">:</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">choice</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">output</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
         <span class="k">except</span> <span class="p">(</span><span class="ne">KeyError</span><span class="p">,</span> <span class="ne">IndexError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">format_error_msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">api_type</span><span class="o">=</span><span class="n">api_type</span><span class="p">))</span> <span class="kn">from</span> <span class="nn">e</span>  <span class="c1"># type: ignore[union-attr]</span>
-        <span class="k">return</span> <span class="n">Generation</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="n">choice</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="n">Generation</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="n">choice</span><span class="p">)</span></div>
+</div>
 
 
-<div class="viewcode-block" id="CustomOpenAIContentFormatter"><a class="viewcode-back" href="../../../community/llms/langchain_community.llms.azureml_endpoint.CustomOpenAIContentFormatter.html#langchain_community.llms.azureml_endpoint.CustomOpenAIContentFormatter">[docs]</a><span class="k">class</span> <span class="nc">CustomOpenAIContentFormatter</span><span class="p">(</span><span class="n">ContentFormatterBase</span><span class="p">):</span>
+
+<div class="viewcode-block" id="CustomOpenAIContentFormatter">
+<a class="viewcode-back" href="../../../community/llms/langchain_community.llms.azureml_endpoint.CustomOpenAIContentFormatter.html#langchain_community.llms.azureml_endpoint.CustomOpenAIContentFormatter">[docs]</a>
+<span class="k">class</span> <span class="nc">CustomOpenAIContentFormatter</span><span class="p">(</span><span class="n">ContentFormatterBase</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Content formatter for models that use the OpenAI like API scheme."""</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">supported_api_types</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">AzureMLEndpointApiType</span><span class="p">]:</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">AzureMLEndpointApiType</span><span class="o">.</span><span class="n">dedicated</span><span class="p">,</span> <span class="n">AzureMLEndpointApiType</span><span class="o">.</span><span class="n">serverless</span><span class="p">]</span>
 
-<div class="viewcode-block" id="CustomOpenAIContentFormatter.format_request_payload"><a class="viewcode-back" href="../../../community/llms/langchain_community.llms.azureml_endpoint.CustomOpenAIContentFormatter.html#langchain_community.llms.azureml_endpoint.CustomOpenAIContentFormatter.format_request_payload">[docs]</a>    <span class="k">def</span> <span class="nf">format_request_payload</span><span class="p">(</span>  <span class="c1"># type: ignore[override]</span>
+<div class="viewcode-block" id="CustomOpenAIContentFormatter.format_request_payload">
+<a class="viewcode-back" href="../../../community/llms/langchain_community.llms.azureml_endpoint.CustomOpenAIContentFormatter.html#langchain_community.llms.azureml_endpoint.CustomOpenAIContentFormatter.format_request_payload">[docs]</a>
+    <span class="k">def</span> <span class="nf">format_request_payload</span><span class="p">(</span>  <span class="c1"># type: ignore[override]</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">prompt</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">model_kwargs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">api_type</span><span class="p">:</span> <span class="n">AzureMLEndpointApiType</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Formats the request according to the chosen api"""</span>
@@ -527,7 +588,10 @@ document.write(`
             <span class="p">)</span>
         <span class="k">return</span> <span class="nb">str</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">request_payload</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="CustomOpenAIContentFormatter.format_response_payload"><a class="viewcode-back" href="../../../community/llms/langchain_community.llms.azureml_endpoint.CustomOpenAIContentFormatter.html#langchain_community.llms.azureml_endpoint.CustomOpenAIContentFormatter.format_response_payload">[docs]</a>    <span class="k">def</span> <span class="nf">format_response_payload</span><span class="p">(</span>  <span class="c1"># type: ignore[override]</span>
+
+<div class="viewcode-block" id="CustomOpenAIContentFormatter.format_response_payload">
+<a class="viewcode-back" href="../../../community/llms/langchain_community.llms.azureml_endpoint.CustomOpenAIContentFormatter.html#langchain_community.llms.azureml_endpoint.CustomOpenAIContentFormatter.format_response_payload">[docs]</a>
+    <span class="k">def</span> <span class="nf">format_response_payload</span><span class="p">(</span>  <span class="c1"># type: ignore[override]</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">output</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">,</span> <span class="n">api_type</span><span class="p">:</span> <span class="n">AzureMLEndpointApiType</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Generation</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Formats response"""</span>
@@ -558,26 +622,36 @@ document.write(`
                     <span class="n">logprobs</span><span class="o">=</span><span class="n">choice</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"logprobs"</span><span class="p">),</span>
                 <span class="p">),</span>
             <span class="p">)</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"`api_type` </span><span class="si">{</span><span class="n">api_type</span><span class="si">}</span><span class="s2"> is not supported by this formatter"</span><span class="p">)</span></div></div>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"`api_type` </span><span class="si">{</span><span class="n">api_type</span><span class="si">}</span><span class="s2"> is not supported by this formatter"</span><span class="p">)</span></div>
+</div>
 
 
-<div class="viewcode-block" id="LlamaContentFormatter"><a class="viewcode-back" href="../../../community/llms/langchain_community.llms.azureml_endpoint.LlamaContentFormatter.html#langchain_community.llms.azureml_endpoint.LlamaContentFormatter">[docs]</a><span class="k">class</span> <span class="nc">LlamaContentFormatter</span><span class="p">(</span><span class="n">CustomOpenAIContentFormatter</span><span class="p">):</span>
+
+<div class="viewcode-block" id="LlamaContentFormatter">
+<a class="viewcode-back" href="../../../community/llms/langchain_community.llms.azureml_endpoint.LlamaContentFormatter.html#langchain_community.llms.azureml_endpoint.LlamaContentFormatter">[docs]</a>
+<span class="k">class</span> <span class="nc">LlamaContentFormatter</span><span class="p">(</span><span class="n">CustomOpenAIContentFormatter</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Deprecated: Kept for backwards compatibility</span>
 
 <span class="sd">    Content formatter for Llama."""</span>
 
     <span class="n">content_formatter</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span>
 
-<div class="viewcode-block" id="LlamaContentFormatter.__init__"><a class="viewcode-back" href="../../../community/llms/langchain_community.llms.azureml_endpoint.LlamaContentFormatter.html#langchain_community.llms.azureml_endpoint.LlamaContentFormatter.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="LlamaContentFormatter.__init__">
+<a class="viewcode-back" href="../../../community/llms/langchain_community.llms.azureml_endpoint.LlamaContentFormatter.html#langchain_community.llms.azureml_endpoint.LlamaContentFormatter.__init__">[docs]</a>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
 <span class="w">            </span><span class="sd">"""`LlamaContentFormatter` will be deprecated in the future. </span>
 <span class="sd">                Please use `CustomOpenAIContentFormatter` instead.  </span>
 <span class="sd">            """</span>
-        <span class="p">)</span></div></div>
+        <span class="p">)</span></div>
+</div>
 
 
-<div class="viewcode-block" id="AzureMLBaseEndpoint"><a class="viewcode-back" href="../../../community/llms/langchain_community.llms.azureml_endpoint.AzureMLBaseEndpoint.html#langchain_community.llms.azureml_endpoint.AzureMLBaseEndpoint">[docs]</a><span class="k">class</span> <span class="nc">AzureMLBaseEndpoint</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+
+<div class="viewcode-block" id="AzureMLBaseEndpoint">
+<a class="viewcode-back" href="../../../community/llms/langchain_community.llms.azureml_endpoint.AzureMLBaseEndpoint.html#langchain_community.llms.azureml_endpoint.AzureMLBaseEndpoint">[docs]</a>
+<span class="k">class</span> <span class="nc">AzureMLBaseEndpoint</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Azure ML Online Endpoint models."""</span>
 
     <span class="n">endpoint_url</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span>
@@ -611,8 +685,9 @@ document.write(`
     <span class="n">model_kwargs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">    </span><span class="sd">"""Keyword arguments to pass to the model."""</span>
 
-    <span class="nd">@root_validator</span><span class="p">(</span><span class="n">pre</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">validate_environ</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+    <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">"before"</span><span class="p">)</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">validate_environ</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
         <span class="n">values</span><span class="p">[</span><span class="s2">"endpoint_api_key"</span><span class="p">]</span> <span class="o">=</span> <span class="n">convert_to_secret_str</span><span class="p">(</span>
             <span class="n">get_from_dict_or_env</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="s2">"endpoint_api_key"</span><span class="p">,</span> <span class="s2">"AZUREML_ENDPOINT_API_KEY"</span><span class="p">)</span>
         <span class="p">)</span>
@@ -637,6 +712,8 @@ document.write(`
 
         <span class="k">return</span> <span class="n">values</span>
 
+<div class="viewcode-block" id="AzureMLBaseEndpoint.validate_content_formatter">
+<a class="viewcode-back" href="../../../community/llms/langchain_community.llms.azureml_endpoint.AzureMLBaseEndpoint.html#langchain_community.llms.azureml_endpoint.AzureMLBaseEndpoint.validate_content_formatter">[docs]</a>
     <span class="nd">@validator</span><span class="p">(</span><span class="s2">"content_formatter"</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">validate_content_formatter</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span> <span class="n">field_value</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Dict</span>
@@ -649,8 +726,11 @@ document.write(`
                 <span class="sa">f</span><span class="s2">"endpoint. Supported types are </span><span class="si">{</span><span class="n">field_value</span><span class="o">.</span><span class="n">supported_api_types</span><span class="si">}</span><span class="s2"> "</span>
                 <span class="sa">f</span><span class="s2">"but endpoint is </span><span class="si">{</span><span class="n">endpoint_api_type</span><span class="si">}</span><span class="s2">."</span>
             <span class="p">)</span>
-        <span class="k">return</span> <span class="n">field_value</span>
+        <span class="k">return</span> <span class="n">field_value</span></div>
 
+
+<div class="viewcode-block" id="AzureMLBaseEndpoint.validate_endpoint_url">
+<a class="viewcode-back" href="../../../community/llms/langchain_community.llms.azureml_endpoint.AzureMLBaseEndpoint.html#langchain_community.llms.azureml_endpoint.AzureMLBaseEndpoint.validate_endpoint_url">[docs]</a>
     <span class="nd">@validator</span><span class="p">(</span><span class="s2">"endpoint_url"</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">validate_endpoint_url</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">field_value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Validate that endpoint url is complete."""</span>
@@ -662,8 +742,11 @@ document.write(`
                 <span class="s2">"`/score` for `endpoint_api_type='dedicated'` or `/completions` "</span>
                 <span class="s2">"or `/chat/completions` for `endpoint_api_type='serverless'`"</span>
             <span class="p">)</span>
-        <span class="k">return</span> <span class="n">field_value</span>
+        <span class="k">return</span> <span class="n">field_value</span></div>
 
+
+<div class="viewcode-block" id="AzureMLBaseEndpoint.validate_endpoint_api_type">
+<a class="viewcode-back" href="../../../community/llms/langchain_community.llms.azureml_endpoint.AzureMLBaseEndpoint.html#langchain_community.llms.azureml_endpoint.AzureMLBaseEndpoint.validate_endpoint_api_type">[docs]</a>
     <span class="nd">@validator</span><span class="p">(</span><span class="s2">"endpoint_api_type"</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">validate_endpoint_api_type</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span> <span class="n">field_value</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Dict</span>
@@ -693,8 +776,11 @@ document.write(`
                 <span class="s2">" or `https://&lt;your-endpoint&gt;.&lt;your_region&gt;.inference.ml.azure.com/chat/completions`"</span>
             <span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">field_value</span>
+        <span class="k">return</span> <span class="n">field_value</span></div>
 
+
+<div class="viewcode-block" id="AzureMLBaseEndpoint.validate_client">
+<a class="viewcode-back" href="../../../community/llms/langchain_community.llms.azureml_endpoint.AzureMLBaseEndpoint.html#langchain_community.llms.azureml_endpoint.AzureMLBaseEndpoint.validate_client">[docs]</a>
     <span class="nd">@validator</span><span class="p">(</span><span class="s2">"http_client"</span><span class="p">,</span> <span class="n">always</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">validate_client</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">field_value</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AzureMLEndpointClient</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Validate that api key and python package exists in environment."""</span>
@@ -711,9 +797,13 @@ document.write(`
         <span class="p">)</span>
 
         <span class="k">return</span> <span class="n">http_client</span></div>
+</div>
 
 
-<div class="viewcode-block" id="AzureMLOnlineEndpoint"><a class="viewcode-back" href="../../../community/llms/langchain_community.llms.azureml_endpoint.AzureMLOnlineEndpoint.html#langchain_community.llms.azureml_endpoint.AzureMLOnlineEndpoint">[docs]</a><span class="k">class</span> <span class="nc">AzureMLOnlineEndpoint</span><span class="p">(</span><span class="n">BaseLLM</span><span class="p">,</span> <span class="n">AzureMLBaseEndpoint</span><span class="p">):</span>
+
+<div class="viewcode-block" id="AzureMLOnlineEndpoint">
+<a class="viewcode-back" href="../../../community/llms/langchain_community.llms.azureml_endpoint.AzureMLOnlineEndpoint.html#langchain_community.llms.azureml_endpoint.AzureMLOnlineEndpoint">[docs]</a>
+<span class="k">class</span> <span class="nc">AzureMLOnlineEndpoint</span><span class="p">(</span><span class="n">BaseLLM</span><span class="p">,</span> <span class="n">AzureMLBaseEndpoint</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Azure ML Online Endpoint models.</span>
 
 <span class="sd">    Example:</span>
@@ -778,6 +868,7 @@ document.write(`
             <span class="n">generations</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">generated_text</span><span class="p">])</span>
 
         <span class="k">return</span> <span class="n">LLMResult</span><span class="p">(</span><span class="n">generations</span><span class="o">=</span><span class="n">generations</span><span class="p">)</span></div>
+
 </pre></div>
 </article>
 </div>

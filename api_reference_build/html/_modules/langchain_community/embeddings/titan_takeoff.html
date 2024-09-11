@@ -1,7 +1,7 @@
 
 <!DOCTYPE html>
 
-<html data-content_root="" lang="en">
+<html data-content_root="../../../" lang="en">
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
@@ -18,21 +18,21 @@
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" rel="preload" type="font/woff2"/>
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" rel="preload" type="font/woff2"/>
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" rel="preload" type="font/woff2"/>
-<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css?v=a746c00c" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/autodoc_pydantic.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/sphinx-design.4cbf315f70debaebd550c87a6162cf0f.min.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/css/custom.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/copybutton.css?v=76b2166b" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/sphinx-design.min.css?v=95c83b7e" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/css/custom.css?v=b95e2228" rel="stylesheet" type="text/css"/>
 <!-- Pre-loaded scripts that we'll load fully later -->
 <link as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
 <link as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
 <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-<script src="../../../_static/doctools.js"></script>
-<script src="../../../_static/sphinx_highlight.js"></script>
-<script src="../../../_static/clipboard.min.js"></script>
-<script src="../../../_static/copybutton.js"></script>
-<script src="../../../_static/design-tabs.js"></script>
+<script src="../../../_static/documentation_options.js?v=3b5cce75"></script>
+<script src="../../../_static/doctools.js?v=9a2dae69"></script>
+<script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+<script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+<script src="../../../_static/copybutton.js?v=f281be69"></script>
+<script src="../../../_static/design-tabs.js?v=f930bc37"></script>
 <script>DOCUMENTATION_OPTIONS.pagename = '_modules/langchain_community/embeddings/titan_takeoff';</script>
 <link href="../../../_static/favicon.png" rel="icon"/>
 <link href="../../../search.html" rel="search" title="Search"/>
@@ -231,30 +231,42 @@ document.write(`
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Set</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">from</span> <span class="nn">langchain_core.embeddings</span> <span class="kn">import</span> <span class="n">Embeddings</span>
-<span class="kn">from</span> <span class="nn">langchain_core.pydantic_v1</span> <span class="kn">import</span> <span class="n">BaseModel</span>
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">ConfigDict</span>
 
 
-<div class="viewcode-block" id="TakeoffEmbeddingException"><a class="viewcode-back" href="../../../community/embeddings/langchain_community.embeddings.titan_takeoff.TakeoffEmbeddingException.html#langchain_community.embeddings.titan_takeoff.TakeoffEmbeddingException">[docs]</a><span class="k">class</span> <span class="nc">TakeoffEmbeddingException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+<div class="viewcode-block" id="TakeoffEmbeddingException">
+<a class="viewcode-back" href="../../../community/embeddings/langchain_community.embeddings.titan_takeoff.TakeoffEmbeddingException.html#langchain_community.embeddings.titan_takeoff.TakeoffEmbeddingException">[docs]</a>
+<span class="k">class</span> <span class="nc">TakeoffEmbeddingException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Custom exception for interfacing with Takeoff Embedding class."""</span></div>
 
 
-<div class="viewcode-block" id="MissingConsumerGroup"><a class="viewcode-back" href="../../../community/embeddings/langchain_community.embeddings.titan_takeoff.MissingConsumerGroup.html#langchain_community.embeddings.titan_takeoff.MissingConsumerGroup">[docs]</a><span class="k">class</span> <span class="nc">MissingConsumerGroup</span><span class="p">(</span><span class="n">TakeoffEmbeddingException</span><span class="p">):</span>
+
+<div class="viewcode-block" id="MissingConsumerGroup">
+<a class="viewcode-back" href="../../../community/embeddings/langchain_community.embeddings.titan_takeoff.MissingConsumerGroup.html#langchain_community.embeddings.titan_takeoff.MissingConsumerGroup">[docs]</a>
+<span class="k">class</span> <span class="nc">MissingConsumerGroup</span><span class="p">(</span><span class="n">TakeoffEmbeddingException</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Exception raised when no consumer group is provided on initialization of</span>
 <span class="sd">    TitanTakeoffEmbed or in embed request."""</span></div>
 
 
-<div class="viewcode-block" id="Device"><a class="viewcode-back" href="../../../community/embeddings/langchain_community.embeddings.titan_takeoff.Device.html#langchain_community.embeddings.titan_takeoff.Device">[docs]</a><span class="k">class</span> <span class="nc">Device</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">Enum</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Device">
+<a class="viewcode-back" href="../../../community/embeddings/langchain_community.embeddings.titan_takeoff.Device.html#langchain_community.embeddings.titan_takeoff.Device">[docs]</a>
+<span class="k">class</span> <span class="nc">Device</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">Enum</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Device to use for inference, cuda or cpu."""</span>
 
     <span class="n">cuda</span> <span class="o">=</span> <span class="s2">"cuda"</span>
     <span class="n">cpu</span> <span class="o">=</span> <span class="s2">"cpu"</span></div>
 
 
-<div class="viewcode-block" id="ReaderConfig"><a class="viewcode-back" href="../../../community/embeddings/langchain_community.embeddings.titan_takeoff.ReaderConfig.html#langchain_community.embeddings.titan_takeoff.ReaderConfig">[docs]</a><span class="k">class</span> <span class="nc">ReaderConfig</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ReaderConfig">
+<a class="viewcode-back" href="../../../community/embeddings/langchain_community.embeddings.titan_takeoff.ReaderConfig.html#langchain_community.embeddings.titan_takeoff.ReaderConfig">[docs]</a>
+<span class="k">class</span> <span class="nc">ReaderConfig</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Configuration for the reader to be deployed in Takeoff."""</span>
 
-    <span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
-        <span class="n">protected_namespaces</span> <span class="o">=</span> <span class="p">()</span>
+    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span>
+        <span class="n">protected_namespaces</span><span class="o">=</span><span class="p">(),</span>
+    <span class="p">)</span>
 
     <span class="n">model_name</span><span class="p">:</span> <span class="nb">str</span>
 <span class="w">    </span><span class="sd">"""The name of the model to use"""</span>
@@ -266,7 +278,10 @@ document.write(`
 <span class="w">    </span><span class="sd">"""The consumer group to place the reader into"""</span></div>
 
 
-<div class="viewcode-block" id="TitanTakeoffEmbed"><a class="viewcode-back" href="../../../community/embeddings/langchain_community.embeddings.titan_takeoff.TitanTakeoffEmbed.html#langchain_community.embeddings.titan_takeoff.TitanTakeoffEmbed">[docs]</a><span class="k">class</span> <span class="nc">TitanTakeoffEmbed</span><span class="p">(</span><span class="n">Embeddings</span><span class="p">):</span>
+
+<div class="viewcode-block" id="TitanTakeoffEmbed">
+<a class="viewcode-back" href="../../../community/embeddings/langchain_community.embeddings.titan_takeoff.TitanTakeoffEmbed.html#langchain_community.embeddings.titan_takeoff.TitanTakeoffEmbed">[docs]</a>
+<span class="k">class</span> <span class="nc">TitanTakeoffEmbed</span><span class="p">(</span><span class="n">Embeddings</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Interface with Takeoff Inference API for embedding models.</span>
 
 <span class="sd">    Use it to send embedding requests and to deploy embedding</span>
@@ -325,7 +340,9 @@ document.write(`
     <span class="n">embed_consumer_groups</span><span class="p">:</span> <span class="n">Set</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
 <span class="w">    </span><span class="sd">"""The consumer groups in Takeoff which contain embedding models"""</span>
 
-<div class="viewcode-block" id="TitanTakeoffEmbed.__init__"><a class="viewcode-back" href="../../../community/embeddings/langchain_community.embeddings.titan_takeoff.TitanTakeoffEmbed.html#langchain_community.embeddings.titan_takeoff.TitanTakeoffEmbed.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+<div class="viewcode-block" id="TitanTakeoffEmbed.__init__">
+<a class="viewcode-back" href="../../../community/embeddings/langchain_community.embeddings.titan_takeoff.TitanTakeoffEmbed.html#langchain_community.embeddings.titan_takeoff.TitanTakeoffEmbed.__init__">[docs]</a>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">base_url</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"http://localhost"</span><span class="p">,</span>
         <span class="n">port</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3000</span><span class="p">,</span>
@@ -369,6 +386,7 @@ document.write(`
                 <span class="bp">self</span><span class="o">.</span><span class="n">embed_consumer_groups</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">consumer_group</span><span class="p">)</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">TitanTakeoffEmbed</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span></div>
 
+
     <span class="k">def</span> <span class="nf">_embed</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="nb">input</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="nb">str</span><span class="p">],</span> <span class="n">consumer_group</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
@@ -407,7 +425,9 @@ document.write(`
                 <span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">embed</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">consumer_group</span><span class="p">)</span>
 
-<div class="viewcode-block" id="TitanTakeoffEmbed.embed_documents"><a class="viewcode-back" href="../../../community/embeddings/langchain_community.embeddings.titan_takeoff.TitanTakeoffEmbed.html#langchain_community.embeddings.titan_takeoff.TitanTakeoffEmbed.embed_documents">[docs]</a>    <span class="k">def</span> <span class="nf">embed_documents</span><span class="p">(</span>
+<div class="viewcode-block" id="TitanTakeoffEmbed.embed_documents">
+<a class="viewcode-back" href="../../../community/embeddings/langchain_community.embeddings.titan_takeoff.TitanTakeoffEmbed.html#langchain_community.embeddings.titan_takeoff.TitanTakeoffEmbed.embed_documents">[docs]</a>
+    <span class="k">def</span> <span class="nf">embed_documents</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">texts</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">consumer_group</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]]:</span>
 <span class="w">        </span><span class="sd">"""Embed documents.</span>
@@ -422,7 +442,10 @@ document.write(`
 <span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_embed</span><span class="p">(</span><span class="n">texts</span><span class="p">,</span> <span class="n">consumer_group</span><span class="p">)[</span><span class="s2">"result"</span><span class="p">]</span></div>
 
-<div class="viewcode-block" id="TitanTakeoffEmbed.embed_query"><a class="viewcode-back" href="../../../community/embeddings/langchain_community.embeddings.titan_takeoff.TitanTakeoffEmbed.html#langchain_community.embeddings.titan_takeoff.TitanTakeoffEmbed.embed_query">[docs]</a>    <span class="k">def</span> <span class="nf">embed_query</span><span class="p">(</span>
+
+<div class="viewcode-block" id="TitanTakeoffEmbed.embed_query">
+<a class="viewcode-back" href="../../../community/embeddings/langchain_community.embeddings.titan_takeoff.TitanTakeoffEmbed.html#langchain_community.embeddings.titan_takeoff.TitanTakeoffEmbed.embed_query">[docs]</a>
+    <span class="k">def</span> <span class="nf">embed_query</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">consumer_group</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">"""Embed query.</span>
@@ -435,7 +458,9 @@ document.write(`
 <span class="sd">        Returns:</span>
 <span class="sd">            List[float]: Embedding</span>
 <span class="sd">        """</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_embed</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">consumer_group</span><span class="p">)[</span><span class="s2">"result"</span><span class="p">]</span></div></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_embed</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">consumer_group</span><span class="p">)[</span><span class="s2">"result"</span><span class="p">]</span></div>
+</div>
+
 </pre></div>
 </article>
 </div>

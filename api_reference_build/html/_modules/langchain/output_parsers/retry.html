@@ -1,7 +1,7 @@
 
 <!DOCTYPE html>
 
-<html data-content_root="" lang="en">
+<html data-content_root="../../../" lang="en">
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
@@ -18,21 +18,21 @@
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" rel="preload" type="font/woff2"/>
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" rel="preload" type="font/woff2"/>
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" rel="preload" type="font/woff2"/>
-<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css?v=a746c00c" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/autodoc_pydantic.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/sphinx-design.4cbf315f70debaebd550c87a6162cf0f.min.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/css/custom.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/copybutton.css?v=76b2166b" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/sphinx-design.min.css?v=95c83b7e" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/css/custom.css?v=b95e2228" rel="stylesheet" type="text/css"/>
 <!-- Pre-loaded scripts that we'll load fully later -->
 <link as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
 <link as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
 <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-<script src="../../../_static/doctools.js"></script>
-<script src="../../../_static/sphinx_highlight.js"></script>
-<script src="../../../_static/clipboard.min.js"></script>
-<script src="../../../_static/copybutton.js"></script>
-<script src="../../../_static/design-tabs.js"></script>
+<script src="../../../_static/documentation_options.js?v=3b5cce75"></script>
+<script src="../../../_static/doctools.js?v=9a2dae69"></script>
+<script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+<script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+<script src="../../../_static/copybutton.js?v=f281be69"></script>
+<script src="../../../_static/design-tabs.js?v=f930bc37"></script>
 <script>DOCUMENTATION_OPTIONS.pagename = '_modules/langchain/output_parsers/retry';</script>
 <link href="../../../_static/favicon.png" rel="icon"/>
 <link href="../../../search.html" rel="search" title="Search"/>
@@ -237,7 +237,8 @@ document.write(`
 <span class="kn">from</span> <span class="nn">langchain_core.prompt_values</span> <span class="kn">import</span> <span class="n">PromptValue</span>
 <span class="kn">from</span> <span class="nn">langchain_core.prompts</span> <span class="kn">import</span> <span class="n">BasePromptTemplate</span><span class="p">,</span> <span class="n">PromptTemplate</span>
 <span class="kn">from</span> <span class="nn">langchain_core.runnables</span> <span class="kn">import</span> <span class="n">RunnableSerializable</span>
-<span class="kn">from</span> <span class="nn">typing_extensions</span> <span class="kn">import</span> <span class="n">TypedDict</span>
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">SkipValidation</span>
+<span class="kn">from</span> <span class="nn">typing_extensions</span> <span class="kn">import</span> <span class="n">Annotated</span><span class="p">,</span> <span class="n">TypedDict</span>
 
 <span class="n">NAIVE_COMPLETION_RETRY</span> <span class="o">=</span> <span class="s2">"""Prompt:</span>
 <span class="si">{prompt}</span>
@@ -264,25 +265,33 @@ document.write(`
 <span class="n">T</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">"T"</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="RetryOutputParserRetryChainInput"><a class="viewcode-back" href="../../../langchain/output_parsers/langchain.output_parsers.retry.RetryOutputParserRetryChainInput.html#langchain.output_parsers.retry.RetryOutputParserRetryChainInput">[docs]</a><span class="k">class</span> <span class="nc">RetryOutputParserRetryChainInput</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
+<div class="viewcode-block" id="RetryOutputParserRetryChainInput">
+<a class="viewcode-back" href="../../../langchain/output_parsers/langchain.output_parsers.retry.RetryOutputParserRetryChainInput.html#langchain.output_parsers.retry.RetryOutputParserRetryChainInput">[docs]</a>
+<span class="k">class</span> <span class="nc">RetryOutputParserRetryChainInput</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
     <span class="n">prompt</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">completion</span><span class="p">:</span> <span class="nb">str</span></div>
 
 
-<div class="viewcode-block" id="RetryWithErrorOutputParserRetryChainInput"><a class="viewcode-back" href="../../../langchain/output_parsers/langchain.output_parsers.retry.RetryWithErrorOutputParserRetryChainInput.html#langchain.output_parsers.retry.RetryWithErrorOutputParserRetryChainInput">[docs]</a><span class="k">class</span> <span class="nc">RetryWithErrorOutputParserRetryChainInput</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
+
+<div class="viewcode-block" id="RetryWithErrorOutputParserRetryChainInput">
+<a class="viewcode-back" href="../../../langchain/output_parsers/langchain.output_parsers.retry.RetryWithErrorOutputParserRetryChainInput.html#langchain.output_parsers.retry.RetryWithErrorOutputParserRetryChainInput">[docs]</a>
+<span class="k">class</span> <span class="nc">RetryWithErrorOutputParserRetryChainInput</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
     <span class="n">prompt</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">completion</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">error</span><span class="p">:</span> <span class="nb">str</span></div>
 
 
-<div class="viewcode-block" id="RetryOutputParser"><a class="viewcode-back" href="../../../langchain/output_parsers/langchain.output_parsers.retry.RetryOutputParser.html#langchain.output_parsers.retry.RetryOutputParser">[docs]</a><span class="k">class</span> <span class="nc">RetryOutputParser</span><span class="p">(</span><span class="n">BaseOutputParser</span><span class="p">[</span><span class="n">T</span><span class="p">]):</span>
+
+<div class="viewcode-block" id="RetryOutputParser">
+<a class="viewcode-back" href="../../../langchain/output_parsers/langchain.output_parsers.retry.RetryOutputParser.html#langchain.output_parsers.retry.RetryOutputParser">[docs]</a>
+<span class="k">class</span> <span class="nc">RetryOutputParser</span><span class="p">(</span><span class="n">BaseOutputParser</span><span class="p">[</span><span class="n">T</span><span class="p">]):</span>
 <span class="w">    </span><span class="sd">"""Wrap a parser and try to fix parsing errors.</span>
 
 <span class="sd">    Does this by passing the original prompt and the completion to another</span>
 <span class="sd">    LLM, and telling it the completion did not satisfy criteria in the prompt.</span>
 <span class="sd">    """</span>
 
-    <span class="n">parser</span><span class="p">:</span> <span class="n">BaseOutputParser</span><span class="p">[</span><span class="n">T</span><span class="p">]</span>
+    <span class="n">parser</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">BaseOutputParser</span><span class="p">[</span><span class="n">T</span><span class="p">],</span> <span class="n">SkipValidation</span><span class="p">()]</span>
 <span class="w">    </span><span class="sd">"""The parser to use to parse the output."""</span>
     <span class="c1"># Should be an LLMChain but we want to avoid top-level imports from langchain.chains</span>
     <span class="n">retry_chain</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">RunnableSerializable</span><span class="p">[</span><span class="n">RetryOutputParserRetryChainInput</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span> <span class="n">Any</span><span class="p">]</span>
@@ -292,7 +301,9 @@ document.write(`
     <span class="n">legacy</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
 <span class="w">    </span><span class="sd">"""Whether to use the run or arun method of the retry_chain."""</span>
 
-<div class="viewcode-block" id="RetryOutputParser.from_llm"><a class="viewcode-back" href="../../../langchain/output_parsers/langchain.output_parsers.retry.RetryOutputParser.html#langchain.output_parsers.retry.RetryOutputParser.from_llm">[docs]</a>    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="RetryOutputParser.from_llm">
+<a class="viewcode-back" href="../../../langchain/output_parsers/langchain.output_parsers.retry.RetryOutputParser.html#langchain.output_parsers.retry.RetryOutputParser.from_llm">[docs]</a>
+    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_llm</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span>
         <span class="n">llm</span><span class="p">:</span> <span class="n">BaseLanguageModel</span><span class="p">,</span>
@@ -314,7 +325,10 @@ document.write(`
         <span class="n">chain</span> <span class="o">=</span> <span class="n">prompt</span> <span class="o">|</span> <span class="n">llm</span> <span class="o">|</span> <span class="n">StrOutputParser</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">parser</span><span class="o">=</span><span class="n">parser</span><span class="p">,</span> <span class="n">retry_chain</span><span class="o">=</span><span class="n">chain</span><span class="p">,</span> <span class="n">max_retries</span><span class="o">=</span><span class="n">max_retries</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="RetryOutputParser.parse_with_prompt"><a class="viewcode-back" href="../../../langchain/output_parsers/langchain.output_parsers.retry.RetryOutputParser.html#langchain.output_parsers.retry.RetryOutputParser.parse_with_prompt">[docs]</a>    <span class="k">def</span> <span class="nf">parse_with_prompt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">completion</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">prompt_value</span><span class="p">:</span> <span class="n">PromptValue</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
+
+<div class="viewcode-block" id="RetryOutputParser.parse_with_prompt">
+<a class="viewcode-back" href="../../../langchain/output_parsers/langchain.output_parsers.retry.RetryOutputParser.html#langchain.output_parsers.retry.RetryOutputParser.parse_with_prompt">[docs]</a>
+    <span class="k">def</span> <span class="nf">parse_with_prompt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">completion</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">prompt_value</span><span class="p">:</span> <span class="n">PromptValue</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Parse the output of an LLM call using a wrapped parser.</span>
 
 <span class="sd">        Args:</span>
@@ -349,7 +363,10 @@ document.write(`
 
         <span class="k">raise</span> <span class="n">OutputParserException</span><span class="p">(</span><span class="s2">"Failed to parse"</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="RetryOutputParser.aparse_with_prompt"><a class="viewcode-back" href="../../../langchain/output_parsers/langchain.output_parsers.retry.RetryOutputParser.html#langchain.output_parsers.retry.RetryOutputParser.aparse_with_prompt">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">aparse_with_prompt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">completion</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">prompt_value</span><span class="p">:</span> <span class="n">PromptValue</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
+
+<div class="viewcode-block" id="RetryOutputParser.aparse_with_prompt">
+<a class="viewcode-back" href="../../../langchain/output_parsers/langchain.output_parsers.retry.RetryOutputParser.html#langchain.output_parsers.retry.RetryOutputParser.aparse_with_prompt">[docs]</a>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">aparse_with_prompt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">completion</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">prompt_value</span><span class="p">:</span> <span class="n">PromptValue</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Parse the output of an LLM call using a wrapped parser.</span>
 
 <span class="sd">        Args:</span>
@@ -385,13 +402,20 @@ document.write(`
 
         <span class="k">raise</span> <span class="n">OutputParserException</span><span class="p">(</span><span class="s2">"Failed to parse"</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="RetryOutputParser.parse"><a class="viewcode-back" href="../../../langchain/output_parsers/langchain.output_parsers.retry.RetryOutputParser.html#langchain.output_parsers.retry.RetryOutputParser.parse">[docs]</a>    <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">completion</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
+
+<div class="viewcode-block" id="RetryOutputParser.parse">
+<a class="viewcode-back" href="../../../langchain/output_parsers/langchain.output_parsers.retry.RetryOutputParser.html#langchain.output_parsers.retry.RetryOutputParser.parse">[docs]</a>
+    <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">completion</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
             <span class="s2">"This OutputParser can only be called by the `parse_with_prompt` method."</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="RetryOutputParser.get_format_instructions"><a class="viewcode-back" href="../../../langchain/output_parsers/langchain.output_parsers.retry.RetryOutputParser.html#langchain.output_parsers.retry.RetryOutputParser.get_format_instructions">[docs]</a>    <span class="k">def</span> <span class="nf">get_format_instructions</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+
+<div class="viewcode-block" id="RetryOutputParser.get_format_instructions">
+<a class="viewcode-back" href="../../../langchain/output_parsers/langchain.output_parsers.retry.RetryOutputParser.html#langchain.output_parsers.retry.RetryOutputParser.get_format_instructions">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_format_instructions</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">get_format_instructions</span><span class="p">()</span></div>
+
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">_type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
@@ -402,7 +426,10 @@ document.write(`
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">OutputType</span></div>
 
 
-<div class="viewcode-block" id="RetryWithErrorOutputParser"><a class="viewcode-back" href="../../../langchain/output_parsers/langchain.output_parsers.retry.RetryWithErrorOutputParser.html#langchain.output_parsers.retry.RetryWithErrorOutputParser">[docs]</a><span class="k">class</span> <span class="nc">RetryWithErrorOutputParser</span><span class="p">(</span><span class="n">BaseOutputParser</span><span class="p">[</span><span class="n">T</span><span class="p">]):</span>
+
+<div class="viewcode-block" id="RetryWithErrorOutputParser">
+<a class="viewcode-back" href="../../../langchain/output_parsers/langchain.output_parsers.retry.RetryWithErrorOutputParser.html#langchain.output_parsers.retry.RetryWithErrorOutputParser">[docs]</a>
+<span class="k">class</span> <span class="nc">RetryWithErrorOutputParser</span><span class="p">(</span><span class="n">BaseOutputParser</span><span class="p">[</span><span class="n">T</span><span class="p">]):</span>
 <span class="w">    </span><span class="sd">"""Wrap a parser and try to fix parsing errors.</span>
 
 <span class="sd">    Does this by passing the original prompt, the completion, AND the error</span>
@@ -412,7 +439,7 @@ document.write(`
 <span class="sd">    LLM, which in theory should give it more information on how to fix it.</span>
 <span class="sd">    """</span>
 
-    <span class="n">parser</span><span class="p">:</span> <span class="n">BaseOutputParser</span><span class="p">[</span><span class="n">T</span><span class="p">]</span>
+    <span class="n">parser</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">BaseOutputParser</span><span class="p">[</span><span class="n">T</span><span class="p">],</span> <span class="n">SkipValidation</span><span class="p">()]</span>
 <span class="w">    </span><span class="sd">"""The parser to use to parse the output."""</span>
     <span class="c1"># Should be an LLMChain but we want to avoid top-level imports from langchain.chains</span>
     <span class="n">retry_chain</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span>
@@ -424,7 +451,9 @@ document.write(`
     <span class="n">legacy</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
 <span class="w">    </span><span class="sd">"""Whether to use the run or arun method of the retry_chain."""</span>
 
-<div class="viewcode-block" id="RetryWithErrorOutputParser.from_llm"><a class="viewcode-back" href="../../../langchain/output_parsers/langchain.output_parsers.retry.RetryWithErrorOutputParser.html#langchain.output_parsers.retry.RetryWithErrorOutputParser.from_llm">[docs]</a>    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="RetryWithErrorOutputParser.from_llm">
+<a class="viewcode-back" href="../../../langchain/output_parsers/langchain.output_parsers.retry.RetryWithErrorOutputParser.html#langchain.output_parsers.retry.RetryWithErrorOutputParser.from_llm">[docs]</a>
+    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_llm</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span>
         <span class="n">llm</span><span class="p">:</span> <span class="n">BaseLanguageModel</span><span class="p">,</span>
@@ -446,7 +475,10 @@ document.write(`
         <span class="n">chain</span> <span class="o">=</span> <span class="n">prompt</span> <span class="o">|</span> <span class="n">llm</span> <span class="o">|</span> <span class="n">StrOutputParser</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">parser</span><span class="o">=</span><span class="n">parser</span><span class="p">,</span> <span class="n">retry_chain</span><span class="o">=</span><span class="n">chain</span><span class="p">,</span> <span class="n">max_retries</span><span class="o">=</span><span class="n">max_retries</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="RetryWithErrorOutputParser.parse_with_prompt"><a class="viewcode-back" href="../../../langchain/output_parsers/langchain.output_parsers.retry.RetryWithErrorOutputParser.html#langchain.output_parsers.retry.RetryWithErrorOutputParser.parse_with_prompt">[docs]</a>    <span class="k">def</span> <span class="nf">parse_with_prompt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">completion</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">prompt_value</span><span class="p">:</span> <span class="n">PromptValue</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
+
+<div class="viewcode-block" id="RetryWithErrorOutputParser.parse_with_prompt">
+<a class="viewcode-back" href="../../../langchain/output_parsers/langchain.output_parsers.retry.RetryWithErrorOutputParser.html#langchain.output_parsers.retry.RetryWithErrorOutputParser.parse_with_prompt">[docs]</a>
+    <span class="k">def</span> <span class="nf">parse_with_prompt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">completion</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">prompt_value</span><span class="p">:</span> <span class="n">PromptValue</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
         <span class="n">retries</span> <span class="o">=</span> <span class="mi">0</span>
 
         <span class="k">while</span> <span class="n">retries</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_retries</span><span class="p">:</span>
@@ -474,7 +506,10 @@ document.write(`
 
         <span class="k">raise</span> <span class="n">OutputParserException</span><span class="p">(</span><span class="s2">"Failed to parse"</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="RetryWithErrorOutputParser.aparse_with_prompt"><a class="viewcode-back" href="../../../langchain/output_parsers/langchain.output_parsers.retry.RetryWithErrorOutputParser.html#langchain.output_parsers.retry.RetryWithErrorOutputParser.aparse_with_prompt">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">aparse_with_prompt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">completion</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">prompt_value</span><span class="p">:</span> <span class="n">PromptValue</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
+
+<div class="viewcode-block" id="RetryWithErrorOutputParser.aparse_with_prompt">
+<a class="viewcode-back" href="../../../langchain/output_parsers/langchain.output_parsers.retry.RetryWithErrorOutputParser.html#langchain.output_parsers.retry.RetryWithErrorOutputParser.aparse_with_prompt">[docs]</a>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">aparse_with_prompt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">completion</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">prompt_value</span><span class="p">:</span> <span class="n">PromptValue</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
         <span class="n">retries</span> <span class="o">=</span> <span class="mi">0</span>
 
         <span class="k">while</span> <span class="n">retries</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_retries</span><span class="p">:</span>
@@ -502,13 +537,20 @@ document.write(`
 
         <span class="k">raise</span> <span class="n">OutputParserException</span><span class="p">(</span><span class="s2">"Failed to parse"</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="RetryWithErrorOutputParser.parse"><a class="viewcode-back" href="../../../langchain/output_parsers/langchain.output_parsers.retry.RetryWithErrorOutputParser.html#langchain.output_parsers.retry.RetryWithErrorOutputParser.parse">[docs]</a>    <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">completion</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
+
+<div class="viewcode-block" id="RetryWithErrorOutputParser.parse">
+<a class="viewcode-back" href="../../../langchain/output_parsers/langchain.output_parsers.retry.RetryWithErrorOutputParser.html#langchain.output_parsers.retry.RetryWithErrorOutputParser.parse">[docs]</a>
+    <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">completion</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
             <span class="s2">"This OutputParser can only be called by the `parse_with_prompt` method."</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="RetryWithErrorOutputParser.get_format_instructions"><a class="viewcode-back" href="../../../langchain/output_parsers/langchain.output_parsers.retry.RetryWithErrorOutputParser.html#langchain.output_parsers.retry.RetryWithErrorOutputParser.get_format_instructions">[docs]</a>    <span class="k">def</span> <span class="nf">get_format_instructions</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+
+<div class="viewcode-block" id="RetryWithErrorOutputParser.get_format_instructions">
+<a class="viewcode-back" href="../../../langchain/output_parsers/langchain.output_parsers.retry.RetryWithErrorOutputParser.html#langchain.output_parsers.retry.RetryWithErrorOutputParser.get_format_instructions">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_format_instructions</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">get_format_instructions</span><span class="p">()</span></div>
+
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">_type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
@@ -517,6 +559,7 @@ document.write(`
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">OutputType</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">type</span><span class="p">[</span><span class="n">T</span><span class="p">]:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">OutputType</span></div>
+
 </pre></div>
 </article>
 </div>

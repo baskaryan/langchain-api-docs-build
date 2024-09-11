@@ -1,7 +1,7 @@
 
 <!DOCTYPE html>
 
-<html data-content_root="" lang="en">
+<html data-content_root="../../../" lang="en">
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
@@ -18,21 +18,21 @@
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" rel="preload" type="font/woff2"/>
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" rel="preload" type="font/woff2"/>
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" rel="preload" type="font/woff2"/>
-<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css?v=a746c00c" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/autodoc_pydantic.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/sphinx-design.4cbf315f70debaebd550c87a6162cf0f.min.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/css/custom.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/copybutton.css?v=76b2166b" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/sphinx-design.min.css?v=95c83b7e" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/css/custom.css?v=b95e2228" rel="stylesheet" type="text/css"/>
 <!-- Pre-loaded scripts that we'll load fully later -->
 <link as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
 <link as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
 <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-<script src="../../../_static/doctools.js"></script>
-<script src="../../../_static/sphinx_highlight.js"></script>
-<script src="../../../_static/clipboard.min.js"></script>
-<script src="../../../_static/copybutton.js"></script>
-<script src="../../../_static/design-tabs.js"></script>
+<script src="../../../_static/documentation_options.js?v=3b5cce75"></script>
+<script src="../../../_static/doctools.js?v=9a2dae69"></script>
+<script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+<script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+<script src="../../../_static/copybutton.js?v=f281be69"></script>
+<script src="../../../_static/design-tabs.js?v=f930bc37"></script>
 <script>DOCUMENTATION_OPTIONS.pagename = '_modules/langchain_core/tools/convert';</script>
 <link href="../../../_static/favicon.png" rel="icon"/>
 <link href="../../../search.html" rel="search" title="Search"/>
@@ -230,15 +230,18 @@ document.write(`
 <span></span><span class="kn">import</span> <span class="nn">inspect</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Type</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">get_type_hints</span>
 
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span><span class="p">,</span> <span class="n">create_model</span>
+
 <span class="kn">from</span> <span class="nn">langchain_core.callbacks</span> <span class="kn">import</span> <span class="n">Callbacks</span>
-<span class="kn">from</span> <span class="nn">langchain_core.pydantic_v1</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span><span class="p">,</span> <span class="n">create_model</span>
 <span class="kn">from</span> <span class="nn">langchain_core.runnables</span> <span class="kn">import</span> <span class="n">Runnable</span>
 <span class="kn">from</span> <span class="nn">langchain_core.tools.base</span> <span class="kn">import</span> <span class="n">BaseTool</span>
 <span class="kn">from</span> <span class="nn">langchain_core.tools.simple</span> <span class="kn">import</span> <span class="n">Tool</span>
 <span class="kn">from</span> <span class="nn">langchain_core.tools.structured</span> <span class="kn">import</span> <span class="n">StructuredTool</span>
 
 
-<div class="viewcode-block" id="tool"><a class="viewcode-back" href="../../../core/tools/langchain_core.tools.convert.tool.html#langchain_core.tools.convert.tool">[docs]</a><span class="k">def</span> <span class="nf">tool</span><span class="p">(</span>
+<div class="viewcode-block" id="tool">
+<a class="viewcode-back" href="../../../core/tools/langchain_core.tools.convert.tool.html#langchain_core.tools.convert.tool">[docs]</a>
+<span class="k">def</span> <span class="nf">tool</span><span class="p">(</span>
     <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Runnable</span><span class="p">],</span>
     <span class="n">return_direct</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">args_schema</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Type</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -310,7 +313,7 @@ document.write(`
 <span class="sd">                \"\"\"</span>
 <span class="sd">                return bar</span>
 
-<span class="sd">            foo.args_schema.schema()</span>
+<span class="sd">            foo.args_schema.model_json_schema()</span>
 
 <span class="sd">        .. code-block:: python</span>
 
@@ -373,7 +376,7 @@ document.write(`
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dec_func</span><span class="p">,</span> <span class="n">Runnable</span><span class="p">):</span>
                 <span class="n">runnable</span> <span class="o">=</span> <span class="n">dec_func</span>
 
-                <span class="k">if</span> <span class="n">runnable</span><span class="o">.</span><span class="n">input_schema</span><span class="o">.</span><span class="n">schema</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"type"</span><span class="p">)</span> <span class="o">!=</span> <span class="s2">"object"</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">runnable</span><span class="o">.</span><span class="n">input_schema</span><span class="o">.</span><span class="n">model_json_schema</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"type"</span><span class="p">)</span> <span class="o">!=</span> <span class="s2">"object"</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Runnable must have an object schema."</span><span class="p">)</span>
 
                 <span class="k">async</span> <span class="k">def</span> <span class="nf">ainvoke_wrapper</span><span class="p">(</span>
@@ -453,9 +456,10 @@ document.write(`
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Too many arguments for tool decorator"</span><span class="p">)</span></div>
 
 
+
 <span class="k">def</span> <span class="nf">_get_description_from_runnable</span><span class="p">(</span><span class="n">runnable</span><span class="p">:</span> <span class="n">Runnable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Generate a placeholder description of a runnable."""</span>
-    <span class="n">input_schema</span> <span class="o">=</span> <span class="n">runnable</span><span class="o">.</span><span class="n">input_schema</span><span class="o">.</span><span class="n">schema</span><span class="p">()</span>
+    <span class="n">input_schema</span> <span class="o">=</span> <span class="n">runnable</span><span class="o">.</span><span class="n">input_schema</span><span class="o">.</span><span class="n">model_json_schema</span><span class="p">()</span>
     <span class="k">return</span> <span class="sa">f</span><span class="s2">"Takes </span><span class="si">{</span><span class="n">input_schema</span><span class="si">}</span><span class="s2">."</span>
 
 
@@ -478,7 +482,9 @@ document.write(`
     <span class="k">return</span> <span class="n">create_model</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">fields</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
 
 
-<div class="viewcode-block" id="convert_runnable_to_tool"><a class="viewcode-back" href="../../../core/tools/langchain_core.tools.convert.convert_runnable_to_tool.html#langchain_core.tools.convert.convert_runnable_to_tool">[docs]</a><span class="k">def</span> <span class="nf">convert_runnable_to_tool</span><span class="p">(</span>
+<div class="viewcode-block" id="convert_runnable_to_tool">
+<a class="viewcode-back" href="../../../core/tools/langchain_core.tools.convert.convert_runnable_to_tool.html#langchain_core.tools.convert.convert_runnable_to_tool">[docs]</a>
+<span class="k">def</span> <span class="nf">convert_runnable_to_tool</span><span class="p">(</span>
     <span class="n">runnable</span><span class="p">:</span> <span class="n">Runnable</span><span class="p">,</span>
     <span class="n">args_schema</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Type</span><span class="p">[</span><span class="n">BaseModel</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
@@ -503,7 +509,7 @@ document.write(`
     <span class="n">description</span> <span class="o">=</span> <span class="n">description</span> <span class="ow">or</span> <span class="n">_get_description_from_runnable</span><span class="p">(</span><span class="n">runnable</span><span class="p">)</span>
     <span class="n">name</span> <span class="o">=</span> <span class="n">name</span> <span class="ow">or</span> <span class="n">runnable</span><span class="o">.</span><span class="n">get_name</span><span class="p">()</span>
 
-    <span class="n">schema</span> <span class="o">=</span> <span class="n">runnable</span><span class="o">.</span><span class="n">input_schema</span><span class="o">.</span><span class="n">schema</span><span class="p">()</span>
+    <span class="n">schema</span> <span class="o">=</span> <span class="n">runnable</span><span class="o">.</span><span class="n">input_schema</span><span class="o">.</span><span class="n">model_json_schema</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">schema</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"type"</span><span class="p">)</span> <span class="o">==</span> <span class="s2">"string"</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">Tool</span><span class="p">(</span>
             <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
@@ -539,6 +545,7 @@ document.write(`
             <span class="n">description</span><span class="o">=</span><span class="n">description</span><span class="p">,</span>
             <span class="n">args_schema</span><span class="o">=</span><span class="n">args_schema</span><span class="p">,</span>
         <span class="p">)</span></div>
+
 </pre></div>
 </article>
 </div>

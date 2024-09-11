@@ -1,7 +1,7 @@
 
 <!DOCTYPE html>
 
-<html data-content_root="" lang="en">
+<html data-content_root="../../../" lang="en">
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
@@ -18,21 +18,21 @@
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" rel="preload" type="font/woff2"/>
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" rel="preload" type="font/woff2"/>
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" rel="preload" type="font/woff2"/>
-<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css?v=a746c00c" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/autodoc_pydantic.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/sphinx-design.4cbf315f70debaebd550c87a6162cf0f.min.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/css/custom.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/copybutton.css?v=76b2166b" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/sphinx-design.min.css?v=95c83b7e" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/css/custom.css?v=b95e2228" rel="stylesheet" type="text/css"/>
 <!-- Pre-loaded scripts that we'll load fully later -->
 <link as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
 <link as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
 <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-<script src="../../../_static/doctools.js"></script>
-<script src="../../../_static/sphinx_highlight.js"></script>
-<script src="../../../_static/clipboard.min.js"></script>
-<script src="../../../_static/copybutton.js"></script>
-<script src="../../../_static/design-tabs.js"></script>
+<script src="../../../_static/documentation_options.js?v=3b5cce75"></script>
+<script src="../../../_static/doctools.js?v=9a2dae69"></script>
+<script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+<script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+<script src="../../../_static/copybutton.js?v=f281be69"></script>
+<script src="../../../_static/design-tabs.js?v=f930bc37"></script>
 <script>DOCUMENTATION_OPTIONS.pagename = '_modules/langchain_community/utilities/powerbi';</script>
 <link href="../../../_static/favicon.png" rel="icon"/>
 <link href="../../../search.html" rel="search" title="Search"/>
@@ -239,7 +239,12 @@ document.write(`
 <span class="kn">import</span> <span class="nn">aiohttp</span>
 <span class="kn">import</span> <span class="nn">requests</span>
 <span class="kn">from</span> <span class="nn">aiohttp</span> <span class="kn">import</span> <span class="n">ClientTimeout</span><span class="p">,</span> <span class="n">ServerTimeoutError</span>
-<span class="kn">from</span> <span class="nn">langchain_core.pydantic_v1</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span><span class="p">,</span> <span class="n">root_validator</span><span class="p">,</span> <span class="n">validator</span>
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">BaseModel</span><span class="p">,</span>
+    <span class="n">ConfigDict</span><span class="p">,</span>
+    <span class="n">Field</span><span class="p">,</span>
+    <span class="n">model_validator</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="kn">from</span> <span class="nn">requests.exceptions</span> <span class="kn">import</span> <span class="n">Timeout</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
@@ -250,7 +255,9 @@ document.write(`
     <span class="kn">from</span> <span class="nn">azure.core.credentials</span> <span class="kn">import</span> <span class="n">TokenCredential</span>
 
 
-<div class="viewcode-block" id="PowerBIDataset"><a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.powerbi.PowerBIDataset.html#langchain_community.utilities.powerbi.PowerBIDataset">[docs]</a><span class="k">class</span> <span class="nc">PowerBIDataset</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<div class="viewcode-block" id="PowerBIDataset">
+<a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.powerbi.PowerBIDataset.html#langchain_community.utilities.powerbi.PowerBIDataset">[docs]</a>
+<span class="k">class</span> <span class="nc">PowerBIDataset</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Create PowerBI engine from dataset ID and credential or token.</span>
 
 <span class="sd">    Use either the credential or a supplied token to authenticate.</span>
@@ -269,17 +276,16 @@ document.write(`
     <span class="n">schemas</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">)</span>
     <span class="n">aiosession</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">aiohttp</span><span class="o">.</span><span class="n">ClientSession</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 
-    <span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
-        <span class="n">arbitrary_types_allowed</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span>
+        <span class="n">arbitrary_types_allowed</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span>
 
-    <span class="nd">@validator</span><span class="p">(</span><span class="s2">"table_names"</span><span class="p">,</span> <span class="n">allow_reuse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">fix_table_names</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">table_names</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">"""Fix the table names."""</span>
-        <span class="k">return</span> <span class="p">[</span><span class="n">fix_table_name</span><span class="p">(</span><span class="n">table</span><span class="p">)</span> <span class="k">for</span> <span class="n">table</span> <span class="ow">in</span> <span class="n">table_names</span><span class="p">]</span>
-
-    <span class="nd">@root_validator</span><span class="p">(</span><span class="n">pre</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">token_or_credential_present</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+    <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">"before"</span><span class="p">)</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">validate_params</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Validate that at least one of token and credentials is present."""</span>
+        <span class="n">table_names</span> <span class="o">=</span> <span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"table_names"</span><span class="p">,</span> <span class="p">[])</span>
+        <span class="n">values</span><span class="p">[</span><span class="s2">"table_names"</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">fix_table_name</span><span class="p">(</span><span class="n">table</span><span class="p">)</span> <span class="k">for</span> <span class="n">table</span> <span class="ow">in</span> <span class="n">table_names</span><span class="p">]</span>
         <span class="k">if</span> <span class="s2">"token"</span> <span class="ow">in</span> <span class="n">values</span> <span class="ow">or</span> <span class="s2">"credential"</span> <span class="ow">in</span> <span class="n">values</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">values</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Please provide either a credential or a token."</span><span class="p">)</span>
@@ -318,15 +324,21 @@ document.write(`
                 <span class="p">)</span> <span class="kn">from</span> <span class="nn">exc</span>
         <span class="k">raise</span> <span class="n">ClientAuthenticationError</span><span class="p">(</span><span class="s2">"No credential or token supplied."</span><span class="p">)</span>
 
-<div class="viewcode-block" id="PowerBIDataset.get_table_names"><a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.powerbi.PowerBIDataset.html#langchain_community.utilities.powerbi.PowerBIDataset.get_table_names">[docs]</a>    <span class="k">def</span> <span class="nf">get_table_names</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<div class="viewcode-block" id="PowerBIDataset.get_table_names">
+<a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.powerbi.PowerBIDataset.html#langchain_community.utilities.powerbi.PowerBIDataset.get_table_names">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_table_names</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">"""Get names of tables available."""</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">table_names</span></div>
 
-<div class="viewcode-block" id="PowerBIDataset.get_schemas"><a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.powerbi.PowerBIDataset.html#langchain_community.utilities.powerbi.PowerBIDataset.get_schemas">[docs]</a>    <span class="k">def</span> <span class="nf">get_schemas</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+
+<div class="viewcode-block" id="PowerBIDataset.get_schemas">
+<a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.powerbi.PowerBIDataset.html#langchain_community.utilities.powerbi.PowerBIDataset.get_schemas">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_schemas</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Get the available schema's."""</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">schemas</span><span class="p">:</span>
             <span class="k">return</span> <span class="s2">", "</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">"</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">schemas</span><span class="o">.</span><span class="n">items</span><span class="p">()])</span>
         <span class="k">return</span> <span class="s2">"No known schema's yet. Use the schema_powerbi tool first."</span></div>
+
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">table_info</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
@@ -374,7 +386,9 @@ document.write(`
         <span class="p">]</span>
         <span class="k">return</span> <span class="s2">", "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">schemas</span><span class="p">)</span>
 
-<div class="viewcode-block" id="PowerBIDataset.get_table_info"><a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.powerbi.PowerBIDataset.html#langchain_community.utilities.powerbi.PowerBIDataset.get_table_info">[docs]</a>    <span class="k">def</span> <span class="nf">get_table_info</span><span class="p">(</span>
+<div class="viewcode-block" id="PowerBIDataset.get_table_info">
+<a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.powerbi.PowerBIDataset.html#langchain_community.utilities.powerbi.PowerBIDataset.get_table_info">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_table_info</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">table_names</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Get information about specified tables."""</span>
@@ -386,7 +400,10 @@ document.write(`
             <span class="bp">self</span><span class="o">.</span><span class="n">_get_schema</span><span class="p">(</span><span class="n">table</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_schema_for_tables</span><span class="p">(</span><span class="n">tables_requested</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="PowerBIDataset.aget_table_info"><a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.powerbi.PowerBIDataset.html#langchain_community.utilities.powerbi.PowerBIDataset.aget_table_info">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">aget_table_info</span><span class="p">(</span>
+
+<div class="viewcode-block" id="PowerBIDataset.aget_table_info">
+<a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.powerbi.PowerBIDataset.html#langchain_community.utilities.powerbi.PowerBIDataset.aget_table_info">[docs]</a>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">aget_table_info</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">table_names</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Get information about specified tables."""</span>
@@ -396,6 +413,7 @@ document.write(`
         <span class="n">tables_todo</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_tables_todo</span><span class="p">(</span><span class="n">tables_requested</span><span class="p">)</span>
         <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="o">*</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_aget_schema</span><span class="p">(</span><span class="n">table</span><span class="p">)</span> <span class="k">for</span> <span class="n">table</span> <span class="ow">in</span> <span class="n">tables_todo</span><span class="p">])</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_schema_for_tables</span><span class="p">(</span><span class="n">tables_requested</span><span class="p">)</span></div>
+
 
     <span class="k">def</span> <span class="nf">_get_schema</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Get the schema for a table."""</span>
@@ -433,7 +451,9 @@ document.write(`
             <span class="s2">"serializerSettings"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"includeNulls"</span><span class="p">:</span> <span class="kc">True</span><span class="p">},</span>
         <span class="p">}</span>
 
-<div class="viewcode-block" id="PowerBIDataset.run"><a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.powerbi.PowerBIDataset.html#langchain_community.utilities.powerbi.PowerBIDataset.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">command</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<div class="viewcode-block" id="PowerBIDataset.run">
+<a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.powerbi.PowerBIDataset.html#langchain_community.utilities.powerbi.PowerBIDataset.run">[docs]</a>
+    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">command</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Execute a DAX command and return a json representing the results."""</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"Running command: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">command</span><span class="p">)</span>
         <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
@@ -448,7 +468,10 @@ document.write(`
             <span class="p">)</span>
         <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="PowerBIDataset.arun"><a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.powerbi.PowerBIDataset.html#langchain_community.utilities.powerbi.PowerBIDataset.arun">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">arun</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">command</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+
+<div class="viewcode-block" id="PowerBIDataset.arun">
+<a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.powerbi.PowerBIDataset.html#langchain_community.utilities.powerbi.PowerBIDataset.arun">[docs]</a>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">arun</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">command</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Execute a DAX command and return the result asynchronously."""</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"Running command: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">command</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">aiosession</span><span class="p">:</span>
@@ -472,10 +495,14 @@ document.write(`
                 <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="mi">403</span><span class="p">:</span>
                     <span class="k">return</span> <span class="s2">"TokenError: Could not login to PowerBI, please check your credentials."</span>  <span class="c1"># noqa: E501</span>
                 <span class="n">response_json</span> <span class="o">=</span> <span class="k">await</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="n">content_type</span><span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="n">content_type</span><span class="p">)</span>
-                <span class="k">return</span> <span class="n">response_json</span></div></div>
+                <span class="k">return</span> <span class="n">response_json</span></div>
+</div>
 
 
-<div class="viewcode-block" id="json_to_md"><a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.powerbi.json_to_md.html#langchain_community.utilities.powerbi.json_to_md">[docs]</a><span class="k">def</span> <span class="nf">json_to_md</span><span class="p">(</span>
+
+<div class="viewcode-block" id="json_to_md">
+<a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.powerbi.json_to_md.html#langchain_community.utilities.powerbi.json_to_md">[docs]</a>
+<span class="k">def</span> <span class="nf">json_to_md</span><span class="p">(</span>
     <span class="n">json_contents</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]],</span>
     <span class="n">table_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
@@ -497,11 +524,15 @@ document.write(`
     <span class="k">return</span> <span class="n">output_md</span></div>
 
 
-<div class="viewcode-block" id="fix_table_name"><a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.powerbi.fix_table_name.html#langchain_community.utilities.powerbi.fix_table_name">[docs]</a><span class="k">def</span> <span class="nf">fix_table_name</span><span class="p">(</span><span class="n">table</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+
+<div class="viewcode-block" id="fix_table_name">
+<a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.powerbi.fix_table_name.html#langchain_community.utilities.powerbi.fix_table_name">[docs]</a>
+<span class="k">def</span> <span class="nf">fix_table_name</span><span class="p">(</span><span class="n">table</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Add single quotes around table names that contain spaces."""</span>
     <span class="k">if</span> <span class="s2">" "</span> <span class="ow">in</span> <span class="n">table</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">table</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"'"</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">table</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">"'"</span><span class="p">):</span>
         <span class="k">return</span> <span class="sa">f</span><span class="s2">"'</span><span class="si">{</span><span class="n">table</span><span class="si">}</span><span class="s2">'"</span>
     <span class="k">return</span> <span class="n">table</span></div>
+
 </pre></div>
 </article>
 </div>
