@@ -38,7 +38,7 @@
 <link href="../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Sep 11, 2024" name="docbuild:last-update"/>
+<meta content="Sep 12, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -509,7 +509,10 @@ document.write(`
 <span class="sd">    Returns:</span>
 <span class="sd">        The function description.</span>
 <span class="sd">    """</span>
-    <span class="k">if</span> <span class="n">tool</span><span class="o">.</span><span class="n">tool_call_schema</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">langchain_core.tools</span> <span class="kn">import</span> <span class="n">simple</span>
+
+    <span class="n">is_simple_oai_tool</span> <span class="o">=</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tool</span><span class="p">,</span> <span class="n">simple</span><span class="o">.</span><span class="n">Tool</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">tool</span><span class="o">.</span><span class="n">args_schema</span>
+    <span class="k">if</span> <span class="n">tool</span><span class="o">.</span><span class="n">tool_call_schema</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">is_simple_oai_tool</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">convert_pydantic_to_openai_function</span><span class="p">(</span>
             <span class="n">tool</span><span class="o">.</span><span class="n">tool_call_schema</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">tool</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="n">tool</span><span class="o">.</span><span class="n">description</span>
         <span class="p">)</span>
@@ -831,9 +834,13 @@ document.write(`
     <span class="n">schema</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">schema</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
-        <span class="c1"># Check if 'required' is a key at the current level</span>
-        <span class="k">if</span> <span class="s2">"required"</span> <span class="ow">in</span> <span class="n">schema</span><span class="p">:</span>
+        <span class="c1"># Check if 'required' is a key at the current level or if the schema is empty,</span>
+        <span class="c1"># in which case additionalProperties still needs to be specified.</span>
+        <span class="k">if</span> <span class="s2">"required"</span> <span class="ow">in</span> <span class="n">schema</span> <span class="ow">or</span> <span class="p">(</span>
+            <span class="s2">"properties"</span> <span class="ow">in</span> <span class="n">schema</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">schema</span><span class="p">[</span><span class="s2">"properties"</span><span class="p">]</span>
+        <span class="p">):</span>
             <span class="n">schema</span><span class="p">[</span><span class="s2">"additionalProperties"</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+
         <span class="c1"># Recursively check 'properties' and 'items' if they exist</span>
         <span class="k">if</span> <span class="s2">"properties"</span> <span class="ow">in</span> <span class="n">schema</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">schema</span><span class="p">[</span><span class="s2">"properties"</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
