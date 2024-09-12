@@ -38,7 +38,7 @@
 <link href="../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Sep 11, 2024" name="docbuild:last-update"/>
+<meta content="Sep 12, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -1035,21 +1035,17 @@ document.write(`
         <span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Runnable</span><span class="p">[</span><span class="n">LanguageModelInput</span><span class="p">,</span> <span class="n">BaseMessage</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">"""Bind tool-like objects to this chat model.</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">"""Bind tool-like objects to this chat model.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            tools: A list of tool definitions to bind to this chat model.</span>
 <span class="sd">                Supports Anthropic format tool schemas and any tool definition handled</span>
 <span class="sd">                by :meth:`langchain_core.utils.function_calling.convert_to_openai_tool`.</span>
-<span class="sd">            tool_choice: Which tool to require the model to call.</span>
-<span class="sd">                Options are:</span>
-<span class="sd">                    - name of the tool (str): calls corresponding tool;</span>
-<span class="sd">                    - ``"auto"`` or None: automatically selects a tool (including no tool);</span>
-<span class="sd">                    - ``"any"``: force at least one tool to be called;</span>
-<span class="sd">                    - or a dict of the form:</span>
-<span class="sd">                        ``{"type": "tool", "name": "tool_name"}``,</span>
-<span class="sd">                        or ``{"type: "any"}``,</span>
-<span class="sd">                        or ``{"type: "auto"}``;</span>
+<span class="sd">            tool_choice: Which tool to require the model to call. Options are:</span>
+
+<span class="sd">                - name of the tool as a string or as dict ``{"type": "tool", "name": "&lt;&lt;tool_name&gt;&gt;"}``: calls corresponding tool;</span>
+<span class="sd">                - ``"auto"``, ``{"type: "auto"}``, or None: automatically selects a tool (including no tool);</span>
+<span class="sd">                - ``"any"`` or ``{"type: "any"}``: force at least one tool to be called;</span>
 <span class="sd">            kwargs: Any additional parameters are passed directly to</span>
 <span class="sd">                ``self.bind(**kwargs)``.</span>
 
@@ -1160,12 +1156,14 @@ document.write(`
 <span class="sd">                llm_with_tools.invoke("what is the weather like in San Francisco",)</span>
 
 <span class="sd">            This outputs:</span>
-<span class="sd">            .. code-block:: pycon</span>
+
+<span class="sd">            .. code-block:: python</span>
 
 <span class="sd">                AIMessage(content=[{'text': "Certainly! I can help you find out the current weather in San Francisco. To get this information, I'll use the GetWeather function. Let me fetch that data for you right away.", 'type': 'text'}, {'id': 'toolu_01TS5h8LNo7p5imcG7yRiaUM', 'input': {'location': 'San Francisco, CA'}, 'name': 'GetWeather', 'type': 'tool_use'}], response_metadata={'id': 'msg_01Xg7Wr5inFWgBxE5jH9rpRo', 'model': 'claude-3-5-sonnet-20240620', 'stop_reason': 'tool_use', 'stop_sequence': None, 'usage': {'input_tokens': 171, 'output_tokens': 96, 'cache_creation_input_tokens': 1470, 'cache_read_input_tokens': 0}}, id='run-b36a5b54-5d69-470e-a1b0-b932d00b089e-0', tool_calls=[{'name': 'GetWeather', 'args': {'location': 'San Francisco, CA'}, 'id': 'toolu_01TS5h8LNo7p5imcG7yRiaUM', 'type': 'tool_call'}], usage_metadata={'input_tokens': 171, 'output_tokens': 96, 'total_tokens': 267})</span>
 
 <span class="sd">            If we invoke the tool again, we can see that the "usage" information in the AIMessage.response_metadata shows that we had a cache hit:</span>
-<span class="sd">            .. code-block:: pycon</span>
+
+<span class="sd">            .. code-block:: python</span>
 
 <span class="sd">                AIMessage(content=[{'text': 'To get the current weather in San Francisco, I can use the GetWeather function. Let me check that for you.', 'type': 'text'}, {'id': 'toolu_01HtVtY1qhMFdPprx42qU2eA', 'input': {'location': 'San Francisco, CA'}, 'name': 'GetWeather', 'type': 'tool_use'}], response_metadata={'id': 'msg_016RfWHrRvW6DAGCdwB6Ac64', 'model': 'claude-3-5-sonnet-20240620', 'stop_reason': 'tool_use', 'stop_sequence': None, 'usage': {'input_tokens': 171, 'output_tokens': 82, 'cache_creation_input_tokens': 0, 'cache_read_input_tokens': 1470}}, id='run-88b1f825-dcb7-4277-ac27-53df55d22001-0', tool_calls=[{'name': 'GetWeather', 'args': {'location': 'San Francisco, CA'}, 'id': 'toolu_01HtVtY1qhMFdPprx42qU2eA', 'type': 'tool_call'}], usage_metadata={'input_tokens': 171, 'output_tokens': 82, 'total_tokens': 253})</span>
 

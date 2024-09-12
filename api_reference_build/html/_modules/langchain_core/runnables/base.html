@@ -38,7 +38,7 @@
 <link href="../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Sep 11, 2024" name="docbuild:last-update"/>
+<meta content="Sep 12, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -300,7 +300,6 @@ document.write(`
     <span class="n">accepts_config</span><span class="p">,</span>
     <span class="n">accepts_run_manager</span><span class="p">,</span>
     <span class="n">asyncio_accepts_context</span><span class="p">,</span>
-    <span class="n">create_model</span><span class="p">,</span>
     <span class="n">gather_with_concurrency</span><span class="p">,</span>
     <span class="n">get_function_first_arg_dict_keys</span><span class="p">,</span>
     <span class="n">get_function_nonlocals</span><span class="p">,</span>
@@ -312,6 +311,7 @@ document.write(`
 <span class="p">)</span>
 <span class="kn">from</span> <span class="nn">langchain_core.utils.aiter</span> <span class="kn">import</span> <span class="n">aclosing</span><span class="p">,</span> <span class="n">atee</span><span class="p">,</span> <span class="n">py_anext</span>
 <span class="kn">from</span> <span class="nn">langchain_core.utils.iter</span> <span class="kn">import</span> <span class="n">safetee</span>
+<span class="kn">from</span> <span class="nn">langchain_core.utils.pydantic</span> <span class="kn">import</span> <span class="n">create_model_v2</span>
 
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
     <span class="kn">from</span> <span class="nn">langchain_core.callbacks.manager</span> <span class="kn">import</span> <span class="p">(</span>
@@ -581,9 +581,9 @@ document.write(`
         <span class="k">if</span> <span class="n">inspect</span><span class="o">.</span><span class="n">isclass</span><span class="p">(</span><span class="n">root_type</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">root_type</span><span class="p">,</span> <span class="n">BaseModel</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">root_type</span>
 
-        <span class="k">return</span> <span class="n">create_model</span><span class="p">(</span>
+        <span class="k">return</span> <span class="n">create_model_v2</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">get_name</span><span class="p">(</span><span class="s2">"Input"</span><span class="p">),</span>
-            <span class="n">__root__</span><span class="o">=</span><span class="n">root_type</span><span class="p">,</span>
+            <span class="n">root</span><span class="o">=</span><span class="n">root_type</span><span class="p">,</span>
             <span class="c1"># create model needs access to appropriate type annotations to be</span>
             <span class="c1"># able to construct the pydantic model.</span>
             <span class="c1"># When we create the model, we pass information about the namespace</span>
@@ -591,7 +591,7 @@ document.write(`
             <span class="c1"># be resolved correctly as well.</span>
             <span class="c1"># self.__class__.__module__ handles the case when the Runnable is</span>
             <span class="c1"># being sub-classed in a different module.</span>
-            <span class="n">__module_name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__module__</span><span class="p">,</span>
+            <span class="n">module_name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__module__</span><span class="p">,</span>
         <span class="p">)</span></div>
 
 
@@ -655,9 +655,9 @@ document.write(`
         <span class="k">if</span> <span class="n">inspect</span><span class="o">.</span><span class="n">isclass</span><span class="p">(</span><span class="n">root_type</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">root_type</span><span class="p">,</span> <span class="n">BaseModel</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">root_type</span>
 
-        <span class="k">return</span> <span class="n">create_model</span><span class="p">(</span>
+        <span class="k">return</span> <span class="n">create_model_v2</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">get_name</span><span class="p">(</span><span class="s2">"Output"</span><span class="p">),</span>
-            <span class="n">__root__</span><span class="o">=</span><span class="n">root_type</span><span class="p">,</span>
+            <span class="n">root</span><span class="o">=</span><span class="n">root_type</span><span class="p">,</span>
             <span class="c1"># create model needs access to appropriate type annotations to be</span>
             <span class="c1"># able to construct the pydantic model.</span>
             <span class="c1"># When we create the model, we pass information about the namespace</span>
@@ -665,7 +665,7 @@ document.write(`
             <span class="c1"># be resolved correctly as well.</span>
             <span class="c1"># self.__class__.__module__ handles the case when the Runnable is</span>
             <span class="c1"># being sub-classed in a different module.</span>
-            <span class="n">__module_name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__module__</span><span class="p">,</span>
+            <span class="n">module_name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__module__</span><span class="p">,</span>
         <span class="p">)</span></div>
 
 
@@ -725,9 +725,9 @@ document.write(`
         <span class="n">include</span> <span class="o">=</span> <span class="n">include</span> <span class="ow">or</span> <span class="p">[]</span>
         <span class="n">config_specs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config_specs</span>
         <span class="n">configurable</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="n">create_model</span><span class="p">(</span>  <span class="c1"># type: ignore[call-overload]</span>
+            <span class="n">create_model_v2</span><span class="p">(</span>  <span class="c1"># type: ignore[call-overload]</span>
                 <span class="s2">"Configurable"</span><span class="p">,</span>
-                <span class="o">**</span><span class="p">{</span>
+                <span class="n">field_definitions</span><span class="o">=</span><span class="p">{</span>
                     <span class="n">spec</span><span class="o">.</span><span class="n">id</span><span class="p">:</span> <span class="p">(</span>
                         <span class="n">spec</span><span class="o">.</span><span class="n">annotation</span><span class="p">,</span>
                         <span class="n">Field</span><span class="p">(</span>
@@ -750,8 +750,8 @@ document.write(`
                 <span class="k">if</span> <span class="n">field_name</span> <span class="ow">in</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">include</span> <span class="k">if</span> <span class="n">i</span> <span class="o">!=</span> <span class="s2">"configurable"</span><span class="p">]</span>
             <span class="p">},</span>
         <span class="p">}</span>
-        <span class="n">model</span> <span class="o">=</span> <span class="n">create_model</span><span class="p">(</span>  <span class="c1"># type: ignore[call-overload]</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">get_name</span><span class="p">(</span><span class="s2">"Config"</span><span class="p">),</span> <span class="o">**</span><span class="n">all_fields</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">create_model_v2</span><span class="p">(</span>  <span class="c1"># type: ignore[call-overload]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">get_name</span><span class="p">(</span><span class="s2">"Config"</span><span class="p">),</span> <span class="n">field_definitions</span><span class="o">=</span><span class="n">all_fields</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">model</span></div>
 
@@ -784,14 +784,14 @@ document.write(`
         <span class="k">try</span><span class="p">:</span>
             <span class="n">input_node</span> <span class="o">=</span> <span class="n">graph</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_input_schema</span><span class="p">(</span><span class="n">config</span><span class="p">))</span>
         <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
-            <span class="n">input_node</span> <span class="o">=</span> <span class="n">graph</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="n">create_model</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_name</span><span class="p">(</span><span class="s2">"Input"</span><span class="p">)))</span>
+            <span class="n">input_node</span> <span class="o">=</span> <span class="n">graph</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="n">create_model_v2</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_name</span><span class="p">(</span><span class="s2">"Input"</span><span class="p">)))</span>
         <span class="n">runnable_node</span> <span class="o">=</span> <span class="n">graph</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span>
             <span class="bp">self</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"metadata"</span><span class="p">)</span> <span class="k">if</span> <span class="n">config</span> <span class="k">else</span> <span class="kc">None</span>
         <span class="p">)</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">output_node</span> <span class="o">=</span> <span class="n">graph</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_output_schema</span><span class="p">(</span><span class="n">config</span><span class="p">))</span>
         <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
-            <span class="n">output_node</span> <span class="o">=</span> <span class="n">graph</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="n">create_model</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_name</span><span class="p">(</span><span class="s2">"Output"</span><span class="p">)))</span>
+            <span class="n">output_node</span> <span class="o">=</span> <span class="n">graph</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="n">create_model_v2</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_name</span><span class="p">(</span><span class="s2">"Output"</span><span class="p">)))</span>
         <span class="n">graph</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">input_node</span><span class="p">,</span> <span class="n">runnable_node</span><span class="p">)</span>
         <span class="n">graph</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">runnable_node</span><span class="p">,</span> <span class="n">output_node</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">graph</span></div>
@@ -2923,9 +2923,9 @@ document.write(`
         <span class="n">next_input_schema</span> <span class="o">=</span> <span class="n">_seq_input_schema</span><span class="p">(</span><span class="n">steps</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">config</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">next_input_schema</span><span class="p">,</span> <span class="n">RootModel</span><span class="p">):</span>
             <span class="c1"># it's a dict as expected</span>
-            <span class="k">return</span> <span class="n">create_model</span><span class="p">(</span>  <span class="c1"># type: ignore[call-overload]</span>
+            <span class="k">return</span> <span class="n">create_model_v2</span><span class="p">(</span>  <span class="c1"># type: ignore[call-overload]</span>
                 <span class="s2">"RunnableSequenceInput"</span><span class="p">,</span>
-                <span class="o">**</span><span class="p">{</span>
+                <span class="n">field_definitions</span><span class="o">=</span><span class="p">{</span>
                     <span class="n">k</span><span class="p">:</span> <span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">annotation</span><span class="p">,</span> <span class="n">v</span><span class="o">.</span><span class="n">default</span><span class="p">)</span>
                     <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">next_input_schema</span><span class="o">.</span><span class="n">model_fields</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
                     <span class="k">if</span> <span class="n">k</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">first</span><span class="o">.</span><span class="n">mapper</span><span class="o">.</span><span class="n">steps__</span>
@@ -2950,9 +2950,9 @@ document.write(`
         <span class="n">prev_output_schema</span> <span class="o">=</span> <span class="n">_seq_output_schema</span><span class="p">(</span><span class="n">steps</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">config</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">prev_output_schema</span><span class="p">,</span> <span class="n">RootModel</span><span class="p">):</span>
             <span class="c1"># it's a dict as expected</span>
-            <span class="k">return</span> <span class="n">create_model</span><span class="p">(</span>  <span class="c1"># type: ignore[call-overload]</span>
+            <span class="k">return</span> <span class="n">create_model_v2</span><span class="p">(</span>  <span class="c1"># type: ignore[call-overload]</span>
                 <span class="s2">"RunnableSequenceOutput"</span><span class="p">,</span>
-                <span class="o">**</span><span class="p">{</span>
+                <span class="n">field_definitions</span><span class="o">=</span><span class="p">{</span>
                     <span class="o">**</span><span class="p">{</span>
                         <span class="n">k</span><span class="p">:</span> <span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">annotation</span><span class="p">,</span> <span class="n">v</span><span class="o">.</span><span class="n">default</span><span class="p">)</span>
                         <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">prev_output_schema</span><span class="o">.</span><span class="n">model_fields</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
@@ -2968,9 +2968,9 @@ document.write(`
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">prev_output_schema</span><span class="p">,</span> <span class="n">RootModel</span><span class="p">):</span>
             <span class="c1"># it's a dict as expected</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">last</span><span class="o">.</span><span class="n">keys</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
-                <span class="k">return</span> <span class="n">create_model</span><span class="p">(</span>  <span class="c1"># type: ignore[call-overload]</span>
+                <span class="k">return</span> <span class="n">create_model_v2</span><span class="p">(</span>  <span class="c1"># type: ignore[call-overload]</span>
                     <span class="s2">"RunnableSequenceOutput"</span><span class="p">,</span>
-                    <span class="o">**</span><span class="p">{</span>
+                    <span class="n">field_definitions</span><span class="o">=</span><span class="p">{</span>
                         <span class="n">k</span><span class="p">:</span> <span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">annotation</span><span class="p">,</span> <span class="n">v</span><span class="o">.</span><span class="n">default</span><span class="p">)</span>
                         <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">prev_output_schema</span><span class="o">.</span><span class="n">model_fields</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
                         <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">last</span><span class="o">.</span><span class="n">keys</span>
@@ -2978,9 +2978,8 @@ document.write(`
                 <span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">field</span> <span class="o">=</span> <span class="n">prev_output_schema</span><span class="o">.</span><span class="n">model_fields</span><span class="p">[</span><span class="n">last</span><span class="o">.</span><span class="n">keys</span><span class="p">]</span>
-                <span class="k">return</span> <span class="n">create_model</span><span class="p">(</span>  <span class="c1"># type: ignore[call-overload]</span>
-                    <span class="s2">"RunnableSequenceOutput"</span><span class="p">,</span>
-                    <span class="n">__root__</span><span class="o">=</span><span class="p">(</span><span class="n">field</span><span class="o">.</span><span class="n">annotation</span><span class="p">,</span> <span class="n">field</span><span class="o">.</span><span class="n">default</span><span class="p">),</span>
+                <span class="k">return</span> <span class="n">create_model_v2</span><span class="p">(</span>  <span class="c1"># type: ignore[call-overload]</span>
+                    <span class="s2">"RunnableSequenceOutput"</span><span class="p">,</span> <span class="n">root</span><span class="o">=</span><span class="p">(</span><span class="n">field</span><span class="o">.</span><span class="n">annotation</span><span class="p">,</span> <span class="n">field</span><span class="o">.</span><span class="n">default</span><span class="p">)</span>
                 <span class="p">)</span>
 
     <span class="k">return</span> <span class="n">last</span><span class="o">.</span><span class="n">get_output_schema</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
@@ -3945,9 +3944,9 @@ document.write(`
             <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">steps__</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
         <span class="p">):</span>
             <span class="c1"># This is correct, but pydantic typings/mypy don't think so.</span>
-            <span class="k">return</span> <span class="n">create_model</span><span class="p">(</span>  <span class="c1"># type: ignore[call-overload]</span>
+            <span class="k">return</span> <span class="n">create_model_v2</span><span class="p">(</span>  <span class="c1"># type: ignore[call-overload]</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">get_name</span><span class="p">(</span><span class="s2">"Input"</span><span class="p">),</span>
-                <span class="o">**</span><span class="p">{</span>
+                <span class="n">field_definitions</span><span class="o">=</span><span class="p">{</span>
                     <span class="n">k</span><span class="p">:</span> <span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">annotation</span><span class="p">,</span> <span class="n">v</span><span class="o">.</span><span class="n">default</span><span class="p">)</span>
                     <span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">steps__</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
                     <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">step</span><span class="o">.</span><span class="n">get_input_schema</span><span class="p">(</span><span class="n">config</span><span class="p">)</span><span class="o">.</span><span class="n">model_fields</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
@@ -3969,7 +3968,7 @@ document.write(`
 <span class="sd">            The output schema of the Runnable.</span>
 <span class="sd">        """</span>
         <span class="n">fields</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">OutputType</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">steps__</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
-        <span class="k">return</span> <span class="n">create_model</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_name</span><span class="p">(</span><span class="s2">"Output"</span><span class="p">),</span> <span class="o">**</span><span class="n">fields</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">create_model_v2</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_name</span><span class="p">(</span><span class="s2">"Output"</span><span class="p">),</span> <span class="n">field_definitions</span><span class="o">=</span><span class="n">fields</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">config_specs</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">ConfigurableFieldSpec</span><span class="p">]:</span>
@@ -4454,13 +4453,13 @@ document.write(`
         <span class="k">if</span> <span class="n">inspect</span><span class="o">.</span><span class="n">isclass</span><span class="p">(</span><span class="n">root_type</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">root_type</span><span class="p">,</span> <span class="n">BaseModel</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">root_type</span>
 
-        <span class="k">return</span> <span class="n">create_model</span><span class="p">(</span>
+        <span class="k">return</span> <span class="n">create_model_v2</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">get_name</span><span class="p">(</span><span class="s2">"Input"</span><span class="p">),</span>
-            <span class="n">__root__</span><span class="o">=</span><span class="n">root_type</span><span class="p">,</span>
+            <span class="n">root</span><span class="o">=</span><span class="n">root_type</span><span class="p">,</span>
             <span class="c1"># To create the schema, we need to provide the module</span>
             <span class="c1"># where the underlying function is defined.</span>
             <span class="c1"># This allows pydantic to resolve type annotations appropriately.</span>
-            <span class="n">__module_name</span><span class="o">=</span><span class="n">module</span><span class="p">,</span>
+            <span class="n">module_name</span><span class="o">=</span><span class="n">module</span><span class="p">,</span>
         <span class="p">)</span>
 
     <span class="nd">@property</span>
@@ -4489,13 +4488,13 @@ document.write(`
         <span class="k">if</span> <span class="n">inspect</span><span class="o">.</span><span class="n">isclass</span><span class="p">(</span><span class="n">root_type</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">root_type</span><span class="p">,</span> <span class="n">BaseModel</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">root_type</span>
 
-        <span class="k">return</span> <span class="n">create_model</span><span class="p">(</span>
+        <span class="k">return</span> <span class="n">create_model_v2</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">get_name</span><span class="p">(</span><span class="s2">"Output"</span><span class="p">),</span>
-            <span class="n">__root__</span><span class="o">=</span><span class="n">root_type</span><span class="p">,</span>
+            <span class="n">root</span><span class="o">=</span><span class="n">root_type</span><span class="p">,</span>
             <span class="c1"># To create the schema, we need to provide the module</span>
             <span class="c1"># where the underlying function is defined.</span>
             <span class="c1"># This allows pydantic to resolve type annotations appropriately.</span>
-            <span class="n">__module_name</span><span class="o">=</span><span class="n">module</span><span class="p">,</span>
+            <span class="n">module_name</span><span class="o">=</span><span class="n">module</span><span class="p">,</span>
         <span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
@@ -4747,25 +4746,25 @@ document.write(`
             <span class="p">):</span>
                 <span class="n">fields</span> <span class="o">=</span> <span class="p">{</span><span class="n">item</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span> <span class="p">(</span><span class="n">Any</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">items</span><span class="p">}</span>
                 <span class="c1"># It's a dict, lol</span>
-                <span class="k">return</span> <span class="n">create_model</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_name</span><span class="p">(</span><span class="s2">"Input"</span><span class="p">),</span> <span class="o">**</span><span class="n">fields</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">create_model_v2</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_name</span><span class="p">(</span><span class="s2">"Input"</span><span class="p">),</span> <span class="n">field_definitions</span><span class="o">=</span><span class="n">fields</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">module</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="s2">"__module__"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-                <span class="k">return</span> <span class="n">create_model</span><span class="p">(</span>
+                <span class="k">return</span> <span class="n">create_model_v2</span><span class="p">(</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">get_name</span><span class="p">(</span><span class="s2">"Input"</span><span class="p">),</span>
-                    <span class="n">__root__</span><span class="o">=</span><span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">],</span>
+                    <span class="n">root</span><span class="o">=</span><span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">],</span>
                     <span class="c1"># To create the schema, we need to provide the module</span>
                     <span class="c1"># where the underlying function is defined.</span>
                     <span class="c1"># This allows pydantic to resolve type annotations appropriately.</span>
-                    <span class="n">__module_name</span><span class="o">=</span><span class="n">module</span><span class="p">,</span>
+                    <span class="n">module_name</span><span class="o">=</span><span class="n">module</span><span class="p">,</span>
                 <span class="p">)</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">InputType</span> <span class="o">!=</span> <span class="n">Any</span><span class="p">:</span>
             <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">get_input_schema</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">dict_keys</span> <span class="o">:=</span> <span class="n">get_function_first_arg_dict_keys</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
-            <span class="k">return</span> <span class="n">create_model</span><span class="p">(</span>
+            <span class="k">return</span> <span class="n">create_model_v2</span><span class="p">(</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">get_name</span><span class="p">(</span><span class="s2">"Input"</span><span class="p">),</span>
-                <span class="o">**</span><span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="p">(</span><span class="n">Any</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">dict_keys</span><span class="p">},</span>  <span class="c1"># type: ignore</span>
+                <span class="n">field_definitions</span><span class="o">=</span><span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="p">(</span><span class="n">Any</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">dict_keys</span><span class="p">},</span>
             <span class="p">)</span>
 
         <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">get_input_schema</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
@@ -4806,13 +4805,13 @@ document.write(`
         <span class="k">if</span> <span class="n">inspect</span><span class="o">.</span><span class="n">isclass</span><span class="p">(</span><span class="n">root_type</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">root_type</span><span class="p">,</span> <span class="n">BaseModel</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">root_type</span>
 
-        <span class="k">return</span> <span class="n">create_model</span><span class="p">(</span>
+        <span class="k">return</span> <span class="n">create_model_v2</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">get_name</span><span class="p">(</span><span class="s2">"Output"</span><span class="p">),</span>
-            <span class="n">__root__</span><span class="o">=</span><span class="n">root_type</span><span class="p">,</span>
+            <span class="n">root</span><span class="o">=</span><span class="n">root_type</span><span class="p">,</span>
             <span class="c1"># To create the schema, we need to provide the module</span>
             <span class="c1"># where the underlying function is defined.</span>
             <span class="c1"># This allows pydantic to resolve type annotations appropriately.</span>
-            <span class="n">__module_name</span><span class="o">=</span><span class="n">module</span><span class="p">,</span>
+            <span class="n">module_name</span><span class="o">=</span><span class="n">module</span><span class="p">,</span>
         <span class="p">)</span>
 
     <span class="nd">@property</span>
@@ -5329,9 +5328,9 @@ document.write(`
     <span class="k">def</span> <span class="nf">get_input_schema</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">RunnableConfig</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Type</span><span class="p">[</span><span class="n">BaseModel</span><span class="p">]:</span>
-        <span class="k">return</span> <span class="n">create_model</span><span class="p">(</span>
+        <span class="k">return</span> <span class="n">create_model_v2</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">get_name</span><span class="p">(</span><span class="s2">"Input"</span><span class="p">),</span>
-            <span class="n">__root__</span><span class="o">=</span><span class="p">(</span>
+            <span class="n">root</span><span class="o">=</span><span class="p">(</span>
                 <span class="n">List</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">bound</span><span class="o">.</span><span class="n">get_input_schema</span><span class="p">(</span><span class="n">config</span><span class="p">)],</span>  <span class="c1"># type: ignore</span>
                 <span class="kc">None</span><span class="p">,</span>
             <span class="p">),</span>
@@ -5342,7 +5341,7 @@ document.write(`
             <span class="c1"># be resolved correctly as well.</span>
             <span class="c1"># self.__class__.__module__ handles the case when the Runnable is</span>
             <span class="c1"># being sub-classed in a different module.</span>
-            <span class="n">__module_name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__module__</span><span class="p">,</span>
+            <span class="n">module_name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__module__</span><span class="p">,</span>
         <span class="p">)</span>
 
     <span class="nd">@property</span>
@@ -5353,9 +5352,9 @@ document.write(`
         <span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">RunnableConfig</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Type</span><span class="p">[</span><span class="n">BaseModel</span><span class="p">]:</span>
         <span class="n">schema</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bound</span><span class="o">.</span><span class="n">get_output_schema</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">create_model</span><span class="p">(</span>
+        <span class="k">return</span> <span class="n">create_model_v2</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">get_name</span><span class="p">(</span><span class="s2">"Output"</span><span class="p">),</span>
-            <span class="n">__root__</span><span class="o">=</span><span class="n">List</span><span class="p">[</span><span class="n">schema</span><span class="p">],</span>  <span class="c1"># type: ignore[valid-type]</span>
+            <span class="n">root</span><span class="o">=</span><span class="n">List</span><span class="p">[</span><span class="n">schema</span><span class="p">],</span>  <span class="c1"># type: ignore[valid-type]</span>
             <span class="c1"># create model needs access to appropriate type annotations to be</span>
             <span class="c1"># able to construct the pydantic model.</span>
             <span class="c1"># When we create the model, we pass information about the namespace</span>
@@ -5363,7 +5362,7 @@ document.write(`
             <span class="c1"># be resolved correctly as well.</span>
             <span class="c1"># self.__class__.__module__ handles the case when the Runnable is</span>
             <span class="c1"># being sub-classed in a different module.</span>
-            <span class="n">__module_name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__module__</span><span class="p">,</span>
+            <span class="n">module_name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__module__</span><span class="p">,</span>
         <span class="p">)</span>
 
     <span class="nd">@property</span>

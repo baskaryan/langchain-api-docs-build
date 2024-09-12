@@ -38,7 +38,7 @@
 <link href="../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Sep 11, 2024" name="docbuild:last-update"/>
+<meta content="Sep 12, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -251,9 +251,9 @@ document.write(`
 <span class="kn">from</span> <span class="nn">langchain_core.runnables.utils</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">ConfigurableFieldSpec</span><span class="p">,</span>
     <span class="n">Output</span><span class="p">,</span>
-    <span class="n">create_model</span><span class="p">,</span>
     <span class="n">get_unique_config_specs</span><span class="p">,</span>
 <span class="p">)</span>
+<span class="kn">from</span> <span class="nn">langchain_core.utils.pydantic</span> <span class="kn">import</span> <span class="n">create_model_v2</span>
 
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
     <span class="kn">from</span> <span class="nn">langchain_core.language_models.base</span> <span class="kn">import</span> <span class="n">LanguageModelLike</span>
@@ -617,10 +617,15 @@ document.write(`
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_messages_key</span><span class="p">:</span>
             <span class="n">fields</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">input_messages_key</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">Sequence</span><span class="p">[</span><span class="n">BaseMessage</span><span class="p">],</span> <span class="o">...</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">fields</span><span class="p">[</span><span class="s2">"__root__"</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">Sequence</span><span class="p">[</span><span class="n">BaseMessage</span><span class="p">],</span> <span class="o">...</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">create_model</span><span class="p">(</span>  <span class="c1"># type: ignore[call-overload]</span>
+            <span class="k">return</span> <span class="n">create_model_v2</span><span class="p">(</span>
+                <span class="s2">"RunnableWithChatHistoryInput"</span><span class="p">,</span>
+                <span class="n">module_name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__module__</span><span class="p">,</span>
+                <span class="n">root</span><span class="o">=</span><span class="p">(</span><span class="n">Sequence</span><span class="p">[</span><span class="n">BaseMessage</span><span class="p">],</span> <span class="o">...</span><span class="p">),</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">create_model_v2</span><span class="p">(</span>  <span class="c1"># type: ignore[call-overload]</span>
             <span class="s2">"RunnableWithChatHistoryInput"</span><span class="p">,</span>
-            <span class="o">**</span><span class="n">fields</span><span class="p">,</span>
+            <span class="n">field_definitions</span><span class="o">=</span><span class="n">fields</span><span class="p">,</span>
+            <span class="n">module_name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__module__</span><span class="p">,</span>
         <span class="p">)</span>
 
     <span class="nd">@property</span>
@@ -650,10 +655,10 @@ document.write(`
         <span class="k">if</span> <span class="n">inspect</span><span class="o">.</span><span class="n">isclass</span><span class="p">(</span><span class="n">root_type</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">root_type</span><span class="p">,</span> <span class="n">BaseModel</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">root_type</span>
 
-        <span class="k">return</span> <span class="n">create_model</span><span class="p">(</span>
+        <span class="k">return</span> <span class="n">create_model_v2</span><span class="p">(</span>
             <span class="s2">"RunnableWithChatHistoryOutput"</span><span class="p">,</span>
-            <span class="n">__root__</span><span class="o">=</span><span class="n">root_type</span><span class="p">,</span>
-            <span class="n">__module_name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__module__</span><span class="p">,</span>
+            <span class="n">root</span><span class="o">=</span><span class="n">root_type</span><span class="p">,</span>
+            <span class="n">module_name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__module__</span><span class="p">,</span>
         <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_is_not_async</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Any</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>

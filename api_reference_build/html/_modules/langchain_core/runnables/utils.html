@@ -38,7 +38,7 @@
 <link href="../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Sep 11, 2024" name="docbuild:last-update"/>
+<meta content="Sep 12, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -235,7 +235,6 @@ document.write(`
 <span class="kn">import</span> <span class="nn">asyncio</span>
 <span class="kn">import</span> <span class="nn">inspect</span>
 <span class="kn">import</span> <span class="nn">textwrap</span>
-<span class="kn">import</span> <span class="nn">warnings</span>
 <span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">lru_cache</span>
 <span class="kn">from</span> <span class="nn">inspect</span> <span class="kn">import</span> <span class="n">signature</span>
 <span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">groupby</span>
@@ -255,23 +254,16 @@ document.write(`
     <span class="n">Protocol</span><span class="p">,</span>
     <span class="n">Sequence</span><span class="p">,</span>
     <span class="n">Set</span><span class="p">,</span>
-    <span class="n">Type</span><span class="p">,</span>
     <span class="n">TypeVar</span><span class="p">,</span>
     <span class="n">Union</span><span class="p">,</span>
-    <span class="n">cast</span><span class="p">,</span>
 <span class="p">)</span>
 
-<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">ConfigDict</span><span class="p">,</span> <span class="n">PydanticDeprecationWarning</span><span class="p">,</span> <span class="n">RootModel</span>
-<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">create_model</span> <span class="k">as</span> <span class="n">_create_model_base</span>  <span class="c1"># pydantic :ignore</span>
-<span class="kn">from</span> <span class="nn">pydantic.json_schema</span> <span class="kn">import</span> <span class="p">(</span>
-    <span class="n">DEFAULT_REF_TEMPLATE</span><span class="p">,</span>
-    <span class="n">GenerateJsonSchema</span><span class="p">,</span>
-    <span class="n">JsonSchemaMode</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="kn">from</span> <span class="nn">pydantic.v1</span> <span class="kn">import</span> <span class="n">BaseModel</span> <span class="k">as</span> <span class="n">BaseModelV1</span>
 <span class="kn">from</span> <span class="nn">typing_extensions</span> <span class="kn">import</span> <span class="n">TypeGuard</span>
 
 <span class="kn">from</span> <span class="nn">langchain_core.runnables.schema</span> <span class="kn">import</span> <span class="n">StreamEvent</span>
+
+<span class="c1"># Re-export create-model for backwards compatibility</span>
+<span class="kn">from</span> <span class="nn">langchain_core.utils.pydantic</span> <span class="kn">import</span> <span class="n">create_model</span> <span class="k">as</span> <span class="n">create_model</span>
 
 <span class="n">Input</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">"Input"</span><span class="p">,</span> <span class="n">contravariant</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="c1"># Output type should implement __concat__, as eg str, list, dict do</span>
@@ -1051,144 +1043,6 @@ document.write(`
             <span class="p">)</span>
 
         <span class="k">return</span> <span class="n">include</span>
-
-
-<span class="n">_SchemaConfig</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">arbitrary_types_allowed</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-
-<span class="n">NO_DEFAULT</span> <span class="o">=</span> <span class="nb">object</span><span class="p">()</span>
-
-
-<span class="k">def</span> <span class="nf">_create_root_model</span><span class="p">(</span>
-    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-    <span class="n">type_</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
-    <span class="n">module_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">default_</span><span class="p">:</span> <span class="nb">object</span> <span class="o">=</span> <span class="n">NO_DEFAULT</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Type</span><span class="p">[</span><span class="n">BaseModel</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">"""Create a base class."""</span>
-
-    <span class="k">def</span> <span class="nf">schema</span><span class="p">(</span>
-        <span class="bp">cls</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">BaseModel</span><span class="p">],</span>
-        <span class="n">by_alias</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-        <span class="n">ref_template</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">DEFAULT_REF_TEMPLATE</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-        <span class="c1"># Complains about schema not being defined in superclass</span>
-        <span class="n">schema_</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="bp">cls</span><span class="p">)</span><span class="o">.</span><span class="n">schema</span><span class="p">(</span>  <span class="c1"># type: ignore[misc]</span>
-            <span class="n">by_alias</span><span class="o">=</span><span class="n">by_alias</span><span class="p">,</span> <span class="n">ref_template</span><span class="o">=</span><span class="n">ref_template</span>
-        <span class="p">)</span>
-        <span class="n">schema_</span><span class="p">[</span><span class="s2">"title"</span><span class="p">]</span> <span class="o">=</span> <span class="n">name</span>
-        <span class="k">return</span> <span class="n">schema_</span>
-
-    <span class="k">def</span> <span class="nf">model_json_schema</span><span class="p">(</span>
-        <span class="bp">cls</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">BaseModel</span><span class="p">],</span>
-        <span class="n">by_alias</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-        <span class="n">ref_template</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">DEFAULT_REF_TEMPLATE</span><span class="p">,</span>
-        <span class="n">schema_generator</span><span class="p">:</span> <span class="nb">type</span><span class="p">[</span><span class="n">GenerateJsonSchema</span><span class="p">]</span> <span class="o">=</span> <span class="n">GenerateJsonSchema</span><span class="p">,</span>
-        <span class="n">mode</span><span class="p">:</span> <span class="n">JsonSchemaMode</span> <span class="o">=</span> <span class="s2">"validation"</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-        <span class="c1"># Complains about model_json_schema not being defined in superclass</span>
-        <span class="n">schema_</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="bp">cls</span><span class="p">)</span><span class="o">.</span><span class="n">model_json_schema</span><span class="p">(</span>  <span class="c1"># type: ignore[misc]</span>
-            <span class="n">by_alias</span><span class="o">=</span><span class="n">by_alias</span><span class="p">,</span>
-            <span class="n">ref_template</span><span class="o">=</span><span class="n">ref_template</span><span class="p">,</span>
-            <span class="n">schema_generator</span><span class="o">=</span><span class="n">schema_generator</span><span class="p">,</span>
-            <span class="n">mode</span><span class="o">=</span><span class="n">mode</span><span class="p">,</span>
-        <span class="p">)</span>
-        <span class="n">schema_</span><span class="p">[</span><span class="s2">"title"</span><span class="p">]</span> <span class="o">=</span> <span class="n">name</span>
-        <span class="k">return</span> <span class="n">schema_</span>
-
-    <span class="n">base_class_attributes</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">"__annotations__"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"root"</span><span class="p">:</span> <span class="n">type_</span><span class="p">},</span>
-        <span class="s2">"model_config"</span><span class="p">:</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">arbitrary_types_allowed</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
-        <span class="s2">"schema"</span><span class="p">:</span> <span class="nb">classmethod</span><span class="p">(</span><span class="n">schema</span><span class="p">),</span>
-        <span class="s2">"model_json_schema"</span><span class="p">:</span> <span class="nb">classmethod</span><span class="p">(</span><span class="n">model_json_schema</span><span class="p">),</span>
-        <span class="s2">"__module__"</span><span class="p">:</span> <span class="n">module_name</span> <span class="ow">or</span> <span class="s2">"langchain_core.runnables.utils"</span><span class="p">,</span>
-    <span class="p">}</span>
-
-    <span class="k">if</span> <span class="n">default_</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">NO_DEFAULT</span><span class="p">:</span>
-        <span class="n">base_class_attributes</span><span class="p">[</span><span class="s2">"root"</span><span class="p">]</span> <span class="o">=</span> <span class="n">default_</span>
-    <span class="k">with</span> <span class="n">warnings</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">():</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">type_</span><span class="p">,</span> <span class="nb">type</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">type_</span><span class="p">,</span> <span class="n">BaseModelV1</span><span class="p">):</span>
-            <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span>
-                <span class="n">action</span><span class="o">=</span><span class="s2">"ignore"</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="n">PydanticDeprecationWarning</span>
-            <span class="p">)</span>
-        <span class="n">custom_root_type</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="p">(</span><span class="n">RootModel</span><span class="p">,),</span> <span class="n">base_class_attributes</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">cast</span><span class="p">(</span><span class="n">Type</span><span class="p">[</span><span class="n">BaseModel</span><span class="p">],</span> <span class="n">custom_root_type</span><span class="p">)</span>
-
-
-<span class="nd">@lru_cache</span><span class="p">(</span><span class="n">maxsize</span><span class="o">=</span><span class="mi">256</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">_create_root_model_cached</span><span class="p">(</span>
-    <span class="n">__model_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-    <span class="n">type_</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
-    <span class="n">default_</span><span class="p">:</span> <span class="nb">object</span> <span class="o">=</span> <span class="n">NO_DEFAULT</span><span class="p">,</span>
-    <span class="n">module_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Type</span><span class="p">[</span><span class="n">BaseModel</span><span class="p">]:</span>
-    <span class="k">return</span> <span class="n">_create_root_model</span><span class="p">(</span>
-        <span class="n">__model_name</span><span class="p">,</span> <span class="n">type_</span><span class="p">,</span> <span class="n">default_</span><span class="o">=</span><span class="n">default_</span><span class="p">,</span> <span class="n">module_name</span><span class="o">=</span><span class="n">module_name</span>
-    <span class="p">)</span>
-
-
-<div class="viewcode-block" id="create_model">
-<a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.utils.create_model.html#langchain_core.runnables.utils.create_model">[docs]</a>
-<span class="k">def</span> <span class="nf">create_model</span><span class="p">(</span>
-    <span class="n">__model_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-    <span class="n">__module_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="o">**</span><span class="n">field_definitions</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Type</span><span class="p">[</span><span class="n">BaseModel</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">"""Create a pydantic model with the given field definitions.</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        __model_name: The name of the model.</span>
-<span class="sd">        __module_name: The name of the module where the model is defined.</span>
-<span class="sd">            This is used by Pydantic to resolve any forward references.</span>
-<span class="sd">        **field_definitions: The field definitions for the model.</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        Type[BaseModel]: The created model.</span>
-<span class="sd">    """</span>
-
-    <span class="c1"># Move this to caching path</span>
-    <span class="k">if</span> <span class="s2">"__root__"</span> <span class="ow">in</span> <span class="n">field_definitions</span><span class="p">:</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">field_definitions</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
-                <span class="s2">"When specifying __root__ no other "</span>
-                <span class="sa">f</span><span class="s2">"fields should be provided. Got </span><span class="si">{</span><span class="n">field_definitions</span><span class="si">}</span><span class="s2">"</span>
-            <span class="p">)</span>
-
-        <span class="n">arg</span> <span class="o">=</span> <span class="n">field_definitions</span><span class="p">[</span><span class="s2">"__root__"</span><span class="p">]</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
-            <span class="n">kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"type_"</span><span class="p">:</span> <span class="n">arg</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">"default_"</span><span class="p">:</span> <span class="n">arg</span><span class="p">[</span><span class="mi">1</span><span class="p">]}</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"type_"</span><span class="p">:</span> <span class="n">arg</span><span class="p">}</span>
-
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">named_root_model</span> <span class="o">=</span> <span class="n">_create_root_model_cached</span><span class="p">(</span>
-                <span class="n">__model_name</span><span class="p">,</span> <span class="n">module_name</span><span class="o">=</span><span class="n">__module_name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
-            <span class="p">)</span>
-        <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
-            <span class="c1"># something in the arguments into _create_root_model_cached is not hashable</span>
-            <span class="n">named_root_model</span> <span class="o">=</span> <span class="n">_create_root_model</span><span class="p">(</span>
-                <span class="n">__model_name</span><span class="p">,</span>
-                <span class="n">module_name</span><span class="o">=</span><span class="n">__module_name</span><span class="p">,</span>
-                <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
-            <span class="p">)</span>
-        <span class="k">return</span> <span class="n">named_root_model</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">_create_model_cached</span><span class="p">(</span><span class="n">__model_name</span><span class="p">,</span> <span class="o">**</span><span class="n">field_definitions</span><span class="p">)</span>
-    <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
-        <span class="c1"># something in field definitions is not hashable</span>
-        <span class="k">return</span> <span class="n">_create_model_base</span><span class="p">(</span>
-            <span class="n">__model_name</span><span class="p">,</span> <span class="n">__config__</span><span class="o">=</span><span class="n">_SchemaConfig</span><span class="p">,</span> <span class="o">**</span><span class="n">field_definitions</span>
-        <span class="p">)</span></div>
-
-
-
-<span class="nd">@lru_cache</span><span class="p">(</span><span class="n">maxsize</span><span class="o">=</span><span class="mi">256</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">_create_model_cached</span><span class="p">(</span>
-    <span class="n">__model_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-    <span class="o">**</span><span class="n">field_definitions</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Type</span><span class="p">[</span><span class="n">BaseModel</span><span class="p">]:</span>
-    <span class="k">return</span> <span class="n">_create_model_base</span><span class="p">(</span>
-        <span class="n">__model_name</span><span class="p">,</span> <span class="n">__config__</span><span class="o">=</span><span class="n">_SchemaConfig</span><span class="p">,</span> <span class="o">**</span><span class="n">field_definitions</span>
-    <span class="p">)</span>
 
 
 <div class="viewcode-block" id="is_async_generator">
