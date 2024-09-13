@@ -38,7 +38,7 @@
 <link href="../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Sep 12, 2024" name="docbuild:last-update"/>
+<meta content="Sep 13, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -445,10 +445,24 @@ document.write(`
 <span class="k">def</span> <span class="nf">_format_dict_to_function_declaration</span><span class="p">(</span>
     <span class="n">tool</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">FunctionDescription</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]],</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">gapic</span><span class="o">.</span><span class="n">FunctionDeclaration</span><span class="p">:</span>
+    <span class="c1"># Ensure we send "anyOf" parameters through pydantic v2 schema parsing</span>
+    <span class="n">pydantic_version</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tool</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="n">properties</span> <span class="o">=</span> <span class="n">tool</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"parameters"</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"properties"</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
+        <span class="k">for</span> <span class="nb">property</span> <span class="ow">in</span> <span class="n">properties</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s2">"anyOf"</span> <span class="ow">in</span> <span class="nb">property</span><span class="p">:</span>
+                <span class="n">pydantic_version</span> <span class="o">=</span> <span class="s2">"v2"</span>
+    <span class="k">if</span> <span class="n">pydantic_version</span><span class="p">:</span>
+        <span class="n">parameters</span> <span class="o">=</span> <span class="n">_dict_to_gapic_schema</span><span class="p">(</span>
+            <span class="n">tool</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"parameters"</span><span class="p">,</span> <span class="p">{}),</span> <span class="n">pydantic_version</span><span class="o">=</span><span class="n">pydantic_version</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">parameters</span> <span class="o">=</span> <span class="n">_dict_to_gapic_schema</span><span class="p">(</span><span class="n">tool</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"parameters"</span><span class="p">,</span> <span class="p">{}))</span>
+
     <span class="k">return</span> <span class="n">gapic</span><span class="o">.</span><span class="n">FunctionDeclaration</span><span class="p">(</span>
         <span class="n">name</span><span class="o">=</span><span class="n">tool</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"name"</span><span class="p">),</span>
         <span class="n">description</span><span class="o">=</span><span class="n">tool</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"description"</span><span class="p">),</span>
-        <span class="n">parameters</span><span class="o">=</span><span class="n">_dict_to_gapic_schema</span><span class="p">(</span><span class="n">tool</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"parameters"</span><span class="p">,</span> <span class="p">{})),</span>
+        <span class="n">parameters</span><span class="o">=</span><span class="n">parameters</span><span class="p">,</span>
     <span class="p">)</span>
 
 

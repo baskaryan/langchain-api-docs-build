@@ -38,7 +38,7 @@
 <link href="../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Sep 12, 2024" name="docbuild:last-update"/>
+<meta content="Sep 13, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -563,6 +563,10 @@ document.write(`
             <span class="n">values</span><span class="p">[</span><span class="s2">"callbacks"</span><span class="p">]</span> <span class="o">=</span> <span class="n">values</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"callback_manager"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">values</span>
 
+    <span class="nd">@functools</span><span class="o">.</span><span class="n">cached_property</span>
+    <span class="k">def</span> <span class="nf">_serialized</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="n">dumpd</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
     <span class="c1"># --- Runnable methods ---</span>
 
     <span class="nd">@property</span>
@@ -804,7 +808,7 @@ document.write(`
                 <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="p">,</span>
             <span class="p">)</span>
             <span class="p">(</span><span class="n">run_manager</span><span class="p">,)</span> <span class="o">=</span> <span class="n">callback_manager</span><span class="o">.</span><span class="n">on_llm_start</span><span class="p">(</span>
-                <span class="n">dumpd</span><span class="p">(</span><span class="bp">self</span><span class="p">),</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_serialized</span><span class="p">,</span>
                 <span class="p">[</span><span class="n">prompt</span><span class="p">],</span>
                 <span class="n">invocation_params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
                 <span class="n">options</span><span class="o">=</span><span class="n">options</span><span class="p">,</span>
@@ -872,7 +876,7 @@ document.write(`
             <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="p">(</span><span class="n">run_manager</span><span class="p">,)</span> <span class="o">=</span> <span class="k">await</span> <span class="n">callback_manager</span><span class="o">.</span><span class="n">on_llm_start</span><span class="p">(</span>
-            <span class="n">dumpd</span><span class="p">(</span><span class="bp">self</span><span class="p">),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_serialized</span><span class="p">,</span>
             <span class="p">[</span><span class="n">prompt</span><span class="p">],</span>
             <span class="n">invocation_params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
             <span class="n">options</span><span class="o">=</span><span class="n">options</span><span class="p">,</span>
@@ -1203,7 +1207,7 @@ document.write(`
         <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cache</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">get_llm_cache</span><span class="p">()</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">cache</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
             <span class="n">run_managers</span> <span class="o">=</span> <span class="p">[</span>
                 <span class="n">callback_manager</span><span class="o">.</span><span class="n">on_llm_start</span><span class="p">(</span>
-                    <span class="n">dumpd</span><span class="p">(</span><span class="bp">self</span><span class="p">),</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_serialized</span><span class="p">,</span>
                     <span class="p">[</span><span class="n">prompt</span><span class="p">],</span>
                     <span class="n">invocation_params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
                     <span class="n">options</span><span class="o">=</span><span class="n">options</span><span class="p">,</span>
@@ -1222,7 +1226,7 @@ document.write(`
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">missing_prompts</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">run_managers</span> <span class="o">=</span> <span class="p">[</span>
                 <span class="n">callback_managers</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">on_llm_start</span><span class="p">(</span>
-                    <span class="n">dumpd</span><span class="p">(</span><span class="bp">self</span><span class="p">),</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_serialized</span><span class="p">,</span>
                     <span class="p">[</span><span class="n">prompts</span><span class="p">[</span><span class="n">idx</span><span class="p">]],</span>
                     <span class="n">invocation_params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
                     <span class="n">options</span><span class="o">=</span><span class="n">options</span><span class="p">,</span>
@@ -1443,7 +1447,7 @@ document.write(`
             <span class="n">run_managers</span> <span class="o">=</span> <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span>
                 <span class="o">*</span><span class="p">[</span>
                     <span class="n">callback_manager</span><span class="o">.</span><span class="n">on_llm_start</span><span class="p">(</span>
-                        <span class="n">dumpd</span><span class="p">(</span><span class="bp">self</span><span class="p">),</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_serialized</span><span class="p">,</span>
                         <span class="p">[</span><span class="n">prompt</span><span class="p">],</span>
                         <span class="n">invocation_params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
                         <span class="n">options</span><span class="o">=</span><span class="n">options</span><span class="p">,</span>
@@ -1469,7 +1473,7 @@ document.write(`
             <span class="n">run_managers</span> <span class="o">=</span> <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span>
                 <span class="o">*</span><span class="p">[</span>
                     <span class="n">callback_managers</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">on_llm_start</span><span class="p">(</span>
-                        <span class="n">dumpd</span><span class="p">(</span><span class="bp">self</span><span class="p">),</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_serialized</span><span class="p">,</span>
                         <span class="p">[</span><span class="n">prompts</span><span class="p">[</span><span class="n">idx</span><span class="p">]],</span>
                         <span class="n">invocation_params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
                         <span class="n">options</span><span class="o">=</span><span class="n">options</span><span class="p">,</span>
