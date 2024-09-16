@@ -1,7 +1,7 @@
 
 <!DOCTYPE html>
 
-<html data-content_root="" lang="en">
+<html data-content_root="../../../" lang="en">
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
@@ -18,27 +18,27 @@
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" rel="preload" type="font/woff2"/>
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" rel="preload" type="font/woff2"/>
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" rel="preload" type="font/woff2"/>
-<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css?v=a746c00c" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/autodoc_pydantic.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/sphinx-design.4cbf315f70debaebd550c87a6162cf0f.min.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/css/custom.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/copybutton.css?v=76b2166b" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/sphinx-design.min.css?v=95c83b7e" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/css/custom.css?v=b95e2228" rel="stylesheet" type="text/css"/>
 <!-- Pre-loaded scripts that we'll load fully later -->
 <link as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
 <link as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
 <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-<script src="../../../_static/doctools.js"></script>
-<script src="../../../_static/sphinx_highlight.js"></script>
-<script src="../../../_static/clipboard.min.js"></script>
-<script src="../../../_static/copybutton.js"></script>
-<script src="../../../_static/design-tabs.js"></script>
+<script src="../../../_static/documentation_options.js?v=3b5cce75"></script>
+<script src="../../../_static/doctools.js?v=9a2dae69"></script>
+<script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+<script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+<script src="../../../_static/copybutton.js?v=f281be69"></script>
+<script src="../../../_static/design-tabs.js?v=f930bc37"></script>
 <script>DOCUMENTATION_OPTIONS.pagename = '_modules/langchain_google_community/bq_storage_vectorstores/bigquery';</script>
 <link href="../../../_static/favicon.png" rel="icon"/>
 <link href="../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Sep 13, 2024" name="docbuild:last-update"/>
+<meta content="Sep 16, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -235,10 +235,12 @@ document.write(`
 <span class="kn">from</span> <span class="nn">google.api_core.exceptions</span> <span class="kn">import</span> <span class="n">ClientError</span>
 <span class="kn">from</span> <span class="nn">langchain_core.documents</span> <span class="kn">import</span> <span class="n">Document</span>
 <span class="kn">from</span> <span class="nn">langchain_core.embeddings</span> <span class="kn">import</span> <span class="n">Embeddings</span>
-<span class="kn">from</span> <span class="nn">langchain_core.pydantic_v1</span> <span class="kn">import</span> <span class="n">root_validator</span>
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">model_validator</span>
 
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
     <span class="kn">from</span> <span class="nn">google.cloud.bigquery.table</span> <span class="kn">import</span> <span class="n">Table</span>
+
+<span class="kn">from</span> <span class="nn">typing_extensions</span> <span class="kn">import</span> <span class="n">Self</span>
 
 <span class="kn">from</span> <span class="nn">langchain_google_community.bq_storage_vectorstores._base</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">BaseBigQueryVectorStore</span><span class="p">,</span>
@@ -252,7 +254,9 @@ document.write(`
 <span class="n">USER_AGENT_PREFIX</span> <span class="o">=</span> <span class="s2">"FeatureStore"</span>
 
 
-<div class="viewcode-block" id="BigQueryVectorStore"><a class="viewcode-back" href="../../../google_community/bq_storage_vectorstores/langchain_google_community.bq_storage_vectorstores.bigquery.BigQueryVectorStore.html#langchain_google_community.bq_storage_vectorstores.bigquery.BigQueryVectorStore">[docs]</a><span class="k">class</span> <span class="nc">BigQueryVectorStore</span><span class="p">(</span><span class="n">BaseBigQueryVectorStore</span><span class="p">):</span>
+<div class="viewcode-block" id="BigQueryVectorStore">
+<a class="viewcode-back" href="../../../google_community/bq_storage_vectorstores/langchain_google_community.bq_storage_vectorstores.bigquery.BigQueryVectorStore.html#langchain_google_community.bq_storage_vectorstores.bigquery.BigQueryVectorStore">[docs]</a>
+<span class="k">class</span> <span class="nc">BigQueryVectorStore</span><span class="p">(</span><span class="n">BaseBigQueryVectorStore</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    A vector store implementation that utilizes BigQuery and BigQuery Vector Search.</span>
 
@@ -286,10 +290,15 @@ document.write(`
     <span class="n">_have_index</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">_last_index_check</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">min</span>
 
-<div class="viewcode-block" id="BigQueryVectorStore.sync_data"><a class="viewcode-back" href="../../../google_community/bq_storage_vectorstores/langchain_google_community.bq_storage_vectorstores.bigquery.BigQueryVectorStore.html#langchain_google_community.bq_storage_vectorstores.bigquery.BigQueryVectorStore.sync_data">[docs]</a>    <span class="k">def</span> <span class="nf">sync_data</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="BigQueryVectorStore.sync_data">
+<a class="viewcode-back" href="../../../google_community/bq_storage_vectorstores/langchain_google_community.bq_storage_vectorstores.bigquery.BigQueryVectorStore.html#langchain_google_community.bq_storage_vectorstores.bigquery.BigQueryVectorStore.sync_data">[docs]</a>
+    <span class="k">def</span> <span class="nf">sync_data</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">pass</span></div>
 
-<div class="viewcode-block" id="BigQueryVectorStore.get_documents"><a class="viewcode-back" href="../../../google_community/bq_storage_vectorstores/langchain_google_community.bq_storage_vectorstores.bigquery.BigQueryVectorStore.html#langchain_google_community.bq_storage_vectorstores.bigquery.BigQueryVectorStore.get_documents">[docs]</a>    <span class="k">def</span> <span class="nf">get_documents</span><span class="p">(</span>
+
+<div class="viewcode-block" id="BigQueryVectorStore.get_documents">
+<a class="viewcode-back" href="../../../google_community/bq_storage_vectorstores/langchain_google_community.bq_storage_vectorstores.bigquery.BigQueryVectorStore.html#langchain_google_community.bq_storage_vectorstores.bigquery.BigQueryVectorStore.get_documents">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_documents</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">ids</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="nb">filter</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -343,67 +352,68 @@ document.write(`
             <span class="n">docs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">docs</span></div>
 
-    <span class="nd">@root_validator</span><span class="p">(</span><span class="n">pre</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">skip_on_failure</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">initialize_bq_vector_index</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+
+    <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">"after"</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">initialize_bq_vector_index</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        A vector index in BigQuery table enables efficient</span>
 <span class="sd">        approximate vector search.</span>
 <span class="sd">        """</span>
         <span class="kn">from</span> <span class="nn">google.cloud</span> <span class="kn">import</span> <span class="n">bigquery</span>  <span class="c1"># type: ignore[attr-defined]</span>
 
-        <span class="n">values</span><span class="p">[</span><span class="s2">"_creating_index"</span><span class="p">]</span> <span class="o">=</span> <span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"_creating_index"</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
-        <span class="n">values</span><span class="p">[</span><span class="s2">"_have_index"</span><span class="p">]</span> <span class="o">=</span> <span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"_have_index"</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
-        <span class="n">values</span><span class="p">[</span><span class="s2">"_last_index_check"</span><span class="p">]</span> <span class="o">=</span> <span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"_last_index_check"</span><span class="p">,</span> <span class="n">datetime</span><span class="o">.</span><span class="n">min</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_creating_index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_creating_index</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_have_index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_have_index</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_last_index_check</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_last_index_check</span>
 
-        <span class="k">if</span> <span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"_have_index"</span><span class="p">)</span> <span class="ow">or</span> <span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"_creating_index"</span><span class="p">):</span>
-            <span class="k">return</span> <span class="n">values</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_have_index</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_creating_index</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span>
 
-        <span class="n">table</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="s2">"_bq_client"</span><span class="p">]</span><span class="o">.</span><span class="n">get_table</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="s2">"_full_table_id"</span><span class="p">])</span>  <span class="c1"># type: ignore[union-attr]</span>
+        <span class="n">table</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bq_client</span><span class="o">.</span><span class="n">get_table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_full_table_id</span><span class="p">)</span>  <span class="c1"># type: ignore[union-attr]</span>
 
         <span class="c1"># Update existing table schema</span>
         <span class="n">schema</span> <span class="o">=</span> <span class="n">table</span><span class="o">.</span><span class="n">schema</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">schema</span><span class="p">:</span>  <span class="c1">## Check if table has a schema</span>
-            <span class="n">values</span><span class="p">[</span><span class="s2">"table_schema"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">field</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">field</span><span class="o">.</span><span class="n">field_type</span> <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="n">schema</span><span class="p">}</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">table_schema</span> <span class="o">=</span> <span class="p">{</span><span class="n">field</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">field</span><span class="o">.</span><span class="n">field_type</span> <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="n">schema</span><span class="p">}</span>
 
         <span class="k">if</span> <span class="p">(</span><span class="n">table</span><span class="o">.</span><span class="n">num_rows</span> <span class="ow">or</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">MIN_INDEX_ROWS</span><span class="p">:</span>
-            <span class="n">values</span><span class="p">[</span><span class="s2">"_logger"</span><span class="p">]</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"Not enough rows to create a vector index."</span><span class="p">)</span>
-            <span class="k">return</span> <span class="n">values</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"Not enough rows to create a vector index."</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">self</span>
 
-        <span class="k">if</span> <span class="n">datetime</span><span class="o">.</span><span class="n">utcnow</span><span class="p">()</span> <span class="o">-</span> <span class="n">values</span><span class="p">[</span><span class="s2">"_last_index_check"</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">INDEX_CHECK_INTERVAL</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">values</span>
+        <span class="k">if</span> <span class="n">datetime</span><span class="o">.</span><span class="n">utcnow</span><span class="p">()</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_last_index_check</span> <span class="o">&lt;</span> <span class="n">INDEX_CHECK_INTERVAL</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span>
 
         <span class="k">with</span> <span class="n">_vector_table_lock</span><span class="p">:</span>
-            <span class="n">values</span><span class="p">[</span><span class="s2">"_last_index_check"</span><span class="p">]</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">utcnow</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_last_index_check</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">utcnow</span><span class="p">()</span>
             <span class="c1"># Check if index exists, create if necessary</span>
             <span class="n">check_query</span> <span class="o">=</span> <span class="p">(</span>
-                <span class="sa">f</span><span class="s2">"SELECT 1 FROM `</span><span class="si">{</span><span class="n">values</span><span class="p">[</span><span class="s1">'project_id'</span><span class="p">]</span><span class="si">}</span><span class="s2">."</span>
-                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">values</span><span class="p">[</span><span class="s1">'dataset_name'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span>
+                <span class="sa">f</span><span class="s2">"SELECT 1 FROM `</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">project_id</span><span class="si">}</span><span class="s2">."</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">dataset_name</span><span class="si">}</span><span class="s2">"</span>
                 <span class="s2">".INFORMATION_SCHEMA.VECTOR_INDEXES` WHERE"</span>
-                <span class="sa">f</span><span class="s2">" table_name = '</span><span class="si">{</span><span class="n">values</span><span class="p">[</span><span class="s1">'table_name'</span><span class="p">]</span><span class="si">}</span><span class="s2">'"</span>
+                <span class="sa">f</span><span class="s2">" table_name = '</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">table_name</span><span class="si">}</span><span class="s2">'"</span>
             <span class="p">)</span>
-            <span class="n">job</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="s2">"_bq_client"</span><span class="p">]</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>  <span class="c1"># type: ignore[union-attr]</span>
+            <span class="n">job</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bq_client</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>  <span class="c1"># type: ignore[union-attr]</span>
                 <span class="n">check_query</span><span class="p">,</span> <span class="n">api_method</span><span class="o">=</span><span class="n">bigquery</span><span class="o">.</span><span class="n">enums</span><span class="o">.</span><span class="n">QueryApiMethod</span><span class="o">.</span><span class="n">QUERY</span>
             <span class="p">)</span>
             <span class="k">if</span> <span class="n">job</span><span class="o">.</span><span class="n">result</span><span class="p">()</span><span class="o">.</span><span class="n">total_rows</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="c1"># Need to create an index. Make it in a separate thread.</span>
-                <span class="n">values</span><span class="p">[</span><span class="s2">"_logger"</span><span class="p">]</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"Trying to create a vector index."</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"Trying to create a vector index."</span><span class="p">)</span>
                 <span class="n">Thread</span><span class="p">(</span>
                     <span class="n">target</span><span class="o">=</span><span class="n">_create_bq_index</span><span class="p">,</span>
                     <span class="n">kwargs</span><span class="o">=</span><span class="p">{</span>
-                        <span class="s2">"bq_client"</span><span class="p">:</span> <span class="n">values</span><span class="p">[</span><span class="s2">"_bq_client"</span><span class="p">],</span>
-                        <span class="s2">"table_name"</span><span class="p">:</span> <span class="n">values</span><span class="p">[</span><span class="s2">"table_name"</span><span class="p">],</span>
-                        <span class="s2">"full_table_id"</span><span class="p">:</span> <span class="n">values</span><span class="p">[</span><span class="s2">"_full_table_id"</span><span class="p">],</span>
-                        <span class="s2">"embedding_field"</span><span class="p">:</span> <span class="n">values</span><span class="p">[</span><span class="s2">"embedding_field"</span><span class="p">],</span>
-                        <span class="s2">"distance_type"</span><span class="p">:</span> <span class="n">values</span><span class="p">[</span><span class="s2">"distance_type"</span><span class="p">],</span>
-                        <span class="s2">"logger"</span><span class="p">:</span> <span class="n">values</span><span class="p">[</span><span class="s2">"_logger"</span><span class="p">],</span>
+                        <span class="s2">"bq_client"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bq_client</span><span class="p">,</span>
+                        <span class="s2">"table_name"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">table_name</span><span class="p">,</span>
+                        <span class="s2">"full_table_id"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_full_table_id</span><span class="p">,</span>
+                        <span class="s2">"embedding_field"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">embedding_field</span><span class="p">,</span>
+                        <span class="s2">"distance_type"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">distance_type</span><span class="p">,</span>
+                        <span class="s2">"logger"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="p">,</span>
                     <span class="p">},</span>
                     <span class="n">daemon</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                 <span class="p">)</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
 
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">values</span><span class="p">[</span><span class="s2">"_logger"</span><span class="p">]</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"Vector index already exists."</span><span class="p">)</span>
-                <span class="n">values</span><span class="p">[</span><span class="s2">"_have_index"</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
-            <span class="k">return</span> <span class="n">values</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"Vector index already exists."</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_have_index</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">return</span> <span class="bp">self</span>
 
     <span class="k">def</span> <span class="nf">_similarity_search_by_vectors_with_scores_and_embeddings</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -674,7 +684,9 @@ document.write(`
         <span class="n">results_docs</span> <span class="o">=</span> <span class="p">[</span><span class="n">documents</span><span class="p">[</span><span class="n">i</span> <span class="o">*</span> <span class="n">k</span> <span class="p">:</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_queries</span><span class="p">)]</span>
         <span class="k">return</span> <span class="n">results_docs</span>
 
-<div class="viewcode-block" id="BigQueryVectorStore.batch_search"><a class="viewcode-back" href="../../../google_community/bq_storage_vectorstores/langchain_google_community.bq_storage_vectorstores.bigquery.BigQueryVectorStore.html#langchain_google_community.bq_storage_vectorstores.bigquery.BigQueryVectorStore.batch_search">[docs]</a>    <span class="k">def</span> <span class="nf">batch_search</span><span class="p">(</span>
+<div class="viewcode-block" id="BigQueryVectorStore.batch_search">
+<a class="viewcode-back" href="../../../google_community/bq_storage_vectorstores/langchain_google_community.bq_storage_vectorstores.bigquery.BigQueryVectorStore.html#langchain_google_community.bq_storage_vectorstores.bigquery.BigQueryVectorStore.batch_search">[docs]</a>
+    <span class="k">def</span> <span class="nf">batch_search</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">embeddings</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">queries</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -746,7 +758,10 @@ document.write(`
             <span class="n">with_embeddings</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="BigQueryVectorStore.from_texts"><a class="viewcode-back" href="../../../google_community/bq_storage_vectorstores/langchain_google_community.bq_storage_vectorstores.bigquery.BigQueryVectorStore.html#langchain_google_community.bq_storage_vectorstores.bigquery.BigQueryVectorStore.from_texts">[docs]</a>    <span class="nd">@classmethod</span>
+
+<div class="viewcode-block" id="BigQueryVectorStore.from_texts">
+<a class="viewcode-back" href="../../../google_community/bq_storage_vectorstores/langchain_google_community.bq_storage_vectorstores.bigquery.BigQueryVectorStore.html#langchain_google_community.bq_storage_vectorstores.bigquery.BigQueryVectorStore.from_texts">[docs]</a>
+    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_texts</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="s2">"BigQueryVectorStore"</span><span class="p">],</span>
         <span class="n">texts</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
@@ -769,7 +784,10 @@ document.write(`
         <span class="n">vs_obj</span><span class="o">.</span><span class="n">add_texts</span><span class="p">(</span><span class="n">texts</span><span class="p">,</span> <span class="n">metadatas</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">vs_obj</span></div>
 
-<div class="viewcode-block" id="BigQueryVectorStore.to_vertex_fs_vector_store"><a class="viewcode-back" href="../../../google_community/bq_storage_vectorstores/langchain_google_community.bq_storage_vectorstores.bigquery.BigQueryVectorStore.html#langchain_google_community.bq_storage_vectorstores.bigquery.BigQueryVectorStore.to_vertex_fs_vector_store">[docs]</a>    <span class="k">def</span> <span class="nf">to_vertex_fs_vector_store</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+
+<div class="viewcode-block" id="BigQueryVectorStore.to_vertex_fs_vector_store">
+<a class="viewcode-back" href="../../../google_community/bq_storage_vectorstores/langchain_google_community.bq_storage_vectorstores.bigquery.BigQueryVectorStore.html#langchain_google_community.bq_storage_vectorstores.bigquery.BigQueryVectorStore.to_vertex_fs_vector_store">[docs]</a>
+    <span class="k">def</span> <span class="nf">to_vertex_fs_vector_store</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Creates and returns a VertexFSVectorStore instance based on configuration.</span>
 
@@ -794,13 +812,18 @@ document.write(`
             <span class="n">VertexFSVectorStore</span><span class="p">,</span>
         <span class="p">)</span>
 
-        <span class="n">base_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dict</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="n">BaseBigQueryVectorStore</span><span class="o">.</span><span class="n">__fields__</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+        <span class="n">base_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_dump</span><span class="p">(</span>
+            <span class="n">include</span><span class="o">=</span><span class="nb">set</span><span class="p">(</span><span class="n">BaseBigQueryVectorStore</span><span class="o">.</span><span class="n">model_fields</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+        <span class="p">)</span>
         <span class="n">base_params</span><span class="p">[</span><span class="s2">"embedding"</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">embedding</span>
         <span class="n">all_params</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">base_params</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">}</span>
         <span class="n">fs_obj</span> <span class="o">=</span> <span class="n">VertexFSVectorStore</span><span class="p">(</span><span class="o">**</span><span class="n">all_params</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">fs_obj</span></div>
 
-<div class="viewcode-block" id="BigQueryVectorStore.job_stats"><a class="viewcode-back" href="../../../google_community/bq_storage_vectorstores/langchain_google_community.bq_storage_vectorstores.bigquery.BigQueryVectorStore.html#langchain_google_community.bq_storage_vectorstores.bigquery.BigQueryVectorStore.job_stats">[docs]</a>    <span class="k">def</span> <span class="nf">job_stats</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">job_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+
+<div class="viewcode-block" id="BigQueryVectorStore.job_stats">
+<a class="viewcode-back" href="../../../google_community/bq_storage_vectorstores/langchain_google_community.bq_storage_vectorstores.bigquery.BigQueryVectorStore.html#langchain_google_community.bq_storage_vectorstores.bigquery.BigQueryVectorStore.job_stats">[docs]</a>
+    <span class="k">def</span> <span class="nf">job_stats</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">job_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Return the statistics for a single job execution.</span>
 
 <span class="sd">        Args:</span>
@@ -811,7 +834,9 @@ document.write(`
 <span class="sd">            details at [BigQuery Jobs]</span>
 <span class="sd">            (https://cloud.google.com/bigquery/docs/reference/rest/v2/Job#JobStatistics2).</span>
 <span class="sd">        """</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bq_client</span><span class="o">.</span><span class="n">get_job</span><span class="p">(</span><span class="n">job_id</span><span class="p">)</span><span class="o">.</span><span class="n">_properties</span><span class="p">[</span><span class="s2">"statistics"</span><span class="p">]</span></div></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bq_client</span><span class="o">.</span><span class="n">get_job</span><span class="p">(</span><span class="n">job_id</span><span class="p">)</span><span class="o">.</span><span class="n">_properties</span><span class="p">[</span><span class="s2">"statistics"</span><span class="p">]</span></div>
+</div>
+
 
 
 <span class="k">def</span> <span class="nf">_create_bq_index</span><span class="p">(</span>

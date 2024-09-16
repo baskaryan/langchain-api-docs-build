@@ -1,7 +1,7 @@
 
 <!DOCTYPE html>
 
-<html data-content_root="" lang="en">
+<html data-content_root="../../../" lang="en">
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
@@ -18,27 +18,27 @@
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" rel="preload" type="font/woff2"/>
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" rel="preload" type="font/woff2"/>
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" rel="preload" type="font/woff2"/>
-<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css?v=a746c00c" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/autodoc_pydantic.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/sphinx-design.4cbf315f70debaebd550c87a6162cf0f.min.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/css/custom.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/copybutton.css?v=76b2166b" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/sphinx-design.min.css?v=95c83b7e" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/css/custom.css?v=b95e2228" rel="stylesheet" type="text/css"/>
 <!-- Pre-loaded scripts that we'll load fully later -->
 <link as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
 <link as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
 <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-<script src="../../../_static/doctools.js"></script>
-<script src="../../../_static/sphinx_highlight.js"></script>
-<script src="../../../_static/clipboard.min.js"></script>
-<script src="../../../_static/copybutton.js"></script>
-<script src="../../../_static/design-tabs.js"></script>
+<script src="../../../_static/documentation_options.js?v=3b5cce75"></script>
+<script src="../../../_static/doctools.js?v=9a2dae69"></script>
+<script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+<script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+<script src="../../../_static/copybutton.js?v=f281be69"></script>
+<script src="../../../_static/design-tabs.js?v=f930bc37"></script>
 <script>DOCUMENTATION_OPTIONS.pagename = '_modules/langchain_core/prompts/string';</script>
 <link href="../../../_static/favicon.png" rel="icon"/>
 <link href="../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Sep 13, 2024" name="docbuild:last-update"/>
+<meta content="Sep 16, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -236,16 +236,19 @@ document.write(`
 <span class="kn">from</span> <span class="nn">string</span> <span class="kn">import</span> <span class="n">Formatter</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Set</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Type</span>
 
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">create_model</span>
+
 <span class="kn">import</span> <span class="nn">langchain_core.utils.mustache</span> <span class="k">as</span> <span class="nn">mustache</span>
 <span class="kn">from</span> <span class="nn">langchain_core.prompt_values</span> <span class="kn">import</span> <span class="n">PromptValue</span><span class="p">,</span> <span class="n">StringPromptValue</span>
 <span class="kn">from</span> <span class="nn">langchain_core.prompts.base</span> <span class="kn">import</span> <span class="n">BasePromptTemplate</span>
-<span class="kn">from</span> <span class="nn">langchain_core.pydantic_v1</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">create_model</span>
 <span class="kn">from</span> <span class="nn">langchain_core.utils</span> <span class="kn">import</span> <span class="n">get_colored_text</span>
 <span class="kn">from</span> <span class="nn">langchain_core.utils.formatting</span> <span class="kn">import</span> <span class="n">formatter</span>
 <span class="kn">from</span> <span class="nn">langchain_core.utils.interactive_env</span> <span class="kn">import</span> <span class="n">is_interactive_env</span>
 
 
-<div class="viewcode-block" id="jinja2_formatter"><a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.string.jinja2_formatter.html#langchain_core.prompts.few_shot.jinja2_formatter">[docs]</a><span class="k">def</span> <span class="nf">jinja2_formatter</span><span class="p">(</span><span class="n">template</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<div class="viewcode-block" id="jinja2_formatter">
+<a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.string.jinja2_formatter.html#langchain_core.prompts.few_shot.jinja2_formatter">[docs]</a>
+<span class="k">def</span> <span class="nf">jinja2_formatter</span><span class="p">(</span><span class="n">template</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Format a template using jinja2.</span>
 
 <span class="sd">    *Security warning*:</span>
@@ -288,7 +291,10 @@ document.write(`
     <span class="k">return</span> <span class="n">SandboxedEnvironment</span><span class="p">()</span><span class="o">.</span><span class="n">from_string</span><span class="p">(</span><span class="n">template</span><span class="p">)</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="validate_jinja2"><a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.string.validate_jinja2.html#langchain_core.prompts.few_shot.validate_jinja2">[docs]</a><span class="k">def</span> <span class="nf">validate_jinja2</span><span class="p">(</span><span class="n">template</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">input_variables</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+
+<div class="viewcode-block" id="validate_jinja2">
+<a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.string.validate_jinja2.html#langchain_core.prompts.few_shot.validate_jinja2">[docs]</a>
+<span class="k">def</span> <span class="nf">validate_jinja2</span><span class="p">(</span><span class="n">template</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">input_variables</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Validate that the input variables are valid for the template.</span>
 <span class="sd">    Issues a warning if missing or extra variables are found.</span>
@@ -313,6 +319,7 @@ document.write(`
         <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">warning_message</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span> <span class="n">stacklevel</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span></div>
 
 
+
 <span class="k">def</span> <span class="nf">_get_jinja2_variables_from_template</span><span class="p">(</span><span class="n">template</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Set</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="kn">from</span> <span class="nn">jinja2</span> <span class="kn">import</span> <span class="n">Environment</span><span class="p">,</span> <span class="n">meta</span>
@@ -327,7 +334,9 @@ document.write(`
     <span class="k">return</span> <span class="n">variables</span>
 
 
-<div class="viewcode-block" id="mustache_formatter"><a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.string.mustache_formatter.html#langchain_core.prompts.few_shot.mustache_formatter">[docs]</a><span class="k">def</span> <span class="nf">mustache_formatter</span><span class="p">(</span><span class="n">template</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<div class="viewcode-block" id="mustache_formatter">
+<a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.string.mustache_formatter.html#langchain_core.prompts.few_shot.mustache_formatter">[docs]</a>
+<span class="k">def</span> <span class="nf">mustache_formatter</span><span class="p">(</span><span class="n">template</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Format a template using mustache.</span>
 
 <span class="sd">    Args:</span>
@@ -340,7 +349,10 @@ document.write(`
     <span class="k">return</span> <span class="n">mustache</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">template</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="mustache_template_vars"><a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.string.mustache_template_vars.html#langchain_core.prompts.few_shot.mustache_template_vars">[docs]</a><span class="k">def</span> <span class="nf">mustache_template_vars</span><span class="p">(</span>
+
+<div class="viewcode-block" id="mustache_template_vars">
+<a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.string.mustache_template_vars.html#langchain_core.prompts.few_shot.mustache_template_vars">[docs]</a>
+<span class="k">def</span> <span class="nf">mustache_template_vars</span><span class="p">(</span>
     <span class="n">template</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Set</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">"""Get the variables from a mustache template.</span>
@@ -367,10 +379,13 @@ document.write(`
     <span class="k">return</span> <span class="nb">vars</span></div>
 
 
+
 <span class="n">Defs</span> <span class="o">=</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="s2">"Defs"</span><span class="p">]</span>
 
 
-<div class="viewcode-block" id="mustache_schema"><a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.string.mustache_schema.html#langchain_core.prompts.few_shot.mustache_schema">[docs]</a><span class="k">def</span> <span class="nf">mustache_schema</span><span class="p">(</span>
+<div class="viewcode-block" id="mustache_schema">
+<a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.string.mustache_schema.html#langchain_core.prompts.few_shot.mustache_schema">[docs]</a>
+<span class="k">def</span> <span class="nf">mustache_schema</span><span class="p">(</span>
     <span class="n">template</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Type</span><span class="p">[</span><span class="n">BaseModel</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">"""Get the variables from a mustache template.</span>
@@ -406,6 +421,7 @@ document.write(`
     <span class="k">return</span> <span class="n">_create_model_recursive</span><span class="p">(</span><span class="s2">"PromptInput"</span><span class="p">,</span> <span class="n">defs</span><span class="p">)</span></div>
 
 
+
 <span class="k">def</span> <span class="nf">_create_model_recursive</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">defs</span><span class="p">:</span> <span class="n">Defs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Type</span><span class="p">:</span>
     <span class="k">return</span> <span class="n">create_model</span><span class="p">(</span>  <span class="c1"># type: ignore[call-overload]</span>
         <span class="n">name</span><span class="p">,</span>
@@ -428,7 +444,9 @@ document.write(`
 <span class="p">}</span>
 
 
-<div class="viewcode-block" id="check_valid_template"><a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.string.check_valid_template.html#langchain_core.prompts.few_shot.check_valid_template">[docs]</a><span class="k">def</span> <span class="nf">check_valid_template</span><span class="p">(</span>
+<div class="viewcode-block" id="check_valid_template">
+<a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.string.check_valid_template.html#langchain_core.prompts.few_shot.check_valid_template">[docs]</a>
+<span class="k">def</span> <span class="nf">check_valid_template</span><span class="p">(</span>
     <span class="n">template</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">template_format</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">input_variables</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Check that template string is valid.</span>
@@ -458,7 +476,10 @@ document.write(`
         <span class="p">)</span> <span class="kn">from</span> <span class="nn">exc</span></div>
 
 
-<div class="viewcode-block" id="get_template_variables"><a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.string.get_template_variables.html#langchain_core.prompts.few_shot.get_template_variables">[docs]</a><span class="k">def</span> <span class="nf">get_template_variables</span><span class="p">(</span><span class="n">template</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">template_format</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+
+<div class="viewcode-block" id="get_template_variables">
+<a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.string.get_template_variables.html#langchain_core.prompts.few_shot.get_template_variables">[docs]</a>
+<span class="k">def</span> <span class="nf">get_template_variables</span><span class="p">(</span><span class="n">template</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">template_format</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">"""Get the variables from the template.</span>
 
 <span class="sd">    Args:</span>
@@ -486,7 +507,10 @@ document.write(`
     <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">input_variables</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="StringPromptTemplate"><a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.string.StringPromptTemplate.html#langchain_core.prompts.few_shot.StringPromptTemplate">[docs]</a><span class="k">class</span> <span class="nc">StringPromptTemplate</span><span class="p">(</span><span class="n">BasePromptTemplate</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
+
+<div class="viewcode-block" id="StringPromptTemplate">
+<a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.string.StringPromptTemplate.html#langchain_core.prompts.few_shot.StringPromptTemplate">[docs]</a>
+<span class="k">class</span> <span class="nc">StringPromptTemplate</span><span class="p">(</span><span class="n">BasePromptTemplate</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""String prompt that exposes the format method, returning a prompt."""</span>
 
     <span class="nd">@classmethod</span>
@@ -494,7 +518,9 @@ document.write(`
 <span class="w">        </span><span class="sd">"""Get the namespace of the langchain object."""</span>
         <span class="k">return</span> <span class="p">[</span><span class="s2">"langchain"</span><span class="p">,</span> <span class="s2">"prompts"</span><span class="p">,</span> <span class="s2">"base"</span><span class="p">]</span>
 
-<div class="viewcode-block" id="StringPromptTemplate.format_prompt"><a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.string.StringPromptTemplate.html#langchain_core.prompts.few_shot.StringPromptTemplate.format_prompt">[docs]</a>    <span class="k">def</span> <span class="nf">format_prompt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PromptValue</span><span class="p">:</span>
+<div class="viewcode-block" id="StringPromptTemplate.format_prompt">
+<a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.string.StringPromptTemplate.html#langchain_core.prompts.few_shot.StringPromptTemplate.format_prompt">[docs]</a>
+    <span class="k">def</span> <span class="nf">format_prompt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PromptValue</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Format the prompt with the inputs.</span>
 
 <span class="sd">        Args:</span>
@@ -505,7 +531,10 @@ document.write(`
 <span class="sd">        """</span>
         <span class="k">return</span> <span class="n">StringPromptValue</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="StringPromptTemplate.aformat_prompt"><a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.string.StringPromptTemplate.html#langchain_core.prompts.few_shot.StringPromptTemplate.aformat_prompt">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">aformat_prompt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PromptValue</span><span class="p">:</span>
+
+<div class="viewcode-block" id="StringPromptTemplate.aformat_prompt">
+<a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.string.StringPromptTemplate.html#langchain_core.prompts.few_shot.StringPromptTemplate.aformat_prompt">[docs]</a>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">aformat_prompt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PromptValue</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Async format the prompt with the inputs.</span>
 
 <span class="sd">        Args:</span>
@@ -516,7 +545,10 @@ document.write(`
 <span class="sd">        """</span>
         <span class="k">return</span> <span class="n">StringPromptValue</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">aformat</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="StringPromptTemplate.pretty_repr"><a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.string.StringPromptTemplate.html#langchain_core.prompts.few_shot.StringPromptTemplate.pretty_repr">[docs]</a>    <span class="k">def</span> <span class="nf">pretty_repr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">html</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+
+<div class="viewcode-block" id="StringPromptTemplate.pretty_repr">
+<a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.string.StringPromptTemplate.html#langchain_core.prompts.few_shot.StringPromptTemplate.pretty_repr">[docs]</a>
+    <span class="k">def</span> <span class="nf">pretty_repr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">html</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Get a pretty representation of the prompt.</span>
 
 <span class="sd">        Args:</span>
@@ -535,9 +567,14 @@ document.write(`
             <span class="p">}</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">dummy_vars</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="StringPromptTemplate.pretty_print"><a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.string.StringPromptTemplate.html#langchain_core.prompts.few_shot.StringPromptTemplate.pretty_print">[docs]</a>    <span class="k">def</span> <span class="nf">pretty_print</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+
+<div class="viewcode-block" id="StringPromptTemplate.pretty_print">
+<a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.string.StringPromptTemplate.html#langchain_core.prompts.few_shot.StringPromptTemplate.pretty_print">[docs]</a>
+    <span class="k">def</span> <span class="nf">pretty_print</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Print a pretty representation of the prompt."""</span>
-        <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pretty_repr</span><span class="p">(</span><span class="n">html</span><span class="o">=</span><span class="n">is_interactive_env</span><span class="p">()))</span>  <span class="c1"># noqa: T201</span></div></div>
+        <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pretty_repr</span><span class="p">(</span><span class="n">html</span><span class="o">=</span><span class="n">is_interactive_env</span><span class="p">()))</span>  <span class="c1"># noqa: T201</span></div>
+</div>
+
 </pre></div>
 </article>
 </div>

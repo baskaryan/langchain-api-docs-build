@@ -1,7 +1,7 @@
 
 <!DOCTYPE html>
 
-<html data-content_root="" lang="en">
+<html data-content_root="../../../" lang="en">
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
@@ -18,27 +18,27 @@
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" rel="preload" type="font/woff2"/>
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" rel="preload" type="font/woff2"/>
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" rel="preload" type="font/woff2"/>
-<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css?v=a746c00c" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/autodoc_pydantic.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/sphinx-design.4cbf315f70debaebd550c87a6162cf0f.min.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/css/custom.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/copybutton.css?v=76b2166b" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/sphinx-design.min.css?v=95c83b7e" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/css/custom.css?v=b95e2228" rel="stylesheet" type="text/css"/>
 <!-- Pre-loaded scripts that we'll load fully later -->
 <link as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
 <link as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
 <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-<script src="../../../_static/doctools.js"></script>
-<script src="../../../_static/sphinx_highlight.js"></script>
-<script src="../../../_static/clipboard.min.js"></script>
-<script src="../../../_static/copybutton.js"></script>
-<script src="../../../_static/design-tabs.js"></script>
+<script src="../../../_static/documentation_options.js?v=3b5cce75"></script>
+<script src="../../../_static/doctools.js?v=9a2dae69"></script>
+<script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+<script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+<script src="../../../_static/copybutton.js?v=f281be69"></script>
+<script src="../../../_static/design-tabs.js?v=f930bc37"></script>
 <script>DOCUMENTATION_OPTIONS.pagename = '_modules/langchain_core/prompts/base';</script>
 <link href="../../../_static/favicon.png" rel="icon"/>
 <link href="../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Sep 13, 2024" name="docbuild:last-update"/>
+<meta content="Sep 16, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -231,6 +231,7 @@ document.write(`
 
 <span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractmethod</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">cached_property</span>
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">TYPE_CHECKING</span><span class="p">,</span>
@@ -247,6 +248,8 @@ document.write(`
 <span class="p">)</span>
 
 <span class="kn">import</span> <span class="nn">yaml</span>
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">ConfigDict</span><span class="p">,</span> <span class="n">Field</span><span class="p">,</span> <span class="n">model_validator</span>
+<span class="kn">from</span> <span class="nn">typing_extensions</span> <span class="kn">import</span> <span class="n">Self</span>
 
 <span class="kn">from</span> <span class="nn">langchain_core.load</span> <span class="kn">import</span> <span class="n">dumpd</span>
 <span class="kn">from</span> <span class="nn">langchain_core.output_parsers.base</span> <span class="kn">import</span> <span class="n">BaseOutputParser</span>
@@ -255,10 +258,9 @@ document.write(`
     <span class="n">PromptValue</span><span class="p">,</span>
     <span class="n">StringPromptValue</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">langchain_core.pydantic_v1</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span><span class="p">,</span> <span class="n">root_validator</span>
 <span class="kn">from</span> <span class="nn">langchain_core.runnables</span> <span class="kn">import</span> <span class="n">RunnableConfig</span><span class="p">,</span> <span class="n">RunnableSerializable</span>
 <span class="kn">from</span> <span class="nn">langchain_core.runnables.config</span> <span class="kn">import</span> <span class="n">ensure_config</span>
-<span class="kn">from</span> <span class="nn">langchain_core.runnables.utils</span> <span class="kn">import</span> <span class="n">create_model</span>
+<span class="kn">from</span> <span class="nn">langchain_core.utils.pydantic</span> <span class="kn">import</span> <span class="n">create_model_v2</span>
 
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
     <span class="kn">from</span> <span class="nn">langchain_core.documents</span> <span class="kn">import</span> <span class="n">Document</span>
@@ -267,7 +269,9 @@ document.write(`
 <span class="n">FormatOutputType</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">"FormatOutputType"</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="BasePromptTemplate"><a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.base.BasePromptTemplate.html#langchain.agents.schema.BasePromptTemplate">[docs]</a><span class="k">class</span> <span class="nc">BasePromptTemplate</span><span class="p">(</span>
+<div class="viewcode-block" id="BasePromptTemplate">
+<a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.base.BasePromptTemplate.html#langchain.agents.schema.BasePromptTemplate">[docs]</a>
+<span class="k">class</span> <span class="nc">BasePromptTemplate</span><span class="p">(</span>
     <span class="n">RunnableSerializable</span><span class="p">[</span><span class="n">Dict</span><span class="p">,</span> <span class="n">PromptValue</span><span class="p">],</span> <span class="n">Generic</span><span class="p">[</span><span class="n">FormatOutputType</span><span class="p">],</span> <span class="n">ABC</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Base class for all prompt templates, returning a prompt."""</span>
@@ -294,28 +298,26 @@ document.write(`
     <span class="n">tags</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">    </span><span class="sd">"""Tags to be used for tracing."""</span>
 
-    <span class="nd">@root_validator</span><span class="p">(</span><span class="n">pre</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">skip_on_failure</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">validate_variable_names</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+    <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">"after"</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">validate_variable_names</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Validate variable names do not include restricted names."""</span>
-        <span class="k">if</span> <span class="s2">"stop"</span> <span class="ow">in</span> <span class="n">values</span><span class="p">[</span><span class="s2">"input_variables"</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="s2">"stop"</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_variables</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                 <span class="s2">"Cannot have an input variable named 'stop', as it is used internally,"</span>
                 <span class="s2">" please rename."</span>
             <span class="p">)</span>
-        <span class="k">if</span> <span class="s2">"stop"</span> <span class="ow">in</span> <span class="n">values</span><span class="p">[</span><span class="s2">"partial_variables"</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="s2">"stop"</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">partial_variables</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                 <span class="s2">"Cannot have an partial variable named 'stop', as it is used "</span>
                 <span class="s2">"internally, please rename."</span>
             <span class="p">)</span>
 
-        <span class="n">overall</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="s2">"input_variables"</span><span class="p">])</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span>
-            <span class="n">values</span><span class="p">[</span><span class="s2">"partial_variables"</span><span class="p">]</span>
-        <span class="p">)</span>
+        <span class="n">overall</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input_variables</span><span class="p">)</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">partial_variables</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">overall</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                 <span class="sa">f</span><span class="s2">"Found overlapping input and partial variables: </span><span class="si">{</span><span class="n">overall</span><span class="si">}</span><span class="s2">"</span>
             <span class="p">)</span>
-        <span class="k">return</span> <span class="n">values</span>
+        <span class="k">return</span> <span class="bp">self</span>
 
     <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">get_lc_namespace</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
@@ -329,8 +331,13 @@ document.write(`
 <span class="sd">        Returns True."""</span>
         <span class="k">return</span> <span class="kc">True</span>
 
-    <span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
-        <span class="n">arbitrary_types_allowed</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span>
+        <span class="n">arbitrary_types_allowed</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="nd">@cached_property</span>
+    <span class="k">def</span> <span class="nf">_serialized</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="n">dumpd</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">OutputType</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
@@ -355,8 +362,9 @@ document.write(`
         <span class="n">optional_input_variables</span> <span class="o">=</span> <span class="p">{</span>
             <span class="n">k</span><span class="p">:</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input_types</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="nb">str</span><span class="p">),</span> <span class="kc">None</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">optional_variables</span>
         <span class="p">}</span>
-        <span class="k">return</span> <span class="n">create_model</span><span class="p">(</span>
-            <span class="s2">"PromptInput"</span><span class="p">,</span> <span class="o">**</span><span class="p">{</span><span class="o">**</span><span class="n">required_input_variables</span><span class="p">,</span> <span class="o">**</span><span class="n">optional_input_variables</span><span class="p">}</span>
+        <span class="k">return</span> <span class="n">create_model_v2</span><span class="p">(</span>
+            <span class="s2">"PromptInput"</span><span class="p">,</span>
+            <span class="n">field_definitions</span><span class="o">=</span><span class="p">{</span><span class="o">**</span><span class="n">required_input_variables</span><span class="p">,</span> <span class="o">**</span><span class="n">optional_input_variables</span><span class="p">},</span>
         <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_validate_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inner_input</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
@@ -396,7 +404,9 @@ document.write(`
         <span class="n">_inner_input</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate_input</span><span class="p">(</span><span class="n">inner_input</span><span class="p">)</span>
         <span class="k">return</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">aformat_prompt</span><span class="p">(</span><span class="o">**</span><span class="n">_inner_input</span><span class="p">)</span>
 
-<div class="viewcode-block" id="BasePromptTemplate.invoke"><a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.base.BasePromptTemplate.html#langchain.agents.schema.BasePromptTemplate.invoke">[docs]</a>    <span class="k">def</span> <span class="nf">invoke</span><span class="p">(</span>
+<div class="viewcode-block" id="BasePromptTemplate.invoke">
+<a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.base.BasePromptTemplate.html#langchain.agents.schema.BasePromptTemplate.invoke">[docs]</a>
+    <span class="k">def</span> <span class="nf">invoke</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="nb">input</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">RunnableConfig</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PromptValue</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Invoke the prompt.</span>
@@ -418,10 +428,13 @@ document.write(`
             <span class="nb">input</span><span class="p">,</span>
             <span class="n">config</span><span class="p">,</span>
             <span class="n">run_type</span><span class="o">=</span><span class="s2">"prompt"</span><span class="p">,</span>
-            <span class="n">serialized</span><span class="o">=</span><span class="n">dumpd</span><span class="p">(</span><span class="bp">self</span><span class="p">),</span>
+            <span class="n">serialized</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_serialized</span><span class="p">,</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="BasePromptTemplate.ainvoke"><a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.base.BasePromptTemplate.html#langchain.agents.schema.BasePromptTemplate.ainvoke">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">ainvoke</span><span class="p">(</span>
+
+<div class="viewcode-block" id="BasePromptTemplate.ainvoke">
+<a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.base.BasePromptTemplate.html#langchain.agents.schema.BasePromptTemplate.ainvoke">[docs]</a>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">ainvoke</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="nb">input</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">RunnableConfig</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PromptValue</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Async invoke the prompt.</span>
@@ -443,10 +456,13 @@ document.write(`
             <span class="nb">input</span><span class="p">,</span>
             <span class="n">config</span><span class="p">,</span>
             <span class="n">run_type</span><span class="o">=</span><span class="s2">"prompt"</span><span class="p">,</span>
-            <span class="n">serialized</span><span class="o">=</span><span class="n">dumpd</span><span class="p">(</span><span class="bp">self</span><span class="p">),</span>
+            <span class="n">serialized</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_serialized</span><span class="p">,</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="BasePromptTemplate.format_prompt"><a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.base.BasePromptTemplate.html#langchain.agents.schema.BasePromptTemplate.format_prompt">[docs]</a>    <span class="nd">@abstractmethod</span>
+
+<div class="viewcode-block" id="BasePromptTemplate.format_prompt">
+<a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.base.BasePromptTemplate.html#langchain.agents.schema.BasePromptTemplate.format_prompt">[docs]</a>
+    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">format_prompt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PromptValue</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Create Prompt Value.</span>
 
@@ -457,7 +473,10 @@ document.write(`
 <span class="sd">            PromptValue: The output of the prompt.</span>
 <span class="sd">        """</span></div>
 
-<div class="viewcode-block" id="BasePromptTemplate.aformat_prompt"><a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.base.BasePromptTemplate.html#langchain.agents.schema.BasePromptTemplate.aformat_prompt">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">aformat_prompt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PromptValue</span><span class="p">:</span>
+
+<div class="viewcode-block" id="BasePromptTemplate.aformat_prompt">
+<a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.base.BasePromptTemplate.html#langchain.agents.schema.BasePromptTemplate.aformat_prompt">[docs]</a>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">aformat_prompt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PromptValue</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Async create Prompt Value.</span>
 
 <span class="sd">        Args:</span>
@@ -468,7 +487,10 @@ document.write(`
 <span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">format_prompt</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="BasePromptTemplate.partial"><a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.base.BasePromptTemplate.html#langchain.agents.schema.BasePromptTemplate.partial">[docs]</a>    <span class="k">def</span> <span class="nf">partial</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Callable</span><span class="p">[[],</span> <span class="nb">str</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">BasePromptTemplate</span><span class="p">:</span>
+
+<div class="viewcode-block" id="BasePromptTemplate.partial">
+<a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.base.BasePromptTemplate.html#langchain.agents.schema.BasePromptTemplate.partial">[docs]</a>
+    <span class="k">def</span> <span class="nf">partial</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Callable</span><span class="p">[[],</span> <span class="nb">str</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">BasePromptTemplate</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Return a partial of the prompt template.</span>
 
 <span class="sd">        Args:</span>
@@ -484,6 +506,7 @@ document.write(`
         <span class="n">prompt_dict</span><span class="p">[</span><span class="s2">"partial_variables"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">partial_variables</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">}</span>
         <span class="k">return</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)(</span><span class="o">**</span><span class="n">prompt_dict</span><span class="p">)</span></div>
 
+
     <span class="k">def</span> <span class="nf">_merge_partial_and_user_variables</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
         <span class="c1"># Get partial params:</span>
         <span class="n">partial_kwargs</span> <span class="o">=</span> <span class="p">{</span>
@@ -491,7 +514,9 @@ document.write(`
         <span class="p">}</span>
         <span class="k">return</span> <span class="p">{</span><span class="o">**</span><span class="n">partial_kwargs</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">}</span>
 
-<div class="viewcode-block" id="BasePromptTemplate.format"><a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.base.BasePromptTemplate.html#langchain.agents.schema.BasePromptTemplate.format">[docs]</a>    <span class="nd">@abstractmethod</span>
+<div class="viewcode-block" id="BasePromptTemplate.format">
+<a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.base.BasePromptTemplate.html#langchain.agents.schema.BasePromptTemplate.format">[docs]</a>
+    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">format</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">FormatOutputType</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Format the prompt with the inputs.</span>
 
@@ -508,7 +533,10 @@ document.write(`
 <span class="sd">            prompt.format(variable1="foo")</span>
 <span class="sd">        """</span></div>
 
-<div class="viewcode-block" id="BasePromptTemplate.aformat"><a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.base.BasePromptTemplate.html#langchain.agents.schema.BasePromptTemplate.aformat">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">aformat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">FormatOutputType</span><span class="p">:</span>
+
+<div class="viewcode-block" id="BasePromptTemplate.aformat">
+<a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.base.BasePromptTemplate.html#langchain.agents.schema.BasePromptTemplate.aformat">[docs]</a>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">aformat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">FormatOutputType</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Async format the prompt with the inputs.</span>
 
 <span class="sd">        Args:</span>
@@ -524,6 +552,7 @@ document.write(`
 <span class="sd">            await prompt.aformat(variable1="foo")</span>
 <span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">_prompt_type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
@@ -542,14 +571,16 @@ document.write(`
 <span class="sd">        Raises:</span>
 <span class="sd">            NotImplementedError: If the prompt type is not implemented.</span>
 <span class="sd">        """</span>
-        <span class="n">prompt_dict</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">dict</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">prompt_dict</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">model_dump</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">prompt_dict</span><span class="p">[</span><span class="s2">"_type"</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_prompt_type</span>
         <span class="k">except</span> <span class="ne">NotImplementedError</span><span class="p">:</span>
             <span class="k">pass</span>
         <span class="k">return</span> <span class="n">prompt_dict</span>
 
-<div class="viewcode-block" id="BasePromptTemplate.save"><a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.base.BasePromptTemplate.html#langchain.agents.schema.BasePromptTemplate.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Path</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="BasePromptTemplate.save">
+<a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.base.BasePromptTemplate.html#langchain.agents.schema.BasePromptTemplate.save">[docs]</a>
+    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Path</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Save the prompt.</span>
 
 <span class="sd">        Args:</span>
@@ -589,7 +620,9 @@ document.write(`
             <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="s2">"w"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
                 <span class="n">yaml</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">prompt_dict</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">default_flow_style</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">save_path</span><span class="si">}</span><span class="s2"> must be json or yaml"</span><span class="p">)</span></div></div>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">save_path</span><span class="si">}</span><span class="s2"> must be json or yaml"</span><span class="p">)</span></div>
+</div>
+
 
 
 <span class="k">def</span> <span class="nf">_get_document_info</span><span class="p">(</span><span class="n">doc</span><span class="p">:</span> <span class="n">Document</span><span class="p">,</span> <span class="n">prompt</span><span class="p">:</span> <span class="n">BasePromptTemplate</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
@@ -607,7 +640,9 @@ document.write(`
     <span class="k">return</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">base_info</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">prompt</span><span class="o">.</span><span class="n">input_variables</span><span class="p">}</span>
 
 
-<div class="viewcode-block" id="format_document"><a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.base.format_document.html#langchain.agents.schema.format_document">[docs]</a><span class="k">def</span> <span class="nf">format_document</span><span class="p">(</span><span class="n">doc</span><span class="p">:</span> <span class="n">Document</span><span class="p">,</span> <span class="n">prompt</span><span class="p">:</span> <span class="n">BasePromptTemplate</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<div class="viewcode-block" id="format_document">
+<a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.base.format_document.html#langchain.agents.schema.format_document">[docs]</a>
+<span class="k">def</span> <span class="nf">format_document</span><span class="p">(</span><span class="n">doc</span><span class="p">:</span> <span class="n">Document</span><span class="p">,</span> <span class="n">prompt</span><span class="p">:</span> <span class="n">BasePromptTemplate</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Format a document into a string based on a prompt template.</span>
 
 <span class="sd">    First, this pulls information from the document from two sources:</span>
@@ -644,7 +679,10 @@ document.write(`
     <span class="k">return</span> <span class="n">prompt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">_get_document_info</span><span class="p">(</span><span class="n">doc</span><span class="p">,</span> <span class="n">prompt</span><span class="p">))</span></div>
 
 
-<div class="viewcode-block" id="aformat_document"><a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.base.aformat_document.html#langchain.agents.schema.aformat_document">[docs]</a><span class="k">async</span> <span class="k">def</span> <span class="nf">aformat_document</span><span class="p">(</span><span class="n">doc</span><span class="p">:</span> <span class="n">Document</span><span class="p">,</span> <span class="n">prompt</span><span class="p">:</span> <span class="n">BasePromptTemplate</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+
+<div class="viewcode-block" id="aformat_document">
+<a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.base.aformat_document.html#langchain.agents.schema.aformat_document">[docs]</a>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">aformat_document</span><span class="p">(</span><span class="n">doc</span><span class="p">:</span> <span class="n">Document</span><span class="p">,</span> <span class="n">prompt</span><span class="p">:</span> <span class="n">BasePromptTemplate</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Async format a document into a string based on a prompt template.</span>
 
 <span class="sd">    First, this pulls information from the document from two sources:</span>
@@ -668,6 +706,7 @@ document.write(`
 <span class="sd">        string of the document formatted.</span>
 <span class="sd">    """</span>
     <span class="k">return</span> <span class="k">await</span> <span class="n">prompt</span><span class="o">.</span><span class="n">aformat</span><span class="p">(</span><span class="o">**</span><span class="n">_get_document_info</span><span class="p">(</span><span class="n">doc</span><span class="p">,</span> <span class="n">prompt</span><span class="p">))</span></div>
+
 </pre></div>
 </article>
 </div>

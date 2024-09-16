@@ -1,7 +1,7 @@
 
 <!DOCTYPE html>
 
-<html data-content_root="" lang="en">
+<html data-content_root="../../../" lang="en">
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
@@ -18,27 +18,27 @@
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" rel="preload" type="font/woff2"/>
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" rel="preload" type="font/woff2"/>
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" rel="preload" type="font/woff2"/>
-<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css?v=a746c00c" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/autodoc_pydantic.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/sphinx-design.4cbf315f70debaebd550c87a6162cf0f.min.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/css/custom.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/copybutton.css?v=76b2166b" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/sphinx-design.min.css?v=95c83b7e" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/css/custom.css?v=b95e2228" rel="stylesheet" type="text/css"/>
 <!-- Pre-loaded scripts that we'll load fully later -->
 <link as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
 <link as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
 <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-<script src="../../../_static/doctools.js"></script>
-<script src="../../../_static/sphinx_highlight.js"></script>
-<script src="../../../_static/clipboard.min.js"></script>
-<script src="../../../_static/copybutton.js"></script>
-<script src="../../../_static/design-tabs.js"></script>
+<script src="../../../_static/documentation_options.js?v=3b5cce75"></script>
+<script src="../../../_static/doctools.js?v=9a2dae69"></script>
+<script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+<script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+<script src="../../../_static/copybutton.js?v=f281be69"></script>
+<script src="../../../_static/design-tabs.js?v=f930bc37"></script>
 <script>DOCUMENTATION_OPTIONS.pagename = '_modules/langchain_core/tools/base';</script>
 <link href="../../../_static/favicon.png" rel="icon"/>
 <link href="../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Sep 13, 2024" name="docbuild:last-update"/>
+<meta content="Sep 16, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -248,12 +248,27 @@ document.write(`
     <span class="n">Sequence</span><span class="p">,</span>
     <span class="n">Tuple</span><span class="p">,</span>
     <span class="n">Type</span><span class="p">,</span>
+    <span class="n">TypeVar</span><span class="p">,</span>
     <span class="n">Union</span><span class="p">,</span>
     <span class="n">cast</span><span class="p">,</span>
+    <span class="n">get_args</span><span class="p">,</span>
+    <span class="n">get_origin</span><span class="p">,</span>
     <span class="n">get_type_hints</span><span class="p">,</span>
 <span class="p">)</span>
 
-<span class="kn">from</span> <span class="nn">typing_extensions</span> <span class="kn">import</span> <span class="n">Annotated</span><span class="p">,</span> <span class="n">TypeVar</span><span class="p">,</span> <span class="n">get_args</span><span class="p">,</span> <span class="n">get_origin</span>
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">BaseModel</span><span class="p">,</span>
+    <span class="n">ConfigDict</span><span class="p">,</span>
+    <span class="n">Field</span><span class="p">,</span>
+    <span class="n">PydanticDeprecationWarning</span><span class="p">,</span>
+    <span class="n">SkipValidation</span><span class="p">,</span>
+    <span class="n">ValidationError</span><span class="p">,</span>
+    <span class="n">model_validator</span><span class="p">,</span>
+    <span class="n">validate_arguments</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">pydantic.v1</span> <span class="kn">import</span> <span class="n">BaseModel</span> <span class="k">as</span> <span class="n">BaseModelV1</span>
+<span class="kn">from</span> <span class="nn">pydantic.v1</span> <span class="kn">import</span> <span class="n">validate_arguments</span> <span class="k">as</span> <span class="n">validate_arguments_v1</span>
+<span class="kn">from</span> <span class="nn">typing_extensions</span> <span class="kn">import</span> <span class="n">Annotated</span>
 
 <span class="kn">from</span> <span class="nn">langchain_core._api</span> <span class="kn">import</span> <span class="n">deprecated</span>
 <span class="kn">from</span> <span class="nn">langchain_core.callbacks</span> <span class="kn">import</span> <span class="p">(</span>
@@ -262,16 +277,7 @@ document.write(`
     <span class="n">CallbackManager</span><span class="p">,</span>
     <span class="n">Callbacks</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">langchain_core.load</span> <span class="kn">import</span> <span class="n">Serializable</span>
-<span class="kn">from</span> <span class="nn">langchain_core.messages</span> <span class="kn">import</span> <span class="n">ToolCall</span><span class="p">,</span> <span class="n">ToolMessage</span>
-<span class="kn">from</span> <span class="nn">langchain_core.pydantic_v1</span> <span class="kn">import</span> <span class="p">(</span>
-    <span class="n">BaseModel</span><span class="p">,</span>
-    <span class="n">Extra</span><span class="p">,</span>
-    <span class="n">Field</span><span class="p">,</span>
-    <span class="n">ValidationError</span><span class="p">,</span>
-    <span class="n">root_validator</span><span class="p">,</span>
-    <span class="n">validate_arguments</span><span class="p">,</span>
-<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">langchain_core.messages.tool</span> <span class="kn">import</span> <span class="n">ToolCall</span><span class="p">,</span> <span class="n">ToolMessage</span>
 <span class="kn">from</span> <span class="nn">langchain_core.runnables</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">RunnableConfig</span><span class="p">,</span>
     <span class="n">RunnableSerializable</span><span class="p">,</span>
@@ -288,6 +294,7 @@ document.write(`
 <span class="kn">from</span> <span class="nn">langchain_core.utils.pydantic</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">TypeBaseModel</span><span class="p">,</span>
     <span class="n">_create_subset_model</span><span class="p">,</span>
+    <span class="n">get_fields</span><span class="p">,</span>
     <span class="n">is_basemodel_subclass</span><span class="p">,</span>
     <span class="n">is_pydantic_v1_subclass</span><span class="p">,</span>
     <span class="n">is_pydantic_v2_subclass</span><span class="p">,</span>
@@ -296,8 +303,11 @@ document.write(`
 <span class="n">FILTERED_ARGS</span> <span class="o">=</span> <span class="p">(</span><span class="s2">"run_manager"</span><span class="p">,</span> <span class="s2">"callbacks"</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="SchemaAnnotationError"><a class="viewcode-back" href="../../../core/tools/langchain_core.tools.base.SchemaAnnotationError.html#langchain_community.agent_toolkits.nla.tool.SchemaAnnotationError">[docs]</a><span class="k">class</span> <span class="nc">SchemaAnnotationError</span><span class="p">(</span><span class="ne">TypeError</span><span class="p">):</span>
+<div class="viewcode-block" id="SchemaAnnotationError">
+<a class="viewcode-back" href="../../../core/tools/langchain_core.tools.base.SchemaAnnotationError.html#langchain_azure_dynamic_sessions.tools.sessions.SchemaAnnotationError">[docs]</a>
+<span class="k">class</span> <span class="nc">SchemaAnnotationError</span><span class="p">(</span><span class="ne">TypeError</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Raised when 'args_schema' is missing or has an incorrect type annotation."""</span></div>
+
 
 
 <span class="k">def</span> <span class="nf">_is_annotated_type</span><span class="p">(</span><span class="n">typ</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
@@ -321,7 +331,7 @@ document.write(`
     <span class="n">include_injected</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Get the arguments from a function's signature."""</span>
-    <span class="n">schema</span> <span class="o">=</span> <span class="n">inferred_model</span><span class="o">.</span><span class="n">schema</span><span class="p">()[</span><span class="s2">"properties"</span><span class="p">]</span>
+    <span class="n">schema</span> <span class="o">=</span> <span class="n">inferred_model</span><span class="o">.</span><span class="n">model_json_schema</span><span class="p">()[</span><span class="s2">"properties"</span><span class="p">]</span>
     <span class="n">valid_keys</span> <span class="o">=</span> <span class="n">signature</span><span class="p">(</span><span class="n">func</span><span class="p">)</span><span class="o">.</span><span class="n">parameters</span>
     <span class="k">return</span> <span class="p">{</span>
         <span class="n">k</span><span class="p">:</span> <span class="n">schema</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
@@ -387,6 +397,35 @@ document.write(`
     <span class="k">return</span> <span class="n">description</span><span class="p">,</span> <span class="n">arg_descriptions</span>
 
 
+<span class="k">def</span> <span class="nf">_is_pydantic_annotation</span><span class="p">(</span><span class="n">annotation</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">pydantic_version</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"v2"</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Determine if a type annotation is a Pydantic model."""</span>
+    <span class="n">base_model_class</span> <span class="o">=</span> <span class="n">BaseModelV1</span> <span class="k">if</span> <span class="n">pydantic_version</span> <span class="o">==</span> <span class="s2">"v1"</span> <span class="k">else</span> <span class="n">BaseModel</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">annotation</span><span class="p">,</span> <span class="n">base_model_class</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+
+<span class="k">def</span> <span class="nf">_function_annotations_are_pydantic_v1</span><span class="p">(</span>
+    <span class="n">signature</span><span class="p">:</span> <span class="n">inspect</span><span class="o">.</span><span class="n">Signature</span><span class="p">,</span> <span class="n">func</span><span class="p">:</span> <span class="n">Callable</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Determine if all Pydantic annotations in a function signature are from V1."""</span>
+    <span class="n">any_v1_annotations</span> <span class="o">=</span> <span class="nb">any</span><span class="p">(</span>
+        <span class="n">_is_pydantic_annotation</span><span class="p">(</span><span class="n">parameter</span><span class="o">.</span><span class="n">annotation</span><span class="p">,</span> <span class="n">pydantic_version</span><span class="o">=</span><span class="s2">"v1"</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">parameter</span> <span class="ow">in</span> <span class="n">signature</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
+    <span class="p">)</span>
+    <span class="n">any_v2_annotations</span> <span class="o">=</span> <span class="nb">any</span><span class="p">(</span>
+        <span class="n">_is_pydantic_annotation</span><span class="p">(</span><span class="n">parameter</span><span class="o">.</span><span class="n">annotation</span><span class="p">,</span> <span class="n">pydantic_version</span><span class="o">=</span><span class="s2">"v2"</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">parameter</span> <span class="ow">in</span> <span class="n">signature</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="n">any_v1_annotations</span> <span class="ow">and</span> <span class="n">any_v2_annotations</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">"Function </span><span class="si">{</span><span class="n">func</span><span class="si">}</span><span class="s2"> contains a mix of Pydantic v1 and v2 annotations. "</span>
+            <span class="s2">"Only one version of Pydantic annotations per function is supported."</span>
+        <span class="p">)</span>
+    <span class="k">return</span> <span class="n">any_v1_annotations</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">any_v2_annotations</span>
+
+
 <span class="k">class</span> <span class="nc">_SchemaConfig</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Configuration for the pydantic model.</span>
 
@@ -399,11 +438,13 @@ document.write(`
 <span class="sd">            Defaults to True.</span>
 <span class="sd">    """</span>
 
-    <span class="n">extra</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">Extra</span><span class="o">.</span><span class="n">forbid</span>
+    <span class="n">extra</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"forbid"</span>
     <span class="n">arbitrary_types_allowed</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
 
 
-<div class="viewcode-block" id="create_schema_from_function"><a class="viewcode-back" href="../../../core/tools/langchain_core.tools.base.create_schema_from_function.html#langchain_community.agent_toolkits.nla.tool.create_schema_from_function">[docs]</a><span class="k">def</span> <span class="nf">create_schema_from_function</span><span class="p">(</span>
+<div class="viewcode-block" id="create_schema_from_function">
+<a class="viewcode-back" href="../../../core/tools/langchain_core.tools.base.create_schema_from_function.html#langchain_azure_dynamic_sessions.tools.sessions.create_schema_from_function">[docs]</a>
+<span class="k">def</span> <span class="nf">create_schema_from_function</span><span class="p">(</span>
     <span class="n">model_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
@@ -431,24 +472,76 @@ document.write(`
 <span class="sd">    Returns:</span>
 <span class="sd">        A pydantic model with the same arguments as the function.</span>
 <span class="sd">    """</span>
-    <span class="c1"># https://docs.pydantic.dev/latest/usage/validation_decorator/</span>
-    <span class="n">validated</span> <span class="o">=</span> <span class="n">validate_arguments</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">_SchemaConfig</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
+    <span class="n">sig</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">signature</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">_function_annotations_are_pydantic_v1</span><span class="p">(</span><span class="n">sig</span><span class="p">,</span> <span class="n">func</span><span class="p">):</span>
+        <span class="n">validated</span> <span class="o">=</span> <span class="n">validate_arguments_v1</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">_SchemaConfig</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># https://docs.pydantic.dev/latest/usage/validation_decorator/</span>
+        <span class="k">with</span> <span class="n">warnings</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">():</span>
+            <span class="c1"># We are using deprecated functionality here.</span>
+            <span class="c1"># This code should be re-written to simply construct a pydantic model</span>
+            <span class="c1"># using inspect.signature and create_model.</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s2">"ignore"</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="n">PydanticDeprecationWarning</span><span class="p">)</span>
+            <span class="n">validated</span> <span class="o">=</span> <span class="n">validate_arguments</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">_SchemaConfig</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
+
+    <span class="c1"># Let's ignore `self` and `cls` arguments for class and instance methods</span>
+    <span class="k">if</span> <span class="n">func</span><span class="o">.</span><span class="vm">__qualname__</span> <span class="ow">and</span> <span class="s2">"."</span> <span class="ow">in</span> <span class="n">func</span><span class="o">.</span><span class="vm">__qualname__</span><span class="p">:</span>
+        <span class="c1"># Then it likely belongs in a class namespace</span>
+        <span class="n">in_class</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">in_class</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="n">has_args</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">has_kwargs</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">sig</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">param</span><span class="o">.</span><span class="n">kind</span> <span class="o">==</span> <span class="n">param</span><span class="o">.</span><span class="n">VAR_POSITIONAL</span><span class="p">:</span>
+            <span class="n">has_args</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">elif</span> <span class="n">param</span><span class="o">.</span><span class="n">kind</span> <span class="o">==</span> <span class="n">param</span><span class="o">.</span><span class="n">VAR_KEYWORD</span><span class="p">:</span>
+            <span class="n">has_kwargs</span> <span class="o">=</span> <span class="kc">True</span>
+
     <span class="n">inferred_model</span> <span class="o">=</span> <span class="n">validated</span><span class="o">.</span><span class="n">model</span>  <span class="c1"># type: ignore</span>
-    <span class="n">filter_args</span> <span class="o">=</span> <span class="n">filter_args</span> <span class="k">if</span> <span class="n">filter_args</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">FILTERED_ARGS</span>
-    <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">filter_args</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">inferred_model</span><span class="o">.</span><span class="n">__fields__</span><span class="p">:</span>
-            <span class="k">del</span> <span class="n">inferred_model</span><span class="o">.</span><span class="n">__fields__</span><span class="p">[</span><span class="n">arg</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">filter_args</span><span class="p">:</span>
+        <span class="n">filter_args_</span> <span class="o">=</span> <span class="n">filter_args</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># Handle classmethods and instance methods</span>
+        <span class="n">existing_params</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">sig</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+        <span class="k">if</span> <span class="n">existing_params</span> <span class="ow">and</span> <span class="n">existing_params</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"self"</span><span class="p">,</span> <span class="s2">"cls"</span><span class="p">)</span> <span class="ow">and</span> <span class="n">in_class</span><span class="p">:</span>
+            <span class="n">filter_args_</span> <span class="o">=</span> <span class="p">[</span><span class="n">existing_params</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">FILTERED_ARGS</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">filter_args_</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">FILTERED_ARGS</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">existing_param</span> <span class="ow">in</span> <span class="n">existing_params</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">include_injected</span> <span class="ow">and</span> <span class="n">_is_injected_arg_type</span><span class="p">(</span>
+                <span class="n">sig</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="n">existing_param</span><span class="p">]</span><span class="o">.</span><span class="n">annotation</span>
+            <span class="p">):</span>
+                <span class="n">filter_args_</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">existing_param</span><span class="p">)</span>
+
     <span class="n">description</span><span class="p">,</span> <span class="n">arg_descriptions</span> <span class="o">=</span> <span class="n">_infer_arg_descriptions</span><span class="p">(</span>
         <span class="n">func</span><span class="p">,</span>
         <span class="n">parse_docstring</span><span class="o">=</span><span class="n">parse_docstring</span><span class="p">,</span>
         <span class="n">error_on_invalid_docstring</span><span class="o">=</span><span class="n">error_on_invalid_docstring</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="c1"># Pydantic adds placeholder virtual fields we need to strip</span>
-    <span class="n">valid_properties</span> <span class="o">=</span> <span class="n">_get_filtered_args</span><span class="p">(</span>
-        <span class="n">inferred_model</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="n">filter_args</span><span class="o">=</span><span class="n">filter_args</span><span class="p">,</span> <span class="n">include_injected</span><span class="o">=</span><span class="n">include_injected</span>
-    <span class="p">)</span>
+    <span class="n">valid_properties</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="n">get_fields</span><span class="p">(</span><span class="n">inferred_model</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">has_args</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">field</span> <span class="o">==</span> <span class="s2">"args"</span><span class="p">:</span>
+                <span class="k">continue</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">has_kwargs</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">field</span> <span class="o">==</span> <span class="s2">"kwargs"</span><span class="p">:</span>
+                <span class="k">continue</span>
+
+        <span class="k">if</span> <span class="n">field</span> <span class="o">==</span> <span class="s2">"v__duplicate_kwargs"</span><span class="p">:</span>  <span class="c1"># Internal pydantic field</span>
+            <span class="k">continue</span>
+
+        <span class="k">if</span> <span class="n">field</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">filter_args_</span><span class="p">:</span>
+            <span class="n">valid_properties</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">field</span><span class="p">)</span>
+
     <span class="k">return</span> <span class="n">_create_subset_model</span><span class="p">(</span>
-        <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">model_name</span><span class="si">}</span><span class="s2">Schema"</span><span class="p">,</span>
+        <span class="n">model_name</span><span class="p">,</span>
         <span class="n">inferred_model</span><span class="p">,</span>
         <span class="nb">list</span><span class="p">(</span><span class="n">valid_properties</span><span class="p">),</span>
         <span class="n">descriptions</span><span class="o">=</span><span class="n">arg_descriptions</span><span class="p">,</span>
@@ -456,7 +549,10 @@ document.write(`
     <span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="ToolException"><a class="viewcode-back" href="../../../core/tools/langchain_core.tools.base.ToolException.html#langchain_community.agent_toolkits.nla.tool.ToolException">[docs]</a><span class="k">class</span> <span class="nc">ToolException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ToolException">
+<a class="viewcode-back" href="../../../core/tools/langchain_core.tools.base.ToolException.html#langchain_azure_dynamic_sessions.tools.sessions.ToolException">[docs]</a>
+<span class="k">class</span> <span class="nc">ToolException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Optional exception that tool throws when execution error occurs.</span>
 
 <span class="sd">    When this exception is thrown, the agent will not stop working,</span>
@@ -468,7 +564,10 @@ document.write(`
     <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="BaseTool"><a class="viewcode-back" href="../../../core/tools/langchain_core.tools.base.BaseTool.html#langchain_community.agent_toolkits.nla.tool.BaseTool">[docs]</a><span class="k">class</span> <span class="nc">BaseTool</span><span class="p">(</span><span class="n">RunnableSerializable</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">ToolCall</span><span class="p">],</span> <span class="n">Any</span><span class="p">]):</span>
+
+<div class="viewcode-block" id="BaseTool">
+<a class="viewcode-back" href="../../../core/tools/langchain_core.tools.base.BaseTool.html#langchain_azure_dynamic_sessions.tools.sessions.BaseTool">[docs]</a>
+<span class="k">class</span> <span class="nc">BaseTool</span><span class="p">(</span><span class="n">RunnableSerializable</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">ToolCall</span><span class="p">],</span> <span class="n">Any</span><span class="p">]):</span>
 <span class="w">    </span><span class="sd">"""Interface LangChain tools must implement."""</span>
 
     <span class="k">def</span> <span class="nf">__init_subclass__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -503,7 +602,10 @@ document.write(`
 <span class="sd">    </span>
 <span class="sd">    You can provide few-shot examples as a part of the description.</span>
 <span class="sd">    """</span>
-    <span class="n">args_schema</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">TypeBaseModel</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="n">args_schema</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">TypeBaseModel</span><span class="p">],</span> <span class="n">SkipValidation</span><span class="p">()]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"The tool schema."</span>
+    <span class="p">)</span>
 <span class="w">    </span><span class="sd">"""Pydantic model class to validate and parse the tool's input arguments.</span>
 <span class="sd">    </span>
 <span class="sd">    Args schema should be either: </span>
@@ -574,8 +676,9 @@ document.write(`
                 <span class="p">)</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-    <span class="k">class</span> <span class="nc">Config</span><span class="p">(</span><span class="n">Serializable</span><span class="o">.</span><span class="n">Config</span><span class="p">):</span>
-        <span class="n">arbitrary_types_allowed</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span>
+        <span class="n">arbitrary_types_allowed</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">is_single_input</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
@@ -585,7 +688,7 @@ document.write(`
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">args</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_input_schema</span><span class="p">()</span><span class="o">.</span><span class="n">schema</span><span class="p">()[</span><span class="s2">"properties"</span><span class="p">]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_input_schema</span><span class="p">()</span><span class="o">.</span><span class="n">model_json_schema</span><span class="p">()[</span><span class="s2">"properties"</span><span class="p">]</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">tool_call_schema</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Type</span><span class="p">[</span><span class="n">BaseModel</span><span class="p">]:</span>
@@ -616,7 +719,9 @@ document.write(`
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">create_schema_from_function</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_run</span><span class="p">)</span>
 
-<div class="viewcode-block" id="BaseTool.invoke"><a class="viewcode-back" href="../../../core/tools/langchain_core.tools.base.BaseTool.html#langchain_community.agent_toolkits.nla.tool.BaseTool.invoke">[docs]</a>    <span class="k">def</span> <span class="nf">invoke</span><span class="p">(</span>
+<div class="viewcode-block" id="BaseTool.invoke">
+<a class="viewcode-back" href="../../../core/tools/langchain_core.tools.base.BaseTool.html#langchain_azure_dynamic_sessions.tools.sessions.BaseTool.invoke">[docs]</a>
+    <span class="k">def</span> <span class="nf">invoke</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="nb">input</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">ToolCall</span><span class="p">],</span>
         <span class="n">config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">RunnableConfig</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -625,7 +730,10 @@ document.write(`
         <span class="n">tool_input</span><span class="p">,</span> <span class="n">kwargs</span> <span class="o">=</span> <span class="n">_prep_run_args</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">tool_input</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="BaseTool.ainvoke"><a class="viewcode-back" href="../../../core/tools/langchain_core.tools.base.BaseTool.html#langchain_community.agent_toolkits.nla.tool.BaseTool.ainvoke">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">ainvoke</span><span class="p">(</span>
+
+<div class="viewcode-block" id="BaseTool.ainvoke">
+<a class="viewcode-back" href="../../../core/tools/langchain_core.tools.base.BaseTool.html#langchain_azure_dynamic_sessions.tools.sessions.BaseTool.ainvoke">[docs]</a>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">ainvoke</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="nb">input</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">ToolCall</span><span class="p">],</span>
         <span class="n">config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">RunnableConfig</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -633,6 +741,7 @@ document.write(`
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
         <span class="n">tool_input</span><span class="p">,</span> <span class="n">kwargs</span> <span class="o">=</span> <span class="n">_prep_run_args</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">return</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">arun</span><span class="p">(</span><span class="n">tool_input</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
 
     <span class="c1"># --- Tool ---</span>
 
@@ -645,21 +754,35 @@ document.write(`
         <span class="n">input_args</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">args_schema</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tool_input</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">input_args</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">key_</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">input_args</span><span class="o">.</span><span class="n">__fields__</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
-                <span class="n">input_args</span><span class="o">.</span><span class="n">validate</span><span class="p">({</span><span class="n">key_</span><span class="p">:</span> <span class="n">tool_input</span><span class="p">})</span>
+                <span class="n">key_</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">get_fields</span><span class="p">(</span><span class="n">input_args</span><span class="p">)</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
+                <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">input_args</span><span class="p">,</span> <span class="s2">"model_validate"</span><span class="p">):</span>
+                    <span class="n">input_args</span><span class="o">.</span><span class="n">model_validate</span><span class="p">({</span><span class="n">key_</span><span class="p">:</span> <span class="n">tool_input</span><span class="p">})</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">input_args</span><span class="o">.</span><span class="n">parse_obj</span><span class="p">({</span><span class="n">key_</span><span class="p">:</span> <span class="n">tool_input</span><span class="p">})</span>
             <span class="k">return</span> <span class="n">tool_input</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">input_args</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">result</span> <span class="o">=</span> <span class="n">input_args</span><span class="o">.</span><span class="n">parse_obj</span><span class="p">(</span><span class="n">tool_input</span><span class="p">)</span>
+                <span class="k">if</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">input_args</span><span class="p">,</span> <span class="n">BaseModel</span><span class="p">):</span>
+                    <span class="n">result</span> <span class="o">=</span> <span class="n">input_args</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span><span class="n">tool_input</span><span class="p">)</span>
+                    <span class="n">result_dict</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">model_dump</span><span class="p">()</span>
+                <span class="k">elif</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">input_args</span><span class="p">,</span> <span class="n">BaseModelV1</span><span class="p">):</span>
+                    <span class="n">result</span> <span class="o">=</span> <span class="n">input_args</span><span class="o">.</span><span class="n">parse_obj</span><span class="p">(</span><span class="n">tool_input</span><span class="p">)</span>
+                    <span class="n">result_dict</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">dict</span><span class="p">()</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+                        <span class="s2">"args_schema must be a Pydantic BaseModel, "</span>
+                        <span class="sa">f</span><span class="s2">"got </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">args_schema</span><span class="si">}</span><span class="s2">"</span>
+                    <span class="p">)</span>
                 <span class="k">return</span> <span class="p">{</span>
                     <span class="n">k</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
-                    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">result</span><span class="o">.</span><span class="n">dict</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+                    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">result_dict</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
                     <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">tool_input</span>
                 <span class="p">}</span>
             <span class="k">return</span> <span class="n">tool_input</span>
 
-    <span class="nd">@root_validator</span><span class="p">(</span><span class="n">pre</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">raise_deprecation</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+    <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">"before"</span><span class="p">)</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">raise_deprecation</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Raise deprecation warning if callback_manager is used.</span>
 
 <span class="sd">        Args:</span>
@@ -706,7 +829,9 @@ document.write(`
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">(),</span> <span class="n">tool_input</span>
 
-<div class="viewcode-block" id="BaseTool.run"><a class="viewcode-back" href="../../../core/tools/langchain_core.tools.base.BaseTool.html#langchain_community.agent_toolkits.nla.tool.BaseTool.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span>
+<div class="viewcode-block" id="BaseTool.run">
+<a class="viewcode-back" href="../../../core/tools/langchain_core.tools.base.BaseTool.html#langchain_azure_dynamic_sessions.tools.sessions.BaseTool.run">[docs]</a>
+    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">tool_input</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]],</span>
         <span class="n">verbose</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -817,7 +942,10 @@ document.write(`
         <span class="n">run_manager</span><span class="o">.</span><span class="n">on_tool_end</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">output</span></div>
 
-<div class="viewcode-block" id="BaseTool.arun"><a class="viewcode-back" href="../../../core/tools/langchain_core.tools.base.BaseTool.html#langchain_community.agent_toolkits.nla.tool.BaseTool.arun">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">arun</span><span class="p">(</span>
+
+<div class="viewcode-block" id="BaseTool.arun">
+<a class="viewcode-back" href="../../../core/tools/langchain_core.tools.base.BaseTool.html#langchain_azure_dynamic_sessions.tools.sessions.BaseTool.arun">[docs]</a>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">arun</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">tool_input</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Dict</span><span class="p">],</span>
         <span class="n">verbose</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -934,10 +1062,15 @@ document.write(`
         <span class="k">await</span> <span class="n">run_manager</span><span class="o">.</span><span class="n">on_tool_end</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">output</span></div>
 
-<div class="viewcode-block" id="BaseTool.__call__"><a class="viewcode-back" href="../../../core/tools/langchain_core.tools.base.BaseTool.html#langchain_community.agent_toolkits.nla.tool.BaseTool.__call__">[docs]</a>    <span class="nd">@deprecated</span><span class="p">(</span><span class="s2">"0.1.47"</span><span class="p">,</span> <span class="n">alternative</span><span class="o">=</span><span class="s2">"invoke"</span><span class="p">,</span> <span class="n">removal</span><span class="o">=</span><span class="s2">"1.0"</span><span class="p">)</span>
+
+<div class="viewcode-block" id="BaseTool.__call__">
+<a class="viewcode-back" href="../../../core/tools/langchain_core.tools.base.BaseTool.html#langchain_azure_dynamic_sessions.tools.sessions.BaseTool.__call__">[docs]</a>
+    <span class="nd">@deprecated</span><span class="p">(</span><span class="s2">"0.1.47"</span><span class="p">,</span> <span class="n">alternative</span><span class="o">=</span><span class="s2">"invoke"</span><span class="p">,</span> <span class="n">removal</span><span class="o">=</span><span class="s2">"1.0"</span><span class="p">)</span>
     <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tool_input</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">callbacks</span><span class="p">:</span> <span class="n">Callbacks</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Make tool callable."""</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">tool_input</span><span class="p">,</span> <span class="n">callbacks</span><span class="o">=</span><span class="n">callbacks</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">tool_input</span><span class="p">,</span> <span class="n">callbacks</span><span class="o">=</span><span class="n">callbacks</span><span class="p">)</span></div>
+</div>
+
 
 
 <span class="k">def</span> <span class="nf">_is_tool_call</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
@@ -1075,8 +1208,11 @@ document.write(`
     <span class="k">return</span> <span class="kc">None</span>
 
 
-<div class="viewcode-block" id="InjectedToolArg"><a class="viewcode-back" href="../../../core/tools/langchain_core.tools.base.InjectedToolArg.html#langchain_community.agent_toolkits.nla.tool.InjectedToolArg">[docs]</a><span class="k">class</span> <span class="nc">InjectedToolArg</span><span class="p">:</span>
+<div class="viewcode-block" id="InjectedToolArg">
+<a class="viewcode-back" href="../../../core/tools/langchain_core.tools.base.InjectedToolArg.html#langchain_azure_dynamic_sessions.tools.sessions.InjectedToolArg">[docs]</a>
+<span class="k">class</span> <span class="nc">InjectedToolArg</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Annotation for a Tool arg that is **not** meant to be generated by a model."""</span></div>
+
 
 
 <span class="k">def</span> <span class="nf">_is_injected_arg_type</span><span class="p">(</span><span class="n">type_</span><span class="p">:</span> <span class="n">Type</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
@@ -1171,12 +1307,18 @@ document.write(`
         <span class="k">return</span> <span class="n">type_</span>
 
 
-<div class="viewcode-block" id="BaseToolkit"><a class="viewcode-back" href="../../../core/tools/langchain_core.tools.base.BaseToolkit.html#langchain_community.agent_toolkits.nla.tool.BaseToolkit">[docs]</a><span class="k">class</span> <span class="nc">BaseToolkit</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
+<div class="viewcode-block" id="BaseToolkit">
+<a class="viewcode-back" href="../../../core/tools/langchain_core.tools.base.BaseToolkit.html#langchain_azure_dynamic_sessions.tools.sessions.BaseToolkit">[docs]</a>
+<span class="k">class</span> <span class="nc">BaseToolkit</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Base Toolkit representing a collection of related tools."""</span>
 
-<div class="viewcode-block" id="BaseToolkit.get_tools"><a class="viewcode-back" href="../../../core/tools/langchain_core.tools.base.BaseToolkit.html#langchain_community.agent_toolkits.nla.tool.BaseToolkit.get_tools">[docs]</a>    <span class="nd">@abstractmethod</span>
+<div class="viewcode-block" id="BaseToolkit.get_tools">
+<a class="viewcode-back" href="../../../core/tools/langchain_core.tools.base.BaseToolkit.html#langchain_azure_dynamic_sessions.tools.sessions.BaseToolkit.get_tools">[docs]</a>
+    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">get_tools</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">BaseTool</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">"""Get the tools in the toolkit."""</span></div></div>
+<span class="w">        </span><span class="sd">"""Get the tools in the toolkit."""</span></div>
+</div>
+
 </pre></div>
 </article>
 </div>

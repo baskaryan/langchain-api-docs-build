@@ -1,7 +1,7 @@
 
 <!DOCTYPE html>
 
-<html data-content_root="" lang="en">
+<html data-content_root="../../../" lang="en">
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
@@ -18,27 +18,27 @@
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" rel="preload" type="font/woff2"/>
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" rel="preload" type="font/woff2"/>
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" rel="preload" type="font/woff2"/>
-<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css?v=a746c00c" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/autodoc_pydantic.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/sphinx-design.4cbf315f70debaebd550c87a6162cf0f.min.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/css/custom.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/copybutton.css?v=76b2166b" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/sphinx-design.min.css?v=95c83b7e" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/css/custom.css?v=b95e2228" rel="stylesheet" type="text/css"/>
 <!-- Pre-loaded scripts that we'll load fully later -->
 <link as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
 <link as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
 <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-<script src="../../../_static/doctools.js"></script>
-<script src="../../../_static/sphinx_highlight.js"></script>
-<script src="../../../_static/clipboard.min.js"></script>
-<script src="../../../_static/copybutton.js"></script>
-<script src="../../../_static/design-tabs.js"></script>
+<script src="../../../_static/documentation_options.js?v=3b5cce75"></script>
+<script src="../../../_static/doctools.js?v=9a2dae69"></script>
+<script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+<script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+<script src="../../../_static/copybutton.js?v=f281be69"></script>
+<script src="../../../_static/design-tabs.js?v=f930bc37"></script>
 <script>DOCUMENTATION_OPTIONS.pagename = '_modules/langchain_aws/llms/bedrock';</script>
 <link href="../../../_static/favicon.png" rel="icon"/>
 <link href="../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Sep 13, 2024" name="docbuild:last-update"/>
+<meta content="Sep 16, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -246,7 +246,6 @@ document.write(`
     <span class="n">Union</span><span class="p">,</span>
 <span class="p">)</span>
 
-<span class="kn">from</span> <span class="nn">langchain_core._api.deprecation</span> <span class="kn">import</span> <span class="n">deprecated</span>
 <span class="kn">from</span> <span class="nn">langchain_core.callbacks</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">AsyncCallbackManagerForLLMRun</span><span class="p">,</span>
     <span class="n">CallbackManagerForLLMRun</span><span class="p">,</span>
@@ -255,7 +254,8 @@ document.write(`
 <span class="kn">from</span> <span class="nn">langchain_core.messages</span> <span class="kn">import</span> <span class="n">AIMessageChunk</span><span class="p">,</span> <span class="n">ToolCall</span>
 <span class="kn">from</span> <span class="nn">langchain_core.messages.tool</span> <span class="kn">import</span> <span class="n">tool_call</span><span class="p">,</span> <span class="n">tool_call_chunk</span>
 <span class="kn">from</span> <span class="nn">langchain_core.outputs</span> <span class="kn">import</span> <span class="n">Generation</span><span class="p">,</span> <span class="n">GenerationChunk</span><span class="p">,</span> <span class="n">LLMResult</span>
-<span class="kn">from</span> <span class="nn">langchain_core.pydantic_v1</span> <span class="kn">import</span> <span class="n">Field</span><span class="p">,</span> <span class="n">root_validator</span>
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">ConfigDict</span><span class="p">,</span> <span class="n">Field</span><span class="p">,</span> <span class="n">model_validator</span>
+<span class="kn">from</span> <span class="nn">typing_extensions</span> <span class="kn">import</span> <span class="n">Self</span>
 
 <span class="kn">from</span> <span class="nn">langchain_aws.function_calling</span> <span class="kn">import</span> <span class="n">_tools_in_params</span>
 <span class="kn">from</span> <span class="nn">langchain_aws.utils</span> <span class="kn">import</span> <span class="p">(</span>
@@ -448,7 +448,9 @@ document.write(`
     <span class="k">return</span> <span class="n">GenerationChunk</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span> <span class="n">generation_info</span><span class="o">=</span><span class="n">generation_info</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="extract_tool_calls"><a class="viewcode-back" href="../../../aws/llms/langchain_aws.llms.bedrock.extract_tool_calls.html#langchain_aws.llms.bedrock.extract_tool_calls">[docs]</a><span class="k">def</span> <span class="nf">extract_tool_calls</span><span class="p">(</span><span class="n">content</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">ToolCall</span><span class="p">]:</span>
+<div class="viewcode-block" id="extract_tool_calls">
+<a class="viewcode-back" href="../../../aws/llms/langchain_aws.llms.bedrock.extract_tool_calls.html#langchain_aws.llms.bedrock.extract_tool_calls">[docs]</a>
+<span class="k">def</span> <span class="nf">extract_tool_calls</span><span class="p">(</span><span class="n">content</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">ToolCall</span><span class="p">]:</span>
     <span class="n">tool_calls</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">block</span> <span class="ow">in</span> <span class="n">content</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">block</span><span class="p">[</span><span class="s2">"type"</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">"tool_use"</span><span class="p">:</span>
@@ -459,13 +461,19 @@ document.write(`
     <span class="k">return</span> <span class="n">tool_calls</span></div>
 
 
-<div class="viewcode-block" id="AnthropicTool"><a class="viewcode-back" href="../../../aws/llms/langchain_aws.llms.bedrock.AnthropicTool.html#langchain_aws.llms.bedrock.AnthropicTool">[docs]</a><span class="k">class</span> <span class="nc">AnthropicTool</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
+
+<div class="viewcode-block" id="AnthropicTool">
+<a class="viewcode-back" href="../../../aws/llms/langchain_aws.llms.bedrock.AnthropicTool.html#langchain_aws.llms.bedrock.AnthropicTool">[docs]</a>
+<span class="k">class</span> <span class="nc">AnthropicTool</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
     <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">description</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">input_schema</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span></div>
 
 
-<div class="viewcode-block" id="LLMInputOutputAdapter"><a class="viewcode-back" href="../../../aws/llms/langchain_aws.llms.bedrock.LLMInputOutputAdapter.html#langchain_aws.llms.bedrock.LLMInputOutputAdapter">[docs]</a><span class="k">class</span> <span class="nc">LLMInputOutputAdapter</span><span class="p">:</span>
+
+<div class="viewcode-block" id="LLMInputOutputAdapter">
+<a class="viewcode-back" href="../../../aws/llms/langchain_aws.llms.bedrock.LLMInputOutputAdapter.html#langchain_aws.llms.bedrock.LLMInputOutputAdapter">[docs]</a>
+<span class="k">class</span> <span class="nc">LLMInputOutputAdapter</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Adapter class to prepare the inputs from Langchain to a format</span>
 <span class="sd">    that LLM model expects.</span>
 
@@ -480,7 +488,9 @@ document.write(`
         <span class="s2">"mistral"</span><span class="p">:</span> <span class="s2">"outputs"</span><span class="p">,</span>
     <span class="p">}</span>
 
-<div class="viewcode-block" id="LLMInputOutputAdapter.prepare_input"><a class="viewcode-back" href="../../../aws/llms/langchain_aws.llms.bedrock.LLMInputOutputAdapter.html#langchain_aws.llms.bedrock.LLMInputOutputAdapter.prepare_input">[docs]</a>    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="LLMInputOutputAdapter.prepare_input">
+<a class="viewcode-back" href="../../../aws/llms/langchain_aws.llms.bedrock.LLMInputOutputAdapter.html#langchain_aws.llms.bedrock.LLMInputOutputAdapter.prepare_input">[docs]</a>
+    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">prepare_input</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span>
         <span class="n">provider</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -516,7 +526,10 @@ document.write(`
 
         <span class="k">return</span> <span class="n">input_body</span></div>
 
-<div class="viewcode-block" id="LLMInputOutputAdapter.prepare_output"><a class="viewcode-back" href="../../../aws/llms/langchain_aws.llms.bedrock.LLMInputOutputAdapter.html#langchain_aws.llms.bedrock.LLMInputOutputAdapter.prepare_output">[docs]</a>    <span class="nd">@classmethod</span>
+
+<div class="viewcode-block" id="LLMInputOutputAdapter.prepare_output">
+<a class="viewcode-back" href="../../../aws/llms/langchain_aws.llms.bedrock.LLMInputOutputAdapter.html#langchain_aws.llms.bedrock.LLMInputOutputAdapter.prepare_output">[docs]</a>
+    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">prepare_output</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">provider</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">response</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
         <span class="n">text</span> <span class="o">=</span> <span class="s2">""</span>
         <span class="n">tool_calls</span> <span class="o">=</span> <span class="p">[]</span>
@@ -559,7 +572,10 @@ document.write(`
             <span class="s2">"stop_reason"</span><span class="p">:</span> <span class="n">response_body</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"stop_reason"</span><span class="p">),</span>
         <span class="p">}</span></div>
 
-<div class="viewcode-block" id="LLMInputOutputAdapter.prepare_output_stream"><a class="viewcode-back" href="../../../aws/llms/langchain_aws.llms.bedrock.LLMInputOutputAdapter.html#langchain_aws.llms.bedrock.LLMInputOutputAdapter.prepare_output_stream">[docs]</a>    <span class="nd">@classmethod</span>
+
+<div class="viewcode-block" id="LLMInputOutputAdapter.prepare_output_stream">
+<a class="viewcode-back" href="../../../aws/llms/langchain_aws.llms.bedrock.LLMInputOutputAdapter.html#langchain_aws.llms.bedrock.LLMInputOutputAdapter.prepare_output_stream">[docs]</a>
+    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">prepare_output_stream</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span>
         <span class="n">provider</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -622,7 +638,10 @@ document.write(`
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">continue</span></div>
 
-<div class="viewcode-block" id="LLMInputOutputAdapter.aprepare_output_stream"><a class="viewcode-back" href="../../../aws/llms/langchain_aws.llms.bedrock.LLMInputOutputAdapter.html#langchain_aws.llms.bedrock.LLMInputOutputAdapter.aprepare_output_stream">[docs]</a>    <span class="nd">@classmethod</span>
+
+<div class="viewcode-block" id="LLMInputOutputAdapter.aprepare_output_stream">
+<a class="viewcode-back" href="../../../aws/llms/langchain_aws.llms.bedrock.LLMInputOutputAdapter.html#langchain_aws.llms.bedrock.LLMInputOutputAdapter.aprepare_output_stream">[docs]</a>
+    <span class="nd">@classmethod</span>
     <span class="k">async</span> <span class="k">def</span> <span class="nf">aprepare_output_stream</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span>
         <span class="n">provider</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -671,13 +690,17 @@ document.write(`
             <span class="k">if</span> <span class="n">generation_chunk</span><span class="p">:</span>
                 <span class="k">yield</span> <span class="n">generation_chunk</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">continue</span></div></div>
+                <span class="k">continue</span></div>
+</div>
 
 
-<div class="viewcode-block" id="BedrockBase"><a class="viewcode-back" href="../../../aws/llms/langchain_aws.llms.bedrock.BedrockBase.html#langchain_aws.llms.bedrock.BedrockBase">[docs]</a><span class="k">class</span> <span class="nc">BedrockBase</span><span class="p">(</span><span class="n">BaseLanguageModel</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
+
+<div class="viewcode-block" id="BedrockBase">
+<a class="viewcode-back" href="../../../aws/llms/langchain_aws.llms.bedrock.BedrockBase.html#langchain_aws.llms.bedrock.BedrockBase">[docs]</a>
+<span class="k">class</span> <span class="nc">BedrockBase</span><span class="p">(</span><span class="n">BaseLanguageModel</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Base class for Bedrock models."""</span>
 
-    <span class="n">client</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">exclude</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1">#: :meta private:</span>
+    <span class="n">client</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">exclude</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1">#: :meta private:</span>
 
     <span class="n">region_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">    </span><span class="sd">"""The aws region e.g., `us-west-2`. Fallsback to AWS_DEFAULT_REGION env variable</span>
@@ -748,7 +771,7 @@ document.write(`
 <span class="sd">        Optional[Mapping[str, str]]: A mapping with 'id' and 'version' keys.</span>
 
 <span class="sd">    Example:</span>
-<span class="sd">    llm = Bedrock(model_id="&lt;model_id&gt;", client=&lt;bedrock_client&gt;,</span>
+<span class="sd">    llm = BedrockLLM(model_id="&lt;model_id&gt;", client=&lt;bedrock_client&gt;,</span>
 <span class="sd">                  model_kwargs={},</span>
 <span class="sd">                  guardrails={</span>
 <span class="sd">                        "id": "&lt;guardrail_id&gt;",</span>
@@ -758,7 +781,7 @@ document.write(`
 <span class="sd">    'run_manager' parameter of the 'generate', '_call' methods.</span>
 
 <span class="sd">    Example:</span>
-<span class="sd">    llm = Bedrock(model_id="&lt;model_id&gt;", client=&lt;bedrock_client&gt;,</span>
+<span class="sd">    llm = BedrockLLM(model_id="&lt;model_id&gt;", client=&lt;bedrock_client&gt;,</span>
 <span class="sd">                  model_kwargs={},</span>
 <span class="sd">                  guardrails={</span>
 <span class="sd">                        "id": "&lt;guardrail_id&gt;",</span>
@@ -779,38 +802,38 @@ document.write(`
 <span class="sd">                ...Logic to handle guardrail intervention...</span>
 <span class="sd">    """</span>  <span class="c1"># noqa: E501</span>
 
-    <span class="nd">@root_validator</span><span class="p">(</span><span class="n">pre</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">skip_on_failure</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">validate_environment</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+    <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">"after"</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">validate_environment</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Validate that AWS credentials to and python package exists in environment."""</span>
 
         <span class="c1"># Skip creating new client if passed in constructor</span>
-        <span class="k">if</span> <span class="n">values</span><span class="p">[</span><span class="s2">"client"</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">values</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span>
 
         <span class="k">try</span><span class="p">:</span>
             <span class="kn">import</span> <span class="nn">boto3</span>
 
-            <span class="k">if</span> <span class="n">values</span><span class="p">[</span><span class="s2">"credentials_profile_name"</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">session</span> <span class="o">=</span> <span class="n">boto3</span><span class="o">.</span><span class="n">Session</span><span class="p">(</span><span class="n">profile_name</span><span class="o">=</span><span class="n">values</span><span class="p">[</span><span class="s2">"credentials_profile_name"</span><span class="p">])</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">credentials_profile_name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">session</span> <span class="o">=</span> <span class="n">boto3</span><span class="o">.</span><span class="n">Session</span><span class="p">(</span><span class="n">profile_name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">credentials_profile_name</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="c1"># use default credentials</span>
                 <span class="n">session</span> <span class="o">=</span> <span class="n">boto3</span><span class="o">.</span><span class="n">Session</span><span class="p">()</span>
 
-            <span class="n">values</span><span class="p">[</span><span class="s2">"region_name"</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
-                <span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"region_name"</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">region_name</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">region_name</span>
                 <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">"AWS_DEFAULT_REGION"</span><span class="p">)</span>
                 <span class="ow">or</span> <span class="n">session</span><span class="o">.</span><span class="n">region_name</span>
             <span class="p">)</span>
 
             <span class="n">client_params</span> <span class="o">=</span> <span class="p">{}</span>
-            <span class="k">if</span> <span class="n">values</span><span class="p">[</span><span class="s2">"region_name"</span><span class="p">]:</span>
-                <span class="n">client_params</span><span class="p">[</span><span class="s2">"region_name"</span><span class="p">]</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="s2">"region_name"</span><span class="p">]</span>
-            <span class="k">if</span> <span class="n">values</span><span class="p">[</span><span class="s2">"endpoint_url"</span><span class="p">]:</span>
-                <span class="n">client_params</span><span class="p">[</span><span class="s2">"endpoint_url"</span><span class="p">]</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="s2">"endpoint_url"</span><span class="p">]</span>
-            <span class="k">if</span> <span class="n">values</span><span class="p">[</span><span class="s2">"config"</span><span class="p">]:</span>
-                <span class="n">client_params</span><span class="p">[</span><span class="s2">"config"</span><span class="p">]</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="s2">"config"</span><span class="p">]</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">region_name</span><span class="p">:</span>
+                <span class="n">client_params</span><span class="p">[</span><span class="s2">"region_name"</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">region_name</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">endpoint_url</span><span class="p">:</span>
+                <span class="n">client_params</span><span class="p">[</span><span class="s2">"endpoint_url"</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">endpoint_url</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">:</span>
+                <span class="n">client_params</span><span class="p">[</span><span class="s2">"config"</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span>
 
-            <span class="n">values</span><span class="p">[</span><span class="s2">"client"</span><span class="p">]</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">client</span><span class="p">(</span><span class="s2">"bedrock-runtime"</span><span class="p">,</span> <span class="o">**</span><span class="n">client_params</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">client</span><span class="p">(</span><span class="s2">"bedrock-runtime"</span><span class="p">,</span> <span class="o">**</span><span class="n">client_params</span><span class="p">)</span>
 
         <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ModuleNotFoundError</span><span class="p">(</span>
@@ -826,7 +849,7 @@ document.write(`
                 <span class="sa">f</span><span class="s2">"profile name are valid. Bedrock error: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span>
             <span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
 
-        <span class="k">return</span> <span class="n">values</span>
+        <span class="k">return</span> <span class="bp">self</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">_identifying_params</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
@@ -1159,7 +1182,10 @@ document.write(`
             <span class="k">yield</span> <span class="n">chunk</span></div>
 
 
-<div class="viewcode-block" id="BedrockLLM"><a class="viewcode-back" href="../../../aws/llms/langchain_aws.llms.bedrock.BedrockLLM.html#langchain_aws.llms.bedrock.BedrockLLM">[docs]</a><span class="k">class</span> <span class="nc">BedrockLLM</span><span class="p">(</span><span class="n">LLM</span><span class="p">,</span> <span class="n">BedrockBase</span><span class="p">):</span>
+
+<div class="viewcode-block" id="BedrockLLM">
+<a class="viewcode-back" href="../../../aws/llms/langchain_aws.llms.bedrock.BedrockLLM.html#langchain_aws.llms.bedrock.BedrockLLM">[docs]</a>
+<span class="k">class</span> <span class="nc">BedrockLLM</span><span class="p">(</span><span class="n">LLM</span><span class="p">,</span> <span class="n">BedrockBase</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Bedrock models.</span>
 
 <span class="sd">    To authenticate, the AWS client uses the following methods to</span>
@@ -1187,16 +1213,16 @@ document.write(`
 
 <span class="sd">    """</span>
 
-    <span class="nd">@root_validator</span><span class="p">(</span><span class="n">pre</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">skip_on_failure</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">validate_environment</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
-        <span class="n">model_id</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="s2">"model_id"</span><span class="p">]</span>
+    <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">"after"</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">validate_environment</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+        <span class="n">model_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_id</span>
         <span class="k">if</span> <span class="n">model_id</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"anthropic.claude-3"</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                 <span class="s2">"Claude v3 models are not supported by this LLM."</span>
-                <span class="s2">"Please use `from langchain_community.chat_models import BedrockChat` "</span>
+                <span class="s2">"Please use `from langchain_aws import ChatBedrock` "</span>
                 <span class="s2">"instead."</span>
             <span class="p">)</span>
-        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">validate_environment</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">_llm_type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
@@ -1231,10 +1257,9 @@ document.write(`
         <span class="n">ls_params</span><span class="p">[</span><span class="s2">"ls_model_name"</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_id</span>
         <span class="k">return</span> <span class="n">ls_params</span>
 
-    <span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""Configuration for this pydantic object."""</span>
-
-        <span class="n">extra</span> <span class="o">=</span> <span class="s2">"forbid"</span>
+    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span>
+        <span class="n">extra</span><span class="o">=</span><span class="s2">"forbid"</span><span class="p">,</span>
+    <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_stream</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -1410,22 +1435,24 @@ document.write(`
 
         <span class="k">return</span> <span class="s2">""</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">chunk</span><span class="o">.</span><span class="n">text</span> <span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="n">chunks</span><span class="p">])</span>
 
-<div class="viewcode-block" id="BedrockLLM.get_num_tokens"><a class="viewcode-back" href="../../../aws/llms/langchain_aws.llms.bedrock.BedrockLLM.html#langchain_aws.llms.bedrock.BedrockLLM.get_num_tokens">[docs]</a>    <span class="k">def</span> <span class="nf">get_num_tokens</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<div class="viewcode-block" id="BedrockLLM.get_num_tokens">
+<a class="viewcode-back" href="../../../aws/llms/langchain_aws.llms.bedrock.BedrockLLM.html#langchain_aws.llms.bedrock.BedrockLLM.get_num_tokens">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_num_tokens</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model_is_anthropic</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">get_num_tokens_anthropic</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">get_num_tokens</span><span class="p">(</span><span class="n">text</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="BedrockLLM.get_token_ids"><a class="viewcode-back" href="../../../aws/llms/langchain_aws.llms.bedrock.BedrockLLM.html#langchain_aws.llms.bedrock.BedrockLLM.get_token_ids">[docs]</a>    <span class="k">def</span> <span class="nf">get_token_ids</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+
+<div class="viewcode-block" id="BedrockLLM.get_token_ids">
+<a class="viewcode-back" href="../../../aws/llms/langchain_aws.llms.bedrock.BedrockLLM.html#langchain_aws.llms.bedrock.BedrockLLM.get_token_ids">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_token_ids</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model_is_anthropic</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">get_token_ids_anthropic</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">get_token_ids</span><span class="p">(</span><span class="n">text</span><span class="p">)</span></div></div>
+            <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">get_token_ids</span><span class="p">(</span><span class="n">text</span><span class="p">)</span></div>
+</div>
 
-
-<div class="viewcode-block" id="Bedrock"><a class="viewcode-back" href="../../../aws/llms/langchain_aws.llms.bedrock.Bedrock.html#langchain_aws.llms.bedrock.Bedrock">[docs]</a><span class="nd">@deprecated</span><span class="p">(</span><span class="n">since</span><span class="o">=</span><span class="s2">"0.1.0"</span><span class="p">,</span> <span class="n">removal</span><span class="o">=</span><span class="s2">"0.2.0"</span><span class="p">,</span> <span class="n">alternative</span><span class="o">=</span><span class="s2">"BedrockLLM"</span><span class="p">)</span>
-<span class="k">class</span> <span class="nc">Bedrock</span><span class="p">(</span><span class="n">BedrockLLM</span><span class="p">):</span>
-    <span class="k">pass</span></div>
 </pre></div>
 </article>
 </div>

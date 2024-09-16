@@ -1,7 +1,7 @@
 
 <!DOCTYPE html>
 
-<html data-content_root="" lang="en">
+<html data-content_root="../../../" lang="en">
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
@@ -18,27 +18,27 @@
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" rel="preload" type="font/woff2"/>
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" rel="preload" type="font/woff2"/>
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" rel="preload" type="font/woff2"/>
-<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css?v=a746c00c" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/autodoc_pydantic.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/sphinx-design.4cbf315f70debaebd550c87a6162cf0f.min.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/css/custom.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/copybutton.css?v=76b2166b" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/sphinx-design.min.css?v=95c83b7e" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/css/custom.css?v=b95e2228" rel="stylesheet" type="text/css"/>
 <!-- Pre-loaded scripts that we'll load fully later -->
 <link as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
 <link as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
 <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-<script src="../../../_static/doctools.js"></script>
-<script src="../../../_static/sphinx_highlight.js"></script>
-<script src="../../../_static/clipboard.min.js"></script>
-<script src="../../../_static/copybutton.js"></script>
-<script src="../../../_static/design-tabs.js"></script>
+<script src="../../../_static/documentation_options.js?v=3b5cce75"></script>
+<script src="../../../_static/doctools.js?v=9a2dae69"></script>
+<script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+<script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+<script src="../../../_static/copybutton.js?v=f281be69"></script>
+<script src="../../../_static/design-tabs.js?v=f930bc37"></script>
 <script>DOCUMENTATION_OPTIONS.pagename = '_modules/langchain_community/llms/self_hosted';</script>
 <link href="../../../_static/favicon.png" rel="icon"/>
 <link href="../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Sep 13, 2024" name="docbuild:last-update"/>
+<meta content="Sep 16, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -234,6 +234,7 @@ document.write(`
 
 <span class="kn">from</span> <span class="nn">langchain_core.callbacks</span> <span class="kn">import</span> <span class="n">CallbackManagerForLLMRun</span>
 <span class="kn">from</span> <span class="nn">langchain_core.language_models.llms</span> <span class="kn">import</span> <span class="n">LLM</span>
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">ConfigDict</span>
 
 <span class="kn">from</span> <span class="nn">langchain_community.llms.utils</span> <span class="kn">import</span> <span class="n">enforce_stop_tokens</span>
 
@@ -291,7 +292,9 @@ document.write(`
     <span class="k">return</span> <span class="n">pipeline</span>
 
 
-<div class="viewcode-block" id="SelfHostedPipeline"><a class="viewcode-back" href="../../../community/llms/langchain_community.llms.self_hosted.SelfHostedPipeline.html#langchain_community.llms.self_hosted.SelfHostedPipeline">[docs]</a><span class="k">class</span> <span class="nc">SelfHostedPipeline</span><span class="p">(</span><span class="n">LLM</span><span class="p">):</span>
+<div class="viewcode-block" id="SelfHostedPipeline">
+<a class="viewcode-back" href="../../../community/llms/langchain_community.llms.self_hosted.SelfHostedPipeline.html#langchain_community.embeddings.self_hosted.SelfHostedPipeline">[docs]</a>
+<span class="k">class</span> <span class="nc">SelfHostedPipeline</span><span class="p">(</span><span class="n">LLM</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Model inference on self-hosted remote hardware.</span>
 
 <span class="sd">    Supported hardware includes auto-launched instances on AWS, GCP, Azure,</span>
@@ -354,11 +357,11 @@ document.write(`
 <span class="sd">            )</span>
 <span class="sd">    """</span>
 
-    <span class="n">pipeline_ref</span><span class="p">:</span> <span class="n">Any</span>  <span class="c1">#: :meta private:</span>
-    <span class="n">client</span><span class="p">:</span> <span class="n">Any</span>  <span class="c1">#: :meta private:</span>
+    <span class="n">pipeline_ref</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1">#: :meta private:</span>
+    <span class="n">client</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1">#: :meta private:</span>
     <span class="n">inference_fn</span><span class="p">:</span> <span class="n">Callable</span> <span class="o">=</span> <span class="n">_generate_text</span>  <span class="c1">#: :meta private:</span>
 <span class="w">    </span><span class="sd">"""Inference function to send to the remote hardware."""</span>
-    <span class="n">hardware</span><span class="p">:</span> <span class="n">Any</span>
+    <span class="n">hardware</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">    </span><span class="sd">"""Remote hardware to send the inference function to."""</span>
     <span class="n">model_load_fn</span><span class="p">:</span> <span class="n">Callable</span>
 <span class="w">    </span><span class="sd">"""Function to load the model remotely on the server."""</span>
@@ -372,8 +375,9 @@ document.write(`
 <span class="sd">    loading compromised data.</span>
 <span class="sd">    """</span>
 
-    <span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
-        <span class="n">extra</span> <span class="o">=</span> <span class="s2">"forbid"</span>
+    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span>
+        <span class="n">extra</span><span class="o">=</span><span class="s2">"forbid"</span><span class="p">,</span>
+    <span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">"""Init the pipeline with an auxiliary function.</span>
@@ -412,7 +416,9 @@ document.write(`
             <span class="bp">self</span><span class="o">.</span><span class="n">hardware</span><span class="p">,</span> <span class="n">reqs</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">model_reqs</span>
         <span class="p">)</span>
 
-<div class="viewcode-block" id="SelfHostedPipeline.from_pipeline"><a class="viewcode-back" href="../../../community/llms/langchain_community.llms.self_hosted.SelfHostedPipeline.html#langchain_community.llms.self_hosted.SelfHostedPipeline.from_pipeline">[docs]</a>    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="SelfHostedPipeline.from_pipeline">
+<a class="viewcode-back" href="../../../community/llms/langchain_community.llms.self_hosted.SelfHostedPipeline.html#langchain_community.embeddings.self_hosted.SelfHostedPipeline.from_pipeline">[docs]</a>
+    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_pipeline</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span>
         <span class="n">pipeline</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
@@ -440,6 +446,7 @@ document.write(`
             <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
         <span class="p">)</span></div>
 
+
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">_identifying_params</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">"""Get the identifying parameters."""</span>
@@ -461,6 +468,7 @@ document.write(`
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">(</span>
             <span class="n">pipeline</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">pipeline_ref</span><span class="p">,</span> <span class="n">prompt</span><span class="o">=</span><span class="n">prompt</span><span class="p">,</span> <span class="n">stop</span><span class="o">=</span><span class="n">stop</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
         <span class="p">)</span></div>
+
 </pre></div>
 </article>
 </div>

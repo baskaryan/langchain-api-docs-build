@@ -1,7 +1,7 @@
 
 <!DOCTYPE html>
 
-<html data-content_root="" lang="en">
+<html data-content_root="../../../" lang="en">
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
@@ -18,27 +18,27 @@
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" rel="preload" type="font/woff2"/>
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" rel="preload" type="font/woff2"/>
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" rel="preload" type="font/woff2"/>
-<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css?v=a746c00c" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/autodoc_pydantic.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/sphinx-design.4cbf315f70debaebd550c87a6162cf0f.min.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/css/custom.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/copybutton.css?v=76b2166b" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/sphinx-design.min.css?v=95c83b7e" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/css/custom.css?v=b95e2228" rel="stylesheet" type="text/css"/>
 <!-- Pre-loaded scripts that we'll load fully later -->
 <link as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
 <link as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
 <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-<script src="../../../_static/doctools.js"></script>
-<script src="../../../_static/sphinx_highlight.js"></script>
-<script src="../../../_static/clipboard.min.js"></script>
-<script src="../../../_static/copybutton.js"></script>
-<script src="../../../_static/design-tabs.js"></script>
+<script src="../../../_static/documentation_options.js?v=3b5cce75"></script>
+<script src="../../../_static/doctools.js?v=9a2dae69"></script>
+<script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+<script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+<script src="../../../_static/copybutton.js?v=f281be69"></script>
+<script src="../../../_static/design-tabs.js?v=f930bc37"></script>
 <script>DOCUMENTATION_OPTIONS.pagename = '_modules/langchain_core/prompts/few_shot';</script>
 <link href="../../../_static/favicon.png" rel="icon"/>
 <link href="../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Sep 13, 2024" name="docbuild:last-update"/>
+<meta content="Sep 16, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -234,6 +234,14 @@ document.write(`
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
 
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">BaseModel</span><span class="p">,</span>
+    <span class="n">ConfigDict</span><span class="p">,</span>
+    <span class="n">Field</span><span class="p">,</span>
+    <span class="n">model_validator</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">typing_extensions</span> <span class="kn">import</span> <span class="n">Self</span>
+
 <span class="kn">from</span> <span class="nn">langchain_core.example_selectors</span> <span class="kn">import</span> <span class="n">BaseExampleSelector</span>
 <span class="kn">from</span> <span class="nn">langchain_core.messages</span> <span class="kn">import</span> <span class="n">BaseMessage</span><span class="p">,</span> <span class="n">get_buffer_string</span>
 <span class="kn">from</span> <span class="nn">langchain_core.prompts.chat</span> <span class="kn">import</span> <span class="p">(</span>
@@ -247,7 +255,6 @@ document.write(`
     <span class="n">check_valid_template</span><span class="p">,</span>
     <span class="n">get_template_variables</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">langchain_core.pydantic_v1</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Extra</span><span class="p">,</span> <span class="n">Field</span><span class="p">,</span> <span class="n">root_validator</span>
 
 
 <span class="k">class</span> <span class="nc">_FewShotPromptTemplateMixin</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
@@ -261,12 +268,14 @@ document.write(`
 <span class="w">    </span><span class="sd">"""ExampleSelector to choose the examples to format into the prompt.</span>
 <span class="sd">    Either this or examples should be provided."""</span>
 
-    <span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
-        <span class="n">arbitrary_types_allowed</span> <span class="o">=</span> <span class="kc">True</span>
-        <span class="n">extra</span> <span class="o">=</span> <span class="n">Extra</span><span class="o">.</span><span class="n">forbid</span>
+    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span>
+        <span class="n">arbitrary_types_allowed</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">extra</span><span class="o">=</span><span class="s2">"forbid"</span><span class="p">,</span>
+    <span class="p">)</span>
 
-    <span class="nd">@root_validator</span><span class="p">(</span><span class="n">pre</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">check_examples_and_selector</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+    <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">"before"</span><span class="p">)</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">check_examples_and_selector</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Check that one and only one of examples/example_selector are provided.</span>
 
 <span class="sd">        Args:</span>
@@ -336,7 +345,9 @@ document.write(`
             <span class="p">)</span>
 
 
-<div class="viewcode-block" id="FewShotPromptTemplate"><a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.few_shot.FewShotPromptTemplate.html#langchain_core.prompts.few_shot.FewShotPromptTemplate">[docs]</a><span class="k">class</span> <span class="nc">FewShotPromptTemplate</span><span class="p">(</span><span class="n">_FewShotPromptTemplateMixin</span><span class="p">,</span> <span class="n">StringPromptTemplate</span><span class="p">):</span>
+<div class="viewcode-block" id="FewShotPromptTemplate">
+<a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.few_shot.FewShotPromptTemplate.html#langchain_core.prompts.few_shot.FewShotPromptTemplate">[docs]</a>
+<span class="k">class</span> <span class="nc">FewShotPromptTemplate</span><span class="p">(</span><span class="n">_FewShotPromptTemplateMixin</span><span class="p">,</span> <span class="n">StringPromptTemplate</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Prompt template that contains few shot examples."""</span>
 
     <span class="nd">@classmethod</span>
@@ -368,30 +379,33 @@ document.write(`
             <span class="n">kwargs</span><span class="p">[</span><span class="s2">"input_variables"</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">"example_prompt"</span><span class="p">]</span><span class="o">.</span><span class="n">input_variables</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-    <span class="nd">@root_validator</span><span class="p">(</span><span class="n">pre</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">skip_on_failure</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">template_is_valid</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+    <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">"after"</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">template_is_valid</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Check that prefix, suffix, and input variables are consistent."""</span>
-        <span class="k">if</span> <span class="n">values</span><span class="p">[</span><span class="s2">"validate_template"</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">validate_template</span><span class="p">:</span>
             <span class="n">check_valid_template</span><span class="p">(</span>
-                <span class="n">values</span><span class="p">[</span><span class="s2">"prefix"</span><span class="p">]</span> <span class="o">+</span> <span class="n">values</span><span class="p">[</span><span class="s2">"suffix"</span><span class="p">],</span>
-                <span class="n">values</span><span class="p">[</span><span class="s2">"template_format"</span><span class="p">],</span>
-                <span class="n">values</span><span class="p">[</span><span class="s2">"input_variables"</span><span class="p">]</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="s2">"partial_variables"</span><span class="p">]),</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">prefix</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">suffix</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">template_format</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">input_variables</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">partial_variables</span><span class="p">),</span>
             <span class="p">)</span>
-        <span class="k">elif</span> <span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"template_format"</span><span class="p">):</span>
-            <span class="n">values</span><span class="p">[</span><span class="s2">"input_variables"</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">template_format</span> <span class="ow">or</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">input_variables</span> <span class="o">=</span> <span class="p">[</span>
                 <span class="n">var</span>
                 <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">get_template_variables</span><span class="p">(</span>
-                    <span class="n">values</span><span class="p">[</span><span class="s2">"prefix"</span><span class="p">]</span> <span class="o">+</span> <span class="n">values</span><span class="p">[</span><span class="s2">"suffix"</span><span class="p">],</span> <span class="n">values</span><span class="p">[</span><span class="s2">"template_format"</span><span class="p">]</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">prefix</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">suffix</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">template_format</span>
                 <span class="p">)</span>
-                <span class="k">if</span> <span class="n">var</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">values</span><span class="p">[</span><span class="s2">"partial_variables"</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">var</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">partial_variables</span>
             <span class="p">]</span>
-        <span class="k">return</span> <span class="n">values</span>
+        <span class="k">return</span> <span class="bp">self</span>
 
-    <span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
-        <span class="n">arbitrary_types_allowed</span> <span class="o">=</span> <span class="kc">True</span>
-        <span class="n">extra</span> <span class="o">=</span> <span class="n">Extra</span><span class="o">.</span><span class="n">forbid</span>
+    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span>
+        <span class="n">arbitrary_types_allowed</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">extra</span><span class="o">=</span><span class="s2">"forbid"</span><span class="p">,</span>
+    <span class="p">)</span>
 
-<div class="viewcode-block" id="FewShotPromptTemplate.format"><a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.few_shot.FewShotPromptTemplate.html#langchain_core.prompts.few_shot.FewShotPromptTemplate.format">[docs]</a>    <span class="k">def</span> <span class="nf">format</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<div class="viewcode-block" id="FewShotPromptTemplate.format">
+<a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.few_shot.FewShotPromptTemplate.html#langchain_core.prompts.few_shot.FewShotPromptTemplate.format">[docs]</a>
+    <span class="k">def</span> <span class="nf">format</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Format the prompt with inputs generating a string.</span>
 
 <span class="sd">        Use this method to generate a string representation of a prompt.</span>
@@ -419,7 +433,10 @@ document.write(`
         <span class="c1"># Format the template with the input variables.</span>
         <span class="k">return</span> <span class="n">DEFAULT_FORMATTER_MAPPING</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">template_format</span><span class="p">](</span><span class="n">template</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="FewShotPromptTemplate.aformat"><a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.few_shot.FewShotPromptTemplate.html#langchain_core.prompts.few_shot.FewShotPromptTemplate.aformat">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">aformat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+
+<div class="viewcode-block" id="FewShotPromptTemplate.aformat">
+<a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.few_shot.FewShotPromptTemplate.html#langchain_core.prompts.few_shot.FewShotPromptTemplate.aformat">[docs]</a>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">aformat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Async format the prompt with inputs generating a string.</span>
 
 <span class="sd">        Use this method to generate a string representation of a prompt.</span>
@@ -447,12 +464,15 @@ document.write(`
         <span class="c1"># Format the template with the input variables.</span>
         <span class="k">return</span> <span class="n">DEFAULT_FORMATTER_MAPPING</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">template_format</span><span class="p">](</span><span class="n">template</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
+
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">_prompt_type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Return the prompt type key."""</span>
         <span class="k">return</span> <span class="s2">"few_shot"</span>
 
-<div class="viewcode-block" id="FewShotPromptTemplate.save"><a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.few_shot.FewShotPromptTemplate.html#langchain_core.prompts.few_shot.FewShotPromptTemplate.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Path</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="FewShotPromptTemplate.save">
+<a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.few_shot.FewShotPromptTemplate.html#langchain_core.prompts.few_shot.FewShotPromptTemplate.save">[docs]</a>
+    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Path</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Save the prompt template to a file.</span>
 
 <span class="sd">        Args:</span>
@@ -463,10 +483,14 @@ document.write(`
 <span class="sd">        """</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">example_selector</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Saving an example selector is not currently supported"</span><span class="p">)</span>
-        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span></div>
+</div>
 
 
-<div class="viewcode-block" id="FewShotChatMessagePromptTemplate"><a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.few_shot.FewShotChatMessagePromptTemplate.html#langchain_core.prompts.few_shot.FewShotChatMessagePromptTemplate">[docs]</a><span class="k">class</span> <span class="nc">FewShotChatMessagePromptTemplate</span><span class="p">(</span>
+
+<div class="viewcode-block" id="FewShotChatMessagePromptTemplate">
+<a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.few_shot.FewShotChatMessagePromptTemplate.html#langchain_core.prompts.few_shot.FewShotChatMessagePromptTemplate">[docs]</a>
+<span class="k">class</span> <span class="nc">FewShotChatMessagePromptTemplate</span><span class="p">(</span>
     <span class="n">BaseChatPromptTemplate</span><span class="p">,</span> <span class="n">_FewShotPromptTemplateMixin</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Chat prompt template that supports few-shot examples.</span>
@@ -594,11 +618,14 @@ document.write(`
 <span class="w">        </span><span class="sd">"""Return whether or not the class is serializable."""</span>
         <span class="k">return</span> <span class="kc">False</span>
 
-    <span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
-        <span class="n">arbitrary_types_allowed</span> <span class="o">=</span> <span class="kc">True</span>
-        <span class="n">extra</span> <span class="o">=</span> <span class="n">Extra</span><span class="o">.</span><span class="n">forbid</span>
+    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span>
+        <span class="n">arbitrary_types_allowed</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">extra</span><span class="o">=</span><span class="s2">"forbid"</span><span class="p">,</span>
+    <span class="p">)</span>
 
-<div class="viewcode-block" id="FewShotChatMessagePromptTemplate.format_messages"><a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.few_shot.FewShotChatMessagePromptTemplate.html#langchain_core.prompts.few_shot.FewShotChatMessagePromptTemplate.format_messages">[docs]</a>    <span class="k">def</span> <span class="nf">format_messages</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">BaseMessage</span><span class="p">]:</span>
+<div class="viewcode-block" id="FewShotChatMessagePromptTemplate.format_messages">
+<a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.few_shot.FewShotChatMessagePromptTemplate.html#langchain_core.prompts.few_shot.FewShotChatMessagePromptTemplate.format_messages">[docs]</a>
+    <span class="k">def</span> <span class="nf">format_messages</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">BaseMessage</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">"""Format kwargs into a list of messages.</span>
 
 <span class="sd">        Args:</span>
@@ -620,7 +647,10 @@ document.write(`
         <span class="p">]</span>
         <span class="k">return</span> <span class="n">messages</span></div>
 
-<div class="viewcode-block" id="FewShotChatMessagePromptTemplate.aformat_messages"><a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.few_shot.FewShotChatMessagePromptTemplate.html#langchain_core.prompts.few_shot.FewShotChatMessagePromptTemplate.aformat_messages">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">aformat_messages</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">BaseMessage</span><span class="p">]:</span>
+
+<div class="viewcode-block" id="FewShotChatMessagePromptTemplate.aformat_messages">
+<a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.few_shot.FewShotChatMessagePromptTemplate.html#langchain_core.prompts.few_shot.FewShotChatMessagePromptTemplate.aformat_messages">[docs]</a>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">aformat_messages</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">BaseMessage</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">"""Async format kwargs into a list of messages.</span>
 
 <span class="sd">        Args:</span>
@@ -642,7 +672,10 @@ document.write(`
         <span class="p">]</span>
         <span class="k">return</span> <span class="n">messages</span></div>
 
-<div class="viewcode-block" id="FewShotChatMessagePromptTemplate.format"><a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.few_shot.FewShotChatMessagePromptTemplate.html#langchain_core.prompts.few_shot.FewShotChatMessagePromptTemplate.format">[docs]</a>    <span class="k">def</span> <span class="nf">format</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+
+<div class="viewcode-block" id="FewShotChatMessagePromptTemplate.format">
+<a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.few_shot.FewShotChatMessagePromptTemplate.html#langchain_core.prompts.few_shot.FewShotChatMessagePromptTemplate.format">[docs]</a>
+    <span class="k">def</span> <span class="nf">format</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Format the prompt with inputs generating a string.</span>
 
 <span class="sd">        Use this method to generate a string representation of a prompt consisting</span>
@@ -659,7 +692,10 @@ document.write(`
         <span class="n">messages</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">format_messages</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">get_buffer_string</span><span class="p">(</span><span class="n">messages</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="FewShotChatMessagePromptTemplate.aformat"><a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.few_shot.FewShotChatMessagePromptTemplate.html#langchain_core.prompts.few_shot.FewShotChatMessagePromptTemplate.aformat">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">aformat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+
+<div class="viewcode-block" id="FewShotChatMessagePromptTemplate.aformat">
+<a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.few_shot.FewShotChatMessagePromptTemplate.html#langchain_core.prompts.few_shot.FewShotChatMessagePromptTemplate.aformat">[docs]</a>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">aformat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Async format the prompt with inputs generating a string.</span>
 
 <span class="sd">        Use this method to generate a string representation of a prompt consisting</span>
@@ -676,7 +712,10 @@ document.write(`
         <span class="n">messages</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">aformat_messages</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">get_buffer_string</span><span class="p">(</span><span class="n">messages</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="FewShotChatMessagePromptTemplate.pretty_repr"><a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.few_shot.FewShotChatMessagePromptTemplate.html#langchain_core.prompts.few_shot.FewShotChatMessagePromptTemplate.pretty_repr">[docs]</a>    <span class="k">def</span> <span class="nf">pretty_repr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">html</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+
+<div class="viewcode-block" id="FewShotChatMessagePromptTemplate.pretty_repr">
+<a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.few_shot.FewShotChatMessagePromptTemplate.html#langchain_core.prompts.few_shot.FewShotChatMessagePromptTemplate.pretty_repr">[docs]</a>
+    <span class="k">def</span> <span class="nf">pretty_repr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">html</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Return a pretty representation of the prompt template.</span>
 
 <span class="sd">        Args:</span>
@@ -685,7 +724,9 @@ document.write(`
 <span class="sd">        Returns:</span>
 <span class="sd">            A pretty representation of the prompt template.</span>
 <span class="sd">        """</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div></div>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div>
+</div>
+
 </pre></div>
 </article>
 </div>

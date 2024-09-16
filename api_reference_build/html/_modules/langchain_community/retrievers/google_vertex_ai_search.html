@@ -1,7 +1,7 @@
 
 <!DOCTYPE html>
 
-<html data-content_root="" lang="en">
+<html data-content_root="../../../" lang="en">
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
@@ -18,27 +18,27 @@
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" rel="preload" type="font/woff2"/>
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" rel="preload" type="font/woff2"/>
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" rel="preload" type="font/woff2"/>
-<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css?v=a746c00c" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/autodoc_pydantic.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/sphinx-design.4cbf315f70debaebd550c87a6162cf0f.min.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/css/custom.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/copybutton.css?v=76b2166b" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/sphinx-design.min.css?v=95c83b7e" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/css/custom.css?v=b95e2228" rel="stylesheet" type="text/css"/>
 <!-- Pre-loaded scripts that we'll load fully later -->
 <link as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
 <link as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
 <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-<script src="../../../_static/doctools.js"></script>
-<script src="../../../_static/sphinx_highlight.js"></script>
-<script src="../../../_static/clipboard.min.js"></script>
-<script src="../../../_static/copybutton.js"></script>
-<script src="../../../_static/design-tabs.js"></script>
+<script src="../../../_static/documentation_options.js?v=3b5cce75"></script>
+<script src="../../../_static/doctools.js?v=9a2dae69"></script>
+<script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+<script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+<script src="../../../_static/copybutton.js?v=f281be69"></script>
+<script src="../../../_static/design-tabs.js?v=f930bc37"></script>
 <script>DOCUMENTATION_OPTIONS.pagename = '_modules/langchain_community/retrievers/google_vertex_ai_search';</script>
 <link href="../../../_static/favicon.png" rel="icon"/>
 <link href="../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Sep 13, 2024" name="docbuild:last-update"/>
+<meta content="Sep 16, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -236,20 +236,15 @@ document.write(`
 <span class="kn">from</span> <span class="nn">langchain_core._api.deprecation</span> <span class="kn">import</span> <span class="n">deprecated</span>
 <span class="kn">from</span> <span class="nn">langchain_core.callbacks</span> <span class="kn">import</span> <span class="n">CallbackManagerForRetrieverRun</span>
 <span class="kn">from</span> <span class="nn">langchain_core.documents</span> <span class="kn">import</span> <span class="n">Document</span>
-<span class="kn">from</span> <span class="nn">langchain_core.pydantic_v1</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span><span class="p">,</span> <span class="n">root_validator</span>
 <span class="kn">from</span> <span class="nn">langchain_core.retrievers</span> <span class="kn">import</span> <span class="n">BaseRetriever</span>
 <span class="kn">from</span> <span class="nn">langchain_core.utils</span> <span class="kn">import</span> <span class="n">get_from_dict_or_env</span>
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">ConfigDict</span><span class="p">,</span> <span class="n">Field</span><span class="p">,</span> <span class="n">model_validator</span>
 
 <span class="kn">from</span> <span class="nn">langchain_community.utilities.vertexai</span> <span class="kn">import</span> <span class="n">get_client_info</span>
 
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
     <span class="kn">from</span> <span class="nn">google.api_core.client_options</span> <span class="kn">import</span> <span class="n">ClientOptions</span>
-    <span class="kn">from</span> <span class="nn">google.cloud.discoveryengine_v1beta</span> <span class="kn">import</span> <span class="p">(</span>
-        <span class="n">ConversationalSearchServiceClient</span><span class="p">,</span>
-        <span class="n">SearchRequest</span><span class="p">,</span>
-        <span class="n">SearchResult</span><span class="p">,</span>
-        <span class="n">SearchServiceClient</span><span class="p">,</span>
-    <span class="p">)</span>
+    <span class="kn">from</span> <span class="nn">google.cloud.discoveryengine_v1beta</span> <span class="kn">import</span> <span class="n">SearchRequest</span><span class="p">,</span> <span class="n">SearchResult</span>
 
 
 <span class="k">class</span> <span class="nc">_BaseGoogleVertexAISearchRetriever</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
@@ -275,8 +270,9 @@ document.write(`
 <span class="sd">    3 - Blended search</span>
 <span class="sd">    """</span>
 
-    <span class="nd">@root_validator</span><span class="p">(</span><span class="n">pre</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">validate_environment</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+    <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">"before"</span><span class="p">)</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">validate_environment</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Validates the environment."""</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="kn">from</span> <span class="nn">google.cloud</span> <span class="kn">import</span> <span class="n">discoveryengine_v1beta</span>  <span class="c1"># noqa: F401</span>
@@ -425,7 +421,9 @@ document.write(`
         <span class="k">return</span> <span class="n">documents</span>
 
 
-<div class="viewcode-block" id="GoogleVertexAISearchRetriever"><a class="viewcode-back" href="../../../community/retrievers/langchain_community.retrievers.google_vertex_ai_search.GoogleVertexAISearchRetriever.html#langchain_community.retrievers.google_vertex_ai_search.GoogleVertexAISearchRetriever">[docs]</a><span class="nd">@deprecated</span><span class="p">(</span>
+<div class="viewcode-block" id="GoogleVertexAISearchRetriever">
+<a class="viewcode-back" href="../../../community/retrievers/langchain_community.retrievers.google_vertex_ai_search.GoogleVertexAISearchRetriever.html#langchain_community.retrievers.google_vertex_ai_search.GoogleVertexAISearchRetriever">[docs]</a>
+<span class="nd">@deprecated</span><span class="p">(</span>
     <span class="n">since</span><span class="o">=</span><span class="s2">"0.0.33"</span><span class="p">,</span>
     <span class="n">removal</span><span class="o">=</span><span class="s2">"1.0"</span><span class="p">,</span>
     <span class="n">alternative_import</span><span class="o">=</span><span class="s2">"langchain_google_community.VertexAISearchRetriever"</span><span class="p">,</span>
@@ -471,13 +469,14 @@ document.write(`
 <span class="sd">        Search will be based on the corrected query if found.</span>
 <span class="sd">    """</span>
 
-    <span class="n">_client</span><span class="p">:</span> <span class="n">SearchServiceClient</span>
+    <span class="c1"># type is SearchServiceClient but can't be set due to optional imports</span>
+    <span class="n">_client</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">_serving_config</span><span class="p">:</span> <span class="nb">str</span>
 
-    <span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
-        <span class="n">arbitrary_types_allowed</span> <span class="o">=</span> <span class="kc">True</span>
-        <span class="n">extra</span> <span class="o">=</span> <span class="s2">"ignore"</span>
-        <span class="n">underscore_attrs_are_private</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span>
+        <span class="n">arbitrary_types_allowed</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">extra</span><span class="o">=</span><span class="s2">"ignore"</span><span class="p">,</span>
+    <span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Initializes private fields."""</span>
@@ -580,7 +579,9 @@ document.write(`
 <span class="w">        </span><span class="sd">"""Get documents relevant for a query."""</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_relevant_documents_with_response</span><span class="p">(</span><span class="n">query</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
 
-<div class="viewcode-block" id="GoogleVertexAISearchRetriever.get_relevant_documents_with_response"><a class="viewcode-back" href="../../../community/retrievers/langchain_community.retrievers.google_vertex_ai_search.GoogleVertexAISearchRetriever.html#langchain_community.retrievers.google_vertex_ai_search.GoogleVertexAISearchRetriever.get_relevant_documents_with_response">[docs]</a>    <span class="k">def</span> <span class="nf">get_relevant_documents_with_response</span><span class="p">(</span>
+<div class="viewcode-block" id="GoogleVertexAISearchRetriever.get_relevant_documents_with_response">
+<a class="viewcode-back" href="../../../community/retrievers/langchain_community.retrievers.google_vertex_ai_search.GoogleVertexAISearchRetriever.html#langchain_community.retrievers.google_vertex_ai_search.GoogleVertexAISearchRetriever.get_relevant_documents_with_response">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_relevant_documents_with_response</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="nb">str</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Document</span><span class="p">],</span> <span class="n">Any</span><span class="p">]:</span>
         <span class="kn">from</span> <span class="nn">google.api_core.exceptions</span> <span class="kn">import</span> <span class="n">InvalidArgument</span>
@@ -620,10 +621,14 @@ document.write(`
                 <span class="o">+</span> <span class="sa">f</span><span class="s2">" Got </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">engine_data_type</span><span class="si">}</span><span class="s2">"</span>
             <span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">documents</span><span class="p">,</span> <span class="n">response</span></div></div>
+        <span class="k">return</span> <span class="n">documents</span><span class="p">,</span> <span class="n">response</span></div>
+</div>
 
 
-<div class="viewcode-block" id="GoogleVertexAIMultiTurnSearchRetriever"><a class="viewcode-back" href="../../../community/retrievers/langchain_community.retrievers.google_vertex_ai_search.GoogleVertexAIMultiTurnSearchRetriever.html#langchain_community.retrievers.google_vertex_ai_search.GoogleVertexAIMultiTurnSearchRetriever">[docs]</a><span class="nd">@deprecated</span><span class="p">(</span>
+
+<div class="viewcode-block" id="GoogleVertexAIMultiTurnSearchRetriever">
+<a class="viewcode-back" href="../../../community/retrievers/langchain_community.retrievers.google_vertex_ai_search.GoogleVertexAIMultiTurnSearchRetriever.html#langchain_community.retrievers.google_vertex_ai_search.GoogleVertexAIMultiTurnSearchRetriever">[docs]</a>
+<span class="nd">@deprecated</span><span class="p">(</span>
     <span class="n">since</span><span class="o">=</span><span class="s2">"0.0.33"</span><span class="p">,</span>
     <span class="n">removal</span><span class="o">=</span><span class="s2">"1.0"</span><span class="p">,</span>
     <span class="n">alternative_import</span><span class="o">=</span><span class="s2">"langchain_google_community.VertexAIMultiTurnSearchRetriever"</span><span class="p">,</span>
@@ -636,13 +641,14 @@ document.write(`
     <span class="n">conversation_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"-"</span>
 <span class="w">    </span><span class="sd">"""Vertex AI Search Conversation ID."""</span>
 
-    <span class="n">_client</span><span class="p">:</span> <span class="n">ConversationalSearchServiceClient</span>
+    <span class="c1"># type is ConversationalSearchServiceClient but can't be set due to optional imports</span>
+    <span class="n">_client</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">_serving_config</span><span class="p">:</span> <span class="nb">str</span>
 
-    <span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
-        <span class="n">arbitrary_types_allowed</span> <span class="o">=</span> <span class="kc">True</span>
-        <span class="n">extra</span> <span class="o">=</span> <span class="s2">"ignore"</span>
-        <span class="n">underscore_attrs_are_private</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span>
+        <span class="n">arbitrary_types_allowed</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">extra</span><span class="o">=</span><span class="s2">"ignore"</span><span class="p">,</span>
+    <span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
@@ -704,7 +710,10 @@ document.write(`
         <span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="GoogleCloudEnterpriseSearchRetriever"><a class="viewcode-back" href="../../../community/retrievers/langchain_community.retrievers.google_vertex_ai_search.GoogleCloudEnterpriseSearchRetriever.html#langchain_community.retrievers.google_vertex_ai_search.GoogleCloudEnterpriseSearchRetriever">[docs]</a><span class="k">class</span> <span class="nc">GoogleCloudEnterpriseSearchRetriever</span><span class="p">(</span><span class="n">GoogleVertexAISearchRetriever</span><span class="p">):</span>
+
+<div class="viewcode-block" id="GoogleCloudEnterpriseSearchRetriever">
+<a class="viewcode-back" href="../../../community/retrievers/langchain_community.retrievers.google_vertex_ai_search.GoogleCloudEnterpriseSearchRetriever.html#langchain_community.retrievers.google_vertex_ai_search.GoogleCloudEnterpriseSearchRetriever">[docs]</a>
+<span class="k">class</span> <span class="nc">GoogleCloudEnterpriseSearchRetriever</span><span class="p">(</span><span class="n">GoogleVertexAISearchRetriever</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""`Google Vertex Search API` retriever alias for backwards compatibility.</span>
 <span class="sd">    DEPRECATED: Use `GoogleVertexAISearchRetriever` instead.</span>
 <span class="sd">    """</span>
@@ -718,6 +727,7 @@ document.write(`
         <span class="p">)</span>
 
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">data</span><span class="p">)</span></div>
+
 </pre></div>
 </article>
 </div>

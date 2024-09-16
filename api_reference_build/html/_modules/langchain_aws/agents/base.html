@@ -1,7 +1,7 @@
 
 <!DOCTYPE html>
 
-<html data-content_root="" lang="en">
+<html data-content_root="../../../" lang="en">
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
@@ -18,27 +18,27 @@
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" rel="preload" type="font/woff2"/>
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" rel="preload" type="font/woff2"/>
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" rel="preload" type="font/woff2"/>
-<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css?v=a746c00c" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/autodoc_pydantic.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/sphinx-design.4cbf315f70debaebd550c87a6162cf0f.min.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/css/custom.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/copybutton.css?v=76b2166b" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/sphinx-design.min.css?v=95c83b7e" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/css/custom.css?v=b95e2228" rel="stylesheet" type="text/css"/>
 <!-- Pre-loaded scripts that we'll load fully later -->
 <link as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
 <link as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
 <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-<script src="../../../_static/doctools.js"></script>
-<script src="../../../_static/sphinx_highlight.js"></script>
-<script src="../../../_static/clipboard.min.js"></script>
-<script src="../../../_static/copybutton.js"></script>
-<script src="../../../_static/design-tabs.js"></script>
+<script src="../../../_static/documentation_options.js?v=3b5cce75"></script>
+<script src="../../../_static/doctools.js?v=9a2dae69"></script>
+<script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+<script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+<script src="../../../_static/copybutton.js?v=f281be69"></script>
+<script src="../../../_static/design-tabs.js?v=f930bc37"></script>
 <script>DOCUMENTATION_OPTIONS.pagename = '_modules/langchain_aws/agents/base';</script>
 <link href="../../../_static/favicon.png" rel="icon"/>
 <link href="../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Sep 13, 2024" name="docbuild:last-update"/>
+<meta content="Sep 16, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -243,15 +243,17 @@ document.write(`
 <span class="kn">from</span> <span class="nn">langchain_core.callbacks</span> <span class="kn">import</span> <span class="n">CallbackManager</span>
 <span class="kn">from</span> <span class="nn">langchain_core.load</span> <span class="kn">import</span> <span class="n">dumpd</span>
 <span class="kn">from</span> <span class="nn">langchain_core.messages</span> <span class="kn">import</span> <span class="n">AIMessage</span>
-<span class="kn">from</span> <span class="nn">langchain_core.pydantic_v1</span> <span class="kn">import</span> <span class="n">root_validator</span>
 <span class="kn">from</span> <span class="nn">langchain_core.runnables</span> <span class="kn">import</span> <span class="n">RunnableConfig</span><span class="p">,</span> <span class="n">RunnableSerializable</span><span class="p">,</span> <span class="n">ensure_config</span>
 <span class="kn">from</span> <span class="nn">langchain_core.tools</span> <span class="kn">import</span> <span class="n">BaseTool</span>
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">model_validator</span>
 
 <span class="n">_DEFAULT_ACTION_GROUP_NAME</span> <span class="o">=</span> <span class="s2">"DEFAULT_AG_"</span>
 <span class="n">_TEST_AGENT_ALIAS_ID</span> <span class="o">=</span> <span class="s2">"TSTALIASID"</span>
 
 
-<div class="viewcode-block" id="get_boto_session"><a class="viewcode-back" href="../../../aws/agents/langchain_aws.agents.base.get_boto_session.html#langchain_aws.agents.base.get_boto_session">[docs]</a><span class="k">def</span> <span class="nf">get_boto_session</span><span class="p">(</span>
+<div class="viewcode-block" id="get_boto_session">
+<a class="viewcode-back" href="../../../aws/agents/langchain_aws.agents.base.get_boto_session.html#langchain_aws.agents.base.get_boto_session">[docs]</a>
+<span class="k">def</span> <span class="nf">get_boto_session</span><span class="p">(</span>
     <span class="n">credentials_profile_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">region_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">endpoint_url</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -276,7 +278,10 @@ document.write(`
     <span class="k">return</span> <span class="n">client_params</span><span class="p">,</span> <span class="n">session</span></div>
 
 
-<div class="viewcode-block" id="parse_agent_response"><a class="viewcode-back" href="../../../aws/agents/langchain_aws.agents.base.parse_agent_response.html#langchain_aws.agents.base.parse_agent_response">[docs]</a><span class="k">def</span> <span class="nf">parse_agent_response</span><span class="p">(</span><span class="n">response</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">OutputType</span><span class="p">:</span>
+
+<div class="viewcode-block" id="parse_agent_response">
+<a class="viewcode-back" href="../../../aws/agents/langchain_aws.agents.base.parse_agent_response.html#langchain_aws.agents.base.parse_agent_response">[docs]</a>
+<span class="k">def</span> <span class="nf">parse_agent_response</span><span class="p">(</span><span class="n">response</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">OutputType</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Parses the raw response from Bedrock Agent</span>
 
@@ -338,6 +343,7 @@ document.write(`
         <span class="p">]</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">"Parse exception encountered </span><span class="si">{}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">ex</span><span class="p">)))</span></div>
+
 
 
 <span class="k">def</span> <span class="nf">_create_bedrock_agent</span><span class="p">(</span>
@@ -494,7 +500,9 @@ document.write(`
             <span class="k">return</span> <span class="kc">None</span>
 
 
-<div class="viewcode-block" id="BedrockAgentFinish"><a class="viewcode-back" href="../../../aws/agents/langchain_aws.agents.base.BedrockAgentFinish.html#langchain_aws.agents.base.BedrockAgentFinish">[docs]</a><span class="k">class</span> <span class="nc">BedrockAgentFinish</span><span class="p">(</span><span class="n">AgentFinish</span><span class="p">):</span>
+<div class="viewcode-block" id="BedrockAgentFinish">
+<a class="viewcode-back" href="../../../aws/agents/langchain_aws.agents.base.BedrockAgentFinish.html#langchain_aws.agents.base.BedrockAgentFinish">[docs]</a>
+<span class="k">class</span> <span class="nc">BedrockAgentFinish</span><span class="p">(</span><span class="n">AgentFinish</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""AgentFinish with session id information.</span>
 
 <span class="sd">    Parameters:</span>
@@ -513,7 +521,10 @@ document.write(`
         <span class="k">return</span> <span class="kc">False</span></div>
 
 
-<div class="viewcode-block" id="BedrockAgentAction"><a class="viewcode-back" href="../../../aws/agents/langchain_aws.agents.base.BedrockAgentAction.html#langchain_aws.agents.base.BedrockAgentAction">[docs]</a><span class="k">class</span> <span class="nc">BedrockAgentAction</span><span class="p">(</span><span class="n">AgentAction</span><span class="p">):</span>
+
+<div class="viewcode-block" id="BedrockAgentAction">
+<a class="viewcode-back" href="../../../aws/agents/langchain_aws.agents.base.BedrockAgentAction.html#langchain_aws.agents.base.BedrockAgentAction">[docs]</a>
+<span class="k">class</span> <span class="nc">BedrockAgentAction</span><span class="p">(</span><span class="n">AgentAction</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""AgentAction with session id information.</span>
 
 <span class="sd">    Parameters:</span>
@@ -532,15 +543,21 @@ document.write(`
         <span class="k">return</span> <span class="kc">False</span></div>
 
 
+
 <span class="n">OutputType</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">BedrockAgentAction</span><span class="p">],</span> <span class="n">BedrockAgentFinish</span><span class="p">]</span>
 
 
-<div class="viewcode-block" id="GuardrailConfiguration"><a class="viewcode-back" href="../../../aws/agents/langchain_aws.agents.base.GuardrailConfiguration.html#langchain_aws.agents.base.GuardrailConfiguration">[docs]</a><span class="k">class</span> <span class="nc">GuardrailConfiguration</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
+<div class="viewcode-block" id="GuardrailConfiguration">
+<a class="viewcode-back" href="../../../aws/agents/langchain_aws.agents.base.GuardrailConfiguration.html#langchain_aws.agents.base.GuardrailConfiguration">[docs]</a>
+<span class="k">class</span> <span class="nc">GuardrailConfiguration</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
     <span class="n">guardrail_identifier</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">guardrail_version</span><span class="p">:</span> <span class="nb">str</span></div>
 
 
-<div class="viewcode-block" id="BedrockAgentsRunnable"><a class="viewcode-back" href="../../../aws/agents/langchain_aws.agents.base.BedrockAgentsRunnable.html#langchain_aws.agents.base.BedrockAgentsRunnable">[docs]</a><span class="k">class</span> <span class="nc">BedrockAgentsRunnable</span><span class="p">(</span><span class="n">RunnableSerializable</span><span class="p">[</span><span class="n">Dict</span><span class="p">,</span> <span class="n">OutputType</span><span class="p">]):</span>
+
+<div class="viewcode-block" id="BedrockAgentsRunnable">
+<a class="viewcode-back" href="../../../aws/agents/langchain_aws.agents.base.BedrockAgentsRunnable.html#langchain_aws.agents.base.BedrockAgentsRunnable">[docs]</a>
+<span class="k">class</span> <span class="nc">BedrockAgentsRunnable</span><span class="p">(</span><span class="n">RunnableSerializable</span><span class="p">[</span><span class="n">Dict</span><span class="p">,</span> <span class="n">OutputType</span><span class="p">]):</span>
 <span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Invoke a Bedrock Agent</span>
 <span class="sd">    """</span>
@@ -558,8 +575,9 @@ document.write(`
     <span class="n">endpoint_url</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">    </span><span class="sd">"""Endpoint URL"""</span>
 
-    <span class="nd">@root_validator</span><span class="p">(</span><span class="n">skip_on_failure</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">validate_agent</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+    <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">"before"</span><span class="p">)</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">validate_agent</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"client"</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">values</span>
 
@@ -590,7 +608,9 @@ document.write(`
                 <span class="s2">"profile name are valid."</span>
             <span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
 
-<div class="viewcode-block" id="BedrockAgentsRunnable.create_agent"><a class="viewcode-back" href="../../../aws/agents/langchain_aws.agents.base.BedrockAgentsRunnable.html#langchain_aws.agents.base.BedrockAgentsRunnable.create_agent">[docs]</a>    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="BedrockAgentsRunnable.create_agent">
+<a class="viewcode-back" href="../../../aws/agents/langchain_aws.agents.base.BedrockAgentsRunnable.html#langchain_aws.agents.base.BedrockAgentsRunnable.create_agent">[docs]</a>
+    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">create_agent</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span>
         <span class="n">agent_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -692,7 +712,10 @@ document.write(`
             <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="BedrockAgentsRunnable.invoke"><a class="viewcode-back" href="../../../aws/agents/langchain_aws.agents.base.BedrockAgentsRunnable.html#langchain_aws.agents.base.BedrockAgentsRunnable.invoke">[docs]</a>    <span class="k">def</span> <span class="nf">invoke</span><span class="p">(</span>
+
+<div class="viewcode-block" id="BedrockAgentsRunnable.invoke">
+<a class="viewcode-back" href="../../../aws/agents/langchain_aws.agents.base.BedrockAgentsRunnable.html#langchain_aws.agents.base.BedrockAgentsRunnable.invoke">[docs]</a>
+    <span class="k">def</span> <span class="nf">invoke</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="nb">input</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">RunnableConfig</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">OutputType</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""</span>
@@ -761,6 +784,7 @@ document.write(`
             <span class="n">run_manager</span><span class="o">.</span><span class="n">on_chain_end</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">response</span></div>
 
+
     <span class="k">def</span> <span class="nf">_parse_intermediate_steps</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">intermediate_steps</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">BedrockAgentAction</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">],</span> <span class="n">Union</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="kc">None</span><span class="p">]]:</span>
@@ -801,6 +825,7 @@ document.write(`
                     <span class="k">return</span> <span class="n">session_id</span><span class="p">,</span> <span class="n">session_state</span>
 
         <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span></div>
+
 </pre></div>
 </article>
 </div>

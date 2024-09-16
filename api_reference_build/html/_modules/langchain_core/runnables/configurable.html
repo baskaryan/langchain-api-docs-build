@@ -1,7 +1,7 @@
 
 <!DOCTYPE html>
 
-<html data-content_root="" lang="en">
+<html data-content_root="../../../" lang="en">
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
@@ -18,27 +18,27 @@
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" rel="preload" type="font/woff2"/>
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" rel="preload" type="font/woff2"/>
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" rel="preload" type="font/woff2"/>
-<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css?v=a746c00c" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/autodoc_pydantic.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/sphinx-design.4cbf315f70debaebd550c87a6162cf0f.min.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/css/custom.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/copybutton.css?v=76b2166b" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/sphinx-design.min.css?v=95c83b7e" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/css/custom.css?v=b95e2228" rel="stylesheet" type="text/css"/>
 <!-- Pre-loaded scripts that we'll load fully later -->
 <link as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
 <link as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
 <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-<script src="../../../_static/doctools.js"></script>
-<script src="../../../_static/sphinx_highlight.js"></script>
-<script src="../../../_static/clipboard.min.js"></script>
-<script src="../../../_static/copybutton.js"></script>
-<script src="../../../_static/design-tabs.js"></script>
+<script src="../../../_static/documentation_options.js?v=3b5cce75"></script>
+<script src="../../../_static/doctools.js?v=9a2dae69"></script>
+<script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+<script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+<script src="../../../_static/copybutton.js?v=f281be69"></script>
+<script src="../../../_static/design-tabs.js?v=f930bc37"></script>
 <script>DOCUMENTATION_OPTIONS.pagename = '_modules/langchain_core/runnables/configurable';</script>
 <link href="../../../_static/favicon.png" rel="icon"/>
 <link href="../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Sep 13, 2024" name="docbuild:last-update"/>
+<meta content="Sep 16, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -247,9 +247,11 @@ document.write(`
     <span class="n">Union</span><span class="p">,</span>
     <span class="n">cast</span><span class="p">,</span>
 <span class="p">)</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Mapping</span> <span class="k">as</span> <span class="n">Mapping</span>
 <span class="kn">from</span> <span class="nn">weakref</span> <span class="kn">import</span> <span class="n">WeakValueDictionary</span>
 
-<span class="kn">from</span> <span class="nn">langchain_core.pydantic_v1</span> <span class="kn">import</span> <span class="n">BaseModel</span>
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">ConfigDict</span>
+
 <span class="kn">from</span> <span class="nn">langchain_core.runnables.base</span> <span class="kn">import</span> <span class="n">Runnable</span><span class="p">,</span> <span class="n">RunnableSerializable</span>
 <span class="kn">from</span> <span class="nn">langchain_core.runnables.config</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">RunnableConfig</span><span class="p">,</span>
@@ -272,7 +274,9 @@ document.write(`
 <span class="p">)</span>
 
 
-<div class="viewcode-block" id="DynamicRunnable"><a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.configurable.DynamicRunnable.html#langchain_core.runnables.configurable.DynamicRunnable">[docs]</a><span class="k">class</span> <span class="nc">DynamicRunnable</span><span class="p">(</span><span class="n">RunnableSerializable</span><span class="p">[</span><span class="n">Input</span><span class="p">,</span> <span class="n">Output</span><span class="p">]):</span>
+<div class="viewcode-block" id="DynamicRunnable">
+<a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.configurable.DynamicRunnable.html#langchain_core.runnables.configurable.DynamicRunnable">[docs]</a>
+<span class="k">class</span> <span class="nc">DynamicRunnable</span><span class="p">(</span><span class="n">RunnableSerializable</span><span class="p">[</span><span class="n">Input</span><span class="p">,</span> <span class="n">Output</span><span class="p">]):</span>
 <span class="w">    </span><span class="sd">"""Serializable Runnable that can be dynamically configured.</span>
 
 <span class="sd">    A DynamicRunnable should be initiated using the `configurable_fields` or</span>
@@ -287,8 +291,9 @@ document.write(`
 
     <span class="n">config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">RunnableConfig</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 
-    <span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
-        <span class="n">arbitrary_types_allowed</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span>
+        <span class="n">arbitrary_types_allowed</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span>
 
     <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">is_lc_serializable</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
@@ -333,7 +338,9 @@ document.write(`
             <span class="o">**</span><span class="p">{</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">,</span> <span class="s2">"config"</span><span class="p">:</span> <span class="n">ensure_config</span><span class="p">(</span><span class="n">merge_configs</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">))}</span>  <span class="c1"># type: ignore[arg-type]</span>
         <span class="p">)</span>
 
-<div class="viewcode-block" id="DynamicRunnable.prepare"><a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.configurable.DynamicRunnable.html#langchain_core.runnables.configurable.DynamicRunnable.prepare">[docs]</a>    <span class="k">def</span> <span class="nf">prepare</span><span class="p">(</span>
+<div class="viewcode-block" id="DynamicRunnable.prepare">
+<a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.configurable.DynamicRunnable.html#langchain_core.runnables.configurable.DynamicRunnable.prepare">[docs]</a>
+    <span class="k">def</span> <span class="nf">prepare</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">RunnableConfig</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Runnable</span><span class="p">[</span><span class="n">Input</span><span class="p">,</span> <span class="n">Output</span><span class="p">],</span> <span class="n">RunnableConfig</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">"""Prepare the Runnable for invocation.</span>
@@ -350,24 +357,33 @@ document.write(`
             <span class="n">runnable</span><span class="p">,</span> <span class="n">config</span> <span class="o">=</span> <span class="n">runnable</span><span class="o">.</span><span class="n">_prepare</span><span class="p">(</span><span class="n">merge_configs</span><span class="p">(</span><span class="n">runnable</span><span class="o">.</span><span class="n">config</span><span class="p">,</span> <span class="n">config</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">runnable</span><span class="p">,</span> <span class="n">cast</span><span class="p">(</span><span class="n">RunnableConfig</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span></div>
 
+
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">_prepare</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">RunnableConfig</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Runnable</span><span class="p">[</span><span class="n">Input</span><span class="p">,</span> <span class="n">Output</span><span class="p">],</span> <span class="n">RunnableConfig</span><span class="p">]:</span> <span class="o">...</span>
 
-<div class="viewcode-block" id="DynamicRunnable.invoke"><a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.configurable.DynamicRunnable.html#langchain_core.runnables.configurable.DynamicRunnable.invoke">[docs]</a>    <span class="k">def</span> <span class="nf">invoke</span><span class="p">(</span>
+<div class="viewcode-block" id="DynamicRunnable.invoke">
+<a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.configurable.DynamicRunnable.html#langchain_core.runnables.configurable.DynamicRunnable.invoke">[docs]</a>
+    <span class="k">def</span> <span class="nf">invoke</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="nb">input</span><span class="p">:</span> <span class="n">Input</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">RunnableConfig</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Output</span><span class="p">:</span>
         <span class="n">runnable</span><span class="p">,</span> <span class="n">config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">prepare</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">runnable</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="DynamicRunnable.ainvoke"><a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.configurable.DynamicRunnable.html#langchain_core.runnables.configurable.DynamicRunnable.ainvoke">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">ainvoke</span><span class="p">(</span>
+
+<div class="viewcode-block" id="DynamicRunnable.ainvoke">
+<a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.configurable.DynamicRunnable.html#langchain_core.runnables.configurable.DynamicRunnable.ainvoke">[docs]</a>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">ainvoke</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="nb">input</span><span class="p">:</span> <span class="n">Input</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">RunnableConfig</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Output</span><span class="p">:</span>
         <span class="n">runnable</span><span class="p">,</span> <span class="n">config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">prepare</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
         <span class="k">return</span> <span class="k">await</span> <span class="n">runnable</span><span class="o">.</span><span class="n">ainvoke</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="DynamicRunnable.batch"><a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.configurable.DynamicRunnable.html#langchain_core.runnables.configurable.DynamicRunnable.batch">[docs]</a>    <span class="k">def</span> <span class="nf">batch</span><span class="p">(</span>
+
+<div class="viewcode-block" id="DynamicRunnable.batch">
+<a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.configurable.DynamicRunnable.html#langchain_core.runnables.configurable.DynamicRunnable.batch">[docs]</a>
+    <span class="k">def</span> <span class="nf">batch</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">inputs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Input</span><span class="p">],</span>
         <span class="n">config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">RunnableConfig</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">RunnableConfig</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -409,7 +425,10 @@ document.write(`
         <span class="k">with</span> <span class="n">get_executor_for_config</span><span class="p">(</span><span class="n">configs</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="k">as</span> <span class="n">executor</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">cast</span><span class="p">(</span><span class="n">List</span><span class="p">[</span><span class="n">Output</span><span class="p">],</span> <span class="nb">list</span><span class="p">(</span><span class="n">executor</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">invoke</span><span class="p">,</span> <span class="n">prepared</span><span class="p">,</span> <span class="n">inputs</span><span class="p">)))</span></div>
 
-<div class="viewcode-block" id="DynamicRunnable.abatch"><a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.configurable.DynamicRunnable.html#langchain_core.runnables.configurable.DynamicRunnable.abatch">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">abatch</span><span class="p">(</span>
+
+<div class="viewcode-block" id="DynamicRunnable.abatch">
+<a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.configurable.DynamicRunnable.html#langchain_core.runnables.configurable.DynamicRunnable.abatch">[docs]</a>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">abatch</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">inputs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Input</span><span class="p">],</span>
         <span class="n">config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">RunnableConfig</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">RunnableConfig</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -447,7 +466,10 @@ document.write(`
         <span class="n">coros</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="n">ainvoke</span><span class="p">,</span> <span class="n">prepared</span><span class="p">,</span> <span class="n">inputs</span><span class="p">)</span>
         <span class="k">return</span> <span class="k">await</span> <span class="n">gather_with_concurrency</span><span class="p">(</span><span class="n">configs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"max_concurrency"</span><span class="p">),</span> <span class="o">*</span><span class="n">coros</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="DynamicRunnable.stream"><a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.configurable.DynamicRunnable.html#langchain_core.runnables.configurable.DynamicRunnable.stream">[docs]</a>    <span class="k">def</span> <span class="nf">stream</span><span class="p">(</span>
+
+<div class="viewcode-block" id="DynamicRunnable.stream">
+<a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.configurable.DynamicRunnable.html#langchain_core.runnables.configurable.DynamicRunnable.stream">[docs]</a>
+    <span class="k">def</span> <span class="nf">stream</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="nb">input</span><span class="p">:</span> <span class="n">Input</span><span class="p">,</span>
         <span class="n">config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">RunnableConfig</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -456,7 +478,10 @@ document.write(`
         <span class="n">runnable</span><span class="p">,</span> <span class="n">config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">prepare</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">runnable</span><span class="o">.</span><span class="n">stream</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="DynamicRunnable.astream"><a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.configurable.DynamicRunnable.html#langchain_core.runnables.configurable.DynamicRunnable.astream">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">astream</span><span class="p">(</span>
+
+<div class="viewcode-block" id="DynamicRunnable.astream">
+<a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.configurable.DynamicRunnable.html#langchain_core.runnables.configurable.DynamicRunnable.astream">[docs]</a>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">astream</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="nb">input</span><span class="p">:</span> <span class="n">Input</span><span class="p">,</span>
         <span class="n">config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">RunnableConfig</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -465,6 +490,7 @@ document.write(`
         <span class="n">runnable</span><span class="p">,</span> <span class="n">config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">prepare</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
         <span class="k">async</span> <span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="n">runnable</span><span class="o">.</span><span class="n">astream</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
             <span class="k">yield</span> <span class="n">chunk</span></div>
+
 
     <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -524,7 +550,10 @@ document.write(`
             <span class="k">return</span> <span class="n">attr</span></div>
 
 
-<div class="viewcode-block" id="RunnableConfigurableFields"><a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.configurable.RunnableConfigurableFields.html#langchain_core.runnables.configurable.RunnableConfigurableFields">[docs]</a><span class="k">class</span> <span class="nc">RunnableConfigurableFields</span><span class="p">(</span><span class="n">DynamicRunnable</span><span class="p">[</span><span class="n">Input</span><span class="p">,</span> <span class="n">Output</span><span class="p">]):</span>
+
+<div class="viewcode-block" id="RunnableConfigurableFields">
+<a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.configurable.RunnableConfigurableFields.html#langchain_core.runnables.configurable.RunnableConfigurableFields">[docs]</a>
+<span class="k">class</span> <span class="nc">RunnableConfigurableFields</span><span class="p">(</span><span class="n">DynamicRunnable</span><span class="p">[</span><span class="n">Input</span><span class="p">,</span> <span class="n">Output</span><span class="p">]):</span>
 <span class="w">    </span><span class="sd">"""Runnable that can be dynamically configured.</span>
 
 <span class="sd">    A RunnableConfigurableFields should be initiated using the</span>
@@ -602,35 +631,42 @@ document.write(`
 <span class="sd">        Returns:</span>
 <span class="sd">            List[ConfigurableFieldSpec]: The configuration specs.</span>
 <span class="sd">        """</span>
-        <span class="k">return</span> <span class="n">get_unique_config_specs</span><span class="p">(</span>
-            <span class="p">[</span>
-                <span class="p">(</span>
+        <span class="n">config_specs</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">field_name</span><span class="p">,</span> <span class="n">spec</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">ConfigurableField</span><span class="p">):</span>
+                <span class="n">config_specs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
                     <span class="n">ConfigurableFieldSpec</span><span class="p">(</span>
                         <span class="nb">id</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
                         <span class="n">name</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
                         <span class="n">description</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">description</span>
-                        <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">default</span><span class="o">.</span><span class="n">__fields__</span><span class="p">[</span><span class="n">field_name</span><span class="p">]</span><span class="o">.</span><span class="n">field_info</span><span class="o">.</span><span class="n">description</span><span class="p">,</span>
+                        <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">default</span><span class="o">.</span><span class="n">model_fields</span><span class="p">[</span><span class="n">field_name</span><span class="p">]</span><span class="o">.</span><span class="n">description</span><span class="p">,</span>
                         <span class="n">annotation</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">annotation</span>
-                        <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">default</span><span class="o">.</span><span class="n">__fields__</span><span class="p">[</span><span class="n">field_name</span><span class="p">]</span><span class="o">.</span><span class="n">annotation</span><span class="p">,</span>
+                        <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">default</span><span class="o">.</span><span class="n">model_fields</span><span class="p">[</span><span class="n">field_name</span><span class="p">]</span><span class="o">.</span><span class="n">annotation</span><span class="p">,</span>
                         <span class="n">default</span><span class="o">=</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">default</span><span class="p">,</span> <span class="n">field_name</span><span class="p">),</span>
                         <span class="n">is_shared</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">is_shared</span><span class="p">,</span>
                     <span class="p">)</span>
-                    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">ConfigurableField</span><span class="p">)</span>
-                    <span class="k">else</span> <span class="n">make_options_spec</span><span class="p">(</span>
-                        <span class="n">spec</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">default</span><span class="o">.</span><span class="n">__fields__</span><span class="p">[</span><span class="n">field_name</span><span class="p">]</span><span class="o">.</span><span class="n">field_info</span><span class="o">.</span><span class="n">description</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">config_specs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="n">make_options_spec</span><span class="p">(</span>
+                        <span class="n">spec</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">default</span><span class="o">.</span><span class="n">model_fields</span><span class="p">[</span><span class="n">field_name</span><span class="p">]</span><span class="o">.</span><span class="n">description</span>
                     <span class="p">)</span>
                 <span class="p">)</span>
-                <span class="k">for</span> <span class="n">field_name</span><span class="p">,</span> <span class="n">spec</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
-            <span class="p">]</span>
-            <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">default</span><span class="o">.</span><span class="n">config_specs</span><span class="p">)</span>
-        <span class="p">)</span>
 
-<div class="viewcode-block" id="RunnableConfigurableFields.configurable_fields"><a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.configurable.RunnableConfigurableFields.html#langchain_core.runnables.configurable.RunnableConfigurableFields.configurable_fields">[docs]</a>    <span class="k">def</span> <span class="nf">configurable_fields</span><span class="p">(</span>
+        <span class="n">config_specs</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">default</span><span class="o">.</span><span class="n">config_specs</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">get_unique_config_specs</span><span class="p">(</span><span class="n">config_specs</span><span class="p">)</span>
+
+<div class="viewcode-block" id="RunnableConfigurableFields.configurable_fields">
+<a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.configurable.RunnableConfigurableFields.html#langchain_core.runnables.configurable.RunnableConfigurableFields.configurable_fields">[docs]</a>
+    <span class="k">def</span> <span class="nf">configurable_fields</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">AnyConfigurableField</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RunnableSerializable</span><span class="p">[</span><span class="n">Input</span><span class="p">,</span> <span class="n">Output</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">"""Get a new RunnableConfigurableFields with the specified</span>
 <span class="sd">        configurable fields."""</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">default</span><span class="o">.</span><span class="n">configurable_fields</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">})</span></div>
+
 
     <span class="k">def</span> <span class="nf">_prepare</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">RunnableConfig</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
@@ -665,7 +701,7 @@ document.write(`
             <span class="n">init_params</span> <span class="o">=</span> <span class="p">{</span>
                 <span class="n">k</span><span class="p">:</span> <span class="n">v</span>
                 <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">default</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
-                <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">default</span><span class="o">.</span><span class="n">__fields__</span>
+                <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">default</span><span class="o">.</span><span class="n">model_fields</span>
             <span class="p">}</span>
             <span class="k">return</span> <span class="p">(</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">default</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="o">**</span><span class="n">init_params</span><span class="p">,</span> <span class="o">**</span><span class="n">configurable</span><span class="p">}),</span>
@@ -675,11 +711,18 @@ document.write(`
             <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">default</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span></div>
 
 
+
+<span class="n">RunnableConfigurableFields</span><span class="o">.</span><span class="n">model_rebuild</span><span class="p">()</span>
+
+
 <span class="c1"># Before Python 3.11 native StrEnum is not available</span>
-<div class="viewcode-block" id="StrEnum"><a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.configurable.StrEnum.html#langchain_core.runnables.configurable.StrEnum">[docs]</a><span class="k">class</span> <span class="nc">StrEnum</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">):</span>
+<div class="viewcode-block" id="StrEnum">
+<a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.configurable.StrEnum.html#langchain_core.runnables.configurable.StrEnum">[docs]</a>
+<span class="k">class</span> <span class="nc">StrEnum</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""String enum."""</span>
 
     <span class="k">pass</span></div>
+
 
 
 <span class="n">_enums_for_spec</span><span class="p">:</span> <span class="n">WeakValueDictionary</span><span class="p">[</span>
@@ -692,7 +735,9 @@ document.write(`
 <span class="n">_enums_for_spec_lock</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Lock</span><span class="p">()</span>
 
 
-<div class="viewcode-block" id="RunnableConfigurableAlternatives"><a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.configurable.RunnableConfigurableAlternatives.html#langchain_core.runnables.configurable.RunnableConfigurableAlternatives">[docs]</a><span class="k">class</span> <span class="nc">RunnableConfigurableAlternatives</span><span class="p">(</span><span class="n">DynamicRunnable</span><span class="p">[</span><span class="n">Input</span><span class="p">,</span> <span class="n">Output</span><span class="p">]):</span>
+<div class="viewcode-block" id="RunnableConfigurableAlternatives">
+<a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.configurable.RunnableConfigurableAlternatives.html#langchain_core.runnables.configurable.RunnableConfigurableAlternatives">[docs]</a>
+<span class="k">class</span> <span class="nc">RunnableConfigurableAlternatives</span><span class="p">(</span><span class="n">DynamicRunnable</span><span class="p">[</span><span class="n">Input</span><span class="p">,</span> <span class="n">Output</span><span class="p">]):</span>
 <span class="w">    </span><span class="sd">"""Runnable that can be dynamically configured.</span>
 
 <span class="sd">    A RunnableConfigurableAlternatives should be initiated using the</span>
@@ -818,7 +863,9 @@ document.write(`
             <span class="p">]</span>
         <span class="p">)</span>
 
-<div class="viewcode-block" id="RunnableConfigurableAlternatives.configurable_fields"><a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.configurable.RunnableConfigurableAlternatives.html#langchain_core.runnables.configurable.RunnableConfigurableAlternatives.configurable_fields">[docs]</a>    <span class="k">def</span> <span class="nf">configurable_fields</span><span class="p">(</span>
+<div class="viewcode-block" id="RunnableConfigurableAlternatives.configurable_fields">
+<a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.configurable.RunnableConfigurableAlternatives.html#langchain_core.runnables.configurable.RunnableConfigurableAlternatives.configurable_fields">[docs]</a>
+    <span class="k">def</span> <span class="nf">configurable_fields</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">AnyConfigurableField</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RunnableSerializable</span><span class="p">[</span><span class="n">Input</span><span class="p">,</span> <span class="n">Output</span><span class="p">]:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span>
@@ -828,6 +875,7 @@ document.write(`
             <span class="n">default_key</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">default_key</span><span class="p">,</span>
             <span class="n">prefix_keys</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">prefix_keys</span><span class="p">,</span>
         <span class="p">)</span></div>
+
 
     <span class="k">def</span> <span class="nf">_prepare</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">RunnableConfig</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
@@ -859,12 +907,15 @@ document.write(`
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Unknown alternative: </span><span class="si">{</span><span class="n">which</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span></div>
 
 
+
 <span class="k">def</span> <span class="nf">_strremoveprefix</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">prefix</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""str.removeprefix() is only available in Python 3.9+."""</span>
     <span class="k">return</span> <span class="n">s</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="s2">""</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">prefix</span><span class="p">)</span> <span class="k">else</span> <span class="n">s</span>
 
 
-<div class="viewcode-block" id="prefix_config_spec"><a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.configurable.prefix_config_spec.html#langchain_core.runnables.configurable.prefix_config_spec">[docs]</a><span class="k">def</span> <span class="nf">prefix_config_spec</span><span class="p">(</span>
+<div class="viewcode-block" id="prefix_config_spec">
+<a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.configurable.prefix_config_spec.html#langchain_core.runnables.configurable.prefix_config_spec">[docs]</a>
+<span class="k">def</span> <span class="nf">prefix_config_spec</span><span class="p">(</span>
     <span class="n">spec</span><span class="p">:</span> <span class="n">ConfigurableFieldSpec</span><span class="p">,</span> <span class="n">prefix</span><span class="p">:</span> <span class="nb">str</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ConfigurableFieldSpec</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Prefix the id of a ConfigurableFieldSpec.</span>
@@ -893,7 +944,10 @@ document.write(`
     <span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="make_options_spec"><a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.configurable.make_options_spec.html#langchain_core.runnables.configurable.make_options_spec">[docs]</a><span class="k">def</span> <span class="nf">make_options_spec</span><span class="p">(</span>
+
+<div class="viewcode-block" id="make_options_spec">
+<a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.configurable.make_options_spec.html#langchain_core.runnables.configurable.make_options_spec">[docs]</a>
+<span class="k">def</span> <span class="nf">make_options_spec</span><span class="p">(</span>
     <span class="n">spec</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ConfigurableFieldSingleOption</span><span class="p">,</span> <span class="n">ConfigurableFieldMultiOption</span><span class="p">],</span>
     <span class="n">description</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ConfigurableFieldSpec</span><span class="p">:</span>
@@ -934,6 +988,7 @@ document.write(`
             <span class="n">default</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">default</span><span class="p">,</span>
             <span class="n">is_shared</span><span class="o">=</span><span class="n">spec</span><span class="o">.</span><span class="n">is_shared</span><span class="p">,</span>
         <span class="p">)</span></div>
+
 </pre></div>
 </article>
 </div>

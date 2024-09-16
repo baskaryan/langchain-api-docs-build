@@ -1,7 +1,7 @@
 
 <!DOCTYPE html>
 
-<html data-content_root="" lang="en">
+<html data-content_root="../../" lang="en">
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
@@ -18,27 +18,27 @@
 <link as="font" crossorigin="" href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" rel="preload" type="font/woff2"/>
 <link as="font" crossorigin="" href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" rel="preload" type="font/woff2"/>
 <link as="font" crossorigin="" href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" rel="preload" type="font/woff2"/>
-<link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/pygments.css?v=a746c00c" rel="stylesheet" type="text/css"/>
 <link href="../../_static/autodoc_pydantic.css" rel="stylesheet" type="text/css"/>
-<link href="../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
-<link href="../../_static/sphinx-design.4cbf315f70debaebd550c87a6162cf0f.min.css" rel="stylesheet" type="text/css"/>
-<link href="../../_static/css/custom.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/copybutton.css?v=76b2166b" rel="stylesheet" type="text/css"/>
+<link href="../../_static/sphinx-design.min.css?v=95c83b7e" rel="stylesheet" type="text/css"/>
+<link href="../../_static/css/custom.css?v=b95e2228" rel="stylesheet" type="text/css"/>
 <!-- Pre-loaded scripts that we'll load fully later -->
 <link as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
 <link as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
 <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-<script src="../../_static/doctools.js"></script>
-<script src="../../_static/sphinx_highlight.js"></script>
-<script src="../../_static/clipboard.min.js"></script>
-<script src="../../_static/copybutton.js"></script>
-<script src="../../_static/design-tabs.js"></script>
+<script src="../../_static/documentation_options.js?v=3b5cce75"></script>
+<script src="../../_static/doctools.js?v=9a2dae69"></script>
+<script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+<script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+<script src="../../_static/copybutton.js?v=f281be69"></script>
+<script src="../../_static/design-tabs.js?v=f930bc37"></script>
 <script>DOCUMENTATION_OPTIONS.pagename = '_modules/langchain_google_vertexai/vision_models';</script>
 <link href="../../_static/favicon.png" rel="icon"/>
 <link href="../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Sep 13, 2024" name="docbuild:last-update"/>
+<meta content="Sep 16, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -238,7 +238,7 @@ document.write(`
 <span class="kn">from</span> <span class="nn">langchain_core.outputs</span> <span class="kn">import</span> <span class="n">ChatResult</span><span class="p">,</span> <span class="n">LLMResult</span>
 <span class="kn">from</span> <span class="nn">langchain_core.outputs.chat_generation</span> <span class="kn">import</span> <span class="n">ChatGeneration</span>
 <span class="kn">from</span> <span class="nn">langchain_core.outputs.generation</span> <span class="kn">import</span> <span class="n">Generation</span>
-<span class="kn">from</span> <span class="nn">langchain_core.pydantic_v1</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span>
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">ConfigDict</span><span class="p">,</span> <span class="n">Field</span>
 <span class="kn">from</span> <span class="nn">vertexai.preview.vision_models</span> <span class="kn">import</span> <span class="p">(</span>  <span class="c1"># type: ignore[import-untyped]</span>
     <span class="n">GeneratedImage</span><span class="p">,</span>
     <span class="n">ImageGenerationModel</span><span class="p">,</span>
@@ -267,6 +267,8 @@ document.write(`
 <span class="w">    </span><span class="sd">"""Language of the query"""</span>
     <span class="n">project</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 <span class="w">    </span><span class="sd">"""Google cloud project"""</span>
+
+    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">protected_namespaces</span><span class="o">=</span><span class="p">())</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">client</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ImageTextModel</span><span class="p">:</span>
@@ -356,7 +358,9 @@ document.write(`
             <span class="k">return</span> <span class="n">captions</span>
 
 
-<div class="viewcode-block" id="VertexAIImageCaptioning"><a class="viewcode-back" href="../../google_vertexai/vision_models/langchain_google_vertexai.vision_models.VertexAIImageCaptioning.html#langchain_google_vertexai.vision_models.VertexAIImageCaptioning">[docs]</a><span class="k">class</span> <span class="nc">VertexAIImageCaptioning</span><span class="p">(</span><span class="n">_BaseVertexAIImageCaptioning</span><span class="p">,</span> <span class="n">BaseLLM</span><span class="p">):</span>
+<div class="viewcode-block" id="VertexAIImageCaptioning">
+<a class="viewcode-back" href="../../google_vertexai/vision_models/langchain_google_vertexai.vision_models.VertexAIImageCaptioning.html#langchain_google_vertexai.vision_models.VertexAIImageCaptioning">[docs]</a>
+<span class="k">class</span> <span class="nc">VertexAIImageCaptioning</span><span class="p">(</span><span class="n">_BaseVertexAIImageCaptioning</span><span class="p">,</span> <span class="n">BaseLLM</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Implementation of the Image Captioning model as an LLM."""</span>
 
     <span class="k">def</span> <span class="nf">_generate</span><span class="p">(</span>
@@ -402,7 +406,10 @@ document.write(`
         <span class="k">return</span> <span class="p">[</span><span class="n">Generation</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="n">caption</span><span class="p">)</span> <span class="k">for</span> <span class="n">caption</span> <span class="ow">in</span> <span class="n">caption_list</span><span class="p">]</span></div>
 
 
-<div class="viewcode-block" id="VertexAIImageCaptioningChat"><a class="viewcode-back" href="../../google_vertexai/vision_models/langchain_google_vertexai.vision_models.VertexAIImageCaptioningChat.html#langchain_google_vertexai.vision_models.VertexAIImageCaptioningChat">[docs]</a><span class="k">class</span> <span class="nc">VertexAIImageCaptioningChat</span><span class="p">(</span><span class="n">_BaseVertexAIImageCaptioning</span><span class="p">,</span> <span class="n">BaseChatModel</span><span class="p">):</span>
+
+<div class="viewcode-block" id="VertexAIImageCaptioningChat">
+<a class="viewcode-back" href="../../google_vertexai/vision_models/langchain_google_vertexai.vision_models.VertexAIImageCaptioningChat.html#langchain_google_vertexai.vision_models.VertexAIImageCaptioningChat">[docs]</a>
+<span class="k">class</span> <span class="nc">VertexAIImageCaptioningChat</span><span class="p">(</span><span class="n">_BaseVertexAIImageCaptioning</span><span class="p">,</span> <span class="n">BaseChatModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Implementation of the Image Captioning model as a chat."""</span>
 
     <span class="k">def</span> <span class="nf">_generate</span><span class="p">(</span>
@@ -460,7 +467,10 @@ document.write(`
         <span class="k">return</span> <span class="n">ChatResult</span><span class="p">(</span><span class="n">generations</span><span class="o">=</span><span class="n">generations</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="VertexAIVisualQnAChat"><a class="viewcode-back" href="../../google_vertexai/vision_models/langchain_google_vertexai.vision_models.VertexAIVisualQnAChat.html#langchain_google_vertexai.vision_models.VertexAIVisualQnAChat">[docs]</a><span class="k">class</span> <span class="nc">VertexAIVisualQnAChat</span><span class="p">(</span><span class="n">_BaseImageTextModel</span><span class="p">,</span> <span class="n">BaseChatModel</span><span class="p">):</span>
+
+<div class="viewcode-block" id="VertexAIVisualQnAChat">
+<a class="viewcode-back" href="../../google_vertexai/vision_models/langchain_google_vertexai.vision_models.VertexAIVisualQnAChat.html#langchain_google_vertexai.vision_models.VertexAIVisualQnAChat">[docs]</a>
+<span class="k">class</span> <span class="nc">VertexAIVisualQnAChat</span><span class="p">(</span><span class="n">_BaseImageTextModel</span><span class="p">,</span> <span class="n">BaseChatModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Chat implementation of a visual QnA model"""</span>
 
     <span class="nd">@property</span>
@@ -541,6 +551,7 @@ document.write(`
             <span class="k">return</span> <span class="n">answers</span></div>
 
 
+
 <span class="k">class</span> <span class="nc">_BaseVertexAIImageGenerator</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Base class form generation and edition of images."""</span>
 
@@ -562,6 +573,8 @@ document.write(`
 <span class="w">    </span><span class="sd">"""Random seed for the image generation"""</span>
     <span class="n">project</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 <span class="w">    </span><span class="sd">"""Google cloud project id"""</span>
+
+    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">protected_namespaces</span><span class="o">=</span><span class="p">())</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">client</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ImageGenerationModel</span><span class="p">:</span>
@@ -670,7 +683,9 @@ document.write(`
         <span class="k">return</span> <span class="n">user_agent</span>
 
 
-<div class="viewcode-block" id="VertexAIImageGeneratorChat"><a class="viewcode-back" href="../../google_vertexai/vision_models/langchain_google_vertexai.vision_models.VertexAIImageGeneratorChat.html#langchain_google_vertexai.vision_models.VertexAIImageGeneratorChat">[docs]</a><span class="k">class</span> <span class="nc">VertexAIImageGeneratorChat</span><span class="p">(</span><span class="n">_BaseVertexAIImageGenerator</span><span class="p">,</span> <span class="n">BaseChatModel</span><span class="p">):</span>
+<div class="viewcode-block" id="VertexAIImageGeneratorChat">
+<a class="viewcode-back" href="../../google_vertexai/vision_models/langchain_google_vertexai.vision_models.VertexAIImageGeneratorChat.html#langchain_google_vertexai.vision_models.VertexAIImageGeneratorChat">[docs]</a>
+<span class="k">class</span> <span class="nc">VertexAIImageGeneratorChat</span><span class="p">(</span><span class="n">_BaseVertexAIImageGenerator</span><span class="p">,</span> <span class="n">BaseChatModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Generates an image from a prompt."""</span>
 
     <span class="k">def</span> <span class="nf">_generate</span><span class="p">(</span>
@@ -717,7 +732,10 @@ document.write(`
         <span class="k">return</span> <span class="n">ChatResult</span><span class="p">(</span><span class="n">generations</span><span class="o">=</span><span class="n">generations</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="VertexAIImageEditorChat"><a class="viewcode-back" href="../../google_vertexai/vision_models/langchain_google_vertexai.vision_models.VertexAIImageEditorChat.html#langchain_google_vertexai.vision_models.VertexAIImageEditorChat">[docs]</a><span class="k">class</span> <span class="nc">VertexAIImageEditorChat</span><span class="p">(</span><span class="n">_BaseVertexAIImageGenerator</span><span class="p">,</span> <span class="n">BaseChatModel</span><span class="p">):</span>
+
+<div class="viewcode-block" id="VertexAIImageEditorChat">
+<a class="viewcode-back" href="../../google_vertexai/vision_models/langchain_google_vertexai.vision_models.VertexAIImageEditorChat.html#langchain_google_vertexai.vision_models.VertexAIImageEditorChat">[docs]</a>
+<span class="k">class</span> <span class="nc">VertexAIImageEditorChat</span><span class="p">(</span><span class="n">_BaseVertexAIImageGenerator</span><span class="p">,</span> <span class="n">BaseChatModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Given an image and a prompt, edits the image.</span>
 <span class="sd">    Currently only supports mask free editing.</span>
 <span class="sd">    """</span>
@@ -764,6 +782,7 @@ document.write(`
         <span class="p">]</span>
 
         <span class="k">return</span> <span class="n">ChatResult</span><span class="p">(</span><span class="n">generations</span><span class="o">=</span><span class="n">generations</span><span class="p">)</span></div>
+
 </pre></div>
 </article>
 </div>

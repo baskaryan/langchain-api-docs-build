@@ -1,7 +1,7 @@
 
 <!DOCTYPE html>
 
-<html data-content_root="" lang="en">
+<html data-content_root="../../../../" lang="en">
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
@@ -18,27 +18,27 @@
 <link as="font" crossorigin="" href="../../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" rel="preload" type="font/woff2"/>
 <link as="font" crossorigin="" href="../../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" rel="preload" type="font/woff2"/>
 <link as="font" crossorigin="" href="../../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" rel="preload" type="font/woff2"/>
-<link href="../../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../../_static/pygments.css?v=a746c00c" rel="stylesheet" type="text/css"/>
 <link href="../../../../_static/autodoc_pydantic.css" rel="stylesheet" type="text/css"/>
-<link href="../../../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
-<link href="../../../../_static/sphinx-design.4cbf315f70debaebd550c87a6162cf0f.min.css" rel="stylesheet" type="text/css"/>
-<link href="../../../../_static/css/custom.css" rel="stylesheet" type="text/css"/>
+<link href="../../../../_static/copybutton.css?v=76b2166b" rel="stylesheet" type="text/css"/>
+<link href="../../../../_static/sphinx-design.min.css?v=95c83b7e" rel="stylesheet" type="text/css"/>
+<link href="../../../../_static/css/custom.css?v=b95e2228" rel="stylesheet" type="text/css"/>
 <!-- Pre-loaded scripts that we'll load fully later -->
 <link as="script" href="../../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
 <link as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
 <script src="../../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
-<script src="../../../../_static/doctools.js"></script>
-<script src="../../../../_static/sphinx_highlight.js"></script>
-<script src="../../../../_static/clipboard.min.js"></script>
-<script src="../../../../_static/copybutton.js"></script>
-<script src="../../../../_static/design-tabs.js"></script>
+<script src="../../../../_static/documentation_options.js?v=3b5cce75"></script>
+<script src="../../../../_static/doctools.js?v=9a2dae69"></script>
+<script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+<script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
+<script src="../../../../_static/copybutton.js?v=f281be69"></script>
+<script src="../../../../_static/design-tabs.js?v=f930bc37"></script>
 <script>DOCUMENTATION_OPTIONS.pagename = '_modules/langchain/agents/openai_assistant/base';</script>
 <link href="../../../../_static/favicon.png" rel="icon"/>
 <link href="../../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Sep 13, 2024" name="docbuild:last-update"/>
+<meta content="Sep 16, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -249,10 +249,11 @@ document.write(`
 <span class="kn">from</span> <span class="nn">langchain_core.agents</span> <span class="kn">import</span> <span class="n">AgentAction</span><span class="p">,</span> <span class="n">AgentFinish</span>
 <span class="kn">from</span> <span class="nn">langchain_core.callbacks</span> <span class="kn">import</span> <span class="n">CallbackManager</span>
 <span class="kn">from</span> <span class="nn">langchain_core.load</span> <span class="kn">import</span> <span class="n">dumpd</span>
-<span class="kn">from</span> <span class="nn">langchain_core.pydantic_v1</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span><span class="p">,</span> <span class="n">root_validator</span>
 <span class="kn">from</span> <span class="nn">langchain_core.runnables</span> <span class="kn">import</span> <span class="n">RunnableConfig</span><span class="p">,</span> <span class="n">RunnableSerializable</span><span class="p">,</span> <span class="n">ensure_config</span>
 <span class="kn">from</span> <span class="nn">langchain_core.tools</span> <span class="kn">import</span> <span class="n">BaseTool</span>
 <span class="kn">from</span> <span class="nn">langchain_core.utils.function_calling</span> <span class="kn">import</span> <span class="n">convert_to_openai_tool</span>
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span><span class="p">,</span> <span class="n">model_validator</span>
+<span class="kn">from</span> <span class="nn">typing_extensions</span> <span class="kn">import</span> <span class="n">Self</span>
 
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
     <span class="kn">import</span> <span class="nn">openai</span>
@@ -262,7 +263,9 @@ document.write(`
     <span class="p">)</span>
 
 
-<div class="viewcode-block" id="OpenAIAssistantFinish"><a class="viewcode-back" href="../../../../langchain/agents/langchain.agents.openai_assistant.base.OpenAIAssistantFinish.html#langchain.agents.openai_assistant.base.OpenAIAssistantFinish">[docs]</a><span class="k">class</span> <span class="nc">OpenAIAssistantFinish</span><span class="p">(</span><span class="n">AgentFinish</span><span class="p">):</span>
+<div class="viewcode-block" id="OpenAIAssistantFinish">
+<a class="viewcode-back" href="../../../../langchain/agents/langchain.agents.openai_assistant.base.OpenAIAssistantFinish.html#langchain.agents.openai_assistant.base.OpenAIAssistantFinish">[docs]</a>
+<span class="k">class</span> <span class="nc">OpenAIAssistantFinish</span><span class="p">(</span><span class="n">AgentFinish</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""AgentFinish with run and thread metadata.</span>
 
 <span class="sd">    Parameters:</span>
@@ -283,7 +286,10 @@ document.write(`
         <span class="k">return</span> <span class="kc">False</span></div>
 
 
-<div class="viewcode-block" id="OpenAIAssistantAction"><a class="viewcode-back" href="../../../../langchain/agents/langchain.agents.openai_assistant.base.OpenAIAssistantAction.html#langchain.agents.openai_assistant.base.OpenAIAssistantAction">[docs]</a><span class="k">class</span> <span class="nc">OpenAIAssistantAction</span><span class="p">(</span><span class="n">AgentAction</span><span class="p">):</span>
+
+<div class="viewcode-block" id="OpenAIAssistantAction">
+<a class="viewcode-back" href="../../../../langchain/agents/langchain.agents.openai_assistant.base.OpenAIAssistantAction.html#langchain.agents.openai_assistant.base.OpenAIAssistantAction">[docs]</a>
+<span class="k">class</span> <span class="nc">OpenAIAssistantAction</span><span class="p">(</span><span class="n">AgentAction</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""AgentAction with info needed to submit custom tool output to existing run.</span>
 
 <span class="sd">    Parameters:</span>
@@ -304,6 +310,7 @@ document.write(`
 <span class="sd">            False</span>
 <span class="sd">        """</span>
         <span class="k">return</span> <span class="kc">False</span></div>
+
 
 
 <span class="k">def</span> <span class="nf">_get_openai_client</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">openai</span><span class="o">.</span><span class="n">OpenAI</span><span class="p">:</span>
@@ -372,7 +379,9 @@ document.write(`
 <span class="p">]</span>
 
 
-<div class="viewcode-block" id="OpenAIAssistantRunnable"><a class="viewcode-back" href="../../../../langchain/agents/langchain.agents.openai_assistant.base.OpenAIAssistantRunnable.html#langchain.agents.openai_assistant.base.OpenAIAssistantRunnable">[docs]</a><span class="k">class</span> <span class="nc">OpenAIAssistantRunnable</span><span class="p">(</span><span class="n">RunnableSerializable</span><span class="p">[</span><span class="n">Dict</span><span class="p">,</span> <span class="n">OutputType</span><span class="p">]):</span>
+<div class="viewcode-block" id="OpenAIAssistantRunnable">
+<a class="viewcode-back" href="../../../../langchain/agents/langchain.agents.openai_assistant.base.OpenAIAssistantRunnable.html#langchain.agents.openai_assistant.base.OpenAIAssistantRunnable">[docs]</a>
+<span class="k">class</span> <span class="nc">OpenAIAssistantRunnable</span><span class="p">(</span><span class="n">RunnableSerializable</span><span class="p">[</span><span class="n">Dict</span><span class="p">,</span> <span class="n">OutputType</span><span class="p">]):</span>
 <span class="w">    </span><span class="sd">"""Run an OpenAI Assistant.</span>
 
 <span class="sd">    Example using OpenAI tools:</span>
@@ -461,16 +470,18 @@ document.write(`
     <span class="n">as_agent</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
 <span class="w">    </span><span class="sd">"""Use as a LangChain agent, compatible with the AgentExecutor."""</span>
 
-    <span class="nd">@root_validator</span><span class="p">(</span><span class="n">pre</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">skip_on_failure</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">validate_async_client</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">values</span><span class="p">[</span><span class="s2">"async_client"</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">"after"</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">validate_async_client</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">async_client</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="kn">import</span> <span class="nn">openai</span>
 
-            <span class="n">api_key</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="s2">"client"</span><span class="p">]</span><span class="o">.</span><span class="n">api_key</span>
-            <span class="n">values</span><span class="p">[</span><span class="s2">"async_client"</span><span class="p">]</span> <span class="o">=</span> <span class="n">openai</span><span class="o">.</span><span class="n">AsyncOpenAI</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="n">api_key</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">values</span>
+            <span class="n">api_key</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">api_key</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">async_client</span> <span class="o">=</span> <span class="n">openai</span><span class="o">.</span><span class="n">AsyncOpenAI</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="n">api_key</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span>
 
-<div class="viewcode-block" id="OpenAIAssistantRunnable.create_assistant"><a class="viewcode-back" href="../../../../langchain/agents/langchain.agents.openai_assistant.base.OpenAIAssistantRunnable.html#langchain.agents.openai_assistant.base.OpenAIAssistantRunnable.create_assistant">[docs]</a>    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="OpenAIAssistantRunnable.create_assistant">
+<a class="viewcode-back" href="../../../../langchain/agents/langchain.agents.openai_assistant.base.OpenAIAssistantRunnable.html#langchain.agents.openai_assistant.base.OpenAIAssistantRunnable.create_assistant">[docs]</a>
+    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">create_assistant</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span>
         <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -504,7 +515,10 @@ document.write(`
         <span class="p">)</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">assistant_id</span><span class="o">=</span><span class="n">assistant</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">client</span><span class="o">=</span><span class="n">client</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="OpenAIAssistantRunnable.invoke"><a class="viewcode-back" href="../../../../langchain/agents/langchain.agents.openai_assistant.base.OpenAIAssistantRunnable.html#langchain.agents.openai_assistant.base.OpenAIAssistantRunnable.invoke">[docs]</a>    <span class="k">def</span> <span class="nf">invoke</span><span class="p">(</span>
+
+<div class="viewcode-block" id="OpenAIAssistantRunnable.invoke">
+<a class="viewcode-back" href="../../../../langchain/agents/langchain.agents.openai_assistant.base.OpenAIAssistantRunnable.html#langchain.agents.openai_assistant.base.OpenAIAssistantRunnable.invoke">[docs]</a>
+    <span class="k">def</span> <span class="nf">invoke</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="nb">input</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">RunnableConfig</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">OutputType</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Invoke assistant.</span>
@@ -586,7 +600,10 @@ document.write(`
             <span class="n">run_manager</span><span class="o">.</span><span class="n">on_chain_end</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">response</span></div>
 
-<div class="viewcode-block" id="OpenAIAssistantRunnable.acreate_assistant"><a class="viewcode-back" href="../../../../langchain/agents/langchain.agents.openai_assistant.base.OpenAIAssistantRunnable.html#langchain.agents.openai_assistant.base.OpenAIAssistantRunnable.acreate_assistant">[docs]</a>    <span class="nd">@classmethod</span>
+
+<div class="viewcode-block" id="OpenAIAssistantRunnable.acreate_assistant">
+<a class="viewcode-back" href="../../../../langchain/agents/langchain.agents.openai_assistant.base.OpenAIAssistantRunnable.html#langchain.agents.openai_assistant.base.OpenAIAssistantRunnable.acreate_assistant">[docs]</a>
+    <span class="nd">@classmethod</span>
     <span class="k">async</span> <span class="k">def</span> <span class="nf">acreate_assistant</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span>
         <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -622,7 +639,10 @@ document.write(`
         <span class="p">)</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">assistant_id</span><span class="o">=</span><span class="n">assistant</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">async_client</span><span class="o">=</span><span class="n">async_client</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="OpenAIAssistantRunnable.ainvoke"><a class="viewcode-back" href="../../../../langchain/agents/langchain.agents.openai_assistant.base.OpenAIAssistantRunnable.html#langchain.agents.openai_assistant.base.OpenAIAssistantRunnable.ainvoke">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">ainvoke</span><span class="p">(</span>
+
+<div class="viewcode-block" id="OpenAIAssistantRunnable.ainvoke">
+<a class="viewcode-back" href="../../../../langchain/agents/langchain.agents.openai_assistant.base.OpenAIAssistantRunnable.html#langchain.agents.openai_assistant.base.OpenAIAssistantRunnable.ainvoke">[docs]</a>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">ainvoke</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="nb">input</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">RunnableConfig</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">OutputType</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Async invoke assistant.</span>
@@ -708,6 +728,7 @@ document.write(`
         <span class="k">else</span><span class="p">:</span>
             <span class="n">run_manager</span><span class="o">.</span><span class="n">on_chain_end</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">response</span></div>
+
 
     <span class="k">def</span> <span class="nf">_parse_intermediate_steps</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">intermediate_steps</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">OpenAIAssistantAction</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span>
@@ -970,6 +991,7 @@ document.write(`
             <span class="k">if</span> <span class="n">in_progress</span><span class="p">:</span>
                 <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">check_every_ms</span> <span class="o">/</span> <span class="mi">1000</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">run</span></div>
+
 </pre></div>
 </article>
 </div>

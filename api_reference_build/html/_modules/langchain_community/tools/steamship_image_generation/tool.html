@@ -1,7 +1,7 @@
 
 <!DOCTYPE html>
 
-<html data-content_root="" lang="en">
+<html data-content_root="../../../../" lang="en">
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
@@ -18,27 +18,27 @@
 <link as="font" crossorigin="" href="../../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" rel="preload" type="font/woff2"/>
 <link as="font" crossorigin="" href="../../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" rel="preload" type="font/woff2"/>
 <link as="font" crossorigin="" href="../../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" rel="preload" type="font/woff2"/>
-<link href="../../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../../_static/pygments.css?v=a746c00c" rel="stylesheet" type="text/css"/>
 <link href="../../../../_static/autodoc_pydantic.css" rel="stylesheet" type="text/css"/>
-<link href="../../../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
-<link href="../../../../_static/sphinx-design.4cbf315f70debaebd550c87a6162cf0f.min.css" rel="stylesheet" type="text/css"/>
-<link href="../../../../_static/css/custom.css" rel="stylesheet" type="text/css"/>
+<link href="../../../../_static/copybutton.css?v=76b2166b" rel="stylesheet" type="text/css"/>
+<link href="../../../../_static/sphinx-design.min.css?v=95c83b7e" rel="stylesheet" type="text/css"/>
+<link href="../../../../_static/css/custom.css?v=b95e2228" rel="stylesheet" type="text/css"/>
 <!-- Pre-loaded scripts that we'll load fully later -->
 <link as="script" href="../../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
 <link as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
 <script src="../../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
-<script src="../../../../_static/doctools.js"></script>
-<script src="../../../../_static/sphinx_highlight.js"></script>
-<script src="../../../../_static/clipboard.min.js"></script>
-<script src="../../../../_static/copybutton.js"></script>
-<script src="../../../../_static/design-tabs.js"></script>
+<script src="../../../../_static/documentation_options.js?v=3b5cce75"></script>
+<script src="../../../../_static/doctools.js?v=9a2dae69"></script>
+<script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+<script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
+<script src="../../../../_static/copybutton.js?v=f281be69"></script>
+<script src="../../../../_static/design-tabs.js?v=f930bc37"></script>
 <script>DOCUMENTATION_OPTIONS.pagename = '_modules/langchain_community/tools/steamship_image_generation/tool';</script>
 <link href="../../../../_static/favicon.png" rel="icon"/>
 <link href="../../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Sep 13, 2024" name="docbuild:last-update"/>
+<meta content="Sep 16, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -244,12 +244,12 @@ document.write(`
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
 
 <span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Optional</span>
 
 <span class="kn">from</span> <span class="nn">langchain_core.callbacks</span> <span class="kn">import</span> <span class="n">CallbackManagerForToolRun</span>
-<span class="kn">from</span> <span class="nn">langchain_core.pydantic_v1</span> <span class="kn">import</span> <span class="n">root_validator</span>
 <span class="kn">from</span> <span class="nn">langchain_core.tools</span> <span class="kn">import</span> <span class="n">BaseTool</span>
 <span class="kn">from</span> <span class="nn">langchain_core.utils</span> <span class="kn">import</span> <span class="n">get_from_dict_or_env</span>
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">model_validator</span>
 
 <span class="kn">from</span> <span class="nn">langchain_community.tools.steamship_image_generation.utils</span> <span class="kn">import</span> <span class="n">make_image_public</span>
 
@@ -257,11 +257,14 @@ document.write(`
     <span class="kn">from</span> <span class="nn">steamship</span> <span class="kn">import</span> <span class="n">Steamship</span>
 
 
-<div class="viewcode-block" id="ModelName"><a class="viewcode-back" href="../../../../community/tools/langchain_community.tools.steamship_image_generation.tool.ModelName.html#langchain_community.tools.steamship_image_generation.tool.ModelName">[docs]</a><span class="k">class</span> <span class="nc">ModelName</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">Enum</span><span class="p">):</span>
+<div class="viewcode-block" id="ModelName">
+<a class="viewcode-back" href="../../../../community/tools/langchain_community.tools.steamship_image_generation.tool.ModelName.html#langchain_community.tools.steamship_image_generation.tool.ModelName">[docs]</a>
+<span class="k">class</span> <span class="nc">ModelName</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">Enum</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Supported Image Models for generation."""</span>
 
     <span class="n">DALL_E</span> <span class="o">=</span> <span class="s2">"dall-e"</span>
     <span class="n">STABLE_DIFFUSION</span> <span class="o">=</span> <span class="s2">"stable-diffusion"</span></div>
+
 
 
 <span class="n">SUPPORTED_IMAGE_SIZES</span> <span class="o">=</span> <span class="p">{</span>
@@ -270,7 +273,9 @@ document.write(`
 <span class="p">}</span>
 
 
-<div class="viewcode-block" id="SteamshipImageGenerationTool"><a class="viewcode-back" href="../../../../community/tools/langchain_community.tools.steamship_image_generation.tool.SteamshipImageGenerationTool.html#langchain_community.tools.steamship_image_generation.tool.SteamshipImageGenerationTool">[docs]</a><span class="k">class</span> <span class="nc">SteamshipImageGenerationTool</span><span class="p">(</span><span class="n">BaseTool</span><span class="p">):</span>
+<div class="viewcode-block" id="SteamshipImageGenerationTool">
+<a class="viewcode-back" href="../../../../community/tools/langchain_community.tools.steamship_image_generation.tool.SteamshipImageGenerationTool.html#langchain_community.tools.steamship_image_generation.tool.SteamshipImageGenerationTool">[docs]</a>
+<span class="k">class</span> <span class="nc">SteamshipImageGenerationTool</span><span class="p">(</span><span class="n">BaseTool</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Tool used to generate images from a text-prompt."""</span>
 
     <span class="n">model_name</span><span class="p">:</span> <span class="n">ModelName</span>
@@ -285,8 +290,9 @@ document.write(`
         <span class="s2">"Output: the UUID of a generated image"</span>
     <span class="p">)</span>
 
-    <span class="nd">@root_validator</span><span class="p">(</span><span class="n">pre</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">validate_size</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+    <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">"before"</span><span class="p">)</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">validate_size</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
         <span class="k">if</span> <span class="s2">"size"</span> <span class="ow">in</span> <span class="n">values</span><span class="p">:</span>
             <span class="n">size</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="s2">"size"</span><span class="p">]</span>
             <span class="n">model_name</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="s2">"model_name"</span><span class="p">]</span>
@@ -295,8 +301,9 @@ document.write(`
 
         <span class="k">return</span> <span class="n">values</span>
 
-    <span class="nd">@root_validator</span><span class="p">(</span><span class="n">pre</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">validate_environment</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+    <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">"before"</span><span class="p">)</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">validate_environment</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Validate that api key and python package exists in environment."""</span>
         <span class="n">steamship_api_key</span> <span class="o">=</span> <span class="n">get_from_dict_or_env</span><span class="p">(</span>
             <span class="n">values</span><span class="p">,</span> <span class="s2">"steamship_api_key"</span><span class="p">,</span> <span class="s2">"STEAMSHIP_API_KEY"</span>
@@ -340,6 +347,7 @@ document.write(`
                 <span class="k">return</span> <span class="n">blocks</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">id</span>
 
         <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"[</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">] Tool unable to generate image!"</span><span class="p">)</span></div>
+
 </pre></div>
 </article>
 </div>

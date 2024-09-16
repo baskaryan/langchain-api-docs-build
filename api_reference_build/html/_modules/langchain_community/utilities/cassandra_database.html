@@ -1,7 +1,7 @@
 
 <!DOCTYPE html>
 
-<html data-content_root="" lang="en">
+<html data-content_root="../../../" lang="en">
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
@@ -18,27 +18,27 @@
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" rel="preload" type="font/woff2"/>
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" rel="preload" type="font/woff2"/>
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" rel="preload" type="font/woff2"/>
-<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css?v=a746c00c" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/autodoc_pydantic.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/sphinx-design.4cbf315f70debaebd550c87a6162cf0f.min.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/css/custom.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/copybutton.css?v=76b2166b" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/sphinx-design.min.css?v=95c83b7e" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/css/custom.css?v=b95e2228" rel="stylesheet" type="text/css"/>
 <!-- Pre-loaded scripts that we'll load fully later -->
 <link as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
 <link as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
 <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-<script src="../../../_static/doctools.js"></script>
-<script src="../../../_static/sphinx_highlight.js"></script>
-<script src="../../../_static/clipboard.min.js"></script>
-<script src="../../../_static/copybutton.js"></script>
-<script src="../../../_static/design-tabs.js"></script>
+<script src="../../../_static/documentation_options.js?v=3b5cce75"></script>
+<script src="../../../_static/doctools.js?v=9a2dae69"></script>
+<script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+<script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+<script src="../../../_static/copybutton.js?v=f281be69"></script>
+<script src="../../../_static/design-tabs.js?v=f930bc37"></script>
 <script>DOCUMENTATION_OPTIONS.pagename = '_modules/langchain_community/utilities/cassandra_database';</script>
 <link href="../../../_static/favicon.png" rel="icon"/>
 <link href="../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Sep 13, 2024" name="docbuild:last-update"/>
+<meta content="Sep 16, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -234,7 +234,8 @@ document.write(`
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
 
-<span class="kn">from</span> <span class="nn">langchain_core.pydantic_v1</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span><span class="p">,</span> <span class="n">root_validator</span>
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">ConfigDict</span><span class="p">,</span> <span class="n">Field</span><span class="p">,</span> <span class="n">model_validator</span>
+<span class="kn">from</span> <span class="nn">typing_extensions</span> <span class="kn">import</span> <span class="n">Self</span>
 
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
     <span class="kn">from</span> <span class="nn">cassandra.cluster</span> <span class="kn">import</span> <span class="n">ResultSet</span><span class="p">,</span> <span class="n">Session</span>
@@ -251,10 +252,14 @@ document.write(`
 <span class="p">]</span>
 
 
-<div class="viewcode-block" id="CassandraDatabase"><a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.cassandra_database.CassandraDatabase.html#langchain_community.utilities.cassandra_database.CassandraDatabase">[docs]</a><span class="k">class</span> <span class="nc">CassandraDatabase</span><span class="p">:</span>
+<div class="viewcode-block" id="CassandraDatabase">
+<a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.cassandra_database.CassandraDatabase.html#langchain_community.utilities.cassandra_database.CassandraDatabase">[docs]</a>
+<span class="k">class</span> <span class="nc">CassandraDatabase</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Apache Cassandra® database wrapper."""</span>
 
-<div class="viewcode-block" id="CassandraDatabase.__init__"><a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.cassandra_database.CassandraDatabase.html#langchain_community.utilities.cassandra_database.CassandraDatabase.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+<div class="viewcode-block" id="CassandraDatabase.__init__">
+<a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.cassandra_database.CassandraDatabase.html#langchain_community.utilities.cassandra_database.CassandraDatabase.__init__">[docs]</a>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">session</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Session</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">exclude_tables</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -270,7 +275,10 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">_exclude_tables</span> <span class="o">=</span> <span class="n">exclude_tables</span> <span class="ow">or</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_include_tables</span> <span class="o">=</span> <span class="n">include_tables</span> <span class="ow">or</span> <span class="p">[]</span></div>
 
-<div class="viewcode-block" id="CassandraDatabase.run"><a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.cassandra_database.CassandraDatabase.html#langchain_community.utilities.cassandra_database.CassandraDatabase.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span>
+
+<div class="viewcode-block" id="CassandraDatabase.run">
+<a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.cassandra_database.CassandraDatabase.html#langchain_community.utilities.cassandra_database.CassandraDatabase.run">[docs]</a>
+    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">fetch</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"all"</span><span class="p">,</span>
@@ -286,18 +294,27 @@ document.write(`
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Fetch parameter must be either 'one', 'all', or 'cursor'"</span><span class="p">)</span></div>
 
+
     <span class="k">def</span> <span class="nf">_fetch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ResultSet</span><span class="p">:</span>
         <span class="n">clean_query</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate_cql</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="s2">"SELECT"</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">clean_query</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-<div class="viewcode-block" id="CassandraDatabase.fetch_all"><a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.cassandra_database.CassandraDatabase.html#langchain_community.utilities.cassandra_database.CassandraDatabase.fetch_all">[docs]</a>    <span class="k">def</span> <span class="nf">fetch_all</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+<div class="viewcode-block" id="CassandraDatabase.fetch_all">
+<a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.cassandra_database.CassandraDatabase.html#langchain_community.utilities.cassandra_database.CassandraDatabase.fetch_all">[docs]</a>
+    <span class="k">def</span> <span class="nf">fetch_all</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_fetch</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="CassandraDatabase.fetch_one"><a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.cassandra_database.CassandraDatabase.html#langchain_community.utilities.cassandra_database.CassandraDatabase.fetch_one">[docs]</a>    <span class="k">def</span> <span class="nf">fetch_one</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+
+<div class="viewcode-block" id="CassandraDatabase.fetch_one">
+<a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.cassandra_database.CassandraDatabase.html#langchain_community.utilities.cassandra_database.CassandraDatabase.fetch_one">[docs]</a>
+    <span class="k">def</span> <span class="nf">fetch_one</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
         <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fetch</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">result</span><span class="o">.</span><span class="n">one</span><span class="p">()</span><span class="o">.</span><span class="n">_asdict</span><span class="p">()</span> <span class="k">if</span> <span class="n">result</span> <span class="k">else</span> <span class="p">{}</span></div>
 
-<div class="viewcode-block" id="CassandraDatabase.get_keyspace_tables"><a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.cassandra_database.CassandraDatabase.html#langchain_community.utilities.cassandra_database.CassandraDatabase.get_keyspace_tables">[docs]</a>    <span class="k">def</span> <span class="nf">get_keyspace_tables</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">keyspace</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Table</span><span class="p">]:</span>
+
+<div class="viewcode-block" id="CassandraDatabase.get_keyspace_tables">
+<a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.cassandra_database.CassandraDatabase.html#langchain_community.utilities.cassandra_database.CassandraDatabase.get_keyspace_tables">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_keyspace_tables</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">keyspace</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Table</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">"""Get the Table objects for the specified keyspace."""</span>
         <span class="n">schema</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolve_schema</span><span class="p">([</span><span class="n">keyspace</span><span class="p">])</span>
         <span class="k">if</span> <span class="n">keyspace</span> <span class="ow">in</span> <span class="n">schema</span><span class="p">:</span>
@@ -305,10 +322,13 @@ document.write(`
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">[]</span></div>
 
+
     <span class="c1"># This is a more basic string building function that doesn't use a query builder</span>
     <span class="c1"># or prepared statements</span>
     <span class="c1"># TODO: Refactor to use prepared statements</span>
-<div class="viewcode-block" id="CassandraDatabase.get_table_data"><a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.cassandra_database.CassandraDatabase.html#langchain_community.utilities.cassandra_database.CassandraDatabase.get_table_data">[docs]</a>    <span class="k">def</span> <span class="nf">get_table_data</span><span class="p">(</span>
+<div class="viewcode-block" id="CassandraDatabase.get_table_data">
+<a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.cassandra_database.CassandraDatabase.html#langchain_community.utilities.cassandra_database.CassandraDatabase.get_table_data">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_table_data</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">keyspace</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">table</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">predicate</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">limit</span><span class="p">:</span> <span class="nb">int</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Get data from the specified table in the specified keyspace."""</span>
@@ -326,12 +346,18 @@ document.write(`
         <span class="n">data</span> <span class="o">=</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">result</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">data</span></div>
 
-<div class="viewcode-block" id="CassandraDatabase.get_context"><a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.cassandra_database.CassandraDatabase.html#langchain_community.utilities.cassandra_database.CassandraDatabase.get_context">[docs]</a>    <span class="k">def</span> <span class="nf">get_context</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+
+<div class="viewcode-block" id="CassandraDatabase.get_context">
+<a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.cassandra_database.CassandraDatabase.html#langchain_community.utilities.cassandra_database.CassandraDatabase.get_context">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_context</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">"""Return db context that you may want in agent prompt."""</span>
         <span class="n">keyspaces</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fetch_keyspaces</span><span class="p">()</span>
         <span class="k">return</span> <span class="p">{</span><span class="s2">"keyspaces"</span><span class="p">:</span> <span class="s2">", "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">keyspaces</span><span class="p">)}</span></div>
 
-<div class="viewcode-block" id="CassandraDatabase.format_keyspace_to_markdown"><a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.cassandra_database.CassandraDatabase.html#langchain_community.utilities.cassandra_database.CassandraDatabase.format_keyspace_to_markdown">[docs]</a>    <span class="k">def</span> <span class="nf">format_keyspace_to_markdown</span><span class="p">(</span>
+
+<div class="viewcode-block" id="CassandraDatabase.format_keyspace_to_markdown">
+<a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.cassandra_database.CassandraDatabase.html#langchain_community.utilities.cassandra_database.CassandraDatabase.format_keyspace_to_markdown">[docs]</a>
+    <span class="k">def</span> <span class="nf">format_keyspace_to_markdown</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">keyspace</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">tables</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Table</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""</span>
@@ -363,7 +389,10 @@ document.write(`
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="s2">""</span></div>
 
-<div class="viewcode-block" id="CassandraDatabase.format_schema_to_markdown"><a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.cassandra_database.CassandraDatabase.html#langchain_community.utilities.cassandra_database.CassandraDatabase.format_schema_to_markdown">[docs]</a>    <span class="k">def</span> <span class="nf">format_schema_to_markdown</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+
+<div class="viewcode-block" id="CassandraDatabase.format_schema_to_markdown">
+<a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.cassandra_database.CassandraDatabase.html#langchain_community.utilities.cassandra_database.CassandraDatabase.format_schema_to_markdown">[docs]</a>
+    <span class="k">def</span> <span class="nf">format_schema_to_markdown</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Generates a markdown representation of the schema for all keyspaces and tables</span>
 <span class="sd">        within the CassandraDatabase instance. This method utilizes the</span>
@@ -387,6 +416,7 @@ document.write(`
         <span class="k">for</span> <span class="n">keyspace</span><span class="p">,</span> <span class="n">tables</span> <span class="ow">in</span> <span class="n">schema</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="n">output</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">format_keyspace_to_markdown</span><span class="p">(</span><span class="n">keyspace</span><span class="p">,</span><span class="w"> </span><span class="n">tables</span><span class="p">)</span><span class="si">}</span><span class="se">\n\n</span><span class="s2">"</span>
         <span class="k">return</span> <span class="n">output</span></div>
+
 
     <span class="k">def</span> <span class="nf">_validate_cql</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cql</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"SELECT"</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""</span>
@@ -682,7 +712,10 @@ document.write(`
         <span class="k">return</span> <span class="kc">None</span></div>
 
 
-<div class="viewcode-block" id="DatabaseError"><a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.cassandra_database.DatabaseError.html#langchain_community.utilities.cassandra_database.DatabaseError">[docs]</a><span class="k">class</span> <span class="nc">DatabaseError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+
+<div class="viewcode-block" id="DatabaseError">
+<a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.cassandra_database.DatabaseError.html#langchain_community.utilities.cassandra_database.DatabaseError">[docs]</a>
+<span class="k">class</span> <span class="nc">DatabaseError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Exception raised for errors in the database schema.</span>
 
 <span class="sd">    Attributes:</span>
@@ -694,7 +727,10 @@ document.write(`
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">message</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="Table"><a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.cassandra_database.Table.html#langchain_community.utilities.cassandra_database.Table">[docs]</a><span class="k">class</span> <span class="nc">Table</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Table">
+<a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.cassandra_database.Table.html#langchain_community.utilities.cassandra_database.Table">[docs]</a>
+<span class="k">class</span> <span class="nc">Table</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
     <span class="n">keyspace</span><span class="p">:</span> <span class="nb">str</span>
 <span class="w">    </span><span class="sd">"""The keyspace in which the table exists."""</span>
 
@@ -709,18 +745,21 @@ document.write(`
     <span class="n">clustering</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
     <span class="n">indexes</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
 
-    <span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
-        <span class="n">frozen</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span>
+        <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span>
 
-    <span class="nd">@root_validator</span><span class="p">(</span><span class="n">pre</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">skip_on_failure</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">check_required_fields</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">class_values</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">class_values</span><span class="p">[</span><span class="s2">"columns"</span><span class="p">]:</span>
+    <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">"after"</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">check_required_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"non-empty column list for must be provided"</span><span class="p">)</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">class_values</span><span class="p">[</span><span class="s2">"partition"</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">partition</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"non-empty partition list must be provided"</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">class_values</span>
+        <span class="k">return</span> <span class="bp">self</span>
 
-<div class="viewcode-block" id="Table.from_database"><a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.cassandra_database.Table.html#langchain_community.utilities.cassandra_database.Table.from_database">[docs]</a>    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="Table.from_database">
+<a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.cassandra_database.Table.html#langchain_community.utilities.cassandra_database.Table.from_database">[docs]</a>
+    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_database</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span> <span class="n">keyspace</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">table_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">db</span><span class="p">:</span> <span class="n">CassandraDatabase</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
@@ -735,7 +774,10 @@ document.write(`
             <span class="n">indexes</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">_resolve_indexes</span><span class="p">(</span><span class="n">keyspace</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="n">db</span><span class="p">),</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="Table.as_markdown"><a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.cassandra_database.Table.html#langchain_community.utilities.cassandra_database.Table.as_markdown">[docs]</a>    <span class="k">def</span> <span class="nf">as_markdown</span><span class="p">(</span>
+
+<div class="viewcode-block" id="Table.as_markdown">
+<a class="viewcode-back" href="../../../community/utilities/langchain_community.utilities.cassandra_database.Table.html#langchain_community.utilities.cassandra_database.Table.as_markdown">[docs]</a>
+    <span class="k">def</span> <span class="nf">as_markdown</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">include_keyspace</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">header_level</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""</span>
@@ -786,6 +828,7 @@ document.write(`
                 <span class="n">output</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">"  - </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> : kind=</span><span class="si">{</span><span class="n">kind</span><span class="si">}</span><span class="s2">, options=</span><span class="si">{</span><span class="n">options</span><span class="si">}</span><span class="se">\n</span><span class="s2">"</span>
 
         <span class="k">return</span> <span class="n">output</span></div>
+
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_resolve_comment</span><span class="p">(</span>
@@ -883,6 +926,7 @@ document.write(`
             <span class="n">indexes</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">row</span><span class="p">[</span><span class="s2">"index_name"</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s2">"kind"</span><span class="p">],</span> <span class="n">index_options</span><span class="p">))</span>
 
         <span class="k">return</span> <span class="n">indexes</span></div>
+
 </pre></div>
 </article>
 </div>

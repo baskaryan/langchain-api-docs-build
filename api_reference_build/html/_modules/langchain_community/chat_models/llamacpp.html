@@ -1,7 +1,7 @@
 
 <!DOCTYPE html>
 
-<html data-content_root="" lang="en">
+<html data-content_root="../../../" lang="en">
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
@@ -18,27 +18,27 @@
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" rel="preload" type="font/woff2"/>
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" rel="preload" type="font/woff2"/>
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" rel="preload" type="font/woff2"/>
-<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css?v=a746c00c" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/autodoc_pydantic.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/sphinx-design.4cbf315f70debaebd550c87a6162cf0f.min.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/css/custom.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/copybutton.css?v=76b2166b" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/sphinx-design.min.css?v=95c83b7e" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/css/custom.css?v=b95e2228" rel="stylesheet" type="text/css"/>
 <!-- Pre-loaded scripts that we'll load fully later -->
 <link as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
 <link as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
 <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-<script src="../../../_static/doctools.js"></script>
-<script src="../../../_static/sphinx_highlight.js"></script>
-<script src="../../../_static/clipboard.min.js"></script>
-<script src="../../../_static/copybutton.js"></script>
-<script src="../../../_static/design-tabs.js"></script>
+<script src="../../../_static/documentation_options.js?v=3b5cce75"></script>
+<script src="../../../_static/doctools.js?v=9a2dae69"></script>
+<script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+<script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+<script src="../../../_static/copybutton.js?v=f281be69"></script>
+<script src="../../../_static/design-tabs.js?v=f930bc37"></script>
 <script>DOCUMENTATION_OPTIONS.pagename = '_modules/langchain_community/chat_models/llamacpp';</script>
 <link href="../../../_static/favicon.png" rel="icon"/>
 <link href="../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Sep 13, 2024" name="docbuild:last-update"/>
+<meta content="Sep 16, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -275,18 +275,21 @@ document.write(`
     <span class="n">parse_tool_call</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="kn">from</span> <span class="nn">langchain_core.outputs</span> <span class="kn">import</span> <span class="n">ChatGeneration</span><span class="p">,</span> <span class="n">ChatGenerationChunk</span><span class="p">,</span> <span class="n">ChatResult</span>
-<span class="kn">from</span> <span class="nn">langchain_core.pydantic_v1</span> <span class="kn">import</span> <span class="p">(</span>
-    <span class="n">BaseModel</span><span class="p">,</span>
-    <span class="n">Field</span><span class="p">,</span>
-    <span class="n">root_validator</span><span class="p">,</span>
-<span class="p">)</span>
 <span class="kn">from</span> <span class="nn">langchain_core.runnables</span> <span class="kn">import</span> <span class="n">Runnable</span><span class="p">,</span> <span class="n">RunnableMap</span><span class="p">,</span> <span class="n">RunnablePassthrough</span>
 <span class="kn">from</span> <span class="nn">langchain_core.tools</span> <span class="kn">import</span> <span class="n">BaseTool</span>
 <span class="kn">from</span> <span class="nn">langchain_core.utils.function_calling</span> <span class="kn">import</span> <span class="n">convert_to_openai_tool</span>
 <span class="kn">from</span> <span class="nn">langchain_core.utils.pydantic</span> <span class="kn">import</span> <span class="n">is_basemodel_subclass</span>
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">BaseModel</span><span class="p">,</span>
+    <span class="n">Field</span><span class="p">,</span>
+    <span class="n">model_validator</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">typing_extensions</span> <span class="kn">import</span> <span class="n">Self</span>
 
 
-<div class="viewcode-block" id="ChatLlamaCpp"><a class="viewcode-back" href="../../../community/chat_models/langchain_community.chat_models.llamacpp.ChatLlamaCpp.html#langchain_community.chat_models.llamacpp.ChatLlamaCpp">[docs]</a><span class="k">class</span> <span class="nc">ChatLlamaCpp</span><span class="p">(</span><span class="n">BaseChatModel</span><span class="p">):</span>
+<div class="viewcode-block" id="ChatLlamaCpp">
+<a class="viewcode-back" href="../../../community/chat_models/langchain_community.chat_models.llamacpp.ChatLlamaCpp.html#langchain_community.chat_models.llamacpp.ChatLlamaCpp">[docs]</a>
+<span class="k">class</span> <span class="nc">ChatLlamaCpp</span><span class="p">(</span><span class="n">BaseChatModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""llama.cpp model.</span>
 
 <span class="sd">    To use, you should have the llama-cpp-python library installed, and provide the</span>
@@ -295,7 +298,7 @@ document.write(`
 
 <span class="sd">    """</span>
 
-    <span class="n">client</span><span class="p">:</span> <span class="n">Any</span>  <span class="c1">#: :meta private:</span>
+    <span class="n">client</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1">#: :meta private:</span>
 
     <span class="n">model_path</span><span class="p">:</span> <span class="nb">str</span>
 <span class="w">    </span><span class="sd">"""The path to the Llama model file."""</span>
@@ -401,8 +404,8 @@ document.write(`
     <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
 <span class="w">    </span><span class="sd">"""Print verbose output to stderr."""</span>
 
-    <span class="nd">@root_validator</span><span class="p">(</span><span class="n">pre</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">skip_on_failure</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">validate_environment</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+    <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">"after"</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">validate_environment</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Validate that llama-cpp-python library is installed."""</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="kn">from</span> <span class="nn">llama_cpp</span> <span class="kn">import</span> <span class="n">Llama</span><span class="p">,</span> <span class="n">LlamaGrammar</span>
@@ -413,7 +416,7 @@ document.write(`
                 <span class="s2">"use this embedding model: pip install llama-cpp-python"</span>
             <span class="p">)</span>
 
-        <span class="n">model_path</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="s2">"model_path"</span><span class="p">]</span>
+        <span class="n">model_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_path</span>
         <span class="n">model_param_names</span> <span class="o">=</span> <span class="p">[</span>
             <span class="s2">"rope_freq_scale"</span><span class="p">,</span>
             <span class="s2">"rope_freq_base"</span><span class="p">,</span>
@@ -432,35 +435,35 @@ document.write(`
             <span class="s2">"last_n_tokens_size"</span><span class="p">,</span>
             <span class="s2">"verbose"</span><span class="p">,</span>
         <span class="p">]</span>
-        <span class="n">model_params</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">values</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">model_param_names</span><span class="p">}</span>
+        <span class="n">model_params</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">model_param_names</span><span class="p">}</span>
         <span class="c1"># For backwards compatibility, only include if non-null.</span>
-        <span class="k">if</span> <span class="n">values</span><span class="p">[</span><span class="s2">"n_gpu_layers"</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">model_params</span><span class="p">[</span><span class="s2">"n_gpu_layers"</span><span class="p">]</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="s2">"n_gpu_layers"</span><span class="p">]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_gpu_layers</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">model_params</span><span class="p">[</span><span class="s2">"n_gpu_layers"</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_gpu_layers</span>
 
-        <span class="n">model_params</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="s2">"model_kwargs"</span><span class="p">])</span>
+        <span class="n">model_params</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model_kwargs</span><span class="p">)</span>
 
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">values</span><span class="p">[</span><span class="s2">"client"</span><span class="p">]</span> <span class="o">=</span> <span class="n">Llama</span><span class="p">(</span><span class="n">model_path</span><span class="p">,</span> <span class="o">**</span><span class="n">model_params</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">Llama</span><span class="p">(</span><span class="n">model_path</span><span class="p">,</span> <span class="o">**</span><span class="n">model_params</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                 <span class="sa">f</span><span class="s2">"Could not load Llama model from path: </span><span class="si">{</span><span class="n">model_path</span><span class="si">}</span><span class="s2">. "</span>
                 <span class="sa">f</span><span class="s2">"Received error </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span>
             <span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">values</span><span class="p">[</span><span class="s2">"grammar"</span><span class="p">]</span> <span class="ow">and</span> <span class="n">values</span><span class="p">[</span><span class="s2">"grammar_path"</span><span class="p">]:</span>
-            <span class="n">grammar</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="s2">"grammar"</span><span class="p">]</span>
-            <span class="n">grammar_path</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="s2">"grammar_path"</span><span class="p">]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">grammar</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">grammar_path</span><span class="p">:</span>
+            <span class="n">grammar</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grammar</span>
+            <span class="n">grammar_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grammar_path</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                 <span class="s2">"Can only pass in one of grammar and grammar_path. Received "</span>
                 <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">grammar</span><span class="si">=}</span><span class="s2"> and </span><span class="si">{</span><span class="n">grammar_path</span><span class="si">=}</span><span class="s2">."</span>
             <span class="p">)</span>
-        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="s2">"grammar"</span><span class="p">],</span> <span class="nb">str</span><span class="p">):</span>
-            <span class="n">values</span><span class="p">[</span><span class="s2">"grammar"</span><span class="p">]</span> <span class="o">=</span> <span class="n">LlamaGrammar</span><span class="o">.</span><span class="n">from_string</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="s2">"grammar"</span><span class="p">])</span>
-        <span class="k">elif</span> <span class="n">values</span><span class="p">[</span><span class="s2">"grammar_path"</span><span class="p">]:</span>
-            <span class="n">values</span><span class="p">[</span><span class="s2">"grammar"</span><span class="p">]</span> <span class="o">=</span> <span class="n">LlamaGrammar</span><span class="o">.</span><span class="n">from_file</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="s2">"grammar_path"</span><span class="p">])</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grammar</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">grammar</span> <span class="o">=</span> <span class="n">LlamaGrammar</span><span class="o">.</span><span class="n">from_string</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grammar</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">grammar_path</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">grammar</span> <span class="o">=</span> <span class="n">LlamaGrammar</span><span class="o">.</span><span class="n">from_file</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grammar_path</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">pass</span>
-        <span class="k">return</span> <span class="n">values</span>
+        <span class="k">return</span> <span class="bp">self</span>
 
     <span class="k">def</span> <span class="nf">_get_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stop</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">"""</span>
@@ -566,7 +569,9 @@ document.write(`
                 <span class="n">run_manager</span><span class="o">.</span><span class="n">on_llm_new_token</span><span class="p">(</span><span class="n">chunk</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="n">chunk</span><span class="o">=</span><span class="n">chunk</span><span class="p">,</span> <span class="n">logprobs</span><span class="o">=</span><span class="n">logprobs</span><span class="p">)</span>
             <span class="k">yield</span> <span class="n">chunk</span>
 
-<div class="viewcode-block" id="ChatLlamaCpp.bind_tools"><a class="viewcode-back" href="../../../community/chat_models/langchain_community.chat_models.llamacpp.ChatLlamaCpp.html#langchain_community.chat_models.llamacpp.ChatLlamaCpp.bind_tools">[docs]</a>    <span class="k">def</span> <span class="nf">bind_tools</span><span class="p">(</span>
+<div class="viewcode-block" id="ChatLlamaCpp.bind_tools">
+<a class="viewcode-back" href="../../../community/chat_models/langchain_community.chat_models.llamacpp.ChatLlamaCpp.html#langchain_community.chat_models.llamacpp.ChatLlamaCpp.bind_tools">[docs]</a>
+    <span class="k">def</span> <span class="nf">bind_tools</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">tools</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">Type</span><span class="p">[</span><span class="n">BaseModel</span><span class="p">],</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">BaseTool</span><span class="p">]],</span>
         <span class="o">*</span><span class="p">,</span>
@@ -617,7 +622,10 @@ document.write(`
         <span class="n">formatted_tools</span> <span class="o">=</span> <span class="p">[</span><span class="n">convert_to_openai_tool</span><span class="p">(</span><span class="n">tool</span><span class="p">)</span> <span class="k">for</span> <span class="n">tool</span> <span class="ow">in</span> <span class="n">tools</span><span class="p">]</span>
         <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="n">tools</span><span class="o">=</span><span class="n">formatted_tools</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ChatLlamaCpp.with_structured_output"><a class="viewcode-back" href="../../../community/chat_models/langchain_community.chat_models.llamacpp.ChatLlamaCpp.html#langchain_community.chat_models.llamacpp.ChatLlamaCpp.with_structured_output">[docs]</a>    <span class="k">def</span> <span class="nf">with_structured_output</span><span class="p">(</span>
+
+<div class="viewcode-block" id="ChatLlamaCpp.with_structured_output">
+<a class="viewcode-back" href="../../../community/chat_models/langchain_community.chat_models.llamacpp.ChatLlamaCpp.html#langchain_community.chat_models.llamacpp.ChatLlamaCpp.with_structured_output">[docs]</a>
+    <span class="k">def</span> <span class="nf">with_structured_output</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">schema</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">Dict</span><span class="p">,</span> <span class="n">Type</span><span class="p">[</span><span class="n">BaseModel</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="o">*</span><span class="p">,</span>
@@ -662,7 +670,7 @@ document.write(`
 <span class="sd">            .. code-block:: python</span>
 
 <span class="sd">                from langchain_community.chat_models import ChatLlamaCpp</span>
-<span class="sd">                from langchain_core.pydantic_v1 import BaseModel</span>
+<span class="sd">                from pydantic import BaseModel</span>
 
 <span class="sd">                class AnswerWithJustification(BaseModel):</span>
 <span class="sd">                    '''An answer to the user question along with justification for the answer.'''</span>
@@ -694,7 +702,7 @@ document.write(`
 <span class="sd">            .. code-block:: python</span>
 
 <span class="sd">                from langchain_community.chat_models import ChatLlamaCpp</span>
-<span class="sd">                from langchain_core.pydantic_v1 import BaseModel</span>
+<span class="sd">                from pydantic import BaseModel</span>
 
 <span class="sd">                class AnswerWithJustification(BaseModel):</span>
 <span class="sd">                    '''An answer to the user question along with justification for the answer.'''</span>
@@ -726,7 +734,7 @@ document.write(`
 <span class="sd">            .. code-block:: python</span>
 
 <span class="sd">                from langchain_community.chat_models import ChatLlamaCpp</span>
-<span class="sd">                from langchain_core.pydantic_v1 import BaseModel</span>
+<span class="sd">                from pydantic import BaseModel</span>
 <span class="sd">                from langchain_core.utils.function_calling import convert_to_openai_tool</span>
 
 <span class="sd">                class AnswerWithJustification(BaseModel):</span>
@@ -788,6 +796,7 @@ document.write(`
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">llm</span> <span class="o">|</span> <span class="n">output_parser</span></div>
 
+
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">_identifying_params</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">"""Return a dictionary of identifying parameters.</span>
@@ -824,6 +833,7 @@ document.write(`
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">grammar</span><span class="p">:</span>
             <span class="n">params</span><span class="p">[</span><span class="s2">"grammar"</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grammar</span>
         <span class="k">return</span> <span class="n">params</span></div>
+
 
 
 <span class="k">def</span> <span class="nf">_lc_tool_call_to_openai_tool_call</span><span class="p">(</span><span class="n">tool_call</span><span class="p">:</span> <span class="n">ToolCall</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>

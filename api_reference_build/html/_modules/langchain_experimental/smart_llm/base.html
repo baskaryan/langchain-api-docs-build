@@ -1,7 +1,7 @@
 
 <!DOCTYPE html>
 
-<html data-content_root="" lang="en">
+<html data-content_root="../../../" lang="en">
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
@@ -18,27 +18,27 @@
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" rel="preload" type="font/woff2"/>
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" rel="preload" type="font/woff2"/>
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" rel="preload" type="font/woff2"/>
-<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css?v=a746c00c" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/autodoc_pydantic.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/sphinx-design.4cbf315f70debaebd550c87a6162cf0f.min.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/css/custom.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/copybutton.css?v=76b2166b" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/sphinx-design.min.css?v=95c83b7e" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/css/custom.css?v=b95e2228" rel="stylesheet" type="text/css"/>
 <!-- Pre-loaded scripts that we'll load fully later -->
 <link as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
 <link as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
 <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-<script src="../../../_static/doctools.js"></script>
-<script src="../../../_static/sphinx_highlight.js"></script>
-<script src="../../../_static/clipboard.min.js"></script>
-<script src="../../../_static/copybutton.js"></script>
-<script src="../../../_static/design-tabs.js"></script>
+<script src="../../../_static/documentation_options.js?v=3b5cce75"></script>
+<script src="../../../_static/doctools.js?v=9a2dae69"></script>
+<script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+<script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+<script src="../../../_static/copybutton.js?v=f281be69"></script>
+<script src="../../../_static/design-tabs.js?v=f930bc37"></script>
 <script>DOCUMENTATION_OPTIONS.pagename = '_modules/langchain_experimental/smart_llm/base';</script>
 <link href="../../../_static/favicon.png" rel="icon"/>
 <link href="../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Sep 13, 2024" name="docbuild:last-update"/>
+<meta content="Sep 16, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -243,11 +243,12 @@ document.write(`
     <span class="n">ChatPromptTemplate</span><span class="p">,</span>
     <span class="n">HumanMessagePromptTemplate</span><span class="p">,</span>
 <span class="p">)</span>
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">ConfigDict</span><span class="p">,</span> <span class="n">model_validator</span>
 
-<span class="kn">from</span> <span class="nn">langchain_experimental.pydantic_v1</span> <span class="kn">import</span> <span class="n">root_validator</span>
 
-
-<div class="viewcode-block" id="SmartLLMChain"><a class="viewcode-back" href="../../../experimental/smart_llm/langchain_experimental.smart_llm.base.SmartLLMChain.html#langchain_experimental.smart_llm.base.SmartLLMChain">[docs]</a><span class="k">class</span> <span class="nc">SmartLLMChain</span><span class="p">(</span><span class="n">Chain</span><span class="p">):</span>
+<div class="viewcode-block" id="SmartLLMChain">
+<a class="viewcode-back" href="../../../experimental/smart_llm/langchain_experimental.smart_llm.base.SmartLLMChain.html#langchain_experimental.smart_llm.base.SmartLLMChain">[docs]</a>
+<span class="k">class</span> <span class="nc">SmartLLMChain</span><span class="p">(</span><span class="n">Chain</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Chain for applying self-critique using the SmartGPT workflow.</span>
 
 <span class="sd">    See details at https://youtu.be/wVzuvf9D9BU</span>
@@ -270,7 +271,9 @@ document.write(`
 <span class="sd">    Finally, a SmartLLMChain assumes that each underlying LLM outputs exactly 1 result.</span>
 <span class="sd">    """</span>
 
-<div class="viewcode-block" id="SmartLLMChain.SmartLLMChainHistory"><a class="viewcode-back" href="../../../experimental/smart_llm/langchain_experimental.smart_llm.base.SmartLLMChain.html#langchain_experimental.smart_llm.base.SmartLLMChain.SmartLLMChainHistory">[docs]</a>    <span class="k">class</span> <span class="nc">SmartLLMChainHistory</span><span class="p">:</span>
+<div class="viewcode-block" id="SmartLLMChain.SmartLLMChainHistory">
+<a class="viewcode-back" href="../../../experimental/smart_llm/langchain_experimental.smart_llm.base.SmartLLMChain.html#langchain_experimental.smart_llm.base.SmartLLMChain.SmartLLMChainHistory">[docs]</a>
+    <span class="k">class</span> <span class="nc">SmartLLMChainHistory</span><span class="p">:</span>
         <span class="n">question</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span>
         <span class="n">ideas</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">critique</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span>
@@ -279,21 +282,31 @@ document.write(`
         <span class="k">def</span> <span class="nf">n_ideas</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
             <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ideas</span><span class="p">)</span>
 
-<div class="viewcode-block" id="SmartLLMChain.SmartLLMChainHistory.ideation_prompt_inputs"><a class="viewcode-back" href="../../../experimental/smart_llm/langchain_experimental.smart_llm.base.SmartLLMChain.html#langchain_experimental.smart_llm.base.SmartLLMChain.SmartLLMChainHistory.ideation_prompt_inputs">[docs]</a>        <span class="k">def</span> <span class="nf">ideation_prompt_inputs</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<div class="viewcode-block" id="SmartLLMChain.SmartLLMChainHistory.ideation_prompt_inputs">
+<a class="viewcode-back" href="../../../experimental/smart_llm/langchain_experimental.smart_llm.base.SmartLLMChain.html#langchain_experimental.smart_llm.base.SmartLLMChain.SmartLLMChainHistory.ideation_prompt_inputs">[docs]</a>
+        <span class="k">def</span> <span class="nf">ideation_prompt_inputs</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
             <span class="k">return</span> <span class="p">{</span><span class="s2">"question"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">question</span><span class="p">}</span></div>
 
-<div class="viewcode-block" id="SmartLLMChain.SmartLLMChainHistory.critique_prompt_inputs"><a class="viewcode-back" href="../../../experimental/smart_llm/langchain_experimental.smart_llm.base.SmartLLMChain.html#langchain_experimental.smart_llm.base.SmartLLMChain.SmartLLMChainHistory.critique_prompt_inputs">[docs]</a>        <span class="k">def</span> <span class="nf">critique_prompt_inputs</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+
+<div class="viewcode-block" id="SmartLLMChain.SmartLLMChainHistory.critique_prompt_inputs">
+<a class="viewcode-back" href="../../../experimental/smart_llm/langchain_experimental.smart_llm.base.SmartLLMChain.html#langchain_experimental.smart_llm.base.SmartLLMChain.SmartLLMChainHistory.critique_prompt_inputs">[docs]</a>
+        <span class="k">def</span> <span class="nf">critique_prompt_inputs</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
             <span class="k">return</span> <span class="p">{</span>
                 <span class="s2">"question"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">question</span><span class="p">,</span>
                 <span class="o">**</span><span class="p">{</span><span class="sa">f</span><span class="s2">"idea_</span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">"</span><span class="p">:</span> <span class="n">idea</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">idea</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ideas</span><span class="p">)},</span>
             <span class="p">}</span></div>
 
-<div class="viewcode-block" id="SmartLLMChain.SmartLLMChainHistory.resolve_prompt_inputs"><a class="viewcode-back" href="../../../experimental/smart_llm/langchain_experimental.smart_llm.base.SmartLLMChain.html#langchain_experimental.smart_llm.base.SmartLLMChain.SmartLLMChainHistory.resolve_prompt_inputs">[docs]</a>        <span class="k">def</span> <span class="nf">resolve_prompt_inputs</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+
+<div class="viewcode-block" id="SmartLLMChain.SmartLLMChainHistory.resolve_prompt_inputs">
+<a class="viewcode-back" href="../../../experimental/smart_llm/langchain_experimental.smart_llm.base.SmartLLMChain.html#langchain_experimental.smart_llm.base.SmartLLMChain.SmartLLMChainHistory.resolve_prompt_inputs">[docs]</a>
+        <span class="k">def</span> <span class="nf">resolve_prompt_inputs</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
             <span class="k">return</span> <span class="p">{</span>
                 <span class="s2">"question"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">question</span><span class="p">,</span>
                 <span class="o">**</span><span class="p">{</span><span class="sa">f</span><span class="s2">"idea_</span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">"</span><span class="p">:</span> <span class="n">idea</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">idea</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ideas</span><span class="p">)},</span>
                 <span class="s2">"critique"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">critique</span><span class="p">,</span>
-            <span class="p">}</span></div></div>
+            <span class="p">}</span></div>
+</div>
+
 
     <span class="n">prompt</span><span class="p">:</span> <span class="n">BasePromptTemplate</span>
 <span class="w">    </span><span class="sd">"""Prompt object to use."""</span>
@@ -312,14 +325,13 @@ document.write(`
 <span class="w">    </span><span class="sd">"""Whether to return ideas and critique, in addition to resolution."""</span>
     <span class="n">history</span><span class="p">:</span> <span class="n">SmartLLMChainHistory</span> <span class="o">=</span> <span class="n">SmartLLMChainHistory</span><span class="p">()</span>
 
-    <span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
-        <span class="n">extra</span> <span class="o">=</span> <span class="s2">"forbid"</span>
+    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span>
+        <span class="n">extra</span><span class="o">=</span><span class="s2">"forbid"</span><span class="p">,</span>
+    <span class="p">)</span>
 
-    <span class="c1"># TODO: move away from `root_validator` since it is deprecated in pydantic v2</span>
-    <span class="c1">#       and causes mypy type-checking failures (hence the `type: ignore`)</span>
-    <span class="nd">@root_validator</span>  <span class="c1"># type: ignore[call-overload]</span>
+    <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">"before"</span><span class="p">)</span>
     <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">validate_inputs</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">validate_inputs</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Ensure we have an LLM for each step."""</span>
         <span class="n">llm</span> <span class="o">=</span> <span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"llm"</span><span class="p">)</span>
         <span class="n">ideation_llm</span> <span class="o">=</span> <span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"ideation_llm"</span><span class="p">)</span>
@@ -367,7 +379,9 @@ document.write(`
             <span class="k">return</span> <span class="p">[</span><span class="s2">"ideas"</span><span class="p">,</span> <span class="s2">"critique"</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_key</span><span class="p">]</span>
         <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">output_key</span><span class="p">]</span>
 
-<div class="viewcode-block" id="SmartLLMChain.prep_prompts"><a class="viewcode-back" href="../../../experimental/smart_llm/langchain_experimental.smart_llm.base.SmartLLMChain.html#langchain_experimental.smart_llm.base.SmartLLMChain.prep_prompts">[docs]</a>    <span class="k">def</span> <span class="nf">prep_prompts</span><span class="p">(</span>
+<div class="viewcode-block" id="SmartLLMChain.prep_prompts">
+<a class="viewcode-back" href="../../../experimental/smart_llm/langchain_experimental.smart_llm.base.SmartLLMChain.html#langchain_experimental.smart_llm.base.SmartLLMChain.prep_prompts">[docs]</a>
+    <span class="k">def</span> <span class="nf">prep_prompts</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">inputs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
         <span class="n">run_manager</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">CallbackManagerForChainRun</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -387,6 +401,7 @@ document.write(`
                 <span class="s2">"If `stop` is present in any inputs, should be present in all."</span>
             <span class="p">)</span>
         <span class="k">return</span> <span class="n">prompt</span><span class="p">,</span> <span class="n">stop</span></div>
+
 
     <span class="k">def</span> <span class="nf">_call</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -420,7 +435,9 @@ document.write(`
             <span class="p">)</span>
         <span class="k">return</span> <span class="n">result</span><span class="o">.</span><span class="n">generations</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">text</span>
 
-<div class="viewcode-block" id="SmartLLMChain.get_prompt_strings"><a class="viewcode-back" href="../../../experimental/smart_llm/langchain_experimental.smart_llm.base.SmartLLMChain.html#langchain_experimental.smart_llm.base.SmartLLMChain.get_prompt_strings">[docs]</a>    <span class="k">def</span> <span class="nf">get_prompt_strings</span><span class="p">(</span>
+<div class="viewcode-block" id="SmartLLMChain.get_prompt_strings">
+<a class="viewcode-back" href="../../../experimental/smart_llm/langchain_experimental.smart_llm.base.SmartLLMChain.html#langchain_experimental.smart_llm.base.SmartLLMChain.get_prompt_strings">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_prompt_strings</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">stage</span><span class="p">:</span> <span class="nb">str</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Type</span><span class="p">[</span><span class="n">BaseMessagePromptTemplate</span><span class="p">],</span> <span class="nb">str</span><span class="p">]]:</span>
         <span class="n">role_strings</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Type</span><span class="p">[</span><span class="n">BaseMessagePromptTemplate</span><span class="p">],</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
@@ -474,14 +491,24 @@ document.write(`
             <span class="sa">f</span><span class="s2">" but it is '</span><span class="si">{</span><span class="n">stage</span><span class="si">}</span><span class="s2">'. This should never happen."</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="SmartLLMChain.ideation_prompt"><a class="viewcode-back" href="../../../experimental/smart_llm/langchain_experimental.smart_llm.base.SmartLLMChain.html#langchain_experimental.smart_llm.base.SmartLLMChain.ideation_prompt">[docs]</a>    <span class="k">def</span> <span class="nf">ideation_prompt</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ChatPromptTemplate</span><span class="p">:</span>
+
+<div class="viewcode-block" id="SmartLLMChain.ideation_prompt">
+<a class="viewcode-back" href="../../../experimental/smart_llm/langchain_experimental.smart_llm.base.SmartLLMChain.html#langchain_experimental.smart_llm.base.SmartLLMChain.ideation_prompt">[docs]</a>
+    <span class="k">def</span> <span class="nf">ideation_prompt</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ChatPromptTemplate</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">ChatPromptTemplate</span><span class="o">.</span><span class="n">from_strings</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_prompt_strings</span><span class="p">(</span><span class="s2">"ideation"</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="SmartLLMChain.critique_prompt"><a class="viewcode-back" href="../../../experimental/smart_llm/langchain_experimental.smart_llm.base.SmartLLMChain.html#langchain_experimental.smart_llm.base.SmartLLMChain.critique_prompt">[docs]</a>    <span class="k">def</span> <span class="nf">critique_prompt</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ChatPromptTemplate</span><span class="p">:</span>
+
+<div class="viewcode-block" id="SmartLLMChain.critique_prompt">
+<a class="viewcode-back" href="../../../experimental/smart_llm/langchain_experimental.smart_llm.base.SmartLLMChain.html#langchain_experimental.smart_llm.base.SmartLLMChain.critique_prompt">[docs]</a>
+    <span class="k">def</span> <span class="nf">critique_prompt</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ChatPromptTemplate</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">ChatPromptTemplate</span><span class="o">.</span><span class="n">from_strings</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_prompt_strings</span><span class="p">(</span><span class="s2">"critique"</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="SmartLLMChain.resolve_prompt"><a class="viewcode-back" href="../../../experimental/smart_llm/langchain_experimental.smart_llm.base.SmartLLMChain.html#langchain_experimental.smart_llm.base.SmartLLMChain.resolve_prompt">[docs]</a>    <span class="k">def</span> <span class="nf">resolve_prompt</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ChatPromptTemplate</span><span class="p">:</span>
+
+<div class="viewcode-block" id="SmartLLMChain.resolve_prompt">
+<a class="viewcode-back" href="../../../experimental/smart_llm/langchain_experimental.smart_llm.base.SmartLLMChain.html#langchain_experimental.smart_llm.base.SmartLLMChain.resolve_prompt">[docs]</a>
+    <span class="k">def</span> <span class="nf">resolve_prompt</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ChatPromptTemplate</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">ChatPromptTemplate</span><span class="o">.</span><span class="n">from_strings</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_prompt_strings</span><span class="p">(</span><span class="s2">"resolve"</span><span class="p">))</span></div>
+
 
     <span class="k">def</span> <span class="nf">_ideate</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -556,6 +583,7 @@ document.write(`
             <span class="k">return</span> <span class="n">resolution</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"llm is none, which should never happen"</span><span class="p">)</span></div>
+
 </pre></div>
 </article>
 </div>

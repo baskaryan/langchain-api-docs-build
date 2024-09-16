@@ -1,7 +1,7 @@
 
 <!DOCTYPE html>
 
-<html data-content_root="" lang="en">
+<html data-content_root="../../../" lang="en">
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
@@ -18,27 +18,27 @@
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" rel="preload" type="font/woff2"/>
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" rel="preload" type="font/woff2"/>
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" rel="preload" type="font/woff2"/>
-<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css?v=a746c00c" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/autodoc_pydantic.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/sphinx-design.4cbf315f70debaebd550c87a6162cf0f.min.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/css/custom.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/copybutton.css?v=76b2166b" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/sphinx-design.min.css?v=95c83b7e" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/css/custom.css?v=b95e2228" rel="stylesheet" type="text/css"/>
 <!-- Pre-loaded scripts that we'll load fully later -->
 <link as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
 <link as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
 <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-<script src="../../../_static/doctools.js"></script>
-<script src="../../../_static/sphinx_highlight.js"></script>
-<script src="../../../_static/clipboard.min.js"></script>
-<script src="../../../_static/copybutton.js"></script>
-<script src="../../../_static/design-tabs.js"></script>
+<script src="../../../_static/documentation_options.js?v=3b5cce75"></script>
+<script src="../../../_static/doctools.js?v=9a2dae69"></script>
+<script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+<script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+<script src="../../../_static/copybutton.js?v=f281be69"></script>
+<script src="../../../_static/design-tabs.js?v=f930bc37"></script>
 <script>DOCUMENTATION_OPTIONS.pagename = '_modules/langchain_box/utilities/box';</script>
 <link href="../../../_static/favicon.png" rel="icon"/>
 <link href="../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Sep 13, 2024" name="docbuild:last-update"/>
+<meta content="Sep 16, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -235,11 +235,14 @@ document.write(`
 <span class="kn">import</span> <span class="nn">box_sdk_gen</span>  <span class="c1"># type: ignore</span>
 <span class="kn">import</span> <span class="nn">requests</span>
 <span class="kn">from</span> <span class="nn">langchain_core.documents</span> <span class="kn">import</span> <span class="n">Document</span>
-<span class="kn">from</span> <span class="nn">langchain_core.pydantic_v1</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">root_validator</span>
-<span class="kn">from</span> <span class="nn">langchain_core.utils</span> <span class="kn">import</span> <span class="n">get_from_dict_or_env</span>
+<span class="kn">from</span> <span class="nn">langchain_core.utils</span> <span class="kn">import</span> <span class="n">from_env</span>
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">ConfigDict</span><span class="p">,</span> <span class="n">Field</span><span class="p">,</span> <span class="n">model_validator</span>
+<span class="kn">from</span> <span class="nn">typing_extensions</span> <span class="kn">import</span> <span class="n">Self</span>
 
 
-<div class="viewcode-block" id="DocumentFiles"><a class="viewcode-back" href="../../../box/utilities/langchain_box.utilities.box.DocumentFiles.html#langchain_box.utilities.box.DocumentFiles">[docs]</a><span class="k">class</span> <span class="nc">DocumentFiles</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+<div class="viewcode-block" id="DocumentFiles">
+<a class="viewcode-back" href="../../../box/utilities/langchain_box.utilities.box.DocumentFiles.html#langchain_box.utilities.box.DocumentFiles">[docs]</a>
+<span class="k">class</span> <span class="nc">DocumentFiles</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""DocumentFiles(Enum).</span>
 
 <span class="sd">    An enum containing all of the supported extensions for files</span>
@@ -324,7 +327,10 @@ document.write(`
     <span class="n">BOXNOTE</span> <span class="o">=</span> <span class="s2">"boxnote"</span></div>
 
 
-<div class="viewcode-block" id="ImageFiles"><a class="viewcode-back" href="../../../box/utilities/langchain_box.utilities.box.ImageFiles.html#langchain_box.utilities.box.ImageFiles">[docs]</a><span class="k">class</span> <span class="nc">ImageFiles</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ImageFiles">
+<a class="viewcode-back" href="../../../box/utilities/langchain_box.utilities.box.ImageFiles.html#langchain_box.utilities.box.ImageFiles">[docs]</a>
+<span class="k">class</span> <span class="nc">ImageFiles</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""ImageFiles(Enum).</span>
 
 <span class="sd">    An enum containing all of the supported extensions for files</span>
@@ -357,7 +363,10 @@ document.write(`
     <span class="n">SVS</span> <span class="o">=</span> <span class="s2">"svs"</span></div>
 
 
-<div class="viewcode-block" id="BoxAuthType"><a class="viewcode-back" href="../../../box/utilities/langchain_box.utilities.box.BoxAuthType.html#langchain_box.utilities.box.BoxAuthType">[docs]</a><span class="k">class</span> <span class="nc">BoxAuthType</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+
+<div class="viewcode-block" id="BoxAuthType">
+<a class="viewcode-back" href="../../../box/utilities/langchain_box.utilities.box.BoxAuthType.html#langchain_box.utilities.box.BoxAuthType">[docs]</a>
+<span class="k">class</span> <span class="nc">BoxAuthType</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""BoxAuthType(Enum).</span>
 
 <span class="sd">    an enum to tell BoxLoader how you wish to autheticate your Box connection.</span>
@@ -386,7 +395,10 @@ document.write(`
 <span class="w">    </span><span class="sd">"""Use JWT bearer token auth"""</span></div>
 
 
-<div class="viewcode-block" id="BoxAuth"><a class="viewcode-back" href="../../../box/utilities/langchain_box.utilities.box.BoxAuth.html#langchain_box.utilities.box.BoxAuth">[docs]</a><span class="k">class</span> <span class="nc">BoxAuth</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+
+<div class="viewcode-block" id="BoxAuth">
+<a class="viewcode-back" href="../../../box/utilities/langchain_box.utilities.box.BoxAuth.html#langchain_box.utilities.box.BoxAuth">[docs]</a>
+<span class="k">class</span> <span class="nc">BoxAuth</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""**BoxAuth.**</span>
 
 <span class="sd">    The ``box-langchain`` package offers some flexibility to authentication. The</span>
@@ -541,17 +553,25 @@ document.write(`
 <span class="w">    </span><span class="sd">"""``langchain_box.utilities.BoxAuthType``. Enum describing how to</span>
 <span class="sd">       authenticate against Box"""</span>
 
-    <span class="n">box_developer_token</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">box_developer_token</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">default_factory</span><span class="o">=</span><span class="n">from_env</span><span class="p">(</span><span class="s2">"BOX_DEVELOPER_TOKEN"</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="p">)</span>
 <span class="w">    </span><span class="sd">""" If using ``BoxAuthType.TOKEN``, provide your token here"""</span>
 
-    <span class="n">box_jwt_path</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">box_jwt_path</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">default_factory</span><span class="o">=</span><span class="n">from_env</span><span class="p">(</span><span class="s2">"BOX_JWT_PATH"</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="p">)</span>
 <span class="w">    </span><span class="sd">"""If using ``BoxAuthType.JWT``, provide local path to your</span>
 <span class="sd">       JWT configuration file"""</span>
 
-    <span class="n">box_client_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">box_client_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">default_factory</span><span class="o">=</span><span class="n">from_env</span><span class="p">(</span><span class="s2">"BOX_CLIENT_ID"</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="p">)</span>
 <span class="w">    </span><span class="sd">"""If using ``BoxAuthType.CCG``, provide your app's client ID"""</span>
 
-    <span class="n">box_client_secret</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">box_client_secret</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">default_factory</span><span class="o">=</span><span class="n">from_env</span><span class="p">(</span><span class="s2">"BOX_CLIENT_SECRET"</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="p">)</span>
 <span class="w">    </span><span class="sd">"""If using ``BoxAuthType.CCG``, provide your app's client secret"""</span>
 
     <span class="n">box_enterprise_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
@@ -565,150 +585,141 @@ document.write(`
     <span class="n">_box_client</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">box_sdk_gen</span><span class="o">.</span><span class="n">BoxClient</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">_custom_header</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">({</span><span class="s2">"x-box-ai-library"</span><span class="p">:</span> <span class="s2">"langchain"</span><span class="p">})</span>
 
-    <span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
-        <span class="n">arbitrary_types_allowed</span> <span class="o">=</span> <span class="kc">True</span>
-        <span class="n">use_enum_values</span> <span class="o">=</span> <span class="kc">True</span>
-        <span class="n">extra</span> <span class="o">=</span> <span class="s2">"allow"</span>
+    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span>
+        <span class="n">arbitrary_types_allowed</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">use_enum_values</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">extra</span><span class="o">=</span><span class="s2">"allow"</span><span class="p">,</span>
+    <span class="p">)</span>
 
-    <span class="nd">@root_validator</span><span class="p">()</span>
-    <span class="k">def</span> <span class="nf">validate_box_auth_inputs</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+    <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">"after"</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">validate_box_auth_inputs</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Validate auth_type is set"""</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"auth_type"</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">auth_type</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Auth type must be set."</span><span class="p">)</span>
 
 <span class="w">        </span><span class="sd">"""Validate that TOKEN auth type provides box_developer_token."""</span>
-        <span class="k">if</span> <span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"auth_type"</span><span class="p">)</span> <span class="o">==</span> <span class="s2">"token"</span><span class="p">:</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">get_from_dict_or_env</span><span class="p">(</span>
-                <span class="n">values</span><span class="p">,</span> <span class="s2">"box_developer_token"</span><span class="p">,</span> <span class="s2">"BOX_DEVELOPER_TOKEN"</span>
-            <span class="p">):</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'auth_type'</span><span class="p">)</span><span class="si">}</span><span class="s2"> requires box_developer_token to be set"</span>
-                <span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">auth_type</span> <span class="o">==</span> <span class="s2">"token"</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">box_developer_token</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">auth_type</span><span class="si">}</span><span class="s2"> requires box_developer_token to be set"</span><span class="p">)</span>
 
 <span class="w">        </span><span class="sd">"""Validate that JWT auth type provides box_jwt_path."""</span>
-        <span class="k">if</span> <span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"auth_type"</span><span class="p">)</span> <span class="o">==</span> <span class="s2">"jwt"</span><span class="p">:</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">get_from_dict_or_env</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="s2">"box_jwt_path"</span><span class="p">,</span> <span class="s2">"BOX_JWT_PATH"</span><span class="p">):</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'auth_type'</span><span class="p">)</span><span class="si">}</span><span class="s2"> requires box_jwt_path to be set"</span>
-                <span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">auth_type</span> <span class="o">==</span> <span class="s2">"jwt"</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">box_jwt_path</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">auth_type</span><span class="si">}</span><span class="s2"> requires box_jwt_path to be set"</span><span class="p">)</span>
 
 <span class="w">        </span><span class="sd">"""Validate that CCG auth type provides box_client_id and</span>
 <span class="sd">           box_client_secret and either box_enterprise_id or box_user_id."""</span>
-        <span class="k">if</span> <span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"auth_type"</span><span class="p">)</span> <span class="o">==</span> <span class="s2">"ccg"</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">auth_type</span> <span class="o">==</span> <span class="s2">"ccg"</span><span class="p">:</span>
             <span class="k">if</span> <span class="p">(</span>
-                <span class="ow">not</span> <span class="n">get_from_dict_or_env</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="s2">"box_client_id"</span><span class="p">,</span> <span class="s2">"BOX_CLIENT_ID"</span><span class="p">)</span>
-                <span class="ow">or</span> <span class="ow">not</span> <span class="n">get_from_dict_or_env</span><span class="p">(</span>
-                    <span class="n">values</span><span class="p">,</span> <span class="s2">"box_client_secret"</span><span class="p">,</span> <span class="s2">"BOX_CLIENT_SECRET"</span>
-                <span class="p">)</span>
-                <span class="ow">or</span> <span class="p">(</span>
-                    <span class="ow">not</span> <span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"box_enterprise_id"</span><span class="p">)</span>
-                    <span class="ow">and</span> <span class="ow">not</span> <span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"box_user_id"</span><span class="p">)</span>
-                <span class="p">)</span>
+                <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">box_client_id</span>
+                <span class="ow">or</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">box_client_secret</span>
+                <span class="ow">or</span> <span class="p">(</span><span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">box_enterprise_id</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">box_user_id</span><span class="p">)</span>
             <span class="p">):</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'auth_type'</span><span class="p">)</span><span class="si">}</span><span class="s2"> requires box_client_id, </span><span class="se">\</span>
-<span class="s2">                        box_client_secret, and box_enterprise_id."</span>
+                    <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">auth_type</span><span class="si">}</span><span class="s2"> requires box_client_id, </span><span class="se">\</span>
+<span class="s2">                        box_client_secret, and box_enterprise_id/box_user_id."</span>
                 <span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">values</span>
+        <span class="k">return</span> <span class="bp">self</span>
 
     <span class="k">def</span> <span class="nf">_authorize</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">match</span> <span class="bp">self</span><span class="o">.</span><span class="n">auth_type</span><span class="p">:</span>
-            <span class="k">case</span> <span class="s2">"token"</span><span class="p">:</span>
-                <span class="k">try</span><span class="p">:</span>
-                    <span class="n">auth</span> <span class="o">=</span> <span class="n">box_sdk_gen</span><span class="o">.</span><span class="n">BoxDeveloperTokenAuth</span><span class="p">(</span>
-                        <span class="n">token</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">box_developer_token</span>
-                    <span class="p">)</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">_box_client</span> <span class="o">=</span> <span class="n">box_sdk_gen</span><span class="o">.</span><span class="n">BoxClient</span><span class="p">(</span>
-                        <span class="n">auth</span><span class="o">=</span><span class="n">auth</span>
-                    <span class="p">)</span><span class="o">.</span><span class="n">with_extra_headers</span><span class="p">(</span><span class="n">extra_headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_custom_header</span><span class="p">)</span>
-
-                <span class="k">except</span> <span class="n">box_sdk_gen</span><span class="o">.</span><span class="n">BoxSDKError</span> <span class="k">as</span> <span class="n">bse</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
-                        <span class="sa">f</span><span class="s2">"Error getting client from developer token: </span><span class="si">{</span><span class="n">bse</span><span class="o">.</span><span class="n">message</span><span class="si">}</span><span class="s2">"</span>
-                    <span class="p">)</span>
-                <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                        <span class="sa">f</span><span class="s2">"Invalid Box developer token. Please verify your </span><span class="se">\</span>
-<span class="s2">                            token and try again.</span><span class="se">\n</span><span class="si">{</span><span class="n">ex</span><span class="si">}</span><span class="s2">"</span>
-                    <span class="p">)</span> <span class="kn">from</span> <span class="nn">ex</span>
-
-            <span class="k">case</span> <span class="s2">"jwt"</span><span class="p">:</span>
-                <span class="k">try</span><span class="p">:</span>
-                    <span class="n">jwt_config</span> <span class="o">=</span> <span class="n">box_sdk_gen</span><span class="o">.</span><span class="n">JWTConfig</span><span class="o">.</span><span class="n">from_config_file</span><span class="p">(</span>
-                        <span class="n">config_file_path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">box_jwt_path</span>
-                    <span class="p">)</span>
-                    <span class="n">auth</span> <span class="o">=</span> <span class="n">box_sdk_gen</span><span class="o">.</span><span class="n">BoxJWTAuth</span><span class="p">(</span><span class="n">config</span><span class="o">=</span><span class="n">jwt_config</span><span class="p">)</span>
-
-                    <span class="bp">self</span><span class="o">.</span><span class="n">_box_client</span> <span class="o">=</span> <span class="n">box_sdk_gen</span><span class="o">.</span><span class="n">BoxClient</span><span class="p">(</span>
-                        <span class="n">auth</span><span class="o">=</span><span class="n">auth</span>
-                    <span class="p">)</span><span class="o">.</span><span class="n">with_extra_headers</span><span class="p">(</span><span class="n">extra_headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_custom_header</span><span class="p">)</span>
-
-                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">box_user_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                        <span class="n">user_auth</span> <span class="o">=</span> <span class="n">auth</span><span class="o">.</span><span class="n">with_user_subject</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">box_user_id</span><span class="p">)</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">_box_client</span> <span class="o">=</span> <span class="n">box_sdk_gen</span><span class="o">.</span><span class="n">BoxClient</span><span class="p">(</span>
-                            <span class="n">auth</span><span class="o">=</span><span class="n">user_auth</span>
-                        <span class="p">)</span><span class="o">.</span><span class="n">with_extra_headers</span><span class="p">(</span><span class="n">extra_headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_custom_header</span><span class="p">)</span>
-
-                <span class="k">except</span> <span class="n">box_sdk_gen</span><span class="o">.</span><span class="n">BoxSDKError</span> <span class="k">as</span> <span class="n">bse</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
-                        <span class="sa">f</span><span class="s2">"Error getting client from jwt token: </span><span class="si">{</span><span class="n">bse</span><span class="o">.</span><span class="n">message</span><span class="si">}</span><span class="s2">"</span>
-                    <span class="p">)</span>
-                <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                        <span class="s2">"Error authenticating. Please verify your JWT config </span><span class="se">\</span>
-<span class="s2">                            and try again."</span>
-                    <span class="p">)</span> <span class="kn">from</span> <span class="nn">ex</span>
-
-            <span class="k">case</span> <span class="s2">"ccg"</span><span class="p">:</span>
-                <span class="k">try</span><span class="p">:</span>
-                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">box_user_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                        <span class="n">ccg_config</span> <span class="o">=</span> <span class="n">box_sdk_gen</span><span class="o">.</span><span class="n">CCGConfig</span><span class="p">(</span>
-                            <span class="n">client_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">box_client_id</span><span class="p">,</span>
-                            <span class="n">client_secret</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">box_client_secret</span><span class="p">,</span>
-                            <span class="n">user_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">box_user_id</span><span class="p">,</span>
-                        <span class="p">)</span>
-                    <span class="k">else</span><span class="p">:</span>
-                        <span class="n">ccg_config</span> <span class="o">=</span> <span class="n">box_sdk_gen</span><span class="o">.</span><span class="n">CCGConfig</span><span class="p">(</span>
-                            <span class="n">client_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">box_client_id</span><span class="p">,</span>
-                            <span class="n">client_secret</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">box_client_secret</span><span class="p">,</span>
-                            <span class="n">enterprise_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">box_enterprise_id</span><span class="p">,</span>
-                        <span class="p">)</span>
-                    <span class="n">auth</span> <span class="o">=</span> <span class="n">box_sdk_gen</span><span class="o">.</span><span class="n">BoxCCGAuth</span><span class="p">(</span><span class="n">config</span><span class="o">=</span><span class="n">ccg_config</span><span class="p">)</span>
-
-                    <span class="bp">self</span><span class="o">.</span><span class="n">_box_client</span> <span class="o">=</span> <span class="n">box_sdk_gen</span><span class="o">.</span><span class="n">BoxClient</span><span class="p">(</span>
-                        <span class="n">auth</span><span class="o">=</span><span class="n">auth</span>
-                    <span class="p">)</span><span class="o">.</span><span class="n">with_extra_headers</span><span class="p">(</span><span class="n">extra_headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_custom_header</span><span class="p">)</span>
-
-                <span class="k">except</span> <span class="n">box_sdk_gen</span><span class="o">.</span><span class="n">BoxSDKError</span> <span class="k">as</span> <span class="n">bse</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
-                        <span class="sa">f</span><span class="s2">"Error getting client from ccg token: </span><span class="si">{</span><span class="n">bse</span><span class="o">.</span><span class="n">message</span><span class="si">}</span><span class="s2">"</span>
-                    <span class="p">)</span>
-                <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                        <span class="s2">"Error authenticating. Please verify you are providing a </span><span class="se">\</span>
-<span class="s2">                            valid client id, secret and either a valid user ID or </span><span class="se">\</span>
-<span class="s2">                                enterprise ID."</span>
-                    <span class="p">)</span> <span class="kn">from</span> <span class="nn">ex</span>
-
-            <span class="k">case</span><span class="w"> </span><span class="k">_</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">auth_type</span><span class="si">}</span><span class="s2"> is not a valid auth_type. Value must be </span><span class="se">\</span>
-<span class="s2">                TOKEN, CCG, or JWT."</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">auth_type</span> <span class="o">==</span> <span class="s2">"token"</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">auth</span> <span class="o">=</span> <span class="n">box_sdk_gen</span><span class="o">.</span><span class="n">BoxDeveloperTokenAuth</span><span class="p">(</span><span class="n">token</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">box_developer_token</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_box_client</span> <span class="o">=</span> <span class="n">box_sdk_gen</span><span class="o">.</span><span class="n">BoxClient</span><span class="p">(</span><span class="n">auth</span><span class="o">=</span><span class="n">auth</span><span class="p">)</span><span class="o">.</span><span class="n">with_extra_headers</span><span class="p">(</span>
+                    <span class="n">extra_headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_custom_header</span>
                 <span class="p">)</span>
 
-<div class="viewcode-block" id="BoxAuth.get_client"><a class="viewcode-back" href="../../../box/utilities/langchain_box.utilities.box.BoxAuth.html#langchain_box.utilities.box.BoxAuth.get_client">[docs]</a>    <span class="k">def</span> <span class="nf">get_client</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">box_sdk_gen</span><span class="o">.</span><span class="n">BoxClient</span><span class="p">:</span>
+            <span class="k">except</span> <span class="n">box_sdk_gen</span><span class="o">.</span><span class="n">BoxSDKError</span> <span class="k">as</span> <span class="n">bse</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">"Error getting client from developer token: </span><span class="si">{</span><span class="n">bse</span><span class="o">.</span><span class="n">message</span><span class="si">}</span><span class="s2">"</span>
+                <span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">"Invalid Box developer token. Please verify your </span><span class="se">\</span>
+<span class="s2">                        token and try again.</span><span class="se">\n</span><span class="si">{</span><span class="n">ex</span><span class="si">}</span><span class="s2">"</span>
+                <span class="p">)</span> <span class="kn">from</span> <span class="nn">ex</span>
+
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">auth_type</span> <span class="o">==</span> <span class="s2">"jwt"</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">jwt_config</span> <span class="o">=</span> <span class="n">box_sdk_gen</span><span class="o">.</span><span class="n">JWTConfig</span><span class="o">.</span><span class="n">from_config_file</span><span class="p">(</span>
+                    <span class="n">config_file_path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">box_jwt_path</span>
+                <span class="p">)</span>
+                <span class="n">auth</span> <span class="o">=</span> <span class="n">box_sdk_gen</span><span class="o">.</span><span class="n">BoxJWTAuth</span><span class="p">(</span><span class="n">config</span><span class="o">=</span><span class="n">jwt_config</span><span class="p">)</span>
+
+                <span class="bp">self</span><span class="o">.</span><span class="n">_box_client</span> <span class="o">=</span> <span class="n">box_sdk_gen</span><span class="o">.</span><span class="n">BoxClient</span><span class="p">(</span><span class="n">auth</span><span class="o">=</span><span class="n">auth</span><span class="p">)</span><span class="o">.</span><span class="n">with_extra_headers</span><span class="p">(</span>
+                    <span class="n">extra_headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_custom_header</span>
+                <span class="p">)</span>
+
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">box_user_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">user_auth</span> <span class="o">=</span> <span class="n">auth</span><span class="o">.</span><span class="n">with_user_subject</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">box_user_id</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_box_client</span> <span class="o">=</span> <span class="n">box_sdk_gen</span><span class="o">.</span><span class="n">BoxClient</span><span class="p">(</span>
+                        <span class="n">auth</span><span class="o">=</span><span class="n">user_auth</span>
+                    <span class="p">)</span><span class="o">.</span><span class="n">with_extra_headers</span><span class="p">(</span><span class="n">extra_headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_custom_header</span><span class="p">)</span>
+
+            <span class="k">except</span> <span class="n">box_sdk_gen</span><span class="o">.</span><span class="n">BoxSDKError</span> <span class="k">as</span> <span class="n">bse</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">"Error getting client from jwt token: </span><span class="si">{</span><span class="n">bse</span><span class="o">.</span><span class="n">message</span><span class="si">}</span><span class="s2">"</span>
+                <span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">"Error authenticating. Please verify your JWT config </span><span class="se">\</span>
+<span class="s2">                        and try again."</span>
+                <span class="p">)</span> <span class="kn">from</span> <span class="nn">ex</span>
+
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">auth_type</span> <span class="o">==</span> <span class="s2">"ccg"</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">box_user_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">ccg_config</span> <span class="o">=</span> <span class="n">box_sdk_gen</span><span class="o">.</span><span class="n">CCGConfig</span><span class="p">(</span>
+                        <span class="n">client_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">box_client_id</span><span class="p">,</span>
+                        <span class="n">client_secret</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">box_client_secret</span><span class="p">,</span>
+                        <span class="n">user_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">box_user_id</span><span class="p">,</span>
+                    <span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">ccg_config</span> <span class="o">=</span> <span class="n">box_sdk_gen</span><span class="o">.</span><span class="n">CCGConfig</span><span class="p">(</span>
+                        <span class="n">client_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">box_client_id</span><span class="p">,</span>
+                        <span class="n">client_secret</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">box_client_secret</span><span class="p">,</span>
+                        <span class="n">enterprise_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">box_enterprise_id</span><span class="p">,</span>
+                    <span class="p">)</span>
+                <span class="n">auth</span> <span class="o">=</span> <span class="n">box_sdk_gen</span><span class="o">.</span><span class="n">BoxCCGAuth</span><span class="p">(</span><span class="n">config</span><span class="o">=</span><span class="n">ccg_config</span><span class="p">)</span>
+
+                <span class="bp">self</span><span class="o">.</span><span class="n">_box_client</span> <span class="o">=</span> <span class="n">box_sdk_gen</span><span class="o">.</span><span class="n">BoxClient</span><span class="p">(</span><span class="n">auth</span><span class="o">=</span><span class="n">auth</span><span class="p">)</span><span class="o">.</span><span class="n">with_extra_headers</span><span class="p">(</span>
+                    <span class="n">extra_headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_custom_header</span>
+                <span class="p">)</span>
+
+            <span class="k">except</span> <span class="n">box_sdk_gen</span><span class="o">.</span><span class="n">BoxSDKError</span> <span class="k">as</span> <span class="n">bse</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">"Error getting client from ccg token: </span><span class="si">{</span><span class="n">bse</span><span class="o">.</span><span class="n">message</span><span class="si">}</span><span class="s2">"</span>
+                <span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">"Error authenticating. Please verify you are providing a </span><span class="se">\</span>
+<span class="s2">                        valid client id, secret and either a valid user ID or </span><span class="se">\</span>
+<span class="s2">                            enterprise ID."</span>
+                <span class="p">)</span> <span class="kn">from</span> <span class="nn">ex</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">auth_type</span><span class="si">}</span><span class="s2"> is not a valid auth_type. Value must be </span><span class="se">\</span>
+<span class="s2">            TOKEN, CCG, or JWT."</span>
+            <span class="p">)</span>
+
+<div class="viewcode-block" id="BoxAuth.get_client">
+<a class="viewcode-back" href="../../../box/utilities/langchain_box.utilities.box.BoxAuth.html#langchain_box.utilities.box.BoxAuth.get_client">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_client</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">box_sdk_gen</span><span class="o">.</span><span class="n">BoxClient</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Instantiate the Box SDK."""</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_box_client</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_authorize</span><span class="p">()</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_box_client</span></div></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_box_client</span></div>
+</div>
+
 
 
 <span class="k">class</span> <span class="nc">_BoxAPIWrapper</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Wrapper for Box API."""</span>
 
-    <span class="n">box_developer_token</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">box_developer_token</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">default_factory</span><span class="o">=</span><span class="n">from_env</span><span class="p">(</span><span class="s2">"BOX_DEVELOPER_TOKEN"</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="p">)</span>
 <span class="w">    </span><span class="sd">"""String containing the Box Developer Token generated in the developer console"""</span>
 
     <span class="n">box_auth</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">BoxAuth</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
@@ -718,30 +729,29 @@ document.write(`
 <span class="w">    </span><span class="sd">"""character_limit is an int that caps the number of characters to</span>
 <span class="sd">       return per document."""</span>
 
-    <span class="n">_box</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">box_sdk_gen</span><span class="o">.</span><span class="n">BoxClient</span><span class="p">]</span>
+    <span class="n">_box</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">box_sdk_gen</span><span class="o">.</span><span class="n">BoxClient</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 
-    <span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
-        <span class="n">arbitrary_types_allowed</span> <span class="o">=</span> <span class="kc">True</span>
-        <span class="n">use_enum_values</span> <span class="o">=</span> <span class="kc">True</span>
-        <span class="n">extra</span> <span class="o">=</span> <span class="s2">"allow"</span>
+    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span>
+        <span class="n">arbitrary_types_allowed</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">use_enum_values</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">extra</span><span class="o">=</span><span class="s2">"allow"</span><span class="p">,</span>
+    <span class="p">)</span>
 
-    <span class="nd">@root_validator</span><span class="p">(</span><span class="n">allow_reuse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">validate_box_api_inputs</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-        <span class="n">values</span><span class="p">[</span><span class="s2">"_box"</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">"after"</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">validate_box_api_inputs</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_box</span> <span class="o">=</span> <span class="kc">None</span>
 
 <span class="w">        </span><span class="sd">"""Validate that TOKEN auth type provides box_developer_token."""</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"box_auth"</span><span class="p">):</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">get_from_dict_or_env</span><span class="p">(</span>
-                <span class="n">values</span><span class="p">,</span> <span class="s2">"box_developer_token"</span><span class="p">,</span> <span class="s2">"BOX_DEVELOPER_TOKEN"</span>
-            <span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">box_auth</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">box_developer_token</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                     <span class="s2">"You must configure either box_developer_token of box_auth"</span>
                 <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">box_auth</span> <span class="o">=</span> <span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"box_auth"</span><span class="p">)</span>
-            <span class="n">values</span><span class="p">[</span><span class="s2">"_box"</span><span class="p">]</span> <span class="o">=</span> <span class="n">box_auth</span><span class="o">.</span><span class="n">get_client</span><span class="p">()</span>  <span class="c1">#  type: ignore[union-attr]</span>
+            <span class="n">box_auth</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">box_auth</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_box</span> <span class="o">=</span> <span class="n">box_auth</span><span class="o">.</span><span class="n">get_client</span><span class="p">()</span>  <span class="c1">#  type: ignore[union-attr]</span>
 
-        <span class="k">return</span> <span class="n">values</span>
+        <span class="k">return</span> <span class="bp">self</span>
 
     <span class="k">def</span> <span class="nf">get_box_client</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">box_sdk_gen</span><span class="o">.</span><span class="n">BoxClient</span><span class="p">:</span>
         <span class="n">box_auth</span> <span class="o">=</span> <span class="n">BoxAuth</span><span class="p">(</span>

@@ -1,7 +1,7 @@
 
 <!DOCTYPE html>
 
-<html data-content_root="" lang="en">
+<html data-content_root="../../../" lang="en">
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
@@ -18,27 +18,27 @@
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" rel="preload" type="font/woff2"/>
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" rel="preload" type="font/woff2"/>
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" rel="preload" type="font/woff2"/>
-<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css?v=a746c00c" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/autodoc_pydantic.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/sphinx-design.4cbf315f70debaebd550c87a6162cf0f.min.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/css/custom.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/copybutton.css?v=76b2166b" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/sphinx-design.min.css?v=95c83b7e" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/css/custom.css?v=b95e2228" rel="stylesheet" type="text/css"/>
 <!-- Pre-loaded scripts that we'll load fully later -->
 <link as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
 <link as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
 <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-<script src="../../../_static/doctools.js"></script>
-<script src="../../../_static/sphinx_highlight.js"></script>
-<script src="../../../_static/clipboard.min.js"></script>
-<script src="../../../_static/copybutton.js"></script>
-<script src="../../../_static/design-tabs.js"></script>
+<script src="../../../_static/documentation_options.js?v=3b5cce75"></script>
+<script src="../../../_static/doctools.js?v=9a2dae69"></script>
+<script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+<script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+<script src="../../../_static/copybutton.js?v=f281be69"></script>
+<script src="../../../_static/design-tabs.js?v=f930bc37"></script>
 <script>DOCUMENTATION_OPTIONS.pagename = '_modules/langchain_community/output_parsers/ernie_functions';</script>
 <link href="../../../_static/favicon.png" rel="icon"/>
 <link href="../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Sep 13, 2024" name="docbuild:last-update"/>
+<meta content="Sep 16, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -242,16 +242,20 @@ document.write(`
     <span class="n">ChatGeneration</span><span class="p">,</span>
     <span class="n">Generation</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">langchain_core.pydantic_v1</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">root_validator</span>
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">model_validator</span>
 
 
-<div class="viewcode-block" id="OutputFunctionsParser"><a class="viewcode-back" href="../../../community/output_parsers/langchain_community.output_parsers.ernie_functions.OutputFunctionsParser.html#langchain_community.output_parsers.ernie_functions.OutputFunctionsParser">[docs]</a><span class="k">class</span> <span class="nc">OutputFunctionsParser</span><span class="p">(</span><span class="n">BaseGenerationOutputParser</span><span class="p">[</span><span class="n">Any</span><span class="p">]):</span>
+<div class="viewcode-block" id="OutputFunctionsParser">
+<a class="viewcode-back" href="../../../community/output_parsers/langchain_community.output_parsers.ernie_functions.OutputFunctionsParser.html#langchain_community.output_parsers.ernie_functions.OutputFunctionsParser">[docs]</a>
+<span class="k">class</span> <span class="nc">OutputFunctionsParser</span><span class="p">(</span><span class="n">BaseGenerationOutputParser</span><span class="p">[</span><span class="n">Any</span><span class="p">]):</span>
 <span class="w">    </span><span class="sd">"""Parse an output that is one of sets of values."""</span>
 
     <span class="n">args_only</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
 <span class="w">    </span><span class="sd">"""Whether to only return the arguments to the function call."""</span>
 
-<div class="viewcode-block" id="OutputFunctionsParser.parse_result"><a class="viewcode-back" href="../../../community/output_parsers/langchain_community.output_parsers.ernie_functions.OutputFunctionsParser.html#langchain_community.output_parsers.ernie_functions.OutputFunctionsParser.parse_result">[docs]</a>    <span class="k">def</span> <span class="nf">parse_result</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Generation</span><span class="p">],</span> <span class="o">*</span><span class="p">,</span> <span class="n">partial</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<div class="viewcode-block" id="OutputFunctionsParser.parse_result">
+<a class="viewcode-back" href="../../../community/output_parsers/langchain_community.output_parsers.ernie_functions.OutputFunctionsParser.html#langchain_community.output_parsers.ernie_functions.OutputFunctionsParser.parse_result">[docs]</a>
+    <span class="k">def</span> <span class="nf">parse_result</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Generation</span><span class="p">],</span> <span class="o">*</span><span class="p">,</span> <span class="n">partial</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
         <span class="n">generation</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">generation</span><span class="p">,</span> <span class="n">ChatGeneration</span><span class="p">):</span>
             <span class="k">raise</span> <span class="n">OutputParserException</span><span class="p">(</span>
@@ -265,10 +269,14 @@ document.write(`
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">args_only</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">func_call</span><span class="p">[</span><span class="s2">"arguments"</span><span class="p">]</span>
-        <span class="k">return</span> <span class="n">func_call</span></div></div>
+        <span class="k">return</span> <span class="n">func_call</span></div>
+</div>
 
 
-<div class="viewcode-block" id="JsonOutputFunctionsParser"><a class="viewcode-back" href="../../../community/output_parsers/langchain_community.output_parsers.ernie_functions.JsonOutputFunctionsParser.html#langchain_community.output_parsers.ernie_functions.JsonOutputFunctionsParser">[docs]</a><span class="k">class</span> <span class="nc">JsonOutputFunctionsParser</span><span class="p">(</span><span class="n">BaseCumulativeTransformOutputParser</span><span class="p">[</span><span class="n">Any</span><span class="p">]):</span>
+
+<div class="viewcode-block" id="JsonOutputFunctionsParser">
+<a class="viewcode-back" href="../../../community/output_parsers/langchain_community.output_parsers.ernie_functions.JsonOutputFunctionsParser.html#langchain_community.output_parsers.ernie_functions.JsonOutputFunctionsParser">[docs]</a>
+<span class="k">class</span> <span class="nc">JsonOutputFunctionsParser</span><span class="p">(</span><span class="n">BaseCumulativeTransformOutputParser</span><span class="p">[</span><span class="n">Any</span><span class="p">]):</span>
 <span class="w">    </span><span class="sd">"""Parse an output as the Json object."""</span>
 
     <span class="n">strict</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
@@ -289,7 +297,9 @@ document.write(`
     <span class="k">def</span> <span class="nf">_diff</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prev</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">],</span> <span class="nb">next</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">jsonpatch</span><span class="o">.</span><span class="n">make_patch</span><span class="p">(</span><span class="n">prev</span><span class="p">,</span> <span class="nb">next</span><span class="p">)</span><span class="o">.</span><span class="n">patch</span>
 
-<div class="viewcode-block" id="JsonOutputFunctionsParser.parse_result"><a class="viewcode-back" href="../../../community/output_parsers/langchain_community.output_parsers.ernie_functions.JsonOutputFunctionsParser.html#langchain_community.output_parsers.ernie_functions.JsonOutputFunctionsParser.parse_result">[docs]</a>    <span class="k">def</span> <span class="nf">parse_result</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Generation</span><span class="p">],</span> <span class="o">*</span><span class="p">,</span> <span class="n">partial</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<div class="viewcode-block" id="JsonOutputFunctionsParser.parse_result">
+<a class="viewcode-back" href="../../../community/output_parsers/langchain_community.output_parsers.ernie_functions.JsonOutputFunctionsParser.html#langchain_community.output_parsers.ernie_functions.JsonOutputFunctionsParser.parse_result">[docs]</a>
+    <span class="k">def</span> <span class="nf">parse_result</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Generation</span><span class="p">],</span> <span class="o">*</span><span class="p">,</span> <span class="n">partial</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">OutputParserException</span><span class="p">(</span>
                 <span class="sa">f</span><span class="s2">"Expected exactly one result, but got </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span>
@@ -347,33 +357,47 @@ document.write(`
         <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span></div>
 
+
     <span class="c1"># This method would be called by the default implementation of `parse_result`</span>
     <span class="c1"># but we're overriding that method so it's not needed.</span>
-<div class="viewcode-block" id="JsonOutputFunctionsParser.parse"><a class="viewcode-back" href="../../../community/output_parsers/langchain_community.output_parsers.ernie_functions.JsonOutputFunctionsParser.html#langchain_community.output_parsers.ernie_functions.JsonOutputFunctionsParser.parse">[docs]</a>    <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div></div>
+<div class="viewcode-block" id="JsonOutputFunctionsParser.parse">
+<a class="viewcode-back" href="../../../community/output_parsers/langchain_community.output_parsers.ernie_functions.JsonOutputFunctionsParser.html#langchain_community.output_parsers.ernie_functions.JsonOutputFunctionsParser.parse">[docs]</a>
+    <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div>
+</div>
 
 
-<div class="viewcode-block" id="JsonKeyOutputFunctionsParser"><a class="viewcode-back" href="../../../community/output_parsers/langchain_community.output_parsers.ernie_functions.JsonKeyOutputFunctionsParser.html#langchain_community.output_parsers.ernie_functions.JsonKeyOutputFunctionsParser">[docs]</a><span class="k">class</span> <span class="nc">JsonKeyOutputFunctionsParser</span><span class="p">(</span><span class="n">JsonOutputFunctionsParser</span><span class="p">):</span>
+
+<div class="viewcode-block" id="JsonKeyOutputFunctionsParser">
+<a class="viewcode-back" href="../../../community/output_parsers/langchain_community.output_parsers.ernie_functions.JsonKeyOutputFunctionsParser.html#langchain_community.output_parsers.ernie_functions.JsonKeyOutputFunctionsParser">[docs]</a>
+<span class="k">class</span> <span class="nc">JsonKeyOutputFunctionsParser</span><span class="p">(</span><span class="n">JsonOutputFunctionsParser</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Parse an output as the element of the Json object."""</span>
 
     <span class="n">key_name</span><span class="p">:</span> <span class="nb">str</span>
 <span class="w">    </span><span class="sd">"""The name of the key to return."""</span>
 
-<div class="viewcode-block" id="JsonKeyOutputFunctionsParser.parse_result"><a class="viewcode-back" href="../../../community/output_parsers/langchain_community.output_parsers.ernie_functions.JsonKeyOutputFunctionsParser.html#langchain_community.output_parsers.ernie_functions.JsonKeyOutputFunctionsParser.parse_result">[docs]</a>    <span class="k">def</span> <span class="nf">parse_result</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Generation</span><span class="p">],</span> <span class="o">*</span><span class="p">,</span> <span class="n">partial</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<div class="viewcode-block" id="JsonKeyOutputFunctionsParser.parse_result">
+<a class="viewcode-back" href="../../../community/output_parsers/langchain_community.output_parsers.ernie_functions.JsonKeyOutputFunctionsParser.html#langchain_community.output_parsers.ernie_functions.JsonKeyOutputFunctionsParser.parse_result">[docs]</a>
+    <span class="k">def</span> <span class="nf">parse_result</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Generation</span><span class="p">],</span> <span class="o">*</span><span class="p">,</span> <span class="n">partial</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
         <span class="n">res</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">parse_result</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">partial</span><span class="o">=</span><span class="n">partial</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">partial</span> <span class="ow">and</span> <span class="n">res</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span>
-        <span class="k">return</span> <span class="n">res</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">key_name</span><span class="p">)</span> <span class="k">if</span> <span class="n">partial</span> <span class="k">else</span> <span class="n">res</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">key_name</span><span class="p">]</span></div></div>
+        <span class="k">return</span> <span class="n">res</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">key_name</span><span class="p">)</span> <span class="k">if</span> <span class="n">partial</span> <span class="k">else</span> <span class="n">res</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">key_name</span><span class="p">]</span></div>
+</div>
 
 
-<div class="viewcode-block" id="PydanticOutputFunctionsParser"><a class="viewcode-back" href="../../../community/output_parsers/langchain_community.output_parsers.ernie_functions.PydanticOutputFunctionsParser.html#langchain_community.output_parsers.ernie_functions.PydanticOutputFunctionsParser">[docs]</a><span class="k">class</span> <span class="nc">PydanticOutputFunctionsParser</span><span class="p">(</span><span class="n">OutputFunctionsParser</span><span class="p">):</span>
+
+<div class="viewcode-block" id="PydanticOutputFunctionsParser">
+<a class="viewcode-back" href="../../../community/output_parsers/langchain_community.output_parsers.ernie_functions.PydanticOutputFunctionsParser.html#langchain_community.output_parsers.ernie_functions.PydanticOutputFunctionsParser">[docs]</a>
+<span class="k">class</span> <span class="nc">PydanticOutputFunctionsParser</span><span class="p">(</span><span class="n">OutputFunctionsParser</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Parse an output as a pydantic object."""</span>
 
     <span class="n">pydantic_schema</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Type</span><span class="p">[</span><span class="n">BaseModel</span><span class="p">],</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Type</span><span class="p">[</span><span class="n">BaseModel</span><span class="p">]]]</span>
 <span class="w">    </span><span class="sd">"""The pydantic schema to parse the output with."""</span>
 
-    <span class="nd">@root_validator</span><span class="p">(</span><span class="n">pre</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">validate_schema</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+    <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">"before"</span><span class="p">)</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">validate_schema</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
         <span class="n">schema</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="s2">"pydantic_schema"</span><span class="p">]</span>
         <span class="k">if</span> <span class="s2">"args_only"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">values</span><span class="p">:</span>
             <span class="n">values</span><span class="p">[</span><span class="s2">"args_only"</span><span class="p">]</span> <span class="o">=</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">schema</span><span class="p">,</span> <span class="nb">type</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">issubclass</span><span class="p">(</span>
@@ -386,7 +410,9 @@ document.write(`
             <span class="p">)</span>
         <span class="k">return</span> <span class="n">values</span>
 
-<div class="viewcode-block" id="PydanticOutputFunctionsParser.parse_result"><a class="viewcode-back" href="../../../community/output_parsers/langchain_community.output_parsers.ernie_functions.PydanticOutputFunctionsParser.html#langchain_community.output_parsers.ernie_functions.PydanticOutputFunctionsParser.parse_result">[docs]</a>    <span class="k">def</span> <span class="nf">parse_result</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Generation</span><span class="p">],</span> <span class="o">*</span><span class="p">,</span> <span class="n">partial</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<div class="viewcode-block" id="PydanticOutputFunctionsParser.parse_result">
+<a class="viewcode-back" href="../../../community/output_parsers/langchain_community.output_parsers.ernie_functions.PydanticOutputFunctionsParser.html#langchain_community.output_parsers.ernie_functions.PydanticOutputFunctionsParser.parse_result">[docs]</a>
+    <span class="k">def</span> <span class="nf">parse_result</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Generation</span><span class="p">],</span> <span class="o">*</span><span class="p">,</span> <span class="n">partial</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
         <span class="n">_result</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">parse_result</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">args_only</span><span class="p">:</span>
             <span class="n">pydantic_args</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pydantic_schema</span><span class="o">.</span><span class="n">parse_raw</span><span class="p">(</span><span class="n">_result</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
@@ -394,18 +420,26 @@ document.write(`
             <span class="n">fn_name</span> <span class="o">=</span> <span class="n">_result</span><span class="p">[</span><span class="s2">"name"</span><span class="p">]</span>
             <span class="n">_args</span> <span class="o">=</span> <span class="n">_result</span><span class="p">[</span><span class="s2">"arguments"</span><span class="p">]</span>
             <span class="n">pydantic_args</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pydantic_schema</span><span class="p">[</span><span class="n">fn_name</span><span class="p">]</span><span class="o">.</span><span class="n">parse_raw</span><span class="p">(</span><span class="n">_args</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
-        <span class="k">return</span> <span class="n">pydantic_args</span></div></div>
+        <span class="k">return</span> <span class="n">pydantic_args</span></div>
+</div>
 
 
-<div class="viewcode-block" id="PydanticAttrOutputFunctionsParser"><a class="viewcode-back" href="../../../community/output_parsers/langchain_community.output_parsers.ernie_functions.PydanticAttrOutputFunctionsParser.html#langchain_community.output_parsers.ernie_functions.PydanticAttrOutputFunctionsParser">[docs]</a><span class="k">class</span> <span class="nc">PydanticAttrOutputFunctionsParser</span><span class="p">(</span><span class="n">PydanticOutputFunctionsParser</span><span class="p">):</span>
+
+<div class="viewcode-block" id="PydanticAttrOutputFunctionsParser">
+<a class="viewcode-back" href="../../../community/output_parsers/langchain_community.output_parsers.ernie_functions.PydanticAttrOutputFunctionsParser.html#langchain_community.output_parsers.ernie_functions.PydanticAttrOutputFunctionsParser">[docs]</a>
+<span class="k">class</span> <span class="nc">PydanticAttrOutputFunctionsParser</span><span class="p">(</span><span class="n">PydanticOutputFunctionsParser</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Parse an output as an attribute of a pydantic object."""</span>
 
     <span class="n">attr_name</span><span class="p">:</span> <span class="nb">str</span>
 <span class="w">    </span><span class="sd">"""The name of the attribute to return."""</span>
 
-<div class="viewcode-block" id="PydanticAttrOutputFunctionsParser.parse_result"><a class="viewcode-back" href="../../../community/output_parsers/langchain_community.output_parsers.ernie_functions.PydanticAttrOutputFunctionsParser.html#langchain_community.output_parsers.ernie_functions.PydanticAttrOutputFunctionsParser.parse_result">[docs]</a>    <span class="k">def</span> <span class="nf">parse_result</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Generation</span><span class="p">],</span> <span class="o">*</span><span class="p">,</span> <span class="n">partial</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<div class="viewcode-block" id="PydanticAttrOutputFunctionsParser.parse_result">
+<a class="viewcode-back" href="../../../community/output_parsers/langchain_community.output_parsers.ernie_functions.PydanticAttrOutputFunctionsParser.html#langchain_community.output_parsers.ernie_functions.PydanticAttrOutputFunctionsParser.parse_result">[docs]</a>
+    <span class="k">def</span> <span class="nf">parse_result</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Generation</span><span class="p">],</span> <span class="o">*</span><span class="p">,</span> <span class="n">partial</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
         <span class="n">result</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">parse_result</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
-        <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">attr_name</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">attr_name</span><span class="p">)</span></div>
+</div>
+
 </pre></div>
 </article>
 </div>

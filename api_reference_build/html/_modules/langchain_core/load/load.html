@@ -1,7 +1,7 @@
 
 <!DOCTYPE html>
 
-<html data-content_root="" lang="en">
+<html data-content_root="../../../" lang="en">
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
@@ -18,27 +18,27 @@
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" rel="preload" type="font/woff2"/>
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" rel="preload" type="font/woff2"/>
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" rel="preload" type="font/woff2"/>
-<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css?v=a746c00c" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/autodoc_pydantic.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/sphinx-design.4cbf315f70debaebd550c87a6162cf0f.min.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/css/custom.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/copybutton.css?v=76b2166b" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/sphinx-design.min.css?v=95c83b7e" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/css/custom.css?v=b95e2228" rel="stylesheet" type="text/css"/>
 <!-- Pre-loaded scripts that we'll load fully later -->
 <link as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
 <link as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
 <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-<script src="../../../_static/doctools.js"></script>
-<script src="../../../_static/sphinx_highlight.js"></script>
-<script src="../../../_static/clipboard.min.js"></script>
-<script src="../../../_static/copybutton.js"></script>
-<script src="../../../_static/design-tabs.js"></script>
+<script src="../../../_static/documentation_options.js?v=3b5cce75"></script>
+<script src="../../../_static/doctools.js?v=9a2dae69"></script>
+<script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+<script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+<script src="../../../_static/copybutton.js?v=f281be69"></script>
+<script src="../../../_static/design-tabs.js?v=f930bc37"></script>
 <script>DOCUMENTATION_OPTIONS.pagename = '_modules/langchain_core/load/load';</script>
 <link href="../../../_static/favicon.png" rel="icon"/>
 <link href="../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Sep 13, 2024" name="docbuild:last-update"/>
+<meta content="Sep 16, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -230,7 +230,7 @@ document.write(`
 <span></span><span class="kn">import</span> <span class="nn">importlib</span>
 <span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
 
 <span class="kn">from</span> <span class="nn">langchain_core._api</span> <span class="kn">import</span> <span class="n">beta</span>
 <span class="kn">from</span> <span class="nn">langchain_core.load.mapping</span> <span class="kn">import</span> <span class="p">(</span>
@@ -247,6 +247,7 @@ document.write(`
     <span class="s2">"langchain_community"</span><span class="p">,</span>
     <span class="s2">"langchain_anthropic"</span><span class="p">,</span>
     <span class="s2">"langchain_groq"</span><span class="p">,</span>
+    <span class="s2">"langchain_google_genai"</span><span class="p">,</span>
 <span class="p">]</span>
 
 <span class="n">ALL_SERIALIZABLE_MAPPINGS</span> <span class="o">=</span> <span class="p">{</span>
@@ -257,14 +258,21 @@ document.write(`
 <span class="p">}</span>
 
 
-<div class="viewcode-block" id="Reviver"><a class="viewcode-back" href="../../../core/load/langchain_core.load.load.Reviver.html#langchain_core.load.load.Reviver">[docs]</a><span class="k">class</span> <span class="nc">Reviver</span><span class="p">:</span>
+<div class="viewcode-block" id="Reviver">
+<a class="viewcode-back" href="../../../core/load/langchain_core.load.load.Reviver.html#langchain_core.load.load.Reviver">[docs]</a>
+<span class="k">class</span> <span class="nc">Reviver</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Reviver for JSON objects."""</span>
 
-<div class="viewcode-block" id="Reviver.__init__"><a class="viewcode-back" href="../../../core/load/langchain_core.load.load.Reviver.html#langchain_core.load.load.Reviver.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+<div class="viewcode-block" id="Reviver.__init__">
+<a class="viewcode-back" href="../../../core/load/langchain_core.load.load.Reviver.html#langchain_core.load.load.Reviver.__init__">[docs]</a>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">secrets_map</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">valid_namespaces</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">secrets_from_env</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">additional_import_mappings</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span>
+            <span class="n">Dict</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]]</span>
+        <span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Initialize the reviver.</span>
 
@@ -276,15 +284,28 @@ document.write(`
 <span class="sd">                to allow to be deserialized. Defaults to None.</span>
 <span class="sd">            secrets_from_env: Whether to load secrets from the environment.</span>
 <span class="sd">                Defaults to True.</span>
+<span class="sd">            additional_import_mappings: A dictionary of additional namespace mappings</span>
+<span class="sd">                You can use this to override default mappings or add new mappings.</span>
+<span class="sd">                Defaults to None.</span>
 <span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">secrets_from_env</span> <span class="o">=</span> <span class="n">secrets_from_env</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">secrets_map</span> <span class="o">=</span> <span class="n">secrets_map</span> <span class="ow">or</span> <span class="nb">dict</span><span class="p">()</span>
-        <span class="c1"># By default only support langchain, but user can pass in additional namespaces</span>
+        <span class="c1"># By default, only support langchain, but user can pass in additional namespaces</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">valid_namespaces</span> <span class="o">=</span> <span class="p">(</span>
             <span class="p">[</span><span class="o">*</span><span class="n">DEFAULT_NAMESPACES</span><span class="p">,</span> <span class="o">*</span><span class="n">valid_namespaces</span><span class="p">]</span>
             <span class="k">if</span> <span class="n">valid_namespaces</span>
             <span class="k">else</span> <span class="n">DEFAULT_NAMESPACES</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">additional_import_mappings</span> <span class="o">=</span> <span class="n">additional_import_mappings</span> <span class="ow">or</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">import_mappings</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="p">{</span>
+                <span class="o">**</span><span class="n">ALL_SERIALIZABLE_MAPPINGS</span><span class="p">,</span>
+                <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">additional_import_mappings</span><span class="p">,</span>
+            <span class="p">}</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">additional_import_mappings</span>
+            <span class="k">else</span> <span class="n">ALL_SERIALIZABLE_MAPPINGS</span>
         <span class="p">)</span></div>
+
 
     <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
         <span class="k">if</span> <span class="p">(</span>
@@ -325,16 +346,16 @@ document.write(`
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Invalid namespace: </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
             <span class="c1"># If namespace is in known namespaces, try to use mapping</span>
+            <span class="n">key</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">namespace</span> <span class="o">+</span> <span class="p">[</span><span class="n">name</span><span class="p">])</span>
             <span class="k">if</span> <span class="n">namespace</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="n">DEFAULT_NAMESPACES</span><span class="p">:</span>
                 <span class="c1"># Get the importable path</span>
-                <span class="n">key</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">namespace</span> <span class="o">+</span> <span class="p">[</span><span class="n">name</span><span class="p">])</span>
-                <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ALL_SERIALIZABLE_MAPPINGS</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">import_mappings</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                         <span class="s2">"Trying to deserialize something that cannot "</span>
                         <span class="s2">"be deserialized in current version of langchain-core: "</span>
                         <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">"</span>
                     <span class="p">)</span>
-                <span class="n">import_path</span> <span class="o">=</span> <span class="n">ALL_SERIALIZABLE_MAPPINGS</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+                <span class="n">import_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">import_mappings</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
                 <span class="c1"># Split into module and name</span>
                 <span class="n">import_dir</span><span class="p">,</span> <span class="n">import_obj</span> <span class="o">=</span> <span class="n">import_path</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">import_path</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
                 <span class="c1"># Import module</span>
@@ -343,7 +364,12 @@ document.write(`
                 <span class="bp">cls</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">mod</span><span class="p">,</span> <span class="n">import_obj</span><span class="p">)</span>
             <span class="c1"># Otherwise, load by path</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">mod</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">import_module</span><span class="p">(</span><span class="s2">"."</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">namespace</span><span class="p">))</span>
+                <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">additional_import_mappings</span><span class="p">:</span>
+                    <span class="n">import_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">import_mappings</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+                    <span class="n">mod</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">import_module</span><span class="p">(</span><span class="s2">"."</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">import_path</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+                    <span class="n">name</span> <span class="o">=</span> <span class="n">import_path</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">mod</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">import_module</span><span class="p">(</span><span class="s2">"."</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">namespace</span><span class="p">))</span>
                 <span class="bp">cls</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">mod</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
 
             <span class="c1"># The class must be a subclass of Serializable.</span>
@@ -358,13 +384,17 @@ document.write(`
         <span class="k">return</span> <span class="n">value</span></div>
 
 
-<div class="viewcode-block" id="loads"><a class="viewcode-back" href="../../../core/load/langchain_core.load.load.loads.html#langchain_core.load.load.loads">[docs]</a><span class="nd">@beta</span><span class="p">()</span>
+
+<div class="viewcode-block" id="loads">
+<a class="viewcode-back" href="../../../core/load/langchain_core.load.load.loads.html#langchain_core.load.load.loads">[docs]</a>
+<span class="nd">@beta</span><span class="p">()</span>
 <span class="k">def</span> <span class="nf">loads</span><span class="p">(</span>
     <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">secrets_map</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">valid_namespaces</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">secrets_from_env</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">additional_import_mappings</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Revive a LangChain class from a JSON string.</span>
 <span class="sd">    Equivalent to `load(json.loads(text))`.</span>
@@ -378,22 +408,32 @@ document.write(`
 <span class="sd">            to allow to be deserialized. Defaults to None.</span>
 <span class="sd">        secrets_from_env: Whether to load secrets from the environment.</span>
 <span class="sd">            Defaults to True.</span>
+<span class="sd">        additional_import_mappings: A dictionary of additional namespace mappings</span>
+<span class="sd">            You can use this to override default mappings or add new mappings.</span>
+<span class="sd">            Defaults to None.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        Revived LangChain objects.</span>
 <span class="sd">    """</span>
     <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span>
-        <span class="n">text</span><span class="p">,</span> <span class="n">object_hook</span><span class="o">=</span><span class="n">Reviver</span><span class="p">(</span><span class="n">secrets_map</span><span class="p">,</span> <span class="n">valid_namespaces</span><span class="p">,</span> <span class="n">secrets_from_env</span><span class="p">)</span>
+        <span class="n">text</span><span class="p">,</span>
+        <span class="n">object_hook</span><span class="o">=</span><span class="n">Reviver</span><span class="p">(</span>
+            <span class="n">secrets_map</span><span class="p">,</span> <span class="n">valid_namespaces</span><span class="p">,</span> <span class="n">secrets_from_env</span><span class="p">,</span> <span class="n">additional_import_mappings</span>
+        <span class="p">),</span>
     <span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="load"><a class="viewcode-back" href="../../../core/load/langchain_core.load.load.load.html#langchain_core.load.load.load">[docs]</a><span class="nd">@beta</span><span class="p">()</span>
+
+<div class="viewcode-block" id="load">
+<a class="viewcode-back" href="../../../core/load/langchain_core.load.load.load.html#langchain_core.load.load.load">[docs]</a>
+<span class="nd">@beta</span><span class="p">()</span>
 <span class="k">def</span> <span class="nf">load</span><span class="p">(</span>
     <span class="n">obj</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">secrets_map</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">valid_namespaces</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">secrets_from_env</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">additional_import_mappings</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Revive a LangChain class from a JSON object. Use this if you already</span>
 <span class="sd">    have a parsed JSON object, eg. from `json.load` or `orjson.loads`.</span>
@@ -407,11 +447,16 @@ document.write(`
 <span class="sd">            to allow to be deserialized. Defaults to None.</span>
 <span class="sd">        secrets_from_env: Whether to load secrets from the environment.</span>
 <span class="sd">            Defaults to True.</span>
+<span class="sd">        additional_import_mappings: A dictionary of additional namespace mappings</span>
+<span class="sd">            You can use this to override default mappings or add new mappings.</span>
+<span class="sd">            Defaults to None.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        Revived LangChain objects.</span>
 <span class="sd">    """</span>
-    <span class="n">reviver</span> <span class="o">=</span> <span class="n">Reviver</span><span class="p">(</span><span class="n">secrets_map</span><span class="p">,</span> <span class="n">valid_namespaces</span><span class="p">,</span> <span class="n">secrets_from_env</span><span class="p">)</span>
+    <span class="n">reviver</span> <span class="o">=</span> <span class="n">Reviver</span><span class="p">(</span>
+        <span class="n">secrets_map</span><span class="p">,</span> <span class="n">valid_namespaces</span><span class="p">,</span> <span class="n">secrets_from_env</span><span class="p">,</span> <span class="n">additional_import_mappings</span>
+    <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_load</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
@@ -423,6 +468,7 @@ document.write(`
         <span class="k">return</span> <span class="n">obj</span>
 
     <span class="k">return</span> <span class="n">_load</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span></div>
+
 </pre></div>
 </article>
 </div>

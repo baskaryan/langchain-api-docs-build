@@ -1,7 +1,7 @@
 
 <!DOCTYPE html>
 
-<html data-content_root="" lang="en">
+<html data-content_root="../../../" lang="en">
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
@@ -18,27 +18,27 @@
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" rel="preload" type="font/woff2"/>
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" rel="preload" type="font/woff2"/>
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" rel="preload" type="font/woff2"/>
-<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css?v=a746c00c" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/autodoc_pydantic.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/sphinx-design.4cbf315f70debaebd550c87a6162cf0f.min.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/css/custom.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/copybutton.css?v=76b2166b" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/sphinx-design.min.css?v=95c83b7e" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/css/custom.css?v=b95e2228" rel="stylesheet" type="text/css"/>
 <!-- Pre-loaded scripts that we'll load fully later -->
 <link as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
 <link as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
 <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-<script src="../../../_static/doctools.js"></script>
-<script src="../../../_static/sphinx_highlight.js"></script>
-<script src="../../../_static/clipboard.min.js"></script>
-<script src="../../../_static/copybutton.js"></script>
-<script src="../../../_static/design-tabs.js"></script>
+<script src="../../../_static/documentation_options.js?v=3b5cce75"></script>
+<script src="../../../_static/doctools.js?v=9a2dae69"></script>
+<script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+<script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+<script src="../../../_static/copybutton.js?v=f281be69"></script>
+<script src="../../../_static/design-tabs.js?v=f930bc37"></script>
 <script>DOCUMENTATION_OPTIONS.pagename = '_modules/langchain_community/chat_models/gpt_router';</script>
 <link href="../../../_static/favicon.png" rel="icon"/>
 <link href="../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Sep 13, 2024" name="docbuild:last-update"/>
+<meta content="Sep 16, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -259,8 +259,9 @@ document.write(`
 <span class="kn">from</span> <span class="nn">langchain_core.language_models.llms</span> <span class="kn">import</span> <span class="n">create_base_retry_decorator</span>
 <span class="kn">from</span> <span class="nn">langchain_core.messages</span> <span class="kn">import</span> <span class="n">AIMessageChunk</span><span class="p">,</span> <span class="n">BaseMessage</span><span class="p">,</span> <span class="n">BaseMessageChunk</span>
 <span class="kn">from</span> <span class="nn">langchain_core.outputs</span> <span class="kn">import</span> <span class="n">ChatGeneration</span><span class="p">,</span> <span class="n">ChatGenerationChunk</span><span class="p">,</span> <span class="n">ChatResult</span>
-<span class="kn">from</span> <span class="nn">langchain_core.pydantic_v1</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span><span class="p">,</span> <span class="n">SecretStr</span><span class="p">,</span> <span class="n">root_validator</span>
 <span class="kn">from</span> <span class="nn">langchain_core.utils</span> <span class="kn">import</span> <span class="n">convert_to_secret_str</span><span class="p">,</span> <span class="n">get_from_dict_or_env</span>
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span><span class="p">,</span> <span class="n">SecretStr</span><span class="p">,</span> <span class="n">model_validator</span>
+<span class="kn">from</span> <span class="nn">typing_extensions</span> <span class="kn">import</span> <span class="n">Self</span>
 
 <span class="kn">from</span> <span class="nn">langchain_community.adapters.openai</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">convert_dict_to_message</span><span class="p">,</span>
@@ -277,18 +278,26 @@ document.write(`
 <span class="n">DEFAULT_API_BASE_URL</span> <span class="o">=</span> <span class="s2">"https://gpt-router-preview.writesonic.com"</span>
 
 
-<div class="viewcode-block" id="GPTRouterException"><a class="viewcode-back" href="../../../community/chat_models/langchain_community.chat_models.gpt_router.GPTRouterException.html#langchain_community.chat_models.gpt_router.GPTRouterException">[docs]</a><span class="k">class</span> <span class="nc">GPTRouterException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+<div class="viewcode-block" id="GPTRouterException">
+<a class="viewcode-back" href="../../../community/chat_models/langchain_community.chat_models.gpt_router.GPTRouterException.html#langchain_community.chat_models.gpt_router.GPTRouterException">[docs]</a>
+<span class="k">class</span> <span class="nc">GPTRouterException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Error with the `GPTRouter APIs`"""</span></div>
 
 
-<div class="viewcode-block" id="GPTRouterModel"><a class="viewcode-back" href="../../../community/chat_models/langchain_community.chat_models.gpt_router.GPTRouterModel.html#langchain_community.chat_models.gpt_router.GPTRouterModel">[docs]</a><span class="k">class</span> <span class="nc">GPTRouterModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+
+<div class="viewcode-block" id="GPTRouterModel">
+<a class="viewcode-back" href="../../../community/chat_models/langchain_community.chat_models.gpt_router.GPTRouterModel.html#langchain_community.chat_models.gpt_router.GPTRouterModel">[docs]</a>
+<span class="k">class</span> <span class="nc">GPTRouterModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""GPTRouter model."""</span>
 
     <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">provider_name</span><span class="p">:</span> <span class="nb">str</span></div>
 
 
-<div class="viewcode-block" id="get_ordered_generation_requests"><a class="viewcode-back" href="../../../community/chat_models/langchain_community.chat_models.gpt_router.get_ordered_generation_requests.html#langchain_community.chat_models.gpt_router.get_ordered_generation_requests">[docs]</a><span class="k">def</span> <span class="nf">get_ordered_generation_requests</span><span class="p">(</span>
+
+<div class="viewcode-block" id="get_ordered_generation_requests">
+<a class="viewcode-back" href="../../../community/chat_models/langchain_community.chat_models.gpt_router.get_ordered_generation_requests.html#langchain_community.chat_models.gpt_router.get_ordered_generation_requests">[docs]</a>
+<span class="k">def</span> <span class="nf">get_ordered_generation_requests</span><span class="p">(</span>
     <span class="n">models_priority_list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">GPTRouterModel</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""</span>
@@ -306,6 +315,7 @@ document.write(`
         <span class="p">)</span>
         <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">model</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">models_priority_list</span><span class="p">)</span>
     <span class="p">]</span></div>
+
 
 
 <span class="k">def</span> <span class="nf">_create_retry_decorator</span><span class="p">(</span>
@@ -327,7 +337,9 @@ document.write(`
     <span class="p">)</span>
 
 
-<div class="viewcode-block" id="completion_with_retry"><a class="viewcode-back" href="../../../community/chat_models/langchain_community.chat_models.gpt_router.completion_with_retry.html#langchain_community.chat_models.gpt_router.completion_with_retry">[docs]</a><span class="k">def</span> <span class="nf">completion_with_retry</span><span class="p">(</span>
+<div class="viewcode-block" id="completion_with_retry">
+<a class="viewcode-back" href="../../../community/chat_models/langchain_community.chat_models.gpt_router.completion_with_retry.html#langchain_community.chat_models.gpt_router.completion_with_retry">[docs]</a>
+<span class="k">def</span> <span class="nf">completion_with_retry</span><span class="p">(</span>
     <span class="n">llm</span><span class="p">:</span> <span class="n">GPTRouter</span><span class="p">,</span>
     <span class="n">models_priority_list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">GPTRouterModel</span><span class="p">],</span>
     <span class="n">run_manager</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">CallbackManagerForLLMRun</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -349,7 +361,10 @@ document.write(`
     <span class="k">return</span> <span class="n">_completion_with_retry</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="acompletion_with_retry"><a class="viewcode-back" href="../../../community/chat_models/langchain_community.chat_models.gpt_router.acompletion_with_retry.html#langchain_community.chat_models.gpt_router.acompletion_with_retry">[docs]</a><span class="k">async</span> <span class="k">def</span> <span class="nf">acompletion_with_retry</span><span class="p">(</span>
+
+<div class="viewcode-block" id="acompletion_with_retry">
+<a class="viewcode-back" href="../../../community/chat_models/langchain_community.chat_models.gpt_router.acompletion_with_retry.html#langchain_community.chat_models.gpt_router.acompletion_with_retry">[docs]</a>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">acompletion_with_retry</span><span class="p">(</span>
     <span class="n">llm</span><span class="p">:</span> <span class="n">GPTRouter</span><span class="p">,</span>
     <span class="n">models_priority_list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">GPTRouterModel</span><span class="p">],</span>
     <span class="n">run_manager</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">AsyncCallbackManagerForLLMRun</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -372,14 +387,17 @@ document.write(`
     <span class="k">return</span> <span class="k">await</span> <span class="n">_completion_with_retry</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="GPTRouter"><a class="viewcode-back" href="../../../community/chat_models/langchain_community.chat_models.gpt_router.GPTRouter.html#langchain_community.chat_models.gpt_router.GPTRouter">[docs]</a><span class="k">class</span> <span class="nc">GPTRouter</span><span class="p">(</span><span class="n">BaseChatModel</span><span class="p">):</span>
+
+<div class="viewcode-block" id="GPTRouter">
+<a class="viewcode-back" href="../../../community/chat_models/langchain_community.chat_models.gpt_router.GPTRouter.html#langchain_community.chat_models.gpt_router.GPTRouter">[docs]</a>
+<span class="k">class</span> <span class="nc">GPTRouter</span><span class="p">(</span><span class="n">BaseChatModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""GPTRouter by Writesonic Inc.</span>
 
 <span class="sd">    For more information, see https://gpt-router.writesonic.com/docs</span>
 <span class="sd">    """</span>
 
     <span class="n">client</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">exclude</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1">#: :meta private:</span>
-    <span class="n">models_priority_list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">GPTRouterModel</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">min_items</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">models_priority_list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">GPTRouterModel</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">min_length</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="n">gpt_router_api_base</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 <span class="w">    </span><span class="sd">"""WriteSonic GPTRouter custom endpoint"""</span>
     <span class="n">gpt_router_api_key</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">SecretStr</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
@@ -396,8 +414,9 @@ document.write(`
 <span class="w">    </span><span class="sd">"""Number of chat completions to generate for each prompt."""</span>
     <span class="n">max_tokens</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">256</span>
 
-    <span class="nd">@root_validator</span><span class="p">(</span><span class="n">pre</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">validate_environment</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+    <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">"before"</span><span class="p">)</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">validate_environment</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
         <span class="n">values</span><span class="p">[</span><span class="s2">"gpt_router_api_base"</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_from_dict_or_env</span><span class="p">(</span>
             <span class="n">values</span><span class="p">,</span>
             <span class="s2">"gpt_router_api_base"</span><span class="p">,</span>
@@ -414,8 +433,8 @@ document.write(`
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">values</span>
 
-    <span class="nd">@root_validator</span><span class="p">(</span><span class="n">pre</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">skip_on_failure</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">post_init</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+    <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">"after"</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">post_init</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="kn">from</span> <span class="nn">gpt_router.client</span> <span class="kn">import</span> <span class="n">GPTRouterClient</span>
 
@@ -426,12 +445,14 @@ document.write(`
             <span class="p">)</span>
 
         <span class="n">gpt_router_client</span> <span class="o">=</span> <span class="n">GPTRouterClient</span><span class="p">(</span>
-            <span class="n">values</span><span class="p">[</span><span class="s2">"gpt_router_api_base"</span><span class="p">],</span>
-            <span class="n">values</span><span class="p">[</span><span class="s2">"gpt_router_api_key"</span><span class="p">]</span><span class="o">.</span><span class="n">get_secret_value</span><span class="p">(),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">gpt_router_api_base</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">gpt_router_api_key</span><span class="o">.</span><span class="n">get_secret_value</span><span class="p">()</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">gpt_router_api_key</span>
+            <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
         <span class="p">)</span>
-        <span class="n">values</span><span class="p">[</span><span class="s2">"client"</span><span class="p">]</span> <span class="o">=</span> <span class="n">gpt_router_client</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">gpt_router_client</span>
 
-        <span class="k">return</span> <span class="n">values</span>
+        <span class="k">return</span> <span class="bp">self</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">lc_secrets</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
@@ -624,6 +645,7 @@ document.write(`
             <span class="n">generations</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">gen</span><span class="p">)</span>
         <span class="n">llm_output</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"token_usage"</span><span class="p">:</span> <span class="n">response</span><span class="o">.</span><span class="n">meta</span><span class="p">,</span> <span class="s2">"model"</span><span class="p">:</span> <span class="n">response</span><span class="o">.</span><span class="n">model</span><span class="p">}</span>
         <span class="k">return</span> <span class="n">ChatResult</span><span class="p">(</span><span class="n">generations</span><span class="o">=</span><span class="n">generations</span><span class="p">,</span> <span class="n">llm_output</span><span class="o">=</span><span class="n">llm_output</span><span class="p">)</span></div>
+
 </pre></div>
 </article>
 </div>

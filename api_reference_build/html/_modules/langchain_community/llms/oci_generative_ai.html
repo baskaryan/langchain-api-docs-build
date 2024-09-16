@@ -1,7 +1,7 @@
 
 <!DOCTYPE html>
 
-<html data-content_root="" lang="en">
+<html data-content_root="../../../" lang="en">
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
@@ -18,27 +18,27 @@
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" rel="preload" type="font/woff2"/>
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" rel="preload" type="font/woff2"/>
 <link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" rel="preload" type="font/woff2"/>
-<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css?v=a746c00c" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/autodoc_pydantic.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/sphinx-design.4cbf315f70debaebd550c87a6162cf0f.min.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/css/custom.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/copybutton.css?v=76b2166b" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/sphinx-design.min.css?v=95c83b7e" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/css/custom.css?v=b95e2228" rel="stylesheet" type="text/css"/>
 <!-- Pre-loaded scripts that we'll load fully later -->
 <link as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
 <link as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" rel="preload"/>
 <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-<script src="../../../_static/doctools.js"></script>
-<script src="../../../_static/sphinx_highlight.js"></script>
-<script src="../../../_static/clipboard.min.js"></script>
-<script src="../../../_static/copybutton.js"></script>
-<script src="../../../_static/design-tabs.js"></script>
+<script src="../../../_static/documentation_options.js?v=3b5cce75"></script>
+<script src="../../../_static/doctools.js?v=9a2dae69"></script>
+<script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+<script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+<script src="../../../_static/copybutton.js?v=f281be69"></script>
+<script src="../../../_static/design-tabs.js?v=f930bc37"></script>
 <script>DOCUMENTATION_OPTIONS.pagename = '_modules/langchain_community/llms/oci_generative_ai';</script>
 <link href="../../../_static/favicon.png" rel="icon"/>
 <link href="../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Sep 13, 2024" name="docbuild:last-update"/>
+<meta content="Sep 16, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -237,48 +237,74 @@ document.write(`
 <span class="kn">from</span> <span class="nn">langchain_core.callbacks</span> <span class="kn">import</span> <span class="n">CallbackManagerForLLMRun</span>
 <span class="kn">from</span> <span class="nn">langchain_core.language_models.llms</span> <span class="kn">import</span> <span class="n">LLM</span>
 <span class="kn">from</span> <span class="nn">langchain_core.outputs</span> <span class="kn">import</span> <span class="n">GenerationChunk</span>
-<span class="kn">from</span> <span class="nn">langchain_core.pydantic_v1</span> <span class="kn">import</span> <span class="n">BaseModel</span>
 <span class="kn">from</span> <span class="nn">langchain_core.utils</span> <span class="kn">import</span> <span class="n">pre_init</span>
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">ConfigDict</span><span class="p">,</span> <span class="n">Field</span>
 
 <span class="kn">from</span> <span class="nn">langchain_community.llms.utils</span> <span class="kn">import</span> <span class="n">enforce_stop_tokens</span>
 
 <span class="n">CUSTOM_ENDPOINT_PREFIX</span> <span class="o">=</span> <span class="s2">"ocid1.generativeaiendpoint"</span>
 
 
-<div class="viewcode-block" id="Provider"><a class="viewcode-back" href="../../../community/llms/langchain_community.llms.oci_generative_ai.Provider.html#langchain_community.llms.oci_generative_ai.Provider">[docs]</a><span class="k">class</span> <span class="nc">Provider</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+<div class="viewcode-block" id="Provider">
+<a class="viewcode-back" href="../../../community/llms/langchain_community.llms.oci_generative_ai.Provider.html#langchain_community.llms.oci_generative_ai.Provider">[docs]</a>
+<span class="k">class</span> <span class="nc">Provider</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
     <span class="nd">@property</span>
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">stop_sequence_key</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span> <span class="o">...</span>
 
-<div class="viewcode-block" id="Provider.completion_response_to_text"><a class="viewcode-back" href="../../../community/llms/langchain_community.llms.oci_generative_ai.Provider.html#langchain_community.llms.oci_generative_ai.Provider.completion_response_to_text">[docs]</a>    <span class="nd">@abstractmethod</span>
-    <span class="k">def</span> <span class="nf">completion_response_to_text</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span> <span class="o">...</span></div></div>
+<div class="viewcode-block" id="Provider.completion_response_to_text">
+<a class="viewcode-back" href="../../../community/llms/langchain_community.llms.oci_generative_ai.Provider.html#langchain_community.llms.oci_generative_ai.Provider.completion_response_to_text">[docs]</a>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">completion_response_to_text</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span> <span class="o">...</span></div>
+</div>
 
 
-<div class="viewcode-block" id="CohereProvider"><a class="viewcode-back" href="../../../community/llms/langchain_community.llms.oci_generative_ai.CohereProvider.html#langchain_community.llms.oci_generative_ai.CohereProvider">[docs]</a><span class="k">class</span> <span class="nc">CohereProvider</span><span class="p">(</span><span class="n">Provider</span><span class="p">):</span>
+
+<div class="viewcode-block" id="CohereProvider">
+<a class="viewcode-back" href="../../../community/llms/langchain_community.llms.oci_generative_ai.CohereProvider.html#langchain_community.llms.oci_generative_ai.CohereProvider">[docs]</a>
+<span class="k">class</span> <span class="nc">CohereProvider</span><span class="p">(</span><span class="n">Provider</span><span class="p">):</span>
     <span class="n">stop_sequence_key</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"stop_sequences"</span>
 
-<div class="viewcode-block" id="CohereProvider.__init__"><a class="viewcode-back" href="../../../community/llms/langchain_community.llms.oci_generative_ai.CohereProvider.html#langchain_community.llms.oci_generative_ai.CohereProvider.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="CohereProvider.__init__">
+<a class="viewcode-back" href="../../../community/llms/langchain_community.llms.oci_generative_ai.CohereProvider.html#langchain_community.llms.oci_generative_ai.CohereProvider.__init__">[docs]</a>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="kn">from</span> <span class="nn">oci.generative_ai_inference</span> <span class="kn">import</span> <span class="n">models</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">llm_inference_request</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CohereLlmInferenceRequest</span></div>
 
-<div class="viewcode-block" id="CohereProvider.completion_response_to_text"><a class="viewcode-back" href="../../../community/llms/langchain_community.llms.oci_generative_ai.CohereProvider.html#langchain_community.llms.oci_generative_ai.CohereProvider.completion_response_to_text">[docs]</a>    <span class="k">def</span> <span class="nf">completion_response_to_text</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">inference_response</span><span class="o">.</span><span class="n">generated_texts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">text</span></div></div>
+
+<div class="viewcode-block" id="CohereProvider.completion_response_to_text">
+<a class="viewcode-back" href="../../../community/llms/langchain_community.llms.oci_generative_ai.CohereProvider.html#langchain_community.llms.oci_generative_ai.CohereProvider.completion_response_to_text">[docs]</a>
+    <span class="k">def</span> <span class="nf">completion_response_to_text</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">inference_response</span><span class="o">.</span><span class="n">generated_texts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">text</span></div>
+</div>
 
 
-<div class="viewcode-block" id="MetaProvider"><a class="viewcode-back" href="../../../community/llms/langchain_community.llms.oci_generative_ai.MetaProvider.html#langchain_community.llms.oci_generative_ai.MetaProvider">[docs]</a><span class="k">class</span> <span class="nc">MetaProvider</span><span class="p">(</span><span class="n">Provider</span><span class="p">):</span>
+
+<div class="viewcode-block" id="MetaProvider">
+<a class="viewcode-back" href="../../../community/llms/langchain_community.llms.oci_generative_ai.MetaProvider.html#langchain_community.llms.oci_generative_ai.MetaProvider">[docs]</a>
+<span class="k">class</span> <span class="nc">MetaProvider</span><span class="p">(</span><span class="n">Provider</span><span class="p">):</span>
     <span class="n">stop_sequence_key</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"stop"</span>
 
-<div class="viewcode-block" id="MetaProvider.__init__"><a class="viewcode-back" href="../../../community/llms/langchain_community.llms.oci_generative_ai.MetaProvider.html#langchain_community.llms.oci_generative_ai.MetaProvider.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="MetaProvider.__init__">
+<a class="viewcode-back" href="../../../community/llms/langchain_community.llms.oci_generative_ai.MetaProvider.html#langchain_community.llms.oci_generative_ai.MetaProvider.__init__">[docs]</a>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="kn">from</span> <span class="nn">oci.generative_ai_inference</span> <span class="kn">import</span> <span class="n">models</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">llm_inference_request</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">LlamaLlmInferenceRequest</span></div>
 
-<div class="viewcode-block" id="MetaProvider.completion_response_to_text"><a class="viewcode-back" href="../../../community/llms/langchain_community.llms.oci_generative_ai.MetaProvider.html#langchain_community.llms.oci_generative_ai.MetaProvider.completion_response_to_text">[docs]</a>    <span class="k">def</span> <span class="nf">completion_response_to_text</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">inference_response</span><span class="o">.</span><span class="n">choices</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">text</span></div></div>
+
+<div class="viewcode-block" id="MetaProvider.completion_response_to_text">
+<a class="viewcode-back" href="../../../community/llms/langchain_community.llms.oci_generative_ai.MetaProvider.html#langchain_community.llms.oci_generative_ai.MetaProvider.completion_response_to_text">[docs]</a>
+    <span class="k">def</span> <span class="nf">completion_response_to_text</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">inference_response</span><span class="o">.</span><span class="n">choices</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">text</span></div>
+</div>
 
 
-<div class="viewcode-block" id="OCIAuthType"><a class="viewcode-back" href="../../../community/llms/langchain_community.llms.oci_generative_ai.OCIAuthType.html#langchain_community.llms.oci_generative_ai.OCIAuthType">[docs]</a><span class="k">class</span> <span class="nc">OCIAuthType</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+
+<div class="viewcode-block" id="OCIAuthType">
+<a class="viewcode-back" href="../../../community/llms/langchain_community.llms.oci_generative_ai.OCIAuthType.html#langchain_community.llms.oci_generative_ai.OCIAuthType">[docs]</a>
+<span class="k">class</span> <span class="nc">OCIAuthType</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""OCI authentication types as enumerator."""</span>
 
     <span class="n">API_KEY</span> <span class="o">=</span> <span class="mi">1</span>
@@ -287,10 +313,13 @@ document.write(`
     <span class="n">RESOURCE_PRINCIPAL</span> <span class="o">=</span> <span class="mi">4</span></div>
 
 
-<div class="viewcode-block" id="OCIGenAIBase"><a class="viewcode-back" href="../../../community/llms/langchain_community.llms.oci_generative_ai.OCIGenAIBase.html#langchain_community.llms.oci_generative_ai.OCIGenAIBase">[docs]</a><span class="k">class</span> <span class="nc">OCIGenAIBase</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
+
+<div class="viewcode-block" id="OCIGenAIBase">
+<a class="viewcode-back" href="../../../community/llms/langchain_community.llms.oci_generative_ai.OCIGenAIBase.html#langchain_community.llms.oci_generative_ai.OCIGenAIBase">[docs]</a>
+<span class="k">class</span> <span class="nc">OCIGenAIBase</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Base class for OCI GenAI models"""</span>
 
-    <span class="n">client</span><span class="p">:</span> <span class="n">Any</span>  <span class="c1">#: :meta private:</span>
+    <span class="n">client</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">exclude</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1">#: :meta private:</span>
 
     <span class="n">auth_type</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"API_KEY"</span>
 <span class="w">    </span><span class="sd">"""Authentication type, could be </span>
@@ -308,10 +337,10 @@ document.write(`
 <span class="sd">    If not specified , DEFAULT will be used </span>
 <span class="sd">    """</span>
 
-    <span class="n">model_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># type: ignore[assignment]</span>
+    <span class="n">model_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">    </span><span class="sd">"""Id of the model to call, e.g., cohere.command"""</span>
 
-    <span class="n">provider</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># type: ignore[assignment]</span>
+    <span class="n">provider</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">    </span><span class="sd">"""Provider name of the model. Default to None, </span>
 <span class="sd">    will try to be derived from the model_id</span>
 <span class="sd">    otherwise, requires user input</span>
@@ -320,15 +349,21 @@ document.write(`
     <span class="n">model_kwargs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">    </span><span class="sd">"""Keyword arguments to pass to the model"""</span>
 
-    <span class="n">service_endpoint</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># type: ignore[assignment]</span>
+    <span class="n">service_endpoint</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">    </span><span class="sd">"""service endpoint url"""</span>
 
-    <span class="n">compartment_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># type: ignore[assignment]</span>
+    <span class="n">compartment_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">    </span><span class="sd">"""OCID of compartment"""</span>
 
     <span class="n">is_stream</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
 <span class="w">    </span><span class="sd">"""Whether to stream back partial progress"""</span>
 
+    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span>
+        <span class="n">extra</span><span class="o">=</span><span class="s2">"forbid"</span><span class="p">,</span> <span class="n">arbitrary_types_allowed</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">protected_namespaces</span><span class="o">=</span><span class="p">()</span>
+    <span class="p">)</span>
+
+<div class="viewcode-block" id="OCIGenAIBase.validate_environment">
+<a class="viewcode-back" href="../../../community/llms/langchain_community.llms.oci_generative_ai.OCIGenAIBase.html#langchain_community.llms.oci_generative_ai.OCIGenAIBase.validate_environment">[docs]</a>
     <span class="nd">@pre_init</span>
     <span class="k">def</span> <span class="nf">validate_environment</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Validate that OCI config and python package exists in environment."""</span>
@@ -404,7 +439,8 @@ document.write(`
                 <span class="n">e</span><span class="p">,</span>
             <span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
 
-        <span class="k">return</span> <span class="n">values</span>
+        <span class="k">return</span> <span class="n">values</span></div>
+
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">_identifying_params</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
@@ -418,6 +454,12 @@ document.write(`
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">provider</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">provider</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">provider</span>
         <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_id</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">"model_id is required to derive the provider, "</span>
+                    <span class="s2">"please provide the provider explicitly or specify "</span>
+                    <span class="s2">"the model_id to derive the provider."</span>
+                <span class="p">)</span>
             <span class="n">provider</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_id</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"."</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
 
         <span class="k">if</span> <span class="n">provider</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">provider_map</span><span class="p">:</span>
@@ -429,7 +471,10 @@ document.write(`
         <span class="k">return</span> <span class="n">provider_map</span><span class="p">[</span><span class="n">provider</span><span class="p">]</span></div>
 
 
-<div class="viewcode-block" id="OCIGenAI"><a class="viewcode-back" href="../../../community/llms/langchain_community.llms.oci_generative_ai.OCIGenAI.html#langchain_community.llms.oci_generative_ai.OCIGenAI">[docs]</a><span class="k">class</span> <span class="nc">OCIGenAI</span><span class="p">(</span><span class="n">LLM</span><span class="p">,</span> <span class="n">OCIGenAIBase</span><span class="p">):</span>
+
+<div class="viewcode-block" id="OCIGenAI">
+<a class="viewcode-back" href="../../../community/llms/langchain_community.llms.oci_generative_ai.OCIGenAI.html#langchain_community.llms.oci_generative_ai.OCIGenAI">[docs]</a>
+<span class="k">class</span> <span class="nc">OCIGenAI</span><span class="p">(</span><span class="n">LLM</span><span class="p">,</span> <span class="n">OCIGenAIBase</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""OCI large language models.</span>
 
 <span class="sd">    To authenticate, the OCI client uses the methods described in</span>
@@ -459,8 +504,10 @@ document.write(`
 <span class="sd">                )</span>
 <span class="sd">    """</span>
 
-    <span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
-        <span class="n">extra</span> <span class="o">=</span> <span class="s2">"forbid"</span>
+    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span>
+        <span class="n">extra</span><span class="o">=</span><span class="s2">"forbid"</span><span class="p">,</span>
+        <span class="n">arbitrary_types_allowed</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">_llm_type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
@@ -488,6 +535,12 @@ document.write(`
         <span class="n">_model_kwargs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_kwargs</span> <span class="ow">or</span> <span class="p">{}</span>
         <span class="k">if</span> <span class="n">stop</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">_model_kwargs</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_provider</span><span class="o">.</span><span class="n">stop_sequence_key</span><span class="p">]</span> <span class="o">=</span> <span class="n">stop</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_id</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">"model_id is required to call the model, "</span>
+                <span class="s2">"please provide the model_id."</span>
+            <span class="p">)</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_id</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">CUSTOM_ENDPOINT_PREFIX</span><span class="p">):</span>
             <span class="n">serving_mode</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DedicatedServingMode</span><span class="p">(</span><span class="n">endpoint_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">model_id</span><span class="p">)</span>
@@ -583,6 +636,7 @@ document.write(`
             <span class="k">if</span> <span class="n">run_manager</span><span class="p">:</span>
                 <span class="n">run_manager</span><span class="o">.</span><span class="n">on_llm_new_token</span><span class="p">(</span><span class="n">chunk</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="n">chunk</span><span class="o">=</span><span class="n">chunk</span><span class="p">)</span>
             <span class="k">yield</span> <span class="n">chunk</span></div>
+
 </pre></div>
 </article>
 </div>
