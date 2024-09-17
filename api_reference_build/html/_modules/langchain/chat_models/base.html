@@ -38,7 +38,7 @@
 <link href="../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Sep 16, 2024" name="docbuild:last-update"/>
+<meta content="Sep 17, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -329,48 +329,42 @@ document.write(`
 
 <span class="sd">    Must have the integration package corresponding to the model provider installed.</span>
 
-<span class="sd">    .. versionadded:: 0.2.7</span>
-
-<span class="sd">    .. versionchanged:: 0.2.8</span>
-
-<span class="sd">        Support for ``configurable_fields`` and ``config_prefix`` added.</span>
-
-<span class="sd">    .. versionchanged:: 0.2.12</span>
-
-<span class="sd">        Support for Ollama via langchain-ollama package added. Previously</span>
-<span class="sd">        langchain-community version of Ollama (now deprecated) was installed by default.</span>
-
 <span class="sd">    Args:</span>
 <span class="sd">        model: The name of the model, e.g. "gpt-4o", "claude-3-opus-20240229".</span>
 <span class="sd">        model_provider: The model provider. Supported model_provider values and the</span>
 <span class="sd">            corresponding integration package:</span>
-<span class="sd">                - openai (langchain-openai)</span>
-<span class="sd">                - anthropic (langchain-anthropic)</span>
-<span class="sd">                - azure_openai (langchain-openai)</span>
-<span class="sd">                - google_vertexai (langchain-google-vertexai)</span>
-<span class="sd">                - google_genai (langchain-google-genai)</span>
-<span class="sd">                - bedrock (langchain-aws)</span>
-<span class="sd">                - cohere (langchain-cohere)</span>
-<span class="sd">                - fireworks (langchain-fireworks)</span>
-<span class="sd">                - together (langchain-together)</span>
-<span class="sd">                - mistralai (langchain-mistralai)</span>
-<span class="sd">                - huggingface (langchain-huggingface)</span>
-<span class="sd">                - groq (langchain-groq)</span>
-<span class="sd">                - ollama (langchain-ollama)  [support added in langchain==0.2.12]</span>
+
+<span class="sd">            - openai (langchain-openai)</span>
+<span class="sd">            - anthropic (langchain-anthropic)</span>
+<span class="sd">            - azure_openai (langchain-openai)</span>
+<span class="sd">            - google_vertexai (langchain-google-vertexai)</span>
+<span class="sd">            - google_genai (langchain-google-genai)</span>
+<span class="sd">            - bedrock (langchain-aws)</span>
+<span class="sd">            - bedrock_converse (langchain-aws)</span>
+<span class="sd">            - cohere (langchain-cohere)</span>
+<span class="sd">            - fireworks (langchain-fireworks)</span>
+<span class="sd">            - together (langchain-together)</span>
+<span class="sd">            - mistralai (langchain-mistralai)</span>
+<span class="sd">            - huggingface (langchain-huggingface)</span>
+<span class="sd">            - groq (langchain-groq)</span>
+<span class="sd">            - ollama (langchain-ollama)  [support added in langchain==0.2.12]</span>
 
 <span class="sd">            Will attempt to infer model_provider from model if not specified. The</span>
 <span class="sd">            following providers will be inferred based on these model prefixes:</span>
-<span class="sd">                - gpt-3... or gpt-4... -&gt; openai</span>
-<span class="sd">                - claude... -&gt; anthropic</span>
-<span class="sd">                - amazon.... -&gt; bedrock</span>
-<span class="sd">                - gemini... -&gt; google_vertexai</span>
-<span class="sd">                - command... -&gt; cohere</span>
-<span class="sd">                - accounts/fireworks... -&gt; fireworks</span>
+
+<span class="sd">            - gpt-3..., gpt-4..., or o1... -&gt; openai</span>
+<span class="sd">            - claude... -&gt; anthropic</span>
+<span class="sd">            - amazon.... -&gt; bedrock</span>
+<span class="sd">            - gemini... -&gt; google_vertexai</span>
+<span class="sd">            - command... -&gt; cohere</span>
+<span class="sd">            - accounts/fireworks... -&gt; fireworks</span>
+<span class="sd">            - mistral... -&gt; mistralai</span>
 <span class="sd">        configurable_fields: Which model parameters are</span>
 <span class="sd">            configurable:</span>
-<span class="sd">                - None: No configurable fields.</span>
-<span class="sd">                - "any": All fields are configurable. *See Security Note below.*</span>
-<span class="sd">                - Union[List[str], Tuple[str, ...]]: Specified fields are configurable.</span>
+
+<span class="sd">            - None: No configurable fields.</span>
+<span class="sd">            - "any": All fields are configurable. *See Security Note below.*</span>
+<span class="sd">            - Union[List[str], Tuple[str, ...]]: Specified fields are configurable.</span>
 
 <span class="sd">            Fields are assumed to have config_prefix stripped if there is a</span>
 <span class="sd">            config_prefix. If model is specified, then defaults to None. If model is</span>
@@ -399,7 +393,9 @@ document.write(`
 <span class="sd">        ValueError: If model_provider cannot be inferred or isn't supported.</span>
 <span class="sd">        ImportError: If the model provider integration package is not installed.</span>
 
-<span class="sd">    Initialize non-configurable models:</span>
+<span class="sd">    .. dropdown:: Init non-configurable model</span>
+<span class="sd">        :open:</span>
+
 <span class="sd">        .. code-block:: python</span>
 
 <span class="sd">            # pip install langchain langchain-openai langchain-anthropic langchain-google-vertexai</span>
@@ -414,7 +410,8 @@ document.write(`
 <span class="sd">            gemini_15.invoke("what's your name")</span>
 
 
-<span class="sd">    Create a partially configurable model with no default model:</span>
+<span class="sd">    .. dropdown:: Partially configurable model with no default</span>
+
 <span class="sd">        .. code-block:: python</span>
 
 <span class="sd">            # pip install langchain langchain-openai langchain-anthropic</span>
@@ -435,7 +432,8 @@ document.write(`
 <span class="sd">            )</span>
 <span class="sd">            # claude-3.5 sonnet response</span>
 
-<span class="sd">    Create a fully configurable model with a default model and a config prefix:</span>
+<span class="sd">    .. dropdown:: Fully configurable model with a default</span>
+
 <span class="sd">        .. code-block:: python</span>
 
 <span class="sd">            # pip install langchain langchain-openai langchain-anthropic</span>
@@ -464,7 +462,8 @@ document.write(`
 <span class="sd">            )</span>
 <span class="sd">            # Claude-3.5 sonnet response with temperature 0.6</span>
 
-<span class="sd">    Bind tools to a configurable model:</span>
+<span class="sd">    .. dropdown:: Bind tools to a configurable model</span>
+
 <span class="sd">        You can call any ChatModel declarative methods on a configurable model in the</span>
 <span class="sd">        same way that you would with a normal model.</span>
 
@@ -501,6 +500,23 @@ document.write(`
 <span class="sd">                config={"configurable": {"model": "claude-3-5-sonnet-20240620"}}</span>
 <span class="sd">            )</span>
 <span class="sd">            # Claude-3.5 sonnet response with tools</span>
+
+<span class="sd">    .. versionadded:: 0.2.7</span>
+
+<span class="sd">    .. versionchanged:: 0.2.8</span>
+
+<span class="sd">        Support for ``configurable_fields`` and ``config_prefix`` added.</span>
+
+<span class="sd">    .. versionchanged:: 0.2.12</span>
+
+<span class="sd">        Support for ChatOllama via langchain-ollama package added</span>
+<span class="sd">        (langchain_ollama.ChatOllama). Previously,</span>
+<span class="sd">        the now-deprecated langchain-community version of Ollama was imported</span>
+<span class="sd">        (langchain_community.chat_models.ChatOllama).</span>
+
+<span class="sd">        Support for langchain_aws.ChatBedrockConverse added</span>
+<span class="sd">        (model_provider="bedrock_converse").</span>
+
 <span class="sd">    """</span>  <span class="c1"># noqa: E501</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">model</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">configurable_fields</span><span class="p">:</span>
         <span class="n">configurable_fields</span> <span class="o">=</span> <span class="p">(</span><span class="s2">"model"</span><span class="p">,</span> <span class="s2">"model_provider"</span><span class="p">)</span>
@@ -647,7 +663,7 @@ document.write(`
 
 
 <span class="k">def</span> <span class="nf">_attempt_infer_model_provider</span><span class="p">(</span><span class="n">model_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-    <span class="k">if</span> <span class="n">model_name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"gpt-3"</span><span class="p">)</span> <span class="ow">or</span> <span class="n">model_name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"gpt-4"</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">model_name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">pre</span><span class="p">)</span> <span class="k">for</span> <span class="n">pre</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"gpt-3"</span><span class="p">,</span> <span class="s2">"gpt-4"</span><span class="p">,</span> <span class="s2">"o1"</span><span class="p">)):</span>
         <span class="k">return</span> <span class="s2">"openai"</span>
     <span class="k">elif</span> <span class="n">model_name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"claude"</span><span class="p">):</span>
         <span class="k">return</span> <span class="s2">"anthropic"</span>
@@ -659,6 +675,8 @@ document.write(`
         <span class="k">return</span> <span class="s2">"google_vertexai"</span>
     <span class="k">elif</span> <span class="n">model_name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"amazon."</span><span class="p">):</span>
         <span class="k">return</span> <span class="s2">"bedrock"</span>
+    <span class="k">elif</span> <span class="n">model_name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"mistral"</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">"mistralai"</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span>
 

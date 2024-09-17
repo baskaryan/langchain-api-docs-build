@@ -38,7 +38,7 @@
 <link href="../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Sep 16, 2024" name="docbuild:last-update"/>
+<meta content="Sep 17, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -235,6 +235,7 @@ document.write(`
     <span class="n">AsyncIterator</span><span class="p">,</span>
     <span class="n">Callable</span><span class="p">,</span>
     <span class="n">Dict</span><span class="p">,</span>
+    <span class="n">List</span><span class="p">,</span>
     <span class="n">Optional</span><span class="p">,</span>
     <span class="n">Union</span><span class="p">,</span>
 <span class="p">)</span>
@@ -257,6 +258,16 @@ document.write(`
 <span class="kn">from</span> <span class="nn">typing_extensions</span> <span class="kn">import</span> <span class="n">Self</span>
 
 <span class="kn">from</span> <span class="nn">langchain_google_vertexai._base</span> <span class="kn">import</span> <span class="n">_VertexAIBase</span>
+
+<span class="n">_MISTRAL_MODELS</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">"mistral-nemo@2407"</span><span class="p">,</span>
+    <span class="s2">"mistral-large@2407"</span><span class="p">,</span>
+<span class="p">]</span>
+<span class="n">_LLAMA_MODELS</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">"meta/llama3-405b-instruct-maas"</span><span class="p">,</span>
+    <span class="s2">"meta/llama3-70b-instruct-maas"</span><span class="p">,</span>
+    <span class="s2">"meta/llama3-8b-instruct-maas"</span><span class="p">,</span>
+<span class="p">]</span>
 
 
 <span class="k">def</span> <span class="nf">_get_token</span><span class="p">(</span><span class="n">credentials</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Credentials</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
@@ -314,13 +325,9 @@ document.write(`
     <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">_missing_</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"VertexMaaSModelFamily"</span><span class="p">:</span>
         <span class="n">model_name</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
-        <span class="n">llama_models</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">"meta/llama3-405b-instruct-maas"</span><span class="p">,</span>
-        <span class="p">}</span>
-        <span class="n">mistral_models</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"mistral-nemo@2407"</span><span class="p">,</span> <span class="s2">"mistral-large@2407"</span><span class="p">}</span>
-        <span class="k">if</span> <span class="n">model_name</span> <span class="ow">in</span> <span class="n">llama_models</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">model_name</span> <span class="ow">in</span> <span class="n">_LLAMA_MODELS</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">VertexMaaSModelFamily</span><span class="o">.</span><span class="n">LLAMA</span>
-        <span class="k">if</span> <span class="n">model_name</span> <span class="ow">in</span> <span class="n">mistral_models</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">model_name</span> <span class="ow">in</span> <span class="n">_MISTRAL_MODELS</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">VertexMaaSModelFamily</span><span class="o">.</span><span class="n">MISTRAL</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Model </span><span class="si">{</span><span class="n">model_name</span><span class="si">}</span><span class="s2"> is not supported yet!"</span><span class="p">)</span>
 

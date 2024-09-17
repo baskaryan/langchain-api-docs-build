@@ -40,7 +40,7 @@
 <link href="../chat_models.html" rel="prev" title="chat_models"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Sep 16, 2024" name="docbuild:last-update"/>
+<meta content="Sep 17, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -318,30 +318,20 @@ document.write(`
 </div>
 <p>Initialize a ChatModel from the model name and provider.</p>
 <p>Must have the integration package corresponding to the model provider installed.</p>
-<div class="versionadded">
-<p><span class="versionmodified added">Added in version 0.2.7.</span></p>
-</div>
-<div class="versionchanged">
-<p><span class="versionmodified changed">Changed in version 0.2.8: </span>Support for <code class="docutils literal notranslate"><span class="pre">configurable_fields</span></code> and <code class="docutils literal notranslate"><span class="pre">config_prefix</span></code> added.</p>
-</div>
-<div class="versionchanged">
-<p><span class="versionmodified changed">Changed in version 0.2.12: </span>Support for Ollama via langchain-ollama package added. Previously
-langchain-community version of Ollama (now deprecated) was installed by default.</p>
-</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>model</strong> – The name of the model, e.g. “gpt-4o”, “claude-3-opus-20240229”.</p></li>
 <li><p><strong>model_provider</strong> – <p>The model provider. Supported model_provider values and the
 corresponding integration package:</p>
-<blockquote>
-<div><ul>
+<ul>
 <li><p>openai (langchain-openai)</p></li>
 <li><p>anthropic (langchain-anthropic)</p></li>
 <li><p>azure_openai (langchain-openai)</p></li>
 <li><p>google_vertexai (langchain-google-vertexai)</p></li>
 <li><p>google_genai (langchain-google-genai)</p></li>
 <li><p>bedrock (langchain-aws)</p></li>
+<li><p>bedrock_converse (langchain-aws)</p></li>
 <li><p>cohere (langchain-cohere)</p></li>
 <li><p>fireworks (langchain-fireworks)</p></li>
 <li><p>together (langchain-together)</p></li>
@@ -350,29 +340,25 @@ corresponding integration package:</p>
 <li><p>groq (langchain-groq)</p></li>
 <li><p>ollama (langchain-ollama)  [support added in langchain==0.2.12]</p></li>
 </ul>
-</div></blockquote>
 <p>Will attempt to infer model_provider from model if not specified. The
 following providers will be inferred based on these model prefixes:</p>
-<blockquote>
-<div><ul>
-<li><p>gpt-3… or gpt-4… -&gt; openai</p></li>
+<ul>
+<li><p>gpt-3…, gpt-4…, or o1… -&gt; openai</p></li>
 <li><p>claude… -&gt; anthropic</p></li>
 <li><p>amazon…. -&gt; bedrock</p></li>
 <li><p>gemini… -&gt; google_vertexai</p></li>
 <li><p>command… -&gt; cohere</p></li>
 <li><p>accounts/fireworks… -&gt; fireworks</p></li>
+<li><p>mistral… -&gt; mistralai</p></li>
 </ul>
-</div></blockquote>
 </p></li>
 <li><p><strong>configurable_fields</strong> – <p>Which model parameters are
 configurable:</p>
-<blockquote>
-<div><ul>
+<ul>
 <li><p>None: No configurable fields.</p></li>
 <li><p>”any”: All fields are configurable. <em>See Security Note below.</em></p></li>
 <li><p>Union[List[str], Tuple[str, …]]: Specified fields are configurable.</p></li>
 </ul>
-</div></blockquote>
 <p>Fields are assumed to have config_prefix stripped if there is a
 config_prefix. If model is specified, then defaults to None. If model is
 not specified, then defaults to <code class="docutils literal notranslate"><span class="pre">("model",</span> <span class="pre">"model_provider")</span></code>.</p>
@@ -403,8 +389,10 @@ that initializes the underlying model at runtime once a config is passed in.</p>
 </ul>
 </dd>
 </dl>
-<dl>
-<dt>Initialize non-configurable models:</dt><dd><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># pip install langchain langchain-openai langchain-anthropic langchain-google-vertexai</span>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3" open="open">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Init non-configurable model</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg aria-hidden="true" class="sd-octicon sd-octicon-chevron-right" height="1.5em" version="1.1" viewbox="0 0 24 24" width="1.5em"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># pip install langchain langchain-openai langchain-anthropic langchain-google-vertexai</span>
 <span class="kn">from</span> <span class="nn">langchain.chat_models</span> <span class="kn">import</span> <span class="n">init_chat_model</span>
 
 <span class="n">gpt_4o</span> <span class="o">=</span> <span class="n">init_chat_model</span><span class="p">(</span><span class="s2">"gpt-4o"</span><span class="p">,</span> <span class="n">model_provider</span><span class="o">=</span><span class="s2">"openai"</span><span class="p">,</span> <span class="n">temperature</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
@@ -416,8 +404,11 @@ that initializes the underlying model at runtime once a config is passed in.</p>
 <span class="n">gemini_15</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="s2">"what's your name"</span><span class="p">)</span>
 </pre></div>
 </div>
-</dd>
-<dt>Create a partially configurable model with no default model:</dt><dd><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># pip install langchain langchain-openai langchain-anthropic</span>
+</div>
+</details><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Partially configurable model with no default</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg aria-hidden="true" class="sd-octicon sd-octicon-chevron-right" height="1.5em" version="1.1" viewbox="0 0 24 24" width="1.5em"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># pip install langchain langchain-openai langchain-anthropic</span>
 <span class="kn">from</span> <span class="nn">langchain.chat_models</span> <span class="kn">import</span> <span class="n">init_chat_model</span>
 
 <span class="c1"># We don't need to specify configurable=True if a model isn't specified.</span>
@@ -436,8 +427,11 @@ that initializes the underlying model at runtime once a config is passed in.</p>
 <span class="c1"># claude-3.5 sonnet response</span>
 </pre></div>
 </div>
-</dd>
-<dt>Create a fully configurable model with a default model and a config prefix:</dt><dd><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># pip install langchain langchain-openai langchain-anthropic</span>
+</div>
+</details><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Fully configurable model with a default</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg aria-hidden="true" class="sd-octicon sd-octicon-chevron-right" height="1.5em" version="1.1" viewbox="0 0 24 24" width="1.5em"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># pip install langchain langchain-openai langchain-anthropic</span>
 <span class="kn">from</span> <span class="nn">langchain.chat_models</span> <span class="kn">import</span> <span class="n">init_chat_model</span>
 
 <span class="n">configurable_model_with_default</span> <span class="o">=</span> <span class="n">init_chat_model</span><span class="p">(</span>
@@ -464,8 +458,11 @@ that initializes the underlying model at runtime once a config is passed in.</p>
 <span class="c1"># Claude-3.5 sonnet response with temperature 0.6</span>
 </pre></div>
 </div>
-</dd>
-<dt>Bind tools to a configurable model:</dt><dd><p>You can call any ChatModel declarative methods on a configurable model in the
+</div>
+</details><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Bind tools to a configurable model</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg aria-hidden="true" class="sd-octicon sd-octicon-chevron-right" height="1.5em" version="1.1" viewbox="0 0 24 24" width="1.5em"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<p class="sd-card-text">You can call any ChatModel declarative methods on a configurable model in the
 same way that you would with a normal model.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># pip install langchain langchain-openai langchain-anthropic</span>
 <span class="kn">from</span> <span class="nn">langchain.chat_models</span> <span class="kn">import</span> <span class="n">init_chat_model</span>
@@ -500,8 +497,21 @@ same way that you would with a normal model.</p>
 <span class="c1"># Claude-3.5 sonnet response with tools</span>
 </pre></div>
 </div>
-</dd>
-</dl>
+</div>
+</details><div class="versionadded">
+<p><span class="versionmodified added">Added in version 0.2.7.</span></p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 0.2.8: </span>Support for <code class="docutils literal notranslate"><span class="pre">configurable_fields</span></code> and <code class="docutils literal notranslate"><span class="pre">config_prefix</span></code> added.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 0.2.12: </span>Support for ChatOllama via langchain-ollama package added
+(langchain_ollama.ChatOllama). Previously,
+the now-deprecated langchain-community version of Ollama was imported
+(langchain_community.chat_models.ChatOllama).</p>
+<p>Support for langchain_aws.ChatBedrockConverse added
+(model_provider=”bedrock_converse”).</p>
+</div>
 </dd></dl>
 <p class="rubric">Examples using init_chat_model</p>
 <ul class="simple">
