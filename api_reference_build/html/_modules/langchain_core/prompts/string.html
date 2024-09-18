@@ -38,7 +38,7 @@
 <link href="../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Sep 17, 2024" name="docbuild:last-update"/>
+<meta content="Sep 18, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -234,7 +234,7 @@ document.write(`
 <span class="kn">import</span> <span class="nn">warnings</span>
 <span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span>
 <span class="kn">from</span> <span class="nn">string</span> <span class="kn">import</span> <span class="n">Formatter</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Set</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Type</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span>
 
 <span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">create_model</span>
 
@@ -294,7 +294,7 @@ document.write(`
 
 <div class="viewcode-block" id="validate_jinja2">
 <a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.string.validate_jinja2.html#langchain_core.prompts.few_shot.validate_jinja2">[docs]</a>
-<span class="k">def</span> <span class="nf">validate_jinja2</span><span class="p">(</span><span class="n">template</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">input_variables</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">validate_jinja2</span><span class="p">(</span><span class="n">template</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">input_variables</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Validate that the input variables are valid for the template.</span>
 <span class="sd">    Issues a warning if missing or extra variables are found.</span>
@@ -320,7 +320,7 @@ document.write(`
 
 
 
-<span class="k">def</span> <span class="nf">_get_jinja2_variables_from_template</span><span class="p">(</span><span class="n">template</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Set</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="k">def</span> <span class="nf">_get_jinja2_variables_from_template</span><span class="p">(</span><span class="n">template</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="kn">from</span> <span class="nn">jinja2</span> <span class="kn">import</span> <span class="n">Environment</span><span class="p">,</span> <span class="n">meta</span>
     <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
@@ -354,7 +354,7 @@ document.write(`
 <a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.string.mustache_template_vars.html#langchain_core.prompts.few_shot.mustache_template_vars">[docs]</a>
 <span class="k">def</span> <span class="nf">mustache_template_vars</span><span class="p">(</span>
     <span class="n">template</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Set</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">"""Get the variables from a mustache template.</span>
 
 <span class="sd">    Args:</span>
@@ -363,7 +363,7 @@ document.write(`
 <span class="sd">    Returns:</span>
 <span class="sd">        The variables from the template.</span>
 <span class="sd">    """</span>
-    <span class="nb">vars</span><span class="p">:</span> <span class="n">Set</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="nb">vars</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
     <span class="n">section_depth</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="k">for</span> <span class="nb">type</span><span class="p">,</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">mustache</span><span class="o">.</span><span class="n">tokenize</span><span class="p">(</span><span class="n">template</span><span class="p">):</span>
         <span class="k">if</span> <span class="nb">type</span> <span class="o">==</span> <span class="s2">"end"</span><span class="p">:</span>
@@ -387,7 +387,7 @@ document.write(`
 <a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.string.mustache_schema.html#langchain_core.prompts.few_shot.mustache_schema">[docs]</a>
 <span class="k">def</span> <span class="nf">mustache_schema</span><span class="p">(</span>
     <span class="n">template</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Type</span><span class="p">[</span><span class="n">BaseModel</span><span class="p">]:</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">type</span><span class="p">[</span><span class="n">BaseModel</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">"""Get the variables from a mustache template.</span>
 
 <span class="sd">    Args:</span>
@@ -397,8 +397,8 @@ document.write(`
 <span class="sd">        The variables from the template as a Pydantic model.</span>
 <span class="sd">    """</span>
     <span class="n">fields</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="n">prefix</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="p">()</span>
-    <span class="n">section_stack</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">prefix</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="p">()</span>
+    <span class="n">section_stack</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="nb">type</span><span class="p">,</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">mustache</span><span class="o">.</span><span class="n">tokenize</span><span class="p">(</span><span class="n">template</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">"."</span><span class="p">:</span>
             <span class="k">continue</span>
@@ -422,7 +422,7 @@ document.write(`
 
 
 
-<span class="k">def</span> <span class="nf">_create_model_recursive</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">defs</span><span class="p">:</span> <span class="n">Defs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Type</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">_create_model_recursive</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">defs</span><span class="p">:</span> <span class="n">Defs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">type</span><span class="p">:</span>
     <span class="k">return</span> <span class="n">create_model</span><span class="p">(</span>  <span class="c1"># type: ignore[call-overload]</span>
         <span class="n">name</span><span class="p">,</span>
         <span class="o">**</span><span class="p">{</span>
@@ -432,13 +432,13 @@ document.write(`
     <span class="p">)</span>
 
 
-<span class="n">DEFAULT_FORMATTER_MAPPING</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+<span class="n">DEFAULT_FORMATTER_MAPPING</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s2">"f-string"</span><span class="p">:</span> <span class="n">formatter</span><span class="o">.</span><span class="n">format</span><span class="p">,</span>
     <span class="s2">"mustache"</span><span class="p">:</span> <span class="n">mustache_formatter</span><span class="p">,</span>
     <span class="s2">"jinja2"</span><span class="p">:</span> <span class="n">jinja2_formatter</span><span class="p">,</span>
 <span class="p">}</span>
 
-<span class="n">DEFAULT_VALIDATOR_MAPPING</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+<span class="n">DEFAULT_VALIDATOR_MAPPING</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s2">"f-string"</span><span class="p">:</span> <span class="n">formatter</span><span class="o">.</span><span class="n">validate_input_variables</span><span class="p">,</span>
     <span class="s2">"jinja2"</span><span class="p">:</span> <span class="n">validate_jinja2</span><span class="p">,</span>
 <span class="p">}</span>
@@ -447,7 +447,7 @@ document.write(`
 <div class="viewcode-block" id="check_valid_template">
 <a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.string.check_valid_template.html#langchain_core.prompts.few_shot.check_valid_template">[docs]</a>
 <span class="k">def</span> <span class="nf">check_valid_template</span><span class="p">(</span>
-    <span class="n">template</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">template_format</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">input_variables</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">template</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">template_format</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">input_variables</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Check that template string is valid.</span>
 
@@ -479,7 +479,7 @@ document.write(`
 
 <div class="viewcode-block" id="get_template_variables">
 <a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.string.get_template_variables.html#langchain_core.prompts.few_shot.get_template_variables">[docs]</a>
-<span class="k">def</span> <span class="nf">get_template_variables</span><span class="p">(</span><span class="n">template</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">template_format</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="k">def</span> <span class="nf">get_template_variables</span><span class="p">(</span><span class="n">template</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">template_format</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">"""Get the variables from the template.</span>
 
 <span class="sd">    Args:</span>
@@ -514,7 +514,7 @@ document.write(`
 <span class="w">    </span><span class="sd">"""String prompt that exposes the format method, returning a prompt."""</span>
 
     <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">get_lc_namespace</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">get_lc_namespace</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">"""Get the namespace of the langchain object."""</span>
         <span class="k">return</span> <span class="p">[</span><span class="s2">"langchain"</span><span class="p">,</span> <span class="s2">"prompts"</span><span class="p">,</span> <span class="s2">"base"</span><span class="p">]</span>
 

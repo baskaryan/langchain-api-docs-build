@@ -38,7 +38,7 @@
 <link href="../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Sep 17, 2024" name="docbuild:last-update"/>
+<meta content="Sep 18, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -423,35 +423,35 @@ document.write(`
 
             <span class="c1"># populate content</span>
             <span class="n">content</span> <span class="o">=</span> <span class="p">[]</span>
-            <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">message</span><span class="o">.</span><span class="n">content</span><span class="p">:</span>
-                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-                    <span class="n">content</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">"type"</span><span class="p">:</span> <span class="s2">"text"</span><span class="p">,</span> <span class="s2">"text"</span><span class="p">:</span> <span class="n">item</span><span class="p">})</span>
-                <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
-                    <span class="k">if</span> <span class="s2">"type"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">item</span><span class="p">:</span>
-                        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Dict content item must have a type key"</span><span class="p">)</span>
-                    <span class="k">elif</span> <span class="n">item</span><span class="p">[</span><span class="s2">"type"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"image_url"</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">block</span> <span class="ow">in</span> <span class="n">message</span><span class="o">.</span><span class="n">content</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">block</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+                    <span class="n">content</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">"type"</span><span class="p">:</span> <span class="s2">"text"</span><span class="p">,</span> <span class="s2">"text"</span><span class="p">:</span> <span class="n">block</span><span class="p">})</span>
+                <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">block</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="s2">"type"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">block</span><span class="p">:</span>
+                        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Dict content block must have a type key"</span><span class="p">)</span>
+                    <span class="k">elif</span> <span class="n">block</span><span class="p">[</span><span class="s2">"type"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"image_url"</span><span class="p">:</span>
                         <span class="c1"># convert format</span>
-                        <span class="n">source</span> <span class="o">=</span> <span class="n">_format_image</span><span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="s2">"image_url"</span><span class="p">][</span><span class="s2">"url"</span><span class="p">])</span>
+                        <span class="n">source</span> <span class="o">=</span> <span class="n">_format_image</span><span class="p">(</span><span class="n">block</span><span class="p">[</span><span class="s2">"image_url"</span><span class="p">][</span><span class="s2">"url"</span><span class="p">])</span>
                         <span class="n">content</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">"type"</span><span class="p">:</span> <span class="s2">"image"</span><span class="p">,</span> <span class="s2">"source"</span><span class="p">:</span> <span class="n">source</span><span class="p">})</span>
-                    <span class="k">elif</span> <span class="n">item</span><span class="p">[</span><span class="s2">"type"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"tool_use"</span><span class="p">:</span>
+                    <span class="k">elif</span> <span class="n">block</span><span class="p">[</span><span class="s2">"type"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"tool_use"</span><span class="p">:</span>
                         <span class="c1"># If a tool_call with the same id as a tool_use content block</span>
                         <span class="c1"># exists, the tool_call is preferred.</span>
-                        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">AIMessage</span><span class="p">)</span> <span class="ow">and</span> <span class="n">item</span><span class="p">[</span><span class="s2">"id"</span><span class="p">]</span> <span class="ow">in</span> <span class="p">[</span>
+                        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">AIMessage</span><span class="p">)</span> <span class="ow">and</span> <span class="n">block</span><span class="p">[</span><span class="s2">"id"</span><span class="p">]</span> <span class="ow">in</span> <span class="p">[</span>
                             <span class="n">tc</span><span class="p">[</span><span class="s2">"id"</span><span class="p">]</span> <span class="k">for</span> <span class="n">tc</span> <span class="ow">in</span> <span class="n">message</span><span class="o">.</span><span class="n">tool_calls</span>
                         <span class="p">]:</span>
                             <span class="n">overlapping</span> <span class="o">=</span> <span class="p">[</span>
                                 <span class="n">tc</span>
                                 <span class="k">for</span> <span class="n">tc</span> <span class="ow">in</span> <span class="n">message</span><span class="o">.</span><span class="n">tool_calls</span>
-                                <span class="k">if</span> <span class="n">tc</span><span class="p">[</span><span class="s2">"id"</span><span class="p">]</span> <span class="o">==</span> <span class="n">item</span><span class="p">[</span><span class="s2">"id"</span><span class="p">]</span>
+                                <span class="k">if</span> <span class="n">tc</span><span class="p">[</span><span class="s2">"id"</span><span class="p">]</span> <span class="o">==</span> <span class="n">block</span><span class="p">[</span><span class="s2">"id"</span><span class="p">]</span>
                             <span class="p">]</span>
                             <span class="n">content</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
                                 <span class="n">_lc_tool_calls_to_anthropic_tool_use_blocks</span><span class="p">(</span><span class="n">overlapping</span><span class="p">)</span>
                             <span class="p">)</span>
                         <span class="k">else</span><span class="p">:</span>
-                            <span class="n">item</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"text"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-                            <span class="n">content</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
-                    <span class="k">elif</span> <span class="n">item</span><span class="p">[</span><span class="s2">"type"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"text"</span><span class="p">:</span>
-                        <span class="n">text</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"text"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span>
+                            <span class="n">block</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"text"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+                            <span class="n">content</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">block</span><span class="p">)</span>
+                    <span class="k">elif</span> <span class="n">block</span><span class="p">[</span><span class="s2">"type"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"text"</span><span class="p">:</span>
+                        <span class="n">text</span> <span class="o">=</span> <span class="n">block</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"text"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span>
                         <span class="c1"># Only add non-empty strings for now as empty ones are not</span>
                         <span class="c1"># accepted.</span>
                         <span class="c1"># https://github.com/anthropics/anthropic-sdk-python/issues/461</span>
@@ -459,28 +459,44 @@ document.write(`
                             <span class="n">content</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
                                 <span class="p">{</span>
                                     <span class="n">k</span><span class="p">:</span> <span class="n">v</span>
-                                    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">item</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+                                    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">block</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
                                     <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"type"</span><span class="p">,</span> <span class="s2">"text"</span><span class="p">,</span> <span class="s2">"cache_control"</span><span class="p">)</span>
                                 <span class="p">}</span>
                             <span class="p">)</span>
+                    <span class="k">elif</span> <span class="n">block</span><span class="p">[</span><span class="s2">"type"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"tool_result"</span><span class="p">:</span>
+                        <span class="n">tool_content</span> <span class="o">=</span> <span class="n">_format_messages</span><span class="p">(</span>
+                            <span class="p">[</span><span class="n">HumanMessage</span><span class="p">(</span><span class="n">block</span><span class="p">[</span><span class="s2">"content"</span><span class="p">])]</span>
+                        <span class="p">)[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">"content"</span><span class="p">]</span>
+                        <span class="n">content</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="o">**</span><span class="n">block</span><span class="p">,</span> <span class="o">**</span><span class="p">{</span><span class="s2">"content"</span><span class="p">:</span> <span class="n">tool_content</span><span class="p">}})</span>
                     <span class="k">else</span><span class="p">:</span>
-                        <span class="n">content</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+                        <span class="n">content</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">block</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                        <span class="sa">f</span><span class="s2">"Content items must be str or dict, instead was: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">item</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span>
+                        <span class="sa">f</span><span class="s2">"Content blocks must be str or dict, instead was: "</span>
+                        <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">block</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span>
                     <span class="p">)</span>
-        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">AIMessage</span><span class="p">)</span> <span class="ow">and</span> <span class="n">message</span><span class="o">.</span><span class="n">tool_calls</span><span class="p">:</span>
-            <span class="n">content</span> <span class="o">=</span> <span class="p">(</span>
-                <span class="p">[]</span>
-                <span class="k">if</span> <span class="ow">not</span> <span class="n">message</span><span class="o">.</span><span class="n">content</span>
-                <span class="k">else</span> <span class="p">[{</span><span class="s2">"type"</span><span class="p">:</span> <span class="s2">"text"</span><span class="p">,</span> <span class="s2">"text"</span><span class="p">:</span> <span class="n">message</span><span class="o">.</span><span class="n">content</span><span class="p">}]</span>
-            <span class="p">)</span>
-            <span class="c1"># Note: Anthropic can't have invalid tool calls as presently defined,</span>
-            <span class="c1"># since the model already returns dicts args not JSON strings, and invalid</span>
-            <span class="c1"># tool calls are those with invalid JSON for args.</span>
-            <span class="n">content</span> <span class="o">+=</span> <span class="n">_lc_tool_calls_to_anthropic_tool_use_blocks</span><span class="p">(</span><span class="n">message</span><span class="o">.</span><span class="n">tool_calls</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">content</span> <span class="o">=</span> <span class="n">message</span><span class="o">.</span><span class="n">content</span>
+
+        <span class="c1"># Ensure all tool_calls have a tool_use content block</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">AIMessage</span><span class="p">)</span> <span class="ow">and</span> <span class="n">message</span><span class="o">.</span><span class="n">tool_calls</span><span class="p">:</span>
+            <span class="n">content</span> <span class="o">=</span> <span class="n">content</span> <span class="ow">or</span> <span class="p">[]</span>
+            <span class="n">content</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="p">[{</span><span class="s2">"type"</span><span class="p">:</span> <span class="s2">"text"</span><span class="p">,</span> <span class="s2">"text"</span><span class="p">:</span> <span class="n">message</span><span class="o">.</span><span class="n">content</span><span class="p">}]</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">content</span>
+                <span class="k">else</span> <span class="n">content</span>
+            <span class="p">)</span>
+            <span class="n">tool_use_ids</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">cast</span><span class="p">(</span><span class="nb">dict</span><span class="p">,</span> <span class="n">block</span><span class="p">)[</span><span class="s2">"id"</span><span class="p">]</span>
+                <span class="k">for</span> <span class="n">block</span> <span class="ow">in</span> <span class="n">content</span>
+                <span class="k">if</span> <span class="n">cast</span><span class="p">(</span><span class="nb">dict</span><span class="p">,</span> <span class="n">block</span><span class="p">)[</span><span class="s2">"type"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"tool_use"</span>
+            <span class="p">]</span>
+            <span class="n">missing_tool_calls</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">tc</span> <span class="k">for</span> <span class="n">tc</span> <span class="ow">in</span> <span class="n">message</span><span class="o">.</span><span class="n">tool_calls</span> <span class="k">if</span> <span class="n">tc</span><span class="p">[</span><span class="s2">"id"</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">tool_use_ids</span>
+            <span class="p">]</span>
+            <span class="n">cast</span><span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="n">content</span><span class="p">)</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
+                <span class="n">_lc_tool_calls_to_anthropic_tool_use_blocks</span><span class="p">(</span><span class="n">missing_tool_calls</span><span class="p">)</span>
+            <span class="p">)</span>
 
         <span class="n">formatted_messages</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">"role"</span><span class="p">:</span> <span class="n">role</span><span class="p">,</span> <span class="s2">"content"</span><span class="p">:</span> <span class="n">content</span><span class="p">})</span>
     <span class="k">return</span> <span class="n">system</span><span class="p">,</span> <span class="n">formatted_messages</span>
@@ -1040,14 +1056,14 @@ document.write(`
 <span class="sd">        Args:</span>
 <span class="sd">            tools: A list of tool definitions to bind to this chat model.</span>
 <span class="sd">                Supports Anthropic format tool schemas and any tool definition handled</span>
-<span class="sd">                by :meth:`langchain_core.utils.function_calling.convert_to_openai_tool`.</span>
+<span class="sd">                by :meth:`~langchain_core.utils.function_calling.convert_to_openai_tool`.</span>
 <span class="sd">            tool_choice: Which tool to require the model to call. Options are:</span>
 
 <span class="sd">                - name of the tool as a string or as dict ``{"type": "tool", "name": "&lt;&lt;tool_name&gt;&gt;"}``: calls corresponding tool;</span>
 <span class="sd">                - ``"auto"``, ``{"type: "auto"}``, or None: automatically selects a tool (including no tool);</span>
 <span class="sd">                - ``"any"`` or ``{"type: "any"}``: force at least one tool to be called;</span>
 <span class="sd">            kwargs: Any additional parameters are passed directly to</span>
-<span class="sd">                ``self.bind(**kwargs)``.</span>
+<span class="sd">                :meth:`~langchain_anthropic.chat_models.ChatAnthropic.bind`.</span>
 
 <span class="sd">        Example:</span>
 <span class="sd">            .. code-block:: python</span>
@@ -1066,7 +1082,7 @@ document.write(`
 <span class="sd">                    product: str = Field(..., description="The product to look up.")</span>
 
 
-<span class="sd">                llm = ChatAnthropic(model="claude-3-opus-20240229", temperature=0)</span>
+<span class="sd">                llm = ChatAnthropic(model="claude-3-5-sonnet-20240620", temperature=0)</span>
 <span class="sd">                llm_with_tools = llm.bind_tools([GetWeather, GetPrice])</span>
 <span class="sd">                llm_with_tools.invoke("what is the weather like in San Francisco",)</span>
 <span class="sd">                # -&gt; AIMessage(</span>
@@ -1074,7 +1090,7 @@ document.write(`
 <span class="sd">                #         {'text': '&lt;thinking&gt;\nBased on the user\'s question, the relevant function to call is GetWeather, which requires the "location" parameter.\n\nThe user has directly specified the location as "San Francisco". Since San Francisco is a well known city, I can reasonably infer they mean San Francisco, CA without needing the state specified.\n\nAll the required parameters are provided, so I can proceed with the API call.\n&lt;/thinking&gt;', 'type': 'text'},</span>
 <span class="sd">                #         {'text': None, 'type': 'tool_use', 'id': 'toolu_01SCgExKzQ7eqSkMHfygvYuu', 'name': 'GetWeather', 'input': {'location': 'San Francisco, CA'}}</span>
 <span class="sd">                #     ],</span>
-<span class="sd">                #     response_metadata={'id': 'msg_01GM3zQtoFv8jGQMW7abLnhi', 'model': 'claude-3-opus-20240229', 'stop_reason': 'tool_use', 'stop_sequence': None, 'usage': {'input_tokens': 487, 'output_tokens': 145}},</span>
+<span class="sd">                #     response_metadata={'id': 'msg_01GM3zQtoFv8jGQMW7abLnhi', 'model': 'claude-3-5-sonnet-20240620', 'stop_reason': 'tool_use', 'stop_sequence': None, 'usage': {'input_tokens': 487, 'output_tokens': 145}},</span>
 <span class="sd">                #     id='run-87b1331e-9251-4a68-acef-f0a018b639cc-0'</span>
 <span class="sd">                # )</span>
 
@@ -1095,7 +1111,7 @@ document.write(`
 <span class="sd">                    product: str = Field(..., description="The product to look up.")</span>
 
 
-<span class="sd">                llm = ChatAnthropic(model="claude-3-opus-20240229", temperature=0)</span>
+<span class="sd">                llm = ChatAnthropic(model="claude-3-5-sonnet-20240620", temperature=0)</span>
 <span class="sd">                llm_with_tools = llm.bind_tools([GetWeather, GetPrice], tool_choice="any")</span>
 <span class="sd">                llm_with_tools.invoke("what is the weather like in San Francisco",)</span>
 
@@ -1117,7 +1133,7 @@ document.write(`
 <span class="sd">                    product: str = Field(..., description="The product to look up.")</span>
 
 
-<span class="sd">                llm = ChatAnthropic(model="claude-3-opus-20240229", temperature=0)</span>
+<span class="sd">                llm = ChatAnthropic(model="claude-3-5-sonnet-20240620", temperature=0)</span>
 <span class="sd">                llm_with_tools = llm.bind_tools([GetWeather, GetPrice], tool_choice="GetWeather")</span>
 <span class="sd">                llm_with_tools.invoke("what is the weather like in San Francisco",)</span>
 
@@ -1148,7 +1164,7 @@ document.write(`
 <span class="sd">                # We need to pass in extra headers to enable use of the beta cache</span>
 <span class="sd">                # control API.</span>
 <span class="sd">                llm = ChatAnthropic(</span>
-<span class="sd">                    model="claude-3-opus-20240229",</span>
+<span class="sd">                    model="claude-3-5-sonnet-20240620",</span>
 <span class="sd">                    temperature=0,</span>
 <span class="sd">                    extra_headers={"anthropic-beta": "prompt-caching-2024-07-31"}</span>
 <span class="sd">                )</span>
@@ -1197,24 +1213,20 @@ document.write(`
 <span class="w">        </span><span class="sd">"""Model wrapper that returns outputs formatted to match the given schema.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            schema:</span>
-<span class="sd">                The output schema. Can be passed in as:</span>
-<span class="sd">                    - an Anthropic tool schema,</span>
-<span class="sd">                    - an OpenAI function/tool schema,</span>
-<span class="sd">                    - a JSON Schema,</span>
-<span class="sd">                    - a TypedDict class (support added in 0.1.22),</span>
-<span class="sd">                    - or a Pydantic class.</span>
+<span class="sd">            schema: The output schema. Can be passed in as:</span>
+
+<span class="sd">                - an Anthropic tool schema,</span>
+<span class="sd">                - an OpenAI function/tool schema,</span>
+<span class="sd">                - a JSON Schema,</span>
+<span class="sd">                - a TypedDict class,</span>
+<span class="sd">                - or a Pydantic class.</span>
+
 <span class="sd">                If ``schema`` is a Pydantic class then the model output will be a</span>
 <span class="sd">                Pydantic instance of that class, and the model-generated fields will be</span>
 <span class="sd">                validated by the Pydantic class. Otherwise the model output will be a</span>
-<span class="sd">                dict and will not be validated. See :meth:`langchain_core.utils.function_calling.convert_to_openai_tool`</span>
+<span class="sd">                dict and will not be validated. See :meth:`~langchain_core.utils.function_calling.convert_to_openai_tool`</span>
 <span class="sd">                for more on how to properly specify types and descriptions of</span>
 <span class="sd">                schema fields when specifying a Pydantic or TypedDict class.</span>
-
-<span class="sd">                .. versionchanged:: 0.1.22</span>
-
-<span class="sd">                        Added support for TypedDict class.</span>
-
 <span class="sd">            include_raw:</span>
 <span class="sd">                If False then only the parsed structured output is returned. If</span>
 <span class="sd">                an error occurs during model output parsing it will be raised. If True</span>
@@ -1222,9 +1234,10 @@ document.write(`
 <span class="sd">                response will be returned. If an error occurs during output parsing it</span>
 <span class="sd">                will be caught and returned as well. The final output is always a dict</span>
 <span class="sd">                with keys "raw", "parsed", and "parsing_error".</span>
+<span class="sd">            kwargs: Additional keyword arguments are ignored.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            A Runnable that takes same inputs as a :class:`langchain_core.language_models.chat.BaseChatModel`.</span>
+<span class="sd">            A Runnable that takes same inputs as a :class:`~langchain_core.language_models.chat.BaseChatModel`.</span>
 
 <span class="sd">            If ``include_raw`` is False and ``schema`` is a Pydantic class, Runnable outputs</span>
 <span class="sd">            an instance of ``schema`` (i.e., a Pydantic object).</span>
@@ -1247,7 +1260,7 @@ document.write(`
 <span class="sd">                    answer: str</span>
 <span class="sd">                    justification: str</span>
 
-<span class="sd">                llm = ChatAnthropic(model="claude-3-opus-20240229", temperature=0)</span>
+<span class="sd">                llm = ChatAnthropic(model="claude-3-5-sonnet-20240620", temperature=0)</span>
 <span class="sd">                structured_llm = llm.with_structured_output(AnswerWithJustification)</span>
 
 <span class="sd">                structured_llm.invoke("What weighs more a pound of bricks or a pound of feathers")</span>
@@ -1268,7 +1281,7 @@ document.write(`
 <span class="sd">                    answer: str</span>
 <span class="sd">                    justification: str</span>
 
-<span class="sd">                llm = ChatAnthropic(model="claude-3-opus-20240229", temperature=0)</span>
+<span class="sd">                llm = ChatAnthropic(model="claude-3-5-sonnet-20240620", temperature=0)</span>
 <span class="sd">                structured_llm = llm.with_structured_output(AnswerWithJustification, include_raw=True)</span>
 
 <span class="sd">                structured_llm.invoke("What weighs more a pound of bricks or a pound of feathers")</span>
@@ -1295,7 +1308,7 @@ document.write(`
 <span class="sd">                        "required": ["answer", "justification"]</span>
 <span class="sd">                    }</span>
 <span class="sd">                }</span>
-<span class="sd">                llm = ChatAnthropic(model="claude-3-opus-20240229", temperature=0)</span>
+<span class="sd">                llm = ChatAnthropic(model="claude-3-5-sonnet-20240620", temperature=0)</span>
 <span class="sd">                structured_llm = llm.with_structured_output(schema)</span>
 
 <span class="sd">                structured_llm.invoke("What weighs more a pound of bricks or a pound of feathers")</span>
@@ -1303,6 +1316,10 @@ document.write(`
 <span class="sd">                #     'answer': 'They weigh the same',</span>
 <span class="sd">                #     'justification': 'Both a pound of bricks and a pound of feathers weigh one pound. The weight is the same, but the volume and density of the two substances differ.'</span>
 <span class="sd">                # }</span>
+
+<span class="sd">        .. versionchanged:: 0.1.22</span>
+
+<span class="sd">                Added support for TypedDict class as `schema`.</span>
 
 <span class="sd">        """</span>  <span class="c1"># noqa: E501</span>
 

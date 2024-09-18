@@ -38,7 +38,7 @@
 <link href="../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Sep 17, 2024" name="docbuild:last-update"/>
+<meta content="Sep 18, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -235,14 +235,11 @@ document.write(`
     <span class="n">TYPE_CHECKING</span><span class="p">,</span>
     <span class="n">Any</span><span class="p">,</span>
     <span class="n">Callable</span><span class="p">,</span>
-    <span class="n">Dict</span><span class="p">,</span>
     <span class="n">List</span><span class="p">,</span>
     <span class="n">Literal</span><span class="p">,</span>
     <span class="n">Mapping</span><span class="p">,</span>
     <span class="n">Optional</span><span class="p">,</span>
     <span class="n">Sequence</span><span class="p">,</span>
-    <span class="n">Set</span><span class="p">,</span>
-    <span class="n">Type</span><span class="p">,</span>
     <span class="n">TypeVar</span><span class="p">,</span>
     <span class="n">Union</span><span class="p">,</span>
 <span class="p">)</span>
@@ -282,7 +279,7 @@ document.write(`
 <span class="w">    </span><span class="sd">"""Temperature for generation."""</span>
     <span class="n">ls_max_tokens</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span>
 <span class="w">    </span><span class="sd">"""Max tokens for generation."""</span>
-    <span class="n">ls_stop</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span>
+    <span class="n">ls_stop</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span>
 <span class="w">    </span><span class="sd">"""Stop words for generation."""</span></div>
 
 
@@ -306,7 +303,7 @@ document.write(`
     <span class="k">return</span> <span class="n">GPT2TokenizerFast</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s2">"gpt2"</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">_get_token_ids_default_method</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+<span class="k">def</span> <span class="nf">_get_token_ids_default_method</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">"""Encode the text into token IDs."""</span>
     <span class="c1"># get the cached tokenizer</span>
     <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">get_tokenizer</span><span class="p">()</span>
@@ -351,11 +348,11 @@ document.write(`
 <span class="w">    </span><span class="sd">"""Whether to print out response text."""</span>
     <span class="n">callbacks</span><span class="p">:</span> <span class="n">Callbacks</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">exclude</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="w">    </span><span class="sd">"""Callbacks to add to the run trace."""</span>
-    <span class="n">tags</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">exclude</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">tags</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">exclude</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="w">    </span><span class="sd">"""Tags to add to the run trace."""</span>
-    <span class="n">metadata</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">exclude</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">metadata</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">exclude</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="w">    </span><span class="sd">"""Metadata to add to the run trace."""</span>
-    <span class="n">custom_get_token_ids</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="nb">str</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+    <span class="n">custom_get_token_ids</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="nb">str</span><span class="p">],</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]]]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">exclude</span><span class="o">=</span><span class="kc">True</span>
     <span class="p">)</span>
 <span class="w">    </span><span class="sd">"""Optional encoder to use for counting tokens."""</span>
@@ -398,13 +395,11 @@ document.write(`
             <span class="n">List</span><span class="p">[</span><span class="n">AnyMessage</span><span class="p">],</span>
         <span class="p">]</span>
 
-<div class="viewcode-block" id="BaseLanguageModel.generate_prompt">
-<a class="viewcode-back" href="../../../core/language_models/langchain_core.language_models.base.BaseLanguageModel.html#langchain_cohere.chat_models.BaseLanguageModel.generate_prompt">[docs]</a>
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">generate_prompt</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">prompts</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PromptValue</span><span class="p">],</span>
-        <span class="n">stop</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">prompts</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">PromptValue</span><span class="p">],</span>
+        <span class="n">stop</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">callbacks</span><span class="p">:</span> <span class="n">Callbacks</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LLMResult</span><span class="p">:</span>
@@ -433,16 +428,13 @@ document.write(`
 <span class="sd">        Returns:</span>
 <span class="sd">            An LLMResult, which contains a list of candidate Generations for each input</span>
 <span class="sd">                prompt and additional model provider-specific output.</span>
-<span class="sd">        """</span></div>
+<span class="sd">        """</span>
 
-
-<div class="viewcode-block" id="BaseLanguageModel.agenerate_prompt">
-<a class="viewcode-back" href="../../../core/language_models/langchain_core.language_models.base.BaseLanguageModel.html#langchain_cohere.chat_models.BaseLanguageModel.agenerate_prompt">[docs]</a>
     <span class="nd">@abstractmethod</span>
     <span class="k">async</span> <span class="k">def</span> <span class="nf">agenerate_prompt</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">prompts</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PromptValue</span><span class="p">],</span>
-        <span class="n">stop</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">prompts</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">PromptValue</span><span class="p">],</span>
+        <span class="n">stop</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">callbacks</span><span class="p">:</span> <span class="n">Callbacks</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LLMResult</span><span class="p">:</span>
@@ -471,22 +463,19 @@ document.write(`
 <span class="sd">        Returns:</span>
 <span class="sd">            An LLMResult, which contains a list of candidate Generations for each input</span>
 <span class="sd">                prompt and additional model provider-specific output.</span>
-<span class="sd">        """</span></div>
-
+<span class="sd">        """</span>
 
 <div class="viewcode-block" id="BaseLanguageModel.with_structured_output">
 <a class="viewcode-back" href="../../../core/language_models/langchain_core.language_models.base.BaseLanguageModel.html#langchain_cohere.chat_models.BaseLanguageModel.with_structured_output">[docs]</a>
     <span class="k">def</span> <span class="nf">with_structured_output</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">schema</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Dict</span><span class="p">,</span> <span class="n">Type</span><span class="p">[</span><span class="n">BaseModel</span><span class="p">]],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Runnable</span><span class="p">[</span><span class="n">LanguageModelInput</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="n">Dict</span><span class="p">,</span> <span class="n">BaseModel</span><span class="p">]]:</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">schema</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="nb">type</span><span class="p">[</span><span class="n">BaseModel</span><span class="p">]],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Runnable</span><span class="p">[</span><span class="n">LanguageModelInput</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="n">BaseModel</span><span class="p">]]:</span>
 <span class="w">        </span><span class="sd">"""Not implemented on this class."""</span>
         <span class="c1"># Implement this on child class if there is a way of steering the model to</span>
         <span class="c1"># generate responses that match a given schema.</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div>
 
 
-<div class="viewcode-block" id="BaseLanguageModel.predict">
-<a class="viewcode-back" href="../../../core/language_models/langchain_core.language_models.base.BaseLanguageModel.html#langchain_cohere.chat_models.BaseLanguageModel.predict">[docs]</a>
     <span class="nd">@deprecated</span><span class="p">(</span><span class="s2">"0.1.7"</span><span class="p">,</span> <span class="n">alternative</span><span class="o">=</span><span class="s2">"invoke"</span><span class="p">,</span> <span class="n">removal</span><span class="o">=</span><span class="s2">"1.0"</span><span class="p">)</span>
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span>
@@ -506,16 +495,13 @@ document.write(`
 
 <span class="sd">        Returns:</span>
 <span class="sd">            Top model prediction as a string.</span>
-<span class="sd">        """</span></div>
+<span class="sd">        """</span>
 
-
-<div class="viewcode-block" id="BaseLanguageModel.predict_messages">
-<a class="viewcode-back" href="../../../core/language_models/langchain_core.language_models.base.BaseLanguageModel.html#langchain_cohere.chat_models.BaseLanguageModel.predict_messages">[docs]</a>
     <span class="nd">@deprecated</span><span class="p">(</span><span class="s2">"0.1.7"</span><span class="p">,</span> <span class="n">alternative</span><span class="o">=</span><span class="s2">"invoke"</span><span class="p">,</span> <span class="n">removal</span><span class="o">=</span><span class="s2">"1.0"</span><span class="p">)</span>
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">predict_messages</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">messages</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">BaseMessage</span><span class="p">],</span>
+        <span class="n">messages</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">BaseMessage</span><span class="p">],</span>
         <span class="o">*</span><span class="p">,</span>
         <span class="n">stop</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
@@ -534,11 +520,8 @@ document.write(`
 
 <span class="sd">        Returns:</span>
 <span class="sd">            Top model prediction as a message.</span>
-<span class="sd">        """</span></div>
+<span class="sd">        """</span>
 
-
-<div class="viewcode-block" id="BaseLanguageModel.apredict">
-<a class="viewcode-back" href="../../../core/language_models/langchain_core.language_models.base.BaseLanguageModel.html#langchain_cohere.chat_models.BaseLanguageModel.apredict">[docs]</a>
     <span class="nd">@deprecated</span><span class="p">(</span><span class="s2">"0.1.7"</span><span class="p">,</span> <span class="n">alternative</span><span class="o">=</span><span class="s2">"ainvoke"</span><span class="p">,</span> <span class="n">removal</span><span class="o">=</span><span class="s2">"1.0"</span><span class="p">)</span>
     <span class="nd">@abstractmethod</span>
     <span class="k">async</span> <span class="k">def</span> <span class="nf">apredict</span><span class="p">(</span>
@@ -558,16 +541,13 @@ document.write(`
 
 <span class="sd">        Returns:</span>
 <span class="sd">            Top model prediction as a string.</span>
-<span class="sd">        """</span></div>
+<span class="sd">        """</span>
 
-
-<div class="viewcode-block" id="BaseLanguageModel.apredict_messages">
-<a class="viewcode-back" href="../../../core/language_models/langchain_core.language_models.base.BaseLanguageModel.html#langchain_cohere.chat_models.BaseLanguageModel.apredict_messages">[docs]</a>
     <span class="nd">@deprecated</span><span class="p">(</span><span class="s2">"0.1.7"</span><span class="p">,</span> <span class="n">alternative</span><span class="o">=</span><span class="s2">"ainvoke"</span><span class="p">,</span> <span class="n">removal</span><span class="o">=</span><span class="s2">"1.0"</span><span class="p">)</span>
     <span class="nd">@abstractmethod</span>
     <span class="k">async</span> <span class="k">def</span> <span class="nf">apredict_messages</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">messages</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">BaseMessage</span><span class="p">],</span>
+        <span class="n">messages</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">BaseMessage</span><span class="p">],</span>
         <span class="o">*</span><span class="p">,</span>
         <span class="n">stop</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
@@ -586,8 +566,7 @@ document.write(`
 
 <span class="sd">        Returns:</span>
 <span class="sd">            Top model prediction as a message.</span>
-<span class="sd">        """</span></div>
-
+<span class="sd">        """</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">_identifying_params</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
@@ -596,7 +575,7 @@ document.write(`
 
 <div class="viewcode-block" id="BaseLanguageModel.get_token_ids">
 <a class="viewcode-back" href="../../../core/language_models/langchain_core.language_models.base.BaseLanguageModel.html#langchain_cohere.chat_models.BaseLanguageModel.get_token_ids">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_token_ids</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">get_token_ids</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">"""Return the ordered ids of the tokens in a text.</span>
 
 <span class="sd">        Args:</span>
@@ -630,7 +609,7 @@ document.write(`
 
 <div class="viewcode-block" id="BaseLanguageModel.get_num_tokens_from_messages">
 <a class="viewcode-back" href="../../../core/language_models/langchain_core.language_models.base.BaseLanguageModel.html#langchain_cohere.chat_models.BaseLanguageModel.get_num_tokens_from_messages">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_num_tokens_from_messages</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">messages</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">BaseMessage</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">get_num_tokens_from_messages</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">messages</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">BaseMessage</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Get the number of tokens in the messages.</span>
 
 <span class="sd">        Useful for checking if an input fits in a model's context window.</span>
@@ -645,7 +624,7 @@ document.write(`
 
 
     <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">_all_required_field_names</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Set</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">_all_required_field_names</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">set</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""DEPRECATED: Kept for backwards compatibility.</span>
 
 <span class="sd">        Use get_pydantic_field_names.</span>

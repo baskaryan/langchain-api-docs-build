@@ -38,7 +38,7 @@
 <link href="../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Sep 17, 2024" name="docbuild:last-update"/>
+<meta content="Sep 18, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -241,7 +241,6 @@ document.write(`
     <span class="n">Any</span><span class="p">,</span>
     <span class="n">Awaitable</span><span class="p">,</span>
     <span class="n">Callable</span><span class="p">,</span>
-    <span class="n">Dict</span><span class="p">,</span>
     <span class="n">Generator</span><span class="p">,</span>
     <span class="n">Iterable</span><span class="p">,</span>
     <span class="n">Iterator</span><span class="p">,</span>
@@ -290,13 +289,13 @@ document.write(`
 <span class="k">class</span> <span class="nc">RunnableConfig</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">,</span> <span class="n">total</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Configuration for a Runnable."""</span>
 
-    <span class="n">tags</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">tags</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
 <span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Tags for this call and any sub-calls (eg. a Chain calling an LLM).</span>
 <span class="sd">    You can use these to filter calls.</span>
 <span class="sd">    """</span>
 
-    <span class="n">metadata</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span>
+    <span class="n">metadata</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span>
 <span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Metadata for this call and any sub-calls (eg. a Chain calling an LLM).</span>
 <span class="sd">    Keys should be strings, values should be JSON-serializable.</span>
@@ -324,7 +323,7 @@ document.write(`
 <span class="sd">    Maximum number of times a call can recurse. If not provided, defaults to 25.</span>
 <span class="sd">    """</span>
 
-    <span class="n">configurable</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span>
+    <span class="n">configurable</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span>
 <span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Runtime values for attributes previously made configurable on this Runnable,</span>
 <span class="sd">    or sub-Runnables, through .configurable_fields() or .configurable_alternatives().</span>
@@ -445,7 +444,7 @@ document.write(`
 <a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.config.get_config_list.html#langchain_core.runnables.config.get_config_list">[docs]</a>
 <span class="k">def</span> <span class="nf">get_config_list</span><span class="p">(</span>
     <span class="n">config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">RunnableConfig</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">RunnableConfig</span><span class="p">]]],</span> <span class="n">length</span><span class="p">:</span> <span class="nb">int</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">RunnableConfig</span><span class="p">]:</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">RunnableConfig</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">"""Get a list of configs from a single config or a list of configs.</span>
 
 <span class="sd">     It is useful for subclasses overriding batch() or abatch().</span>
@@ -498,7 +497,7 @@ document.write(`
     <span class="n">recursion_limit</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">max_concurrency</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">run_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">configurable</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">configurable</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RunnableConfig</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Patch a config with new values.</span>
 

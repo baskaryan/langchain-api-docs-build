@@ -38,7 +38,7 @@
 <link href="../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Sep 17, 2024" name="docbuild:last-update"/>
+<meta content="Sep 18, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -262,6 +262,7 @@ document.write(`
 
 <span class="kn">import</span> <span class="nn">openai</span>
 <span class="kn">import</span> <span class="nn">tiktoken</span>
+<span class="kn">from</span> <span class="nn">langchain_core._api.deprecation</span> <span class="kn">import</span> <span class="n">deprecated</span>
 <span class="kn">from</span> <span class="nn">langchain_core.callbacks</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">AsyncCallbackManagerForLLMRun</span><span class="p">,</span>
     <span class="n">CallbackManagerForLLMRun</span><span class="p">,</span>
@@ -1205,6 +1206,11 @@ document.write(`
 
 <div class="viewcode-block" id="BaseChatOpenAI.bind_functions">
 <a class="viewcode-back" href="../../../openai/chat_models/langchain_openai.chat_models.base.BaseChatOpenAI.html#langchain_together.chat_models.BaseChatOpenAI.bind_functions">[docs]</a>
+    <span class="nd">@deprecated</span><span class="p">(</span>
+        <span class="n">since</span><span class="o">=</span><span class="s2">"0.2.1"</span><span class="p">,</span>
+        <span class="n">alternative</span><span class="o">=</span><span class="s2">"langchain_openai.chat_models.base.ChatOpenAI.bind_tools"</span><span class="p">,</span>
+        <span class="n">removal</span><span class="o">=</span><span class="s2">"0.3.0"</span><span class="p">,</span>
+    <span class="p">)</span>
     <span class="k">def</span> <span class="nf">bind_functions</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">functions</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">Type</span><span class="p">[</span><span class="n">BaseModel</span><span class="p">],</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">BaseTool</span><span class="p">]],</span>
@@ -1275,22 +1281,18 @@ document.write(`
 
 <span class="sd">        Assumes model is compatible with OpenAI tool-calling API.</span>
 
-<span class="sd">        .. versionchanged:: 0.1.21</span>
-
-<span class="sd">            Support for ``strict`` argument added.</span>
-
 <span class="sd">        Args:</span>
 <span class="sd">            tools: A list of tool definitions to bind to this chat model.</span>
 <span class="sd">                Supports any tool definition handled by</span>
 <span class="sd">                :meth:`langchain_core.utils.function_calling.convert_to_openai_tool`.</span>
-<span class="sd">            tool_choice: Which tool to require the model to call.</span>
-<span class="sd">                Options are:</span>
-<span class="sd">                    - str of the form ``"&lt;&lt;tool_name&gt;&gt;"``: calls &lt;&lt;tool_name&gt;&gt; tool.</span>
-<span class="sd">                    - ``"auto"``: automatically selects a tool (including no tool).</span>
-<span class="sd">                    - ``"none"``: does not call a tool.</span>
-<span class="sd">                    - ``"any"`` or ``"required"`` or ``True``: force at least one tool to be called.</span>
-<span class="sd">                    - dict of the form ``{"type": "function", "function": {"name": &lt;&lt;tool_name&gt;&gt;}}``: calls &lt;&lt;tool_name&gt;&gt; tool.</span>
-<span class="sd">                    - ``False`` or ``None``: no effect, default OpenAI behavior.</span>
+<span class="sd">            tool_choice: Which tool to require the model to call. Options are:</span>
+
+<span class="sd">                - str of the form ``"&lt;&lt;tool_name&gt;&gt;"``: calls &lt;&lt;tool_name&gt;&gt; tool.</span>
+<span class="sd">                - ``"auto"``: automatically selects a tool (including no tool).</span>
+<span class="sd">                - ``"none"``: does not call a tool.</span>
+<span class="sd">                - ``"any"`` or ``"required"`` or ``True``: force at least one tool to be called.</span>
+<span class="sd">                - dict of the form ``{"type": "function", "function": {"name": &lt;&lt;tool_name&gt;&gt;}}``: calls &lt;&lt;tool_name&gt;&gt; tool.</span>
+<span class="sd">                - ``False`` or ``None``: no effect, default OpenAI behavior.</span>
 <span class="sd">            strict: If True, model output is guaranteed to exactly match the JSON Schema</span>
 <span class="sd">                provided in the tool definition. If True, the input schema will be</span>
 <span class="sd">                validated according to</span>
@@ -1298,11 +1300,13 @@ document.write(`
 <span class="sd">                If False, input schema will not be validated and model output will not</span>
 <span class="sd">                be validated.</span>
 <span class="sd">                If None, ``strict`` argument will not be passed to the model.</span>
-
-<span class="sd">                .. versionadded:: 0.1.21</span>
-
 <span class="sd">            kwargs: Any additional parameters are passed directly to</span>
-<span class="sd">                ``self.bind(**kwargs)``.</span>
+<span class="sd">                :meth:`~langchain_openai.chat_models.base.ChatOpenAI.bind`.</span>
+
+<span class="sd">        .. versionchanged:: 0.1.21</span>
+
+<span class="sd">            Support for ``strict`` argument added.</span>
+
 <span class="sd">        """</span>  <span class="c1"># noqa: E501</span>
 
         <span class="n">formatted_tools</span> <span class="o">=</span> <span class="p">[</span>

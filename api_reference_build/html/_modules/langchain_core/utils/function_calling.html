@@ -38,7 +38,7 @@
 <link href="../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Sep 17, 2024" name="docbuild:last-update"/>
+<meta content="Sep 18, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -322,7 +322,7 @@ document.write(`
     <span class="n">removal</span><span class="o">=</span><span class="s2">"1.0"</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="k">def</span> <span class="nf">convert_pydantic_to_openai_function</span><span class="p">(</span>
-    <span class="n">model</span><span class="p">:</span> <span class="n">Type</span><span class="p">,</span>
+    <span class="n">model</span><span class="p">:</span> <span class="nb">type</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">description</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -343,8 +343,10 @@ document.write(`
 <span class="sd">    """</span>
     <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="s2">"model_json_schema"</span><span class="p">):</span>
         <span class="n">schema</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">model_json_schema</span><span class="p">()</span>  <span class="c1"># Pydantic 2</span>
-    <span class="k">else</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="s2">"schema"</span><span class="p">):</span>
         <span class="n">schema</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">schema</span><span class="p">()</span>  <span class="c1"># Pydantic 1</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">"Model must be a Pydantic model."</span><span class="p">)</span>
     <span class="n">schema</span> <span class="o">=</span> <span class="n">dereference_refs</span><span class="p">(</span><span class="n">schema</span><span class="p">)</span>
     <span class="k">if</span> <span class="s2">"definitions"</span> <span class="ow">in</span> <span class="n">schema</span><span class="p">:</span>  <span class="c1"># pydantic 1</span>
         <span class="n">schema</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"definitions"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
@@ -368,7 +370,7 @@ document.write(`
     <span class="n">removal</span><span class="o">=</span><span class="s2">"1.0"</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="k">def</span> <span class="nf">convert_pydantic_to_openai_tool</span><span class="p">(</span>
-    <span class="n">model</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">BaseModel</span><span class="p">],</span>
+    <span class="n">model</span><span class="p">:</span> <span class="nb">type</span><span class="p">[</span><span class="n">BaseModel</span><span class="p">],</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">description</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -438,8 +440,8 @@ document.write(`
 
 
 
-<span class="k">def</span> <span class="nf">_convert_typed_dict_to_openai_function</span><span class="p">(</span><span class="n">typed_dict</span><span class="p">:</span> <span class="n">Type</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">FunctionDescription</span><span class="p">:</span>
-    <span class="n">visited</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">def</span> <span class="nf">_convert_typed_dict_to_openai_function</span><span class="p">(</span><span class="n">typed_dict</span><span class="p">:</span> <span class="nb">type</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">FunctionDescription</span><span class="p">:</span>
+    <span class="n">visited</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="kn">from</span> <span class="nn">pydantic.v1</span> <span class="kn">import</span> <span class="n">BaseModel</span>
 
     <span class="n">model</span> <span class="o">=</span> <span class="n">cast</span><span class="p">(</span>
@@ -453,11 +455,11 @@ document.write(`
 
 
 <span class="k">def</span> <span class="nf">_convert_any_typed_dicts_to_pydantic</span><span class="p">(</span>
-    <span class="n">type_</span><span class="p">:</span> <span class="n">Type</span><span class="p">,</span>
+    <span class="n">type_</span><span class="p">:</span> <span class="nb">type</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
-    <span class="n">visited</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>
+    <span class="n">visited</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
     <span class="n">depth</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Type</span><span class="p">:</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">type</span><span class="p">:</span>
     <span class="kn">from</span> <span class="nn">pydantic.v1</span> <span class="kn">import</span> <span class="n">Field</span> <span class="k">as</span> <span class="n">Field_v1</span>
     <span class="kn">from</span> <span class="nn">pydantic.v1</span> <span class="kn">import</span> <span class="n">create_model</span> <span class="k">as</span> <span class="n">create_model_v1</span>
 
@@ -511,9 +513,9 @@ document.write(`
         <span class="n">subscriptable_origin</span> <span class="o">=</span> <span class="n">_py_38_safe_origin</span><span class="p">(</span><span class="n">origin</span><span class="p">)</span>
         <span class="n">type_args</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span>
             <span class="n">_convert_any_typed_dicts_to_pydantic</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span> <span class="n">depth</span><span class="o">=</span><span class="n">depth</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">visited</span><span class="o">=</span><span class="n">visited</span><span class="p">)</span>
-            <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">type_args</span>
+            <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">type_args</span>  <span class="c1"># type: ignore[index]</span>
         <span class="p">)</span>
-        <span class="k">return</span> <span class="n">subscriptable_origin</span><span class="p">[</span><span class="n">type_args</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">subscriptable_origin</span><span class="p">[</span><span class="n">type_args</span><span class="p">]</span>  <span class="c1"># type: ignore[index]</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">type_</span>
 
@@ -585,10 +587,10 @@ document.write(`
 <div class="viewcode-block" id="convert_to_openai_function">
 <a class="viewcode-back" href="../../../core/utils/langchain_core.utils.function_calling.convert_to_openai_function.html#langchain_core.utils.function_calling.convert_to_openai_function">[docs]</a>
 <span class="k">def</span> <span class="nf">convert_to_openai_function</span><span class="p">(</span>
-    <span class="n">function</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">Type</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">BaseTool</span><span class="p">],</span>
+    <span class="n">function</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="nb">type</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">BaseTool</span><span class="p">],</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">strict</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">"""Convert a raw function/class to an OpenAI function.</span>
 
 <span class="sd">    .. versionchanged:: 0.2.29</span>
@@ -666,10 +668,10 @@ document.write(`
 <div class="viewcode-block" id="convert_to_openai_tool">
 <a class="viewcode-back" href="../../../core/utils/langchain_core.utils.function_calling.convert_to_openai_tool.html#langchain_core.utils.function_calling.convert_to_openai_tool">[docs]</a>
 <span class="k">def</span> <span class="nf">convert_to_openai_tool</span><span class="p">(</span>
-    <span class="n">tool</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">Type</span><span class="p">[</span><span class="n">BaseModel</span><span class="p">],</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">BaseTool</span><span class="p">],</span>
+    <span class="n">tool</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="nb">type</span><span class="p">[</span><span class="n">BaseModel</span><span class="p">],</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">BaseTool</span><span class="p">],</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">strict</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">"""Convert a raw function/class to an OpenAI tool.</span>
 
 <span class="sd">    .. versionchanged:: 0.2.29</span>
@@ -696,7 +698,7 @@ document.write(`
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tool</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">and</span> <span class="n">tool</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"type"</span><span class="p">)</span> <span class="o">==</span> <span class="s2">"function"</span> <span class="ow">and</span> <span class="s2">"function"</span> <span class="ow">in</span> <span class="n">tool</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">tool</span>
     <span class="n">oai_function</span> <span class="o">=</span> <span class="n">convert_to_openai_function</span><span class="p">(</span><span class="n">tool</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="n">strict</span><span class="p">)</span>
-    <span class="n">oai_tool</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"type"</span><span class="p">:</span> <span class="s2">"function"</span><span class="p">,</span> <span class="s2">"function"</span><span class="p">:</span> <span class="n">oai_function</span><span class="p">}</span>
+    <span class="n">oai_tool</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"type"</span><span class="p">:</span> <span class="s2">"function"</span><span class="p">,</span> <span class="s2">"function"</span><span class="p">:</span> <span class="n">oai_function</span><span class="p">}</span>
     <span class="k">return</span> <span class="n">oai_tool</span></div>
 
 
@@ -704,8 +706,8 @@ document.write(`
 <div class="viewcode-block" id="tool_example_to_messages">
 <a class="viewcode-back" href="../../../core/utils/langchain_core.utils.function_calling.tool_example_to_messages.html#langchain_core.utils.function_calling.tool_example_to_messages">[docs]</a>
 <span class="k">def</span> <span class="nf">tool_example_to_messages</span><span class="p">(</span>
-    <span class="nb">input</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">tool_calls</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">BaseModel</span><span class="p">],</span> <span class="n">tool_outputs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">BaseMessage</span><span class="p">]:</span>
+    <span class="nb">input</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">tool_calls</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">BaseModel</span><span class="p">],</span> <span class="n">tool_outputs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">BaseMessage</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">"""Convert an example into a list of messages that can be fed into an LLM.</span>
 
 <span class="sd">    This code is an adapter that converts a single example to a list of messages</span>
@@ -769,7 +771,7 @@ document.write(`
 <span class="sd">                    tool_example_to_messages(txt, [tool_call])</span>
 <span class="sd">                )</span>
 <span class="sd">    """</span>
-    <span class="n">messages</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">BaseMessage</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">HumanMessage</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="nb">input</span><span class="p">)]</span>
+    <span class="n">messages</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">BaseMessage</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">HumanMessage</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="nb">input</span><span class="p">)]</span>
     <span class="n">openai_tool_calls</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">tool_call</span> <span class="ow">in</span> <span class="n">tool_calls</span><span class="p">:</span>
         <span class="n">openai_tool_calls</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
@@ -799,10 +801,10 @@ document.write(`
 
 <span class="k">def</span> <span class="nf">_parse_google_docstring</span><span class="p">(</span>
     <span class="n">docstring</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
-    <span class="n">args</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+    <span class="n">args</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">error_on_invalid_docstring</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">]:</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">"""Parse the function and argument descriptions from the docstring of a function.</span>
 
 <span class="sd">    Assumes the function docstring follows Google Python style guide.</span>
@@ -849,12 +851,12 @@ document.write(`
     <span class="k">return</span> <span class="n">description</span><span class="p">,</span> <span class="n">arg_descriptions</span>
 
 
-<span class="k">def</span> <span class="nf">_py_38_safe_origin</span><span class="p">(</span><span class="n">origin</span><span class="p">:</span> <span class="n">Type</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Type</span><span class="p">:</span>
-    <span class="n">origin_union_type_map</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Type</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+<span class="k">def</span> <span class="nf">_py_38_safe_origin</span><span class="p">(</span><span class="n">origin</span><span class="p">:</span> <span class="nb">type</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">type</span><span class="p">:</span>
+    <span class="n">origin_union_type_map</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">type</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
         <span class="p">{</span><span class="n">types</span><span class="o">.</span><span class="n">UnionType</span><span class="p">:</span> <span class="n">Union</span><span class="p">}</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">types</span><span class="p">,</span> <span class="s2">"UnionType"</span><span class="p">)</span> <span class="k">else</span> <span class="p">{}</span>
     <span class="p">)</span>
 
-    <span class="n">origin_map</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Type</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">origin_map</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">type</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
         <span class="nb">dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>
         <span class="nb">list</span><span class="p">:</span> <span class="n">List</span><span class="p">,</span>
         <span class="nb">tuple</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">,</span>
@@ -869,8 +871,8 @@ document.write(`
 
 
 <span class="k">def</span> <span class="nf">_recursive_set_additional_properties_false</span><span class="p">(</span>
-    <span class="n">schema</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+    <span class="n">schema</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">schema</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
         <span class="c1"># Check if 'required' is a key at the current level or if the schema is empty,</span>
         <span class="c1"># in which case additionalProperties still needs to be specified.</span>

@@ -38,7 +38,7 @@
 <link href="../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Sep 17, 2024" name="docbuild:last-update"/>
+<meta content="Sep 18, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -232,7 +232,7 @@ document.write(`
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
 
 <span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractmethod</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">AsyncIterator</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">AsyncIterator</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">Optional</span>
 
 <span class="kn">from</span> <span class="nn">langchain_core.documents</span> <span class="kn">import</span> <span class="n">Document</span>
 <span class="kn">from</span> <span class="nn">langchain_core.runnables</span> <span class="kn">import</span> <span class="n">run_in_executor</span>
@@ -258,14 +258,14 @@ document.write(`
     <span class="c1"># should implement the lazy load method.</span>
 <div class="viewcode-block" id="BaseLoader.load">
 <a class="viewcode-back" href="../../../core/document_loaders/langchain_core.document_loaders.base.BaseLoader.html#langchain_box.document_loaders.box.BaseLoader.load">[docs]</a>
-    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Document</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Document</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">"""Load data into Document objects."""</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lazy_load</span><span class="p">())</span></div>
 
 
 <div class="viewcode-block" id="BaseLoader.aload">
 <a class="viewcode-back" href="../../../core/document_loaders/langchain_core.document_loaders.base.BaseLoader.html#langchain_box.document_loaders.box.BaseLoader.aload">[docs]</a>
-    <span class="k">async</span> <span class="k">def</span> <span class="nf">aload</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Document</span><span class="p">]:</span>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">aload</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Document</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">"""Load data into Document objects."""</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">document</span> <span class="k">async</span> <span class="k">for</span> <span class="n">document</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">alazy_load</span><span class="p">()]</span></div>
 
@@ -274,7 +274,7 @@ document.write(`
 <a class="viewcode-back" href="../../../core/document_loaders/langchain_core.document_loaders.base.BaseLoader.html#langchain_box.document_loaders.box.BaseLoader.load_and_split">[docs]</a>
     <span class="k">def</span> <span class="nf">load_and_split</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">text_splitter</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">TextSplitter</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Document</span><span class="p">]:</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Document</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">"""Load Documents and split into chunks. Chunks are returned as Documents.</span>
 
 <span class="sd">        Do not override this method. It should be considered to be deprecated!</span>
@@ -362,7 +362,7 @@ document.write(`
 
 <div class="viewcode-block" id="BaseBlobParser.parse">
 <a class="viewcode-back" href="../../../core/document_loaders/langchain_core.document_loaders.base.BaseBlobParser.html#langchain_box.document_loaders.box.BaseBlobParser.parse">[docs]</a>
-    <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">blob</span><span class="p">:</span> <span class="n">Blob</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Document</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">blob</span><span class="p">:</span> <span class="n">Blob</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Document</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">"""Eagerly parse the blob into a document or documents.</span>
 
 <span class="sd">        This is a convenience method for interactive development environment.</span>

@@ -38,7 +38,7 @@
 <link href="../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Sep 17, 2024" name="docbuild:last-update"/>
+<meta content="Sep 18, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -562,9 +562,26 @@ document.write(`
             <span class="n">old_doc</span> <span class="o">=</span> <span class="s2">""</span>
 
         <span class="c1"># Modify the docstring to include a deprecation notice.</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="n">_alternative</span>
+            <span class="ow">and</span> <span class="n">_alternative</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"."</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="n">_alternative</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"."</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="p">):</span>
+            <span class="n">_alternative</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">":meth:`~</span><span class="si">{</span><span class="n">_alternative</span><span class="si">}</span><span class="s2">`"</span>
+        <span class="k">elif</span> <span class="n">_alternative</span><span class="p">:</span>
+            <span class="n">_alternative</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">":class:`~</span><span class="si">{</span><span class="n">_alternative</span><span class="si">}</span><span class="s2">`"</span>
+
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="n">_alternative_import</span>
+            <span class="ow">and</span> <span class="n">_alternative_import</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"."</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+            <span class="o">==</span> <span class="n">_alternative_import</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"."</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="p">):</span>
+            <span class="n">_alternative_import</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">":meth:`~</span><span class="si">{</span><span class="n">_alternative_import</span><span class="si">}</span><span class="s2">`"</span>
+        <span class="k">elif</span> <span class="n">_alternative_import</span><span class="p">:</span>
+            <span class="n">_alternative_import</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">":class:`~</span><span class="si">{</span><span class="n">_alternative_import</span><span class="si">}</span><span class="s2">`"</span>
+
         <span class="n">components</span> <span class="o">=</span> <span class="p">[</span>
             <span class="n">_message</span><span class="p">,</span>
-            <span class="sa">f</span><span class="s2">"Use ``</span><span class="si">{</span><span class="n">_alternative</span><span class="si">}</span><span class="s2">`` instead."</span> <span class="k">if</span> <span class="n">_alternative</span> <span class="k">else</span> <span class="s2">""</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">"Use </span><span class="si">{</span><span class="n">_alternative</span><span class="si">}</span><span class="s2"> instead."</span> <span class="k">if</span> <span class="n">_alternative</span> <span class="k">else</span> <span class="s2">""</span><span class="p">,</span>
             <span class="sa">f</span><span class="s2">"Use ``</span><span class="si">{</span><span class="n">_alternative_import</span><span class="si">}</span><span class="s2">`` instead."</span> <span class="k">if</span> <span class="n">_alternative_import</span> <span class="k">else</span> <span class="s2">""</span><span class="p">,</span>
             <span class="n">_addendum</span><span class="p">,</span>
         <span class="p">]</span>
