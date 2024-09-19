@@ -38,7 +38,7 @@
 <link href="../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Sep 18, 2024" name="docbuild:last-update"/>
+<meta content="Sep 19, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -236,12 +236,11 @@ document.write(`
 <span class="kn">import</span> <span class="nn">warnings</span>
 <span class="kn">from</span> <span class="nn">contextlib</span> <span class="kn">import</span> <span class="n">nullcontext</span>
 <span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">lru_cache</span><span class="p">,</span> <span class="n">wraps</span>
+<span class="kn">from</span> <span class="nn">types</span> <span class="kn">import</span> <span class="n">GenericAlias</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">Any</span><span class="p">,</span>
     <span class="n">Callable</span><span class="p">,</span>
-    <span class="n">Dict</span><span class="p">,</span>
     <span class="n">Optional</span><span class="p">,</span>
-    <span class="n">Type</span><span class="p">,</span>
     <span class="n">TypeVar</span><span class="p">,</span>
     <span class="n">Union</span><span class="p">,</span>
     <span class="n">cast</span><span class="p">,</span>
@@ -288,13 +287,13 @@ document.write(`
     <span class="kn">from</span> <span class="nn">pydantic.fields</span> <span class="kn">import</span> <span class="n">FieldInfo</span> <span class="k">as</span> <span class="n">FieldInfoV1</span>
 
     <span class="n">PydanticBaseModel</span> <span class="o">=</span> <span class="n">pydantic</span><span class="o">.</span><span class="n">BaseModel</span>
-    <span class="n">TypeBaseModel</span> <span class="o">=</span> <span class="n">Type</span><span class="p">[</span><span class="n">BaseModel</span><span class="p">]</span>
+    <span class="n">TypeBaseModel</span> <span class="o">=</span> <span class="nb">type</span><span class="p">[</span><span class="n">BaseModel</span><span class="p">]</span>
 <span class="k">elif</span> <span class="n">PYDANTIC_MAJOR_VERSION</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
     <span class="kn">from</span> <span class="nn">pydantic.v1.fields</span> <span class="kn">import</span> <span class="n">FieldInfo</span> <span class="k">as</span> <span class="n">FieldInfoV1</span>  <span class="c1"># type: ignore[assignment]</span>
 
     <span class="c1"># Union type needs to be last assignment to PydanticBaseModel to make mypy happy.</span>
     <span class="n">PydanticBaseModel</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">BaseModel</span><span class="p">,</span> <span class="n">pydantic</span><span class="o">.</span><span class="n">BaseModel</span><span class="p">]</span>  <span class="c1"># type: ignore</span>
-    <span class="n">TypeBaseModel</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">Type</span><span class="p">[</span><span class="n">BaseModel</span><span class="p">],</span> <span class="n">Type</span><span class="p">[</span><span class="n">pydantic</span><span class="o">.</span><span class="n">BaseModel</span><span class="p">]]</span>  <span class="c1"># type: ignore</span>
+    <span class="n">TypeBaseModel</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="nb">type</span><span class="p">[</span><span class="n">BaseModel</span><span class="p">],</span> <span class="nb">type</span><span class="p">[</span><span class="n">pydantic</span><span class="o">.</span><span class="n">BaseModel</span><span class="p">]]</span>  <span class="c1"># type: ignore</span>
 <span class="k">else</span><span class="p">:</span>
     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Unsupported Pydantic version: </span><span class="si">{</span><span class="n">PYDANTIC_MAJOR_VERSION</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
@@ -339,7 +338,7 @@ document.write(`
 <span class="sd">    * pydantic.v1.BaseModel in Pydantic 2.x</span>
 <span class="sd">    """</span>
     <span class="c1"># Before we can use issubclass on the cls we need to check if it is a class</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">inspect</span><span class="o">.</span><span class="n">isclass</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">inspect</span><span class="o">.</span><span class="n">isclass</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">GenericAlias</span><span class="p">):</span>
         <span class="k">return</span> <span class="kc">False</span>
 
     <span class="k">if</span> <span class="n">PYDANTIC_MAJOR_VERSION</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
@@ -686,12 +685,19 @@ document.write(`
     <span class="k">if</span> <span class="n">default_</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">NO_DEFAULT</span><span class="p">:</span>
         <span class="n">base_class_attributes</span><span class="p">[</span><span class="s2">"root"</span><span class="p">]</span> <span class="o">=</span> <span class="n">default_</span>
     <span class="k">with</span> <span class="n">warnings</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">():</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">type_</span><span class="p">,</span> <span class="nb">type</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">type_</span><span class="p">,</span> <span class="n">BaseModelV1</span><span class="p">):</span>
-            <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span>
-                <span class="n">action</span><span class="o">=</span><span class="s2">"ignore"</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="n">PydanticDeprecationWarning</span>
-            <span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="p">(</span>
+                <span class="nb">isinstance</span><span class="p">(</span><span class="n">type_</span><span class="p">,</span> <span class="nb">type</span><span class="p">)</span>
+                <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">type_</span><span class="p">,</span> <span class="n">GenericAlias</span><span class="p">)</span>
+                <span class="ow">and</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">type_</span><span class="p">,</span> <span class="n">BaseModelV1</span><span class="p">)</span>
+            <span class="p">):</span>
+                <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span>
+                    <span class="n">action</span><span class="o">=</span><span class="s2">"ignore"</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="n">PydanticDeprecationWarning</span>
+                <span class="p">)</span>
+        <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+            <span class="k">pass</span>
         <span class="n">custom_root_type</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="p">(</span><span class="n">RootModel</span><span class="p">,),</span> <span class="n">base_class_attributes</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">cast</span><span class="p">(</span><span class="n">Type</span><span class="p">[</span><span class="n">BaseModel</span><span class="p">],</span> <span class="n">custom_root_type</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">cast</span><span class="p">(</span><span class="nb">type</span><span class="p">[</span><span class="n">BaseModel</span><span class="p">],</span> <span class="n">custom_root_type</span><span class="p">)</span>
 
 
 <span class="nd">@lru_cache</span><span class="p">(</span><span class="n">maxsize</span><span class="o">=</span><span class="mi">256</span><span class="p">)</span>
@@ -820,7 +826,7 @@ document.write(`
 <span class="sd">    Returns:</span>
 <span class="sd">        Type[BaseModel]: The created model.</span>
 <span class="sd">    """</span>
-    <span class="n">field_definitions</span> <span class="o">=</span> <span class="n">cast</span><span class="p">(</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">field_definitions</span> <span class="ow">or</span> <span class="p">{})</span>  <span class="c1"># type: ignore[no-redef]</span>
+    <span class="n">field_definitions</span> <span class="o">=</span> <span class="n">cast</span><span class="p">(</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">field_definitions</span> <span class="ow">or</span> <span class="p">{})</span>  <span class="c1"># type: ignore[no-redef]</span>
 
     <span class="k">if</span> <span class="n">root</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">field_definitions</span><span class="p">:</span>

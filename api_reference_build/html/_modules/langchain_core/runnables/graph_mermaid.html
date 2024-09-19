@@ -38,7 +38,7 @@
 <link href="../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Sep 18, 2024" name="docbuild:last-update"/>
+<meta content="Sep 19, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -230,7 +230,7 @@ document.write(`
 <span></span><span class="kn">import</span> <span class="nn">base64</span>
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">asdict</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
 
 <span class="kn">from</span> <span class="nn">langchain_core.runnables.graph</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">CurveStyle</span><span class="p">,</span>
@@ -246,8 +246,8 @@ document.write(`
 <div class="viewcode-block" id="draw_mermaid">
 <a class="viewcode-back" href="../../../core/runnables/langchain_core.runnables.graph_mermaid.draw_mermaid.html#langchain_core.runnables.graph_mermaid.draw_mermaid">[docs]</a>
 <span class="k">def</span> <span class="nf">draw_mermaid</span><span class="p">(</span>
-    <span class="n">nodes</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Node</span><span class="p">],</span>
-    <span class="n">edges</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Edge</span><span class="p">],</span>
+    <span class="n">nodes</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Node</span><span class="p">],</span>
+    <span class="n">edges</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Edge</span><span class="p">],</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">first_node</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">last_node</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -318,7 +318,7 @@ document.write(`
             <span class="n">mermaid_graph</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">"</span><span class="se">\t</span><span class="si">{</span><span class="n">node_label</span><span class="si">}</span><span class="se">\n</span><span class="s2">"</span>
 
     <span class="c1"># Group edges by their common prefixes</span>
-    <span class="n">edge_groups</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Edge</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">edge_groups</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="n">Edge</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">for</span> <span class="n">edge</span> <span class="ow">in</span> <span class="n">edges</span><span class="p">:</span>
         <span class="n">src_parts</span> <span class="o">=</span> <span class="n">edge</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">":"</span><span class="p">)</span>
         <span class="n">tgt_parts</span> <span class="o">=</span> <span class="n">edge</span><span class="o">.</span><span class="n">target</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">":"</span><span class="p">)</span>
@@ -329,7 +329,7 @@ document.write(`
 
     <span class="n">seen_subgraphs</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
 
-    <span class="k">def</span> <span class="nf">add_subgraph</span><span class="p">(</span><span class="n">edges</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Edge</span><span class="p">],</span> <span class="n">prefix</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">add_subgraph</span><span class="p">(</span><span class="n">edges</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Edge</span><span class="p">],</span> <span class="n">prefix</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">nonlocal</span> <span class="n">mermaid_graph</span>
         <span class="n">self_loop</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">edges</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">edges</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">source</span> <span class="o">==</span> <span class="n">edges</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">target</span>
         <span class="k">if</span> <span class="n">prefix</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">self_loop</span><span class="p">:</span>

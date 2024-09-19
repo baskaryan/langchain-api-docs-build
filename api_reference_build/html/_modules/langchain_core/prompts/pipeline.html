@@ -38,7 +38,7 @@
 <link href="../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Sep 18, 2024" name="docbuild:last-update"/>
+<meta content="Sep 19, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -227,7 +227,7 @@ document.write(`
 <div id="searchbox"></div>
 <article class="bd-article">
 <h1>Source code for langchain_core.prompts.pipeline</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span> <span class="k">as</span> <span class="n">Optional</span>
 
 <span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">model_validator</span>
@@ -237,7 +237,7 @@ document.write(`
 <span class="kn">from</span> <span class="nn">langchain_core.prompts.chat</span> <span class="kn">import</span> <span class="n">BaseChatPromptTemplate</span>
 
 
-<span class="k">def</span> <span class="nf">_get_inputs</span><span class="p">(</span><span class="n">inputs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">input_variables</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">_get_inputs</span><span class="p">(</span><span class="n">inputs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">input_variables</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
     <span class="k">return</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">inputs</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">input_variables</span><span class="p">}</span>
 
 
@@ -259,17 +259,17 @@ document.write(`
 
     <span class="n">final_prompt</span><span class="p">:</span> <span class="n">BasePromptTemplate</span>
 <span class="w">    </span><span class="sd">"""The final prompt that is returned."""</span>
-    <span class="n">pipeline_prompts</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">BasePromptTemplate</span><span class="p">]]</span>
+    <span class="n">pipeline_prompts</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">BasePromptTemplate</span><span class="p">]]</span>
 <span class="w">    </span><span class="sd">"""A list of tuples, consisting of a string (`name`) and a Prompt Template."""</span>
 
     <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">get_lc_namespace</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">get_lc_namespace</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">"""Get the namespace of the langchain object."""</span>
         <span class="k">return</span> <span class="p">[</span><span class="s2">"langchain"</span><span class="p">,</span> <span class="s2">"prompts"</span><span class="p">,</span> <span class="s2">"pipeline"</span><span class="p">]</span>
 
     <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">"before"</span><span class="p">)</span>
     <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">get_input_variables</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">get_input_variables</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Get input variables."""</span>
         <span class="n">created_variables</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
         <span class="n">all_variables</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>

@@ -38,7 +38,7 @@
 <link href="../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Sep 18, 2024" name="docbuild:last-update"/>
+<meta content="Sep 19, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -230,17 +230,18 @@ document.write(`
 <span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
 
 <span class="kn">import</span> <span class="nn">inspect</span>
+<span class="kn">from</span> <span class="nn">collections.abc</span> <span class="kn">import</span> <span class="n">Sequence</span>
+<span class="kn">from</span> <span class="nn">types</span> <span class="kn">import</span> <span class="n">GenericAlias</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">TYPE_CHECKING</span><span class="p">,</span>
     <span class="n">Any</span><span class="p">,</span>
     <span class="n">Callable</span><span class="p">,</span>
-    <span class="n">Dict</span><span class="p">,</span>
     <span class="n">Optional</span><span class="p">,</span>
-    <span class="n">Sequence</span><span class="p">,</span>
     <span class="n">Union</span><span class="p">,</span>
 <span class="p">)</span>
 
 <span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span>
+<span class="kn">from</span> <span class="nn">typing_extensions</span> <span class="kn">import</span> <span class="n">override</span>
 
 <span class="kn">from</span> <span class="nn">langchain_core.chat_history</span> <span class="kn">import</span> <span class="n">BaseChatMessageHistory</span>
 <span class="kn">from</span> <span class="nn">langchain_core.load.load</span> <span class="kn">import</span> <span class="n">load</span>
@@ -260,7 +261,7 @@ document.write(`
     <span class="kn">from</span> <span class="nn">langchain_core.tracers.schemas</span> <span class="kn">import</span> <span class="n">Run</span>
 
 
-<span class="n">MessagesOrDictWithMessages</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="s2">"BaseMessage"</span><span class="p">],</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span>
+<span class="n">MessagesOrDictWithMessages</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="s2">"BaseMessage"</span><span class="p">],</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span>
 <span class="n">GetSessionHistoryCallable</span> <span class="o">=</span> <span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">BaseChatMessageHistory</span><span class="p">]</span>
 
 
@@ -627,6 +628,7 @@ document.write(`
         <span class="p">)</span>
 
     <span class="nd">@property</span>
+    <span class="nd">@override</span>
     <span class="k">def</span> <span class="nf">OutputType</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">type</span><span class="p">[</span><span class="n">Output</span><span class="p">]:</span>
         <span class="n">output_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_history_chain</span><span class="o">.</span><span class="n">OutputType</span>
         <span class="k">return</span> <span class="n">output_type</span>
@@ -650,7 +652,11 @@ document.write(`
 <span class="sd">        """</span>
         <span class="n">root_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">OutputType</span>
 
-        <span class="k">if</span> <span class="n">inspect</span><span class="o">.</span><span class="n">isclass</span><span class="p">(</span><span class="n">root_type</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">root_type</span><span class="p">,</span> <span class="n">BaseModel</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="n">inspect</span><span class="o">.</span><span class="n">isclass</span><span class="p">(</span><span class="n">root_type</span><span class="p">)</span>
+            <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">root_type</span><span class="p">,</span> <span class="n">GenericAlias</span><span class="p">)</span>
+            <span class="ow">and</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">root_type</span><span class="p">,</span> <span class="n">BaseModel</span><span class="p">)</span>
+        <span class="p">):</span>
             <span class="k">return</span> <span class="n">root_type</span>
 
         <span class="k">return</span> <span class="n">create_model_v2</span><span class="p">(</span>

@@ -38,7 +38,7 @@
 <link href="../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Sep 18, 2024" name="docbuild:last-update"/>
+<meta content="Sep 19, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -714,6 +714,137 @@ document.write(`
 
 
 
+<div class="viewcode-block" id="SearchTypeFilter">
+<a class="viewcode-back" href="../../../box/utilities/langchain_box.utilities.box.SearchTypeFilter.html#langchain_box.utilities.box.SearchTypeFilter">[docs]</a>
+<span class="k">class</span> <span class="nc">SearchTypeFilter</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""SearchTypeFilter.</span>
+
+<span class="sd">    Enum to limit the what we search.</span>
+<span class="sd">    """</span>
+
+    <span class="n">NAME</span> <span class="o">=</span> <span class="s2">"name"</span>
+<span class="w">    </span><span class="sd">"""The name of the item, as defined by its ``name`` field."""</span>
+
+    <span class="n">DESCRIPTION</span> <span class="o">=</span> <span class="s2">"description"</span>
+<span class="w">    </span><span class="sd">"""The description of the item, as defined by its ``description`` field."""</span>
+
+    <span class="n">FILE_CONTENT</span> <span class="o">=</span> <span class="s2">"file_content"</span>
+<span class="w">    </span><span class="sd">"""The actual content of the file."""</span>
+
+    <span class="n">COMMENTS</span> <span class="o">=</span> <span class="s2">"comments"</span>
+<span class="w">    </span><span class="sd">"""The content of any of the comments on a file or folder."""</span>
+
+    <span class="n">TAGS</span> <span class="o">=</span> <span class="s2">"tags"</span>
+<span class="w">    </span><span class="sd">"""Any tags that are applied to an item, as defined by its ``tags`` field."""</span></div>
+
+
+
+<div class="viewcode-block" id="BoxSearchOptions">
+<a class="viewcode-back" href="../../../box/utilities/langchain_box.utilities.box.BoxSearchOptions.html#langchain_box.utilities.box.BoxSearchOptions">[docs]</a>
+<span class="k">class</span> <span class="nc">BoxSearchOptions</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">ancestor_folder_ids</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""Limits the search results to items within the given list of folders, </span>
+<span class="sd">       defined as a comma separated lists of folder IDs."""</span>
+
+    <span class="n">search_type_filter</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">SearchTypeFilter</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""Limits the search results to any items that match the search query for a </span>
+<span class="sd">       specific part of the file, for example the file description.</span>
+
+<span class="sd">       Content types are defined as a comma separated lists of Box recognized </span>
+<span class="sd">       content types. The allowed content types are as follows. Default is all."""</span>
+
+    <span class="n">created_date_range</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""Limits the search results to any items created within a given date range.</span>
+
+<span class="sd">       Date ranges are defined as comma separated RFC3339 timestamps.</span>
+
+<span class="sd">       If the the start date is omitted (,2014-05-17T13:35:01-07:00) anything </span>
+<span class="sd">       created before the end date will be returned.</span>
+
+<span class="sd">       If the end date is omitted (2014-05-15T13:35:01-07:00,) the current </span>
+<span class="sd">       date will be used as the end date instead."""</span>
+
+    <span class="n">file_extensions</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">DocumentFiles</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""Limits the search results to any files that match any of the provided </span>
+<span class="sd">        file extensions. This list is a comma-separated list of </span>
+<span class="sd">        ``langchain_box.utilities.DocumentFiles`` entries"""</span>
+
+    <span class="n">k</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="w">    </span><span class="sd">"""Defines the maximum number of items to return. Defaults to 100, maximum </span>
+<span class="sd">        is 200."""</span>
+
+    <span class="n">size_range</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""Limits the search results to any items with a size within a given file </span>
+<span class="sd">        size range. This applied to files and folders.</span>
+
+<span class="sd">        Size ranges are defined as comma separated list of a lower and upper </span>
+<span class="sd">        byte size limit (inclusive).</span>
+
+<span class="sd">        The upper and lower bound can be omitted to create open ranges."""</span>
+
+    <span class="n">updated_date_range</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""Limits the search results to any items updated within a given date range.</span>
+
+<span class="sd">        Date ranges are defined as comma separated RFC3339 timestamps.</span>
+
+<span class="sd">        If the start date is omitted (,2014-05-17T13:35:01-07:00) anything </span>
+<span class="sd">        updated before the end date will be returned.</span>
+
+<span class="sd">        If the end date is omitted (2014-05-15T13:35:01-07:00,) the current </span>
+<span class="sd">        date will be used as the end date instead."""</span>
+
+<div class="viewcode-block" id="BoxSearchOptions.Config">
+<a class="viewcode-back" href="../../../box/utilities/langchain_box.utilities.box.BoxSearchOptions.html#langchain_box.utilities.box.BoxSearchOptions.Config">[docs]</a>
+    <span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
+        <span class="n">arbitrary_types_allowed</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">use_enum_values</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">extra</span> <span class="o">=</span> <span class="s2">"allow"</span></div>
+
+
+    <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">"after"</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">validate_search_options</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Validate k is between 1 and 200"""</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">k</span> <span class="o">&gt;</span> <span class="mi">200</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">k</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>  <span class="c1"># type: ignore[operator]</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">"Invalid setting of k </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">k</span><span class="si">}</span><span class="s2">. "</span> <span class="s2">"Value must be between 1 and 200."</span>
+            <span class="p">)</span>
+
+<span class="w">        </span><span class="sd">"""Validate created_date_range start date is before end date"""</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">created_date_range</span><span class="p">:</span>
+            <span class="k">if</span> <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">created_date_range</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span>  <span class="c1"># type: ignore[index]</span>
+                <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">created_date_range</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">""</span>  <span class="c1"># type: ignore[index]</span>
+                <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">created_date_range</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span>  <span class="c1"># type: ignore[index]</span>
+                <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">created_date_range</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">""</span>  <span class="c1"># type: ignore[index]</span>
+            <span class="p">):</span>
+                <span class="k">pass</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">created_date_range</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># type: ignore[index]</span>
+                    <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">created_date_range</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>  <span class="c1"># type: ignore[index]</span>
+                <span class="p">):</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Start date must be before end date."</span><span class="p">)</span>
+
+<span class="w">        </span><span class="sd">"""Validate updated_date_range start date is before end date"""</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">updated_date_range</span><span class="p">:</span>
+            <span class="k">if</span> <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">updated_date_range</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span>  <span class="c1"># type: ignore[index]</span>
+                <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">updated_date_range</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">""</span>  <span class="c1"># type: ignore[index]</span>
+                <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">updated_date_range</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span>  <span class="c1"># type: ignore[index]</span>
+                <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">updated_date_range</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">""</span>  <span class="c1"># type: ignore[index]</span>
+            <span class="p">):</span>
+                <span class="k">pass</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">updated_date_range</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># type: ignore[index]</span>
+                    <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">updated_date_range</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>  <span class="c1"># type: ignore[index]</span>
+                <span class="p">):</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Start date must be before end date."</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+
+
 <span class="k">class</span> <span class="nc">_BoxAPIWrapper</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Wrapper for Box API."""</span>
 
@@ -729,7 +860,10 @@ document.write(`
 <span class="w">    </span><span class="sd">"""character_limit is an int that caps the number of characters to</span>
 <span class="sd">       return per document."""</span>
 
-    <span class="n">_box</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">box_sdk_gen</span><span class="o">.</span><span class="n">BoxClient</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">box_search_options</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">BoxSearchOptions</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">"""Search options to configure BoxRetriever to narrow search results."""</span>
+
+    <span class="n">_box</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">box_sdk_gen</span><span class="o">.</span><span class="n">BoxClient</span><span class="p">]</span>
 
     <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span>
         <span class="n">arbitrary_types_allowed</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -880,9 +1014,25 @@ document.write(`
         <span class="n">files</span> <span class="o">=</span> <span class="p">[]</span>
 
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_box</span><span class="o">.</span><span class="n">search</span><span class="o">.</span><span class="n">search_for_content</span><span class="p">(</span>  <span class="c1">#  type: ignore[union-attr]</span>
-                <span class="n">query</span><span class="o">=</span><span class="n">query</span><span class="p">,</span> <span class="n">fields</span><span class="o">=</span><span class="p">[</span><span class="s2">"id"</span><span class="p">,</span> <span class="s2">"type"</span><span class="p">,</span> <span class="s2">"extension"</span><span class="p">]</span>
-            <span class="p">)</span>
+            <span class="n">results</span> <span class="o">=</span> <span class="kc">None</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">box_search_options</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_box</span><span class="o">.</span><span class="n">search</span><span class="o">.</span><span class="n">search_for_content</span><span class="p">(</span>  <span class="c1">#  type: ignore[union-attr]</span>
+                    <span class="n">query</span><span class="o">=</span><span class="n">query</span><span class="p">,</span> <span class="n">fields</span><span class="o">=</span><span class="p">[</span><span class="s2">"id"</span><span class="p">,</span> <span class="s2">"type"</span><span class="p">,</span> <span class="s2">"extension"</span><span class="p">],</span> <span class="nb">type</span><span class="o">=</span><span class="s2">"file"</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_box</span><span class="o">.</span><span class="n">search</span><span class="o">.</span><span class="n">search_for_content</span><span class="p">(</span>  <span class="c1">#  type: ignore[union-attr]</span>
+                    <span class="n">query</span><span class="o">=</span><span class="n">query</span><span class="p">,</span>
+                    <span class="n">fields</span><span class="o">=</span><span class="p">[</span><span class="s2">"id"</span><span class="p">,</span> <span class="s2">"type"</span><span class="p">,</span> <span class="s2">"extension"</span><span class="p">],</span>
+                    <span class="nb">type</span><span class="o">=</span><span class="s2">"file"</span><span class="p">,</span>
+                    <span class="n">ancestor_folder_ids</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">box_search_options</span><span class="o">.</span><span class="n">ancestor_folder_ids</span><span class="p">,</span>  <span class="c1">#  type: ignore[union-attr]</span>
+                    <span class="n">content_types</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">box_search_options</span><span class="o">.</span><span class="n">search_type_filter</span><span class="p">,</span>  <span class="c1">#  type: ignore[union-attr]</span>
+                    <span class="n">created_at_range</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">box_search_options</span><span class="o">.</span><span class="n">created_date_range</span><span class="p">,</span>  <span class="c1">#  type: ignore[union-attr]</span>
+                    <span class="n">file_extensions</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">box_search_options</span><span class="o">.</span><span class="n">file_extensions</span><span class="p">,</span>  <span class="c1">#  type: ignore[union-attr]</span>
+                    <span class="n">limit</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">box_search_options</span><span class="o">.</span><span class="n">k</span><span class="p">,</span>  <span class="c1">#  type: ignore[union-attr]</span>
+                    <span class="n">size_range</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">box_search_options</span><span class="o">.</span><span class="n">size_range</span><span class="p">,</span>  <span class="c1">#  type: ignore[union-attr]</span>
+                    <span class="n">updated_at_range</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">box_search_options</span><span class="o">.</span><span class="n">updated_date_range</span><span class="p">,</span>  <span class="c1">#  type: ignore[union-attr]</span>
+                <span class="p">)</span>
 
             <span class="k">if</span> <span class="n">results</span><span class="o">.</span><span class="n">entries</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">entries</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="k">return</span> <span class="kc">None</span>  <span class="c1">#  type: ignore[return-value]</span>

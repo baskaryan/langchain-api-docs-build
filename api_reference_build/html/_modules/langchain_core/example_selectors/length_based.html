@@ -38,7 +38,7 @@
 <link href="../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Sep 18, 2024" name="docbuild:last-update"/>
+<meta content="Sep 19, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -230,7 +230,7 @@ document.write(`
 <span></span><span class="sd">"""Select examples based on length."""</span>
 
 <span class="kn">import</span> <span class="nn">re</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span>
 
 <span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span><span class="p">,</span> <span class="n">model_validator</span>
 <span class="kn">from</span> <span class="nn">typing_extensions</span> <span class="kn">import</span> <span class="n">Self</span>
@@ -248,7 +248,7 @@ document.write(`
 <span class="k">class</span> <span class="nc">LengthBasedExampleSelector</span><span class="p">(</span><span class="n">BaseExampleSelector</span><span class="p">,</span> <span class="n">BaseModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Select examples based on length."""</span>
 
-    <span class="n">examples</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span>
+    <span class="n">examples</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span>
 <span class="w">    </span><span class="sd">"""A list of the examples that the prompt template expects."""</span>
 
     <span class="n">example_prompt</span><span class="p">:</span> <span class="n">PromptTemplate</span>
@@ -260,12 +260,12 @@ document.write(`
     <span class="n">max_length</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2048</span>
 <span class="w">    </span><span class="sd">"""Max length for the prompt, beyond which examples are cut."""</span>
 
-    <span class="n">example_text_lengths</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>  <span class="c1"># :meta private:</span>
+    <span class="n">example_text_lengths</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>  <span class="c1"># :meta private:</span>
 <span class="w">    </span><span class="sd">"""Length of each example."""</span>
 
 <div class="viewcode-block" id="LengthBasedExampleSelector.add_example">
 <a class="viewcode-back" href="../../../core/example_selectors/langchain_core.example_selectors.length_based.LengthBasedExampleSelector.html#langchain_core.example_selectors.length_based.LengthBasedExampleSelector.add_example">[docs]</a>
-    <span class="k">def</span> <span class="nf">add_example</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">example</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">add_example</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">example</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Add new example to list.</span>
 
 <span class="sd">        Args:</span>
@@ -279,7 +279,7 @@ document.write(`
 
 <div class="viewcode-block" id="LengthBasedExampleSelector.aadd_example">
 <a class="viewcode-back" href="../../../core/example_selectors/langchain_core.example_selectors.length_based.LengthBasedExampleSelector.html#langchain_core.example_selectors.length_based.LengthBasedExampleSelector.aadd_example">[docs]</a>
-    <span class="k">async</span> <span class="k">def</span> <span class="nf">aadd_example</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">example</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">aadd_example</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">example</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Async add new example to list.</span>
 
 <span class="sd">        Args:</span>
@@ -301,7 +301,7 @@ document.write(`
 
 <div class="viewcode-block" id="LengthBasedExampleSelector.select_examples">
 <a class="viewcode-back" href="../../../core/example_selectors/langchain_core.example_selectors.length_based.LengthBasedExampleSelector.html#langchain_core.example_selectors.length_based.LengthBasedExampleSelector.select_examples">[docs]</a>
-    <span class="k">def</span> <span class="nf">select_examples</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_variables</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">select_examples</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_variables</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">"""Select which examples to use based on the input lengths.</span>
 
 <span class="sd">        Args:</span>
@@ -328,7 +328,7 @@ document.write(`
 
 <div class="viewcode-block" id="LengthBasedExampleSelector.aselect_examples">
 <a class="viewcode-back" href="../../../core/example_selectors/langchain_core.example_selectors.length_based.LengthBasedExampleSelector.html#langchain_core.example_selectors.length_based.LengthBasedExampleSelector.aselect_examples">[docs]</a>
-    <span class="k">async</span> <span class="k">def</span> <span class="nf">aselect_examples</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_variables</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">aselect_examples</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_variables</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">"""Async select which examples to use based on the input lengths.</span>
 
 <span class="sd">        Args:</span>

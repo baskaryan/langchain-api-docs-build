@@ -38,7 +38,7 @@
 <link href="../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Sep 18, 2024" name="docbuild:last-update"/>
+<meta content="Sep 19, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -230,22 +230,20 @@ document.write(`
 <span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
 
 <span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractmethod</span>
-<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">lru_cache</span>
+<span class="kn">from</span> <span class="nn">collections.abc</span> <span class="kn">import</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Sequence</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">cache</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">TYPE_CHECKING</span><span class="p">,</span>
     <span class="n">Any</span><span class="p">,</span>
     <span class="n">Callable</span><span class="p">,</span>
-    <span class="n">List</span><span class="p">,</span>
     <span class="n">Literal</span><span class="p">,</span>
-    <span class="n">Mapping</span><span class="p">,</span>
     <span class="n">Optional</span><span class="p">,</span>
-    <span class="n">Sequence</span><span class="p">,</span>
     <span class="n">TypeVar</span><span class="p">,</span>
     <span class="n">Union</span><span class="p">,</span>
 <span class="p">)</span>
 
 <span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">ConfigDict</span><span class="p">,</span> <span class="n">Field</span><span class="p">,</span> <span class="n">field_validator</span>
-<span class="kn">from</span> <span class="nn">typing_extensions</span> <span class="kn">import</span> <span class="n">TypeAlias</span><span class="p">,</span> <span class="n">TypedDict</span>
+<span class="kn">from</span> <span class="nn">typing_extensions</span> <span class="kn">import</span> <span class="n">TypeAlias</span><span class="p">,</span> <span class="n">TypedDict</span><span class="p">,</span> <span class="n">override</span>
 
 <span class="kn">from</span> <span class="nn">langchain_core._api</span> <span class="kn">import</span> <span class="n">deprecated</span>
 <span class="kn">from</span> <span class="nn">langchain_core.messages</span> <span class="kn">import</span> <span class="p">(</span>
@@ -284,7 +282,7 @@ document.write(`
 
 
 
-<span class="nd">@lru_cache</span><span class="p">(</span><span class="n">maxsize</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>  <span class="c1"># Cache the tokenizer</span>
+<span class="nd">@cache</span>  <span class="c1"># Cache the tokenizer</span>
 <span class="k">def</span> <span class="nf">get_tokenizer</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Get a GPT-2 tokenizer instance.</span>
 
@@ -379,6 +377,7 @@ document.write(`
             <span class="k">return</span> <span class="n">verbose</span>
 
     <span class="nd">@property</span>
+    <span class="nd">@override</span>
     <span class="k">def</span> <span class="nf">InputType</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TypeAlias</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Get the input type for this runnable."""</span>
         <span class="kn">from</span> <span class="nn">langchain_core.prompt_values</span> <span class="kn">import</span> <span class="p">(</span>
@@ -392,7 +391,7 @@ document.write(`
         <span class="k">return</span> <span class="n">Union</span><span class="p">[</span>
             <span class="nb">str</span><span class="p">,</span>
             <span class="n">Union</span><span class="p">[</span><span class="n">StringPromptValue</span><span class="p">,</span> <span class="n">ChatPromptValueConcrete</span><span class="p">],</span>
-            <span class="n">List</span><span class="p">[</span><span class="n">AnyMessage</span><span class="p">],</span>
+            <span class="nb">list</span><span class="p">[</span><span class="n">AnyMessage</span><span class="p">],</span>
         <span class="p">]</span>
 
     <span class="nd">@abstractmethod</span>

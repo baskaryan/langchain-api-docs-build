@@ -38,7 +38,7 @@
 <link href="../../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Sep 18, 2024" name="docbuild:last-update"/>
+<meta content="Sep 19, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -524,6 +524,7 @@ document.write(`
 <a class="viewcode-back" href="../../../../community/document_loaders/langchain_community.document_loaders.parsers.pdf.PyMuPDFParser.html#langchain_community.document_loaders.parsers.pdf.PyMuPDFParser.lazy_parse">[docs]</a>
     <span class="k">def</span> <span class="nf">lazy_parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">blob</span><span class="p">:</span> <span class="n">Blob</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Document</span><span class="p">]:</span>  <span class="c1"># type: ignore[valid-type]</span>
 <span class="w">        </span><span class="sd">"""Lazily parse the blob."""</span>
+
         <span class="kn">import</span> <span class="nn">fitz</span>
 
         <span class="k">with</span> <span class="n">blob</span><span class="o">.</span><span class="n">as_bytes_io</span><span class="p">()</span> <span class="k">as</span> <span class="n">file_path</span><span class="p">:</span>  <span class="c1"># type: ignore[attr-defined]</span>
@@ -534,25 +535,49 @@ document.write(`
 
             <span class="k">yield from</span> <span class="p">[</span>
                 <span class="n">Document</span><span class="p">(</span>
-                    <span class="n">page_content</span><span class="o">=</span><span class="n">page</span><span class="o">.</span><span class="n">get_text</span><span class="p">(</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">text_kwargs</span><span class="p">)</span>
-                    <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extract_images_from_page</span><span class="p">(</span><span class="n">doc</span><span class="p">,</span> <span class="n">page</span><span class="p">),</span>
-                    <span class="n">metadata</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
-                        <span class="p">{</span>
-                            <span class="s2">"source"</span><span class="p">:</span> <span class="n">blob</span><span class="o">.</span><span class="n">source</span><span class="p">,</span>  <span class="c1"># type: ignore[attr-defined]</span>
-                            <span class="s2">"file_path"</span><span class="p">:</span> <span class="n">blob</span><span class="o">.</span><span class="n">source</span><span class="p">,</span>  <span class="c1"># type: ignore[attr-defined]</span>
-                            <span class="s2">"page"</span><span class="p">:</span> <span class="n">page</span><span class="o">.</span><span class="n">number</span><span class="p">,</span>
-                            <span class="s2">"total_pages"</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">doc</span><span class="p">),</span>
-                        <span class="p">},</span>
-                        <span class="o">**</span><span class="p">{</span>
-                            <span class="n">k</span><span class="p">:</span> <span class="n">doc</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
-                            <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">doc</span><span class="o">.</span><span class="n">metadata</span>
-                            <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">doc</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="n">k</span><span class="p">])</span> <span class="ow">in</span> <span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span>
-                        <span class="p">},</span>
-                    <span class="p">),</span>
+                    <span class="n">page_content</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_page_content</span><span class="p">(</span><span class="n">doc</span><span class="p">,</span> <span class="n">page</span><span class="p">,</span> <span class="n">blob</span><span class="p">),</span>
+                    <span class="n">metadata</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_extract_metadata</span><span class="p">(</span><span class="n">doc</span><span class="p">,</span> <span class="n">page</span><span class="p">,</span> <span class="n">blob</span><span class="p">),</span>
                 <span class="p">)</span>
                 <span class="k">for</span> <span class="n">page</span> <span class="ow">in</span> <span class="n">doc</span>
             <span class="p">]</span></div>
 
+
+    <span class="k">def</span> <span class="nf">_get_page_content</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">doc</span><span class="p">:</span> <span class="n">fitz</span><span class="o">.</span><span class="n">fitz</span><span class="o">.</span><span class="n">Document</span><span class="p">,</span> <span class="n">page</span><span class="p">:</span> <span class="n">fitz</span><span class="o">.</span><span class="n">fitz</span><span class="o">.</span><span class="n">Page</span><span class="p">,</span> <span class="n">blob</span><span class="p">:</span> <span class="n">Blob</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Get the text of the page using PyMuPDF and RapidOCR and issue a warning</span>
+<span class="sd">        if it is empty.</span>
+<span class="sd">        """</span>
+        <span class="n">content</span> <span class="o">=</span> <span class="n">page</span><span class="o">.</span><span class="n">get_text</span><span class="p">(</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">text_kwargs</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extract_images_from_page</span><span class="p">(</span>
+            <span class="n">doc</span><span class="p">,</span> <span class="n">page</span>
+        <span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">content</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">"Warning: Empty content on page "</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">page</span><span class="o">.</span><span class="n">number</span><span class="si">}</span><span class="s2"> of document </span><span class="si">{</span><span class="n">blob</span><span class="o">.</span><span class="n">source</span><span class="si">}</span><span class="s2">"</span>
+            <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">content</span>
+
+    <span class="k">def</span> <span class="nf">_extract_metadata</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">doc</span><span class="p">:</span> <span class="n">fitz</span><span class="o">.</span><span class="n">fitz</span><span class="o">.</span><span class="n">Document</span><span class="p">,</span> <span class="n">page</span><span class="p">:</span> <span class="n">fitz</span><span class="o">.</span><span class="n">fitz</span><span class="o">.</span><span class="n">Page</span><span class="p">,</span> <span class="n">blob</span><span class="p">:</span> <span class="n">Blob</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Extract metadata from the document and page."""</span>
+        <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span>
+            <span class="p">{</span>
+                <span class="s2">"source"</span><span class="p">:</span> <span class="n">blob</span><span class="o">.</span><span class="n">source</span><span class="p">,</span>  <span class="c1"># type: ignore[attr-defined]</span>
+                <span class="s2">"file_path"</span><span class="p">:</span> <span class="n">blob</span><span class="o">.</span><span class="n">source</span><span class="p">,</span>  <span class="c1"># type: ignore[attr-defined]</span>
+                <span class="s2">"page"</span><span class="p">:</span> <span class="n">page</span><span class="o">.</span><span class="n">number</span><span class="p">,</span>
+                <span class="s2">"total_pages"</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">doc</span><span class="p">),</span>
+            <span class="p">},</span>
+            <span class="o">**</span><span class="p">{</span>
+                <span class="n">k</span><span class="p">:</span> <span class="n">doc</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+                <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">doc</span><span class="o">.</span><span class="n">metadata</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">doc</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">))</span>
+            <span class="p">},</span>
+        <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_extract_images_from_page</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">doc</span><span class="p">:</span> <span class="n">fitz</span><span class="o">.</span><span class="n">fitz</span><span class="o">.</span><span class="n">Document</span><span class="p">,</span> <span class="n">page</span><span class="p">:</span> <span class="n">fitz</span><span class="o">.</span><span class="n">fitz</span><span class="o">.</span><span class="n">Page</span>

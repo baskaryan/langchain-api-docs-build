@@ -38,7 +38,7 @@
 <link href="../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Sep 18, 2024" name="docbuild:last-update"/>
+<meta content="Sep 19, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -230,16 +230,16 @@ document.write(`
 <span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
 
 <span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">typing</span>
 <span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractmethod</span>
+<span class="kn">from</span> <span class="nn">collections.abc</span> <span class="kn">import</span> <span class="n">Mapping</span>
 <span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">cached_property</span>
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">TYPE_CHECKING</span><span class="p">,</span>
     <span class="n">Any</span><span class="p">,</span>
     <span class="n">Callable</span><span class="p">,</span>
-    <span class="n">Dict</span><span class="p">,</span>
     <span class="n">Generic</span><span class="p">,</span>
-    <span class="n">Mapping</span><span class="p">,</span>
     <span class="n">Optional</span><span class="p">,</span>
     <span class="n">TypeVar</span><span class="p">,</span>
     <span class="n">Union</span><span class="p">,</span>
@@ -247,7 +247,7 @@ document.write(`
 
 <span class="kn">import</span> <span class="nn">yaml</span>
 <span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">ConfigDict</span><span class="p">,</span> <span class="n">Field</span><span class="p">,</span> <span class="n">model_validator</span>
-<span class="kn">from</span> <span class="nn">typing_extensions</span> <span class="kn">import</span> <span class="n">Self</span>
+<span class="kn">from</span> <span class="nn">typing_extensions</span> <span class="kn">import</span> <span class="n">Self</span><span class="p">,</span> <span class="n">override</span>
 
 <span class="kn">from</span> <span class="nn">langchain_core.load</span> <span class="kn">import</span> <span class="n">dumpd</span>
 <span class="kn">from</span> <span class="nn">langchain_core.output_parsers.base</span> <span class="kn">import</span> <span class="n">BaseOutputParser</span>
@@ -270,7 +270,7 @@ document.write(`
 <div class="viewcode-block" id="BasePromptTemplate">
 <a class="viewcode-back" href="../../../core/prompts/langchain_core.prompts.base.BasePromptTemplate.html#langchain.agents.schema.BasePromptTemplate">[docs]</a>
 <span class="k">class</span> <span class="nc">BasePromptTemplate</span><span class="p">(</span>
-    <span class="n">RunnableSerializable</span><span class="p">[</span><span class="n">Dict</span><span class="p">,</span> <span class="n">PromptValue</span><span class="p">],</span> <span class="n">Generic</span><span class="p">[</span><span class="n">FormatOutputType</span><span class="p">],</span> <span class="n">ABC</span>
+    <span class="n">RunnableSerializable</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="n">PromptValue</span><span class="p">],</span> <span class="n">Generic</span><span class="p">[</span><span class="n">FormatOutputType</span><span class="p">],</span> <span class="n">ABC</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Base class for all prompt templates, returning a prompt."""</span>
 
@@ -281,7 +281,7 @@ document.write(`
 <span class="w">    </span><span class="sd">"""optional_variables: A list of the names of the variables for placeholder</span>
 <span class="sd">       or MessagePlaceholder that are optional. These variables are auto inferred </span>
 <span class="sd">       from the prompt and user need not provide them."""</span>
-    <span class="n">input_types</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">,</span> <span class="n">exclude</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># noqa: UP006</span>
+    <span class="n">input_types</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">,</span> <span class="n">exclude</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># noqa: UP006</span>
 <span class="w">    </span><span class="sd">"""A dictionary of the types of the variables the prompt template expects.</span>
 <span class="sd">    If not provided, all variables are assumed to be strings."""</span>
     <span class="n">output_parser</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">BaseOutputParser</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
@@ -291,7 +291,7 @@ document.write(`
 <span class="sd">    </span>
 <span class="sd">    Partial variables populate the template so that you don't need to</span>
 <span class="sd">    pass them in every time you call the prompt."""</span>
-    <span class="n">metadata</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># noqa: UP006</span>
+    <span class="n">metadata</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">typing</span><span class="o">.</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># noqa: UP006</span>
 <span class="w">    </span><span class="sd">"""Metadata to be used for tracing."""</span>
     <span class="n">tags</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">    </span><span class="sd">"""Tags to be used for tracing."""</span>
@@ -338,6 +338,7 @@ document.write(`
         <span class="k">return</span> <span class="n">dumpd</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
     <span class="nd">@property</span>
+    <span class="nd">@override</span>
     <span class="k">def</span> <span class="nf">OutputType</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Return the output type of the prompt."""</span>
         <span class="k">return</span> <span class="n">Union</span><span class="p">[</span><span class="n">StringPromptValue</span><span class="p">,</span> <span class="n">ChatPromptValueConcrete</span><span class="p">]</span>

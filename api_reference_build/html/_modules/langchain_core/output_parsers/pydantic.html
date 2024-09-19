@@ -38,7 +38,7 @@
 <link href="../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Sep 18, 2024" name="docbuild:last-update"/>
+<meta content="Sep 19, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -228,11 +228,11 @@ document.write(`
 <article class="bd-article">
 <h1>Source code for langchain_core.output_parsers.pydantic</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">json</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Generic</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Type</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Annotated</span><span class="p">,</span> <span class="n">Generic</span><span class="p">,</span> <span class="n">Optional</span>
 
 <span class="kn">import</span> <span class="nn">pydantic</span>
 <span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">SkipValidation</span>
-<span class="kn">from</span> <span class="nn">typing_extensions</span> <span class="kn">import</span> <span class="n">Annotated</span>
+<span class="kn">from</span> <span class="nn">typing_extensions</span> <span class="kn">import</span> <span class="n">override</span>
 
 <span class="kn">from</span> <span class="nn">langchain_core.exceptions</span> <span class="kn">import</span> <span class="n">OutputParserException</span>
 <span class="kn">from</span> <span class="nn">langchain_core.output_parsers</span> <span class="kn">import</span> <span class="n">JsonOutputParser</span>
@@ -249,7 +249,7 @@ document.write(`
 <span class="k">class</span> <span class="nc">PydanticOutputParser</span><span class="p">(</span><span class="n">JsonOutputParser</span><span class="p">,</span> <span class="n">Generic</span><span class="p">[</span><span class="n">TBaseModel</span><span class="p">]):</span>
 <span class="w">    </span><span class="sd">"""Parse an output using a pydantic model."""</span>
 
-    <span class="n">pydantic_object</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">Type</span><span class="p">[</span><span class="n">TBaseModel</span><span class="p">],</span> <span class="n">SkipValidation</span><span class="p">()]</span>  <span class="c1"># type: ignore</span>
+    <span class="n">pydantic_object</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="nb">type</span><span class="p">[</span><span class="n">TBaseModel</span><span class="p">],</span> <span class="n">SkipValidation</span><span class="p">()]</span>  <span class="c1"># type: ignore</span>
 <span class="w">    </span><span class="sd">"""The pydantic model to parse."""</span>
 
     <span class="k">def</span> <span class="nf">_parse_obj</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TBaseModel</span><span class="p">:</span>
@@ -283,7 +283,7 @@ document.write(`
 <div class="viewcode-block" id="PydanticOutputParser.parse_result">
 <a class="viewcode-back" href="../../../core/output_parsers/langchain_core.output_parsers.pydantic.PydanticOutputParser.html#langchain_core.output_parsers.pydantic.PydanticOutputParser.parse_result">[docs]</a>
     <span class="k">def</span> <span class="nf">parse_result</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Generation</span><span class="p">],</span> <span class="o">*</span><span class="p">,</span> <span class="n">partial</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Generation</span><span class="p">],</span> <span class="o">*</span><span class="p">,</span> <span class="n">partial</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">TBaseModel</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">"""Parse the result of an LLM call to a pydantic object.</span>
 
@@ -348,7 +348,8 @@ document.write(`
         <span class="k">return</span> <span class="s2">"pydantic"</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">OutputType</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Type</span><span class="p">[</span><span class="n">TBaseModel</span><span class="p">]:</span>
+    <span class="nd">@override</span>
+    <span class="k">def</span> <span class="nf">OutputType</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">type</span><span class="p">[</span><span class="n">TBaseModel</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">"""Return the pydantic model."""</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">pydantic_object</span></div>
 
