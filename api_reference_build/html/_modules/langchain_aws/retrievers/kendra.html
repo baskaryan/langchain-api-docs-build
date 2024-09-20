@@ -38,7 +38,7 @@
 <link href="../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Sep 19, 2024" name="docbuild:last-update"/>
+<meta content="Sep 20, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -311,9 +311,9 @@ document.write(`
 <span class="w">    </span><span class="sd">"""The zero-based location in the excerpt where the highlight starts."""</span>
     <span class="n">EndOffset</span><span class="p">:</span> <span class="nb">int</span>
 <span class="w">    </span><span class="sd">"""The zero-based location in the excerpt where the highlight ends."""</span>
-    <span class="n">TopAnswer</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span>
+    <span class="n">TopAnswer</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">    </span><span class="sd">"""Indicates whether the result is the best one."""</span>
-    <span class="n">Type</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">Type</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">    </span><span class="sd">"""The highlight type: STANDARD or THESAURUS_SYNONYM."""</span></div>
 
 
@@ -326,7 +326,7 @@ document.write(`
 
     <span class="n">Text</span><span class="p">:</span> <span class="nb">str</span>
 <span class="w">    </span><span class="sd">"""The text."""</span>
-    <span class="n">Highlights</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span>
+    <span class="n">Highlights</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">    </span><span class="sd">"""The highlights."""</span></div>
 
 
@@ -371,13 +371,13 @@ document.write(`
 <span class="k">class</span> <span class="nc">DocumentAttributeValue</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">,</span> <span class="n">extra</span><span class="o">=</span><span class="s2">"allow"</span><span class="p">):</span>  <span class="c1"># type: ignore[call-arg]</span>
 <span class="w">    </span><span class="sd">"""Value of a document attribute."""</span>
 
-    <span class="n">DateValue</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">DateValue</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">    </span><span class="sd">"""The date expressed as an ISO 8601 string."""</span>
-    <span class="n">LongValue</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span>
+    <span class="n">LongValue</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">    </span><span class="sd">"""The long value."""</span>
-    <span class="n">StringListValue</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span>
+    <span class="n">StringListValue</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">    </span><span class="sd">"""The string list value."""</span>
-    <span class="n">StringValue</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">StringValue</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">    </span><span class="sd">"""The string value."""</span>
 
     <span class="nd">@property</span>
@@ -418,15 +418,15 @@ document.write(`
 <span class="k">class</span> <span class="nc">ResultItem</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">,</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">extra</span><span class="o">=</span><span class="s2">"allow"</span><span class="p">):</span>  <span class="c1"># type: ignore[call-arg]</span>
 <span class="w">    </span><span class="sd">"""Base class of a result item."""</span>
 
-    <span class="n">Id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">Id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">    </span><span class="sd">"""The ID of the relevant result item."""</span>
-    <span class="n">DocumentId</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">DocumentId</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">    </span><span class="sd">"""The document ID."""</span>
-    <span class="n">DocumentURI</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">DocumentURI</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">    </span><span class="sd">"""The document URI."""</span>
     <span class="n">DocumentAttributes</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">DocumentAttribute</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="w">    </span><span class="sd">"""The document attributes."""</span>
-    <span class="n">ScoreAttributes</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span>
+    <span class="n">ScoreAttributes</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">    </span><span class="sd">"""The kendra score confidence"""</span>
 
 <div class="viewcode-block" id="ResultItem.get_title">
@@ -506,19 +506,19 @@ document.write(`
 
     <span class="n">DocumentTitle</span><span class="p">:</span> <span class="n">TextWithHighLights</span>
 <span class="w">    </span><span class="sd">"""The document title."""</span>
-    <span class="n">FeedbackToken</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">FeedbackToken</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">    </span><span class="sd">"""Identifies a particular result from a particular query."""</span>
-    <span class="n">Format</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">Format</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    If the Type is ANSWER, then format is either:</span>
 <span class="sd">        * TABLE: a table excerpt is returned in TableExcerpt;</span>
 <span class="sd">        * TEXT: a text excerpt is returned in DocumentExcerpt.</span>
 <span class="sd">    """</span>
-    <span class="n">Type</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">Type</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">    </span><span class="sd">"""Type of result: DOCUMENT or QUESTION_ANSWER or ANSWER"""</span>
     <span class="n">AdditionalAttributes</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">AdditionalResultAttribute</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="w">    </span><span class="sd">"""One or more additional attributes associated with the result."""</span>
-    <span class="n">DocumentExcerpt</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">TextWithHighLights</span><span class="p">]</span>
+    <span class="n">DocumentExcerpt</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">TextWithHighLights</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">    </span><span class="sd">"""Excerpt of the document text."""</span>
 
 <div class="viewcode-block" id="QueryResultItem.get_title">
@@ -568,9 +568,9 @@ document.write(`
 <span class="k">class</span> <span class="nc">RetrieveResultItem</span><span class="p">(</span><span class="n">ResultItem</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Retrieve API result item."""</span>
 
-    <span class="n">DocumentTitle</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">DocumentTitle</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">    </span><span class="sd">"""The document title."""</span>
-    <span class="n">Content</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">Content</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">    </span><span class="sd">"""The content of the item."""</span>
 
 <div class="viewcode-block" id="RetrieveResultItem.get_title">

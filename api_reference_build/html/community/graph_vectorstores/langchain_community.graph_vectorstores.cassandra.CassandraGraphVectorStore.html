@@ -37,10 +37,10 @@
 <link href="../../_static/favicon.png" rel="icon"/>
 <link href="../../search.html" rel="search" title="Search"/>
 <link href="langchain_community.graph_vectorstores.extractors.gliner_link_extractor.GLiNERLinkExtractor.html" rel="next" title="GLiNERLinkExtractor"/>
-<link href="../graph_vectorstores.html" rel="prev" title="graph_vectorstores"/>
+<link href="langchain_community.graph_vectorstores.base.Node.html" rel="prev" title="Node"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Sep 19, 2024" name="docbuild:last-update"/>
+<meta content="Sep 20, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -230,6 +230,9 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../embeddings.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">embeddings</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../example_selectors.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">example_selectors</span></code></a></li>
 <li class="toctree-l2 current active has-children"><a class="reference internal" href="../graph_vectorstores.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">graph_vectorstores</span></code></a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="langchain_community.graph_vectorstores.base.GraphVectorStore.html">GraphVectorStore</a></li>
+<li class="toctree-l3"><a class="reference internal" href="langchain_community.graph_vectorstores.base.GraphVectorStoreRetriever.html">GraphVectorStoreRetriever</a></li>
+<li class="toctree-l3"><a class="reference internal" href="langchain_community.graph_vectorstores.base.Node.html">Node</a></li>
 <li class="toctree-l3 current active"><a class="current reference internal" href="#">CassandraGraphVectorStore</a></li>
 <li class="toctree-l3"><a class="reference internal" href="langchain_community.graph_vectorstores.extractors.gliner_link_extractor.GLiNERLinkExtractor.html">GLiNERLinkExtractor</a></li>
 <li class="toctree-l3"><a class="reference internal" href="langchain_community.graph_vectorstores.extractors.hierarchy_link_extractor.HierarchyLinkExtractor.html">HierarchyLinkExtractor</a></li>
@@ -239,6 +242,11 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="langchain_community.graph_vectorstores.extractors.link_extractor.LinkExtractor.html">LinkExtractor</a></li>
 <li class="toctree-l3"><a class="reference internal" href="langchain_community.graph_vectorstores.extractors.link_extractor_adapter.LinkExtractorAdapter.html">LinkExtractorAdapter</a></li>
 <li class="toctree-l3"><a class="reference internal" href="langchain_community.graph_vectorstores.extractors.link_extractor_transformer.LinkExtractorTransformer.html">LinkExtractorTransformer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="langchain_community.graph_vectorstores.links.Link.html">Link</a></li>
+<li class="toctree-l3"><a class="reference internal" href="langchain_community.graph_vectorstores.base.nodes_to_documents.html">nodes_to_documents</a></li>
+<li class="toctree-l3"><a class="reference internal" href="langchain_community.graph_vectorstores.links.add_links.html">add_links</a></li>
+<li class="toctree-l3"><a class="reference internal" href="langchain_community.graph_vectorstores.links.copy_with_links.html">copy_with_links</a></li>
+<li class="toctree-l3"><a class="reference internal" href="langchain_community.graph_vectorstores.links.get_links.html">get_links</a></li>
 </ul>
 </details></li>
 <li class="toctree-l2"><a class="reference internal" href="../graphs.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">graphs</span></code></a></li>
@@ -520,7 +528,7 @@ function call would look like:</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>documents</strong> (<em>Iterable</em><em>[</em><a class="reference internal" href="../../core/documents/langchain_core.documents.base.Document.html#langchain_core.documents.base.Document" title="langchain_core.documents.base.Document"><em>Document</em></a><em>]</em>) – Documents to add to the vectorstore.
 The document’s metadata key <cite>links</cite> shall be an iterable of
-<a class="reference internal" href="../../core/graph_vectorstores/langchain_core.graph_vectorstores.links.Link.html#langchain_core.graph_vectorstores.links.Link" title="langchain_core.graph_vectorstores.links.Link"><code class="xref py py-class docutils literal notranslate"><span class="pre">Link</span></code></a>.</p></li>
+<a class="reference internal" href="langchain_community.graph_vectorstores.links.Link.html#langchain_community.graph_vectorstores.links.Link" title="langchain_community.graph_vectorstores.links.Link"><code class="xref py py-class docutils literal notranslate"><span class="pre">Link</span></code></a>.</p></li>
 <li><p><strong>kwargs</strong> (<em>Any</em>)</p></li>
 </ul>
 </dd>
@@ -534,12 +542,12 @@ The document’s metadata key <cite>links</cite> shall be an iterable of
 </dd></dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="langchain_community.graph_vectorstores.cassandra.CassandraGraphVectorStore.aadd_nodes">
-<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">aadd_nodes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nodes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../../core/graph_vectorstores/langchain_core.graph_vectorstores.base.Node.html#langchain_core.graph_vectorstores.base.Node" title="langchain_core.graph_vectorstores.base.Node"><span class="pre">Node</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><span class="pre">AsyncIterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#langchain_community.graph_vectorstores.cassandra.CassandraGraphVectorStore.aadd_nodes" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">aadd_nodes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nodes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="langchain_community.graph_vectorstores.base.Node.html#langchain_community.graph_vectorstores.base.Node" title="langchain_community.graph_vectorstores.base.Node"><span class="pre">Node</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><span class="pre">AsyncIterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#langchain_community.graph_vectorstores.cassandra.CassandraGraphVectorStore.aadd_nodes" title="Link to this definition">#</a></dt>
 <dd><p>Add nodes to the graph store.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>nodes</strong> (<em>Iterable</em><em>[</em><a class="reference internal" href="../../core/graph_vectorstores/langchain_core.graph_vectorstores.base.Node.html#langchain_core.graph_vectorstores.base.Node" title="langchain_core.graph_vectorstores.base.Node"><em>Node</em></a><em>]</em>) – the nodes to add.</p></li>
+<li><p><strong>nodes</strong> (<em>Iterable</em><em>[</em><a class="reference internal" href="langchain_community.graph_vectorstores.base.Node.html#langchain_community.graph_vectorstores.base.Node" title="langchain_community.graph_vectorstores.base.Node"><em>Node</em></a><em>]</em>) – the nodes to add.</p></li>
 <li><p><strong>kwargs</strong> (<em>Any</em>)</p></li>
 </ul>
 </dd>
@@ -580,7 +588,7 @@ function call would look like:</p>
 <li><p><strong>texts</strong> (<em>Iterable</em><em>[</em><em>str</em><em>]</em>) – Iterable of strings to add to the vectorstore.</p></li>
 <li><p><strong>metadatas</strong> (<em>Iterable</em><em>[</em><em>dict</em><em>] </em><em>| </em><em>None</em>) – Optional list of metadatas associated with the texts.
 The metadata key <cite>links</cite> shall be an iterable of
-<a class="reference internal" href="../../core/graph_vectorstores/langchain_core.graph_vectorstores.links.Link.html#langchain_core.graph_vectorstores.links.Link" title="langchain_core.graph_vectorstores.links.Link"><code class="xref py py-class docutils literal notranslate"><span class="pre">Link</span></code></a>.</p></li>
+<a class="reference internal" href="langchain_community.graph_vectorstores.links.Link.html#langchain_community.graph_vectorstores.links.Link" title="langchain_community.graph_vectorstores.links.Link"><code class="xref py py-class docutils literal notranslate"><span class="pre">Link</span></code></a>.</p></li>
 <li><p><strong>**kwargs</strong> (<em>Any</em>) – vectorstore specific parameters.</p></li>
 <li><p><strong>ids</strong> (<em>Iterable</em><em>[</em><em>str</em><em>] </em><em>| </em><em>None</em>)</p></li>
 <li><p><strong>**kwargs</strong></p></li>
@@ -632,7 +640,7 @@ function call would look like:</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>documents</strong> (<em>Iterable</em><em>[</em><a class="reference internal" href="../../core/documents/langchain_core.documents.base.Document.html#langchain_core.documents.base.Document" title="langchain_core.documents.base.Document"><em>Document</em></a><em>]</em>) – Documents to add to the vectorstore.
 The document’s metadata key <cite>links</cite> shall be an iterable of
-<a class="reference internal" href="../../core/graph_vectorstores/langchain_core.graph_vectorstores.links.Link.html#langchain_core.graph_vectorstores.links.Link" title="langchain_core.graph_vectorstores.links.Link"><code class="xref py py-class docutils literal notranslate"><span class="pre">Link</span></code></a>.</p></li>
+<a class="reference internal" href="langchain_community.graph_vectorstores.links.Link.html#langchain_community.graph_vectorstores.links.Link" title="langchain_community.graph_vectorstores.links.Link"><code class="xref py py-class docutils literal notranslate"><span class="pre">Link</span></code></a>.</p></li>
 <li><p><strong>kwargs</strong> (<em>Any</em>)</p></li>
 </ul>
 </dd>
@@ -646,12 +654,12 @@ The document’s metadata key <cite>links</cite> shall be an iterable of
 </dd></dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="langchain_community.graph_vectorstores.cassandra.CassandraGraphVectorStore.add_nodes">
-<span class="sig-name descname"><span class="pre">add_nodes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nodes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../../core/graph_vectorstores/langchain_core.graph_vectorstores.base.Node.html#langchain_core.graph_vectorstores.base.Node" title="langchain_core.graph_vectorstores.base.Node"><span class="pre">Node</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/langchain_community/graph_vectorstores/cassandra.html#CassandraGraphVectorStore.add_nodes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#langchain_community.graph_vectorstores.cassandra.CassandraGraphVectorStore.add_nodes" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">add_nodes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nodes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="langchain_community.graph_vectorstores.base.Node.html#langchain_community.graph_vectorstores.base.Node" title="langchain_community.graph_vectorstores.base.Node"><span class="pre">Node</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/langchain_community/graph_vectorstores/cassandra.html#CassandraGraphVectorStore.add_nodes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#langchain_community.graph_vectorstores.cassandra.CassandraGraphVectorStore.add_nodes" title="Link to this definition">#</a></dt>
 <dd><p>Add nodes to the graph store.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>nodes</strong> (<em>Iterable</em><em>[</em><a class="reference internal" href="../../core/graph_vectorstores/langchain_core.graph_vectorstores.base.Node.html#langchain_core.graph_vectorstores.base.Node" title="langchain_core.graph_vectorstores.base.Node"><em>Node</em></a><em>]</em>) – the nodes to add.</p></li>
+<li><p><strong>nodes</strong> (<em>Iterable</em><em>[</em><a class="reference internal" href="langchain_community.graph_vectorstores.base.Node.html#langchain_community.graph_vectorstores.base.Node" title="langchain_community.graph_vectorstores.base.Node"><em>Node</em></a><em>]</em>) – the nodes to add.</p></li>
 <li><p><strong>kwargs</strong> (<em>Any</em>)</p></li>
 </ul>
 </dd>
@@ -692,7 +700,7 @@ function call would look like:</p>
 <li><p><strong>texts</strong> (<em>Iterable</em><em>[</em><em>str</em><em>]</em>) – Iterable of strings to add to the vectorstore.</p></li>
 <li><p><strong>metadatas</strong> (<em>Iterable</em><em>[</em><em>dict</em><em>] </em><em>| </em><em>None</em>) – Optional list of metadatas associated with the texts.
 The metadata key <cite>links</cite> shall be an iterable of
-<a class="reference internal" href="../../core/graph_vectorstores/langchain_core.graph_vectorstores.links.Link.html#langchain_core.graph_vectorstores.links.Link" title="langchain_core.graph_vectorstores.links.Link"><code class="xref py py-class docutils literal notranslate"><span class="pre">Link</span></code></a>.</p></li>
+<a class="reference internal" href="langchain_community.graph_vectorstores.links.Link.html#langchain_community.graph_vectorstores.links.Link" title="langchain_community.graph_vectorstores.links.Link"><code class="xref py py-class docutils literal notranslate"><span class="pre">Link</span></code></a>.</p></li>
 <li><p><strong>**kwargs</strong> (<em>Any</em>) – vectorstore specific parameters.</p></li>
 <li><p><strong>ids</strong> (<em>Iterable</em><em>[</em><em>str</em><em>] </em><em>| </em><em>None</em>)</p></li>
 <li><p><strong>**kwargs</strong></p></li>
@@ -888,7 +896,7 @@ this threshold will be chosen. Defaults to negative infinity.</p></li>
 </dd></dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="langchain_community.graph_vectorstores.cassandra.CassandraGraphVectorStore.as_retriever">
-<span class="sig-name descname"><span class="pre">as_retriever</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><a class="reference internal" href="../../core/graph_vectorstores/langchain_core.graph_vectorstores.base.GraphVectorStoreRetriever.html#langchain_core.graph_vectorstores.base.GraphVectorStoreRetriever" title="langchain_core.graph_vectorstores.base.GraphVectorStoreRetriever"><span class="pre">GraphVectorStoreRetriever</span></a></span></span><a class="headerlink" href="#langchain_community.graph_vectorstores.cassandra.CassandraGraphVectorStore.as_retriever" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">as_retriever</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><a class="reference internal" href="langchain_community.graph_vectorstores.base.GraphVectorStoreRetriever.html#langchain_community.graph_vectorstores.base.GraphVectorStoreRetriever" title="langchain_community.graph_vectorstores.base.GraphVectorStoreRetriever"><span class="pre">GraphVectorStoreRetriever</span></a></span></span><a class="headerlink" href="#langchain_community.graph_vectorstores.cassandra.CassandraGraphVectorStore.as_retriever" title="Link to this definition">#</a></dt>
 <dd><p>Return GraphVectorStoreRetriever initialized from this GraphVectorStore.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -919,7 +927,7 @@ for similarity_score_threshold.</p></li>
 <dd class="field-even"><p>Retriever for this GraphVectorStore.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="../../core/graph_vectorstores/langchain_core.graph_vectorstores.base.GraphVectorStoreRetriever.html#langchain_core.graph_vectorstores.base.GraphVectorStoreRetriever" title="langchain_core.graph_vectorstores.base.GraphVectorStoreRetriever"><em>GraphVectorStoreRetriever</em></a></p>
+<dd class="field-odd"><p><a class="reference internal" href="langchain_community.graph_vectorstores.base.GraphVectorStoreRetriever.html#langchain_community.graph_vectorstores.base.GraphVectorStoreRetriever" title="langchain_community.graph_vectorstores.base.GraphVectorStoreRetriever"><em>GraphVectorStoreRetriever</em></a></p>
 </dd>
 </dl>
 <p>Examples:</p>
