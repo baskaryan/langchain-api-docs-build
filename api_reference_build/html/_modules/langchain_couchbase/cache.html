@@ -38,7 +38,7 @@
 <link href="../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Sep 20, 2024" name="docbuild:last-update"/>
+<meta content="Sep 21, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -238,6 +238,7 @@ document.write(`
 <span class="kn">import</span> <span class="nn">hashlib</span>
 <span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">timedelta</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">from</span> <span class="nn">couchbase.cluster</span> <span class="kn">import</span> <span class="n">Cluster</span>
@@ -316,6 +317,16 @@ document.write(`
         <span class="k">return</span> <span class="kc">None</span>
 
 
+<span class="k">def</span> <span class="nf">_validate_ttl</span><span class="p">(</span><span class="n">ttl</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">timedelta</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Validate the time to live"""</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ttl</span><span class="p">,</span> <span class="n">timedelta</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"ttl should be of type timedelta but was </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">ttl</span><span class="p">)</span><span class="si">}</span><span class="s2">."</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">ttl</span> <span class="o">&lt;=</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">seconds</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">"ttl must be greater than 0 but was </span><span class="si">{</span><span class="n">ttl</span><span class="o">.</span><span class="n">total_seconds</span><span class="p">()</span><span class="si">}</span><span class="s2"> seconds."</span>
+        <span class="p">)</span>
+
+
 <div class="viewcode-block" id="CouchbaseCache">
 <a class="viewcode-back" href="../../couchbase/cache/langchain_couchbase.cache.CouchbaseCache.html#langchain_couchbase.cache.CouchbaseCache">[docs]</a>
 <span class="k">class</span> <span class="nc">CouchbaseCache</span><span class="p">(</span><span class="n">BaseCache</span><span class="p">):</span>
@@ -373,6 +384,7 @@ document.write(`
         <span class="n">bucket_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">scope_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">collection_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">ttl</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">timedelta</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Initialize the Couchbase LLM Cache</span>
@@ -382,6 +394,8 @@ document.write(`
 <span class="sd">            scope_name (str): name of the scope in bucket to store documents in.</span>
 <span class="sd">            collection_name (str): name of the collection in the scope to store</span>
 <span class="sd">                documents in.</span>
+<span class="sd">            ttl (Optional[timedelta]): TTL or time for the document to live in the cache</span>
+<span class="sd">                After this time, the document will get deleted from the cache.</span>
 <span class="sd">        """</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">cluster</span><span class="p">,</span> <span class="n">Cluster</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
@@ -394,6 +408,8 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">_bucket_name</span> <span class="o">=</span> <span class="n">bucket_name</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_scope_name</span> <span class="o">=</span> <span class="n">scope_name</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_collection_name</span> <span class="o">=</span> <span class="n">collection_name</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ttl</span> <span class="o">=</span> <span class="kc">None</span>
 
         <span class="c1"># Check if the bucket exists</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_check_bucket_exists</span><span class="p">():</span>
@@ -416,7 +432,12 @@ document.write(`
         <span class="k">try</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_check_scope_and_collection_exists</span><span class="p">()</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">e</span></div>
+            <span class="k">raise</span> <span class="n">e</span>
+
+        <span class="c1"># Check if the time to live is provided and valid</span>
+        <span class="k">if</span> <span class="n">ttl</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_validate_ttl</span><span class="p">(</span><span class="n">ttl</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_ttl</span> <span class="o">=</span> <span class="n">ttl</span></div>
 
 
 <div class="viewcode-block" id="CouchbaseCache.lookup">
@@ -445,10 +466,16 @@ document.write(`
             <span class="bp">self</span><span class="o">.</span><span class="n">LLM</span><span class="p">:</span> <span class="n">llm_string</span><span class="p">,</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">RETURN_VAL</span><span class="p">:</span> <span class="n">_dumps_generations</span><span class="p">(</span><span class="n">return_val</span><span class="p">),</span>
         <span class="p">}</span>
+        <span class="n">document_key</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_generate_key</span><span class="p">(</span><span class="n">prompt</span><span class="p">,</span> <span class="n">llm_string</span><span class="p">)</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_collection</span><span class="o">.</span><span class="n">upsert</span><span class="p">(</span>
-                <span class="n">key</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_generate_key</span><span class="p">(</span><span class="n">prompt</span><span class="p">,</span> <span class="n">llm_string</span><span class="p">),</span> <span class="n">value</span><span class="o">=</span><span class="n">doc</span>
-            <span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ttl</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_collection</span><span class="o">.</span><span class="n">upsert</span><span class="p">(</span>
+                    <span class="n">key</span><span class="o">=</span><span class="n">document_key</span><span class="p">,</span>
+                    <span class="n">value</span><span class="o">=</span><span class="n">doc</span><span class="p">,</span>
+                    <span class="n">expiry</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_ttl</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_collection</span><span class="o">.</span><span class="n">upsert</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="n">document_key</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">doc</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">"Error updating cache"</span><span class="p">)</span></div>
 
@@ -490,6 +517,7 @@ document.write(`
         <span class="n">collection_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">index_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">score_threshold</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">ttl</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">timedelta</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Initialize the Couchbase LLM Cache</span>
 <span class="sd">        Args:</span>
@@ -501,6 +529,8 @@ document.write(`
 <span class="sd">                documents in.</span>
 <span class="sd">            index_name (str): name of the Search index to use.</span>
 <span class="sd">            score_threshold (float): score threshold to use for filtering results.</span>
+<span class="sd">            ttl (Optional[timedelta]): TTL or time for the document to live in the cache</span>
+<span class="sd">                After this time, the document will get deleted from the cache.</span>
 <span class="sd">        """</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">cluster</span><span class="p">,</span> <span class="n">Cluster</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
@@ -513,6 +543,7 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">_bucket_name</span> <span class="o">=</span> <span class="n">bucket_name</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_scope_name</span> <span class="o">=</span> <span class="n">scope_name</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_collection_name</span> <span class="o">=</span> <span class="n">collection_name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ttl</span> <span class="o">=</span> <span class="kc">None</span>
 
         <span class="c1"># Check if the bucket exists</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_check_bucket_exists</span><span class="p">():</span>
@@ -538,6 +569,10 @@ document.write(`
             <span class="k">raise</span> <span class="n">e</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">score_threshold</span> <span class="o">=</span> <span class="n">score_threshold</span>
+
+        <span class="k">if</span> <span class="n">ttl</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_validate_ttl</span><span class="p">(</span><span class="n">ttl</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_ttl</span> <span class="o">=</span> <span class="n">ttl</span>
 
         <span class="c1"># Initialize the vector store</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
@@ -588,6 +623,7 @@ document.write(`
                         <span class="bp">self</span><span class="o">.</span><span class="n">RETURN_VAL</span><span class="p">:</span> <span class="n">_dumps_generations</span><span class="p">(</span><span class="n">return_val</span><span class="p">),</span>
                     <span class="p">}</span>
                 <span class="p">],</span>
+                <span class="n">ttl</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_ttl</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">"Error updating cache"</span><span class="p">)</span></div>

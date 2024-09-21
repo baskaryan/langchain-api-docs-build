@@ -38,7 +38,7 @@
 <link href="../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Sep 20, 2024" name="docbuild:last-update"/>
+<meta content="Sep 21, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -375,14 +375,14 @@ document.write(`
 
 <div class="viewcode-block" id="GraphVectorStore">
 <a class="viewcode-back" href="../../../community/graph_vectorstores/langchain_community.graph_vectorstores.base.GraphVectorStore.html#langchain_community.graph_vectorstores.base.GraphVectorStore">[docs]</a>
-<span class="nd">@beta</span><span class="p">(</span><span class="n">message</span><span class="o">=</span><span class="s2">"Added in version 0.2.14 of langchain_core. API subject to change."</span><span class="p">)</span>
+<span class="nd">@beta</span><span class="p">(</span><span class="n">message</span><span class="o">=</span><span class="s2">"Added in version 0.3.1 of langchain_community. API subject to change."</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">GraphVectorStore</span><span class="p">(</span><span class="n">VectorStore</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""A hybrid vector-and-graph graph store.</span>
 
 <span class="sd">    Document chunks support vector-similarity search as well as edges linking</span>
 <span class="sd">    chunks based on structural and semantic properties.</span>
 
-<span class="sd">    .. versionadded:: 0.2.14</span>
+<span class="sd">    .. versionadded:: 0.3.1</span>
 <span class="sd">    """</span>
 
 <div class="viewcode-block" id="GraphVectorStore.add_nodes">
@@ -463,6 +463,7 @@ document.write(`
 <span class="sd">            metadatas: Optional list of metadatas associated with the texts.</span>
 <span class="sd">                The metadata key `links` shall be an iterable of</span>
 <span class="sd">                :py:class:`~langchain_community.graph_vectorstores.links.Link`.</span>
+<span class="sd">            ids: Optional list of IDs associated with the texts.</span>
 <span class="sd">            **kwargs: vectorstore specific parameters.</span>
 
 <span class="sd">        Returns:</span>
@@ -514,6 +515,7 @@ document.write(`
 <span class="sd">            metadatas: Optional list of metadatas associated with the texts.</span>
 <span class="sd">                The metadata key `links` shall be an iterable of</span>
 <span class="sd">                :py:class:`~langchain_community.graph_vectorstores.links.Link`.</span>
+<span class="sd">            ids: Optional list of IDs associated with the texts.</span>
 <span class="sd">            **kwargs: vectorstore specific parameters.</span>
 
 <span class="sd">        Returns:</span>
@@ -946,8 +948,138 @@ document.write(`
 
 <div class="viewcode-block" id="GraphVectorStoreRetriever">
 <a class="viewcode-back" href="../../../community/graph_vectorstores/langchain_community.graph_vectorstores.base.GraphVectorStoreRetriever.html#langchain_community.graph_vectorstores.base.GraphVectorStoreRetriever">[docs]</a>
+<span class="nd">@beta</span><span class="p">(</span><span class="n">message</span><span class="o">=</span><span class="s2">"Added in version 0.3.1 of langchain_community. API subject to change."</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">GraphVectorStoreRetriever</span><span class="p">(</span><span class="n">VectorStoreRetriever</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">"""Retriever class for GraphVectorStore."""</span>
+<span class="w">    </span><span class="sd">"""Retriever for GraphVectorStore.</span>
+
+<span class="sd">    A graph vector store retriever is a retriever that uses a graph vector store to</span>
+<span class="sd">    retrieve documents.</span>
+<span class="sd">    It is similar to a vector store retriever, except that it uses both vector</span>
+<span class="sd">    similarity and graph connections to retrieve documents.</span>
+<span class="sd">    It uses the search methods implemented by a graph vector store, like traversal</span>
+<span class="sd">    search and MMR traversal search, to query the texts in the graph vector store.</span>
+
+<span class="sd">    Example::</span>
+
+<span class="sd">        store = CassandraGraphVectorStore(...)</span>
+<span class="sd">        retriever = store.as_retriever()</span>
+<span class="sd">        retriever.invoke("What is ...")</span>
+
+<span class="sd">    .. seealso::</span>
+
+<span class="sd">        :mod:`How to use a graph vector store &lt;langchain_community.graph_vectorstores&gt;`</span>
+
+<span class="sd">    How to use a graph vector store as a retriever</span>
+<span class="sd">    ==============================================</span>
+
+<span class="sd">    Creating a retriever from a graph vector store</span>
+<span class="sd">    ----------------------------------------------</span>
+
+<span class="sd">    You can build a retriever from a graph vector store using its</span>
+<span class="sd">    :meth:`~langchain_community.graph_vectorstores.base.GraphVectorStore.as_retriever`</span>
+<span class="sd">    method.</span>
+
+<span class="sd">    First we instantiate a graph vector store.</span>
+<span class="sd">    We will use a store backed by Cassandra</span>
+<span class="sd">    :class:`~langchain_community.graph_vectorstores.cassandra.CassandraGraphVectorStore`</span>
+<span class="sd">    graph vector store::</span>
+
+<span class="sd">        from langchain_community.document_loaders import TextLoader</span>
+<span class="sd">        from langchain_community.graph_vectorstores import CassandraGraphVectorStore</span>
+<span class="sd">        from langchain_community.graph_vectorstores.extractors import (</span>
+<span class="sd">            KeybertLinkExtractor,</span>
+<span class="sd">            LinkExtractorTransformer,</span>
+<span class="sd">        )</span>
+<span class="sd">        from langchain_openai import OpenAIEmbeddings</span>
+<span class="sd">        from langchain_text_splitters import CharacterTextSplitter</span>
+
+<span class="sd">        loader = TextLoader("state_of_the_union.txt")</span>
+<span class="sd">        documents = loader.load()</span>
+
+<span class="sd">        text_splitter = CharacterTextSplitter(chunk_size=1000, chunk_overlap=0)</span>
+<span class="sd">        texts = text_splitter.split_documents(documents)</span>
+
+<span class="sd">        pipeline = LinkExtractorTransformer([KeybertLinkExtractor()])</span>
+<span class="sd">        pipeline.transform_documents(texts)</span>
+<span class="sd">        embeddings = OpenAIEmbeddings()</span>
+<span class="sd">        graph_vectorstore = CassandraGraphVectorStore.from_documents(texts, embeddings)</span>
+
+<span class="sd">    We can then instantiate a retriever::</span>
+
+<span class="sd">        retriever = graph_vectorstore.as_retriever()</span>
+
+<span class="sd">    This creates a retriever (specifically a ``GraphVectorStoreRetriever``), which we</span>
+<span class="sd">    can use in the usual way::</span>
+
+<span class="sd">        docs = retriever.invoke("what did the president say about ketanji brown jackson?")</span>
+
+<span class="sd">    Maximum marginal relevance traversal retrieval</span>
+<span class="sd">    ----------------------------------------------</span>
+
+<span class="sd">    By default, the graph vector store retriever uses similarity search, then expands</span>
+<span class="sd">    the retrieved set by following a fixed number of graph edges.</span>
+<span class="sd">    If the underlying graph vector store supports maximum marginal relevance traversal,</span>
+<span class="sd">    you can specify that as the search type.</span>
+
+<span class="sd">    MMR-traversal is a retrieval method combining MMR and graph traversal.</span>
+<span class="sd">    The strategy first retrieves the top fetch_k results by similarity to the question.</span>
+<span class="sd">    It then iteratively expands the set of fetched documents by following adjacent_k</span>
+<span class="sd">    graph edges and selects the top k results based on maximum-marginal relevance using</span>
+<span class="sd">    the given ``lambda_mult``::</span>
+
+<span class="sd">        retriever = graph_vectorstore.as_retriever(search_type="mmr_traversal")</span>
+
+<span class="sd">    Passing search parameters</span>
+<span class="sd">    -------------------------</span>
+
+<span class="sd">    We can pass parameters to the underlying graph vectorstore's search methods using</span>
+<span class="sd">    ``search_kwargs``.</span>
+
+<span class="sd">    Specifying graph traversal depth</span>
+<span class="sd">    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>
+
+<span class="sd">    For example, we can set the graph traversal depth to only return documents</span>
+<span class="sd">    reachable through a given number of graph edges::</span>
+
+<span class="sd">        retriever = graph_vectorstore.as_retriever(search_kwargs={"depth": 3})</span>
+
+<span class="sd">    Specifying MMR parameters</span>
+<span class="sd">    ^^^^^^^^^^^^^^^^^^^^^^^^^</span>
+
+<span class="sd">    When using search type ``mmr_traversal``, several parameters of the MMR algorithm</span>
+<span class="sd">    can be configured.</span>
+
+<span class="sd">    The ``fetch_k`` parameter determines how many documents are fetched using vector</span>
+<span class="sd">    similarity and ``adjacent_k`` parameter determines how many documents are fetched</span>
+<span class="sd">    using graph edges.</span>
+<span class="sd">    The ``lambda_mult`` parameter controls how the MMR re-ranking weights similarity to</span>
+<span class="sd">    the query string vs diversity among the retrieved documents as fetched documents</span>
+<span class="sd">    are selected for the set of ``k`` final results::</span>
+
+<span class="sd">        retriever = graph_vectorstore.as_retriever(</span>
+<span class="sd">            search_type="mmr",</span>
+<span class="sd">            search_kwargs={"fetch_k": 20, "adjacent_k": 20, "lambda_mult": 0.25},</span>
+<span class="sd">        )</span>
+
+<span class="sd">    Specifying top k</span>
+<span class="sd">    ^^^^^^^^^^^^^^^^</span>
+
+<span class="sd">    We can also limit the number of documents ``k`` returned by the retriever.</span>
+
+<span class="sd">    Note that if ``depth`` is greater than zero, the retriever may return more documents</span>
+<span class="sd">    than is specified by ``k``, since both the original ``k`` documents retrieved using</span>
+<span class="sd">    vector similarity and any documents connected via graph edges will be returned::</span>
+
+<span class="sd">        retriever = graph_vectorstore.as_retriever(search_kwargs={"k": 1})</span>
+
+<span class="sd">    Similarity score threshold retrieval</span>
+<span class="sd">    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>
+
+<span class="sd">    For example, we can set a similarity score threshold and only return documents with</span>
+<span class="sd">    a score above that threshold::</span>
+
+<span class="sd">        retriever = graph_vectorstore.as_retriever(search_kwargs={"score_threshold": 0.5})</span>
+<span class="sd">    """</span>  <span class="c1"># noqa: E501</span>
 
     <span class="n">vectorstore</span><span class="p">:</span> <span class="n">GraphVectorStore</span>
 <span class="w">    </span><span class="sd">"""GraphVectorStore to use for retrieval."""</span>

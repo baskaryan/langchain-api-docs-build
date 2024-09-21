@@ -38,7 +38,7 @@
 <link href="../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Sep 20, 2024" name="docbuild:last-update"/>
+<meta content="Sep 21, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -231,6 +231,7 @@ document.write(`
 <span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
 
+<span class="kn">from</span> <span class="nn">langchain_core._api</span> <span class="kn">import</span> <span class="n">deprecated</span>
 <span class="kn">from</span> <span class="nn">langchain_core.chat_history</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">BaseChatMessageHistory</span><span class="p">,</span>
     <span class="n">InMemoryChatMessageHistory</span><span class="p">,</span>
@@ -243,9 +244,25 @@ document.write(`
 
 
 <div class="viewcode-block" id="BaseChatMemory">
-<a class="viewcode-back" href="../../../langchain/memory/langchain.memory.chat_memory.BaseChatMemory.html#langchain.memory.vectorstore_token_buffer_memory.BaseChatMemory">[docs]</a>
+<a class="viewcode-back" href="../../../langchain/memory/langchain.memory.chat_memory.BaseChatMemory.html#langchain.memory.buffer.BaseChatMemory">[docs]</a>
+<span class="nd">@deprecated</span><span class="p">(</span>
+    <span class="n">since</span><span class="o">=</span><span class="s2">"0.3.1"</span><span class="p">,</span>
+    <span class="n">removal</span><span class="o">=</span><span class="s2">"1.0.0"</span><span class="p">,</span>
+    <span class="n">message</span><span class="o">=</span><span class="p">(</span>
+        <span class="s2">"Please see the migration guide at: "</span>
+        <span class="s2">"https://python.langchain.com/docs/versions/migrating_memory/"</span>
+    <span class="p">),</span>
+<span class="p">)</span>
 <span class="k">class</span> <span class="nc">BaseChatMemory</span><span class="p">(</span><span class="n">BaseMemory</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">"""Abstract base class for chat memory."""</span>
+<span class="w">    </span><span class="sd">"""Abstract base class for chat memory.</span>
+
+<span class="sd">    **ATTENTION** This abstraction was created prior to when chat models had</span>
+<span class="sd">        native tool calling capabilities.</span>
+<span class="sd">        It does **NOT** support native tool calling capabilities for chat models and</span>
+<span class="sd">        will fail SILENTLY if used with a chat model that has native tool calling.</span>
+
+<span class="sd">    DO NOT USE THIS ABSTRACTION FOR NEW CODE.</span>
+<span class="sd">    """</span>
 
     <span class="n">chat_memory</span><span class="p">:</span> <span class="n">BaseChatMessageHistory</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="n">default_factory</span><span class="o">=</span><span class="n">InMemoryChatMessageHistory</span>
@@ -282,7 +299,7 @@ document.write(`
         <span class="k">return</span> <span class="n">inputs</span><span class="p">[</span><span class="n">prompt_input_key</span><span class="p">],</span> <span class="n">outputs</span><span class="p">[</span><span class="n">output_key</span><span class="p">]</span>
 
 <div class="viewcode-block" id="BaseChatMemory.save_context">
-<a class="viewcode-back" href="../../../langchain/memory/langchain.memory.chat_memory.BaseChatMemory.html#langchain.memory.vectorstore_token_buffer_memory.BaseChatMemory.save_context">[docs]</a>
+<a class="viewcode-back" href="../../../langchain/memory/langchain.memory.chat_memory.BaseChatMemory.html#langchain.memory.buffer.BaseChatMemory.save_context">[docs]</a>
     <span class="k">def</span> <span class="nf">save_context</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">outputs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Save context from this conversation to buffer."""</span>
         <span class="n">input_str</span><span class="p">,</span> <span class="n">output_str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_input_output</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span><span class="p">)</span>
@@ -292,7 +309,7 @@ document.write(`
 
 
 <div class="viewcode-block" id="BaseChatMemory.asave_context">
-<a class="viewcode-back" href="../../../langchain/memory/langchain.memory.chat_memory.BaseChatMemory.html#langchain.memory.vectorstore_token_buffer_memory.BaseChatMemory.asave_context">[docs]</a>
+<a class="viewcode-back" href="../../../langchain/memory/langchain.memory.chat_memory.BaseChatMemory.html#langchain.memory.buffer.BaseChatMemory.asave_context">[docs]</a>
     <span class="k">async</span> <span class="k">def</span> <span class="nf">asave_context</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">outputs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -304,14 +321,14 @@ document.write(`
 
 
 <div class="viewcode-block" id="BaseChatMemory.clear">
-<a class="viewcode-back" href="../../../langchain/memory/langchain.memory.chat_memory.BaseChatMemory.html#langchain.memory.vectorstore_token_buffer_memory.BaseChatMemory.clear">[docs]</a>
+<a class="viewcode-back" href="../../../langchain/memory/langchain.memory.chat_memory.BaseChatMemory.html#langchain.memory.buffer.BaseChatMemory.clear">[docs]</a>
     <span class="k">def</span> <span class="nf">clear</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Clear memory contents."""</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">chat_memory</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span></div>
 
 
 <div class="viewcode-block" id="BaseChatMemory.aclear">
-<a class="viewcode-back" href="../../../langchain/memory/langchain.memory.chat_memory.BaseChatMemory.html#langchain.memory.vectorstore_token_buffer_memory.BaseChatMemory.aclear">[docs]</a>
+<a class="viewcode-back" href="../../../langchain/memory/langchain.memory.chat_memory.BaseChatMemory.html#langchain.memory.buffer.BaseChatMemory.aclear">[docs]</a>
     <span class="k">async</span> <span class="k">def</span> <span class="nf">aclear</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Clear memory contents."""</span>
         <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">chat_memory</span><span class="o">.</span><span class="n">aclear</span><span class="p">()</span></div>

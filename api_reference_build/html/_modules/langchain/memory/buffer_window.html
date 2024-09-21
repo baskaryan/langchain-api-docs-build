@@ -38,7 +38,7 @@
 <link href="../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Sep 20, 2024" name="docbuild:last-update"/>
+<meta content="Sep 21, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -229,6 +229,7 @@ document.write(`
 <h1>Source code for langchain.memory.buffer_window</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span>
 
+<span class="kn">from</span> <span class="nn">langchain_core._api</span> <span class="kn">import</span> <span class="n">deprecated</span>
 <span class="kn">from</span> <span class="nn">langchain_core.messages</span> <span class="kn">import</span> <span class="n">BaseMessage</span><span class="p">,</span> <span class="n">get_buffer_string</span>
 
 <span class="kn">from</span> <span class="nn">langchain.memory.chat_memory</span> <span class="kn">import</span> <span class="n">BaseChatMemory</span>
@@ -236,8 +237,20 @@ document.write(`
 
 <div class="viewcode-block" id="ConversationBufferWindowMemory">
 <a class="viewcode-back" href="../../../langchain/memory/langchain.memory.buffer_window.ConversationBufferWindowMemory.html#langchain.memory.buffer_window.ConversationBufferWindowMemory">[docs]</a>
+<span class="nd">@deprecated</span><span class="p">(</span>
+    <span class="n">since</span><span class="o">=</span><span class="s2">"0.3.1"</span><span class="p">,</span>
+    <span class="n">removal</span><span class="o">=</span><span class="s2">"1.0.0"</span><span class="p">,</span>
+    <span class="n">message</span><span class="o">=</span><span class="p">(</span>
+        <span class="s2">"Please see the migration guide at: "</span>
+        <span class="s2">"https://python.langchain.com/docs/versions/migrating_memory/"</span>
+    <span class="p">),</span>
+<span class="p">)</span>
 <span class="k">class</span> <span class="nc">ConversationBufferWindowMemory</span><span class="p">(</span><span class="n">BaseChatMemory</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">"""Buffer for storing conversation memory inside a limited size window."""</span>
+<span class="w">    </span><span class="sd">"""Use to keep track of the last k turns of a conversation.</span>
+
+<span class="sd">    If the number of messages in the conversation is more than the maximum number</span>
+<span class="sd">    of messages to keep, the oldest messages are dropped.</span>
+<span class="sd">    """</span>
 
     <span class="n">human_prefix</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"Human"</span>
     <span class="n">ai_prefix</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"AI"</span>

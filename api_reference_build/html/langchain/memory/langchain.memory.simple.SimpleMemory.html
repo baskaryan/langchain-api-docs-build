@@ -36,11 +36,11 @@
 <script>DOCUMENTATION_OPTIONS.pagename = 'langchain/memory/langchain.memory.simple.SimpleMemory';</script>
 <link href="../../_static/favicon.png" rel="icon"/>
 <link href="../../search.html" rel="search" title="Search"/>
-<link href="langchain.memory.summary.ConversationSummaryMemory.html" rel="next" title="ConversationSummaryMemory"/>
+<link href="langchain.memory.vectorstore_token_buffer_memory.ConversationVectorStoreTokenBufferMemory.html" rel="next" title="ConversationVectorStoreTokenBufferMemory"/>
 <link href="langchain.memory.readonly.ReadOnlySharedMemory.html" rel="prev" title="ReadOnlySharedMemory"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Sep 20, 2024" name="docbuild:last-update"/>
+<meta content="Sep 21, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -221,26 +221,26 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../hub.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">hub</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../indexes.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">indexes</span></code></a></li>
 <li class="toctree-l2 current active has-children"><a class="reference internal" href="../memory.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">memory</span></code></a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="langchain.memory.combined.CombinedMemory.html">CombinedMemory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="langchain.memory.readonly.ReadOnlySharedMemory.html">ReadOnlySharedMemory</a></li>
+<li class="toctree-l3 current active"><a class="current reference internal" href="#">SimpleMemory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="langchain.memory.vectorstore_token_buffer_memory.ConversationVectorStoreTokenBufferMemory.html">ConversationVectorStoreTokenBufferMemory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="langchain.memory.utils.get_prompt_input_key.html">get_prompt_input_key</a></li>
 <li class="toctree-l3"><a class="reference internal" href="langchain.memory.buffer.ConversationBufferMemory.html">ConversationBufferMemory</a></li>
 <li class="toctree-l3"><a class="reference internal" href="langchain.memory.buffer.ConversationStringBufferMemory.html">ConversationStringBufferMemory</a></li>
 <li class="toctree-l3"><a class="reference internal" href="langchain.memory.buffer_window.ConversationBufferWindowMemory.html">ConversationBufferWindowMemory</a></li>
 <li class="toctree-l3"><a class="reference internal" href="langchain.memory.chat_memory.BaseChatMemory.html">BaseChatMemory</a></li>
-<li class="toctree-l3"><a class="reference internal" href="langchain.memory.combined.CombinedMemory.html">CombinedMemory</a></li>
 <li class="toctree-l3"><a class="reference internal" href="langchain.memory.entity.BaseEntityStore.html">BaseEntityStore</a></li>
 <li class="toctree-l3"><a class="reference internal" href="langchain.memory.entity.ConversationEntityMemory.html">ConversationEntityMemory</a></li>
 <li class="toctree-l3"><a class="reference internal" href="langchain.memory.entity.InMemoryEntityStore.html">InMemoryEntityStore</a></li>
 <li class="toctree-l3"><a class="reference internal" href="langchain.memory.entity.RedisEntityStore.html">RedisEntityStore</a></li>
 <li class="toctree-l3"><a class="reference internal" href="langchain.memory.entity.SQLiteEntityStore.html">SQLiteEntityStore</a></li>
 <li class="toctree-l3"><a class="reference internal" href="langchain.memory.entity.UpstashRedisEntityStore.html">UpstashRedisEntityStore</a></li>
-<li class="toctree-l3"><a class="reference internal" href="langchain.memory.readonly.ReadOnlySharedMemory.html">ReadOnlySharedMemory</a></li>
-<li class="toctree-l3 current active"><a class="current reference internal" href="#">SimpleMemory</a></li>
 <li class="toctree-l3"><a class="reference internal" href="langchain.memory.summary.ConversationSummaryMemory.html">ConversationSummaryMemory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="langchain.memory.summary.SummarizerMixin.html">SummarizerMixin</a></li>
 <li class="toctree-l3"><a class="reference internal" href="langchain.memory.summary_buffer.ConversationSummaryBufferMemory.html">ConversationSummaryBufferMemory</a></li>
 <li class="toctree-l3"><a class="reference internal" href="langchain.memory.token_buffer.ConversationTokenBufferMemory.html">ConversationTokenBufferMemory</a></li>
 <li class="toctree-l3"><a class="reference internal" href="langchain.memory.vectorstore.VectorStoreRetrieverMemory.html">VectorStoreRetrieverMemory</a></li>
-<li class="toctree-l3"><a class="reference internal" href="langchain.memory.vectorstore_token_buffer_memory.ConversationVectorStoreTokenBufferMemory.html">ConversationVectorStoreTokenBufferMemory</a></li>
-<li class="toctree-l3"><a class="reference internal" href="langchain.memory.utils.get_prompt_input_key.html">get_prompt_input_key</a></li>
-<li class="toctree-l3"><a class="reference internal" href="langchain.memory.summary.SummarizerMixin.html">SummarizerMixin</a></li>
 </ul>
 </details></li>
 <li class="toctree-l2"><a class="reference internal" href="../model_laboratory.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">model_laboratory</span></code></a></li>
@@ -327,7 +327,7 @@ document.write(`
 <dl class="py class pydantic_model">
 <dt class="sig sig-object py" id="langchain.memory.simple.SimpleMemory">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">langchain.memory.simple.</span></span><span class="sig-name descname"><span class="pre">SimpleMemory</span></span><a class="reference internal" href="../../_modules/langchain/memory/simple.html#SimpleMemory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#langchain.memory.simple.SimpleMemory" title="Link to this definition">#</a></dt>
-<dd><p>Bases: <a class="reference internal" href="../../core/memory/langchain_core.memory.BaseMemory.html#langchain_core.memory.BaseMemory" title="langchain_core.memory.BaseMemory"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseMemory</span></code></a></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseMemory</span></code></p>
 <p>Simple memory for storing context or other information that shouldn’t
 ever change between prompts.</p>
 <dl class="py attribute pydantic_field">

@@ -38,7 +38,7 @@
 <link href="../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Sep 20, 2024" name="docbuild:last-update"/>
+<meta content="Sep 21, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -229,6 +229,7 @@ document.write(`
 <h1>Source code for langchain.memory.summary_buffer</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span>
 
+<span class="kn">from</span> <span class="nn">langchain_core._api</span> <span class="kn">import</span> <span class="n">deprecated</span>
 <span class="kn">from</span> <span class="nn">langchain_core.messages</span> <span class="kn">import</span> <span class="n">BaseMessage</span><span class="p">,</span> <span class="n">get_buffer_string</span>
 <span class="kn">from</span> <span class="nn">langchain_core.utils</span> <span class="kn">import</span> <span class="n">pre_init</span>
 
@@ -238,8 +239,21 @@ document.write(`
 
 <div class="viewcode-block" id="ConversationSummaryBufferMemory">
 <a class="viewcode-back" href="../../../langchain/memory/langchain.memory.summary_buffer.ConversationSummaryBufferMemory.html#langchain.memory.summary_buffer.ConversationSummaryBufferMemory">[docs]</a>
+<span class="nd">@deprecated</span><span class="p">(</span>
+    <span class="n">since</span><span class="o">=</span><span class="s2">"0.3.1"</span><span class="p">,</span>
+    <span class="n">removal</span><span class="o">=</span><span class="s2">"1.0.0"</span><span class="p">,</span>
+    <span class="n">message</span><span class="o">=</span><span class="p">(</span>
+        <span class="s2">"Please see the migration guide at: "</span>
+        <span class="s2">"https://python.langchain.com/docs/versions/migrating_memory/"</span>
+    <span class="p">),</span>
+<span class="p">)</span>
 <span class="k">class</span> <span class="nc">ConversationSummaryBufferMemory</span><span class="p">(</span><span class="n">BaseChatMemory</span><span class="p">,</span> <span class="n">SummarizerMixin</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">"""Buffer with summarizer for storing conversation memory."""</span>
+<span class="w">    </span><span class="sd">"""Buffer with summarizer for storing conversation memory.</span>
+
+<span class="sd">    Provides a running summary of the conversation together with the most recent</span>
+<span class="sd">    messages in the conversation under the constraint that the total number of</span>
+<span class="sd">    tokens in the conversation does not exceed a certain limit.</span>
+<span class="sd">    """</span>
 
     <span class="n">max_token_limit</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2000</span>
     <span class="n">moving_summary_buffer</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span>

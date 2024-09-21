@@ -38,7 +38,7 @@
 <link href="../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Sep 20, 2024" name="docbuild:last-update"/>
+<meta content="Sep 21, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -236,12 +236,11 @@ document.write(`
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Optional</span>
 <span class="kn">from</span> <span class="nn">uuid</span> <span class="kn">import</span> <span class="n">UUID</span>
 
-<span class="kn">from</span> <span class="nn">langsmith.schemas</span> <span class="kn">import</span> <span class="n">RunBase</span> <span class="k">as</span> <span class="n">BaseRunV2</span>
+<span class="kn">from</span> <span class="nn">langsmith</span> <span class="kn">import</span> <span class="n">RunTree</span>
 <span class="kn">from</span> <span class="nn">langsmith.schemas</span> <span class="kn">import</span> <span class="n">RunTypeEnum</span> <span class="k">as</span> <span class="n">RunTypeEnumDep</span>
 <span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">PydanticDeprecationWarning</span>
 <span class="kn">from</span> <span class="nn">pydantic.v1</span> <span class="kn">import</span> <span class="n">BaseModel</span> <span class="k">as</span> <span class="n">BaseModelV1</span>
 <span class="kn">from</span> <span class="nn">pydantic.v1</span> <span class="kn">import</span> <span class="n">Field</span> <span class="k">as</span> <span class="n">FieldV1</span>
-<span class="kn">from</span> <span class="nn">pydantic.v1</span> <span class="kn">import</span> <span class="n">root_validator</span>
 
 <span class="kn">from</span> <span class="nn">langchain_core._api</span> <span class="kn">import</span> <span class="n">deprecated</span>
 
@@ -374,43 +373,7 @@ document.write(`
 <span class="c1"># Begin V2 API Schemas</span>
 
 
-<div class="viewcode-block" id="Run">
-<a class="viewcode-back" href="../../../core/tracers/langchain_core.tracers.schemas.Run.html#langchain_core.tracers.schemas.Run">[docs]</a>
-<span class="k">class</span> <span class="nc">Run</span><span class="p">(</span><span class="n">BaseRunV2</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">"""Run schema for the V2 API in the Tracer.</span>
-
-<span class="sd">    Parameters:</span>
-<span class="sd">        child_runs: The child runs.</span>
-<span class="sd">        tags: The tags. Default is an empty list.</span>
-<span class="sd">        events: The events. Default is an empty list.</span>
-<span class="sd">        trace_id: The trace ID. Default is None.</span>
-<span class="sd">        dotted_order: The dotted order.</span>
-<span class="sd">    """</span>
-
-    <span class="n">child_runs</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Run</span><span class="p">]</span> <span class="o">=</span> <span class="n">FieldV1</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
-    <span class="n">tags</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="n">FieldV1</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
-    <span class="n">events</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="n">FieldV1</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
-    <span class="n">trace_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">UUID</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">dotted_order</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-
-<div class="viewcode-block" id="Run.assign_name">
-<a class="viewcode-back" href="../../../core/tracers/langchain_core.tracers.schemas.Run.html#langchain_core.tracers.schemas.Run.assign_name">[docs]</a>
-    <span class="nd">@root_validator</span><span class="p">(</span><span class="n">pre</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">assign_name</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""Assign name to the run."""</span>
-        <span class="k">if</span> <span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"name"</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">values</span><span class="p">[</span><span class="s2">"serialized"</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">if</span> <span class="s2">"name"</span> <span class="ow">in</span> <span class="n">values</span><span class="p">[</span><span class="s2">"serialized"</span><span class="p">]:</span>
-                <span class="n">values</span><span class="p">[</span><span class="s2">"name"</span><span class="p">]</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="s2">"serialized"</span><span class="p">][</span><span class="s2">"name"</span><span class="p">]</span>
-            <span class="k">elif</span> <span class="s2">"id"</span> <span class="ow">in</span> <span class="n">values</span><span class="p">[</span><span class="s2">"serialized"</span><span class="p">]:</span>
-                <span class="n">values</span><span class="p">[</span><span class="s2">"name"</span><span class="p">]</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="s2">"serialized"</span><span class="p">][</span><span class="s2">"id"</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-        <span class="k">if</span> <span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"name"</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">values</span><span class="p">[</span><span class="s2">"name"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"Unnamed"</span>
-        <span class="k">if</span> <span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"events"</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">values</span><span class="p">[</span><span class="s2">"events"</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">return</span> <span class="n">values</span></div>
-</div>
-
-
+<span class="n">Run</span> <span class="o">=</span> <span class="n">RunTree</span>  <span class="c1"># For backwards compatibility</span>
 
 <span class="c1"># TODO: Update once langsmith moves to Pydantic V2 and we can swap Run.model_rebuild</span>
 <span class="c1"># for Run.update_forward_refs</span>
@@ -419,7 +382,6 @@ document.write(`
 
     <span class="n">ChainRun</span><span class="o">.</span><span class="n">update_forward_refs</span><span class="p">()</span>
     <span class="n">ToolRun</span><span class="o">.</span><span class="n">update_forward_refs</span><span class="p">()</span>
-    <span class="n">Run</span><span class="o">.</span><span class="n">update_forward_refs</span><span class="p">()</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
     <span class="s2">"BaseRun"</span><span class="p">,</span>

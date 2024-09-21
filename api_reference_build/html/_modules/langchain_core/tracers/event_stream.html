@@ -38,7 +38,7 @@
 <link href="../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Sep 20, 2024" name="docbuild:last-update"/>
+<meta content="Sep 21, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -1226,6 +1226,10 @@ document.write(`
                     <span class="k">del</span> <span class="n">event</span><span class="p">[</span><span class="s2">"data"</span><span class="p">][</span><span class="s2">"input"</span><span class="p">]</span>
 
             <span class="k">yield</span> <span class="n">event</span>
+    <span class="k">except</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">CancelledError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+        <span class="c1"># Cancel the task if it's still running</span>
+        <span class="n">task</span><span class="o">.</span><span class="n">cancel</span><span class="p">(</span><span class="n">exc</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">exc</span><span class="o">.</span><span class="n">args</span> <span class="k">else</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">raise</span>
     <span class="k">finally</span><span class="p">:</span>
         <span class="c1"># Cancel the task if it's still running</span>
         <span class="n">task</span><span class="o">.</span><span class="n">cancel</span><span class="p">()</span>
