@@ -38,7 +38,7 @@
 <link href="../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Sep 22, 2024" name="docbuild:last-update"/>
+<meta content="Sep 23, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -685,6 +685,23 @@ document.write(`
 <span class="sd">    making requests to OpenAI compatible APIs, such as vLLM."""</span>
     <span class="n">include_response_headers</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
 <span class="w">    </span><span class="sd">"""Whether to include response headers in the output message response_metadata."""</span>
+    <span class="n">disabled_params</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">"""Parameters of the OpenAI client or chat.completions endpoint that should be </span>
+<span class="sd">    disabled for the given model.</span>
+<span class="sd">    </span>
+<span class="sd">    Should be specified as ``{"param": None | ['val1', 'val2']}`` where the key is the </span>
+<span class="sd">    parameter and the value is either None, meaning that parameter should never be</span>
+<span class="sd">    used, or it's a list of disabled values for the parameter.</span>
+<span class="sd">    </span>
+<span class="sd">    For example, older models may not support the 'parallel_tool_calls' parameter at </span>
+<span class="sd">    all, in which case ``disabled_params={"parallel_tool_calls: None}`` can ben passed </span>
+<span class="sd">    in.</span>
+<span class="sd">    </span>
+<span class="sd">    If a parameter is disabled then it will not be used by default in any methods, e.g.</span>
+<span class="sd">    in :meth:`~langchain_openai.chat_models.base.ChatOpenAI.with_structured_output`.</span>
+<span class="sd">    However this does not prevent a user from directly passed in the parameter during</span>
+<span class="sd">    invocation. </span>
+<span class="sd">    """</span>
 
     <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">populate_by_name</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
@@ -1646,12 +1663,11 @@ document.write(`
                     <span class="s2">"Received None."</span>
                 <span class="p">)</span>
             <span class="n">tool_name</span> <span class="o">=</span> <span class="n">convert_to_openai_tool</span><span class="p">(</span><span class="n">schema</span><span class="p">)[</span><span class="s2">"function"</span><span class="p">][</span><span class="s2">"name"</span><span class="p">]</span>
-            <span class="n">llm</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bind_tools</span><span class="p">(</span>
-                <span class="p">[</span><span class="n">schema</span><span class="p">],</span>
-                <span class="n">tool_choice</span><span class="o">=</span><span class="n">tool_name</span><span class="p">,</span>
-                <span class="n">parallel_tool_calls</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                <span class="n">strict</span><span class="o">=</span><span class="n">strict</span><span class="p">,</span>
+            <span class="n">bind_kwargs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_filter_disabled_params</span><span class="p">(</span>
+                <span class="n">tool_choice</span><span class="o">=</span><span class="n">tool_name</span><span class="p">,</span> <span class="n">parallel_tool_calls</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="n">strict</span>
             <span class="p">)</span>
+
+            <span class="n">llm</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bind_tools</span><span class="p">([</span><span class="n">schema</span><span class="p">],</span> <span class="o">**</span><span class="n">bind_kwargs</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">is_pydantic_schema</span><span class="p">:</span>
                 <span class="n">output_parser</span><span class="p">:</span> <span class="n">Runnable</span> <span class="o">=</span> <span class="n">PydanticToolsParser</span><span class="p">(</span>
                     <span class="n">tools</span><span class="o">=</span><span class="p">[</span><span class="n">schema</span><span class="p">],</span>  <span class="c1"># type: ignore[list-item]</span>
@@ -1700,7 +1716,22 @@ document.write(`
             <span class="k">return</span> <span class="n">RunnableMap</span><span class="p">(</span><span class="n">raw</span><span class="o">=</span><span class="n">llm</span><span class="p">)</span> <span class="o">|</span> <span class="n">parser_with_fallback</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">llm</span> <span class="o">|</span> <span class="n">output_parser</span></div>
-</div>
+
+
+    <span class="k">def</span> <span class="nf">_filter_disabled_params</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">disabled_params</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">kwargs</span>
+        <span class="n">filtered</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="c1"># Skip param</span>
+            <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">disabled_params</span> <span class="ow">and</span> <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">disabled_params</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">disabled_params</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+            <span class="p">):</span>
+                <span class="k">continue</span>
+            <span class="c1"># Keep param</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">filtered</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
+        <span class="k">return</span> <span class="n">filtered</span></div>
 
 
 
@@ -2364,7 +2395,7 @@ document.write(`
     <span class="k">else</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
             <span class="s2">"Structured Output response does not have a 'parsed' field nor a 'refusal' "</span>
-            <span class="s2">"field."</span>
+            <span class="s2">"field. Received message:</span><span class="se">\n\n</span><span class="si">{ai_msg}</span><span class="s2">"</span>
         <span class="p">)</span>
 
 
