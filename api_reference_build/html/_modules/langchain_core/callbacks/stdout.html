@@ -38,7 +38,7 @@
 <link href="../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Sep 23, 2024" name="docbuild:last-update"/>
+<meta content="Sep 24, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -268,8 +268,14 @@ document.write(`
 <span class="sd">            inputs (Dict[str, Any]): The inputs to the chain.</span>
 <span class="sd">            **kwargs (Any): Additional keyword arguments.</span>
 <span class="sd">        """</span>
-        <span class="n">class_name</span> <span class="o">=</span> <span class="n">serialized</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"name"</span><span class="p">,</span> <span class="n">serialized</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"id"</span><span class="p">,</span> <span class="p">[</span><span class="s2">"&lt;unknown&gt;"</span><span class="p">])[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n\n\033</span><span class="s2">[1m&gt; Entering new </span><span class="si">{</span><span class="n">class_name</span><span class="si">}</span><span class="s2"> chain...</span><span class="se">\033</span><span class="s2">[0m"</span><span class="p">)</span>  <span class="c1"># noqa: T201</span></div>
+        <span class="k">if</span> <span class="s2">"name"</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">"name"</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">serialized</span><span class="p">:</span>
+                <span class="n">name</span> <span class="o">=</span> <span class="n">serialized</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"name"</span><span class="p">,</span> <span class="n">serialized</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"id"</span><span class="p">,</span> <span class="p">[</span><span class="s2">"&lt;unknown&gt;"</span><span class="p">])[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">name</span> <span class="o">=</span> <span class="s2">"&lt;unknown&gt;"</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n\n\033</span><span class="s2">[1m&gt; Entering new </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> chain...</span><span class="se">\033</span><span class="s2">[0m"</span><span class="p">)</span>  <span class="c1"># noqa: T201</span></div>
 
 
 <div class="viewcode-block" id="StdOutCallbackHandler.on_chain_end">
