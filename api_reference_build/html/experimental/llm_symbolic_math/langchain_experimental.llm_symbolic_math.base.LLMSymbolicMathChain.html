@@ -40,7 +40,7 @@
 <link href="../llm_symbolic_math.html" rel="prev" title="llm_symbolic_math"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Sep 24, 2024" name="docbuild:last-update"/>
+<meta content="Sep 25, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -335,6 +335,22 @@ See <a class="reference external" href="https://www.sympy.org/">https://www.symp
 <p>LLMSymbolicMathChain implements the standard <a class="reference internal" href="../../core/runnables/langchain_core.runnables.base.Runnable.html#langchain_core.runnables.base.Runnable" title="langchain_core.runnables.base.Runnable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Runnable</span> <span class="pre">Interface</span></code></a>. 🏃</p>
 <p>The <a class="reference internal" href="../../core/runnables/langchain_core.runnables.base.Runnable.html#langchain_core.runnables.base.Runnable" title="langchain_core.runnables.base.Runnable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Runnable</span> <span class="pre">Interface</span></code></a> has additional methods that are available on runnables, such as <a class="reference internal" href="../../core/runnables/langchain_core.runnables.base.Runnable.html#langchain_core.runnables.base.Runnable.with_types" title="langchain_core.runnables.base.Runnable.with_types"><code class="xref py py-meth docutils literal notranslate"><span class="pre">with_types</span></code></a>, <a class="reference internal" href="../../core/runnables/langchain_core.runnables.base.Runnable.html#langchain_core.runnables.base.Runnable.with_retry" title="langchain_core.runnables.base.Runnable.with_retry"><code class="xref py py-meth docutils literal notranslate"><span class="pre">with_retry</span></code></a>, <a class="reference internal" href="../../core/runnables/langchain_core.runnables.base.Runnable.html#langchain_core.runnables.base.Runnable.assign" title="langchain_core.runnables.base.Runnable.assign"><code class="xref py py-meth docutils literal notranslate"><span class="pre">assign</span></code></a>, <a class="reference internal" href="../../core/runnables/langchain_core.runnables.base.Runnable.html#langchain_core.runnables.base.Runnable.bind" title="langchain_core.runnables.base.Runnable.bind"><code class="xref py py-meth docutils literal notranslate"><span class="pre">bind</span></code></a>, <a class="reference internal" href="../../core/runnables/langchain_core.runnables.base.Runnable.html#langchain_core.runnables.base.Runnable.get_graph" title="langchain_core.runnables.base.Runnable.get_graph"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_graph</span></code></a>, and more.</p>
 </div>
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="langchain_experimental.llm_symbolic_math.base.LLMSymbolicMathChain.allow_dangerous_requests">
+<em class="property"><span class="pre">param</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">allow_dangerous_requests</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#langchain_experimental.llm_symbolic_math.base.LLMSymbolicMathChain.allow_dangerous_requests" title="Link to this definition">#</a></dt>
+<dd><p>Must be set by the user to allow dangerous requests or not.</p>
+<p>We recommend a default of False to allow only pre-defined symbolic operations.</p>
+<p>When set to True, the chain will allow any kind of input. This is
+STRONGLY DISCOURAGED unless you fully trust the input (and believe that
+the LLM itself cannot behave in a malicious way).
+You should absolutely NOT be deploying this in a production environment
+with allow_dangerous_requests=True. As this would allow a malicious actor
+to execute arbitrary code on your system.
+Use default=True at your own risk.</p>
+<p>When set to False, the chain will only allow pre-defined symbolic operations.
+If the some symbolic expressions are failing to evaluate, you can open a PR
+to add them to extend the list of allowed operations.</p>
+</dd></dl>
 <dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="langchain_experimental.llm_symbolic_math.base.LLMSymbolicMathChain.callback_manager">
 <em class="property"><span class="pre">param</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">callback_manager</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="../../core/callbacks/langchain_core.callbacks.base.BaseCallbackManager.html#langchain_core.callbacks.base.BaseCallbackManager" title="langchain_core.callbacks.base.BaseCallbackManager"><span class="pre">BaseCallbackManager</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#langchain_experimental.llm_symbolic_math.base.LLMSymbolicMathChain.callback_manager" title="Link to this definition">#</a></dt>
@@ -1619,6 +1635,7 @@ between retries</p></li>
 <nav aria-labelledby="pst-page-navigation-heading-2" class="bd-toc-nav page-toc">
 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#langchain_experimental.llm_symbolic_math.base.LLMSymbolicMathChain"><code class="docutils literal notranslate"><span class="pre">LLMSymbolicMathChain</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langchain_experimental.llm_symbolic_math.base.LLMSymbolicMathChain.allow_dangerous_requests"><code class="docutils literal notranslate"><span class="pre">allow_dangerous_requests</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langchain_experimental.llm_symbolic_math.base.LLMSymbolicMathChain.callback_manager"><code class="docutils literal notranslate"><span class="pre">callback_manager</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langchain_experimental.llm_symbolic_math.base.LLMSymbolicMathChain.callbacks"><code class="docutils literal notranslate"><span class="pre">callbacks</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langchain_experimental.llm_symbolic_math.base.LLMSymbolicMathChain.llm_chain"><code class="docutils literal notranslate"><span class="pre">llm_chain</span></code></a></li>

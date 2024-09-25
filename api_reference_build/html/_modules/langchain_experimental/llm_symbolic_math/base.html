@@ -38,7 +38,7 @@
 <link href="../../../search.html" rel="search" title="Search"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="en" name="docsearch:language"/>
-<meta content="Sep 24, 2024" name="docbuild:last-update"/>
+<meta content="Sep 25, 2024" name="docbuild:last-update"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
 <div class="skip-link d-print-none" id="pst-skip-link"><a href="#main-content">Skip to main content</a></div>
@@ -273,6 +273,44 @@ document.write(`
         <span class="n">extra</span><span class="o">=</span><span class="s2">"forbid"</span><span class="p">,</span>
     <span class="p">)</span>
 
+    <span class="n">allow_dangerous_requests</span><span class="p">:</span> <span class="nb">bool</span>  <span class="c1"># Assign no default.</span>
+<span class="w">    </span><span class="sd">"""Must be set by the user to allow dangerous requests or not.</span>
+
+<span class="sd">    We recommend a default of False to allow only pre-defined symbolic operations.</span>
+
+<span class="sd">    When set to True, the chain will allow any kind of input. This is </span>
+<span class="sd">    STRONGLY DISCOURAGED unless you fully trust the input (and believe that </span>
+<span class="sd">    the LLM itself cannot behave in a malicious way).</span>
+<span class="sd">    You should absolutely NOT be deploying this in a production environment</span>
+<span class="sd">    with allow_dangerous_requests=True. As this would allow a malicious actor</span>
+<span class="sd">    to execute arbitrary code on your system.</span>
+<span class="sd">    Use default=True at your own risk.</span>
+
+
+<span class="sd">    When set to False, the chain will only allow pre-defined symbolic operations.</span>
+<span class="sd">    If the some symbolic expressions are failing to evaluate, you can open a PR</span>
+<span class="sd">    to add them to extend the list of allowed operations.</span>
+<span class="sd">    """</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s2">"allow_dangerous_requests"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">"LLMSymbolicMathChain requires allow_dangerous_requests to be set. "</span>
+                <span class="s2">"We recommend that you set `allow_dangerous_requests=False` to allow "</span>
+                <span class="s2">"only pre-defined symbolic operations. "</span>
+                <span class="s2">"If the some symbolic expressions are failing to evaluate, you can "</span>
+                <span class="s2">"open a PR to add them to extend the list of allowed operations. "</span>
+                <span class="s2">"Alternatively, you can set `allow_dangerous_requests=True` to allow "</span>
+                <span class="s2">"any kind of input but this is STRONGLY DISCOURAGED unless you "</span>
+                <span class="s2">"fully trust the input (and believe that the LLM itself cannot behave "</span>
+                <span class="s2">"in a malicious way)."</span>
+                <span class="s2">"You should absolutely NOT be deploying this in a production "</span>
+                <span class="s2">"environment with allow_dangerous_requests=True. As "</span>
+                <span class="s2">"this would allow a malicious actor to execute arbitrary code on "</span>
+                <span class="s2">"your system."</span>
+            <span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">input_keys</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">"""Expect input key.</span>
@@ -296,8 +334,59 @@ document.write(`
             <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
                 <span class="s2">"Unable to import sympy, please install it with `pip install sympy`."</span>
             <span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
+
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">output</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">sympify</span><span class="p">(</span><span class="n">expression</span><span class="p">,</span> <span class="n">evaluate</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">allow_dangerous_requests</span><span class="p">:</span>
+                <span class="n">output</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">sympify</span><span class="p">(</span><span class="n">expression</span><span class="p">,</span> <span class="n">evaluate</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">allowed_symbols</span> <span class="o">=</span> <span class="p">{</span>
+                    <span class="c1"># Basic arithmetic and trigonometry</span>
+                    <span class="s2">"sin"</span><span class="p">:</span> <span class="n">sympy</span><span class="o">.</span><span class="n">sin</span><span class="p">,</span>
+                    <span class="s2">"cos"</span><span class="p">:</span> <span class="n">sympy</span><span class="o">.</span><span class="n">cos</span><span class="p">,</span>
+                    <span class="s2">"tan"</span><span class="p">:</span> <span class="n">sympy</span><span class="o">.</span><span class="n">tan</span><span class="p">,</span>
+                    <span class="s2">"cot"</span><span class="p">:</span> <span class="n">sympy</span><span class="o">.</span><span class="n">cot</span><span class="p">,</span>
+                    <span class="s2">"sec"</span><span class="p">:</span> <span class="n">sympy</span><span class="o">.</span><span class="n">sec</span><span class="p">,</span>
+                    <span class="s2">"csc"</span><span class="p">:</span> <span class="n">sympy</span><span class="o">.</span><span class="n">csc</span><span class="p">,</span>
+                    <span class="s2">"asin"</span><span class="p">:</span> <span class="n">sympy</span><span class="o">.</span><span class="n">asin</span><span class="p">,</span>
+                    <span class="s2">"acos"</span><span class="p">:</span> <span class="n">sympy</span><span class="o">.</span><span class="n">acos</span><span class="p">,</span>
+                    <span class="s2">"atan"</span><span class="p">:</span> <span class="n">sympy</span><span class="o">.</span><span class="n">atan</span><span class="p">,</span>
+                    <span class="c1"># Hyperbolic functions</span>
+                    <span class="s2">"sinh"</span><span class="p">:</span> <span class="n">sympy</span><span class="o">.</span><span class="n">sinh</span><span class="p">,</span>
+                    <span class="s2">"cosh"</span><span class="p">:</span> <span class="n">sympy</span><span class="o">.</span><span class="n">cosh</span><span class="p">,</span>
+                    <span class="s2">"tanh"</span><span class="p">:</span> <span class="n">sympy</span><span class="o">.</span><span class="n">tanh</span><span class="p">,</span>
+                    <span class="s2">"asinh"</span><span class="p">:</span> <span class="n">sympy</span><span class="o">.</span><span class="n">asinh</span><span class="p">,</span>
+                    <span class="s2">"acosh"</span><span class="p">:</span> <span class="n">sympy</span><span class="o">.</span><span class="n">acosh</span><span class="p">,</span>
+                    <span class="s2">"atanh"</span><span class="p">:</span> <span class="n">sympy</span><span class="o">.</span><span class="n">atanh</span><span class="p">,</span>
+                    <span class="c1"># Exponentials and logarithms</span>
+                    <span class="s2">"exp"</span><span class="p">:</span> <span class="n">sympy</span><span class="o">.</span><span class="n">exp</span><span class="p">,</span>
+                    <span class="s2">"log"</span><span class="p">:</span> <span class="n">sympy</span><span class="o">.</span><span class="n">log</span><span class="p">,</span>
+                    <span class="s2">"ln"</span><span class="p">:</span> <span class="n">sympy</span><span class="o">.</span><span class="n">log</span><span class="p">,</span>  <span class="c1"># natural log sympy defaults to natural log</span>
+                    <span class="s2">"log10"</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">sympy</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span>  <span class="c1"># log base 10 (use sympy.log)</span>
+                    <span class="c1"># Powers and roots</span>
+                    <span class="s2">"sqrt"</span><span class="p">:</span> <span class="n">sympy</span><span class="o">.</span><span class="n">sqrt</span><span class="p">,</span>
+                    <span class="s2">"cbrt"</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Pow</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Rational</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)),</span>
+                    <span class="c1"># Combinatorics and other math functions</span>
+                    <span class="s2">"factorial"</span><span class="p">:</span> <span class="n">sympy</span><span class="o">.</span><span class="n">factorial</span><span class="p">,</span>
+                    <span class="s2">"binomial"</span><span class="p">:</span> <span class="n">sympy</span><span class="o">.</span><span class="n">binomial</span><span class="p">,</span>
+                    <span class="s2">"gcd"</span><span class="p">:</span> <span class="n">sympy</span><span class="o">.</span><span class="n">gcd</span><span class="p">,</span>
+                    <span class="s2">"lcm"</span><span class="p">:</span> <span class="n">sympy</span><span class="o">.</span><span class="n">lcm</span><span class="p">,</span>
+                    <span class="s2">"abs"</span><span class="p">:</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Abs</span><span class="p">,</span>
+                    <span class="s2">"sign"</span><span class="p">:</span> <span class="n">sympy</span><span class="o">.</span><span class="n">sign</span><span class="p">,</span>
+                    <span class="s2">"mod"</span><span class="p">:</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Mod</span><span class="p">,</span>
+                    <span class="c1"># Constants</span>
+                    <span class="s2">"pi"</span><span class="p">:</span> <span class="n">sympy</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span>
+                    <span class="s2">"e"</span><span class="p">:</span> <span class="n">sympy</span><span class="o">.</span><span class="n">E</span><span class="p">,</span>
+                    <span class="s2">"I"</span><span class="p">:</span> <span class="n">sympy</span><span class="o">.</span><span class="n">I</span><span class="p">,</span>
+                    <span class="s2">"oo"</span><span class="p">:</span> <span class="n">sympy</span><span class="o">.</span><span class="n">oo</span><span class="p">,</span>
+                    <span class="s2">"NaN"</span><span class="p">:</span> <span class="n">sympy</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span>
+                <span class="p">}</span>
+
+                <span class="c1"># Use parse_expr with strict settings</span>
+                <span class="n">output</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span>
+                    <span class="n">sympy</span><span class="o">.</span><span class="n">parse_expr</span><span class="p">(</span>
+                        <span class="n">expression</span><span class="p">,</span> <span class="n">local_dict</span><span class="o">=</span><span class="n">allowed_symbols</span><span class="p">,</span> <span class="n">evaluate</span><span class="o">=</span><span class="kc">True</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                 <span class="sa">f</span><span class="s1">'LLMSymbolicMathChain._evaluate("</span><span class="si">{</span><span class="n">expression</span><span class="si">}</span><span class="s1">") raised error: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s1">.'</span>
